@@ -51,25 +51,34 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         },
 
         initialize : function(options) {
-            var groups = [{panelId: 'id-chart-recommended', panelCaption: this.textRecommended, groupId: '', charts: []}],
+            var me = this,
+                charts = [],
+                groups = [],
                 chartData = Common.define.chartData.getChartData();
+            (options.charts || []).forEach(function(chart) {
+                for (var i=0; i<chartData.length; i++) {
+                    if (chart===chartData[i].type) {
+                        charts.push(chartData[i]);
+                        break;
+                    }
+                }
+            });
+            (charts.length>0) && groups.push({panelId: 'id-chart-recommended-rec', panelCaption: me.textRecommended, groupId: 'rec', charts: charts});
             Common.define.chartData.getChartGroupData().forEach(function(group) {
                 var charts = [];
-                if (group.id!=='') {
-                    chartData.forEach(function(item){
-                        (group.id===item.group) && charts.push(item);
-                    });
-                }
-                groups.push({panelId: 'id-chart-recommended' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts});
+                chartData.forEach(function(item){
+                    (group.id===item.group) && charts.push(item);
+                });
+                groups.push({panelId: 'id-chart-recommended-' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts});
             });
 
             var template = [
                 '<% _.each(groups, function(group) { %>',
                 '<div id="<%= group.panelId %>" class="settings-panel">',
                     '<div class="inner-content">',
-                        '<div>',
+                        '<div class="buttons-container">',
                         '<% _.each(group.charts, function(chart) { %>',
-                            '<div id="id-chart-recommended-type-btn-<%= chart.type %>" class="margin-right-5" style="display: inline-block;margin-bottom:8px;"></div>',
+                            '<div id="id-<%= group.groupId %>-btn-<%= chart.type %>" class="margin-right-5" style="display: inline-block;margin-bottom:8px;"></div>',
                         '<% }); %>',
                         '</div>',
                     '</div>',
@@ -78,17 +87,17 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
                                 '<td class="padding-small">',
-                                    '<label class="header" id="id-chart-recommended-lbl-<%= group.groupId %>"></label>',
+                                    '<label class="header" id="id-<%= group.groupId %>-lbl"></label>',
                                 '</td>',
                             '</tr>',
                             '<tr class="preview-list hidden">',
                                 '<td class="padding-small">',
-                                '<div id="id-chart-recommended-list-preview-<%= group.groupId %>" class="preview-canvas-container" style="width:100%; height: 176px;"></div>',
+                                '<div id="id-<%= group.groupId %>-list-preview" class="preview-canvas-container" style="width:100%; height: 176px;"></div>',
                                 '</td>',
                             '</tr>',
                             '<tr class="preview-one">',
                                 '<td class="padding-small">',
-                                '<div id="id-chart-recommended-preview-<%= group.groupId %>" class="preview-canvas-container" style="width:100%; height: 176px;"></div>',
+                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="width:100%; height: 176px;"></div>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -107,7 +116,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
             this._originalProps = this.options.props;
-            this._changedProps = null;
+            this._charts = this.options.charts;
             this._currentChartType = null;
         },
 
@@ -119,26 +128,26 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             this.chartButtons = [];
             this.options.items.forEach(function(item) {
                 item.chartButtons = [];
-                if (item.groupId!=='') {
-                    item.charts.forEach(function(chart, index){
-                        var btn = new Common.UI.Button({
-                            parentEl: $window.find('#id-chart-recommended-type-btn-' + chart.type),
-                            cls: 'btn-options huge-1 svg-chartlist',
-                            iconCls: 'svgicon ' + 'chart-' + chart.iconCls,
-                            chart: chart,
-                            hint: chart.tip,
-                            enableToggle: true,
-                            allowDepress: false,
-                            toggleGroup : 'toggle-' + item.groupId
-                        });
-                        btn.on('toggle', function() {
-                            $window.find('#id-chart-recommended-lbl-' + item.groupId).text(chart.tip);
-                            me._currentChartType = chart.type;
-                        });
-                        item.chartButtons.push(btn);
-                        me.chartButtons.push(btn);
+                item.charts.forEach(function(chart, index){
+                    var btn = new Common.UI.Button({
+                        parentEl: $window.find('#id-' + item.groupId + '-btn-' + chart.type),
+                        cls: 'btn-options huge-1 svg-chartlist',
+                        iconCls: 'svgicon ' + 'chart-' + chart.iconCls,
+                        chart: chart,
+                        hint: chart.tip,
+                        enableToggle: true,
+                        allowDepress: false,
+                        toggleGroup : 'toggle-' + item.groupId
                     });
-                }
+                    btn.on('toggle', function(cmp, pressed) {
+                        if (pressed) {
+                            $window.find('#id-' + item.groupId + '-lbl').text(chart.tip);
+                            me._currentChartType = chart.type;
+                        }
+                    });
+                    item.chartButtons.push(btn);
+                    me.chartButtons.push(btn);
+                });
             });
 
             this.afterRender();
@@ -149,12 +158,13 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         },
 
         onCategoryClick: function(btn, index) {
+            if ($("#" + btn.options.contentTarget).hasClass('active')) return;
+
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
             var buttons = this.options.items[index].chartButtons;
             if (buttons.length>0)  {
                 buttons[0].toggle(true);
-                this._currentChartType = buttons[0].options.chart.type;
                 setTimeout(function(){
                     buttons[0].focus();
                 }, 10);
@@ -163,10 +173,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 
         afterRender: function() {
             this._setDefaults(this._originalProps);
-            // if (this.storageName) { // always open tab Recommended
-            //     var value = Common.localStorage.getItem(this.storageName);
-            //     this.setActiveCategory((value!==null) ? parseInt(value) : 0);
-            // }
+            this.setActiveCategory(0);
         },
 
         _setDefaults: function(props) {

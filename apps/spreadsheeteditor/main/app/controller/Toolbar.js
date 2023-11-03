@@ -5162,6 +5162,7 @@ define([
             (new SSE.Views.ChartRecommendedDialog({
                 api: me.api,
                 props: props,
+                charts: [Asc.c_oAscChartTypeSettings.barStackedPer3d, Asc.c_oAscChartTypeSettings.pie3d, Asc.c_oAscChartTypeSettings.barNormal],
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {

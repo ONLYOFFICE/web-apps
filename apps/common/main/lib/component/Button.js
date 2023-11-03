@@ -709,7 +709,7 @@ define([
             if (this.enableToggle)
                 return this.pressed;
 
-            return this.cmpEl.hasClass('active')
+            return this.cmpEl.hasClass('active');
         },
 
         setDisabled: function(disabled) {
