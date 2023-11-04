@@ -357,6 +357,23 @@ define([
             Common.NotificationCenter.on('fonts:change', _.bind(this.onApiChangeFont, this));
 
             data = [
+                {value:42,displayValue:"初号"},
+                {value:36,displayValue:"小初"},
+                {value:26,displayValue:"一号"},
+                {value:24,displayValue:"小一"},
+                {value:22,displayValue:"二号"},
+                {value:18,displayValue:"小二"},
+                {value:16,displayValue:"三号"},
+                {value:15,displayValue:"小三"},
+                {value:14,displayValue:"四号"},
+                {value:12,displayValue:"小四"},
+                {value:10.5,displayValue:"五号"},
+                {value:9,displayValue:"小五"},
+                {value:7.5,displayValue:"六号"},
+                {value:6.5,displayValue:"小六"},
+                {value:5.5,displayValue:"七号"},
+                {value:5,displayValue:"八号"},
+
                 { value: 8, displayValue: "8" },
                 { value: 9, displayValue: "9" },
                 { value: 10, displayValue: "10" },
