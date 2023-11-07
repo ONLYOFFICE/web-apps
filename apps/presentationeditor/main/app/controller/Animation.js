@@ -239,7 +239,7 @@ define([
         },
 
         setDuration: function(valueRecord) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
                 this.AnimationProperties.asc_putDuration(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -247,7 +247,7 @@ define([
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putDelay(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -287,7 +287,7 @@ define([
         },
 
         setRepeat: function(valueRecord) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
                 this.AnimationProperties.asc_putRepeatCount(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -316,7 +316,7 @@ define([
         },
 
         onTriggerClick: function (value) {
-            if(this.api) {
+            if(this.api && this.AnimationProperties) {
                 if(value.value == this.view.triggers.ClickSequence) {
                     this.AnimationProperties.asc_putTriggerClickSequence(true);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -326,7 +326,7 @@ define([
 
         onTriggerClickOfClick: function (value)
         {
-            if(this.api) {
+            if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putTriggerClickSequence(false);
                 this.AnimationProperties.asc_putTriggerObjectClick(value.caption);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -351,7 +351,7 @@ define([
         },
 
         onStartSelect: function (combo, record) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putStartType(record.value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
