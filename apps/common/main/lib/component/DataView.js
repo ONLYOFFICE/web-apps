@@ -1892,7 +1892,7 @@ define([
         hideTextRect: function (hide) {
             var me = this;
             this.store.each(function(item, index){
-                if (item.get('data').shapeType === 'textRect') {
+                if (item.get('data').shapeType === 'textRect' && me.dataViewItems[index] && me.dataViewItems[index].el) {
                     me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
                 }
             }, this);
@@ -1906,7 +1906,7 @@ define([
             this.store.each(function(item, index){
                 if (item.get('groupName') === 'Lines') {
                     var el = me.dataViewItems[index].el;
-                    if (el.is(':visible')) {
+                    if (el && el.is(':visible')) {
                         el.addClass('hidden');
                     }
                 }
