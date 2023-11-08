@@ -432,10 +432,7 @@ define([
                     parentEl: $('#comments-btn-add', this.$el),
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-add-comment',
-                    hint: this.textHintAddComment,
-                    lock:  [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
-                            Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
-                            Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ]
+                    hint: this.textHintAddComment
                 });
 
                 this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));

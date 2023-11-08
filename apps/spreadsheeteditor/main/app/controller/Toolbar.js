@@ -4670,7 +4670,6 @@ define([
 
                 if ( this.btnsComment.length ) {
                     var _comments = SSE.getController('Common.Controllers.Comments').getView();
-                    Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {
@@ -4679,7 +4678,11 @@ define([
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
-                    _comments.buttonAddNew && this.btnsComment.add(_comments.buttonAddNew);
+                    if (_comments.buttonAddNew) {
+                        _comments.buttonAddNew.options.lock = [ _set.lostConnect, _set.commentLock, _set.editCell, _set['Objects'] ];
+                        this.btnsComment.add(_comments.buttonAddNew);
+                    }
+                    Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
                 }
             }
 
