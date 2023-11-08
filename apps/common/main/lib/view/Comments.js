@@ -428,6 +428,16 @@ define([
                     hint: this.textClosePanel
                 });
 
+                this.buttonAddNew = new Common.UI.Button({
+                    parentEl: $('#comments-btn-add', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-add-comment',
+                    hint: this.textHintAddComment,
+                    lock:  [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
+                            Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
+                            Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ]
+                });
+
                 this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
                 this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
@@ -435,6 +445,7 @@ define([
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
                 this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
                 this.mnuAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
+                this.buttonAddNew.on('click', _.bind(this.onClickAddNewComment, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.scrollerNewCommet = new Common.UI.Scroller({el: $('.new-comment-ct') });
@@ -565,6 +576,10 @@ define([
             this.showEditContainer(false);
         },
 
+        onClickAddNewComment: function () {
+            Common.NotificationCenter.trigger('app:comment:add');
+        },
+
         saveText: function (clear) {
             if (this.commentsView && this.commentsView.cmpEl.find('.lock-area').length<1) {
                 this.textVal = undefined;
@@ -685,6 +700,7 @@ define([
                 to = $('.add-link-ct', this.el),
                 msgs = $('.messages-ct', this.el);
             msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures || !this.showCommentToDocAtBottom);
+            this.buttonAddNew.setVisible(mode.canComments);
             if (this.buttonSort && this.buttonSort.menu) {
                 var menu = this.buttonSort.menu;
                 menu.items[menu.items.length-1].setVisible(mode.canComments && !mode.compatibleFeatures);
