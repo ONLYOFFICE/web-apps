@@ -272,7 +272,7 @@ define([
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-big-menu-comments',
+                        iconCls: 'toolbar__icon btn-add-comment',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnComment,
                         dataHint: '1',

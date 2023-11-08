@@ -97,7 +97,7 @@ define([
             });
 
             me.menuAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
 
