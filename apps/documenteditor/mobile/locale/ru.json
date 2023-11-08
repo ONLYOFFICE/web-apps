@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
       "titleWarningRestoreVersion": "Восстановить эту версию?",
       "txtErrorLoadHistory": "Не удалось загрузить историю"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Тип",
     "textWe": "Ср",
     "textWrap": "Стиль обтекания",
-    "textWrappingStyle": "Стиль обтекания"
+    "textWrappingStyle": "Стиль обтекания",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "Превышено время ожидания конвертации.",
@@ -752,7 +764,18 @@
     "txtScheme6": "Открытая",
     "txtScheme7": "Справедливость",
     "txtScheme8": "Поток",
-    "txtScheme9": "Литейная"
+    "txtScheme9": "Литейная",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
       "titleWarningRestoreVersion": "Restaurar esta versão?",
       "txtErrorLoadHistory": "Carregamento do histórico falhou"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -811,7 +817,11 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
+      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

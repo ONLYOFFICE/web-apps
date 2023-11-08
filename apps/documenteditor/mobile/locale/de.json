@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
       "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
       "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textWrappingStyle": "Textumbruch"
+    "textWrappingStyle": "Textumbruch",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -752,7 +764,18 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei"
+    "txtScheme9": "Gießerei",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

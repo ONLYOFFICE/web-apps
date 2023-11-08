@@ -43,6 +43,12 @@
       "textStandartColors": "標準顏色",
       "textThemeColors": "主題顏色"
     },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -530,7 +536,11 @@
       "txtScheme7": "產權",
       "txtScheme8": "流程",
       "txtScheme9": "鑄造廠",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

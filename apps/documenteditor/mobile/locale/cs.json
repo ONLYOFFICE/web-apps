@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Aktuální soubor bude uložen v historii verzí.",
       "titleWarningRestoreVersion": "Obnovit vybranou verzi? ",
       "txtErrorLoadHistory": "Načítání historie selhalo"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Typ",
     "textWe": "st",
     "textWrap": "Obtékání",
-    "textWrappingStyle": "Obtékání textu"
+    "textWrappingStyle": "Obtékání textu",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",
@@ -752,7 +764,18 @@
     "txtScheme7": "Rovnost",
     "txtScheme8": "Tok",
     "txtScheme9": "Slévárna",
-    "textDarkTheme": "Dark Theme"
+    "textDarkTheme": "Dark Theme",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

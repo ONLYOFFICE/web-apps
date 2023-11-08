@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Το τρέχον αρχείο θα αποθηκευτεί στο ιστορικό εκδόσεων.",
       "titleWarningRestoreVersion": "Επαναφορά αυτής της έκδοσης;",
       "txtErrorLoadHistory": "Η φόρτωση του ιστορικού απέτυχε"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Τύπος",
     "textWe": "Τετ",
     "textWrap": "Αναδίπλωση",
-    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης"
+    "textWrappingStyle": "Τεχνοτροπία αναδίπλωσης",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "Υπέρβαση χρονικού ορίου μετατροπής.",
@@ -752,7 +764,18 @@
     "txtScheme6": "Συνάθροιση",
     "txtScheme7": "Μετοχή",
     "txtScheme8": "Ροή",
-    "txtScheme9": "Χυτήριο"
+    "txtScheme9": "Χυτήριο",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

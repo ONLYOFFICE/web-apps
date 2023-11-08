@@ -423,7 +423,11 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   },
   "About": {
@@ -466,6 +470,12 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",

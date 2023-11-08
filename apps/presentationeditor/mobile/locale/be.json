@@ -43,6 +43,12 @@
       "textStandartColors": "Стандартныя колеры",
       "textThemeColors": "Колеры тэмы"
     },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -530,7 +536,11 @@
       "textRTL": "RTL",
       "textTel": "tel:",
       "textVersionHistory": "Version History",
-      "txtScheme22": "New Office"
+      "txtScheme22": "New Office",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega de l'historial"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -753,7 +759,7 @@
       "txtComma": "Coma",
       "txtCs": "Txec",
       "txtDa": "Danès",
-      "txtDe": "Deutsch",
+      "txtDe": "Alemany",
       "txtDelimiter": "Delimitador",
       "txtDownloadCsv": "Baixar CSV",
       "txtEl": "Grec",
@@ -811,7 +817,11 @@
       "txtUk": "Ucraïnès",
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?"
+      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

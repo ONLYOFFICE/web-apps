@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Το τρέχον αρχείο θα αποθηκευτεί στο ιστορικό εκδόσεων.",
       "titleWarningRestoreVersion": "Επαναφορά αυτής της έκδοσης;",
       "txtErrorLoadHistory": "Η φόρτωση του ιστορικού απέτυχε"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -811,7 +817,11 @@
       "txtUk": "Ουκρανικά",
       "txtVi": "Βιετναμέζικα",
       "txtZh": "Κινέζικα",
-      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
+      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

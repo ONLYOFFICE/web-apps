@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Aktuální soubor bude uložen v historii verzí.",
       "titleWarningRestoreVersion": "Obnovit vybranou verzi? ",
       "txtErrorLoadHistory": "Načítání historie selhalo"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -811,7 +817,11 @@
       "txtUk": "ukrajinština",
       "txtVi": "vietnamština",
       "txtZh": "čínština",
-      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
+      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

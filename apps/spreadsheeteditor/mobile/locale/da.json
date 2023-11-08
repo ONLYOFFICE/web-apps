@@ -40,6 +40,12 @@
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
     },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -811,7 +817,11 @@
       "txtScheme19": "Trek",
       "txtScheme20": "Urban",
       "txtScheme21": "Verve",
-      "txtSemicolon": "Semicolon"
+      "txtSemicolon": "Semicolon",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "当前文件将保存在版本历史记录中。",
       "titleWarningRestoreVersion": "是否还原此版本？",
       "txtErrorLoadHistory": "载入记录失败"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "类型",
     "textWe": "我们",
     "textWrap": "包裹",
-    "textWrappingStyle": "文字环绕样式"
+    "textWrappingStyle": "文字环绕样式",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -752,7 +764,18 @@
     "txtScheme7": "产权",
     "txtScheme8": "流程",
     "txtScheme9": "铸造厂",
-    "textDarkTheme": "Dark Theme"
+    "textDarkTheme": "Dark Theme",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",

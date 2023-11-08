@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
       "titleWarningRestoreVersion": "Восстановить эту версию?",
       "txtErrorLoadHistory": "Не удалось загрузить историю"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -811,7 +817,11 @@
       "txtUk": "Украинский",
       "txtVi": "Вьетнамский",
       "txtZh": "Китайский",
-      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?"
+      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "当前文件将保存在版本历史记录中。",
       "titleWarningRestoreVersion": "是否还原此版本？",
       "txtErrorLoadHistory": "载入记录失败"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "大厅",
       "txtScheme7": "产权",
       "txtScheme8": "流程",
-      "txtScheme9": "铸造厂"
+      "txtScheme9": "铸造厂",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

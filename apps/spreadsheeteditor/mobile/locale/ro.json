@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Fișierul curent va fi salvat în istoricul versiunilor",
       "titleWarningRestoreVersion": "Doriți să restaurați această versiune?",
       "txtErrorLoadHistory": "Încărcarea istoricului a eșuat"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -811,7 +817,11 @@
       "txtUk": "Ucraineană",
       "txtVi": "Vietnameză",
       "txtZh": "Chineză",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

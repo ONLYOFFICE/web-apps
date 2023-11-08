@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega de l'historial"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Tipus",
     "textWe": "dc.",
     "textWrap": "Ajustament",
-    "textWrappingStyle": "Estil d'ajustament"
+    "textWrappingStyle": "Estil d'ajustament",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -628,6 +640,7 @@
     "textCommentsDisplay": "Visualització de comentaris",
     "textCreated": "S'ha creat",
     "textCustomSize": "Mida personalitzada",
+    "textDarkTheme": "Tema fosc",
     "textDialogUnprotect": "Introdueix una contrasenya per desbloquejar el document",
     "textDirection": "Direcció",
     "textDisableAll": "Inhabilita-ho tot",
@@ -752,7 +765,17 @@
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
     "txtScheme9": "Foneria",
-    "textDarkTheme": "Dark Theme"
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

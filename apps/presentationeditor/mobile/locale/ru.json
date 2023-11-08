@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
       "titleWarningRestoreVersion": "Восстановить эту версию?",
       "txtErrorLoadHistory": "Не удалось загрузить историю"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Открытая",
       "txtScheme7": "Справедливость",
       "txtScheme8": "Поток",
-      "txtScheme9": "Литейная"
+      "txtScheme9": "Литейная",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

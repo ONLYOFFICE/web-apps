@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Το τρέχον αρχείο θα αποθηκευτεί στο ιστορικό εκδόσεων.",
       "titleWarningRestoreVersion": "Επαναφορά αυτής της έκδοσης;",
       "txtErrorLoadHistory": "Η φόρτωση του ιστορικού απέτυχε"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Συνάθροιση",
       "txtScheme7": "Μετοχή",
       "txtScheme8": "Ροή",
-      "txtScheme9": "Χυτήριο"
+      "txtScheme9": "Χυτήριο",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }
