@@ -312,6 +312,9 @@ define([
 
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            this.showCommentToDocAtBottom = false;
+            !this.showCommentToDocAtBottom && (this.addCommentHeight = 0);
         },
 
         render: function () {
@@ -343,11 +346,10 @@ define([
 
                 this.buttonSort = new Common.UI.Button({
                     parentEl: $('#comments-btn-sort', this.$el),
-                    cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-sorting',
-                    hint: this.textSort,
+                    cls: 'btn-toolbar no-caret',
+                    iconCls: 'toolbar__icon btn-more',
+                    // hint: this.textSort,
                     menu: new Common.UI.Menu({
-                        menuAlign: 'tr-br',
                         style: 'min-width: auto;',
                         items: [
                             {
@@ -407,6 +409,13 @@ define([
                                     style: 'min-width: auto;',
                                     items: []
                                 })
+                            }),
+                            {
+                                caption: '--'
+                            },
+                            this.mnuAddCommentToDoc = new Common.UI.MenuItem({
+                                caption: this.textAddCommentToDoc,
+                                checkable: false
                             })
                         ]
                     })
@@ -425,6 +434,7 @@ define([
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
                 this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
+                this.mnuAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.scrollerNewCommet = new Common.UI.Scroller({el: $('.new-comment-ct') });
@@ -526,12 +536,15 @@ define([
             if (!show) {
                 addCommentLink.css({display: 'table-row'});
                 newCommentBlock.css({display: 'none'});
+                commentMsgBlock.toggleClass('stretch', !this.mode.canComments || this.mode.compatibleFeatures || !this.showCommentToDocAtBottom);
             } else {
                 addCommentLink.css({display: 'none'});
                 newCommentBlock.css({display: 'table-row'});
+                commentMsgBlock.toggleClass('stretch', false);
 
                 this.txtComment.val('');
-                this.txtComment.focus();
+                var me = this;
+                setTimeout(function() { me.txtComment.focus();}, 10);
 
                 this.textBoxAutoSizeLocked = undefined;
             }
@@ -649,12 +662,12 @@ define([
                    if (addcmt.css('display') !== 'none') {
                         me.layout.setResizeValue(0,
                             Math.max(-me.newCommentHeight,
-                                Math.min(height - (addcmt.height() + 4), height - me.newCommentHeight)));
+                                Math.min(height - ((addcmt.height() || 0) + 4), height - me.newCommentHeight)));
                     }
                     else {
                         me.layout.setResizeValue(0,
                             Math.max(-me.addCommentHeight,
-                                Math.min(height - (tocmt.height()), height - me.addCommentHeight)));
+                                Math.min(height - (tocmt.height() || 0), height - me.addCommentHeight)));
                     }
 
                     me.updateScrolls();
@@ -665,11 +678,18 @@ define([
         },
 
         changeLayout: function(mode) {
+            this.mode = mode;
+
             var me = this,
                 add = $('.new-comment-ct', this.el),
                 to = $('.add-link-ct', this.el),
                 msgs = $('.messages-ct', this.el);
-            msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures);
+            msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures || !this.showCommentToDocAtBottom);
+            if (this.buttonSort && this.buttonSort.menu) {
+                var menu = this.buttonSort.menu;
+                menu.items[menu.items.length-1].setVisible(mode.canComments && !mode.compatibleFeatures);
+                menu.items[menu.items.length-2].setVisible(mode.canComments && !mode.compatibleFeatures);
+            }
             if (!mode.canComments || mode.compatibleFeatures) {
                 if (mode.compatibleFeatures) {
                     add.remove(); to.remove();
@@ -678,10 +698,9 @@ define([
                 }
                 this.layout.changeLayout([{el: msgs[0], rely: false, stretch: true}]);
             } else {
-                var container = $('#comments-box', this.el),
-                    items = container.find(' > .layout-item');
-                to.show();
-                this.layout.changeLayout([{el: items[0], rely: true,
+                var container = $('#comments-box', this.el);
+                this.showCommentToDocAtBottom ? to.show() : to.remove();
+                this.layout.changeLayout([{el: msgs[0], rely: true,
                     resize: {
                         hidden: false,
                         autohide: false,
@@ -698,9 +717,7 @@ define([
                                 return container.height() - me.newCommentHeight;
                             return container.height() - me.addCommentHeight;
                         })
-                }},
-                {el: items[1], stretch: true},
-                {el: items[2], stretch: true}]);
+                }}].concat(this.showCommentToDocAtBottom ? [{el: to[0], stretch: true}] : []).concat([{el: add[0], stretch: true}]));
             }
         },
 
