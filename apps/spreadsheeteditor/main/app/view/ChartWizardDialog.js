@@ -30,7 +30,7 @@
  *
  */
 /**
- *  ChartRecommendedDialog.js
+ *  ChartWizardDialog.js
  *
  *  Created by Julia Radzhabova on 02/11/23
  *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
@@ -42,10 +42,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 ], function () {
     'use strict';
 
-    SSE.Views.ChartRecommendedDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    SSE.Views.ChartWizardDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
-            contentWidth: 350,
-            contentHeight: 330,
+            contentWidth: 458,
+            contentHeight: 400,
             toggleGroup: 'chart-recommend-group',
             storageName: 'sse-chart-recommend-category'
         },
@@ -55,14 +55,17 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 charts = [],
                 groups = [],
                 chartData = Common.define.chartData.getChartData();
-            (options.charts || []).forEach(function(chart) {
-                for (var i=0; i<chartData.length; i++) {
-                    if (chart===chartData[i].type) {
-                        charts.push(chartData[i]);
-                        break;
+            if (options.props.recommended) {
+                for (var type in options.props.recommended) {
+                    if (isNaN(parseInt(type))) continue;
+                    for (var i=0; i<chartData.length; i++) {
+                        if (parseInt(type)===chartData[i].type) {
+                            charts.push(chartData[i]);
+                            break;
+                        }
                     }
                 }
-            });
+            }
             (charts.length>0) && groups.push({panelId: 'id-chart-recommended-rec', panelCaption: me.textRecommended, groupId: 'rec', charts: charts});
             Common.define.chartData.getChartGroupData().forEach(function(group) {
                 var charts = [];
@@ -83,21 +86,21 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                         '</div>',
                     '</div>',
                     '<div class="separator horizontal padding-small"></div>',
-                    '<div class="inner-content">',
+                    '<div class="inner-content padding-left-10">',
                         '<table cols="1" style="width: 100%;">',
                             '<tr>',
-                                '<td class="padding-small">',
+                                '<td class="padding-very-small">',
                                     '<label class="header" id="id-<%= group.groupId %>-lbl"></label>',
                                 '</td>',
                             '</tr>',
                             '<tr class="preview-list hidden">',
                                 '<td class="padding-small">',
-                                '<div id="id-<%= group.groupId %>-list-preview" class="preview-canvas-container" style="width:100%; height: 176px;"></div>',
+                                '<div id="id-<%= group.groupId %>-list-preview" class="" style="width:100%; height: 258px;"></div>',
                                 '</td>',
                             '</tr>',
                             '<tr class="preview-one">',
                                 '<td class="padding-small">',
-                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="width:100%; height: 176px;"></div>',
+                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="width:100%; height: 258px;background-size: cover; background-repeat: no-repeat;"></div>',
                                 '</td>',
                             '</tr>',
                         '</table>',
@@ -115,9 +118,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
-            this._originalProps = this.options.props;
-            this._charts = this.options.charts;
             this._currentChartType = null;
+            this._currentChartSpace = null;
+            this._currentPreviews = [];
+            this._currentTabSettings = null;
         },
 
         render: function() {
@@ -143,10 +147,30 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                         if (pressed) {
                             $window.find('#id-' + item.groupId + '-lbl').text(chart.tip);
                             me._currentChartType = chart.type;
+                            me.updatePreview();
                         }
                     });
                     item.chartButtons.push(btn);
                     me.chartButtons.push(btn);
+                });
+                item.listViewEl = $window.find('#' + item.panelId + ' .preview-list');
+                item.divPreviewEl = $window.find('#' + item.panelId + ' .preview-one');
+                item.divPreview = $window.find('#id-' + item.groupId + '-preview');
+                item.listPreview = new Common.UI.DataView({
+                    el: $window.find('#id-' + item.groupId + '-list-preview'),
+                    cls: 'focus-inner',
+                    store: new Common.UI.DataViewStore(),
+                    itemTemplate : _.template([
+                        '<div class="style" id="<%= id %>">',
+                        '<img src="<%= imageUrl %>" width="210" height="120" <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                        '</div>'
+                    ].join('')),
+                    tabindex: 1
+                });
+                item.listPreview.on('item:select', function(dataView, itemView, record) {
+                    if (record) {
+                        me._currentChartSpace = record.get('data');
+                    }
                 });
             });
 
@@ -162,6 +186,8 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
+            this.fillPreviews(index);
+
             var buttons = this.options.items[index].chartButtons;
             if (buttons.length>0)  {
                 buttons[0].toggle(true);
@@ -171,23 +197,51 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             }
         },
 
+        fillPreviews: function(index) {
+            if (index===0)
+                this._currentPreviews = this.options.props.recommended;
+            else
+                this._currentPreviews = this.options.props.all;
+            this._currentTabSettings = this.options.items[index];
+        },
+
+        updatePreview: function() {
+            if (this._currentPreviews[this._currentChartType]) {
+                var charts = this._currentPreviews[this._currentChartType];
+                this._currentTabSettings.listViewEl.toggleClass('hidden', charts.length===1);
+                this._currentTabSettings.divPreviewEl.toggleClass('hidden', charts.length>1);
+                if (charts.length===1) {
+                    this._currentChartSpace = charts[0];
+                    this._currentTabSettings.divPreview.css('background-image', 'url(' + this._currentChartSpace.asc_getPreview() + ')');
+                } else if (charts.length>1) {
+                    var store = this._currentTabSettings.listPreview.store,
+                        arr = [];
+                    for (var i = 0; i < charts.length; i++) {
+                        arr.push(new Common.UI.DataViewModel({
+                            imageUrl: charts[i].asc_getPreview(),
+                            data: charts[i]
+                        }));
+                    }
+                    store.reset(arr);
+                    this._currentTabSettings.listPreview.selectByIndex(0);
+                }
+            }
+        },
+
         afterRender: function() {
-            this._setDefaults(this._originalProps);
+            this._setDefaults(this.options.props);
             this.setActiveCategory(0);
         },
 
         _setDefaults: function(props) {
-            if (props){
-
-            }
         },
 
         getSettings: function() {
-            return { type: this._currentChartType} ;
+            return this._currentChartSpace;
         },
 
         textTitle: 'Insert Chart',
         textRecommended: 'Recommended'
 
-    }, SSE.Views.ChartRecommendedDialog || {}));
+    }, SSE.Views.ChartWizardDialog || {}));
 });

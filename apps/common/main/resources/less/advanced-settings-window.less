@@ -142,3 +142,23 @@
     height: @input-height-base;
 }
 
+.dataview {
+    &.focus-inner {
+        > .item {
+            &:hover,
+            &.selected {
+                .box-shadow(0 0 0 1px @border-preview-select-ie);
+                .box-shadow(0 0 0 @scaled-one-px-value @border-preview-select);
+            }
+        }
+        &:focus:not(.disabled) {
+            > .item {
+                &:hover,
+                &.selected {
+                    .box-shadow(0 0 0 2px @border-preview-select-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+                }
+            }
+        }
+    }
+}

@@ -64,7 +64,7 @@ define([
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
     'spreadsheeteditor/main/app/view/CreateSparklineDialog',
-    'spreadsheeteditor/main/app/view/ChartRecommendedDialog'
+    'spreadsheeteditor/main/app/view/ChartWizardDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -5155,55 +5155,24 @@ define([
 
         onChartRecommendedClick: function() {
             var me = this,
-                info = me.api.asc_getCellInfo(),
-                seltype = info.asc_getSelectionType(),
-                ischartedit = ( seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
-                props = me.api.asc_getChartObject(true); // don't lock chart object
-            (new SSE.Views.ChartRecommendedDialog({
+                recommended = me.api.asc_getRecommendedChartData();
+            if (!recommended) {
+                Common.UI.warning({
+                    msg: me.warnNoRecommended,
+                    maxwidth: 600,
+                    callback: function(btn) {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
+            (new SSE.Views.ChartWizardDialog({
                 api: me.api,
-                props: props,
-                charts: [Asc.c_oAscChartTypeSettings.barStackedPer3d, Asc.c_oAscChartTypeSettings.pie3d, Asc.c_oAscChartTypeSettings.barNormal],
+                props: {recommended: recommended, all: []},
                 handler: function(result, value) {
                     if (result == 'ok') {
-                        if (me.api) {
-                            var type = value.type;
-                            if (type!==null) {
-                                if (ischartedit)
-                                    props.changeType(type);
-                                else {
-                                    props.putType(type);
-                                    var range = props.getRange(),
-                                        isvalid = (!_.isEmpty(range)) ? me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, props.getInRows(), props.getType()) : Asc.c_oAscError.ID.No;
-                                    if (isvalid == Asc.c_oAscError.ID.No) {
-                                        me.api.asc_addChartDrawingObject(props);
-                                    } else {
-                                        var msg = me.txtInvalidRange;
-                                        switch (isvalid) {
-                                            case Asc.c_oAscError.ID.StockChartError:
-                                                msg = me.errorStockChart;
-                                                break;
-                                            case Asc.c_oAscError.ID.MaxDataSeriesError:
-                                                msg = me.errorMaxRows;
-                                                break;
-                                            case Asc.c_oAscError.ID.ComboSeriesError:
-                                                msg = me.errorComboSeries;
-                                                break;
-                                            case Asc.c_oAscError.ID.MaxDataPointsError:
-                                                msg = me.errorMaxPoints;
-                                                break;
-                                        }
-                                        Common.UI.warning({
-                                            msg: msg,
-                                            callback: function () {
-                                                _.defer(function (btn) {
-                                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                                                })
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        }
+                        me.api && me.api.asc_addChartSpace(value);
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 }
@@ -5590,7 +5559,8 @@ define([
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         textRecentlyUsed: 'Recently Used',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
+        warnNoRecommended: 'To create a chart, select the cells that contain the data you\'d like to use.<br>If you have names for the rows and columns and you\'d like use them as labels, include them in your selection.'
 
     }, SSE.Controllers.Toolbar || {}));
 });
