@@ -1775,9 +1775,9 @@ define([
             if (this.view && this.view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
                 this.userGroups = usergroups;
                 var menu = this.view.buttonSort.menu;
-                menu.items[menu.items.length-1].setVisible(this.userGroups.length>0);
-                menu.items[menu.items.length-2].setVisible(this.userGroups.length>0);
-                menu = menu.items[menu.items.length-1].menu;
+                menu.items[menu.items.length-3].setVisible(this.userGroups.length>0);
+                menu.items[menu.items.length-4].setVisible(this.userGroups.length>0);
+                menu = menu.items[menu.items.length-3].menu;
                 menu.removeAll();
 
                 var last = Common.Utils.InternalSettings.get(this.appPrefix + "comments-filtergroups");
