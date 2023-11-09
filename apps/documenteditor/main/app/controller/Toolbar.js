@@ -3592,6 +3592,8 @@ define([
         onApiBeginSmartArtPreview: function (type) {
             this.smartArtGenerating = type;
             this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            var menuPicker = _.findWhere(this.smartArtGroups, {value: type}).menuPicker;
+            menuPicker.loaded = true;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -3602,18 +3604,13 @@ define([
                     section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
                     item = _.findWhere(section.items, {type: image.asc_getName()}),
                     menu = _.findWhere(this.smartArtGroups, {value: sectionId}),
-                    menuPicker = menu.menuPicker;
-                if (item) {
-                    var arr = [{
-                        tip: item.tip,
-                        value: item.type,
-                        imageUrl: image.asc_getImage()
-                    }];
-                    //if (menuPicker.store.length < 1) {
-                        //menuPicker.store.reset(arr);
-                    //} else {
-                        menuPicker.store.add(arr);
-                    //}
+                    menuPicker = menu.menuPicker,
+                    pickerItem = menuPicker.store.findWhere({isLoading: true});
+                if (pickerItem) {
+                    pickerItem.set('tip', item.tip, {silent: true});
+                    pickerItem.set('value', item.type, {silent: true});
+                    pickerItem.set('imageUrl', image.asc_getImage(), {silent: true});
+                    pickerItem.set('isLoading', false);
                 }
                 this.currentSmartArtMenu = menu;
             }, this));
