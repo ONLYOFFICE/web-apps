@@ -63,7 +63,8 @@ define([
                 can_undo: undefined,
                 can_redo: undefined,
                 lock_doc: undefined,
-                can_copycut: undefined,
+                can_copy: undefined,
+                can_cut: undefined,
                 clrstrike: undefined,
                 clrunderline: undefined,
                 clrhighlight: undefined,
@@ -294,10 +295,15 @@ define([
             }
         },
 
-        onApiCanCopyCut: function(can) {
-            if (this._state.can_copycut !== can) {
-                this.toolbar.lockToolbar(Common.enumLock.copyLock, !can, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
-                this._state.can_copycut = can;
+        onApiCanCopyCut: function(cancopy, cancut) {
+            if (this._state.can_copy !== cancopy) {
+                this.toolbar.lockToolbar(Common.enumLock.copyLock, !cancopy, {array: [this.toolbar.btnCopy]});
+                this._state.can_copy = cancopy;
+            }
+            (cancut===undefined) && (cancut = cancopy);
+            if (this._state.can_cut !== cancut) {
+                this.toolbar.lockToolbar(Common.enumLock.cutLock, !cancut, {array: [this.toolbar.btnCut]});
+                this._state.can_cut = cancut;
             }
         },
 
@@ -685,7 +691,8 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
-            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
+            this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
+            this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
             this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
             this._state.activated = true;
         },

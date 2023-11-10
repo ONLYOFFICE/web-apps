@@ -70,6 +70,7 @@ define([
         undoLock:       'can-undo',
         redoLock:       'can-redo',
         copyLock:       'can-copy',
+        cutLock:        'can-cut',
         inLightTheme:   'light-theme',
         noParagraphSelected:  'no-paragraph',
         cantPrint:      'cant-print',
@@ -210,7 +211,7 @@ define([
                         id: 'id-toolbar-btn-cut',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-cut',
-                        lock: [_set.copyLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.cutLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'X'
