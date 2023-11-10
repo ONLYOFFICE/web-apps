@@ -2401,7 +2401,7 @@ define([
                             showLast: false
                         });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
-                            if (record) {
+                            if (record && record.get('value') !== null) {
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);

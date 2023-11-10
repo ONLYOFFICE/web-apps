@@ -669,6 +669,19 @@ define([
 
         onChangeItem: function(view, record) {
             if (!this.isSuspendEvents) {
+                if (record.get('isLoading') === false && record.get('tip') && !view.$el.data('bs.tooltip')) {
+                    var me = this,
+                        view_el = $(view.el);
+                    view_el.one('mouseenter', function() {
+                        view_el.attr('data-toggle', 'tooltip');
+                        view_el.tooltip({
+                            title: record.get('tip'),
+                            placement: 'cursor',
+                            zIndex: me.tipZIndex
+                        });
+                        view_el.mouseenter();
+                    });
+                }
                 this.trigger('item:change', this, view, record);
             }
         },
