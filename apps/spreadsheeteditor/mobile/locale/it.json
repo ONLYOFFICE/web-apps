@@ -41,10 +41,10 @@
       "textThemeColors": "Colori del tema"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -815,13 +815,13 @@
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History",
-      "txtDe": "German",
       "textDark": "Dark",
       "textLight": "Light",
+      "textNoMatches": "No Matches",
+      "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textVersionHistory": "Version History",
+      "txtDe": "German"
     }
   }
 }

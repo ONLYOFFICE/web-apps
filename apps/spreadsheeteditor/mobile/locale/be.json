@@ -41,10 +41,10 @@
       "textThemeColors": "Theme Colors"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -696,6 +696,7 @@
       "textComments": "Comments",
       "textCreated": "Created",
       "textCustomSize": "Custom Size",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDirection": "Direction",
       "textDisableAll": "Disable All",
@@ -720,6 +721,7 @@
       "textLastModifiedBy": "Last Modified By",
       "textLeft": "Left",
       "textLeftToRight": "Left To Right",
+      "textLight": "Light",
       "textLocation": "Location",
       "textLookIn": "Look In",
       "textMacrosSettings": "Macros Settings",
@@ -741,12 +743,14 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
       "textSpreadsheetSettings": "Spreadsheet Settings",
       "textSpreadsheetTitle": "Spreadsheet Title",
       "textSubject": "Subject",
       "textTel": "Tel",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textTop": "Top",
       "textUnitOfMeasurement": "Unit Of Measurement",
@@ -810,11 +814,7 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   },
   "Toolbar": {

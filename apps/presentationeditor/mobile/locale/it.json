@@ -44,10 +44,10 @@
       "textThemeColors": "Colori del tema"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -535,12 +535,12 @@
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
       "txtScheme9": "Fonderia",
-      "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History",
       "textDark": "Dark",
       "textLight": "Light",
+      "textNoMatches": "No Matches",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "textVersionHistory": "Version History"
     }
   }
 }

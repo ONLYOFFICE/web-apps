@@ -44,10 +44,10 @@
       "textThemeColors": "Колеры тэмы"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -524,23 +524,23 @@
       "txtScheme8": "Плынь",
       "txtScheme9": "Ліцейня",
       "notcriticalErrorTitle": "Warning",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
       "textFeedback": "Feedback & Support",
       "textFindAndReplaceAll": "Find and Replace All",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
-      "textTel": "tel:",
-      "textVersionHistory": "Version History",
-      "txtScheme22": "New Office",
-      "textDark": "Dark",
-      "textLight": "Light",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTel": "tel:",
+      "textTheme": "Theme",
+      "textVersionHistory": "Version History",
+      "txtScheme22": "New Office"
     }
   }
 }

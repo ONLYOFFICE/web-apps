@@ -58,10 +58,10 @@
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {

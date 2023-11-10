@@ -41,10 +41,10 @@
       "textThemeColors": " ຮູບແບບສີ"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -813,15 +813,15 @@
       "txtZh": "ພາສາຈີນ",
       "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textVersionHistory": "Version History",
-      "txtDe": "German",
-      "textDark": "Dark",
-      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textVersionHistory": "Version History",
+      "txtDe": "German"
     }
   }
 }

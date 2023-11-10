@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "履歴の読み込みに失敗しました"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -399,12 +399,12 @@
     "textWe": "水",
     "textWrap": "折り返す",
     "textWrappingStyle": "折り返しの種類",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",
@@ -764,18 +764,18 @@
     "txtScheme7": "株主資本",
     "txtScheme8": "フロー",
     "txtScheme9": "ファウンドリ",
-    "textDarkTheme": "Dark Theme",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",

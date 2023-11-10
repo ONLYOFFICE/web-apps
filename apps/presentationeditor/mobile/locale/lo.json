@@ -44,10 +44,10 @@
       "textThemeColors": " ຮູບແບບສີ"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -531,16 +531,16 @@
       "txtScheme8": "ຂະບວນການ",
       "txtScheme9": "ໂຮງຫລໍ່",
       "notcriticalErrorTitle": "Warning",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
-      "textVersionHistory": "Version History",
-      "textDark": "Dark",
-      "textLight": "Light",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "textVersionHistory": "Version History"
     }
   }
 }

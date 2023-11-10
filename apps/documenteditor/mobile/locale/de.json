@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -399,12 +399,12 @@
     "textWe": "Mi",
     "textWrap": "Umbrechen",
     "textWrappingStyle": "Textumbruch",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -765,17 +765,17 @@
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
     "txtScheme9": "Gießerei",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

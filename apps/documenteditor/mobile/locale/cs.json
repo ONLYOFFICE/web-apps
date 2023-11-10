@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "Načítání historie selhalo"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -399,12 +399,12 @@
     "textWe": "st",
     "textWrap": "Obtékání",
     "textWrappingStyle": "Obtékání textu",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Vypršel čas konverze.",
@@ -764,18 +764,18 @@
     "txtScheme7": "Rovnost",
     "txtScheme8": "Tok",
     "txtScheme9": "Slévárna",
-    "textDarkTheme": "Dark Theme",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "Loading history failed"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -396,15 +396,15 @@
     "textWe": "Me",
     "textWrap": "Axuste",
     "textWrappingStyle": "Axuste do texto",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textCustomStyle": "Custom Style",
     "textDeleteImage": "Delete Image",
     "textDeleteLink": "Delete Link",
-    "textChooseAnOption": "Choose an option",
-    "textChooseAnItem": "Choose an item",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo límite de conversión.",
@@ -751,31 +751,31 @@
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
     "txtScheme9": "Fundición",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
     "textDialogUnprotect": "Enter a password to unprotect document",
     "textEncryptFile": "Encrypt File",
+    "textExport": "Export",
+    "textExportAs": "Export As",
     "textFillingForms": "Filling forms",
+    "textLight": "Light",
     "textMobileView": "Mobile View",
     "textNoChanges": "No changes (Read only)",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectTurnOff": "Protection is turned off",
+    "textRemoveFromFavorites": "Remove from Favorites",
     "textRequirePassword": "Require Password",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme",
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVerify": "Verify",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
-    "textAddToFavorites": "Add to Favorites",
-    "textClearAllFields": "Clear All Fields",
-    "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
-    "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",

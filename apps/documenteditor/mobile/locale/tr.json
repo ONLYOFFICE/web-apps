@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "Geçmiş yüklemesi başarısız"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -399,12 +399,12 @@
     "textWe": "Çar",
     "textWrap": "Metni Kaydır",
     "textWrappingStyle": "Sarma Stili",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Değişim süresi aşıldı.",
@@ -764,18 +764,18 @@
     "txtScheme7": "Net Değer",
     "txtScheme8": "Yayılma",
     "txtScheme9": "Döküm",
-    "textDarkTheme": "Dark Theme",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

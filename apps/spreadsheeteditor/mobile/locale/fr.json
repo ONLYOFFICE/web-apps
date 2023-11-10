@@ -55,10 +55,10 @@
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -415,7 +415,7 @@
       "textChart": "Graphique",
       "textComment": "Commentaire",
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDone": "Terminé",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
@@ -513,7 +513,7 @@
       "textDesign": "Stylique",
       "textDiagonalDownBorder": "Bordure diagonale bas",
       "textDiagonalUpBorder": "Bordure diagonale haut",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDisplayUnits": "Unités d'affichage",
       "textDollar": "Dollar",
       "textDone": "Terminé",
@@ -820,8 +820,8 @@
       "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
       "textDark": "Dark",
       "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -55,10 +55,10 @@
       "titleWarningRestoreVersion": "Restore this version?"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -817,11 +817,11 @@
       "txtVi": "Vjetnamiešu",
       "txtZh": "Ķīniešu",
       "warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
-      "txtDe": "German",
       "textDark": "Dark",
       "textLight": "Light",
+      "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "txtDe": "German"
     }
   }
 }

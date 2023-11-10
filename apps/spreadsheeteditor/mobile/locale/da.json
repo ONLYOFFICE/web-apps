@@ -41,10 +41,10 @@
       "textThemeColors": "Theme Colors"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -793,18 +793,22 @@
       "warnDownloadAs": "Hvis du fortsætter med at gemme i dette format, vil alle funktioner på nær teksten blive tabt.<br> Er du sikker på at du vil fortsætte?",
       "advDRMEnterPassword": "Your password, please:",
       "strFuncLocale": "Formula Language",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
       "textSpreadsheetSettings": "Spreadsheet Settings",
       "textSpreadsheetTitle": "Spreadsheet Title",
       "textTel": "Tel",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textTop": "Top",
       "textUnitOfMeasurement": "Unit Of Measurement",
@@ -817,11 +821,7 @@
       "txtScheme19": "Trek",
       "txtScheme20": "Urban",
       "txtScheme21": "Verve",
-      "txtSemicolon": "Semicolon",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "txtSemicolon": "Semicolon"
     }
   }
 }

@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "로드 이력 실패"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -399,12 +399,12 @@
     "textWe": "수요일",
     "textWrap": "줄 바꾸기",
     "textWrappingStyle": "배치 스타일",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "변환 시간을 초과했습니다.",
@@ -764,18 +764,18 @@
     "txtScheme7": "같음",
     "txtScheme8": "플로우",
     "txtScheme9": "발견",
-    "textDarkTheme": "Dark Theme",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "저장하지 않은 변경 사항이 있습니다. 자동 저장이 완료될 때까지 기다리려면 \"이 페이지에 머물기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 변경 사항이 삭제됩니다.",

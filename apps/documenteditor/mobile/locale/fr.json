@@ -25,7 +25,7 @@
     "textComment": "Commentaire",
     "textContinuousPage": "Page continue",
     "textCurrentPosition": "Position actuelle",
-    "textDisplay": "Afficher",
+    "textDisplay": "Affichage",
     "textDone": "Terminé",
     "textEmptyImgUrl": "Spécifiez l'URL de l'image",
     "textEvenPage": "Page paire",
@@ -190,10 +190,10 @@
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -276,7 +276,7 @@
     "textDesign": "Design",
     "textDifferentFirstPage": "Première page différente",
     "textDifferentOddAndEvenPages": "Pages paires et impaires différentes",
-    "textDisplay": "Afficher",
+    "textDisplay": "Affichage",
     "textDistanceFromText": "Distance du texte",
     "textDistinctive": "Distinctif",
     "textDone": "Terminé",
@@ -399,12 +399,12 @@
     "textWe": "mer.",
     "textWrap": "Renvoi à la ligne",
     "textWrappingStyle": "Style d'habillage",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",
@@ -765,17 +765,17 @@
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
     "txtScheme9": "Fonderie",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

@@ -58,10 +58,10 @@
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -259,7 +259,7 @@
       "textColumns": "Colonnes",
       "textComment": "Commentaire",
       "textDefault": "Texte sélectionné",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDone": "Terminé",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
@@ -341,7 +341,7 @@
       "textDeleteLink": "Supprimer le lien",
       "textDeleteSlide": "Supprimer la diapositive",
       "textDesign": "Design",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDistanceFromText": "Distance du texte",
       "textDistributeHorizontally": "Distribuer horizontalement",
       "textDistributeVertically": "Distribuer verticalement",

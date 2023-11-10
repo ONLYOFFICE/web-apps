@@ -190,10 +190,10 @@
       "titleWarningRestoreVersion": "Restore this version?"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -398,13 +398,13 @@
     "textWe": "Mēs",
     "textWrap": "Aplauzt",
     "textWrappingStyle": "Aplaušanas stils",
-    "textCustomStyle": "Custom Style",
-    "textChooseAnOption": "Choose an option",
     "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textCustomStyle": "Custom Style",
     "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
     "textSave": "Save",
-    "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Konversijas taimauts pārsniegts.",
@@ -758,24 +758,24 @@
     "txtScheme7": "Kapitāls",
     "txtScheme8": "Plūsma",
     "txtScheme9": "Lietuve",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
     "textEncryptFile": "Encrypt File",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectTurnOff": "Protection is turned off",
-    "textRequirePassword": "Require Password",
-    "textTypeEditing": "Type Of Editing",
-    "textTheme": "Theme",
-    "textSameAsSystem": "Same as system",
-    "textDark": "Dark",
-    "textLight": "Light",
-    "textExport": "Export",
-    "textAddToFavorites": "Add to Favorites",
-    "textClearAllFields": "Clear All Fields",
     "textRemoveFromFavorites": "Remove from Favorites",
-    "textSubmit": "Submit",
+    "textRequirePassword": "Require Password",
+    "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textSubmit": "Submit",
+    "textTheme": "Theme",
+    "textTypeEditing": "Type Of Editing"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",

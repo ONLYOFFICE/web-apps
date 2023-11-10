@@ -40,6 +40,12 @@
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
     },
+    "Themes": {
+      "dark": "Темная",
+      "light": "Светлая",
+      "system": "Системная",
+      "textTheme": "Тема"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
       "textAnonymous": "Аноним",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Текущий файл будет сохранен в истории версий.",
       "titleWarningRestoreVersion": "Восстановить эту версию?",
       "txtErrorLoadHistory": "Не удалось загрузить историю"
-    },
-    "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
-      "dark": "Dark",
-      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -678,6 +678,7 @@
       "textComments": "Комментарии",
       "textCreated": "Создана",
       "textCustomSize": "Особый размер",
+      "textDark": "Темная",
       "textDarkTheme": "Темная тема",
       "textDelimeter": "Разделитель",
       "textDirection": "Направление",
@@ -709,6 +710,7 @@
       "textLastModifiedBy": "Автор последнего изменения",
       "textLeft": "Слева",
       "textLeftToRight": "Слева направо",
+      "textLight": "Светлая",
       "textLocation": "Размещение",
       "textLookIn": "Область поиска",
       "textMacrosSettings": "Настройки макросов",
@@ -732,6 +734,7 @@
       "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
       "textRight": "Справа",
       "textRightToLeft": "Справа налево",
+      "textSameAsSystem": "Системная",
       "textSearch": "Поиск",
       "textSearchBy": "Поиск",
       "textSearchIn": "Искать",
@@ -744,6 +747,7 @@
       "textSpreadsheetTitle": "Название таблицы",
       "textSubject": "Тема",
       "textTel": "Телефон",
+      "textTheme": "Тема",
       "textTitle": "Название",
       "textTop": "Сверху",
       "textUnitOfMeasurement": "Единица измерения",
@@ -817,11 +821,7 @@
       "txtUk": "Украинский",
       "txtVi": "Вьетнамский",
       "txtZh": "Китайский",
-      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?"
     }
   }
 }

@@ -55,10 +55,10 @@
       "txtErrorLoadHistory": "Încărcarea istoricului a eșuat"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -820,8 +820,8 @@
       "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
       "textDark": "Dark",
       "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

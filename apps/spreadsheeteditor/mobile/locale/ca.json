@@ -55,10 +55,10 @@
       "txtErrorLoadHistory": "Ha fallat la càrrega de l'historial"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -820,8 +820,8 @@
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
       "textDark": "Dark",
       "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

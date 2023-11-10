@@ -41,10 +41,10 @@
       "textThemeColors": "Themakleuren"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -811,17 +811,17 @@
       "txtVi": "Vietnamees",
       "txtZh": "Chinees",
       "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
+      "textDark": "Dark",
       "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
-      "textVersionHistory": "Version History",
-      "txtDe": "German",
-      "textDark": "Dark",
-      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textVersionHistory": "Version History",
+      "txtDe": "German"
     }
   }
 }

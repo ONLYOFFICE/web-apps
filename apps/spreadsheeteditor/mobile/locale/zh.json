@@ -55,10 +55,10 @@
       "txtErrorLoadHistory": "载入历史记录失败"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -820,8 +820,8 @@
       "warnDownloadAs": "如果您继续以此格式保存，除文本之外的所有功能将丢失。<br>您确定要继续吗？",
       "textDark": "Dark",
       "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

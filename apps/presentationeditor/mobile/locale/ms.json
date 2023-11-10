@@ -44,10 +44,10 @@
       "textThemeColors": "Warna Tema"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -535,12 +535,12 @@
       "txtScheme7": "Ekuiti",
       "txtScheme8": "Aliran",
       "txtScheme9": "Faundri",
-      "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History",
       "textDark": "Dark",
       "textLight": "Light",
+      "textNoMatches": "No Matches",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "textVersionHistory": "Version History"
     }
   }
 }

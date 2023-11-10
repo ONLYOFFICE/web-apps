@@ -55,10 +55,10 @@
       "txtErrorLoadHistory": "Loading history failed"
     },
     "Themes": {
-      "textTheme": "Theme",
-      "system": "Same as system",
       "dark": "Dark",
-      "light": "Light"
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -816,12 +816,12 @@
       "txtVi": "Vyetnamlı",
       "txtZh": "Çinli",
       "warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizdən əminsiniz?",
-      "textDarkTheme": "Dark Theme",
-      "textRestartApplication": "Please restart the application for the changes to take effect",
       "textDark": "Dark",
+      "textDarkTheme": "Dark Theme",
       "textLight": "Light",
-      "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }
