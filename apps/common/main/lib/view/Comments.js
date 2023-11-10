@@ -309,6 +309,7 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             this.store = this.options.store;
+            this.hasFilters = false;
 
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
@@ -348,7 +349,7 @@ define([
                     parentEl: $('#comments-btn-sort', this.$el),
                     cls: 'btn-toolbar no-caret',
                     iconCls: 'toolbar__icon btn-more',
-                    // hint: this.textSort,
+                    hint: this.textSort,
                     menu: new Common.UI.Menu({
                         style: 'min-width: auto;',
                         items: [
@@ -702,6 +703,7 @@ define([
                 var menu = this.buttonSort.menu;
                 menu.items[menu.items.length-1].setVisible(mode.canComments && !mode.compatibleFeatures);
                 menu.items[menu.items.length-2].setVisible(mode.canComments && !mode.compatibleFeatures);
+                this.buttonSort.updateHint(mode.canComments && !mode.compatibleFeatures ? (this.hasFilters ? this.textSortFilterMore : this.textSortMore) : (this.hasFilters ? this.textSortFilter : this.textSort));
             }
             if (!mode.canComments || mode.compatibleFeatures) {
                 if (mode.compatibleFeatures) {
@@ -934,6 +936,10 @@ define([
         textViewResolved: 'You have not permission for reopen comment',
         mniFilterGroups: 'Filter by Group',
         textAll: 'All',
-        txtEmpty: 'There are no comments in the document.'
+        txtEmpty: 'There are no comments in the document.',
+        textSortFilter: 'Sort and filter comments',
+        textSortMore: 'Sort and more',
+        textSortFilterMore: 'Sort, filter and more'
+
     }, Common.Views.Comments || {}))
 });

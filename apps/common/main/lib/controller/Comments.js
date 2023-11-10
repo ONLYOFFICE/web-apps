@@ -1772,11 +1772,14 @@ define([
                     usergroups = _.intersection(usergroups, viewgroups);
                 usergroups = _.uniq(this.userGroups.concat(usergroups));
             }
-            if (this.view && this.view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
+            var view = this.view;
+            if (view && view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
                 this.userGroups = usergroups;
-                var menu = this.view.buttonSort.menu;
-                menu.items[menu.items.length-3].setVisible(this.userGroups.length>0);
-                menu.items[menu.items.length-4].setVisible(this.userGroups.length>0);
+                view.hasFilters = this.userGroups.length>0;
+                view.buttonSort.updateHint(this.mode.canComments && !this.mode.compatibleFeatures ? (view.hasFilters ? view.textSortFilterMore : view.textSortMore) : (view.hasFilters ? view.textSortFilter : view.textSort));
+                var menu = view.buttonSort.menu;
+                menu.items[menu.items.length-3].setVisible(view.hasFilters);
+                menu.items[menu.items.length-4].setVisible(view.hasFilters);
                 menu = menu.items[menu.items.length-3].menu;
                 menu.removeAll();
 
@@ -1785,7 +1788,7 @@ define([
                     checkable: true,
                     checked: last===-1 || last===undefined,
                     toggleGroup: 'filtercomments',
-                    caption: this.view.textAll,
+                    caption: view.textAll,
                     value: -1
                 }));
                 this.userGroups.forEach(function(item){
