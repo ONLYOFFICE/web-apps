@@ -180,7 +180,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.rulesList.on('item:select', _.bind(this.onSelectRule, this))
                             .on('item:keydown', _.bind(this.onKeyDown, this))
                             .on('item:keyup', _.bind(this.onKeyUp, this))
-                            .on('item:dblclick', _.bind(this.onEditRule, this,true));
+                            .on('item:dblclick', _.bind(this.onEditRule, this,true))
+                            .on('entervalue', _.bind(this.onEditRule, this, true));;
 
             this.btnNew = new Common.UI.Button({
                 el: $('#format-manager-btn-new')
