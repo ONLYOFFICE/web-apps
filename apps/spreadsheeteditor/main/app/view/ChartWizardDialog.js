@@ -42,6 +42,27 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 ], function () {
     'use strict';
 
+    var _CustomItem = Common.UI.DataViewItem.extend({
+        initialize : function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this, options);
+
+            var me = this;
+
+            me.template = me.options.template || me.template;
+
+            me.listenTo(me.model, 'change:sort', function() {
+                me.render();
+                me.trigger('change', me, me.model);
+            });
+            me.listenTo(me.model, 'change:selected', function() {
+                var el = me.$el || $(me.el);
+                el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
+                me.onSelectChange(me.model, me.model.get('selected') && me.model.get('allowSelected'));
+            });
+            me.listenTo(me.model, 'remove',             me.remove);
+        }
+    });
+
     SSE.Views.ChartWizardDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 455,
@@ -55,6 +76,8 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 charts = [],
                 groups = [],
                 chartData = Common.define.chartData.getChartData();
+            this._arrSeriesGroups = [];
+            this._arrSeriesType = [];
             if (options.props.recommended) {
                 for (var type in options.props.recommended) {
                     if (isNaN(parseInt(type))) continue;
@@ -73,6 +96,13 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                     (group.id===item.group) && charts.push(item);
                 });
                 groups.push({panelId: 'id-chart-recommended-' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts});
+                (group.id !== 'menu-chart-group-combo') && (group.id !== 'menu-chart-group-stock') && me._arrSeriesGroups.push(group);
+            });
+
+            chartData.forEach(function(item) {
+                !item.is3d && item.type!==Asc.c_oAscChartTypeSettings.stock &&
+                item.type!==Asc.c_oAscChartTypeSettings.comboBarLine && item.type!==Asc.c_oAscChartTypeSettings.comboBarLineSecondary &&
+                item.type!==Asc.c_oAscChartTypeSettings.comboAreaBar && item.type!==Asc.c_oAscChartTypeSettings.comboCustom && me._arrSeriesType.push(item);
             });
 
             this.chartTabTemplate = [
@@ -91,16 +121,28 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                                     '<label class="header" id="id-<%= group.groupId %>-lbl"></label>',
                                 '</td>',
                             '</tr>',
-                            '<tr class="preview-list hidden">',
+                            '<tr class="preview-list">',
+                                '<td style="padding-bottom:12px;">',
+                                '<div id="id-<%= group.groupId %>-list-preview" style="width:100%; height: <% if (group.groupId === "menu-chart-group-combo") {%>163<% } else { %>258<% } %>px;"></div>',
+                                '</td>',
+                            '</tr>',
+                            '<tr class="preview-one hidden">',
+                                '<td style="padding: ' + (Common.UI.isRTL() ? '3px 3px 12px 12px' : '3px 12px 12px 3px') + ';">',
+                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="<% if (group.groupId === "menu-chart-group-combo") {%>width:280px; height: 160px;<% } else { %>width:100%; height:258px;<% } %>background-size: cover; background-repeat: no-repeat;"></div>',
+                                '</td>',
+                            '</tr>',
+                            '<% if (group.groupId === "menu-chart-group-combo") {%>',
+                            '<tr class="preview-combo">',
                                 '<td>',
-                                '<div id="id-<%= group.groupId %>-list-preview" class="" style="width:100%; height: 258px;"></div>',
+                                '<label>' + this.txtSeriesDesc + '</label>',
                                 '</td>',
                             '</tr>',
-                            '<tr class="preview-one">',
+                            '<tr class="preview-combo">',
                                 '<td style="padding: ' + (Common.UI.isRTL() ? '3px 3px 3px 12px' : '3px 12px 3px 3px') + ';">',
-                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="width:100%; height: 258px;background-size: cover; background-repeat: no-repeat;"></div>',
+                                '<div id="id-<%= group.groupId %>-combo-preview" class="" style="width:100%; height: 113px;"></div>',
                                 '</td>',
                             '</tr>',
+                            '<% } %>',
                         '</table>',
                     '</div>',
             ].join('');
@@ -125,6 +167,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             this._currentChartType = null;
             this._currentChartSpace = null;
             this._currentPreviews = [];
+            this._currentPreviewSize = [430, 258];
             this._currentTabSettings = null;
         },
 
@@ -132,6 +175,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
             this.chartButtons = [];
+
             this.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: this.$window.find('.primary') });
@@ -146,7 +190,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 
             var item = this.options.items[index];
             !item.rendered && this.renderChartTab(item);
-            this.fillPreviews(index);
+            this.fillPreviews(item);
 
             var buttons = item.chartButtons;
             if (buttons.length>0)  {
@@ -206,45 +250,177 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             tab.listPreview.on('item:select', function(dataView, itemView, record) {
                 if (record) {
                     me._currentChartSpace = record.get('data');
+                    if (me._currentTabSettings.groupId==='menu-chart-group-combo') {
+                        me.updateSeriesList(me._currentChartSpace.asc_getSeries());
+                    }
                 }
             });
             Common.UI.FocusManager.insert(this, tab.listPreview, -1 * this.getFooterButtons().length);
 
+            if (tab.groupId==='menu-chart-group-combo')
+                this.renderSeries(tab);
+
             tab.rendered = true;
         },
 
-        fillPreviews: function(index) {
-            if (index===0)
-                this._currentPreviews = this.options.props.recommended;
-            else
-                this._currentPreviews = this.allCharts;
-            this._currentTabSettings = this.options.items[index];
+        renderSeries: function(tab) {
+            this.seriesList = new Common.UI.ListView({
+                el: this.$window.find('#id-' + tab.groupId + '-combo-preview'),
+                store: new Common.UI.DataViewStore(),
+                emptyText: '',
+                scrollAlwaysVisible: true,
+                headers: [
+                    {name: this.textSeries, width: 138},
+                    {name: this.textType, width: 145},
+                    {name: this.textSecondary, width: 130, style:'text-align: center;'},
+                ],
+                template: _.template(['<div class="listview inner" style=""></div>'].join('')),
+                itemTemplate: _.template([
+                    '<div class="list-item" style="width: 100%;" id="chart-recommend-item-<%= seriesIndex %>">',
+                        '<div class="series-color" id="chart-recommend-series-preview-<%= seriesIndex %>"></div>',
+                        '<div class="series-value" style="width: 125px;"><%= value %></div>',
+                        '<div class="series-cmb" style="width: 150px;"><div id="chart-recommend-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
+                        '<div class="series-chk"><div id="chart-recommend-chk-series-<%= seriesIndex %>" style=""></div></div>',
+                    '</div>'
+                ].join('')),
+                tabindex: 1
+            });
+            this.seriesList.createNewItem = function(record) {
+                return new _CustomItem({
+                    template: this.itemTemplate,
+                    model: record
+                });
+            };
+            this.seriesList.on('item:add', _.bind(this.addControls, this));
+            this.seriesList.on('item:change', _.bind(this.addControls, this));
+            this.listViewComboEl = this.$window.find('#' + tab.panelId + ' .preview-combo');
+            Common.UI.FocusManager.insert(this, this.seriesList, -1 * this.getFooterButtons().length);
         },
 
-        updatePreview: function() {
+        updateSeriesList: function(series, index) {
+            var arr = [];
+            var store = this.seriesList.store;
+            for (var i = 0, len = series.length; i < len; i++)
+            {
+                var item = series[i],
+                    rec = new Common.UI.DataViewModel();
+                rec.set({
+                    value: item.asc_getSeriesName(),
+                    type: item.asc_getChartType(),
+                    isSecondary: item.asc_getIsSecondaryAxis(),
+                    canChangeSecondary: item.asc_canChangeAxisType(),
+                    seriesIndex: i,
+                    series: item
+                });
+                arr.push(rec);
+            }
+            store.reset(arr);
+            (arr.length>0) && (index!==undefined) && (index < arr.length) && this.seriesList.selectByIndex(index);
+        },
+
+        addControls: function(listView, itemView, item) {
+            if (!item) return;
+
+            var me = this,
+                i = item.get('seriesIndex'),
+                cmpEl = this.seriesList.cmpEl.find('#chart-recommend-item-' + i),
+                series = item.get('series');
+            series.asc_drawPreviewRect('chart-recommend-series-preview-' + i);
+            var combo = this.initSeriesType('#chart-recommend-cmb-series-' + i, i, item);
+            var check = new Common.UI.CheckBox({
+                el: cmpEl.find('#chart-recommend-chk-series-' + i),
+                value: item.get('isSecondary'),
+                disabled: !item.get('canChangeSecondary')
+            });
+            check.on('change', function(field, newValue, oldValue, eOpts) {
+                var res = series.asc_TryChangeAxisType(field.getValue()==='checked');
+                if (res !== Asc.c_oAscError.ID.No) {
+                    field.setValue(field.getValue()!=='checked', true);
+                } else
+                    me.updatePreview(i);
+            });
+            cmpEl.on('mousedown', '.combobox', function(){
+                me.seriesList.selectRecord(item);
+            });
+        },
+
+        initSeriesType: function(id, index, item) {
+            var me = this,
+                series = item.get('series'),
+                store = new Common.UI.DataViewStore(me._arrSeriesType),
+                currentTypeRec = store.findWhere({type: item.get('type')}),
+                el = $(id);
+            var combo = new Common.UI.ComboBoxDataView({
+                el: el,
+                additionalAlign: this.menuAddAlign,
+                cls: 'move-focus',
+                menuCls: 'menu-absolute',
+                menuStyle: 'width: 318px;',
+                dataViewCls: 'menu-insertchart',
+                restoreHeight: 535,
+                groups: new Common.UI.DataViewGroupStore(me._arrSeriesGroups),
+                store: store,
+                formTemplate: _.template([
+                    '<input type="text" class="form-control" spellcheck="false">',
+                ].join('')),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                takeFocusOnClose: true,
+                updateFormControl: function(record) {
+                    $(this.el).find('input').val(record ? record.get('tip') : '');
+                }
+            });
+            combo.selectRecord(currentTypeRec);
+            combo.on('item:click', function(cmb, picker, view, record){
+                var oldtype = item.get('type');
+                var res = series.asc_TryChangeChartType(record.get('type'));
+                if (res === Asc.c_oAscError.ID.No) {
+                    cmb.selectRecord(record);
+                    me.updatePreview(index);
+                } else {
+                    var oldrecord = picker.store.findWhere({type: oldtype});
+                    picker.selectRecord(oldrecord, true);
+                    if (res===Asc.c_oAscError.ID.SecondaryAxis)
+                        Common.UI.warning({msg: me.errorSecondaryAxis, maxwidth: 500});                    }
+            });
+            return combo;
+        },
+
+        fillPreviews: function(tab) {
+            this._currentPreviews = (tab.groupId==='rec') ? this.options.props.recommended : this.allCharts;
+            this._currentPreviewSize = (tab.groupId==='menu-chart-group-combo') ? [280, 160] : [430, 258];
+            this._currentTabSettings = tab;
+        },
+
+        updatePreview: function(seriesIndex) {
             var charts = this._currentPreviews[this._currentChartType];
             if (charts===undefined && this._currentTabSettings.groupId!=='rec') {
                 charts = this._currentPreviews[this._currentChartType] = this.api.asc_getChartData(this._currentChartType);
             }
             if (charts) {
-                this._currentTabSettings.listViewEl.toggleClass('hidden', charts.length<2);
-                this._currentTabSettings.divPreviewEl.toggleClass('hidden', charts.length!==1);
                 if (charts.length===1) {
                     this._currentChartSpace = charts[0];
-                    this._currentTabSettings.divPreview.css('background-image', 'url(' + this._currentChartSpace.asc_getPreview() + ')');
+                    this._currentTabSettings.divPreview.css('background-image', 'url(' + this._currentChartSpace.asc_getPreview(this._currentPreviewSize[0], this._currentPreviewSize[1]) + ')');
                 } else if (charts.length>1) {
                     var store = this._currentTabSettings.listPreview.store,
+                        idx = (seriesIndex!==undefined) ? _.indexOf(store.models, this._currentTabSettings.listPreview.getSelectedRec()) : 0,
                         arr = [];
                     for (var i = 0; i < charts.length; i++) {
                         arr.push(new Common.UI.DataViewModel({
-                            imageUrl: charts[i].asc_getPreview(),
+                            imageUrl: charts[i].asc_getPreview(210, 120),
                             data: charts[i]
                         }));
                     }
                     store.reset(arr);
-                    this._currentTabSettings.listPreview.selectByIndex(0);
+                    this._currentChartSpace = charts[idx];
+                    this._currentTabSettings.listPreview.selectByIndex(idx, true);
                 }
             }
+            if (this._currentTabSettings.groupId==='menu-chart-group-combo') {
+                this.listViewComboEl.toggleClass('hidden', !charts || charts.length===0);
+                charts && charts.length>0 && this.updateSeriesList(this._currentChartSpace.asc_getSeries(), seriesIndex);
+            }
+            this._currentTabSettings.listViewEl.toggleClass('hidden', !charts || charts.length<2);
+            this._currentTabSettings.divPreviewEl.toggleClass('hidden', !charts || charts.length!==1);
             this.btnOk.setDisabled(!charts || charts.length===0);
         },
 
@@ -282,7 +458,12 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         },
 
         textTitle: 'Insert Chart',
-        textRecommended: 'Recommended'
+        textRecommended: 'Recommended',
+        txtSeriesDesc: 'Choose the chart type and axis for your data series',
+        textType:   'Type',
+        textSeries: 'Series',
+        textSecondary: 'Secondary Axis',
+        errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.'
 
     }, SSE.Views.ChartWizardDialog || {}));
 });
