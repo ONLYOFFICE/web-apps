@@ -75,9 +75,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 groups.push({panelId: 'id-chart-recommended-' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts});
             });
 
-            var template = [
-                '<% _.each(groups, function(group) { %>',
-                '<div id="<%= group.panelId %>" class="settings-panel">',
+            this.chartTabTemplate = [
                     '<div class="inner-content">',
                         '<div class="buttons-container">',
                         '<% _.each(group.charts, function(chart) { %>',
@@ -105,7 +103,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                             '</tr>',
                         '</table>',
                     '</div>',
-                '</div>',
+            ].join('');
+            var template = [
+                '<% _.each(groups, function(group) { %>',
+                '<div id="<%= group.panelId %>" class="settings-panel"></div>',
                 '<% }); %>',
             ].join('');
             _.extend(this.options, {
@@ -130,54 +131,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
-            var me = this,
-                $window = this.getChild();
             this.chartButtons = [];
-            this.options.items.forEach(function(item) {
-                item.chartButtons = [];
-                item.charts.forEach(function(chart, index){
-                    var btn = new Common.UI.Button({
-                        parentEl: $window.find('#id-' + item.groupId + '-btn-' + chart.type),
-                        cls: 'btn-options huge-1 svg-chartlist',
-                        iconCls: 'svgicon ' + 'chart-' + chart.iconCls,
-                        chart: chart,
-                        hint: chart.tip,
-                        enableToggle: true,
-                        allowDepress: false,
-                        toggleGroup : 'toggle-' + item.groupId
-                    });
-                    btn.on('toggle', function(cmp, pressed) {
-                        if (pressed) {
-                            $window.find('#id-' + item.groupId + '-lbl').text(chart.tip);
-                            me._currentChartType = chart.type;
-                            me.updatePreview();
-                        }
-                    });
-                    item.chartButtons.push(btn);
-                    me.chartButtons.push(btn);
-                });
-                item.listViewEl = $window.find('#' + item.panelId + ' .preview-list');
-                item.divPreviewEl = $window.find('#' + item.panelId + ' .preview-one');
-                item.divPreview = $window.find('#id-' + item.groupId + '-preview');
-                item.listPreview = new Common.UI.DataView({
-                    el: $window.find('#id-' + item.groupId + '-list-preview'),
-                    cls: 'focus-inner',
-                    scrollAlwaysVisible: true,
-                    store: new Common.UI.DataViewStore(),
-                    itemTemplate : _.template([
-                        '<div class="style" id="<%= id %>">',
-                        '<img src="<%= imageUrl %>" width="210" height="120" <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
-                        '</div>'
-                    ].join('')),
-                    tabindex: 1
-                });
-                item.listPreview.on('item:select', function(dataView, itemView, record) {
-                    if (record) {
-                        me._currentChartSpace = record.get('data');
-                    }
-                });
-            });
-
             this.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
             }) || new Common.UI.Button({ el: this.$window.find('.primary') });
@@ -185,24 +139,78 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             this.afterRender();
         },
 
-        getFocusedComponents: function() {
-            return this.btnsCategory.concat(this.chartButtons).concat(this.getFooterButtons());
-        },
-
         onCategoryClick: function(btn, index) {
             if ($("#" + btn.options.contentTarget).hasClass('active')) return;
 
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
+            var item = this.options.items[index];
+            !item.rendered && this.renderChartTab(item);
             this.fillPreviews(index);
 
-            var buttons = this.options.items[index].chartButtons;
+            var buttons = item.chartButtons;
             if (buttons.length>0)  {
                 buttons[0].toggle(true);
                 setTimeout(function(){
                     buttons[0].focus();
                 }, 10);
             }
+        },
+
+        renderChartTab: function(tab) {
+            var me = this,
+                $window = this.getChild();
+            $window.find('#' + tab.panelId).append($(_.template(this.chartTabTemplate)({
+                                                    group: tab,
+                                                    scope: me
+                                                })));
+            // render controls
+            tab.chartButtons = [];
+            tab.charts.forEach(function(chart, index){
+                var btn = new Common.UI.Button({
+                    parentEl: $window.find('#id-' + tab.groupId + '-btn-' + chart.type),
+                    cls: 'btn-options huge-1 svg-chartlist',
+                    iconCls: 'svgicon ' + 'chart-' + chart.iconCls,
+                    chart: chart,
+                    hint: chart.tip,
+                    enableToggle: true,
+                    allowDepress: false,
+                    toggleGroup : 'toggle-' + tab.groupId
+                });
+                btn.on('toggle', function(cmp, pressed) {
+                    if (pressed) {
+                        $window.find('#id-' + tab.groupId + '-lbl').text(chart.tip);
+                        me._currentChartType = chart.type;
+                        me.updatePreview();
+                    }
+                });
+                tab.chartButtons.push(btn);
+                me.chartButtons.push(btn);
+                Common.UI.FocusManager.insert(me, btn, -1 * me.getFooterButtons().length);
+            });
+            tab.listViewEl = $window.find('#' + tab.panelId + ' .preview-list');
+            tab.divPreviewEl = $window.find('#' + tab.panelId + ' .preview-one');
+            tab.divPreview = $window.find('#id-' + tab.groupId + '-preview');
+            tab.listPreview = new Common.UI.DataView({
+                el: $window.find('#id-' + tab.groupId + '-list-preview'),
+                cls: 'focus-inner',
+                scrollAlwaysVisible: true,
+                store: new Common.UI.DataViewStore(),
+                itemTemplate : _.template([
+                    '<div class="style" id="<%= id %>">',
+                    '<img src="<%= imageUrl %>" width="210" height="120" <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    '</div>'
+                ].join('')),
+                tabindex: 1
+            });
+            tab.listPreview.on('item:select', function(dataView, itemView, record) {
+                if (record) {
+                    me._currentChartSpace = record.get('data');
+                }
+            });
+            Common.UI.FocusManager.insert(this, tab.listPreview, -1 * this.getFooterButtons().length);
+
+            tab.rendered = true;
         },
 
         fillPreviews: function(index) {
@@ -246,6 +254,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         },
 
         _setDefaults: function(props) {
+            Common.UI.FocusManager.add(this, this.btnsCategory.concat(this.getFooterButtons()));
         },
 
         getSettings: function() {
