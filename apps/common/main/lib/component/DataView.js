@@ -131,6 +131,7 @@ define([
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
+            me.listenTo(me.model, 'change:tip',         me.onTipChange);
             me.listenTo(me.model, 'remove',             me.remove);
         },
 
@@ -208,6 +209,10 @@ define([
 
         onSelectChange: function(model, selected) {
             this.trigger('select', this, model, selected);
+        },
+
+        onTipChange: function (model, tip) {
+            this.trigger('tipchange', this, model, tip);
         },
 
         onChange: function () {
@@ -564,6 +569,9 @@ define([
                     this.listenTo(view, 'dblclick',    this.onDblClickItem);
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
+                    if (this.delayRenderTips && !tip) {
+                        this.listenTo(view, 'tipchange', this.onChangeItemTip);
+                    }
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
@@ -669,21 +677,22 @@ define([
 
         onChangeItem: function(view, record) {
             if (!this.isSuspendEvents) {
-                if (record.get('isLoading') === false && record.get('tip') && !view.$el.data('bs.tooltip')) {
-                    var me = this,
-                        view_el = $(view.el);
-                    view_el.one('mouseenter', function() {
-                        view_el.attr('data-toggle', 'tooltip');
-                        view_el.tooltip({
-                            title: record.get('tip'),
-                            placement: 'cursor',
-                            zIndex: me.tipZIndex
-                        });
-                        view_el.mouseenter();
-                    });
-                }
                 this.trigger('item:change', this, view, record);
             }
+        },
+
+        onChangeItemTip: function (view, record, tip) {
+            var me = this,
+                view_el = $(view.el);
+            view_el.one('mouseenter', function() {
+                view_el.attr('data-toggle', 'tooltip');
+                view_el.tooltip({
+                    title: tip,
+                    placement: 'cursor',
+                    zIndex: me.tipZIndex
+                });
+                view_el.mouseenter();
+            });
         },
 
         onRemoveItem: function(view, record) {

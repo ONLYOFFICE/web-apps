@@ -5104,10 +5104,10 @@ define([
                     menuPicker = menu.menuPicker,
                     pickerItem = menuPicker.store.findWhere({isLoading: true});
                 if (pickerItem) {
-                    pickerItem.set('tip', item.tip, {silent: true});
+                    pickerItem.set('isLoading', false, {silent: true});
                     pickerItem.set('value', item.type, {silent: true});
                     pickerItem.set('imageUrl', image.asc_getImage(), {silent: true});
-                    pickerItem.set('isLoading', false);
+                    pickerItem.set('tip', item.tip);
                 }
                 this.currentSmartArtMenu = menu;
             }, this));

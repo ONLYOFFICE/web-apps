@@ -404,11 +404,15 @@ body {
             height: 28px;
             background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==)";
             background-color: transparent;
-            opacity: 0.8;
+            opacity: 0.5;
             animation-duration: .8s;
             animation-name: rotation;
             animation-iteration-count: infinite;
             animation-timing-function: linear;
+
+            .theme-type-dark & {
+                opacity: 0.8;
+            }
         }
     }
 }
