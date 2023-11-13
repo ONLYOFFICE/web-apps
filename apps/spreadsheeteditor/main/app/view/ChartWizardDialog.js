@@ -175,6 +175,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 });
             });
 
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+
             this.afterRender();
         },
 
@@ -207,10 +211,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         },
 
         updatePreview: function() {
-            if (this._currentPreviews[this._currentChartType]) {
-                var charts = this._currentPreviews[this._currentChartType];
-                this._currentTabSettings.listViewEl.toggleClass('hidden', charts.length===1);
-                this._currentTabSettings.divPreviewEl.toggleClass('hidden', charts.length>1);
+            var charts = this._currentPreviews[this._currentChartType];
+            if (charts) {
+                this._currentTabSettings.listViewEl.toggleClass('hidden', charts.length<2);
+                this._currentTabSettings.divPreviewEl.toggleClass('hidden', charts.length!==1);
                 if (charts.length===1) {
                     this._currentChartSpace = charts[0];
                     this._currentTabSettings.divPreview.css('background-image', 'url(' + this._currentChartSpace.asc_getPreview() + ')');
@@ -227,6 +231,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                     this._currentTabSettings.listPreview.selectByIndex(0);
                 }
             }
+            this.btnOk.setDisabled(!charts || charts.length===0);
         },
 
         afterRender: function() {
@@ -239,6 +244,26 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 
         getSettings: function() {
             return this._currentChartSpace;
+        },
+
+        onDlgBtnClick: function(event) {
+            this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
+        },
+
+        _handleInput: function(state) {
+            if (this.handler) {
+                if (state === 'ok' && this.btnOk.isDisabled()) {
+                    return;
+                }
+                this.handler.call(this, state, (state === 'ok') ? this.getSettings() : undefined);
+            }
+
+            this.close();
         },
 
         textTitle: 'Insert Chart',
