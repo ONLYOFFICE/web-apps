@@ -9,6 +9,24 @@
         display: table-row;
     }
 
+    #chat-header {
+        position: absolute;
+        height: 45px;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 12px;
+        overflow: hidden;
+        border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
+        border-bottom: @scaled-one-px-value solid @border-toolbar;
+
+        label {
+            .font-size-medium();
+            .font-weight-bold();
+            margin-top: 2px;
+        }
+    }
+
     .area {
         position: absolute;
         border-bottom: 1px solid @border-toolbar-ie;
@@ -38,8 +56,9 @@
         left: 0;
         top: 0;
         right: 0;
-        height: 70px;
-        padding: 5px 0;
+        height: 115px;
+        padding-bottom: 5px;
+        padding-top: 45px;
 
         ul {
             margin: 0;

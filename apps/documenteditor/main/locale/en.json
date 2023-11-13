@@ -463,6 +463,8 @@
   "Common.Views.AutoCorrectDialog.warnReplace": "The autocorrect entry for %1 already exists. Do you want to replace it?",
   "Common.Views.AutoCorrectDialog.warnReset": "Any autocorrect you added will be removed and the changed ones will be restored to their original values. Do you want to continue?",
   "Common.Views.AutoCorrectDialog.warnRestore": "The autocorrect entry for %1 will be reset to its original value. Do you want to continue?",
+  "Common.Views.Chat.textChat": "Chat",
+  "Common.Views.Chat.textClosePanel": "Close chat",
   "Common.Views.Chat.textSend": "Send",
   "Common.Views.Comments.mniAuthorAsc": "Author A to Z",
   "Common.Views.Comments.mniAuthorDesc": "Author Z to A",

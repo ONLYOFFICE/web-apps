@@ -731,6 +731,10 @@ define([
                         this.leftMenu.panelNavigation.hide();
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
                     }
+                    else if (this.leftMenu.btnChat.isActive()) {
+                        this.leftMenu.btnChat.toggle(false);
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                    }
                 }
             }
         },
