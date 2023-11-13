@@ -351,7 +351,7 @@ define([
 
         hide: function() {
             this.$el.hide();
-            this.api && this.api.asc_enableKeyEvents(true);
+            // this.api && this.api.asc_enableKeyEvents(true);
             this.fireEvent('menu:hide', [this]);
         },
 

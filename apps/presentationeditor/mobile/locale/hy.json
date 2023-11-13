@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Ընթացիկ ֆայլը կպահվի տարբերակների պատմության մեջ:",
       "titleWarningRestoreVersion": "Վերականգնե՞լ այս տարբերակը:",
       "txtErrorLoadHistory": "Պատմության բեռնումը խափանվեց"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ"
+      "txtScheme9": "Հրատարակիչ",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

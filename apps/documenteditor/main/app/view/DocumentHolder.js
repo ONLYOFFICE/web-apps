@@ -137,7 +137,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption: me.addCommentText
             });
 
@@ -936,7 +936,7 @@ define([
 
             /** coauthoring begin **/
             me.menuAddCommentTable = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             /** coauthoring end **/
@@ -1630,7 +1630,7 @@ define([
             });
 
             me.menuAddCommentPara = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             /** coauthoring end **/

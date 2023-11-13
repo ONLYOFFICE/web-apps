@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Aktuální soubor bude uložen v historii verzí.",
       "titleWarningRestoreVersion": "Obnovit vybranou verzi? ",
       "txtErrorLoadHistory": "Načítání historie selhalo"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Hala",
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Slévárna"
+      "txtScheme9": "Slévárna",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

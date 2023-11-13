@@ -341,7 +341,6 @@ define([
                 style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 color: this.color,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -376,14 +375,15 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             me.numberingControls = $window.find('tr.numbering');
             me.imageControls = $window.find('tr.image');
@@ -396,7 +396,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor];
+            return [this.btnBullet, this.btnNumbering, this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor].concat(this.getFooterButtons());
         },
 
         afterRender: function() {
@@ -620,7 +620,9 @@ define([
                             }
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.btnSelectImage.focus();
+                }).show();
             } else if (item.value==2) {
                 Common.NotificationCenter.trigger('storage:image-load', 'bullet');
             } else {

@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -528,9 +534,13 @@
       "txtScheme7": "Bərabər",
       "txtScheme8": "Axın",
       "txtScheme9": "Emalatxana",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
+      "textLight": "Light",
       "textRestartApplication": "Please restart the application for the changes to take effect",
-      "textRTL": "RTL"
+      "textRTL": "RTL",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

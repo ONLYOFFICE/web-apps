@@ -175,6 +175,12 @@
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
     },
+    "Themes": {
+      "dark": "Întunecat",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
       "textAnonymous": "Anonim",
@@ -256,6 +262,8 @@
     "textCentered": "Centrat",
     "textChangeShape": "Modificare formă",
     "textChart": "Diagramă",
+    "textChooseAnItem": "Selectați un element",
+    "textChooseAnOption": "Alegeți o variantă",
     "textClassic": "Clasic",
     "textClose": "Închide",
     "textColor": "Culoare",
@@ -280,6 +288,7 @@
     "textEmpty": "Necompletat",
     "textEmptyImgUrl": "Trebuie specificată adresa URL a imaginii.",
     "textEnterTitleNewStyle": "Introduceți un titlu pentru noul stil.",
+    "textEnterYourOption": "Introduceți varianta dvs",
     "textFebruary": "Februarie",
     "textFill": "Umplere",
     "textFirstColumn": "Prima coloană",
@@ -392,7 +401,10 @@
     "textType": "Tip",
     "textWe": "Mi",
     "textWrap": "Încadrare",
-    "textWrappingStyle": "Stil de încadrare"
+    "textWrappingStyle": "Stil de încadrare",
+    "textPlaceholder": "Placeholder",
+    "textSave": "Save",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -609,6 +621,7 @@
     "closeButtonText": "Închide fișierul",
     "notcriticalErrorTitle": "Avertisment",
     "textAbout": "Despre",
+    "textAddToFavorites": "Adăugare la Preferințe",
     "textApplication": "Aplicația",
     "textApplicationSettings": "Setări Aplicație",
     "textAuthor": "Autor",
@@ -621,6 +634,7 @@
     "textChangePassword": "Schimbare parola",
     "textChooseEncoding": "Alegeți codificare",
     "textChooseTxtOptions": "Selectează opțiunile TXT",
+    "textClearAllFields": "Goleşte toate câmpurile",
     "textCollaboration": "Colaborare",
     "textColorSchemes": "Scheme de culori",
     "textComment": "Comentariu",
@@ -628,6 +642,8 @@
     "textCommentsDisplay": "Afișare comentarii",
     "textCreated": "A fost creat la",
     "textCustomSize": "Dimensiunea particularizată",
+    "textDark": "Întunecat",
+    "textDarkTheme": "Tema întunecată",
     "textDialogUnprotect": "Introduceți parola pentru anularea protecției documentului",
     "textDirection": "Orientare",
     "textDisableAll": "Se dezactivează toate",
@@ -695,6 +711,7 @@
     "textProtection": "Protejare",
     "textProtectTurnOff": "Oprire protecție",
     "textReaderMode": "Mod citire",
+    "textRemoveFromFavorites": "Eliminare din Preferințe",
     "textReplace": "Înlocuire",
     "textReplaceAll": "Înlocuire peste tot",
     "textRequired": "Obligatoriu",
@@ -751,7 +768,14 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă"
+    "txtScheme9": "Forjă",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

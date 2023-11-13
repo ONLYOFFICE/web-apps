@@ -43,6 +43,12 @@
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
     },
+    "Themes": {
+      "dark": "Темная",
+      "light": "Светлая",
+      "system": "Системная",
+      "textTheme": "Тема"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
       "textAnonymous": "Аноним",
@@ -462,6 +468,7 @@
       "textColorSchemes": "Цветовые схемы",
       "textComment": "Комментарий",
       "textCreated": "Создана",
+      "textDark": "Темная",
       "textDarkTheme": "Темная тема",
       "textDisableAll": "Отключить все",
       "textDisableAllMacrosWithNotification": "Отключить все макросы с уведомлением",
@@ -481,6 +488,7 @@
       "textInch": "Дюйм",
       "textLastModified": "Последнее изменение",
       "textLastModifiedBy": "Автор последнего изменения",
+      "textLight": "Светлая",
       "textLoading": "Загрузка...",
       "textLocation": "Размещение",
       "textMacrosSettings": "Настройки макросов",
@@ -497,6 +505,7 @@
       "textReplaceAll": "Заменить все",
       "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
       "textRTL": "Справа налево",
+      "textSameAsSystem": "Системная",
       "textSearch": "Поиск",
       "textSettings": "Настройки",
       "textShowNotification": "Показывать уведомление",
@@ -504,6 +513,7 @@
       "textSpellcheck": "Проверка орфографии",
       "textSubject": "Тема",
       "textTel": "телефон:",
+      "textTheme": "Тема",
       "textTitle": "Название",
       "textUnitOfMeasurement": "Единица измерения",
       "textUploaded": "Загружена",

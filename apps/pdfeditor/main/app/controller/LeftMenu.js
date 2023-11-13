@@ -631,8 +631,7 @@ define([
         },
 
         menuFilesShowHide: function(state) {
-            if (this.api && state == 'hide')
-                this.api.asc_enableKeyEvents(true);
+            (state === 'hide') && Common.NotificationCenter.trigger('menu:hide');
         },
 
         onMenuChange: function (value) {

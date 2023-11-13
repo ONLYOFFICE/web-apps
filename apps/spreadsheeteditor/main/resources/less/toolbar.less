@@ -99,6 +99,10 @@
     &.has-open-menu {
         z-index: @zindex-navbar + 1;
     }
+    .ie &,
+    .winxp & {
+        overflow: visible;
+    }
 }
 
 #equation-container {

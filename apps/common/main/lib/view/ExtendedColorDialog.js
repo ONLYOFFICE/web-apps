@@ -48,16 +48,15 @@ define([
 
         initialize : function(options) {
             Common.UI.Window.prototype.initialize.call(this, {
-                cls: 'extended-color-dlg',
+                cls: 'extended-color-dlg modal-dlg',
                 tpl: this.tpl({
                     txtNew: this.textNew,
-                    txtCurrent: this.textCurrent,
-                    txtAdd: this.addButtonText,
-                    txtCancel: this.cancelButtonText
+                    txtCurrent: this.textCurrent
                 }),
                 header: false,
-                width: 340,
-                height: 272
+                buttons: [{value: '1', caption: this.addButtonText}, {value: '0', caption: this.cancelButtonText}],
+                primary: '1',
+                width: 340
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;
@@ -149,7 +148,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}];
+            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

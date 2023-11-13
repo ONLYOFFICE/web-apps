@@ -57,16 +57,15 @@ define([
                 automove: false
             }, options);
 
-            var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
-            if (!_options.header) header_footer -= 34;
             this.bordersOffset = 40;
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
-            _options.height += header_footer;
-            _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
             _options.cls += ' advanced-settings-dlg invisible-borders';
+            (!_options.buttons || _.size(_options.buttons)<1) && (_options.cls += ' no-footer');
+            _options.contentHeight = _options.height;
+            _options.height = 'auto';
 
             this.template = [
-                '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',
+                '<div id="id-plugin-container" class="box" style="height:' + _options.contentHeight + 'px;">',
                 '<div id="id-plugin-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<% if ((typeof buttons !== "undefined") && _.size(buttons) > 0) { %>',
@@ -84,12 +83,20 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
-            this.$window.find('> .body').css({height: 'auto', overflow: 'hidden'});
 
+            var bodyEl = this.$window.find('> .body');
+            bodyEl.css({height: 'auto', overflow: 'hidden'});
             this.boxEl = this.$window.find('.body > .box');
-            this._headerFooterHeight = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
-            if (!this.options.header) this._headerFooterHeight -= 34;
+
+            this._headerFooterHeight = this.options.header ? parseInt(this.$window.find('.header').css('height')) : 0;
+            if (this.options.buttons && _.size(this.options.buttons)>0)
+                this._headerFooterHeight += parseInt(this.$window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
+            if (Common.Utils.innerHeight()-this.bordersOffset*2 < this.options.contentHeight + this._headerFooterHeight) {
+                this.options.contentHeight = Common.Utils.innerHeight()-this.bordersOffset*2 - this._headerFooterHeight;
+                this.boxEl.css('height', this.options.contentHeight);
+            }
 
             this.$window.find('.header').prepend($('<div class="tools left hidden"></div>'));
 

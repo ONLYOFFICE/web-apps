@@ -45,19 +45,14 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
     DE.Views.MailMergeEmailDlg = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'MailMergeEmail',
-            contentWidth: 500,
-            height: 435
+            contentWidth: 500
         },
 
         initialize : function(options) {
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -73,6 +68,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrFrom
             });
 
@@ -83,6 +79,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrTo
             });
 
@@ -104,6 +101,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
                 editable: false,
+                takeFocusOnClose: true,
                 data: this._arrFormat
             });
             this.cmbFormat.setValue(Asc.c_oAscFileType.HTML);
@@ -136,6 +134,14 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
             this.mergedFileUrl = this.options.mergedFileUrl || '';
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.cmbFrom, this.cmbTo, this.inputSubject, this.cmbFormat, this.inputFileName, this.textareaMessage].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.cmbFrom;
         },
 
         _bindWindowEvents: function() {

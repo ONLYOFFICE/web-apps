@@ -290,7 +290,7 @@ define([
                 disabled = !!disabled;
                 this.disabled = disabled;
                 $(this.el).toggleClass('disabled', disabled);
-                if (this.rendered) {
+                if (this._input) {
                     disabled
                         ? this._input.attr('disabled', true)
                         : this._input.removeAttr('disabled');
@@ -802,7 +802,7 @@ define([
                 disabled = !!disabled;
                 this.disabled = disabled;
                 $(this.el).toggleClass('disabled', disabled);
-                if (this.rendered) {
+                if (this.cmpEl) {
                     var inputs = this.cmpEl.find('input').addBack().filter('input')
                     disabled
                         ? inputs.attr('disabled', true)

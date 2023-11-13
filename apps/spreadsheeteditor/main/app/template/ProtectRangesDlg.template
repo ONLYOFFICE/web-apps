@@ -19,7 +19,7 @@
                 </td>
             </tr>            
             <tr>
-                <td colspan=2 class="padding-small">
+                <td colspan=2>
                     <div id="protect-ranges-list" class="range-tableview" style="width:100%; height: 164px;"></div>
                 </td>
             </tr>

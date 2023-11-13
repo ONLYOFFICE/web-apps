@@ -140,7 +140,6 @@ define([
                 this.formulas.on({
                     'hide': function () {
                         me._cleanCell = undefined; // _cleanCell - clean cell when change formula in formatted table total row
-                        me.api.asc_enableKeyEvents(true);
                     }
                 });
             }

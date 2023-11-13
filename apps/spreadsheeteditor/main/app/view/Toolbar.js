@@ -1443,7 +1443,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div style="position: relative;"><div class="display-value"><%= scope.getDisplayValue(item) %></div>',
-                        '<div class="example-val"><%= item.exampleval ? item.exampleval : "" %></div>',
+                        '<div class="example-val"><%= item.exampleval ? Common.Utils.String.htmlEncode(item.exampleval) : "" %></div>',
                         '</div></a></li>',
                         '<% }); %>',
                         '<li class="divider">',

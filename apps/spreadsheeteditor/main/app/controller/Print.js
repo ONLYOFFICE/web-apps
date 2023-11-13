@@ -621,6 +621,8 @@ define([
                             me.setMargins(panel, props.asc_getPageMargins());
                         }
                     }
+                }).on('close', function() {
+                    panel.cmbPaperMargins.focus();
                 });
                 win.show();
                 win.setSettings(props);
@@ -782,9 +784,6 @@ define([
                     panel.dataRangeTop = value;
                 else
                     panel.dataRangeLeft = value;
-                _.delay(function(){
-                    txtRange.focus();
-                },1);
             }
         },
 

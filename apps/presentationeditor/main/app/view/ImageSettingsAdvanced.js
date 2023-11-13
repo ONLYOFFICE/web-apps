@@ -48,7 +48,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         options: {
             alias: 'ImageSettingsAdvanced',
             contentWidth: 340,
-            height: 342,
+            contentHeight: 257,
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
             storageName: 'pe-img-settings-adv-category'
@@ -265,7 +265,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
                 this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
                 this.inputAltTitle, this.textareaAltDescription  // 3 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

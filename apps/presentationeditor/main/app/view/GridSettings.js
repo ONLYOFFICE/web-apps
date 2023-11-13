@@ -59,14 +59,13 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 55px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label class="text">' + this.textSpacing + '</label>',
                     '</div>',
-                    '<div id="grid-spacing-combo" class="input-group-nr"></div>',
-                    '<div id="grid-spacing-spin" class="margin-left-10"></div>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                    '<div id="grid-spacing-combo" class="input-group-nr" style="margin-bottom:10px;"></div>',
+                    '<div id="grid-spacing-spin" class="margin-left-10" style="margin-bottom:10px;"></div>',
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -132,7 +131,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGridSpacing, this.spnSpacing ];
+            return [ this.cmbGridSpacing, this.spnSpacing ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

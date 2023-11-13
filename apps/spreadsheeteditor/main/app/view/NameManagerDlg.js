@@ -52,8 +52,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         options: {
             alias: 'NameManagerDlg',
             contentWidth: 540,
-            height: 330,
-            buttons: null,
+            buttons: ['close'],
+            separator: false,
             id: 'window-name-manager'
         },
 
@@ -61,14 +61,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -168,7 +162,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList];
+            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

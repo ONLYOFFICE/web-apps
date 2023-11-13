@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Ընթացիկ ֆայլը կպահվի տարբերակների պատմության մեջ:",
       "titleWarningRestoreVersion": "Վերականգնե՞լ այս տարբերակը:",
       "txtErrorLoadHistory": "Պատմության բեռնումը խափանվեց"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Տեսակ",
     "textWe": "Չրք",
     "textWrap": "Ծալում",
-    "textWrappingStyle": "Ծալման ոճ"
+    "textWrappingStyle": "Ծալման ոճ",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
+    "textSave": "Save",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",
@@ -628,6 +640,7 @@
     "textCommentsDisplay": "Մեկնաբանությունների ցուցադրում",
     "textCreated": "Ստեղծված",
     "textCustomSize": "Հարմարեցված չափ",
+    "textDarkTheme": "Մուգ ոճ",
     "textDialogUnprotect": "Փաստաթուղթը չպաշտպանելու համար մուտքագրեք գաղտնաբառ։",
     "textDirection": "Ուղղություն",
     "textDisableAll": "Անջատել բոլորը",
@@ -751,7 +764,18 @@
     "txtScheme6": "Համագումար ",
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
-    "txtScheme9": "Հրատարակիչ"
+    "txtScheme9": "Հրատարակիչ",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",

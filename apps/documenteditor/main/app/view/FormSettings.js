@@ -391,6 +391,24 @@ define([
             me.cmbGroupKey.on('show:before', showGrouptip);
             me.cmbGroupKey.on('combo:focusin', showGrouptip);
 
+            me.txtChoice = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-choice'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtChoice);
+            this.txtChoice.on('changed:after', this.onChoiceChanged.bind(this));
+            this.txtChoice.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtChoice.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtChoice._input && me.txtChoice._input.select();}, 1);
+            });
+
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
@@ -737,8 +755,8 @@ define([
                 setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
             });
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -1019,6 +1037,19 @@ define([
             } else {
                 this.cmbGroupKey.setValue(this._state.groupKey ? this._state.groupKey : '');
                 this.fireEvent('editcomplete', this);
+            }
+        },
+
+        onChoiceChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this._state.choice = undefined;
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
+                specProps.put_ChoiceName(newValue);
+                props.put_CheckBoxPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
             }
         },
 
@@ -1315,7 +1346,7 @@ define([
                             });
                             (arr.length>0) && arr.unshift({value: '', displayValue: this.textNone});
                             this.cmbDefValue.setData(arr);
-                            this.cmbDefValue.setDisabled(arr.length<1);
+                            this.cmbDefValue.setDisabled(arr.length<1 || this._state.DisabledControls);
                             this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId) || '');
                         } else {
                             val = this.api.asc_GetFormValue(this.internalId);
@@ -1399,6 +1430,12 @@ define([
                                 this.cmbGroupKey.setValue(val ? val : '');
                                 this._state.groupKey=val;
                             }
+
+                            val = specProps.get_ChoiceName();
+                            if (this._state.choice !== val) {
+                                this.txtChoice.setValue(val ? val : '');
+                                this._state.choice = val;
+                            }
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
@@ -1417,7 +1454,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
-                        this.chFixed.setDisabled(!val && isShape); // disable fixed size for forms in shape
+                        this.chFixed.setDisabled(!val && isShape || this._state.DisabledControls); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();
@@ -2002,7 +2039,8 @@ define([
         textLang: 'Language',
         textDefValue: 'Default value',
         textCheckDefault: 'Checkbox is checked by default',
-        textRadioDefault: 'Button is checked by default'
+        textRadioDefault: 'Button is checked by default',
+        textRadioChoice: 'Radio button choice'
 
     }, DE.Views.FormSettings || {}));
 });

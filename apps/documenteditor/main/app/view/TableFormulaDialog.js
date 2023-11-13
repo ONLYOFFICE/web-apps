@@ -56,7 +56,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 150px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label>' + this.textFormula + '</label>',
                     '</div>',
@@ -65,7 +65,7 @@ define([
                         '<label>' + this.textFormat + '</label>',
                     '</div>',
                     '<div id="id-dlg-formula-format" class="input-row" style="margin-bottom: 20px;"></div>',
-                    '<div class="input-row">',
+                    '<div class="input-row" style="margin-bottom: 10px;">',
                         '<div id="id-dlg-formula-function" style="display: inline-block; width: 50%;" class="float-left padding-right-10"></div>',
                         '<div id="id-dlg-formula-bookmark" style="display: inline-block; width: 50%;"></div>',
                     '</div>',
@@ -156,16 +156,16 @@ define([
             }, this));
             this.cmbBookmark.setValue(this.textBookmark);
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark];
+            return [this.inputFormula, this.cmbFormat, this.cmbFunction, this.cmbBookmark].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

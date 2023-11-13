@@ -652,7 +652,7 @@ define([
                         me.api.asc_pivotShowDetailsHeader(value.index, isAll) ;
                     }
                 },
-                items: fieldsNames,
+                fieldsNames: fieldsNames,
             }).show();
         },
         

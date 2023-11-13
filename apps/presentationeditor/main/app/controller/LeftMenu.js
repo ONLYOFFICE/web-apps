@@ -82,7 +82,8 @@ define([
                     'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
                 },
                 'FileMenu': {
-                    'filemenu:hide': _.bind(this.menuFilesHide, this),
+                    'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
+                    'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
                     'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
@@ -501,8 +502,8 @@ define([
             }
         },
 
-        menuFilesHide: function(obj) {
-            // $(this.leftMenu.btnFile.el).blur();
+        menuFilesShowHide: function(state) {
+            (state === 'hide') && Common.NotificationCenter.trigger('menu:hide');
         },
 
         /** coauthoring begin **/

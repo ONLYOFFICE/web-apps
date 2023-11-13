@@ -93,6 +93,14 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.spnStart].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnStart;
+        },
+
         afterRender: function() {
             this._setDefaults(this.props);
         },
@@ -126,131 +134,56 @@ define([
         },
 
         onFormatSelect: function(format) {
-            var maskExp = /[0-9]/;
-            var me = this;
+            var maskExp = /[0-9]/,
+                me = this,
+                toCustomFormat = function(value) {
+                    return value!=='' ? AscCommon.IntToNumberFormat(parseInt(value), me.props.format) : value;
+                },
+                convertValue = function (value) { return value; },
+                minValue = 1;
+
             switch (format) {
                 case Asc.c_oAscNumberingFormat.UpperRoman: // I, II, III, ...
-                    this.spnStart.options.toCustomFormat = this._10toRome;
-                    this.spnStart.options.fromCustomFormat = this._Rometo10;
-                    maskExp = /[IVXLCDM]/;
-                    break;
                 case Asc.c_oAscNumberingFormat.LowerRoman: // i, ii, iii, ...
-                    this.spnStart.options.toCustomFormat = function(value) { return me._10toRome(value).toLocaleLowerCase(); };
-                    this.spnStart.options.fromCustomFormat = function(value) { return me._Rometo10(value.toLocaleUpperCase()); };
-                    maskExp = /[ivxlcdm]/;
+                    convertValue = function (value) {
+                        return /\D/.test(value) ? AscCommon.RomanToInt(value) : parseInt(value);
+                    };
+                    maskExp = /[IVXLCDMivxlcdm0-9]/;
                     break;
                 case Asc.c_oAscNumberingFormat.UpperLetter: // A, B, C, ...
-                    this.spnStart.options.toCustomFormat = this._10toS;
-                    this.spnStart.options.fromCustomFormat = this._Sto10;
-                    maskExp = /[A-Z]/;
-                    break;
                 case Asc.c_oAscNumberingFormat.LowerLetter: // a, b, c, ...
-                    this.spnStart.options.toCustomFormat = function(value) { return me._10toS(value).toLocaleLowerCase(); };
-                    this.spnStart.options.fromCustomFormat = function(value) { return me._Sto10(value.toLocaleUpperCase()); };
-                    maskExp = /[a-z]/;
+                    convertValue = function (value) {
+                        return /\D/.test(value) ? AscCommon.LatinNumberingToInt(value) : parseInt(value);
+                    };
+                    maskExp = /[A-Za-z0-9]/;
+                    break;
+                case Asc.c_oAscNumberingFormat.RussianLower: // а, б, в, ...
+                case Asc.c_oAscNumberingFormat.RussianUpper: // А, Б, В, ...
+                    convertValue = function (value) {
+                        return /\D/.test(value) ? AscCommon.RussianNumberingToInt(value) : parseInt(value);
+                    };
+                    maskExp = /[А-Яа-я0-9]/;
                     break;
                 default: // 1, 2, 3, ...
-                    this.spnStart.options.toCustomFormat = function(value) { return value; };
-                    this.spnStart.options.fromCustomFormat = function(value) { return value; };
+                    toCustomFormat = function(value) { return value; };
+                    minValue = AscCommon.IntToNumberFormat(0, this.props.format)!=='' ? 0 : 1;
                     break;
             }
 
             this.spnStart.setMask(maskExp);
-            this.spnStart.setValue(this.spnStart.getValue());
-        },
-
-        _10toS: function(value) {
-            value = parseInt(value);
-            var n = Math.ceil(value / 26),
-                code = String.fromCharCode((value-1) % 26 + "A".charCodeAt(0)) ,
-                result = '';
-
-            for (var i=0; i<n; i++ ) {
-                result += code;
-            }
-            return result;
-        },
-
-        _Sto10: function(str) {
-            if ( str.length<1 || (new RegExp('[^' + str.charAt(0) + ']')).test(str) || !/[A-Z]/.test(str)) return 1;
-
-            var n = str.length-1,
-                result = str.charCodeAt(0) - "A".charCodeAt(0) + 1;
-            result += 26*n;
-
-            return result;
-        },
-
-        _10toRome: function(value) {
-            value = parseInt(value);
-            var result = '',
-                digits = [
-                    ['M',  1000],
-                    ['CM', 900],
-                    ['D',  500],
-                    ['CD', 400],
-                    ['C',  100],
-                    ['XC', 90],
-                    ['L',  50],
-                    ['XL', 40],
-                    ['X',  10],
-                    ['IX', 9],
-                    ['V',  5],
-                    ['IV', 4],
-                    ['I',  1]
-                ];
-
-            var val = digits[0][1],
-                div = Math.floor(value / val),
-                n = 0;
-
-            for (var i=0; i<div; i++)
-                result += digits[n][0];
-            value -= div * val;
-            n++;
-
-            while (value>0) {
-                val = digits[n][1];
-                div = value - val;
-                if (div>=0) {
-                    result += digits[n][0];
-                    value = div;
-                } else
-                    n++;
-            }
-
-            return result;
-        },
-
-        _Rometo10: function(str) {
-            if ( !/[IVXLCDM]/.test(str) || str.length<1 ) return 1;
-
-            var digits = {
-                'I': 1,
-                'V': 5,
-                'X': 10,
-                'L': 50,
-                'C': 100,
-                'D': 500,
-                'M': 1000
+            this.spnStart.options.toCustomFormat = toCustomFormat;
+            this.spnStart.options.fromCustomFormat = function(value) {
+                var res = convertValue(value);
+                return isNaN(res) ? '1' : res.toString();
             };
-
-            var n = str.length-1,
-                result = digits[str.charAt(n)],
-                prev = result;
-
-            for (var i=n-1; i>=0; i-- ) {
-                var val = digits[str.charAt(i)];
-                if (val<prev) {
-                    if (prev/val>10) return 1;
-                    val *= -1;
+            this.spnStart.on('changing', function(cmp, newValue) {
+                var res = convertValue(newValue);
+                if (isNaN(res)) {
+                    cmp.setValue(1);
                 }
-
-                result += val;
-                prev = Math.abs(val);
-            }
-
-            return result;
+            });
+            this.spnStart.setMinValue(minValue);
+            this.spnStart.setValue(this.spnStart.getValue());
         }
 
     }, DE.Views.NumberingValueDialog || {}))

@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Le fichier actuel est enregistré dans l'historique des versions.",
       "titleWarningRestoreVersion": "Restaurer cette version?",
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -409,7 +415,7 @@
       "textChart": "Graphique",
       "textComment": "Commentaire",
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDone": "Terminé",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
@@ -507,7 +513,7 @@
       "textDesign": "Stylique",
       "textDiagonalDownBorder": "Bordure diagonale bas",
       "textDiagonalUpBorder": "Bordure diagonale haut",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDisplayUnits": "Unités d'affichage",
       "textDollar": "Dollar",
       "textDone": "Terminé",
@@ -542,8 +548,8 @@
       "textImage": "Image",
       "textImageURL": "URL d'image",
       "textIn": "Dans",
-      "textInnerBottom": "En bas à l'intérieur",
-      "textInnerTop": "En haut à l'intérieur",
+      "textInnerBottom": "À l'intérieur en bas",
+      "textInnerTop": "À l'intérieur en haut",
       "textInsideBorders": "Bordures intérieures",
       "textInsideHorizontalBorder": "Bordure intérieure horizontale",
       "textInsideVerticalBorder": "Bordure intérieure verticale",
@@ -583,7 +589,7 @@
       "textOnTickMarks": "Graduations",
       "textOpacity": "Opacité",
       "textOut": "À l'extérieur",
-      "textOuterTop": "En haut à l'extérieur",
+      "textOuterTop": "À l'extérieur en haut",
       "textOutsideBorders": "Bordures extérieures",
       "textOverlay": "Superposition",
       "textPercentage": "Pourcentage",
@@ -811,7 +817,11 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

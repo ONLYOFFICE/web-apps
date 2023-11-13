@@ -57,6 +57,7 @@ define([
                 disabled    : false,
                 menuCls     : '',
                 menuStyle   : '',
+                restoreHeight: 0,
                 takeFocusOnClose: false,
                 dataHint: '',
                 dataHintDirection: '',
@@ -82,9 +83,11 @@ define([
                 this.menuCls        = me.options.menuCls;
                 this.menuStyle      = me.options.menuStyle;
                 this.dataViewStyle  = me.options.dataViewStyle;
+                this.dataViewCls    = me.options.dataViewCls;
                 this.template       = me.options.template || me.template;
                 this.itemTemplate   = me.options.itemTemplate;
                 this.disabled       = me.options.disabled;
+                this.groups         = me.options.groups         || null;
                 this.store          = me.options.store || new Common.UI.DataViewStore();
                 this.updateFormControl = me.options.updateFormControl;
                 this.options.data && me.store.add(this.options.data);
@@ -149,7 +152,7 @@ define([
                             style: options.menuStyle,
                             additionalAlign: options.additionalAlign,
                             items: (options.additionalItems ? options.additionalItems : []).concat([
-                                { template: _.template('<div id="' + id + '-data-menu" style="' + options.dataViewStyle + '"></div>') }
+                                { template: _.template('<div id="' + id + '-data-menu" style="' + options.dataViewStyle + '" class="' + options.dataViewCls + '"></div>') }
                             ])
                         })).render(el);
 
@@ -157,8 +160,10 @@ define([
                         el: el.find('#' + id + '-data-menu'),
                         parentMenu: menu,
                         outerMenu: {menu: menu, index: options.additionalItems ? options.additionalItems.length : 0, focusOnShow: !options.additionalItems},
+                        groups: options.groups,
                         store: options.store,
-                        itemTemplate: options.itemTemplate
+                        itemTemplate: options.itemTemplate,
+                        restoreHeight: options.restoreHeight,
                     });
                     this.dataPicker.on('item:click', _.bind(this.onClickItem, this));
                     menu.setInnerMenu([{menu: this.dataPicker, index: options.additionalItems ? options.additionalItems.length : 0}]);

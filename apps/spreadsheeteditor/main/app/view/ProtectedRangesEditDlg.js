@@ -176,7 +176,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputRangeName, this.txtDataRange, this.cmbUser, this.listUser];
+            return [this.inputRangeName, this.txtDataRange, this.cmbUser, this.listUser].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -309,6 +309,7 @@ define([
         },
 
         onUserChanging: function(combo, newValue) {
+            if (Common.Utils.isIE && newValue==='' && this._userStr === newValue) return;
             this._userStr = newValue;
             this.onUserMenu();
         },

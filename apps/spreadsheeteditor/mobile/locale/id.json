@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "File saat ini akan disimpan dalam riwayat versi.",
       "titleWarningRestoreVersion": "Pulihkan versi ini?",
       "txtErrorLoadHistory": "Gagal memuat riwayat"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -811,7 +817,11 @@
       "txtUk": "Ukraina",
       "txtVi": "Vietnam",
       "txtZh": "China",
-      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
+      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

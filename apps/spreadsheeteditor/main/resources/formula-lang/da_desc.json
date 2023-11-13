@@ -1896,7 +1896,7 @@
 		"d": "Returnerer en sekvens af tal"
 	},
 	"EXPAND": {
-		"a": "(matrix, rækker, [kolonner], [pad_with])",
+		"a": "(matrix, rækker, [kolonner], [udfyld_med])",
 		"d": "Udvider en matrix til de angivne dimensioner."
 	},
 	"XMATCH": {

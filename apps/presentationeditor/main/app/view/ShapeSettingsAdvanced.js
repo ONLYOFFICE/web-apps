@@ -49,7 +49,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
     PE.Views.ShapeSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'shape-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
@@ -566,7 +566,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 this.radioNofit, this.radioShrink, this.radioFit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 4 tab
                 this.spnColumns, this.spnSpacing, // 5 tab
                 this.inputAltTitle, this.textareaAltDescription  // 6 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

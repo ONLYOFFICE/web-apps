@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
       "titleWarningRestoreVersion": "Restaurar esta versão?",
       "txtErrorLoadHistory": "Histórico de carregamento falhou"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

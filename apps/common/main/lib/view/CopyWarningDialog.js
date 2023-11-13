@@ -48,7 +48,6 @@ define([
     Common.Views.CopyWarningDialog = Common.UI.Window.extend(_.extend({
         options: {
             width   : 500,
-            height  : 325,
             cls     : 'modal-dlg copy-warning',
             buttons: ['ok']
         },
@@ -76,7 +75,7 @@ define([
                             '<p class="message">' + this.textToPaste + '</p>',
                         '</div>',
                     '</div>',
-                    '<div id="copy-warning-checkbox" class="text-align-left" style="margin-top: 20px;"></div>',
+                    '<div id="copy-warning-checkbox" class="text-align-left" style="padding: 15px 0;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>'
             ].join('');
@@ -95,17 +94,14 @@ define([
             });
 
             this.getChild().find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
-            this.autoSize();
         },
 
-        autoSize: function() {
-            var text_cnt    = this.getChild('.box'),
-                footer      = this.getChild('.footer'),
-                header      = this.getChild('.header'),
-                body        = this.getChild('.body');
+        getFocusedComponents: function() {
+            return [this.chDontShow].concat(this.getFooterButtons());
+        },
 
-            body.height(parseInt(text_cnt.height()) + parseInt(footer.css('height')));
-            this.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
+        getDefaultFocusableComponent: function () {
+            return this.chDontShow;
         },
 
         onBtnClick: function(event) {

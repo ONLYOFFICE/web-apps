@@ -26,6 +26,7 @@
       "textColorSchemes": "Color Schemes",
       "textComment": "Comment",
       "textCreated": "Created",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDisableAll": "Disable All",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
@@ -45,6 +46,7 @@
       "textInch": "Inch",
       "textLastModified": "Last Modified",
       "textLastModifiedBy": "Last Modified By",
+      "textLight": "Light",
       "textLoading": "Loading...",
       "textLocation": "Location",
       "textMacrosSettings": "Macros Settings",
@@ -61,6 +63,7 @@
       "textReplaceAll": "Replace All",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textSameAsSystem": "Same As System",
       "textSearch": "Search",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",
@@ -68,6 +71,7 @@
       "textSpellcheck": "Spell Checking",
       "textSubject": "Subject",
       "textTel": "tel:",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
@@ -332,6 +336,12 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",

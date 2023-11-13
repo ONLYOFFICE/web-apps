@@ -50,7 +50,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 485,
+            contentHeight: 400,
             toggleGroup: 'image-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
@@ -1129,7 +1129,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 5 tab
                 this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 6 tab
                 this.inputAltTitle, this.textareaAltDescription  // 7 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

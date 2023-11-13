@@ -15,7 +15,7 @@ export class storeAppOptions {
             canBranding: observable,
 
             isDocReady: observable,
-            changeDocReady: action
+            changeDocReady: action,
         });
     }
 

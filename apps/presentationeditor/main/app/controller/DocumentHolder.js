@@ -889,7 +889,7 @@ define([
             }
 
             if (moveData) {
-                var showPoint, ToolTip,
+                var showPoint, ToolTip = '',
                     type = moveData.get_Type();
 
                 if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {

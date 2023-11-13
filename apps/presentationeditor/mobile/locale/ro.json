@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Fișierul curent va fi salvat în istoricul versiunilor",
       "titleWarningRestoreVersion": "Doriți să restaurați această versiune?",
       "txtErrorLoadHistory": "Încărcarea istoricului a eșuat"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Concurență",
       "txtScheme7": "Echilibru",
       "txtScheme8": "Flux",
-      "txtScheme9": "Forjă"
+      "txtScheme9": "Forjă",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -810,8 +816,12 @@
       "txtVi": "Vyetnamlı",
       "txtZh": "Çinli",
       "warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizdən əminsiniz?",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textLight": "Light",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

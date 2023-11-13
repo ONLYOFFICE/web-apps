@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Le fichier actuel sera sauvegardé dans l'historique des versions.",
       "titleWarningRestoreVersion": "Restaurer cette version?",
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -253,7 +259,7 @@
       "textColumns": "Colonnes",
       "textComment": "Commentaire",
       "textDefault": "Texte sélectionné",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDone": "Terminé",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
@@ -335,7 +341,7 @@
       "textDeleteLink": "Supprimer le lien",
       "textDeleteSlide": "Supprimer la diapositive",
       "textDesign": "Design",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDistanceFromText": "Distance du texte",
       "textDistributeHorizontally": "Distribuer horizontalement",
       "textDistributeVertically": "Distribuer verticalement",
@@ -530,7 +536,11 @@
       "txtScheme6": "Rotonde",
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
-      "txtScheme9": "Fonderie"
+      "txtScheme9": "Fonderie",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

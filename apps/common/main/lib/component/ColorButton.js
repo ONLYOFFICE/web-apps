@@ -131,16 +131,11 @@ define([
                 });
                 this.initInnerMenu();
                 var me = this;
-                menu.on('keydown:before', _.bind(this.onBeforeKeyDown, this));
                 menu.on('show:after', function(menu) {
                     me.colorPicker && _.delay(function() {
                         me.colorPicker.showLastSelected();
                         !(options.additionalItems || options.auto) && me.colorPicker.focus();
                     }, 10);
-                }).on('hide:after', function() {
-                    if (me.options.takeFocusOnClose) {
-                        setTimeout(function(){me.focus();}, 1);
-                    }
                 });
                 return menu;
             }
@@ -219,13 +214,6 @@ define([
             this.colorPicker.setCustomColor('#' + color);
             this.onColorSelect(this.colorPicker, color);
             this.trigger('eyedropper:end', this);
-        },
-
-        onBeforeKeyDown: function(menu, e) {
-            if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
-                $('button', this.cmpEl).click();
-                return false;
-            }
         },
 
         isMenuOpen: function() {

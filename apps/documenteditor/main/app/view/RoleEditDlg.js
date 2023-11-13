@@ -118,7 +118,6 @@ define([
                 themecolors: 0,
                 effects: 0,
                 colorHints: false,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -189,7 +188,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.btnColor, this.inputName];
+            return [this.btnColor, this.inputName].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

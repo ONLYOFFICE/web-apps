@@ -49,8 +49,8 @@ define([
     SSE.Views.PivotShowDetailDialog =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'PivotShowDetailDialog',
-            contentWidth: 300,
-            height: 282
+            separator: false,
+            contentWidth: 300
         },
 
         initialize: function (options) {
@@ -58,26 +58,24 @@ define([
 
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
-                                        '<td class="padding-small">',
+                                        '<td>',
                                             '<label class="input-label">', me.textDescription,'</label>',
                                             '<div id="pivot-show-detail-list" class="range-tableview" style="width:100%; height: 165px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
-            this.items      = options.items || [];
+            this.fieldsNames = options.fieldsNames || [];
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -95,7 +93,8 @@ define([
                             '<div class="padding-right-5" style="width:186px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '</div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.rangeList.on('item:dblclick', _.bind(this.onDblClickFunction, this));
             this.rangeList.on('entervalue', _.bind(this.onPrimary, this));
@@ -103,14 +102,22 @@ define([
             this.afterRender();
         },
 
+        getFocusedComponents: function() {
+            return [this.rangeList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.rangeList;
+        },
+
         afterRender: function() {
             this._setDefaults();
         },
 
         _setDefaults: function () {
-            if(this.items) {
+            if(this.fieldsNames) {
                 var me = this;
-                this.rangeList.store.reset(this.items);
+                this.rangeList.store.reset(this.fieldsNames);
                 if (this.rangeList.store.length>0)
                     this.rangeList.selectByIndex(0);
                 this.rangeList.scroller.update({alwaysVisibleY: true});

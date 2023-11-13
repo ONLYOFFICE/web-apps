@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
       "titleWarningRestoreVersion": "Restaurar esta versão?",
       "txtErrorLoadHistory": "Histórico de carregamento falhou"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,13 @@
     "textType": "Tipo",
     "textWe": "Qua",
     "textWrap": "Encapsulamento",
-    "textWrappingStyle": "Estilo da quebra"
+    "textWrappingStyle": "Estilo da quebra",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
+    "textSave": "Save",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Tempo limite de conversão excedido.",
@@ -628,6 +640,7 @@
     "textCommentsDisplay": "Mostrar comentários",
     "textCreated": "Criado",
     "textCustomSize": "Tamanho personalizado",
+    "textDarkTheme": "Tema Escuro",
     "textDialogUnprotect": "Digite uma senha para desproteger o documento",
     "textDirection": "Direção",
     "textDisableAll": "Desabilitar tudo",
@@ -751,7 +764,18 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição"
+    "txtScheme9": "Fundição",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",
