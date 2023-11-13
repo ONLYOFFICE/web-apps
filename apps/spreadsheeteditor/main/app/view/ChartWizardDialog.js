@@ -118,6 +118,9 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             }, options);
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
+            this.api = this.options.api;
+
+            this.allCharts = [];
             this._currentChartType = null;
             this._currentChartSpace = null;
             this._currentPreviews = [];
@@ -206,12 +209,15 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             if (index===0)
                 this._currentPreviews = this.options.props.recommended;
             else
-                this._currentPreviews = this.options.props.all;
+                this._currentPreviews = this.allCharts;
             this._currentTabSettings = this.options.items[index];
         },
 
         updatePreview: function() {
             var charts = this._currentPreviews[this._currentChartType];
+            if (charts===undefined && this._currentTabSettings.groupId!=='rec') {
+                charts = this._currentPreviews[this._currentChartType] = this.api.asc_getChartData(this._currentChartType);
+            }
             if (charts) {
                 this._currentTabSettings.listViewEl.toggleClass('hidden', charts.length<2);
                 this._currentTabSettings.divPreviewEl.toggleClass('hidden', charts.length!==1);

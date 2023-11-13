@@ -5169,7 +5169,7 @@ define([
 
             (new SSE.Views.ChartWizardDialog({
                 api: me.api,
-                props: {recommended: recommended, all: me.api.asc_getChartData()},
+                props: {recommended: recommended},
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.api && me.api.asc_addChartSpace(value);
