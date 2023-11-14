@@ -265,7 +265,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                     }
                 },
                 'item:add': function (dataView, itemView, record) {
-                    me._currentChartSpace.updateView(record.get('id'));
+                    record && record.get('data').updateView(record.get('id'));
                 }
             });
             Common.UI.FocusManager.insert(this, tab.listPreview, -1 * this.getFooterButtons().length);
