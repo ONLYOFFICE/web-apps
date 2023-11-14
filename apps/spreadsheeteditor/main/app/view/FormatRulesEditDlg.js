@@ -804,10 +804,14 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 menuStyle   : 'max-height: 220px;min-width: 100%;',
                 data        : arr
             }).on('selected', function(combo, record) {
+                combo.skipFocus = true;
                 me.fillIconsControls(record.value, record.data.values);
                 _.delay(function(){
-                    me.iconsControls[me.iconsControls.length-1].cmbOperator.focus();
+                    me.iconsControls[me.iconsProps.iconsLength-1].cmbOperator.focus();
                 },50);
+            }).on('hide:after', function(combo) {
+                !combo.skipFocus && setTimeout(function(){combo.focus();}, 1);
+                combo.skipFocus = false;
             });
             Common.UI.FocusManager.add(this, this.cmbIconsPresets);
             this.cmbIconsPresets.setValue(3);
@@ -1575,7 +1579,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             } else  if (category==9) {
                 focused = this.barControls[0].combo;
             } else  if (category==10) {
-                focused = this.iconsControls[this.iconsControls.length-1].cmbOperator;
+                focused = this.iconsControls[this.iconsProps.iconsLength-1].cmbOperator;
             }
 
             focused && _.delay(function(){

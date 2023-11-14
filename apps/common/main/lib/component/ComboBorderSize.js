@@ -460,6 +460,12 @@ define([
             '</div>'
         ].join('')),
 
+        render : function(parentEl) {
+            Common.UI.ComboBox.prototype.render.call(this, parentEl);
+            this._formControl  = this.cmpEl.find('.form-control');
+            return this;
+        },
+
         itemClicked: function (e) {
             var el = $(e.currentTarget).parent();
 
@@ -546,6 +552,10 @@ define([
                 wheelSpeed: 10,
                 alwaysVisibleY: this.scrollAlwaysVisible
             }, this.options.scroller));
+        },
+
+        focus: function() {
+            this._formControl && this._formControl.focus();
         }
 
     }, Common.UI.ComboBoxIcons || {}));
