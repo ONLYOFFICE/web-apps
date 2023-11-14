@@ -64,6 +64,7 @@ define([
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
     'spreadsheeteditor/main/app/view/CreateSparklineDialog',
+    'spreadsheeteditor/main/app/view/ChartTypeDialog',
     'spreadsheeteditor/main/app/view/ChartWizardDialog'
 ], function () { 'use strict';
 

@@ -266,6 +266,9 @@ define([
                 }
                 this.seriesList.on('item:add', _.bind(this.addControls, this));
                 this.seriesList.on('item:change', _.bind(this.addControls, this));
+                this.seriesList.on('item:select', _.bind(this.onSelectSeries, this));
+                this.seriesList.on('item:deselect', _.bind(this.onDeselectSeries, this));
+                this.seriesList.on('entervalue', _.bind(this.onPrimary, this));
                 this.ShowHideSettings(this.currentChartType);
                 if (this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLine || this.currentChartType==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                     this.currentChartType==Asc.c_oAscChartTypeSettings.comboAreaBar || this.currentChartType==Asc.c_oAscChartTypeSettings.comboCustom) {
@@ -376,8 +379,10 @@ define([
         },
 
         updateSeriesList: function(series, index) {
-            var arr = [];
-            var store = this.seriesList.store;
+            var me = this,
+                arr = [],
+                store = this.seriesList.store;
+            this.beforeSeriesReset(store);
             for (var i = 0, len = series.length; i < len; i++)
             {
                 var item = series[i],
@@ -394,6 +399,12 @@ define([
             }
             store.reset(arr);
             (arr.length>0) && (index!==undefined) && (index < arr.length) && this.seriesList.selectByIndex(index);
+            if (arr.length>0 && index!==undefined) {
+                (index < arr.length) && this.seriesList.selectByIndex(index);
+                setTimeout(function(){
+                    me.seriesList.focus();
+                }, 10);
+            }
         },
 
         addControls: function(listView, itemView, item) {
@@ -420,6 +431,36 @@ define([
             cmpEl.on('mousedown', '.combobox', function(){
                 me.seriesList.selectRecord(item);
             });
+            item.set('controls', {checkbox: check, combobox: combo}, {silent: true});
+        },
+
+        onDeselectSeries: function(listView, itemView, item) {
+            if (item && item.get('controls')) {
+                var controls = item.get('controls');
+                Common.UI.FocusManager.remove(this, controls.index, 2);
+                controls.index = undefined;
+            }
+        },
+
+        onSelectSeries: function(listView, itemView, item) {
+            if (item && item.get('controls')) {
+                var controls = item.get('controls'),
+                    res = Common.UI.FocusManager.insert(this, [controls.combobox, controls.checkbox], -1 * this.getFooterButtons().length);
+                (res!==undefined) && (controls.index = res);
+            }
+        },
+
+        beforeSeriesReset: function(store) {
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i);
+                if (item) {
+                    var controls = item.get('controls');
+                    if (controls && controls.index!==undefined) {
+                        Common.UI.FocusManager.remove(this, controls.index, 2);
+                        break;
+                    }
+                }
+            }
         },
 
         initSeriesType: function(id, index, item) {
