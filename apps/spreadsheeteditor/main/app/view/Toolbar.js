@@ -1251,7 +1251,7 @@ define([
                 me.btnInsertChartRecommend = new Common.UI.Button({
                     id          : 'tlbtn-insertchartrecommend',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-insertchart',
+                    iconCls     : 'toolbar__icon btn-recommended-chart',
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText, _set['Objects']],
                     caption     : me.capInsertChartRecommend,
                     dataHint    : '1',
