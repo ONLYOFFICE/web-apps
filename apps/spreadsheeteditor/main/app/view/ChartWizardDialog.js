@@ -164,7 +164,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 '<% }); %>',
             ].join('');
             _.extend(this.options, {
-                title: this.textTitle,
+                title: options.isEdit ? this.textTitleChange : this.textTitle,
                 items: groups,
                 contentTemplate: _.template(template)({
                     groups: groups,
@@ -535,9 +535,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         },
 
         textTitle: 'Insert Chart',
+        textTitleChange: 'Change Chart Type',
         textRecommended: 'Recommended',
         txtSeriesDesc: 'Choose the chart type and axis for your data series',
-        textType:   'Type',
+        textType: 'Type',
         textSeries: 'Series',
         textSecondary: 'Secondary Axis',
         errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.',

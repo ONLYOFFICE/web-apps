@@ -5167,9 +5167,11 @@ define([
                 return;
             }
 
+            var seltype = me.api.asc_getCellInfo().asc_getSelectionType();
             (new SSE.Views.ChartWizardDialog({
                 api: me.api,
                 props: {recommended: recommended},
+                isEdit: (seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.api && me.api.asc_addChartSpace(value);

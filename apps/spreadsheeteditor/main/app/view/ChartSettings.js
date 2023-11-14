@@ -1208,6 +1208,7 @@ define([
                     api: me.api,
                     props: {recommended: me.api.asc_getRecommendedChartData()},
                     type: me._state.ChartType,
+                    isEdit: true,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             me.api && me.api.asc_addChartSpace(value);
