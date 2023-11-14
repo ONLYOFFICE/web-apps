@@ -790,6 +790,8 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
+            if (data.isDefaultPrevented())
+                return;
 
             if(this.multiSelect) {
                 if (data.keyCode == Common.UI.Keys.CTRL) {
@@ -799,7 +801,7 @@ define([
                 }
             }
 
-                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
                 var rec =(this.multiSelect) ? this.extremeSeletedRec : this.getSelectedRec();
