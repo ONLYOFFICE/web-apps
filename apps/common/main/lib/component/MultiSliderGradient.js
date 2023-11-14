@@ -57,8 +57,10 @@ define([
             includeSnap: true,
             intervalSnap: 5,
             thumbTemplate: '<div class="thumb" style="">' +
-                            '<div class="thumb-top"><div class="thumb-top-inner"></div></div>' +
-                            '<div class="thumb-bottom"><div class="thumb-bottom-inner"></div></div>' +
+                                '<svg viewBox="-1 -1 15 17">' +
+                                    '<use xlink:href="#thumb-color-form" class ="thumb-over" fill="none" stroke="black" stroke-width="2"></use>' +
+                                    '<use xlink:href="#thumb-color-form" class ="thumb-inside"  stroke="white" stroke-width="3" clip-path="url(#thumb-color-clip)"></use>'+
+                                '</svg>' +
                             '</div>'
         },
 
@@ -88,7 +90,7 @@ define([
                 me.thumbs[i].thumb.on('dblclick', null, function() {
                     me.trigger('thumbdblclick', me);
                 });
-                me.thumbs[i].thumbcolor = me.thumbs[i].thumb.find('> div');
+                me.thumbs[i].thumbcolor = me.thumbs[i].thumb.find('> svg use.thumb-inside');
                 me.setColorValue(me.options.colorValues[i], i);
             }
 
@@ -100,7 +102,7 @@ define([
         setColorValue: function(color, index) {
             var ind = (index!==undefined) ? index : this.currentThumb;
             this.thumbs[ind].colorValue = color;
-            this.thumbs[ind].thumbcolor.css('background-color', color);
+            this.thumbs[ind].thumbcolor.css('fill', color);
             this.changeGradientStyle();
         },
 
@@ -192,7 +194,7 @@ define([
             me.thumbs[index].thumb.on('dblclick', null, function() {
                 me.trigger('thumbdblclick', me);
             });
-            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> div');
+            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> svg use.thumb-inside');
             (index>0) && this.setColorValue(this.getColorValue(index-1), index);
             me.changeSliderStyle();
         },
@@ -213,7 +215,7 @@ define([
                 var ratio = (pos - this.thumbs[indexLeftThumb].value) * 100 / (this.thumbs[indexLeftThumb + 1].value - this.thumbs[indexLeftThumb].value);
                 color = ratio < 0 ? this.thumbs[indexLeftThumb].colorValue : this.calculationNewColor(this.thumbs[indexLeftThumb].colorValue, this.thumbs[indexLeftThumb === index - 1 ? indexLeftThumb : indexLeftThumb + 1].colorValue, ratio);
             }
-            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> div');
+            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> svg use.thumb-inside');
             (index>0) && this.setColorValue('#' + color, index);
             me.sortThumbs();
             me.changeSliderStyle();
