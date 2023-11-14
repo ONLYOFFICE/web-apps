@@ -442,11 +442,14 @@ define([
             }
         },
 
-        onSelectSeries: function(listView, itemView, item) {
+        onSelectSeries: function(listView, itemView, item, fromKeyDown) {
             if (item && item.get('controls')) {
                 var controls = item.get('controls'),
                     res = Common.UI.FocusManager.insert(this, [controls.combobox, controls.checkbox], -1 * this.getFooterButtons().length);
                 (res!==undefined) && (controls.index = res);
+                fromKeyDown && setTimeout(function(){
+                    listView.focus();
+                }, 1);
             }
         },
 
