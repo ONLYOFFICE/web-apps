@@ -66,18 +66,6 @@ define([
 
         template: _.template(menuTemplate),
 
-        // Delegated events for creating new items, and clearing completed ones.
-        events: function() {
-            return {
-                'click #left-btn-support': function() {
-                    var config = this.mode.customization;
-                    config && !!config.feedback && !!config.feedback.url ?
-                        window.open(config.feedback.url) :
-                        window.open('{{SUPPORT_URL}}');
-                }
-            }
-        },
-
         initialize: function () {
             this.minimizedMode = true;
             this._state = {disabled: false};
@@ -119,6 +107,12 @@ define([
                 iconCls: 'btn-menu-support',
                 disabled: true
             });
+            this.btnSupport.on('click', _.bind(function() {
+                var config = this.mode.customization;
+                config && !!config.feedback && !!config.feedback.url ?
+                    window.open(config.feedback.url) :
+                    window.open('{{SUPPORT_URL}}');
+            }, this));
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
@@ -352,6 +346,7 @@ define([
             /** coauthoring end **/
             this.btnNavigation.setDisabled(false);
             this.btnThumbnails.setDisabled(false);
+            this.setDisabledAllMoreMenuItems(false);
         },
 
         showMenu: function(menu, opts, suspendAfter) {

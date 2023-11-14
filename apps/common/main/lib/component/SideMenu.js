@@ -63,6 +63,7 @@ define([
                     })
                 });
                 this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
+                this.btnMore.menu.on('show:before', _.bind(this.onShowBeforeMoreMenu, this));
 
                 $(window).on('resize', _.bind(this.setMoreButton, this));
             },
@@ -120,14 +121,20 @@ define([
                                         '<%= caption %>',
                                         '</a>'
                                     ].join('')),
-                                    value: index
+                                    value: index,
+                                    toggleGroup: 'sideMenuItems',
+                                    checkmark: false,
+                                    checkable: true
                                 })
                             } else {
                                 arrMore.push({
                                     caption: btn.hint,
                                     iconCls: btn.iconCls,
                                     value: index,
-                                    disabled: btn.isDisabled()
+                                    disabled: btn.isDisabled(),
+                                    toggleGroup: 'sideMenuItems',
+                                    checkmark: false,
+                                    checkable: true
                                 });
                             }
                             btn.cmpEl.hide();
@@ -152,15 +159,32 @@ define([
 
             onMenuMore: function (menu, item) {
                 var btn = this.buttons[item.value];
-                btn.toggle(!btn.pressed);
+                if (btn.cmpEl.prop('id') !== 'left-btn-support')
+                    btn.toggle(!btn.pressed);
                 btn.trigger('click', btn);
+            },
+
+            onShowBeforeMoreMenu: function (menu) {
+                menu.items.forEach(function (item) {
+                    item.setChecked(false, true);
+                });
+                var index;
+                this.buttons.forEach(function (btn, ind) {
+                    if (btn.pressed) {
+                        index = ind;
+                    }
+                });
+                var menuItem = _.findWhere(menu.items, {value: index});
+                if (menuItem) {
+                    menuItem.setChecked(true, true);
+                }
             },
 
             setDisabledMoreMenuItem: function (btn, disabled) {
                 if (this.btnMore && !btn.cmpEl.is(':visible')) {
                     var index =_.indexOf(this.buttons, btn),
                         item = _.findWhere(this.btnMore.menu.items, {value: index})
-                    item.setDisabled(disabled);
+                    item && item.setDisabled(disabled);
                 }
             },
 
