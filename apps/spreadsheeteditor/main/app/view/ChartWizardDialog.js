@@ -273,7 +273,8 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 },
                 'item:add': function (dataView, itemView, record) {
                     record && record.get('data').updateView(record.get('id'));
-                }
+                },
+                'entervalue': _.bind(this.onPrimary, this)
             });
             Common.UI.FocusManager.insert(this, tab.listPreview, -1 * this.getFooterButtons().length);
 
@@ -315,6 +316,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             this.seriesList.on('item:change', _.bind(this.addControls, this));
             this.seriesList.on('item:select', _.bind(this.onSelectSeries, this));
             this.seriesList.on('item:deselect', _.bind(this.onDeselectSeries, this));
+            this.seriesList.on('entervalue', _.bind(this.onPrimary, this));
             this.listViewComboEl = this.$window.find('#' + tab.panelId + ' .preview-combo');
             Common.UI.FocusManager.insert(this, this.seriesList, -1 * this.getFooterButtons().length);
         },
