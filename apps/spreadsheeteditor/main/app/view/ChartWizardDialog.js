@@ -76,6 +76,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 charts = [],
                 groups = [],
                 chartData = Common.define.chartData.getChartData();
+            this._currentTabIndex = undefined;
             this._arrSeriesGroups = [];
             this._arrSeriesType = [];
             if (options.props.recommended) {
@@ -93,7 +94,10 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             Common.define.chartData.getChartGroupData().forEach(function(group) {
                 var charts = [];
                 chartData.forEach(function(item){
-                    (group.id===item.group) && charts.push(item);
+                    if (group.id===item.group) {
+                        charts.push(item);
+                        (options.type===item.type) && (me._currentTabIndex = groups.length);
+                    }
                 });
                 groups.push({panelId: 'id-chart-recommended-' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts});
                 (group.id !== 'menu-chart-group-combo') && (group.id !== 'menu-chart-group-stock') && me._arrSeriesGroups.push(group);
@@ -196,15 +200,16 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 
             Common.Views.AdvancedSettingsWindow.prototype.onCategoryClick.call(this, btn, index);
 
-            var item = this.options.items[index];
+            var me = this,
+                item = this.options.items[index];
             !item.rendered && this.renderChartTab(item);
             this.fillPreviews(item);
 
             var buttons = item.chartButtons;
             if (buttons.length>0)  {
-                buttons[0].toggle(true);
+                buttons[me._openedButtonIndex].toggle(true);
                 setTimeout(function(){
-                    buttons[0].focus();
+                    buttons[me._openedButtonIndex].focus();
                 }, 10);
             }
         },
@@ -217,6 +222,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                                                     scope: me
                                                 })));
             // render controls
+            me._openedButtonIndex = 0;
             tab.chartButtons = [];
             tab.charts.forEach(function(chart, index){
                 var btn = new Common.UI.Button({
@@ -238,6 +244,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 });
                 tab.chartButtons.push(btn);
                 me.chartButtons.push(btn);
+                (chart.type===me.options.type) && (tab.groupId!=='rec') && (me._openedButtonIndex = index);
                 Common.UI.FocusManager.insert(me, btn, -1 * me.getFooterButtons().length);
             });
             tab.divErrorEl = $window.find('#' + tab.panelId + ' .chart-error');
@@ -496,7 +503,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
 
         afterRender: function() {
             this._setDefaults(this.options.props);
-            this.setActiveCategory(0);
+            this.setActiveCategory(this._currentTabIndex);
         },
 
         _setDefaults: function(props) {
