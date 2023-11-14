@@ -121,6 +121,14 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                                     '<label class="header" id="id-<%= group.groupId %>-lbl"></label>',
                                 '</td>',
                             '</tr>',
+                            '<tr class="chart-error">',
+                                '<td class="padding-very-small"></td>',
+                            '</tr>',
+                            '<tr class="chart-error">',
+                                '<td>',
+                                    '<label id="id-<%= group.groupId %>-lbl-error"></label>',
+                                '</td>',
+                            '</tr>',
                             '<tr class="preview-list">',
                                 '<td style="padding-bottom:12px;">',
                                 '<div id="id-<%= group.groupId %>-list-preview" style="width:100%; height: <% if (group.groupId === "menu-chart-group-combo") {%>163<% } else { %>258<% } %>px;"></div>',
@@ -128,7 +136,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                             '</tr>',
                             '<tr class="preview-one hidden">',
                                 '<td style="padding: ' + (Common.UI.isRTL() ? '3px 3px 12px 12px' : '3px 12px 12px 3px') + ';">',
-                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="<% if (group.groupId === "menu-chart-group-combo") {%>width:280px; height: 160px;<% } else { %>width:100%; height:258px;<% } %> background-repeat: no-repeat;"></div>',
+                                '<div id="id-<%= group.groupId %>-preview" class="preview-canvas-container" style="<% if (group.groupId === "menu-chart-group-combo") {%>width:280px; height: 160px;<% } else { %>width:100%; height:258px;<% } %>"></div>',
                                 '</td>',
                             '</tr>',
                             '<% if (group.groupId === "menu-chart-group-combo") {%>',
@@ -232,27 +240,32 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 me.chartButtons.push(btn);
                 Common.UI.FocusManager.insert(me, btn, -1 * me.getFooterButtons().length);
             });
-            tab.listViewEl = $window.find('#' + tab.panelId + ' .preview-list');
+            tab.divErrorEl = $window.find('#' + tab.panelId + ' .chart-error');
+            tab.lblError = $window.find('#id-' + tab.groupId + '-lbl-error');
             tab.divPreviewEl = $window.find('#' + tab.panelId + ' .preview-one');
-            tab.divPreview = $window.find('#id-' + tab.groupId + '-preview');
+            tab.divPreviewId = 'id-' + tab.groupId + '-preview';
+            tab.listViewEl = $window.find('#' + tab.panelId + ' .preview-list');
             tab.listPreview = new Common.UI.DataView({
                 el: $window.find('#id-' + tab.groupId + '-list-preview'),
                 cls: 'focus-inner',
                 scrollAlwaysVisible: true,
                 store: new Common.UI.DataViewStore(),
                 itemTemplate : _.template([
-                    '<div class="style" id="<%= id %>">',
-                    '<img src="<%= imageUrl %>" width="210" height="120" <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
-                    '</div>'
+                    '<div class="style" id="<%= id %>" style="width:210px; height:120px;"></div>'
                 ].join('')),
                 tabindex: 1
             });
-            tab.listPreview.on('item:select', function(dataView, itemView, record) {
-                if (record) {
-                    me._currentChartSpace = record.get('data');
-                    if (me._currentTabSettings.groupId==='menu-chart-group-combo') {
-                        me.updateSeriesList(me._currentChartSpace.asc_getSeries());
+            tab.listPreview.on({
+                'item:select': function (dataView, itemView, record) {
+                    if (record) {
+                        me._currentChartSpace = record.get('data');
+                        if (me._currentTabSettings.groupId === 'menu-chart-group-combo') {
+                            me.updateSeriesList(me._currentChartSpace.asc_getSeries());
+                        }
                     }
+                },
+                'item:add': function (dataView, itemView, record) {
+                    me._currentChartSpace.updateView(record.get('id'));
                 }
             });
             Common.UI.FocusManager.insert(this, tab.listPreview, -1 * this.getFooterButtons().length);
@@ -396,31 +409,49 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
             if (charts===undefined && this._currentTabSettings.groupId!=='rec') {
                 charts = this._currentPreviews[this._currentChartType] = this.api.asc_getChartData(this._currentChartType);
             }
+            this._currentTabSettings.divErrorEl.toggleClass('hidden', typeof charts !== 'number');
+            if (typeof charts === 'number') { // show error
+                var msg = '';
+                switch (charts) {
+                    case Asc.c_oAscError.ID.StockChartError:
+                        msg = this.errorStockChart;
+                        break;
+                    case Asc.c_oAscError.ID.MaxDataSeriesError:
+                        msg = this.errorMaxRows;
+                        break;
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        msg = this.errorComboSeries;
+                        break;
+                    case Asc.c_oAscError.ID.MaxDataPointsError:
+                        msg = this.errorMaxPoints;
+                        break;
+                }
+                this._currentTabSettings.lblError.text(msg);
+                charts = null;
+            }
+            this._currentTabSettings.listViewEl.toggleClass('hidden', !charts || charts.length<2);
+            this._currentTabSettings.divPreviewEl.toggleClass('hidden', !charts || charts.length!==1);
+            (this._currentTabSettings.groupId==='menu-chart-group-combo') && this.listViewComboEl.toggleClass('hidden', !charts || charts.length===0);
             if (charts) {
                 if (charts.length===1) {
                     this._currentChartSpace = charts[0];
-                    this._currentTabSettings.divPreview.css('background-image', 'url(' + this._currentChartSpace.asc_getPreview(this._currentPreviewSize[0], this._currentPreviewSize[1]) + ')');
+                    this._currentChartSpace.updateView(this._currentTabSettings.divPreviewId);
                 } else if (charts.length>1) {
                     var store = this._currentTabSettings.listPreview.store,
                         idx = (seriesIndex!==undefined) ? _.indexOf(store.models, this._currentTabSettings.listPreview.getSelectedRec()) : 0,
                         arr = [];
                     for (var i = 0; i < charts.length; i++) {
                         arr.push(new Common.UI.DataViewModel({
-                            imageUrl: charts[i].asc_getPreview(210, 120),
-                            data: charts[i]
+                            data: charts[i],
+                            skipRenderOnChange: true
                         }));
                     }
                     store.reset(arr);
                     this._currentChartSpace = charts[idx];
                     this._currentTabSettings.listPreview.selectByIndex(idx, true);
                 }
+                charts.length>0 && (this._currentTabSettings.groupId==='menu-chart-group-combo') && this.updateSeriesList(this._currentChartSpace.asc_getSeries(), seriesIndex);
             }
-            if (this._currentTabSettings.groupId==='menu-chart-group-combo') {
-                this.listViewComboEl.toggleClass('hidden', !charts || charts.length===0);
-                charts && charts.length>0 && this.updateSeriesList(this._currentChartSpace.asc_getSeries(), seriesIndex);
-            }
-            this._currentTabSettings.listViewEl.toggleClass('hidden', !charts || charts.length<2);
-            this._currentTabSettings.divPreviewEl.toggleClass('hidden', !charts || charts.length!==1);
             this.btnOk.setDisabled(!charts || charts.length===0);
         },
 
@@ -463,7 +494,11 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
         textType:   'Type',
         textSeries: 'Series',
         textSecondary: 'Secondary Axis',
-        errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.'
+        errorSecondaryAxis: 'The selected chart type requires the secondary axis that an existing chart is using. Select another chart type.',
+        errorComboSeries: 'To create a combination chart, select at least two series of data.',
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order: opening price, max price, min price, closing price.',
+        errorMaxRows: 'The maximum number of data series per chart is 255.',
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
 
     }, SSE.Views.ChartWizardDialog || {}));
 });
