@@ -162,7 +162,7 @@ define([
 
         onPrimary: function() {
             if ( this.handler && this.handler.call(this, 'ok', this.getSettings()) )
-                return;
+                return false;
 
             this.close();
             return false;

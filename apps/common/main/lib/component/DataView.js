@@ -793,6 +793,8 @@ define([
             if (data.isDefaultPrevented())
                 return;
 
+            if (!this.enableKeyEvents) return;
+
             if(this.multiSelect) {
                 if (data.keyCode == Common.UI.Keys.CTRL) {
                     this.pressedCtrl = true;
@@ -899,6 +901,8 @@ define([
         },
 
         onKeyUp: function(e){
+            if (!this.enableKeyEvents) return;
+
             if(e.keyCode == Common.UI.Keys.SHIFT)
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
