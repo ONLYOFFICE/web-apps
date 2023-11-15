@@ -5160,10 +5160,11 @@ define([
                     (new SSE.Views.FillSeriesDialog({
                         handler: function(result, settings) {
                             if (result == 'ok' && settings) {
+                                me.api.asc_ApplySeriesSettings(settings);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
-                        props: {}
+                        props: me.api.asc_GetSeriesSettings()
                     })).show();
                 } else {
                 }

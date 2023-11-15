@@ -75,7 +75,7 @@ define([
                             '</tr>',
                             '<tr>',
                                 '<td class="padding-small">',
-                                    '<div id="fill-radio-cols"></div>',
+                                    '<div id="fill-radio-rows"></div>',
                                 '</td>',
                                 '<td class="padding-small">',
                                     '<div id="fill-radio-linear"></div>',
@@ -86,7 +86,7 @@ define([
                             '</tr>',
                             '<tr>',
                                 '<td class="padding-small">',
-                                    '<div id="fill-radio-rows"></div>',
+                                    '<div id="fill-radio-cols"></div>',
                                 '</td>',
                                 '<td class="padding-small">',
                                     '<div id="fill-radio-growth"></div>',
@@ -152,7 +152,7 @@ define([
                 el: $window.find('#fill-radio-cols'),
                 name: 'asc-radio-series',
                 labelText: this.textCols,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscSeriesInType.columns
             });
             this.radioCols.on('change', _.bind(this.onRadioSeriesChange, this));
 
@@ -160,7 +160,7 @@ define([
                 el: $window.find('#fill-radio-rows'),
                 name: 'asc-radio-series',
                 labelText: this.textRows,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscSeriesInType.rows
             });
             this.radioRows.on('change', _.bind(this.onRadioSeriesChange, this));
 
@@ -168,7 +168,7 @@ define([
                 el: $window.find('#fill-radio-linear'),
                 name: 'asc-radio-type',
                 labelText: this.textLinear,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscSeriesType.linear
             });
             this.radioLinear.on('change', _.bind(this.onRadioTypeChange, this));
 
@@ -176,7 +176,7 @@ define([
                 el: $window.find('#fill-radio-growth'),
                 name: 'asc-radio-type',
                 labelText: this.textGrowth,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscSeriesType.growth
             });
             this.radioGrowth.on('change', _.bind(this.onRadioTypeChange, this));
 
@@ -184,7 +184,7 @@ define([
                 el: $window.find('#fill-radio-date'),
                 name: 'asc-radio-type',
                 labelText: this.textDate,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscSeriesType.date
             });
             this.radioDate.on('change', _.bind(this.onRadioTypeChange, this));
 
@@ -192,7 +192,7 @@ define([
                 el: $window.find('#fill-radio-autofill'),
                 name: 'asc-radio-type',
                 labelText: this.textAuto,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscSeriesType.autoFill
             });
             this.radioAuto.on('change', _.bind(this.onRadioTypeChange, this));
 
@@ -200,7 +200,7 @@ define([
                 el: $window.find('#fill-radio-day'),
                 name: 'asc-radio-date',
                 labelText: this.textDay,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscDateUnitType.day
             });
             this.radioDay.on('change', _.bind(this.onRadioDateChange, this));
 
@@ -208,7 +208,7 @@ define([
                 el: $window.find('#fill-radio-weekday'),
                 name: 'asc-radio-date',
                 labelText: this.textWeek,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscDateUnitType.weekday
             });
             this.radioWeek.on('change', _.bind(this.onRadioDateChange, this));
 
@@ -216,7 +216,7 @@ define([
                 el: $window.find('#fill-radio-month'),
                 name: 'asc-radio-date',
                 labelText: this.textMonth,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscDateUnitType.month
             });
             this.radioMonth.on('change', _.bind(this.onRadioDateChange, this));
 
@@ -224,7 +224,7 @@ define([
                 el: $window.find('#fill-radio-year'),
                 name: 'asc-radio-date',
                 labelText: this.textYear,
-                value: Asc.c_oSpecialPasteProps.paste
+                value: Asc.c_oAscDateUnitType.year
             });
             this.radioYear.on('change', _.bind(this.onRadioDateChange, this));
 
@@ -232,12 +232,15 @@ define([
                 el: $window.find('#fill-chb-trend'),
                 labelText: this.textTrend
             });
+            this.chTrend.on('change', _.bind(this.onChangeTrend, this));
 
             this.inputStep = new Common.UI.InputField({
                 el               : $window.find('#fill-input-step-value'),
                 style            : 'width: 85px;',
                 allowBlank       : true,
                 validateOnBlur   : false
+            }).on('changed:after', function() {
+                me.isStepChanged = true;
             });
 
             this.inputStop = new Common.UI.InputField({
@@ -245,18 +248,20 @@ define([
                 style            : 'width: 85px;',
                 allowBlank       : true,
                 validateOnBlur   : false
+            }).on('changed:after', function() {
+                me.isStopChanged = true;
             });
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [this.radioCols, this.radioRows, this.radioLinear, this.radioGrowth, this.radioDate, this.radioAuto,
+            return [this.radioRows, this.radioCols, this.radioLinear, this.radioGrowth, this.radioDate, this.radioAuto,
                 this.radioDay, this.radioWeek, this.radioMonth, this.radioYear, this.chTrend, this.inputStep, this.inputStop].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            return this.radioCols;
+            return this.radioRows;
         },
 
         afterRender: function() {
@@ -268,15 +273,39 @@ define([
         },
 
         _setDefaults: function (props) {
-            var me = this;
             if (props) {
-                this.radioCols.setValue(true, true);
-                this.radioLinear.setValue(true, true);
-                this.radioDay.setValue(true, true);
+                var value = props.asc_getSeriesIn();
+                this.radioCols.setValue(value===Asc.c_oAscSeriesInType.columns, true);
+                this.radioRows.setValue(value===Asc.c_oAscSeriesInType.rows, true);
+                value = props.asc_getType();
+                this.radioLinear.setValue(value===Asc.c_oAscSeriesType.linear, true);
+                this.radioGrowth.setValue(value===Asc.c_oAscSeriesType.growth, true);
+                this.radioDate.setValue(value===Asc.c_oAscSeriesType.date, true);
+                this.radioAuto.setValue(value===Asc.c_oAscSeriesType.autoFill, true);
+                value = props.asc_getDateUnit();
+                this.radioDay.setValue(value===Asc.c_oAscDateUnitType.day, true);
+                this.radioWeek.setValue(value===Asc.c_oAscDateUnitType.weekday, true);
+                this.radioMonth.setValue(value===Asc.c_oAscDateUnitType.month, true);
+                this.radioYear.setValue(value===Asc.c_oAscDateUnitType.year, true);
+                this.chTrend.setValue(!!props.asc_getTrend());
+                this.inputStep.setValue(props.asc_getStepValue());
+                this.inputStop.setValue(props.asc_getStopValue());
             }
+            this._changedProps = props || new Asc.asc_CSeriesSettings();
         },
 
         getSettings: function () {
+            if (this.isStepChanged) {
+                var value = this.inputStep.getValue();
+                (typeof value === 'string') && (value = value.replace(',','.'));
+                this._changedProps.asc_setStepValue(value!=='' ? parseFloat(value) : 1);
+            }
+            if (this.isStopChanged) {
+                var value = this.inputStop.getValue();
+                (typeof value === 'string') && (value = value.replace(',','.'));
+                this._changedProps.asc_setStopValue(value!=='' ? parseFloat(value) : 1);
+            }
+            return this._changedProps;
         },
 
         onDlgBtnClick: function(event) {
@@ -289,13 +318,40 @@ define([
         },
 
         _handleInput: function(state) {
-            this.handler && this.handler.call(this, state,  (state == 'ok') ? this.getSettings() : undefined);
+            if (this.handler) {
+                if (state === 'ok' && !this.isValid()) {
+                    return;
+                }
+                this.handler.call(this, state,  (state === 'ok') ? this.getSettings() : undefined);
+            }
             this.close();
+        },
+
+        isValid: function() {
+            if (this.isStepChanged) {
+                var value = this.inputStep.getValue();
+                (typeof value === 'string') && (value = value.replace(',','.'));
+                if (value!=='' && isNaN(parseFloat(value))) {
+                    this.inputStep.showError([this.txtErrorNumber]);
+                    this.inputStep.focus();
+                    return false;
+                }
+            }
+            if (this.isStopChanged) {
+                var value = this.inputStop.getValue();
+                (typeof value === 'string') && (value = value.replace(',','.'));
+                if (value!=='' && isNaN(parseFloat(value))) {
+                    this.inputStop.showError([this.txtErrorNumber]);
+                    this.inputStop.focus();
+                    return false;
+                }
+            }
+            return true;
         },
 
         onRadioTypeChange: function(field, newValue, eOpts) {
             if (newValue && this._changedProps) {
-                // this._changedProps.asc_setProps(field.options.value);
+                this._changedProps.asc_setType(field.options.value);
                 var isDate = field.options.value == Asc.c_oSpecialPasteProps.Date,
                     isAuto = field.options.value == Asc.c_oSpecialPasteProps.Auto;
                 this.radioDay.setDisabled(!isDate);
@@ -309,13 +365,19 @@ define([
 
         onRadioSeriesChange: function(field, newValue, eOpts) {
             if (newValue && this._changedProps) {
-                // this._changedProps.asc_setOperation(field.options.value);
+                this._changedProps.asc_setSeriesIn(field.options.value);
             }
         },
 
         onRadioDateChange: function(field, newValue, eOpts) {
             if (newValue && this._changedProps) {
-                // this._changedProps.asc_setOperation(field.options.value);
+                this._changedProps.asc_setDateUnit(field.options.value);
+            }
+        },
+
+        onChangeTrend: function(field, newValue, eOpts) {
+            if (this._changedProps) {
+                this._changedProps.asc_setTrend(field.getValue()==='checked');
             }
         },
 
@@ -335,7 +397,8 @@ define([
         textWeek: 'Weekday',
         textMonth: 'Month',
         textYear: 'Year',
-        textTrend: 'Trend'
+        textTrend: 'Trend',
+        txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.'
 
     }, SSE.Views.FillSeriesDialog || {}))
 });
