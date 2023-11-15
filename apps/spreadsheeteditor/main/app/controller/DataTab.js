@@ -362,7 +362,7 @@ define([
                             title: this.toolbar.txtSorting,
                             msg: this.toolbar.txtExpandSort,
                             buttons: [  {caption: this.toolbar.txtExpand, primary: true, value: 'expand'},
-                                {caption: this.toolbar.txtSortSelected, primary: true, value: 'sort'},
+                                {caption: this.toolbar.txtSortSelected, value: 'sort'},
                                 'cancel'],
                             callback: function(btn){
                                 if (btn == 'expand' || btn == 'sort') {
@@ -437,7 +437,7 @@ define([
                         title: this.txtRemDuplicates,
                         msg: this.txtExpandRemDuplicates,
                         buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                            {caption: this.txtRemSelected, primary: true, value: 'remove'},
+                            {caption: this.txtRemSelected, value: 'remove'},
                             'cancel'],
                         callback: function(btn){
                             if (btn == 'expand' || btn == 'remove') {
