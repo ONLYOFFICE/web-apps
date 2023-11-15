@@ -265,11 +265,17 @@ define([
                 if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
-                    if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
+                    if (!pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(true);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, true);
+                    }
                     if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
-                    if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
+                    if (pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(false);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, false);
+                    }
                     if (i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -388,6 +394,7 @@ define([
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 this.onChangeProtectSheet();
             }
+            this.rightmenu.setMoreButton();
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -430,6 +437,7 @@ define([
                 type = Common.Utils.documentSettingsType.Signature;
             this._settings[type].hidden = disabled ? 1 : 0;
             this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
             this._settings[type].panel.setLocked(this._settings[type].locked);
         },
 
@@ -460,6 +468,7 @@ define([
                     this.rightmenu.btnPivot.setDisabled(disabled);
                     this.rightmenu.btnCell.setDisabled(disabled);
                     this.rightmenu.btnSlicer.setDisabled(disabled);
+                    this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

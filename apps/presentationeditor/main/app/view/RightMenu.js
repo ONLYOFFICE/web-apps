@@ -45,6 +45,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -60,7 +61,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    PE.Views.RightMenu = Backbone.View.extend(_.extend({
+    PE.Views.RightMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#right-menu',
 
         // Compile our stats template
@@ -163,6 +164,10 @@ define([
 
             el.html(this.template({}));
 
+            this.btnMoreContainer = $('#slot-right-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tr-tl';
+
             this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
@@ -170,6 +175,8 @@ define([
             this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
             this.btnShape.setElement($('#id-right-menu-shape'), false);         this.btnShape.render();
             this.btnTextArt.setElement($('#id-right-menu-textart'), false);     this.btnTextArt.render();
+
+            this.setButtons([this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnChart, this.btnTextArt]);
 
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnTable.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -200,6 +207,7 @@ define([
                 this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
 
                 this.btnSignature.setElement($('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
+                this.addButton(this.btnSignature);
                 this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
                 this.signatureSettings = new PE.Views.SignatureSettings();
             }
