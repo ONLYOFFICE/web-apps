@@ -1495,7 +1495,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 (cmbData.length>0) && this.cmbRule.setValue((ruleType!==undefined) ? ruleType : cmbData[0].value);
             }
             this.setControls(index, this.cmbRule.getValue());
-            this.setInnerHeight(index==9 ? 360 : 270);
+            this.setInnerHeight(index==9 ? 360 : 280);
 
             if (rec) {
                 var type = rec.get('type');
