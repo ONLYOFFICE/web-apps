@@ -129,7 +129,7 @@ define([
                             } else {
                                 arrMore.push({
                                     caption: btn.hint,
-                                    iconCls: btn.iconCls,
+                                    iconCls: 'menu__icon ' + btn.iconCls,
                                     value: index,
                                     disabled: btn.isDisabled(),
                                     toggleGroup: 'sideMenuItems',
