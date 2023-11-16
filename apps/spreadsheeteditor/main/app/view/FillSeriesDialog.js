@@ -278,10 +278,10 @@ define([
                 this.radioCols.setValue(value===Asc.c_oAscSeriesInType.columns, true);
                 this.radioRows.setValue(value===Asc.c_oAscSeriesInType.rows, true);
                 value = props.asc_getType();
-                this.radioLinear.setValue(value===Asc.c_oAscSeriesType.linear, true);
-                this.radioGrowth.setValue(value===Asc.c_oAscSeriesType.growth, true);
-                this.radioDate.setValue(value===Asc.c_oAscSeriesType.date, true);
-                this.radioAuto.setValue(value===Asc.c_oAscSeriesType.autoFill, true);
+                this.radioLinear.setValue(value===Asc.c_oAscSeriesType.linear);
+                this.radioGrowth.setValue(value===Asc.c_oAscSeriesType.growth);
+                this.radioDate.setValue(value===Asc.c_oAscSeriesType.date);
+                this.radioAuto.setValue(value===Asc.c_oAscSeriesType.autoFill);
                 value = props.asc_getDateUnit();
                 this.radioDay.setValue(value===Asc.c_oAscDateUnitType.day, true);
                 this.radioWeek.setValue(value===Asc.c_oAscDateUnitType.weekday, true);
@@ -352,10 +352,10 @@ define([
         },
 
         onRadioTypeChange: function(field, newValue, eOpts) {
-            if (newValue && this._changedProps) {
-                this._changedProps.asc_setType(field.options.value);
-                var isDate = field.options.value == Asc.c_oSpecialPasteProps.Date,
-                    isAuto = field.options.value == Asc.c_oSpecialPasteProps.Auto;
+            if (newValue) {
+                this._changedProps && this._changedProps.asc_setType(field.options.value);
+                var isDate = field.options.value == Asc.c_oAscSeriesType.date,
+                    isAuto = field.options.value == Asc.c_oAscSeriesType.autoFill;
                 this.radioDay.setDisabled(!isDate);
                 this.radioMonth.setDisabled(!isDate);
                 this.radioWeek.setDisabled(!isDate);
