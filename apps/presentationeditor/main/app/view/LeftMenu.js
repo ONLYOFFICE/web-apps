@@ -246,9 +246,7 @@ define([
             } else if (name == 'comment') {
                 this.panelComments = panel;
             } else /** coauthoring end **/
-            if (name == 'plugins' && !this.panelPlugins) {
-                this.panelPlugins = panel.render('#left-panel-plugins');
-            } else if (name == 'history') {
+            if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
             } else
             if (name == 'advancedsearch') {

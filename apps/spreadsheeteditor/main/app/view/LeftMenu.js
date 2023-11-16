@@ -227,9 +227,6 @@ define([
             } else if (name == 'comment') {
                 this.panelComments = panel;
             } else
-            if (name == 'plugins' && !this.panelPlugins) {
-                this.panelPlugins = panel.render('#left-panel-plugins');
-            } else
             if (name == 'spellcheck' && !this.panelSpellcheck) {
                 this.panelSpellcheck = panel.render('#left-panel-spellcheck');
             } else if (name == 'history') {

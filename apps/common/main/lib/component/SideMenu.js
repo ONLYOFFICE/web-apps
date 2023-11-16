@@ -90,6 +90,8 @@ define([
             },
 
             setMoreButton: function () {
+                if (!this.buttons.length) return;
+
                 var $more = this.btnMoreContainer;
 
                 var btnHeight = this.buttons[0].cmpEl.outerHeight(true),
