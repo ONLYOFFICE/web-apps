@@ -288,8 +288,10 @@ define([
                 this.radioMonth.setValue(value===Asc.c_oAscDateUnitType.month, true);
                 this.radioYear.setValue(value===Asc.c_oAscDateUnitType.year, true);
                 this.chTrend.setValue(!!props.asc_getTrend());
-                this.inputStep.setValue(props.asc_getStepValue());
-                this.inputStop.setValue(props.asc_getStopValue());
+                value = props.asc_getStepValue();
+                this.inputStep.setValue(value!==null && value!==undefined ? value : '');
+                value = props.asc_getStopValue();
+                this.inputStop.setValue(value!==null && value!==undefined ? value : '');
             }
             this._changedProps = props || new Asc.asc_CSeriesSettings();
         },
@@ -303,7 +305,7 @@ define([
             if (this.isStopChanged) {
                 var value = this.inputStop.getValue();
                 (typeof value === 'string') && (value = value.replace(',','.'));
-                this._changedProps.asc_setStopValue(value!=='' ? parseFloat(value) : 1);
+                this._changedProps.asc_setStopValue(value!=='' ? parseFloat(value) : null);
             }
             return this._changedProps;
         },
