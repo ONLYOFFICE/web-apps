@@ -212,7 +212,7 @@ define([
         },
 
         onTipChange: function (model, tip) {
-            this.trigger('tipchange', this, model, tip);
+            this.trigger('tipinit', this, model);
         },
 
         onChange: function () {
@@ -569,9 +569,8 @@ define([
                     this.listenTo(view, 'dblclick',    this.onDblClickItem);
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
-                    if (this.delayRenderTips && !tip) {
-                        this.listenTo(view, 'tipchange', this.onChangeItemTip);
-                    }
+                    if (tip === null || tip === undefined)
+                        this.listenTo(view, 'tipinit', this.onInitItemTip);
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
@@ -681,18 +680,30 @@ define([
             }
         },
 
-        onChangeItemTip: function (view, record, tip) {
+        onInitItemTip: function (view, record) {
             var me = this,
-                view_el = $(view.el);
-            view_el.one('mouseenter', function() {
+                view_el = $(view.el),
+                tip = view_el.data('bs.tooltip');
+            if (!(tip === null || tip === undefined))
+                view_el.removeData('bs.tooltip');
+            if (this.delayRenderTips) {
+                view_el.one('mouseenter', function () {
+                    view_el.attr('data-toggle', 'tooltip');
+                    view_el.tooltip({
+                        title: record.get('tip'),
+                        placement: 'cursor',
+                        zIndex: me.tipZIndex
+                    });
+                    view_el.mouseenter();
+                });
+            } else {
                 view_el.attr('data-toggle', 'tooltip');
                 view_el.tooltip({
-                    title: tip,
+                    title: record.get('tip'),
                     placement: 'cursor',
                     zIndex: me.tipZIndex
                 });
-                view_el.mouseenter();
-            });
+            }
         },
 
         onRemoveItem: function(view, record) {
