@@ -300,7 +300,7 @@ define([
             if (this.isStepChanged) {
                 var value = this.inputStep.getValue();
                 (typeof value === 'string') && (value = value.replace(',','.'));
-                this._changedProps.asc_setStepValue(value!=='' ? parseFloat(value) : 1);
+                this._changedProps.asc_setStepValue(value!=='' ? parseFloat(value) : null);
             }
             if (this.isStopChanged) {
                 var value = this.inputStop.getValue();
