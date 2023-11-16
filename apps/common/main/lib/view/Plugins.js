@@ -440,7 +440,8 @@ define([
                 value: pluginGuid
             });
             button.on('click', _.bind(this.onShowPlugin, this, pluginGuid));
-            this.pluginBtns = Object.assign({[pluginGuid]: button}, this.pluginBtns);
+            this.pluginBtns[pluginGuid] = button;
+            //this.pluginBtns = Object.assign({[pluginGuid]: button}, this.pluginBtns);
 
             this.setMoreButton();
 
@@ -532,7 +533,8 @@ define([
                 var $separator = this.leftMenu.getView('LeftMenu').pluginSeparator;
                 $btn.parent().insertAfter($separator);
                 delete this.pluginBtns[guid];
-                this.pluginBtns = Object.assign({[guid]: btn}, this.pluginBtns);
+                this.pluginBtns[guid] = btn;
+                //this.pluginBtns = Object.assign({[guid]: btn}, this.pluginBtns);
                 this.setMoreButton();
             }
         },
