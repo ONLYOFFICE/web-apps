@@ -41,7 +41,7 @@
 define([
     'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
-    PE.Views.ShapeShadowDialog =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
+    Common.Views.ShapeShadowDialog =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ShapeShadowDialog',
             contentWidth: 208,
@@ -99,19 +99,22 @@ define([
                 ].join('')
             }, options);
 
-            this.handler        = options.handler;
-            this.api            = options.api;
-            this.shadowProps    = options.shadowProps;
-            this.isShadowEmpty  = !this.shadowProps; 
+            this.handler                = options.handler;
+            this.api                    = options.api;
+            this.shadowProps            = options.shadowProps;
+            this.methodApplySettings    = options.methodApplySettings; 
 
+            this.isShadowEmpty  = !this.shadowProps; 
             if(!this.shadowProps) {
                 this.shadowProps = new Asc.asc_CShadowProperty();
                 this.shadowProps.putPreset('t');
             }
+
             this.oldTransparency = this.shadowProps.getTransparency();
             this.oldSize = this.shadowProps.getSize();
             this.oldAngle = this.shadowProps.getAngle();
             this.oldDistance = this.shadowProps.getDistance();
+
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -122,7 +125,7 @@ define([
             if(this.isShadowEmpty) {
                 var shapeProps = new Asc.asc_CShapeProperty();
                 shapeProps.asc_putShadow(this.shadowProps);
-                this.api.ShapeApply(shapeProps);
+                this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
             }
 
             this.sldrTransparency = new Common.UI.SingleSlider({
@@ -250,7 +253,7 @@ define([
             var shapeProps = new Asc.asc_CShapeProperty();
             this.shadowProps.putTransparency(value);
             shapeProps.asc_putShadow(this.shadowProps);
-            this.api.ShapeApply(shapeProps);
+            this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
         },
 
 
@@ -269,7 +272,7 @@ define([
             var shapeProps = new Asc.asc_CShapeProperty();
             this.shadowProps.putSize(value);
             shapeProps.asc_putShadow(this.shadowProps);
-            this.api.ShapeApply(shapeProps);
+            this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
         },
 
 
@@ -288,7 +291,7 @@ define([
             var shapeProps = new Asc.asc_CShapeProperty();
             this.shadowProps.putAngle(value);
             shapeProps.asc_putShadow(this.shadowProps);
-            this.api.ShapeApply(shapeProps);
+            this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
         },
 
 
@@ -307,7 +310,7 @@ define([
             var shapeProps = new Asc.asc_CShapeProperty();
             this.shadowProps.putDistance(value);
             shapeProps.asc_putShadow(this.shadowProps);
-            this.api.ShapeApply(shapeProps);
+            this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
         },
 
 
@@ -318,7 +321,7 @@ define([
             this.shadowProps.putAngle(angle);
             this.shadowProps.putDistance(distance);
             shapeProps.asc_putShadow(this.shadowProps);
-            this.api.ShapeApply(shapeProps);
+            this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
         },
         
         onPrimary: function() {
@@ -354,7 +357,7 @@ define([
             if(this.isShadowEmpty) {
                 var shapeProps = new Asc.asc_CShapeProperty();
                 shapeProps.asc_putShadow(null);
-                this.api.ShapeApply(shapeProps);
+                this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
             } else {
                 this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
             }
@@ -368,5 +371,5 @@ define([
         txtSize: 'Size',
         txtAngle: 'Angle',
         txtDistance: 'Distance',
-    }, PE.Views.ShapeShadowDialog || {}));
+    }, Common.Views.ShapeShadowDialog || {}));
 });

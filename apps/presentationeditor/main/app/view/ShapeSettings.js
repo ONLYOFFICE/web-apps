@@ -51,8 +51,8 @@ define([
     'common/main/lib/component/Slider',
     'common/main/lib/component/MultiSliderGradient',
     'common/main/lib/view/ImageFromUrlDialog',
-    'presentationeditor/main/app/view/ShapeSettingsAdvanced',
-    'presentationeditor/main/app/view/ShapeShadowDialog'
+    'common/main/lib/view/ShapeShadowDialog',
+    'presentationeditor/main/app/view/ShapeSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -1968,9 +1968,12 @@ define([
             //Adjust shadow
             else if(item.value == 3) {
                 var me = this;
-                (new PE.Views.ShapeShadowDialog({
+                (new Common.Views.ShapeShadowDialog({
                     api             : this.api,
                     shadowProps     : this._originalProps.asc_getShadow(),
+                    methodApplySettings: function(shapeProps) {
+                        me.api.ShapeApply(shapeProps);
+                    },
                     handler: function(result) {
                         me.fireEvent('editcomplete', this);
                     },
