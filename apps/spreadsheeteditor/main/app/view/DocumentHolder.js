@@ -1418,13 +1418,15 @@ define([
                 value       : 'paste'
             });
 
-            this.copyPasteMenu = new Common.UI.Menu({
+            me.copyPasteMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 items: [
                     me.pmiCommonCut,
                     me.pmiCommonCopy,
                     me.pmiCommonPaste
                 ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
             });
 
             this.entriesMenu = new Common.UI.Menu({
@@ -1466,6 +1468,26 @@ define([
                     {caption: this.textStdDev, value: Asc.ETotalsRowFunction.totalrowfunctionStdDev, checkable: true },
                     {caption: this.textVar, value: Asc.ETotalsRowFunction.totalrowfunctionVar, checkable: true },
                     {caption: this.textMore, value: Asc.ETotalsRowFunction.totalrowfunctionCustom, checkable: true }
+                ]
+            });
+
+            me.fillMenu = new Common.UI.Menu({
+                restoreHeightAndTop: true,
+                items: [
+                    {caption: this.textCopyCells, value: Asc.c_oAscFillRightClickOptions.copyCells},
+                    {caption: this.textFillSeries, value: Asc.c_oAscFillRightClickOptions.fillSeries},
+                    {caption: this.textFillFormatOnly, value: Asc.c_oAscFillRightClickOptions.fillFormattingOnly},
+                    {caption: this.textFillWithoutFormat, value: Asc.c_oAscFillRightClickOptions.fillWithoutFormatting},
+                    {caption: '--'},
+                    {caption: this.textFillDays, value: Asc.c_oAscFillRightClickOptions.fillDays},
+                    {caption: this.textFillWeekdays, value: Asc.c_oAscFillRightClickOptions.fillWeekdays},
+                    {caption: this.textFillMonths, value: Asc.c_oAscFillRightClickOptions.fillMonths},
+                    {caption: this.textFillYears, value: Asc.c_oAscFillRightClickOptions.fillYears},
+                    {caption: '--'},
+                    {caption: this.textLinearTrend, value: Asc.c_oAscFillRightClickOptions.linearTrend},
+                    {caption: this.textGrowthTrend, value: Asc.c_oAscFillRightClickOptions.growthTrend},
+                    {caption: this.textFlashFill, value: Asc.c_oAscFillRightClickOptions.flashFill},
+                    {caption: this.textSeries, value: Asc.c_oAscFillRightClickOptions.series}
                 ]
             });
 
@@ -1866,7 +1888,19 @@ define([
         txtSortOption: 'More sort options',
         txtShowDetails: 'Show details',
         txtInsImage: 'Insert image from File',
-        txtInsImageUrl: 'Insert image from URL'
+        txtInsImageUrl: 'Insert image from URL',
+        textCopyCells: 'Copy cells',
+        textFillSeries: 'Fill series',
+        textFillFormatOnly: 'Fill formatting only',
+        textFillWithoutFormat: 'Fill without formatting',
+        textFillDays: 'Fill days',
+        textFillWeekdays: 'Fill weekdays',
+        textFillMonths: 'Fill months',
+        textFillYears: 'Fill years',
+        textLinearTrend: 'Linear trend',
+        textGrowthTrend: 'Growth trend',
+        textFlashFill: 'Flash fill',
+        textSeries: 'Series'
 
     }, SSE.Views.DocumentHolder || {}));
 });
