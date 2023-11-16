@@ -212,7 +212,7 @@ define([
         },
 
         onTipChange: function (model, tip) {
-            this.trigger('tipinit', this, model);
+            this.trigger('tipchange', this, model);
         },
 
         onChange: function () {
@@ -570,7 +570,7 @@ define([
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
                     if (tip === null || tip === undefined)
-                        this.listenTo(view, 'tipinit', this.onInitItemTip);
+                        this.listenTo(view, 'tipchange', this.onInitItemTip);
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
