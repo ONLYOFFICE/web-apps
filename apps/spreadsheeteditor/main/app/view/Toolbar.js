@@ -1605,24 +1605,24 @@ define([
                         items : [
                             {
                                 caption: me.textDown,
-                                value: 'down'
+                                value: Asc.c_oAscFillType.fillDown
                             },
                             {
                                 caption: me.textFillRight,
-                                value: 'right'
+                                value: Asc.c_oAscFillType.fillRight
                             },
                             {
                                 caption: me.textUp,
-                                value: 'up'
+                                value: Asc.c_oAscFillType.fillUp
                             },
                             {
                                 caption: me.textFillLeft,
-                                value: 'left'
+                                value: Asc.c_oAscFillType.fillLeft
                             },
                             {caption: '--'},
                             {
                                 caption: me.textSeries,
-                                value: 'series'
+                                value: Asc.c_oAscFillType.series
                             }
                         ]
                     }),
