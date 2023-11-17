@@ -66,6 +66,7 @@
     "errorInvalidLink": "Ссылка указывает на несуществующую ячейку. Исправьте или удалите ссылку.",
     "menuAddComment": "Добавить комментарий",
     "menuAddLink": "Добавить ссылку",
+    "menuAutofill": "Автозаполнение",
     "menuCancel": "Отмена",
     "menuCell": "Ячейка",
     "menuDelete": "Удалить",

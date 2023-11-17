@@ -86,6 +86,7 @@
     "textDoNotShowAgain": "Tekrar gösterme",
     "txtWarnUrl": "Bu bağlantıyı tıklamak cihazınıza ve verilerinize zarar verebilir.<br>Devam etmek istediğinizden emin misiniz?",
     "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?",
+    "menuAutofill": "Autofill",
     "menuEditLink": "Edit Link",
     "textOk": "Ok"
   },

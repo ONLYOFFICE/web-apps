@@ -40,6 +40,12 @@
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
     },
+    "Themes": {
+      "dark": "Tmavé",
+      "light": "Světlé",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Varování",
       "textAnonymous": "Anonymní",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Aktuální soubor bude uložen v historii verzí.",
       "titleWarningRestoreVersion": "Obnovit vybranou verzi? ",
       "txtErrorLoadHistory": "Načítání historie selhalo"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -678,6 +679,7 @@
       "textComments": "Komentáře",
       "textCreated": "Vytvořeno",
       "textCustomSize": "Vlastní velikost",
+      "textDark": "Tmavé",
       "textDarkTheme": "Tmavý vzhled prostředí",
       "textDelimeter": "Oddělovač",
       "textDirection": "Směr",
@@ -709,6 +711,7 @@
       "textLastModifiedBy": "Naposledy upravil(a)",
       "textLeft": "Vlevo",
       "textLeftToRight": "Zleva doprava",
+      "textLight": "Světlé",
       "textLocation": "Umístění",
       "textLookIn": "Hledat v",
       "textMacrosSettings": "Nastavení maker",
@@ -818,8 +821,6 @@
       "txtVi": "vietnamština",
       "txtZh": "čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-      "textDark": "Dark",
-      "textLight": "Light",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

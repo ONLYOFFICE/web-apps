@@ -167,6 +167,8 @@
   "Common.Views.Comments.textResolved": "Rezolvat",
   "Common.Views.Comments.textSort": "Sortare comentarii",
   "Common.Views.Comments.textSortFilter": "Sortare și filtrare comentarii",
+  "Common.Views.Comments.textSortFilterMore": "Sortare, filtrare și mai multe",
+  "Common.Views.Comments.textSortMore": "Sortare și mai multe",
   "Common.Views.Comments.textViewResolved": "Dvs. nu aveți permisiunea de a redeschide comentariu",
   "Common.Views.Comments.txtEmpty": "Nu există niciun comentariu.",
   "Common.Views.CopyWarningDialog.textDontShow": "Nu afișa acest mesaj din nou",

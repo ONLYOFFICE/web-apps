@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "好",
     "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
-    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？"
+    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

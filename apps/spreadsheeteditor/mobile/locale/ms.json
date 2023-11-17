@@ -87,6 +87,7 @@
     "textOk": "Okey",
     "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
     "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
+    "menuAutofill": "Autofill",
     "menuEditLink": "Edit Link"
   },
   "Controller": {

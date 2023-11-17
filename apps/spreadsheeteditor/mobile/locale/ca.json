@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "No ho mostris més",
     "textOk": "D'acord",
     "txtWarnUrl": "Si fas clic en aquest enllaç, pots perjudicar el dispositiu i les dades. <br>Segur que vols continuar?",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Vols continuar?"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Vols continuar?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

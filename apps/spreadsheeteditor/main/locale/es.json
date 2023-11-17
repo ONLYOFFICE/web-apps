@@ -2712,7 +2712,7 @@
   "SSE.Views.FormatRulesEditDlg.textPresets": "Preestablecidos",
   "SSE.Views.FormatRulesEditDlg.textPreview": "Vista previa",
   "SSE.Views.FormatRulesEditDlg.textRelativeRef": "No se pueden utilizar referencias relativas en los criterios de formato condicional para las escalas de color, las barras de datos y los conjuntos de iconos.",
-  "SSE.Views.FormatRulesEditDlg.textReverse": "Invertir criterio de ordenación de iconos",
+  "SSE.Views.FormatRulesEditDlg.textReverse": "Invertir el orden de iconos",
   "SSE.Views.FormatRulesEditDlg.textRight2Left": "De derecha a izquierda",
   "SSE.Views.FormatRulesEditDlg.textRightBorders": "Bordes derechos",
   "SSE.Views.FormatRulesEditDlg.textRule": "Regla",
