@@ -1474,20 +1474,20 @@ define([
             me.fillMenu = new Common.UI.Menu({
                 restoreHeightAndTop: true,
                 items: [
-                    {caption: this.textCopyCells, value: Asc.c_oAscFillRightClickOptions.copyCells},
-                    {caption: this.textFillSeries, value: Asc.c_oAscFillRightClickOptions.fillSeries},
-                    {caption: this.textFillFormatOnly, value: Asc.c_oAscFillRightClickOptions.fillFormattingOnly},
-                    {caption: this.textFillWithoutFormat, value: Asc.c_oAscFillRightClickOptions.fillWithoutFormatting},
+                    {caption: this.textCopyCells, value: Asc.c_oAscFillType.copyCells},
+                    {caption: this.textFillSeries, value: Asc.c_oAscFillType.fillSeries},
+                    {caption: this.textFillFormatOnly, value: Asc.c_oAscFillType.fillFormattingOnly},
+                    {caption: this.textFillWithoutFormat, value: Asc.c_oAscFillType.fillWithoutFormatting},
                     {caption: '--'},
-                    {caption: this.textFillDays, value: Asc.c_oAscFillRightClickOptions.fillDays},
-                    {caption: this.textFillWeekdays, value: Asc.c_oAscFillRightClickOptions.fillWeekdays},
-                    {caption: this.textFillMonths, value: Asc.c_oAscFillRightClickOptions.fillMonths},
-                    {caption: this.textFillYears, value: Asc.c_oAscFillRightClickOptions.fillYears},
+                    {caption: this.textFillDays, value: Asc.c_oAscFillType.fillDays},
+                    {caption: this.textFillWeekdays, value: Asc.c_oAscFillType.fillWeekdays},
+                    {caption: this.textFillMonths, value: Asc.c_oAscFillType.fillMonths},
+                    {caption: this.textFillYears, value: Asc.c_oAscFillType.fillYears},
                     {caption: '--'},
-                    {caption: this.textLinearTrend, value: Asc.c_oAscFillRightClickOptions.linearTrend},
-                    {caption: this.textGrowthTrend, value: Asc.c_oAscFillRightClickOptions.growthTrend},
-                    {caption: this.textFlashFill, value: Asc.c_oAscFillRightClickOptions.flashFill},
-                    {caption: this.textSeries, value: Asc.c_oAscFillRightClickOptions.series}
+                    {caption: this.textLinearTrend, value: Asc.c_oAscFillType.linearTrend},
+                    {caption: this.textGrowthTrend, value: Asc.c_oAscFillType.growthTrend},
+                    {caption: this.textFlashFill, value: Asc.c_oAscFillType.flashFill},
+                    {caption: this.textSeries, value: Asc.c_oAscFillType.series}
                 ]
             });
 

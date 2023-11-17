@@ -5160,13 +5160,14 @@ define([
                     (new SSE.Views.FillSeriesDialog({
                         handler: function(result, settings) {
                             if (result == 'ok' && settings) {
-                                me.api.asc_ApplySeriesSettings(settings);
+                                me.api.asc_FillCells(Asc.c_oAscFillType.series, settings);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                         },
                         props: me.api.asc_GetSeriesSettings()
                     })).show();
                 } else {
+                    me.api.asc_FillCells(item.value);
                 }
             }
         },

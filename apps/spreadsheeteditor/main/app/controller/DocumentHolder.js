@@ -288,6 +288,7 @@ define([
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
                 view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
+                view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -5108,27 +5109,34 @@ define([
         },
 
         onFillSeriesClick: function(menu, item) {
+            this._state.fillSeriesItemClick = true;
             if (this.api) {
-                if (item.value===Asc.c_oAscFillRightClickOptions.series) {
-                    var me = this;
-                    (new SSE.Views.FillSeriesDialog({
-                        handler: function(result, settings) {
-                            if (result == 'ok' && settings) {
-                                me.api.asc_ApplySeriesSettings(settings);
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
-                        },
-                        props: me.api.asc_GetSeriesSettings()
-                    })).show();
+                if (item.value===Asc.c_oAscFillType.series) {
+                    var me = this,
+                        res,
+                        win = (new SSE.Views.FillSeriesDialog({
+                            handler: function(result, settings) {
+                                if (result == 'ok' && settings) {
+                                    res = result;
+                                    me.api.asc_FillCells(item.value, settings);
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            },
+                            props: me.api.asc_GetSeriesSettings()
+                        })).on('close', function() {
+                            (res!=='ok') && me.api.asc_CancelFillCells();
+                        });
+                    win.show();
                 } else {
-                    var props = this.api.asc_GetSeriesSettings();
-                    if (props) {
-                        props.asc_setContextMenuChosenProperty(item.value);
-                        this.api.asc_ApplySeriesSettings(props);
-                    }
+                    this.api.asc_FillCells(item.value);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 }
             }
+        },
+
+        onFillSeriesHideAfter: function() {
+            this.api && !this._state.fillSeriesItemClick && this.api.asc_CancelFillCells();
+            this._state.fillSeriesItemClick = false;
         },
 
         getUserName: function(id){
