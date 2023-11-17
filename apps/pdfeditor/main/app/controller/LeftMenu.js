@@ -210,6 +210,7 @@ define([
 
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             Common.util.Shortcuts.resumeEvents();
+            this.leftMenu.setButtons();
             this.leftMenu.setMoreButton();
             return this;
         },

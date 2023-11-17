@@ -254,6 +254,7 @@ define([
             Common.util.Shortcuts.resumeEvents();
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 Common.NotificationCenter.on('cells:range',   _.bind(this.onCellsRange, this));
+            this.leftMenu.setButtons();
             this.leftMenu.setMoreButton();
             return this;
         },

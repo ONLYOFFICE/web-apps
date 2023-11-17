@@ -394,6 +394,7 @@ define([
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 this.onChangeProtectSheet();
             }
+            this.rightmenu.setButtons();
             this.rightmenu.setMoreButton();
         },
 

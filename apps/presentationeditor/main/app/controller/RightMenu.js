@@ -353,6 +353,7 @@ define([
                     this.onFocusObject(selectedElements);
                 }
             }
+            this.rightmenu.setButtons();
             this.rightmenu.setMoreButton();
         },
 

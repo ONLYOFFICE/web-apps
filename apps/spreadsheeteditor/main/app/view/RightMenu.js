@@ -204,8 +204,6 @@ define([
             this.btnCell.setElement($('#id-right-menu-cell'), false);           this.btnCell.render();
             this.btnSlicer.setElement($('#id-right-menu-slicer'), false);       this.btnSlicer.render();
 
-            this.setButtons([this.btnCell, this.btnTable, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnPivot, this.btnSlicer]);
-
             this.btnText.on('click',            _.bind(this.onBtnMenuClick, this));
             this.btnImage.on('click',           _.bind(this.onBtnMenuClick, this));
             this.btnChart.on('click',           _.bind(this.onBtnMenuClick, this));
@@ -239,7 +237,6 @@ define([
                 this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
 
                 this.btnSignature.setElement($('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
-                this.addButton(this.btnSignature);
                 this.btnSignature.on('click', _.bind(this.onBtnMenuClick, this));
                 this.signatureSettings = new SSE.Views.SignatureSettings();
             }
@@ -363,6 +360,11 @@ define([
                 this.scroller.update();
                 this.scroller.scrollTop(0);
             }
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnCell, this.btnTable, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnPivot, this.btnSlicer, this.btnSignature];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         txtParagraphSettings:       'Paragraph Settings',

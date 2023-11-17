@@ -153,8 +153,6 @@ define([
             this.menuFile = new PE.Views.FileMenu({});
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
 
-            this.setButtons([this.btnSearchBar, this.btnThumbs, this.btnComments, this.btnChat, this.btnSupport, this.btnAbout]);
-
             this.$el.html($markup);
 
             return this;
@@ -441,6 +439,11 @@ define([
 
         isVisible: function () {
             return this.$el && this.$el.is(':visible');
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSearchBar, this.btnThumbs, this.btnComments, this.btnChat, this.btnSupport, this.btnAbout];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         /** coauthoring begin **/

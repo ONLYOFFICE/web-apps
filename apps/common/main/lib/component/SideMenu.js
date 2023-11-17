@@ -46,7 +46,6 @@ define([
 
     Common.UI.SideMenu = Backbone.View.extend((function () {
         return {
-            buttons: [],
             btnMoreContainer: undefined,
 
             render: function () {
@@ -64,12 +63,18 @@ define([
                 });
                 this.btnMore.menu.on('item:click', _.bind(this.onMenuMore, this));
                 this.btnMore.menu.on('show:before', _.bind(this.onShowBeforeMoreMenu, this));
+                this.btnMore.hide();
 
                 $(window).on('resize', _.bind(this.setMoreButton, this));
             },
 
-            setButtons: function (buttons) {
-                this.buttons = buttons;
+            setButtons: function (btns) {
+                this.buttons = [];
+                btns.forEach(_.bind(function (button) {
+                    if (button && button.cmpEl.is(':visible')) {
+                        this.buttons.push(button);
+                    }
+                }, this));
             },
 
             addButton: function (button) {
@@ -92,7 +97,7 @@ define([
             setMoreButton: function () {
                 if (!this.buttons.length) return;
 
-                var $more = this.btnMoreContainer;
+                var $more = this.btnMore;
 
                 var btnHeight = this.buttons[0].cmpEl.outerHeight(true),
                     padding = parseFloat(this.$el.find('.tool-menu-btns').css('padding-top')),

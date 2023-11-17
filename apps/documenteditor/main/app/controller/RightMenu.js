@@ -405,6 +405,7 @@ define([
                 }
             }
             this.onChangeProtectDocument();
+            this.rightmenu.setButtons();
             this.rightmenu.setMoreButton();
         },
 

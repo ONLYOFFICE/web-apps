@@ -165,8 +165,6 @@ define([
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
 
-            this.setButtons([this.btnSearchBar, this.btnComments, this.btnChat, this.btnNavigation, this.btnThumbnails, this.btnSupport, this.btnAbout]);
-
             this.$el.html($markup);
 
             return this;
@@ -486,6 +484,11 @@ define([
 
         isVisible: function () {
             return this.$el && this.$el.is(':visible');
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSearchBar, this.btnComments, this.btnChat, this.btnNavigation, this.btnThumbnails, this.btnSupport, this.btnAbout];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         /** coauthoring begin **/
