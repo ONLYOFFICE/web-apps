@@ -71,6 +71,7 @@
     "notcriticalErrorTitle": "Увага",
     "errorCopyCutPaste": "Copy, cut, and paste actions using the context menu will be performed within the current file only.",
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
+    "menuAutofill": "Autofill",
     "menuEdit": "Edit",
     "menuEditLink": "Edit Link",
     "menuFreezePanes": "Freeze Panes",

@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Bir daha göstərmə",
     "textOk": "OK",
     "txtWarnUrl": "Bu linkə klikləmək cihazınız və məlumatlarınız üçün təhlükəli ola bilər. <br> Davam etmək istədiyinizə əminsiniz?",
-    "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?"
+    "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

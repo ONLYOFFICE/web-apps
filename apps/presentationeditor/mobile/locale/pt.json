@@ -43,6 +43,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "O mesmo que sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anônimo",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
       "titleWarningRestoreVersion": "Restaurar esta versão?",
       "txtErrorLoadHistory": "Histórico de carregamento falhou"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -468,6 +468,7 @@
       "textColorSchemes": "Esquemas de cor",
       "textComment": "Comente",
       "textCreated": "Criado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema Escuro",
       "textDisableAll": "Desabilitar tudo",
       "textDisableAllMacrosWithNotification": "Desativar todas as macros com notificação",
@@ -487,6 +488,7 @@
       "textInch": "Polegada",
       "textLastModified": "Última modificação",
       "textLastModifiedBy": "Última Modificação Por",
+      "textLight": "Claro",
       "textLoading": "Carregando...",
       "textLocation": "Localização",
       "textMacrosSettings": "Configurações de macros",
@@ -503,6 +505,7 @@
       "textReplaceAll": "Substituir tudo",
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRTL": "Da direita para esquerda",
+      "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
       "textShowNotification": "Mostrar notificação",
@@ -510,6 +513,7 @@
       "textSpellcheck": "Verificação ortográfica",
       "textSubject": "Assunto",
       "textTel": "tel:",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",
@@ -536,11 +540,7 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "txtScheme9": "Fundição"
     }
   }
 }

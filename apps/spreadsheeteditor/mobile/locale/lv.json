@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Nerādīt vēlreiz",
     "textOk": "OK",
     "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?",
-    "warnMergeLostData": "Apvienotajā šūnā paliks tikai dati no augšējās kreisās šūnas. <br>Vai tiešām vēlaties turpināt?"
+    "warnMergeLostData": "Apvienotajā šūnā paliks tikai dati no augšējās kreisās šūnas. <br>Vai tiešām vēlaties turpināt?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

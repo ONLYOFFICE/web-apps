@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Jangan tampilkan lagi",
     "textOk": "OK",
     "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?",
-    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?"
+    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
