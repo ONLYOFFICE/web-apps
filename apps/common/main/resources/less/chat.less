@@ -19,6 +19,8 @@
         overflow: hidden;
         border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-bottom: @scaled-one-px-value solid @border-toolbar;
+        background-color: @background-toolbar-ie;
+        background-color: @background-toolbar;
 
         label {
             .font-size-medium();
@@ -56,10 +58,12 @@
         left: 0;
         top: 0;
         right: 0;
-        height: 115px;
+        height: 125px;
         padding-bottom: 5px;
-        padding-top: 45px;
-
+        padding-top: 50px;
+        .ps-scrollbar-y-rail {
+            margin-top: 50px;
+        }
         ul {
             margin: 0;
             padding: 0;
