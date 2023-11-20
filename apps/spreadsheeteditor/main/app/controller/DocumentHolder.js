@@ -3122,6 +3122,7 @@ define([
                 items[i].setVisible(val!==null);
                 items[i].setDisabled(!val);
             }
+            documentHolder.fillMenu.seriesinfo = seriesinfo;
             this.showPopupMenu(documentHolder.fillMenu, {}, event, type);
         },
 
@@ -5122,13 +5123,13 @@ define([
                                 }
                                 Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                             },
-                            props: me.api.asc_GetSeriesSettings()
+                            props: menu.seriesinfo
                         })).on('close', function() {
                             (res!=='ok') && me.api.asc_CancelFillCells();
                         });
                     win.show();
                 } else {
-                    this.api.asc_FillCells(item.value);
+                    this.api.asc_FillCells(item.value, menu.seriesinfo);
                     Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
                 }
             }
