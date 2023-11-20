@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
     "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

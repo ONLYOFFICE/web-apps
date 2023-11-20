@@ -177,9 +177,9 @@
     },
     "Themes": {
       "dark": "Întunecat",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
+      "light": "Luminos",
+      "system": "La fel ca sistemul",
+      "textTheme": "Temă"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
@@ -348,6 +348,7 @@
     "textParagraphStyle": "Stil paragraf",
     "textPictureFromLibrary": "Imagine dintr-o bibliotecă ",
     "textPictureFromURL": "Imaginea prin URL",
+    "textPlaceholder": "Substituent",
     "textPt": "pt",
     "textRecommended": "Recomandate",
     "textRefresh": "Actualizare",
@@ -365,6 +366,7 @@
     "textRightAlign": "Aliniere la dreapta",
     "textSa": "S",
     "textSameCreatedNewStyle": "La fel ca stil nou",
+    "textSave": "Salvare",
     "textScreenTip": "Sfaturi ecran",
     "textSelectObjectToEdit": "Selectați obiectul pentru editare",
     "textSendToBackground": "Trimitere în plan secundar",
@@ -402,9 +404,7 @@
     "textWe": "Mi",
     "textWrap": "Încadrare",
     "textWrappingStyle": "Stil de încadrare",
-    "textPlaceholder": "Placeholder",
-    "textSave": "Save",
-    "textYourOption": "Your option"
+    "textYourOption": "Varianta dvs"
   },
   "Error": {
     "convertationTimeoutText": "Timpul de așteptare pentru conversie a expirat.",
@@ -443,7 +443,7 @@
     "errorSessionToken": "Conexeunea la server s-a întrerupt. Încercați să reîmprospătati pagina.",
     "errorSetPassword": "Setarea parolei eșuată.",
     "errorStockChart": "Sortarea rândurilor în ordinea incorectă. Pentru crearea unei diagrame de stoc, datele în foaie trebuie sortate în ordinea următoare:<br> prețul de deschidere, prețul maxim, prețul minim, prețul de închidere.",
-    "errorSubmit": "Remiterea eșuată.",
+    "errorSubmit": "Trimiterea eșuată.",
     "errorTextFormWrongFormat": "Ați introdus o valoare care nu corespunde cu formatul câmpului.",
     "errorToken": "Token de securitate din document este format în mod incorect.<br>Contactați administratorul dvs. de Server Documente.",
     "errorTokenExpire": "Token de securitate din document a expirat.<br>Contactați administratorul dvs. de Server Documente.",
@@ -663,6 +663,8 @@
     "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile cu notificare  ",
     "textEncoding": "Codificare",
     "textEncryptFile": "Criptare fișier",
+    "textExport": "Export",
+    "textExportAs": "Export ca",
     "textFastWV": "Vizualizare rapidă web",
     "textFeedback": "Feedback și asistența",
     "textFillingForms": "Completarea formularelor",
@@ -679,6 +681,7 @@
     "textLastModifiedBy": "Modificat ultima dată de către",
     "textLeft": "Stânga",
     "textLeftToRight": "De la stânga la dreapta",
+    "textLight": "Luminos",
     "textLoading": "Se încarcă...",
     "textLocation": "Locația",
     "textMacrosSettings": "Setări macrocomandă",
@@ -720,7 +723,9 @@
     "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
     "textRight": "Dreapta",
     "textRightToLeft": "De la dreapta la stânga",
+    "textSameAsSystem": "La fel ca sistemul",
     "textSave": "Salvează",
+    "textSaveAsPdf": "Salvare ca PDF",
     "textSearch": "Căutare",
     "textSetPassword": "Setare parolă",
     "textSettings": "Setări",
@@ -729,7 +734,9 @@
     "textSpellcheck": "Verificarea ortografică",
     "textStatistic": "Statistic",
     "textSubject": "Subiect",
+    "textSubmit": "Trimitere",
     "textSymbols": "Simboluri",
+    "textTheme": "Temă",
     "textTitle": "Titlu",
     "textTop": "Sus",
     "textTrackedChanges": "Modificări urmărite",
@@ -768,14 +775,7 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă",
-    "textExport": "Export",
-    "textExportAs": "Export As",
-    "textLight": "Light",
-    "textSameAsSystem": "Same as system",
-    "textSaveAsPdf": "Save as PDF",
-    "textSubmit": "Submit",
-    "textTheme": "Theme"
+    "txtScheme9": "Forjă"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

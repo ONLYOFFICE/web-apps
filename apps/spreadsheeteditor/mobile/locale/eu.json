@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Ez erakutsi berriro",
     "textOk": "Ados",
     "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
-    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?"
+    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

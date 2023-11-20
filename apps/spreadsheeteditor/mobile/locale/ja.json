@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "再度表示しない",
     "textOk": "OK",
     "txtWarnUrl": "このリンクをクリックすると、お使いの端末やデータに悪影響を与える可能性があります。<br>本当に続けてよろしいですか？",
-    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？"
+    "warnMergeLostData": "マージされたセルに左上のセルからのデータのみが残ります。<br>続行してもよろしいです？",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
