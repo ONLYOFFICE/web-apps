@@ -66,6 +66,7 @@
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
     "menuAddComment": "Add Comment",
     "menuAddLink": "Add Link",
+    "menuAutofill": "Autofill",
     "menuCancel": "Cancel",
     "menuCell": "Cell",
     "menuDelete": "Delete",

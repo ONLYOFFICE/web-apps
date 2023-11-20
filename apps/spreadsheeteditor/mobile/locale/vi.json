@@ -87,7 +87,8 @@
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
-    "menuEditLink": "Edit Link"
+    "menuEditLink": "Edit Link",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {

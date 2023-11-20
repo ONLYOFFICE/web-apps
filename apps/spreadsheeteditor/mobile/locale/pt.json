@@ -40,6 +40,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores de tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "O mesmo que sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anônimo",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "O arquivo atual será salvo no histórico de versões.",
       "titleWarningRestoreVersion": "Restaurar esta versão?",
       "txtErrorLoadHistory": "Carregamento do histórico falhou"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -66,6 +66,7 @@
     "errorInvalidLink": "A referência de link não existe. Corrija o link ou o exclua.",
     "menuAddComment": "Adicionar comentário",
     "menuAddLink": "Adicionar Link",
+    "menuAutofill": "Preenchimento automático",
     "menuCancel": "Cancelar",
     "menuCell": "Célula",
     "menuDelete": "Excluir",
@@ -678,6 +679,7 @@
       "textComments": "Comentários",
       "textCreated": "Criado",
       "textCustomSize": "Tamanho personalizado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema Escuro",
       "textDelimeter": "Delimitador",
       "textDirection": "Direção",
@@ -709,6 +711,7 @@
       "textLastModifiedBy": "Última Modificação Por",
       "textLeft": "Esquerda",
       "textLeftToRight": "Da esquerda para a direita",
+      "textLight": "Claro",
       "textLocation": "Localização",
       "textLookIn": "Olhar em",
       "textMacrosSettings": "Configurações de macros",
@@ -732,6 +735,7 @@
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRight": "Direita",
       "textRightToLeft": "Da direita para a esquerda",
+      "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSearchBy": "Pesquisar",
       "textSearchIn": "Procurar em",
@@ -744,6 +748,7 @@
       "textSpreadsheetTitle": "Título da planilha",
       "textSubject": "Assunto",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textTop": "Superior",
       "textUnitOfMeasurement": "Unidade de medida",
@@ -817,11 +822,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
     }
   }
 }

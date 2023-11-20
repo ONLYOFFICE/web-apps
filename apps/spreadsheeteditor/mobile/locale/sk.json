@@ -87,6 +87,7 @@
     "textDoNotShowAgain": "Nezobrazovať znova",
     "txtWarnUrl": "Kliknutie na tento odkaz môže byť škodlivé pre Vaše zariadenie a Vaše dáta.<br>Ste si istý, že chcete pokračovať?",
     "warnMergeLostData": "Iba údaje z ľavej hornej bunky zostanú v zlúčenej bunke.<br>Ste si istý, že chcete pokračovať?",
+    "menuAutofill": "Autofill",
     "textOk": "Ok"
   },
   "Controller": {

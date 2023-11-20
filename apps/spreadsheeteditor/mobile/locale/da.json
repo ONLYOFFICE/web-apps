@@ -83,6 +83,7 @@
     "textDoNotShowAgain": "Vis ikke igen",
     "warnMergeLostData": "Kun data for øverste venstre celle forbliver i fusionerede celler.<br>Er du sikker på at du vil fortsætte?",
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
+    "menuAutofill": "Autofill",
     "menuUnfreezePanes": "Unfreeze Panes",
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",

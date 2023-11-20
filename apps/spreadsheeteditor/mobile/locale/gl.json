@@ -87,7 +87,8 @@
     "textDoNotShowAgain": "Non amosar de novo",
     "textOk": "Aceptar",
     "txtWarnUrl": "Prema nesta ligazón pode ser prexudicial para o seu dispositivo e os seus datos.<br> Ten a certeza de que quere continuar?",
-    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?"
+    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
