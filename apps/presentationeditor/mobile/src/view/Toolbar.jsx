@@ -55,7 +55,12 @@ const ToolbarView = props => {
                     onRedoClick: props.onRedo
                 })}
             </NavLeft>
-            {(!Device.phone && !isVersionHistoryMode) && <NavTitle style={{width: '71%'}}>{props.docTitle}</NavTitle>}
+            {(!Device.phone && !isVersionHistoryMode) && 
+                <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
+                    {props.docTitle}
+                </div>
+            }
+            {/* <NavTitle onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>{props.docTitle}</NavTitle>} */}
             <NavRight>
                 {(Device.android && props.isEdit && EditorUIController.getUndoRedo && !isVersionHistoryMode) && EditorUIController.getUndoRedo({
                     disabledUndo: !props.isCanUndo || isDisconnected,
