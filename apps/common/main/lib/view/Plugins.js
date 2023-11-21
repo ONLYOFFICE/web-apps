@@ -333,6 +333,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'small'
             });
+            this.lockedControls.push(btn);
             return btn;
         },
 

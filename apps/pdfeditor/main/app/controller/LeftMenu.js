@@ -568,6 +568,7 @@ define([
             var viewmode = this._state.disableEditing;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         SetDisabled: function(disable, options) {
