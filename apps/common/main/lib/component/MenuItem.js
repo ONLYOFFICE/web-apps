@@ -117,7 +117,7 @@ define([
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
                 '<% } %>',
-                '<%= caption %>',
+                '<%- caption %>',
             '</a>'
         ].join('')),
 
@@ -253,11 +253,11 @@ define([
             return this;
         },
 
-        setCaption: function(caption, noencoding) {
+        setCaption: function(caption) {
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = caption;
         },
 
         setIconCls: function(iconCls) {

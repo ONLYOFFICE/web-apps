@@ -566,7 +566,7 @@ define([
                         hidentems.forEach(function(item){
                             me.tabMenu.items[6].menu.addItem(new Common.UI.MenuItem({
                                 style: 'white-space: pre-wrap',
-                                caption: Common.Utils.String.htmlEncode(item.label),
+                                caption: item.label,
                                 value: item.sheetindex
                             }));
                         });

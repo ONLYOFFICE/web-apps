@@ -1796,7 +1796,7 @@ define([
                         checkable: true,
                         checked: last === item,
                         toggleGroup: 'filtercomments',
-                        caption: Common.Utils.String.htmlEncode(item),
+                        caption: item,
                         value: item
                     }));
                 });
