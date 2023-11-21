@@ -262,7 +262,7 @@ define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.templa
                 this.format.formatStr = field.asc_getNumFormat();
                 this.format.formatInfo = field.asc_getNumFormatInfo();
                 this.lblSourceName.html(Common.Utils.String.htmlEncode(props.getCacheFieldName(this.fieldIndex)));
-                this.inputCustomName.setValue(Common.Utils.String.htmlEncode(props.getPivotFieldName(this.fieldIndex)));
+                this.inputCustomName.setValue(props.getPivotFieldName(this.fieldIndex));
 
                 (field.asc_getOutline()) ? this.radioOutline.setValue(true) : this.radioTabular.setValue(true);
                 this.chCompact.setValue(field.asc_getOutline() && field.asc_getCompact());
