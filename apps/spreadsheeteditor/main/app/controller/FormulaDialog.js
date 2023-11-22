@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    FormulaDialog.js
  *
@@ -82,11 +81,18 @@ define([
                 'FormulaTab': {
                     'function:apply': this.applyFunction,
                     'function:calculate': this.onCalculate,
-                    'function:watch': this.onWatch
+                    'function:watch': this.onWatch,
+                    'function:precedents': this.onPrecedents,
+                    'function:dependents': this.onDependents,
+                    'function:remove-arrows': this.onRemArrows,
+                    'function:showformula': this.onShowFormula
                 },
                 'Toolbar': {
                     'function:apply': this.applyFunction,
                     'tab:active': this.onTabActive
+                },
+                'Statusbar': {
+                    'sheet:changed': this.onApiSheetChanged.bind(this)
                 }
             });
         },
@@ -134,12 +140,17 @@ define([
                 this.formulas.on({
                     'hide': function () {
                         me._cleanCell = undefined; // _cleanCell - clean cell when change formula in formatted table total row
-                        me.api.asc_enableKeyEvents(true);
                     }
                 });
             }
 
-            this.formulaTab && this.formulaTab.setApi(this.api);
+            if (this.formulaTab) {
+                this.formulaTab.setApi(this.api);
+                this.api.asc_registerCallback('asc_onWorksheetLocked',        this.onWorksheetLocked.bind(this));
+                this.api.asc_registerCallback('asc_onSheetsChanged',          this.onApiSheetChanged.bind(this));
+                this.api.asc_registerCallback('asc_onUpdateFormulasViewSettings', this.onUpdateFormulasViewSettings.bind(this));
+                this.onApiSheetChanged();
+            }
             this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
 
             return this;
@@ -423,10 +434,50 @@ define([
                 this._watchDlg.on('close', function(win){
                     me.formulaTab.btnWatch.toggle(false, true);
                     me._watchDlg = null;
+                    Common.NotificationCenter.trigger('edit:complete');
                 }).show();
             } else if (this._watchDlg)
                 this._watchDlg.close();
 
+        },
+
+        onPrecedents: function(type){
+            this.api && this.api.asc_TracePrecedents();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onDependents: function(type){
+            this.api && this.api.asc_TraceDependents();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRemArrows: function(type){
+            this.api && this.api.asc_RemoveTraceArrows(type);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onShowFormula: function(state) {
+            this.api && this.api.asc_setShowFormulas(!!state);
+            Common.NotificationCenter.trigger('edit:complete');
+        },
+
+        onWorksheetLocked: function(index,locked) {
+            if (index == this.api.asc_getActiveWorksheetIndex() && this.formulaTab) {
+                Common.Utils.lockControls(Common.enumLock.sheetLock, locked, {array: [this.formulaTab.btnShowFormulas]});
+            }
+        },
+
+        onApiSheetChanged: function() {
+            if (!this.mode || !this.mode.isEdit || this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) return;
+
+            this.formulaTab && this.formulaTab.btnShowFormulas.toggle(this.api.asc_getShowFormulas(), true);
+            var currentSheet = this.api.asc_getActiveWorksheetIndex();
+            this.onWorksheetLocked(currentSheet, this.api.asc_isWorksheetLockedOrDeleted(currentSheet));
+        },
+
+        onUpdateFormulasViewSettings: function() {
+            if (!this.mode || !this.mode.isEdit || this.mode.isEditDiagram || this.mode.isEditMailMerge || this.mode.isEditOle) return;
+            this.formulaTab && this.formulaTab.btnShowFormulas.toggle(this.api.asc_getShowFormulas(), true);
         },
 
         sCategoryAll:                   'All',

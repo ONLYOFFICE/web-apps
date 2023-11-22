@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Drops rows or columns from array start or end."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Returns a sequence of numbers"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Expands an array to the specified dimensions."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Returns the relative position of an item in an array. By default, an exact match is required"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filter a range or array"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Returns a text representation of an array"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Sorts a range or array"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "Sorts a range or array based on the values in a corresponding range or array"
 	}
 }

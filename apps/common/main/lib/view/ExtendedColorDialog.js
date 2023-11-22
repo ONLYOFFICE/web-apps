@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 if (Common === undefined)
     var Common = {};
 
@@ -49,16 +48,15 @@ define([
 
         initialize : function(options) {
             Common.UI.Window.prototype.initialize.call(this, {
-                cls: 'extended-color-dlg',
+                cls: 'extended-color-dlg modal-dlg',
                 tpl: this.tpl({
                     txtNew: this.textNew,
-                    txtCurrent: this.textCurrent,
-                    txtAdd: this.addButtonText,
-                    txtCancel: this.cancelButtonText
+                    txtCurrent: this.textCurrent
                 }),
                 header: false,
-                width: 340,
-                height: 272
+                buttons: [{value: '1', caption: this.addButtonText}, {value: '0', caption: this.cancelButtonText}],
+                primary: '1',
+                width: 340
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;
@@ -150,7 +148,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}];
+            return [this.spinR, this.spinG, this.spinB, {cmp: this.textColor, selector: 'input'}].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

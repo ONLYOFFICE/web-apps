@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ChartSettings.js
  *
@@ -146,7 +145,10 @@ define([
                 chartSettings = isChart ? this.api.asc_getChartObject(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
-            this.ShowHideElem(isChart, !!props3d);
+            if ( this.isChart!==isChart || this._state.is3D!==!!props3d ) {
+                this.ShowHideElem(isChart, !!props3d);
+            }
+            this._state.is3D=!!props3d;
             this.disableControls(this._locked);
 
             if (this.api && props){
@@ -689,7 +691,7 @@ define([
             this.btnRatio = new Common.UI.Button({
                 parentEl: $('#chart-button-ratio'),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon advanced-btn-ratio',
+                iconCls: 'toolbar__icon btn-advanced-ratio',
                 style: 'margin-bottom: 1px;',
                 enableToggle: true,
                 hint: this.textKeepRatio,
@@ -729,7 +731,7 @@ define([
                     allowScrollbar: false,
                     groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
                     store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
                     delayRenderTips: true
                 });
             });
@@ -794,7 +796,7 @@ define([
 
             this.btnChangeType = new Common.UI.Button({
                 parentEl: $('#chart-btn-change-type'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-menu-chart',
                 caption     : this.textChangeType,
                 dataHint    : '1',
@@ -806,7 +808,7 @@ define([
 
             this.btnSelectData = new Common.UI.Button({
                 parentEl: $('#chart-btn-select-data'),
-                cls         : 'btn-toolbar',
+                cls         : 'btn-toolbar align-left',
                 iconCls     : 'toolbar__icon btn-select-range',
                 caption     : this.textSelectData,
                 dataHint    : '1',
@@ -818,8 +820,8 @@ define([
 
             this.btnSwitch = new Common.UI.Button({
                 parentEl: $('#chart-btn-switch'),
-                cls         : 'btn-toolbar',
-                iconCls     : 'toolbar__icon switch_row_column',
+                cls         : 'btn-toolbar align-left',
+                iconCls     : 'toolbar__icon btn-switch-row-column',
                 caption     : this.textSwitch,
                 dataHint    : '1',
                 dataHintDirection: 'left',
@@ -1047,6 +1049,7 @@ define([
             this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
             this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
             this.Chart3DContainer.toggleClass('settings-hidden', !isChart || !is3D);
+            this.fireEvent('updatescroller', this);
         },
 
         ShowCombinedProps: function(type) {

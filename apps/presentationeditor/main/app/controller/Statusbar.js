@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Statusbar.js
  *
@@ -69,6 +68,7 @@ define([
                 zoom_type: undefined,
                 zoom_percent: undefined
             };
+            this._isZoomRecord = (Common.localStorage.getItem("pe-settings-zoom") != -3);
         },
 
         events: function() {
@@ -119,7 +119,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onZoomChange',   _.bind(this._onZoomChange, this));
             this.api.asc_registerCallback('asc_onTextLanguage', _.bind(this._onTextLanguage, this));
-
+            this.api.asc_registerCallback('asc_onDocumentContentReady', _.bind(function (){this._isZoomRecord = true;}, this));
             this.statusbar.setApi(api);
         },
 
@@ -184,6 +184,8 @@ define([
              if (this._state.zoom_percent !== percent) {
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
+                 if(!this._isZoomRecord ) return;
+                 Common.localStorage.setItem('pe-last-zoom', percent);
              }
         },
 

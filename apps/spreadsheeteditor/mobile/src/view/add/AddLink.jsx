@@ -3,7 +3,7 @@ import {Page, Navbar, BlockTitle, List, ListItem, ListInput, ListButton, Icon, L
 import { useTranslation } from 'react-i18next';
 import {Device} from "../../../../../common/mobile/utils/device";
 
-const PageTypeLink = ({curType, changeType}) => {
+const PageTypeLink = ({curType, changeType, isNavigate}) => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(curType);
@@ -13,7 +13,7 @@ const PageTypeLink = ({curType, changeType}) => {
             <Navbar className="navbar-link-settings" title={_t.textLinkType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-close' popupClose="#add-link-popup"></Link>
+                        <Link icon='icon-close' popupClose={!isNavigate ? "#add-link-popup" : ".add-popup"}></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -25,7 +25,7 @@ const PageTypeLink = ({curType, changeType}) => {
     )
 };
 
-const PageSheet = ({curSheet, sheets, changeSheet}) => {
+const PageSheet = ({curSheet, sheets, changeSheet, isNavigate}) => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const [stateSheet, setSheet] = useState(curSheet.value);
@@ -35,7 +35,7 @@ const PageSheet = ({curSheet, sheets, changeSheet}) => {
             <Navbar className="navbar-link-settings" title={_t.textSheet} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-close' popupClose="#add-link-popup"></Link>
+                        <Link icon='icon-close' popupClose={!isNavigate ? "#add-link-popup" : ".add-popup"}></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -63,6 +63,7 @@ const AddLink = props => {
     const isIos = Device.ios;
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const isNavigate = props.isNavigate;
 
     const [typeLink, setTypeLink] = useState('ext');
     const textType = typeLink === 'ext' ? _t.textExternalLink : _t.textInternalDataRange;
@@ -93,7 +94,7 @@ const AddLink = props => {
             <Navbar className="navbar-link-settings">
                 <NavLeft>
                     <Link text={Device.ios ? t('View.Add.textCancel') : ''} onClick={() => {
-                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                        isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
                         {Device.android && <Icon icon='icon-close' />}
                     </Link>
@@ -113,26 +114,28 @@ const AddLink = props => {
                 {props.allowInternal &&
                     <ListItem link={'/add-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
                         changeType: changeType,
-                        curType: typeLink
+                        curType: typeLink,
+                        isNavigate
                     }}/>
                 }
                 {typeLink === 'ext' &&
-                    <ListInput label={_t.textLink}
-                               type="text"
-                               placeholder={_t.textRequired}
-                               value={link}
-                               onChange={(event) => {
-                                setLink(event.target.value);
+                    <ListInput 
+                        label={_t.textLink}
+                        type="text"
+                        placeholder={_t.textRequired}
+                        value={link}
+                        onChange={(event) => {
+                            setLink(event.target.value);
                                 if(stateAutoUpdate && !displayDisabled) setDisplayText(event.target.value);
-                            }}
-                               className={isIos ? 'list-input-right' : ''}
+                            }}   
                     />
                 }
                 {typeLink === 'int' &&
                     <ListItem link={'/add-link-sheet/'} title={_t.textSheet} after={curSheet.caption} routeProps={{
                         changeSheet: changeSheet,
                         sheets: props.sheets,
-                        curSheet: curSheet
+                        curSheet: curSheet,
+                        isNavigate
                     }}/>
                 }
                 {typeLink === 'int' &&
@@ -141,7 +144,6 @@ const AddLink = props => {
                                placeholder={_t.textRequired}
                                value={range}
                                onChange={(event) => {setRange(event.target.value)}}
-                               className={isIos ? 'list-input-right' : ''}
                     />
                 }
                 <ListInput label={_t.textDisplay}
@@ -153,14 +155,12 @@ const AddLink = props => {
                                 setDisplayText(event.target.value);
                                 setAutoUpdate(event.target.value == ''); 
                             }}
-                           className={isIos ? 'list-input-right' : ''}
                 />
                 <ListInput label={_t.textScreenTip}
                            type="text"
                            placeholder={_t.textScreenTip}
                            value={screenTip}
                            onChange={(event) => {setScreenTip(event.target.value)}}
-                           className={isIos ? 'list-input-right' : ''}
                 />
             </List>
         </Page>

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    LeftMenu.js
  *
@@ -67,19 +66,25 @@ define([
                     'history:show': function () {
                         if ( !this.leftMenu.panelHistory.isVisible() )
                             this.clickMenuFileItem('header', 'history');
-                    }.bind(this)
+                    }.bind(this),
+                    'rename': _.bind(function (value) {
+                        this.mode && this.mode.wopi && this.api ? this.api.asc_wopi_renameFile(value) : Common.Gateway.requestRename(value);
+                    }, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
-                    'hide':        _.bind(this.onHidePlugins, this)
+                    'plugins:addtoleft': _.bind(this.addNewPlugin, this),
+                    'plugins:open': _.bind(this.openPlugin, this),
+                    'plugins:close': _.bind(this.closePlugin, this),
+                    'hide': _.bind(this.onHidePlugins, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
-                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide'),
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
@@ -116,6 +121,7 @@ define([
             }, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('file:help', _.bind(this.showHelp, this));
         },
 
         onLaunch: function() {
@@ -227,6 +233,8 @@ define([
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             this.onChangeProtectDocument();
             Common.util.Shortcuts.resumeEvents();
+            this.leftMenu.setButtons();
+            this.leftMenu.setMoreButton();
             return this;
         },
 
@@ -336,7 +344,7 @@ define([
                             }
                         }, this)
                     });
-                } else if (format == Asc.c_oAscFileType.DOCX) {
+                } else if (format == Asc.c_oAscFileType.DOCX || format == Asc.c_oAscFileType.DOCM || format == Asc.c_oAscFileType.DOTX) {
                     if (!Common.Utils.InternalSettings.get("de-settings-compatible") && !Common.localStorage.getBool("de-hide-save-compatible") && this.api.asc_isCompatibilityMode()) {
                         Common.UI.warning({
                             closable: false,
@@ -349,6 +357,7 @@ define([
                                 if (dontshow) Common.localStorage.setItem("de-hide-save-compatible", 1);
                                 if (btn == 'ok') {
                                     this.isFromFileDownloadAs = ext;
+                                    options.asc_setCompatible(false);
                                     this.api.asc_DownloadAs(options);
                                     menu.hide();
                                 }
@@ -378,7 +387,7 @@ define([
                 if (format===undefined) {
                     this._saveAsFormat(undefined, format, ext); // download original
                     menu && menu.hide();
-                } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA)
+                } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA || format == Asc.c_oAscFileType.JPG || format == Asc.c_oAscFileType.PNG)
                     this._saveAsFormat(menu, format, ext);
                 else {
                     if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) // don't show message about pdf/xps/oxps
@@ -515,6 +524,10 @@ define([
                 value = parseInt(Common.localStorage.getItem("de-settings-paste-button"));
                 Common.Utils.InternalSettings.set("de-settings-paste-button", value);
                 this.api.asc_setVisiblePasteButton(!!value);
+
+                value = Common.localStorage.getBool("de-settings-smart-selection");
+                Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
+                this.api.asc_putSmartParagraphSelection(value);
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
@@ -576,11 +589,36 @@ define([
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
+        /** coauthoring end **/
 
         onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
-        /** coauthoring end **/
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.leftMenu.insertButton(button, $button);
+            this.leftMenu.insertPanel($panel);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                if (btn.pressed) {
+                    this.tryToShowLeftMenu();
+                    this.leftMenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.leftMenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                this.leftMenu.onBtnMenuClick(btn);
+            }
+        },
+
+        openPlugin: function (guid) {
+            this.leftMenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.leftMenu.closePlugin(guid);
+        },
 
         onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
@@ -590,8 +628,8 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnNavigation.setDisabled(true);
+            this.leftMenu.setDisabledPluginButtons(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -631,7 +669,7 @@ define([
             if (!options || options.navigation && options.navigation.disable)
                 this.leftMenu.btnNavigation.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
+            this.leftMenu.setDisabledPluginButtons(disable);
         },
 
         /** coauthoring begin **/
@@ -700,8 +738,7 @@ define([
         },
 
         menuFilesShowHide: function(state) {
-            if (this.api && state == 'hide')
-                this.api.asc_enableKeyEvents(true);
+            (state === 'hide') && Common.NotificationCenter.trigger('menu:hide');
         },
 
         onMenuChange: function (value) {
@@ -778,7 +815,7 @@ define([
                 case 'help':
                     if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
-                        this.leftMenu.showMenu('file:help');
+                        this.showHelp();
                     }
                     return false;
                 case 'file':
@@ -809,8 +846,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                                $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -833,21 +869,6 @@ define([
                     }
                     return false;
             /** coauthoring end **/
-            }
-        },
-
-        onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
-                }
             }
         },
 
@@ -940,6 +961,10 @@ define([
         tryToShowLeftMenu: function() {
             if ((!this.mode.canBrandingExt || !this.mode.customization || this.mode.customization.leftMenu !== false) && Common.UI.LayoutManager.isElementVisible('leftMenu'))
                 this.onLeftMenuHide(null, true);
+        },
+
+        showHelp: function(src) {
+            this.leftMenu && this.leftMenu.showMenu('file:help', src);
         },
 
         textNoTextFound         : 'Text not found',

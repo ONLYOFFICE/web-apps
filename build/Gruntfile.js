@@ -1,3 +1,34 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2023
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
 module.exports = function(grunt) {
     var _ = require('lodash'),
         defaultConfig,
@@ -267,10 +298,16 @@ module.exports = function(grunt) {
             svgmin: {
                 options: {
                     plugins: [{
-                        cleanupIDs: false
+                        name: 'preset-default',
+                        params: {
+                            overrides: {
+                                cleanupIds: false,
+                            }
+                        },
                     },
                     {
-                        convertPathData: {
+                        name: 'convertPathData',
+                        params: {
                             floatPrecision: 4
                         }
                     }]
@@ -423,10 +460,16 @@ module.exports = function(grunt) {
             svgmin: {
                 options: {
                     plugins: [{
-                        cleanupIDs: false
+                        name: 'preset-default',
+                        params: {
+                            overrides: {
+                                cleanupIds: false,
+                            }
+                        },
                     },
                     {
-                        convertPathData: {
+                        name: 'convertPathData',
+                        params: {
                             floatPrecision: 4
                         }
                     }]
@@ -442,6 +485,7 @@ module.exports = function(grunt) {
                         comments: false,
                         preamble: "/* minified by terser */",
                     },
+                    sourceMap: true,
                 },
                 build: {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
@@ -623,6 +667,7 @@ module.exports = function(grunt) {
                         comments: false,
                         preamble: copyright,
                     },
+                    sourceMap: true,
                 },
                 build: {
                     src: packageFile['embed']['js']['src'],
@@ -745,6 +790,7 @@ module.exports = function(grunt) {
     doRegisterInitializeAppTask('documenteditor',       'DocumentEditor',       'documenteditor.json');
     doRegisterInitializeAppTask('spreadsheeteditor',    'SpreadsheetEditor',    'spreadsheeteditor.json');
     doRegisterInitializeAppTask('presentationeditor',   'PresentationEditor',   'presentationeditor.json');
+    doRegisterInitializeAppTask('pdfeditor',            'PDFEditor',            'pdfeditor.json');
 
     doRegisterInitializeAppTask('testdocumenteditor',    'TestDocumentEditor',           'testdocumenteditor.json');
     doRegisterInitializeAppTask('testpresentationeditor', 'TestPresentationEditor',      'testpresentationeditor.json');
@@ -765,12 +811,14 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-documenteditor-component',     ['init-build-documenteditor', 'deploy-app']);
     grunt.registerTask('deploy-spreadsheeteditor-component',  ['init-build-spreadsheeteditor', 'deploy-app']);
     grunt.registerTask('deploy-presentationeditor-component', ['init-build-presentationeditor', 'deploy-app']);
+    grunt.registerTask('deploy-pdfeditor-component',          ['init-build-pdfeditor', 'deploy-app']);
     // This task is called from the Makefile, don't delete it.
     grunt.registerTask('deploy-documents-component',          ['deploy-common-component']);   
 
     grunt.registerTask('deploy-documenteditor',     ['deploy-common-component', 'deploy-documenteditor-component']);
     grunt.registerTask('deploy-spreadsheeteditor',  ['deploy-common-component', 'deploy-spreadsheeteditor-component']);
     grunt.registerTask('deploy-presentationeditor', ['deploy-common-component', 'deploy-presentationeditor-component']);
+    grunt.registerTask('deploy-pdfeditor',          ['deploy-common-component', 'deploy-pdfeditor-component']);
 
     grunt.registerTask('deploy-testdocumenteditor', ['init-build-testdocumenteditor', 'deploy-app']);
     grunt.registerTask('deploy-testpresentationeditor', ['init-build-testpresentationeditor', 'deploy-app']);
@@ -779,5 +827,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['deploy-common-component',
                                    'deploy-documenteditor-component',
                                    'deploy-spreadsheeteditor-component',
-                                   'deploy-presentationeditor-component']);
+                                   'deploy-presentationeditor-component',
+                                   'deploy-pdfeditor-component']);
 };

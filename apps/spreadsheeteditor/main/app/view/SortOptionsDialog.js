@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -48,7 +47,7 @@ define([
     SSE.Views.SortOptionsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 230,
-            height: 200
+            separator: false
         },
 
         initialize : function(options) {
@@ -56,10 +55,9 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
@@ -87,10 +85,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.props      = options.props;
@@ -131,7 +127,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chHeaders, this.radioTop, this.radioLeft];
+            return [this.chHeaders, this.radioTop, this.radioLeft].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

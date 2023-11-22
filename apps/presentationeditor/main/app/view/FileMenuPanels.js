@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    FileMenuPanels.js
  *
@@ -75,8 +74,8 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -105,7 +104,9 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'pptx').toLowerCase(), header: this.textDownloadAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'pptx').toLowerCase(),
+                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'PE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -154,18 +155,18 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX},
-            {name: 'PPSX',  imgCls: 'ppsx',  type: Asc.c_oAscFileType.PPSX},
-            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP}
+            {name: 'PPTX',  imgCls: 'pptx',  type: Asc.c_oAscFileType.PPTX, ext: '.pptx'},
+            {name: 'PPSX',  imgCls: 'ppsx',  type: Asc.c_oAscFileType.PPSX, ext: '.ppsx'},
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
+            {name: 'ODP',   imgCls: 'odp',   type: Asc.c_oAscFileType.ODP, ext: '.odp'}
         ],[
-            {name: 'POTX',  imgCls: 'potx',   type: Asc.c_oAscFileType.POTX},
-            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM},
-            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA},
-            {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP}
+            {name: 'POTX',  imgCls: 'potx',   type: Asc.c_oAscFileType.POTX, ext: '.potx'},
+            {name: 'PPTM',  imgCls: 'pptm',  type: Asc.c_oAscFileType.PPTM, ext: '.pptm'},
+            {name: 'PDFA',  imgCls: 'pdfa',  type: Asc.c_oAscFileType.PDFA, ext: '.pdf'},
+            {name: 'OTP',   imgCls: 'otp',   type: Asc.c_oAscFileType.OTP, ext: '.otp'}
         ], [
-            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
-            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
         ]],
 
         template: _.template([
@@ -174,8 +175,8 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<% if (item.type!==Asc.c_oAscFileType.PPTM || fileType=="pptm") { %>',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -204,7 +205,9 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'pptx').toLowerCase(), header: this.textSaveCopyAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'pptx').toLowerCase(),
+                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'PE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -256,7 +259,7 @@ define([
         template: _.template([
         '<div class="flex-settings">',
             '<div class="header"><%= scope.txtAdvancedSettings %></div>',
-            '<table style="margin: 0 14px 0 20px;"><tbody>',
+            '<table><tbody>',
                 '<tr class="editsave">',
                     '<td colspan="2" class="group-name top"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -323,7 +326,7 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr>',
+                '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
                 '</tr>',
                 '<tr class="quick-print">',
@@ -360,7 +363,7 @@ define([
             '</tbody></table>',
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table style="margin: 10px 14px;"><tbody>',
+            '<table style="margin: 10px 20px;"><tbody>',
                 '<tr>',
                     '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -423,6 +426,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: -1, displayValue: this.txtFitSlide },
                     { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
@@ -559,7 +563,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
                 dataHint: '2',
@@ -654,7 +658,7 @@ define([
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
-                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height() + this.$el.find('.header').outerHeight(true);
+                var scrolled = this.$el.height() < this.pnlTable.parent().height() + 25 + this.pnlApply.height();
                 this.pnlApply.toggleClass('hidden', !scrolled);
                 this.trApply.toggleClass('hidden', scrolled);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
@@ -682,6 +686,7 @@ define([
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.spellcheck', this.el)[mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck') ? 'show' : 'hide']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
+            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
 
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -743,7 +748,7 @@ define([
             this.lblMacrosDesc.text(item ? item.get('descValue') : this.txtWarnMacrosDesc);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("pe-settings-paste-button"));
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("pe-settings-quick-print-button"));
 
             var data = [];
@@ -791,7 +796,7 @@ define([
             Common.Utils.InternalSettings.set("pe-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("pe-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
+            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("pe-settings-quick-print-button", this.chQuickPrint.isChecked());
 
@@ -875,7 +880,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
         txtStrictTip: 'Use the \'Save\' button to sync the changes you and others make',
         strIgnoreWordsInUPPERCASE: 'Ignore words in UPPERCASE',
@@ -885,69 +890,9 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart presentation editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart presentation editor so that your workspace settings can take effect',
+        txtLastUsed: 'Last used'
     }, PE.Views.FileMenuPanels.Settings || {}));
-
-    PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
-        el: '#panel-recentfiles',
-        menu: undefined,
-
-        template: _.template([
-            '<div class="header"><%= scope.txtOpenRecent %></div>',
-            '<div id="id-recent-view"></div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-            this.recent = options.recent;
-        },
-
-        render: function() {
-            this.$el.html(this.template({scope: this}));
-
-            this.viewRecentPicker = new Common.UI.DataView({
-                el: $('#id-recent-view'),
-                store: new Common.UI.DataViewStore(this.recent),
-                itemTemplate: _.template([
-                    '<div class="recent-wrap">',
-                        '<div class="recent-icon">',
-                            '<div>',
-                                '<div class="svg-file-recent"></div>',
-                            '</div>',
-                        '</div>',
-                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
-                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
-                    '</div>'
-                ].join(''))
-            });
-
-            this.viewRecentPicker.on('item:click', _.bind(this.onRecentFileClick, this));
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            this.scroller && this.scroller.update();
-        },
-
-        onRecentFileClick: function(view, itemview, record){
-            if ( this.menu )
-                this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
-        },
-
-        txtOpenRecent: 'Open Recent'
-    });
 
     PE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
         el: '#panel-createnew',
@@ -1498,7 +1443,7 @@ define([
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary auto">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
@@ -1809,7 +1754,7 @@ define([
                     '<div class="description"><%= scope.txtEncrypted %></div>',
                     '<div class="buttons">',
                         '<div id="fms-btn-change-pwd"></div>',
-                        '<div id="fms-btn-delete-pwd"></div>',
+                        '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
                     '</div>',
                 '</div>',
             '</div>',
@@ -1836,7 +1781,7 @@ define([
                 '<div class="<% if (!hasSigned) { %>hidden<% } %>"">',
                     '<div class="signature-tip"><%= tipText %></div>',
                     '<div class="buttons">',
-                        '<label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                        '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
                         '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
                     '</div>',
                 '</div>'
@@ -1990,19 +1935,23 @@ define([
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                                 '<tbody>',
-                                    '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
-                                    '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large">',
-                                        '<table style="width: 100%;"><tbody><tr>',
-                                        '<td><%= scope.txtPages %></td><td><div id="print-txt-pages" style="width: 100%;padding-left: 5px;"></div></td>',
+                                        '<table style="width: 100%;"><tbody>',
+                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" class="padding-left-5" style="width: 100%;"></div></td></tr>',
+                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtPaperSize %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPaperSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
-                                            '<button id="print-btn-print" class="btn normal dlg-btn primary" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
-                                            '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
+                                            '<button id="print-btn-print" class="btn normal dlg-btn primary margin-right-8" result="print" style="width: 96px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button>',
+                                            '<button id="print-btn-print-pdf" class="btn normal dlg-btn" result="pdf" style="min-width: 96px;width: auto;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintPdf %></button>',
                                         '</div>',
                                     '</td></tr>',
                                 '</tbody>',
@@ -2010,15 +1959,20 @@ define([
                         '</div>',
                     '</div>',
                 '</div>',
-                '<div id="print-preview-box" style="position: absolute; left: 280px; top: 0; right: 0; bottom: 0;" class="no-padding">',
+                '<div id="print-preview-box" class="no-padding">',
                     '<div id="print-preview"></div>',
                     '<div id="print-navigation">',
-                        '<div id="print-prev-page" style="display: inline-block; margin-right: 4px;"></div>',
-                        '<div id="print-next-page" style="display: inline-block;"></div>',
-                        '<div class="page-number">',
+                        '<% if (!isRTL) { %>',
+                            '<div id="print-prev-page"></div>',
+                            '<div id="print-next-page"></div>',
+                        '<% } else { %>',
+                            '<div id="print-next-page"></div>',
+                            '<div id="print-prev-page"></div>',
+                        '<% } %>',
+                        '<div class="page-number margin-left-10">',
                             '<label><%= scope.txtPage %></label>',
-                            '<div id="print-number-page"></div>',
-                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                            '<div id="print-number-page" class="margin-left-4"></div>',
+                            '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                     '</div>',
                 '</div>',
@@ -2039,7 +1993,7 @@ define([
         render: function(node) {
             var me = this;
 
-            var $markup = $(this.template({scope: this}));
+            var $markup = $(this.template({scope: this, isRTL: Common.UI.isRTL()}));
 
             this.cmbRange = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-range'),
@@ -2068,6 +2022,44 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+
+            this.spnCopies = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-txt-copies'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 1,
+                maxValue: 32767,
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbSides = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-sides'),
+                menuStyle   : 'width:100%;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSides.setValue('one');
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-pages'),
@@ -2115,6 +2107,7 @@ define([
                 parentEl: $markup.findById('#print-prev-page'),
                 cls: 'btn-prev-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });
@@ -2123,6 +2116,7 @@ define([
                 parentEl: $markup.findById('#print-next-page'),
                 cls: 'btn-next-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });
@@ -2150,8 +2144,11 @@ define([
             });
 
             this.$el = $(node).html($markup);
+            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
+
+            this.applyMode();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -2195,6 +2192,13 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
+            // !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
         },
 
         setApi: function(api) {
@@ -2241,6 +2245,10 @@ define([
             this.cmbPaperSize.setValue(value);
         },
 
+        openHeaderSettings: function() {
+            this.fireEvent('openheader', this);
+        },
+
         txtPrint: 'Print',
         txtPrintPdf: 'Print to PDF',
         txtPrintRange: 'Print range',
@@ -2252,7 +2260,15 @@ define([
         txtPageNumInvalid: 'Slide number invalid',
         txtEmptyTable: 'There is nothing to print because the presentation is empty',
         txtPages: 'Slides',
-        txtPaperSize: 'Paper size'
+        txtPaperSize: 'Paper size',
+        txtCopies: 'Copies',
+        txtPrintSides: 'Print sides',
+        txtOneSide: 'Print one sided',
+        txtOneSideDesc: 'Only print on one side of the page',
+        txtBothSides: 'Print on both sides',
+        txtBothSidesLongDesc: 'Flip pages on long edge',
+        txtBothSidesShortDesc: 'Flip pages on short edge',
+        txtHeaderFooterSettings: 'Header/footer settings',
 
     }, PE.Views.PrintWithPreview || {}));
 });

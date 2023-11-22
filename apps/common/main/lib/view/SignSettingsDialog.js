@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  SignSettingsDialog.js
  *
@@ -59,7 +58,8 @@ define([
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                buttons: ['ok'].concat((options.type || this.options.type) === 'edit' ? ['cancel'] : []),
             }, options || {});
 
             this.template = [
@@ -81,12 +81,6 @@ define([
                     '</div>',
                     '<div id="id-dlg-sign-settings-instructions"></div>',
                     '<div id="id-dlg-sign-settings-date"></div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">' + this.okButtonText + '</button>',
-                    '<% if (type == "edit") { %>',
-                    '<button class="btn normal dlg-btn" result="cancel">' + this.cancelButtonText + '</button>',
-                    '<% } %>',
                 '</div>'
             ].join('');
 
@@ -139,7 +133,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions, this.chDate];
+            return [this.inputName, this.inputTitle, this.inputEmail, this.textareaInstructions, this.chDate].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

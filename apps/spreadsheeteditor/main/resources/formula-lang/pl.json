@@ -472,6 +472,13 @@
 	"WRAPCOLS": "ZAWIŃ.KOLUMNY",
 	"TAKE": "WYCINEK",
 	"DROP": "POMIŃ",
+	"SEQUENCE": "SEKWENCJA",
+	"EXPAND": "ROZSZERZ",
+	"XMATCH": "X.DOPASUJ",
+	"FILTER": "FILTRUJ",
+	"ARRAYTOTEXT": "TABLICA.NA.TEKST",
+	"SORT": "SORTUJ",
+	"SORTBY": "SORTUJ.WEDŁUG",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",
@@ -494,6 +501,20 @@
 			"na": "#N/D",
 			"getdata": "#GETTING_DATA",
 			"uf": "#NIEOBSŁUGIWANE_FUNKCJA!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adres",
+			"col": "kolumna",
+			"color": "kolor",
+			"contents": "zawartość",
+			"filename": "nazwa_pliku",
+			"format": "format",
+			"parentheses": "nawiasy",
+			"prefix": "prefiks",
+			"protect": "ochrona",
+			"row": "wiersz",
+			"type": "typ",
+			"width": "szerokość"
 		}
 	}
 }

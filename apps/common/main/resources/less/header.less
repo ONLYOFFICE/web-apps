@@ -145,6 +145,9 @@
         max-width: 200px;
         height: 100%;
         padding: 6px 24px 6px 12px;
+        .rtl & {
+            padding: 6px 12px 6px 24px;
+        }
 
         i {
             cursor: pointer;
@@ -163,6 +166,9 @@
 
         #box-document-title & {
             padding: 4px 24px 4px 12px;
+            .rtl & {
+                padding: 4px 12px 4px 24px;
+            }
         }
     }
 }
@@ -229,8 +235,8 @@
         only screen and (-webkit-min-device-pixel-ratio: 1.5),
         only screen and (min-resolution: 1.5dppx),
         only screen and (min-resolution: 144dpi) {
-            width:calc(~"28px/1.5");
-            height:calc(~"28px/1.5");
+            /* width:calc(~"28px/1.5"); */
+            /* height:calc(~"28px/1.5"); */
         }
     }
 
@@ -256,6 +262,12 @@
 
     &.no-caret {
         .inner-box-caret {
+            display: none;
+        }
+    }
+
+    .pixel-ratio__2_5 & {
+        i.icon {
             display: none;
         }
     }
@@ -316,12 +328,21 @@
         opacity: @component-disabled-opacity;
         pointer-events: none;
     }
+
+    .rtl & {
+        padding: 0 6px 0 8px;
+        .caption {
+            margin-left: 8px;
+            margin-right: -26px;
+        }
+    }
 }
 
-.btn-header-share {
+.btn-header-share,
+.btn-header-pdf-mode {
     display: flex;
     align-items: center;
-    padding: 0 12px;
+    padding: 0 6px;
     width: auto;
 
     .caption {
@@ -379,6 +400,10 @@
         background-color: @icon-toolbar-header;
         color: @toolbar-header-text-on-background-ie;
         color: @toolbar-header-text-on-background;
+        vertical-align: middle;
+        background-size: cover;
+        background-position: center;
+
         font-size: 10px;
         line-height: 20px;
         overflow: hidden;
@@ -424,22 +449,34 @@
 
             li {
                 list-style: none;
-                padding: 2px 0;
+                margin-top: 12px;
                 overflow: hidden;
 
                 &.offline, &.viewmode {
                     display: none;
                 }
             }
+
+            li:first-child {
+                margin-top: 0px;
+            }
         }
 
         .color {
-            width: 12px;
-            height: 12px;
+            width: 26px;
+            height: 26px;
+            border-radius: 20px;
+            border-width: @scaled-two-px-value;
             display: inline-block;
             vertical-align: middle;
-            border: @scaled-one-px-value solid @border-toolbar;
-            margin: 0 5px 1px 0;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            .margin-right-8();
+
+            line-height: 26px;
+            color: #ffffff;
+            text-align: center;
         }
 
         .user-name {
@@ -447,6 +484,7 @@
             color: @text-normal;
             .font-size-medium();
             .font-weight-bold();
+            .text-align-left();
             white-space: nowrap;
             cursor: default;
 
@@ -457,6 +495,20 @@
                 max-width: 200px;
                 .font-weight-bold();
             }
+        }
+    }
+
+    #tlb-users-menu-descr {
+        width: 100%;
+        .text-align-left();
+    }
+
+    .rtl & {
+        &.dropdown-menu {
+            left: unset;
+            right: 100%;
+            margin-left: 0;
+            margin-right: -285px;
         }
     }
 }

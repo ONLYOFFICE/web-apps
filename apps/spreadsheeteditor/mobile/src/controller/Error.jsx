@@ -41,8 +41,7 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
             closable: false
         };
 
-        switch (id)
-        {
+        switch (id) {
             case Asc.c_oAscError.ID.Unknown:
                 config.msg = _t.unknownErrorText;
                 break;
@@ -175,6 +174,19 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = _t.errorLockedCellPivot;
                 break;
 
+            case Asc.c_oAscError.ID.PivotLabledColumns:
+                config.msg = t('Error.errorLabledColumnsPivot');
+                break;
+
+            case Asc.c_oAscError.ID.PivotOverlap:
+                config.msg = t('Error.errorPivotOverlap');
+                break;
+
+            case Asc.c_oAscError.ID.ForceSaveButton:
+            case Asc.c_oAscError.ID.ForceSaveTimeout:
+                config.msg = t('Error.errorForceSave');
+                break;
+
             case Asc.c_oAscError.ID.LockedAllError:
                 config.msg = _t.errorLockedAll;
                 break;
@@ -208,6 +220,18 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = _t.errorMultiCellFormula;
                 break;
 
+            case Asc.c_oAscError.ID.MailToClientMissing:
+                config.msg = t('Error.errorEmailClient');
+                break;
+
+            case Asc.c_oAscError.ID.NoDataToParse:
+                config.msg = t('Error.errorNoDataToParse');
+                break;
+
+            case Asc.c_oAscError.ID.CannotUngroupError:
+                config.msg = t('Error.errorCannotUngroup');
+                break;
+
             case Asc.c_oAscError.ID.FrmlMaxTextLength:
                 config.msg = _t.errorFrmlMaxTextLength;
                 break;
@@ -216,13 +240,25 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = _t.errorFrmlMaxLength;
                 break;
 
+            case Asc.c_oAscError.ID.MoveSlicerError:
+                config.msg = t('Error.errorMoveSlicerError');
+                break;
+
+            case Asc.c_oAscError.ID.LockedEditView:
+                config.msg = t('Error.errorEditView');
+                break;
+
+            case Asc.c_oAscError.ID.ChangeFilteredRangeError:
+                config.msg = t('Error.errorChangeFilteredRange');
+                break;
+
             case Asc.c_oAscError.ID.FrmlMaxReference:
                 config.msg = _t.errorFrmlMaxReference;
                 break;
 
             case Asc.c_oAscError.ID.DataValidate:
                 errData && errData.asc_getErrorTitle() && (config.title = Common.Utils.String.htmlEncode(errData.asc_getErrorTitle()));
-                config.buttons  = ['OK', 'Cancel'];
+                config.buttons  = [t('Error.textOk'), t('Error.textCancel')];
                 config.msg = errData && errData.asc_getError() ? Common.Utils.String.htmlEncode(errData.asc_getError()) : _t.errorDataValidate;
                 break;
 
@@ -248,6 +284,14 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
 
             case Asc.c_oAscError.ID.StockChartError:
                 config.msg = _t.errorStockChart;
+                break;
+
+            case Asc.c_oAscError.ID.MaxDataSeriesError:
+                config.msg = t('Error.errorMaxRows');
+                break;
+
+            case Asc.c_oAscError.ID.ComboSeriesError:
+                config.msg = t('Error.errorComboSeries');
                 break;
 
             case Asc.c_oAscError.ID.DataRangeError:
@@ -307,21 +351,110 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
             case Asc.c_oAscError.ID.UpdateVersion:
                 config.msg = _t.errorUpdateVersionOnDisconnect;
                 break;
+
+            case Asc.c_oAscError.ID.FTChangeTableRangeError:
+                config.msg = t('Error.errorFTChangeTableRangeError');
+                break;
+
+            case Asc.c_oAscError.ID.FTRangeIncludedOtherTables:
+                config.msg = t('Error.errorFTRangeIncludedOtherTables');
+                break;
+
+            case Asc.c_oAscError.ID.PasteSlicerError:
+                config.msg = t('Error.errorPasteSlicerError');
+                break;
+
+            case Asc.c_oAscError.ID.RemoveDuplicates:
+                config.iconCls = 'info';
+                config.title = t('Error.textInformation');
+                config.msg = (errData.asc_getDuplicateValues() !== null && errData.asc_getUniqueValues() !== null) ? t('Error.errRemDuplicates').replace("{0}", errData.asc_getDuplicateValues()).replace("{1}", errData.asc_getUniqueValues()) : t('Error.errNoDuplicates');
+                break;
             
             case Asc.c_oAscError.ID.ChangeOnProtectedSheet:
                 config.msg = t('Error.errorChangeOnProtectedSheet');
+                break;
+
+            case Asc.c_oAscError.ID.SingleColumnOrRowError:
+                config.msg = t('Error.errorSingleColumnOrRowError');
+                break;
+
+            case Asc.c_oAscError.ID.LocationOrDataRangeError:
+                config.msg = t('Error.errorLocationOrDataRangeError');
                 break;
 
             case Asc.c_oAscError.ID.LoadingFontError:
                 config.msg = _t.errorLoadingFont;
                 break;
 
+            case Asc.c_oAscError.ID.FillAllRowsWarning:
+                let fill = errData[0],
+                    have = errData[1],
+                    lang = (storeAppOptions.lang || 'en').replace('_', '-').toLowerCase(),
+                    fillWithSeparator;
+
+                try {
+                    fillWithSeparator = fill.toLocaleString(lang);
+                } catch (e) {
+                    lang = 'en';
+                    fillWithSeparator = fill.toLocaleString(lang);
+                }
+
+                if (storeAppOptions.isDesktopApp && storeAppOptions.isOffline) {
+                    config.msg = fill > have ? 
+                        t('Error.textFormulaFilledAllRowsWithEmpty').replace('{0}', fillWithSeparator) :
+                        t('Error.textFormulaFilledAllRows').replace('{0}', fillWithSeparator);
+                    config.buttons = [
+                        {caption: this.textFillOtherRows, primary: true, value: 'fillOther'}, {caption: t('Error.textClose')}
+                    ];
+                } else {
+                    config.msg = fill >= have ? 
+                        t('Error.textFormulaFilledFirstRowsOtherIsEmpty').replace('{0}', fillWithSeparator) :
+                        t('Error.textFormulaFilledFirstRowsOtherHaveData').replace('{0}', fillWithSeparator).replace('{1}', (have - fill).toLocaleString(lang));
+                }
+                break;
+
             case Asc.c_oAscError.ID.PasswordIsNotCorrect:
                 config.msg = t('Error.textErrorPasswordIsNotCorrect');
+                break;
+            
+            case Asc.c_oAscError.ID.UplDocumentSize:
+                config.msg = t('Error.uploadDocSizeMessage');
+                break;
+
+            case Asc.c_oAscError.ID.DeleteColumnContainsLockedCell:
+                config.msg = t('Error.errorDeleteColumnContainsLockedCell');
+                break;
+
+            case Asc.c_oAscError.ID.DeleteRowContainsLockedCell:
+                config.msg = t('Error.errorDeleteRowContainsLockedCell');
+                break;
+
+            case Asc.c_oAscError.ID.UplDocumentFileCount:
+                config.msg = t('Error.uploadDocFileCountMessage');
+                break;
+
+            case Asc.c_oAscError.ID.UplDocumentExt:
+                config.msg = t('Error.uploadDocExtMessage');
+                break;
+
+            case Asc.c_oAscError.ID.Password:
+                config.msg = t('Error.errorSetPassword');
+                break;
+
+            case Asc.c_oAscError.ID.PivotGroup:
+                config.msg = t('Error.errorPivotGroup');
+                break;
+
+            case Asc.c_oAscError.ID.PasteMultiSelectError:
+                config.msg = t('Error.errorPasteMultiSelect');
                 break;
 
             case Asc.c_oAscError.ID.CannotUseCommandProtectedSheet:
                 config.msg = t('Error.errorCannotUseCommandProtectedSheet');
+                break;
+
+            case Asc.c_oAscError.ID.PivotWithoutUnderlyingData:
+                config.msg = t('Error.errorPivotWithoutUnderlying');
                 break;
 
             case Asc.c_oAscError.ID.DirectUrl:
@@ -340,6 +473,18 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                     config.msg = _t.errorInconsistentExtPptx.replace('%1', docExt);
                 else
                     config.msg = _t.errorInconsistentExt;
+                break;
+
+            case Asc.c_oAscError.ID.ProtectedRangeByOtherUser:
+                config.msg = t('Error.errorProtectedRange');
+                break;
+
+            case Asc.c_oAscError.ID.TraceDependentsNoFormulas:
+                config.msg = t('Error.errorDependentsNoFormulas');
+                break;
+
+            case Asc.c_oAscError.ID.TracePrecedentsNoValidReference:
+                config.msg = t('Error.errorPrecedentsNoValidRef');
                 break;
 
             default:
@@ -369,7 +514,7 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
             Common.Gateway.reportWarning(id, config.msg);
 
             config.title    = config.title || _t.notcriticalErrorTitle;
-            config.buttons  = config.buttons || ['OK'];
+            config.buttons  = config.buttons || [t('Error.textOk')];
             config.callback = (_, btn) => {
                 if (id == Asc.c_oAscError.ID.DataValidate && btn.target.textContent !== 'OK') {
                     api.asc_closeCellEditor(true);

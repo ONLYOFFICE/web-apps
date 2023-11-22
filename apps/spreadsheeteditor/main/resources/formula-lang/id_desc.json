@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Menghapus baris atau kolom dari awal atau akhir array."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Menghasilkan urutan nomor"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Memperluas array ke dimensi yang ditentukan."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Menghasilkan posisi relatif item dalam array. Secara default, kecocokan yang sama persis diperlukan"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filter rentang atau larik"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(array, [format])",
+		"d": "Mengembalikan representasi teks larik"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Mengurutkan rentang atau larik"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "Mengurutkan rentang atau larik berdasarkan nilai dalam rentang atau larik yang sesuai"
 	}
 }

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DropcapSettingsAdvanced.js
  *
@@ -60,7 +59,7 @@ define([
     DE.Views.DropcapSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height      : 380,
+            contentHeight: 295,
             toggleGroup : 'dropcap-adv-settings-group',
             storageName: 'de-dropcap-settings-adv-category'
         },
@@ -114,22 +113,22 @@ define([
 
             this._btnsBorderPosition = [];
             _.each([
-                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-top',       '00'],
-                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-inner',     '01'],
-                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-bottom',    '10'],
-                [c_tableBorder.BORDER_OUTER,              'lrtb',  'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-outer',     '11'],
-                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-left',      '20'],
-                [c_tableBorder.BORDER_ALL,                'lrtbm', 'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-all',       '21'],
-                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-right',     '30'],
-                [c_tableBorder.BORDER_NONE,               '',      'btn-borders-large toolbar__icon toolbar__icon-big paragraph-borders-none',      '31']
+                [c_tableBorder.BORDER_HORIZONTAL_TOP,     't',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-top',       '00'],
+                [c_tableBorder.BORDER_HORIZONTAL_CENTER,  'm',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-inner',     '01'],
+                [c_tableBorder.BORDER_HORIZONTAL_BOTTOM,  'b',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-bottom',    '10'],
+                [c_tableBorder.BORDER_OUTER,              'lrtb',  'toolbar__icon toolbar__icon-big btn-paragraph-borders-outer',     '11'],
+                [c_tableBorder.BORDER_VERTICAL_LEFT,      'l',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-left',      '20'],
+                [c_tableBorder.BORDER_ALL,                'lrtbm', 'toolbar__icon toolbar__icon-big btn-paragraph-borders-all',       '21'],
+                [c_tableBorder.BORDER_VERTICAL_RIGHT,     'r',     'toolbar__icon toolbar__icon-big btn-paragraph-borders-right',     '30'],
+                [c_tableBorder.BORDER_NONE,               '',      'toolbar__icon toolbar__icon-big btn-paragraph-borders-none',      '31']
             ], function(item, index) {
                 var _btn = new Common.UI.Button({
                     parentEl: $('#drop-advanced-button-borderline-' + item[3]),
                     posId   : item[0],
                     strId   : item[1],
                     iconCls : item[2],
-                    style   : 'margin-left: 5px; margin-bottom: 4px;',
-                    cls     : 'btn-options large border-off'
+                    style   : 'margin-bottom: 4px;',
+                    cls     : 'btn-options large border-off margin-left-5'
                 });
 
                 _btn.on('click', function(btn) {
@@ -156,7 +155,6 @@ define([
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(function(btn, color) {
@@ -171,7 +169,6 @@ define([
                 parentEl: $('#drop-advanced-button-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(function(btn, color) {
@@ -366,7 +363,7 @@ define([
             this.btnFrameNone = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-none'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge none',
+                iconCls     : 'options__icon options__icon-huge btn-none',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -382,7 +379,7 @@ define([
             this.btnFrameInline = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-inline'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge table-align-center',
+                iconCls     : 'options__icon options__icon-huge btn-table-align-center',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -398,7 +395,7 @@ define([
             this.btnFrameFlow = new Common.UI.Button({
                 parentEl: $('#frame-advanced-button-flow'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'options__icon options__icon-huge table-flow',
+                iconCls     : 'options__icon options__icon-huge btn-table-flow',
                 enableToggle: true,
                 toggleGroup : 'frameAdvGroup',
                 allowDepress: false,
@@ -658,6 +655,8 @@ define([
 
         afterRender: function() {
 
+            this.updateMetricUnit();
+            this.updateThemeColors();
 
             if (!this.isFrame) {
                 this.cmbFonts.fillFonts(this.fontStore);
@@ -669,8 +668,6 @@ define([
             this.tableStyler.setTableColor(colorstr);
             (colorstr!='transparent') && this.tableStyler.redrawTable();
 
-            this.updateMetricUnit();
-            this.updateThemeColors();
 
             if (this.borderProps !== undefined) {
                 this.btnBorderColor.setColor(this.borderProps.borderColor);
@@ -703,7 +700,7 @@ define([
             }, this);
 
             if (this.isFrame)
-                this.setHeight(500);
+                this.setInnerHeight(415);
 
             this.btnsCategory[(this.isFrame) ? 1 : 0].setVisible(false);
             if (this.storageName) {
@@ -713,12 +710,12 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [
-                this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
-                this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
+            return this.btnsCategory.concat([
+                this.btnFrameNone, this.btnFrameInline, this.btnFrameFlow, this.cmbWidth, this.spnWidth, this.cmbHeight, this.spnHeight, this.cmbHAlign, this.cmbHRelative, this.spnX, this.cmbVAlign, this.cmbVRelative, this.spnY, this.chMove, // 0 tab
+                this.btnNone, this.btnInText, this.btnInMargin, this.cmbFonts, this.spnRowHeight, this.numDistance, // 1 tab
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat([this.btnBackColor,  // 2 tab
                 this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight // 3 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

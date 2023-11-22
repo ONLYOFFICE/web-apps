@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -85,29 +84,29 @@ define([
                     '<div style="height:120px;">',
                         '<table cols="3">',
                             '<tr>',
-                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtType + '</label>',
                                 '</td>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-numbering-format" class="input-group-nr" style="width: 105px;"></div>',
                                     '<div id="id-dlg-list-bullet-format" class="input-group-nr" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr class="image">',
-                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtImport + '</label>',
                                 '</td>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-image" style="width: 105px;"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr>',
-                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtSize + '</label>',
                                 '</td>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-size"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;">',
@@ -115,19 +114,19 @@ define([
                                 '</td>',
                             '</tr>',
                             '<tr class="numbering">',
-                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text" style="white-space: nowrap;">' + this.txtStart + '</label>',
                                 '</td>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-start"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
                             '</tr>',
                             '<tr class="color">',
-                                '<td class="padding-right" style="padding-bottom: 8px;min-width: 50px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;min-width: 50px;">',
                                     '<label class="text">' + this.txtColor + '</label>',
                                 '</td>',
-                                '<td class="padding-right" style="padding-bottom: 8px;width: 105px;">',
+                                '<td class="padding-right-5" style="padding-bottom: 8px;width: 105px;">',
                                     '<div id="id-dlg-list-color"></div>',
                                 '</td>',
                                 '<td style="padding-bottom: 8px;"></td>',
@@ -200,7 +199,7 @@ define([
                     '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                     '<%= item.displayValue %>',
                     '<% if (item.value === 0) { %><span style="font-family:<%=item.font%>;"><%=item.symbol%></span>',
-                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" style="width:12px; height: 12px; margin-left: 4px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
+                    '<% } else if (item.value === 2) { %><span id="id-dlg-list-bullet-image-preview" class="margin-left-4" style="width:12px; height: 12px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span><% } %>',
                     '</a></li>',
                     '<% }); %>'
                 ];
@@ -240,7 +239,7 @@ define([
                         if (record.get('value')===_BulletTypes.symbol)
                             formcontrol[0].innerHTML = record.get('displayValue') + '<span style="font-family:' + (record.get('font') || 'Arial') + '">' + record.get('symbol') + '</span>';
                         else if (record.get('value')===_BulletTypes.image) {
-                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" style="width:12px; height: 12px; margin-left: 2px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
+                            formcontrol[0].innerHTML = record.get('displayValue') + '<span id="id-dlg-list-bullet-combo-preview" class="margin-left-2" style="width:12px; height: 12px; margin-bottom: 1px;display: inline-block; vertical-align: middle;"></span>';
                             var bullet = new Asc.asc_CBullet();
                             bullet.asc_fillBulletImage(me.imageProps.id);
                             bullet.drawSquareImage('id-dlg-list-bullet-combo-preview');
@@ -261,7 +260,9 @@ define([
                 if (record.value === _BulletTypes.newSymbol) {
                     var me = this,
                         props = me.bulletProps,
+                        btn,
                         handler = function(dlg, result, settings) {
+                            btn = result;
                             if (result == 'ok') {
                                 props.changed = true;
                                 props.code = settings.code;
@@ -293,6 +294,9 @@ define([
                             font: props.font,
                             symbol: props.symbol,
                             handler: handler
+                        }).on('close', function(obj){
+                            (btn===undefined) && handler && handler.call(me);
+                            setTimeout(function(){me.cmbBulletFormat.focus();}, 1);
                         });
                     win.show();
                     win.on('symbol:dblclick', handler);
@@ -337,7 +341,6 @@ define([
                 style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 color: this.color,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -372,14 +375,15 @@ define([
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             me.numberingControls = $window.find('tr.numbering');
             me.imageControls = $window.find('tr.image');
@@ -392,7 +396,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor];
+            return [this.btnBullet, this.btnNumbering, this.cmbNumFormat, this.cmbBulletFormat, this.btnSelectImage, this.spnSize, this.spnStart, this.btnColor].concat(this.getFooterButtons());
         },
 
         afterRender: function() {
@@ -616,7 +620,9 @@ define([
                             }
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.btnSelectImage.focus();
+                }).show();
             } else if (item.value==2) {
                 Common.NotificationCenter.trigger('storage:image-load', 'bullet');
             } else {

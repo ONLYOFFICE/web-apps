@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2021
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -49,9 +48,9 @@ define([
     SSE.Views.WBProtection = Common.UI.BaseView.extend(_.extend((function(){
         var template =
             '<div class="group">' +
-                '<span id="slot-btn-protect-wb" class="btn-slot text x-huge" style="margin-right: 2px;"></span>' +
-                '<span id="slot-btn-protect-sheet" class="btn-slot text x-huge" style="margin-right: 2px;"></span>' +
-                '<span id="slot-btn-allow-ranges" class="btn-slot text x-huge"></span>' +
+                '<span id="slot-btn-protect-wb" class="btn-slot text x-huge margin-right-2"></span>' +
+                '<span id="slot-btn-protect-sheet" class="btn-slot text x-huge"></span>' +
+                // '<span id="slot-btn-allow-ranges" class="btn-slot text x-huge"></span>' +
             '</div>' +
             '<div class="separator long invisible"></div>' +
             '<div class="group small">' +
@@ -70,6 +69,10 @@ define([
                 '<div class="elset">' +
                     '<span class="btn-slot text" id="slot-chk-locked-text"></span>' +
                 '</div>' +
+            '</div>' +
+            '<div class="separator long"></div>' +
+            '<div class="group">' +
+                '<span id="slot-btn-protect-range" class="btn-slot text x-huge"></span>' +
             '</div>';
 
         function setEvents() {
@@ -82,7 +85,7 @@ define([
                 me.fireEvent('protect:sheet', [btn.pressed]);
             });
             this.btnAllowRanges.on('click', function (btn, e) {
-                me.fireEvent('protect:ranges');
+                me.fireEvent('protect:allow-ranges');
             });
             this.chLockedCell.on('change', function (field, value) {
                 me.fireEvent('protect:lock-options', [0, value]);
@@ -96,7 +99,9 @@ define([
             this.chHiddenFormula.on('change', function (field, value) {
                 me.fireEvent('protect:lock-options', [3, value]);
             });
-
+            this.btnProtectRange.on('click', function (btn, e) {
+                me.fireEvent('protect:range');
+            });
             me._isSetEvents = true;
         }
 
@@ -115,7 +120,7 @@ define([
 
                 this.btnProtectWB = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon protect-workbook',
+                    iconCls: 'toolbar__icon btn-protect-workbook',
                     enableToggle: true,
                     caption: this.txtProtectWB,
                     lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
@@ -127,7 +132,7 @@ define([
 
                 this.btnProtectSheet = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon protect-sheet',
+                    iconCls: 'toolbar__icon btn-protect-sheet',
                     enableToggle: true,
                     caption: this.txtProtectSheet,
                     lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth],
@@ -139,7 +144,7 @@ define([
 
                 this.btnAllowRanges = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon allow-edit-ranges',
+                    iconCls: 'toolbar__icon btn-allow-edit-ranges',
                     caption: this.txtAllowRanges,
                     lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
                     dataHint    : '1',
@@ -150,7 +155,7 @@ define([
 
                 this.chLockedCell = new Common.UI.CheckBox({
                     labelText: this.txtLockedCell,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -177,12 +182,24 @@ define([
 
                 this.chHiddenFormula = new Common.UI.CheckBox({
                     labelText: this.txtHiddenFormula,
-                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth],
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.wsLock, _set.wbLock, _set.lostConnect, _set.coAuth, _set.userProtected],
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chHiddenFormula);
+
+                this.btnProtectRange = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-protect-range',
+                    caption: this.txtProtectRange,
+                    lock        : [_set.editCell, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.wsLock],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                    visible: !this.appConfig.isOffline
+                });
+                this.lockedControls.push(this.btnProtectRange);
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -199,6 +216,9 @@ define([
                     me.btnProtectWB.updateHint(me.hintProtectWB);
                     me.btnProtectSheet.updateHint(me.hintProtectSheet);
                     me.btnAllowRanges.updateHint(me.hintAllowRanges);
+                    me.btnProtectRange.updateHint(me.hintProtectRange);
+
+                    config.isOffline && me.btnProtectRange.cmpEl.parents('.group').hide().prev('.separator').hide();
 
                     setEvents.call(me);
                 });
@@ -214,6 +234,7 @@ define([
                 this.chLockedShape.render(this.$el.find('#slot-chk-locked-shape'));
                 this.chLockedText.render(this.$el.find('#slot-chk-locked-text'));
                 this.chHiddenFormula.render(this.$el.find('#slot-chk-hidden-formula'));
+                this.btnProtectRange.render(this.$el.find('#slot-btn-protect-range'));
 
                 return this.$el;
             },
@@ -242,7 +263,9 @@ define([
             txtWBUnlockTitle: 'Unprotect Workbook',
             txtWBUnlockDescription: 'Enter a password to unprotect workbook',
             txtSheetUnlockTitle: 'Unprotect Sheet',
-            txtSheetUnlockDescription: 'Enter a password to unprotect sheet'
+            txtSheetUnlockDescription: 'Enter a password to unprotect sheet',
+            hintProtectRange: 'Protect range',
+            txtProtectRange: 'Protect Range'
         }
     }()), SSE.Views.WBProtection || {}));
 });

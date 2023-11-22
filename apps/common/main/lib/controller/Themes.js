@@ -1,3 +1,35 @@
+/*
+ * (c) Copyright Ascensio System SIA 2010-2023
+ *
+ * This program is a free software product. You can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License (AGPL)
+ * version 3 as published by the Free Software Foundation. In accordance with
+ * Section 7(a) of the GNU AGPL its Section 15 shall be amended to the effect
+ * that Ascensio System SIA expressly excludes the warranty of non-infringement
+ * of any third-party rights.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
+ * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
+ * street, Riga, Latvia, EU, LV-1050.
+ *
+ * The  interactive user interfaces in modified source and object code versions
+ * of the Program must display Appropriate Legal Notices, as required under
+ * Section 5 of the GNU AGPL version 3.
+ *
+ * Pursuant to Section 7(b) of the License you must retain the original Product
+ * logo when distributing the program. Pursuant to Section 7(e) we decline to
+ * grant you any rights under trademark law for use of our trademarks.
+ *
+ * All the Product's GUI elements, including illustrations and icon sets, as
+ * well as technical writing content are licensed under the terms of the
+ * Creative Commons Attribution-ShareAlike 4.0 International. See the License
+ * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
+ *
+ */
+
 /**
  * Created by Maxim.Kadushkin on 2/5/2021.
  */
@@ -43,13 +75,7 @@ define([
             },
         }
 
-        if ( !!window.currentLoaderTheme ) {
-            if ( !themes_map[currentLoaderTheme.id] )
-                themes_map[currentLoaderTheme.id] = currentLoaderTheme;
-            window.currentLoaderTheme = undefined;
-        }
 
-        var is_dark_mode_allowed = true;
         var id_default_light_theme = 'theme-classic-light',
             id_default_dark_theme = 'theme-dark';
 
@@ -57,10 +83,12 @@ define([
             "toolbar-header-document",
             "toolbar-header-spreadsheet",
             "toolbar-header-presentation",
+            "toolbar-header-pdf",
 
             "text-toolbar-header-on-background-document",
             "text-toolbar-header-on-background-spreadsheet",
             "text-toolbar-header-on-background-presentation",
+            "text-toolbar-header-on-background-pdf",
 
             "background-normal",
             "background-toolbar",
@@ -160,10 +188,20 @@ define([
             "canvas-scroll-arrow-pressed",
             "canvas-scroll-thumb-target",
             "canvas-scroll-thumb-target-hover",
-            "canvas-scroll-thumb-target-pressed"
+            "canvas-scroll-thumb-target-pressed",
+
+            "canvas-sheet-view-cell-background",
+            "canvas-sheet-view-cell-background-hover",
+            "canvas-sheet-view-cell-background-pressed",
+            "canvas-sheet-view-cell-title-label",
+
+            "canvas-freeze-line-1px",
+            "canvas-freeze-line-2px",
+            "canvas-select-all-icon"
         ];
 
-        var get_current_theme_colors = function (colors) {
+        var get_current_theme_colors = function (c) {
+            const colors = c || name_colors;
             var out_object = {};
             if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
                 var style = getComputedStyle(document.body);
@@ -220,45 +258,60 @@ define([
             Common.NotificationCenter.trigger('uitheme:countchanged');
         }
 
+        const check_launched_custom_theme = function () {
+            let theme_id = window.uitheme.id;
+            if ( themes_map[theme_id] ) {
+                if ( themes_map[theme_id].source != 'static') {
+                    const m = document.body.className.match('theme-type-' + themes_map[theme_id].type);
+                    if ( !m )
+                        document.body.classList.add('theme-type-' + themes_map[theme_id].type);
+                    else if ( m.length )
+                        document.body.className = document.body.className.replace(/theme-type-(?:dark|ligth)/i, 'theme-type-' + themes_map[theme_id].type);
+                }
+            } else {
+                theme_id = get_system_default_theme().id;
+
+                document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
+                document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
+            }
+
+            const s = Common.localStorage.getItem('ui-theme');
+            if (!s || get_ui_theme_name(s) !== theme_id) {
+                var theme_obj = {
+                    id: theme_id,
+                    type: themes_map[theme_id].type,
+                    text: themes_map[theme_id].text,
+                    colors: get_current_theme_colors(),
+                };
+
+                Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+            }
+        }
+
         var get_themes_config = function (url) {
+            const me = this;
+
             Common.Utils.loadConfig(url,
                 function ( obj ) {
                     if ( obj != 'error' ) {
                         parse_themes_object(obj);
+                        check_launched_custom_theme();
                     } else {
                         console.warn('failed to load/parse themes.json');
                     }
                 }
             );
-            // fetch(url, {
-            //     method: 'get',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //     },
-            // }).then(function(response) {
-            //     if (!response.ok) {
-            //         throw new Error('server error');
-            //     }
-            //     return response.json();
-            // }).then(function(response) {
-            //     if ( response.then ) {
-            //         // return response.json();
-            //     } else {
-            //         parse_themes_object(response);
-            //
-            //         /* to break promises chain */
-            //         throw new Error('loaded');
-            //     }
-            // }).catch(function(e) {
-            //     if ( e.message == 'loaded' ) {
-            //     } else console.log('fetch error: ' + e);
-            // });
         }
 
         var on_document_ready = function (el) {
             // get_themes_config('../../common/main/resources/themes/themes.json');
-            if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() )
-                get_themes_config('../../../../themes.json');
+            if ( !Common.Controllers.Desktop.isActive() /*|| !Common.Controllers.Desktop.isOffline()*/ )
+                get_themes_config.call(this, '../../../../themes.json');
+            else
+            if ( Common.Controllers.Desktop.localThemes() ) {
+                parse_themes_object({'themes': Common.Controllers.Desktop.localThemes()});
+                check_launched_custom_theme();
+            }
         }
 
         var get_ui_theme_name = function (objtheme) {
@@ -275,14 +328,14 @@ define([
         }
 
         var on_document_open = function (data) {
-            if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
-                this.api.asc_setContentDarkMode(this.isContentThemeDark());
-            }
+            // if ( !!this.api.asc_setContentDarkMode && this.isDarkTheme() ) {
+            //     this.api.asc_setContentDarkMode(this.isContentThemeDark());
+            // }
         };
 
         const is_theme_type_system = function (id) { return themes_map[id].type == THEME_TYPE_SYSTEM; }
         const get_system_theme_type = function () {
-            if ( Common.Controllers.Desktop.isActive() )
+            if ( Common.Controllers.Desktop && Common.Controllers.Desktop.isActive() )
                 return Common.Controllers.Desktop.systemThemeType();
 
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? THEME_TYPE_DARK : THEME_TYPE_LIGHT;
@@ -295,64 +348,84 @@ define([
         };
 
         const on_system_theme_dark = function (mql) {
-            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
-                this.setTheme('theme-system');
+            if ( window.uitheme.is_theme_system() ) {
+                refresh_theme.call(this, true);
             }
         };
 
+        const apply_theme = function (id) {
+            window.uitheme.set_id(id);
+
+            const theme_id = window.uitheme.relevant_theme_id();
+            document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
+            document.body.classList.add(theme_id, 'theme-type-' + themes_map[theme_id].type);
+
+            if ( this.api.asc_setContentDarkMode )
+                if ( themes_map[theme_id].type == 'dark' ) {
+                    this.api.asc_setContentDarkMode(this.isContentThemeDark());
+                    Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
+                } else {
+                    this.api.asc_setContentDarkMode(false);
+                }
+
+            const colors_obj = get_current_theme_colors();
+            colors_obj.type = themes_map[theme_id].type;
+            colors_obj.name = theme_id;
+            this.api.asc_setSkin(colors_obj);
+
+            if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
+                if ( themes_map[id].source != 'static' ) {
+                    const theme_obj = {
+                        id: id,
+                        type: themes_map[id].type,
+                        text: themes_map[id].text,
+                        colors: colors_obj,
+                    };
+
+                    Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
+                }
+            }
+        }
+
+        const refresh_theme = function (force) {
+            if ( force || Common.localStorage.getItem('ui-theme-id') != window.uitheme.id ) {
+                const theme_id = Common.localStorage.getItem('ui-theme-id');
+
+                if ( theme_id ) {
+                    apply_theme.call(this, theme_id);
+                    Common.NotificationCenter.trigger('uitheme:changed', theme_id);
+                }
+            }
+        }
+
         return {
             init: function (api) {
-                var me = this;
-
                 Common.Gateway.on('opendocument', on_document_open.bind(this));
                 $(window).on('storage', function (e) {
-                    if ( e.key == 'ui-theme' || e.key == 'ui-theme-id' ) {
+                    if ( e.key == 'ui-theme-id' && !Common.Controllers.Desktop.isActive() ) {
                         if ( !!e.originalEvent.newValue ) {
-                            if (Common.localStorage.getBool('ui-theme-use-system', false)) {
-                                me.setTheme('theme-system');
-                            } else me.setTheme(e.originalEvent.newValue, true);
+                            refresh_theme.call(this);
                         }
                     } else
                     if ( e.key == 'content-theme' ) {
-                        me.setContentTheme(e.originalEvent.newValue, true);
-                        console.log('changed content', e.originalEvent.newValue);
+                        this.setContentTheme(e.originalEvent.newValue, true);
                     }
-                })
+                }.bind(this))
 
                 this.api = api;
-                var theme_name = get_ui_theme_name(Common.localStorage.getItem('ui-theme'));
-                if ( !theme_name ) {
-                    if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
-                        document.body.classList.forEach(function (classname, i, o) {
-                            if ( !theme_name && classname.startsWith('theme-') &&
-                                !classname.startsWith('theme-type-') && themes_map[classname] )
-                            {
-                                theme_name = classname;
-                                var theme_obj = {
-                                    id: theme_name,
-                                    type: themes_map[theme_name].type
-                                };
 
-                                Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                            }
-                        });
-                }
-
-                if ( !themes_map[theme_name] )
-                    theme_name = id_default_light_theme;
-
-                if ( !$('body').hasClass(theme_name) ) {
-                    $('body').addClass(theme_name);
-                }
-
-                if ( !document.body.className.match(/theme-type-/) ) {
-                    document.body.classList.add('theme-type-' + themes_map[theme_name].type);
-                }
-
-                var obj = get_current_theme_colors(name_colors);
-                obj.type = themes_map[theme_name].type;
-                obj.name = theme_name;
+                const theme_id = window.uitheme.relevant_theme_id();
+                const obj = get_current_theme_colors(name_colors);
+                obj.type = window.uitheme.type ? window.uitheme.type : themes_map[theme_id] ? themes_map[theme_id].type : THEME_TYPE_LIGHT;
+                obj.name = theme_id;
                 api.asc_setSkin(obj);
+
+                const is_content_dark = themes_map[theme_id] && themes_map[theme_id].type == 'dark' && window.uitheme.iscontentdark;
+                if ( api.asc_setContentDarkMode )
+                    api.asc_setContentDarkMode(is_content_dark);
+
+                if ( !document.body.classList.contains('theme-type-' + obj.type) )
+                    document.body.classList.add('theme-type-' + obj.type);
 
                 if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
@@ -368,6 +441,12 @@ define([
             },
 
             map: function () {
+                if ( Common.Controllers.Desktop.isActive() && !Common.Controllers.Desktop.systemThemeSupported() ) {
+                    const new_map = Object.assign({}, themes_map);
+                    delete new_map['theme-system'];
+
+                    return new_map;
+                }
                 return themes_map
             },
 
@@ -376,12 +455,7 @@ define([
             },
 
             currentThemeId: function () {
-                if ( Common.localStorage.getBool('ui-theme-use-system', false) )
-                    return 'theme-system';
-
-                var t = Common.localStorage.getItem('ui-theme') || Common.localStorage.getItem('ui-theme-id');
-                var id = get_ui_theme_name(t);
-                return !!themes_map[id] ? id : id_default_light_theme;
+                return !!themes_map[window.uitheme.id] ? window.uitheme.id : id_default_light_theme;
             },
 
             defaultThemeId: function (type) {
@@ -398,18 +472,16 @@ define([
             },
 
             isContentThemeDark: function () {
-                return Common.localStorage.getItem("content-theme") == 'dark';
+                return window.uitheme.iscontentdark;
             },
 
             setContentTheme: function (mode, force) {
                 var set_dark = mode == 'dark';
-                if ( set_dark && !this.isDarkTheme() )
-                    return;
-
-                if ( set_dark != this.isContentThemeDark() || force ) {
-                    if ( this.api.asc_setContentDarkMode )
+                if ( set_dark != window.uitheme.iscontentdark || force ) {
+                    if ( this.isDarkTheme() )
                         this.api.asc_setContentDarkMode(set_dark);
 
+                    window.uitheme.iscontentdark = mode;
                     if ( Common.localStorage.getItem('content-theme') != mode )
                         Common.localStorage.setItem('content-theme', mode);
 
@@ -418,86 +490,33 @@ define([
             },
 
             toggleContentTheme: function () {
-                var is_current_dark = this.isContentThemeDark();
-                is_current_dark ? Common.localStorage.setItem('content-theme', 'light') : Common.localStorage.setItem('content-theme', 'dark');
+                window.uitheme.iscontentdark = !window.uitheme.iscontentdark;
+                Common.localStorage.setItem('content-theme', window.uitheme.iscontentdark ? 'dark' : 'light');
 
-                if ( this.api.asc_setContentDarkMode )
-                    this.api.asc_setContentDarkMode(!is_current_dark);
+                if ( this.isDarkTheme() )
+                    this.api.asc_setContentDarkMode(window.uitheme.iscontentdark);
 
-                Common.NotificationCenter.trigger('contenttheme:dark', !is_current_dark);
+                Common.NotificationCenter.trigger('contenttheme:dark', window.uitheme.iscontentdark);
             },
 
             setTheme: function (obj) {
                 if ( !obj ) return;
 
-                var id = get_ui_theme_name(obj),
-                    refresh_only = arguments[1];
+                const id = get_ui_theme_name(obj);
+                if ( themes_map[id] ) {
+                    if ( !(id == window.uitheme.id) ) {
+                        apply_theme.call(this, id);
 
-                if ( !refresh_only && is_theme_type_system(this.currentThemeId()) ) {
-                    // TODO: need refactoring. for bug 58801
-                    if ( get_system_default_theme().id == id ) {
-                        Common.localStorage.setBool('ui-theme-use-system', false);
-                        Common.localStorage.setItem('ui-theme-id', '');
                         Common.localStorage.setItem('ui-theme-id', id);
                         Common.NotificationCenter.trigger('uitheme:changed', id);
-                        return;
                     }
                 }
+            },
 
-                if ( is_theme_type_system(id) ) {
-                    if ( get_system_default_theme().id == this.currentThemeId() ) {
-                        Common.localStorage.setBool('ui-theme-use-system', true);
-                        Common.localStorage.setItem('ui-theme-id', '');
-                        Common.localStorage.setItem('ui-theme-id', id);
-                        Common.NotificationCenter.trigger('uitheme:changed', id);
-                        return;
-                    }
+            refreshTheme: refresh_theme,
 
-                    Common.localStorage.setBool('ui-theme-use-system', true);
-                    id = get_system_default_theme().id;
-                } else {
-                    Common.localStorage.setBool('ui-theme-use-system', false);
-                }
-
-                if ( (this.currentThemeId() != id || refresh_only) && !!themes_map[id] ) {
-                    document.body.className = document.body.className.replace(/theme-[\w-]+\s?/gi, '').trim();
-                    document.body.classList.add(id, 'theme-type-' + themes_map[id].type);
-
-                    if ( this.api ) {
-                        if ( this.api.asc_setContentDarkMode && is_dark_mode_allowed )
-                            if ( themes_map[id].type == 'light' ) {
-                                this.api.asc_setContentDarkMode(false);
-                            } else {
-                                this.api.asc_setContentDarkMode(this.isContentThemeDark());
-                                Common.NotificationCenter.trigger('contenttheme:dark', this.isContentThemeDark());
-                            }
-
-                        var obj = get_current_theme_colors(name_colors);
-                        obj.type = themes_map[id].type;
-                        obj.name = id;
-
-                        this.api.asc_setSkin(obj);
-                    }
-
-                    if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                        var theme_obj = {
-                            id: id,
-                            type: obj.type,
-                            text: themes_map[id].text,
-                        };
-
-                        if ( themes_map[id].source != 'static' ) {
-                            theme_obj.colors = obj;
-                        }
-
-                        if ( !refresh_only )
-                            Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                    }
-
-                    if ( !refresh_only )
-                        Common.localStorage.setItem('ui-theme-id', id);
-                    Common.NotificationCenter.trigger('uitheme:changed', id);
-                }
+            addTheme: function (obj) {
+                parse_themes_object(obj);
             },
 
             toggleTheme: function () {

@@ -472,6 +472,13 @@
 	"WRAPCOLS": "MOLDARCOLS",
 	"TAKE": "INCLUIR",
 	"DROP": "EXCLUIR",
+	"SEQUENCE": "SEQUÊNCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "CORRESPX",
+	"FILTER": "FILTRAR",
+	"ARRAYTOTEXT": "MATRIZPARATEXTO",
+	"SORT": "ORDENAR",
+	"SORTBY": "ORDENARPOR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -494,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "endereço",
+			"col": "col",
+			"color": "cor",
+			"contents": "conteúdo",
+			"filename": "nome.ficheiro",
+			"format": "formato",
+			"parentheses": "parênteses",
+			"prefix": "prefixo",
+			"protect": "proteger",
+			"row": "proteger",
+			"type": "tipo",
+			"width": "largura"
 		}
 	}
 }

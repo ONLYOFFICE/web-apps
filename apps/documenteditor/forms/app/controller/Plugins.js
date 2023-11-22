@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 22.02.2022
@@ -174,14 +173,18 @@ define([
                     url: url,
                     frameId : frameId,
                     buttons: isCustomWindow ? undefined : newBtns,
-                    toolcallback: _.bind(this.onToolClose, this),
+                    toolcallback: function(event) {
+                        me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                    },
                     help: !!help,
                     loader: plugin.get_Loader(),
                     modal: isModal!==undefined ? isModal : true
                 });
                 me.pluginDlg.on({
                     'render:after': function(obj){
-                        obj.getChild('.footer .dlg-btn').on('click', _.bind(me.onDlgBtnClick, me));
+                        obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                            me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                        });
                         me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
                     },
                     'close': function(obj){
@@ -218,15 +221,6 @@ define([
             }
         },
 
-        onDlgBtnClick: function(event) {
-            var state = event.currentTarget.attributes['result'].value;
-            this.api.asc_pluginButtonClick(parseInt(state));
-        },
-
-        onToolClose: function() {
-            this.api.asc_pluginButtonClick(-1);
-        },
-
         onPluginMouseUp: function(x, y) {
             if (this.pluginDlg) {
                 if (this.pluginDlg.binding.dragStop) this.pluginDlg.binding.dragStop();
@@ -244,7 +238,7 @@ define([
 
         onPluginsInit: function(pluginsdata) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata)
+            this.parsePlugins(pluginsdata, true);
         },
 
         runAutoStartPlugins: function() {
@@ -257,7 +251,7 @@ define([
             this.getApplication().getCollection('Common.Collections.Plugins').reset();
         },
 
-        parsePlugins: function(pluginsdata) {
+        parsePlugins: function(pluginsdata, forceUpdate) {
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = false,
@@ -267,18 +261,28 @@ define([
                 var arr = [],
                     lang = me.appOptions.lang.split(/[\-_]/)[0];
                 pluginsdata.forEach(function(item){
-                    if ( arr.some(function(i) {
-                            return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                    var updatedItem;
+                    if (forceUpdate) {
+                        updatedItem = arr.find(function (i){
+                            return i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid}
+                        );
+                        !updatedItem && (updatedItem = pluginStore.findWhere({baseUrl: item.baseUrl}));
+                        !updatedItem && (updatedItem = pluginStore.findWhere({guid: item.guid}));
+                    } else {
+                        if ( arr.some(function(i) {
+                                return (i.get('baseUrl') == item.baseUrl || i.get('guid') == item.guid);
+                            }
+                        ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
+                        {
+                            return;
                         }
-                    ) || pluginStore.findWhere({baseUrl: item.baseUrl}) || pluginStore.findWhere({guid: item.guid}))
-                    {
-                        return;
                     }
 
                     var variationsArr = [],
                         pluginVisible = false;
                     item.variations.forEach(function(itemVar){
-                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !itemVar.isSystem;
+                        var isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
+                        var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
 
                         if (!item.isUICustomizer ) {
@@ -315,7 +319,7 @@ define([
                         if (pluginVisible)
                             pluginVisible = me.checkPluginVersion(apiVersion, item.minVersion);
 
-                        arr.push(new Common.Models.Plugin({
+                        var props = {
                             name : name,
                             guid: item.guid,
                             baseUrl : item.baseUrl,
@@ -326,7 +330,8 @@ define([
                             groupRank: (item.group) ? item.group.rank : 0,
                             minVersion: item.minVersion,
                             original: item
-                        }));
+                        };
+                        updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
                 });
 

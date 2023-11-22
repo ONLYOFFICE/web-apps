@@ -23,7 +23,7 @@
 
     &.closable {
         .asc-synchronizetip {
-            padding-right: 30px;
+            .padding-x(15px, 30px);
         }
     }
 
@@ -509,9 +509,13 @@
     height: 16px;
     margin: 5px;
     cursor: pointer;
-
     opacity: 0.7;
     transition: transform .3s;
+
+    .rtl & {
+        right: auto;
+        left: 0;
+    }
 
     &:hover {
         transform: scale(1.1);

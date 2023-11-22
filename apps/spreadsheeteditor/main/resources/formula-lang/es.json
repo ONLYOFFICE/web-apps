@@ -472,6 +472,13 @@
 	"WRAPCOLS": "AJUSTARCOLS",
 	"TAKE": "TOMAR",
 	"DROP": "EXCLUIR",
+	"SEQUENCE": "SECUENCIA",
+	"EXPAND": "EXPANDIR",
+	"XMATCH": "COINCIDIRX",
+	"FILTER": "FILTRAR",
+	"ARRAYTOTEXT": "MATRIZATEXTO",
+	"SORT": "ORDENAR",
+	"SORTBY": "ORDENARPOR",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",
@@ -494,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "DIRECCIÓN",
+			"col": "COLUMNA",
+			"color": "COLOR",
+			"contents": "CONTENIDO",
+			"filename": "ARCHIVO",
+			"format": "FORMATO",
+			"parentheses": "PARÉNTESIS",
+			"prefix": "PREFIJO",
+			"protect": "PROTEGER",
+			"row": "FILA",
+			"type": "TIPO",
+			"width": "ANCHO"
 		}
 	}
 }

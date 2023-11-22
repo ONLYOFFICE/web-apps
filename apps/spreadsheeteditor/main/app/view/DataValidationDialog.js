@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -51,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
     SSE.Views.DataValidationDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height: 330,
+            contentHeight: 245,
             toggleGroup: 'data-validation-group',
             storageName: 'sse-data-validation-category'
         },
@@ -264,11 +263,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbAllow, this.cmbData, this.chIgnore, this.chShowDropDown, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, this.chApply, // 0 tab
                 this.chShowInput, this.inputInputTitle, this.textareaInput,  // 1 tab
                 this.chShowError, this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

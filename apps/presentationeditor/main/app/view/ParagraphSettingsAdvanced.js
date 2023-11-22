@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ParagraphSettingsAdvanced.js
  *
@@ -50,7 +49,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
     PE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 394,
+            contentHeight: 309,
             toggleGroup: 'paragraph-adv-settings-group',
             storageName: 'pe-para-settings-adv-category'
         },
@@ -247,7 +246,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 menuStyle   : 'min-width: 85px;',
                 takeFocusOnClose: true
             });
-            this.cmbLineRule.setValue(this.CurLineRuleIdx);
+            this.cmbLineRule.setValue('');
             this.cmbLineRule.on('selected', _.bind(this.onLineRuleSelect, this));
 
             this.numLineHeight = new Common.UI.MetricSpinner({
@@ -406,12 +405,12 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbTextAlignment, this.numIndentsLeft, this.numIndentsRight, this.cmbSpecial, this.numSpecialBy,
                 this.numSpacingBefore, this.numSpacingAfter, this.cmbLineRule, this.numLineHeight, // 0 tab
                 this.chStrike, this.chSubscript, this.chDoubleStrike, this.chSmallCaps, this.chSuperscript, this.chAllCaps, this.numSpacing, // 1 tab
                 this.numDefaultTab, this.numTab, this.cmbAlign, this.tabList, this.btnAddTab, this.btnRemoveTab, this.btnRemoveAll // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index, cmp, e) {
@@ -481,7 +480,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 this.numSpacingAfter.setValue((value !== null) ? (value<0 ? value : Common.Utils.Metric.fnRecalcFromMM(value)) : '', true);
 
                 var linerule = props.get_Spacing().get_LineRule();
-                this.cmbLineRule.setValue((linerule !== null) ? linerule : '', true);
+                this.cmbLineRule.setValue((linerule !== null) ? linerule : '');
 
                 if(props.get_Spacing() !== null && props.get_Spacing().get_Line() !== null) {
                     this.numLineHeight.setValue((linerule==c_paragraphLinerule.LINERULE_AUTO) ? props.get_Spacing().get_Line() : Common.Utils.Metric.fnRecalcFromMM(props.get_Spacing().get_Line()), true);
@@ -546,8 +545,9 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             this._arrLineRule[1].minValue = parseFloat(Common.Utils.Metric.fnRecalcFromMM(0.3).toFixed(2));
             this._arrLineRule[1].step = (Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt) ? 1 : 0.01;
             if (this.CurLineRuleIdx !== null) {
-                this.numLineHeight.setDefaultUnit(this._arrLineRule[this.CurLineRuleIdx].defaultUnit);
-                this.numLineHeight.setStep(this._arrLineRule[this.CurLineRuleIdx].step);
+                var rec = this._arrLineRule[this.CurLineRuleIdx !== -1 ? this.CurLineRuleIdx : 0];
+                this.numLineHeight.setDefaultUnit(rec.defaultUnit);
+                this.numLineHeight.setStep(rec.step);
             }
         },
 

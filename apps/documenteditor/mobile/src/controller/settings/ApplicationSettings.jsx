@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import {observer, inject} from "mobx-react";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
+import { ThemesContext } from "../../../../../common/mobile/lib/controller/Themes";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
@@ -10,6 +10,8 @@ class ApplicationSettingsController extends Component {
         this.switchDisplayComments = this.switchDisplayComments.bind(this);
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
+
+    static contextType = ThemesContext;
 
     setUnitMeasurement(value) {
         value = (value !== null) ? parseInt(value) : Common.Utils.Metric.getDefaultMetric();
@@ -77,7 +79,8 @@ class ApplicationSettingsController extends Component {
                 switchDisplayComments={this.switchDisplayComments}
                 switchDisplayResolved={this.switchDisplayResolved}  
                 setMacrosSettings={this.setMacrosSettings}  
-                changeDirection={this.changeDirection}             
+                changeDirection={this.changeDirection}      
+                changeTheme={this.context.changeTheme}
             />
         )
     }

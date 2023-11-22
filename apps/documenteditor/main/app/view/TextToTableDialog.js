@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2021
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -47,8 +46,7 @@ define([
     DE.Views.TextToTableDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 405,
-            buttons: ['ok', 'cancel']
+            separator: false
         },
 
         initialize : function(options) {
@@ -56,10 +54,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="2" style="width: auto;">',
                                 '<tr>',
                                     '<td colspan="2" class="padding-small">',
@@ -68,7 +66,7 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label style="margin-right: 10px;">', me.textColumns,'</label>',
+                                        '<label class="margin-right-10">', me.textColumns,'</label>',
                                     '</td>',
                                     '<td class="padding-small">',
                                         '<div id="id-text-table-spn-columns"></div>',
@@ -76,7 +74,7 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<label style="margin-right: 10px;">', me.textRows,'</label>',
+                                        '<label class="margin-right-10">', me.textRows,'</label>',
                                     '</td>',
                                     '<td class="padding-large">',
                                         '<div id="id-text-table-spn-rows"></div>',
@@ -91,7 +89,7 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td style="padding-bottom: 5px;">',
-                                        '<div id="id-text-table-radio-fixed"></div>',
+                                        '<div id="id-text-table-radio-fixed" class="margin-right-10"></div>',
                                         '<div id="id-text-table-spn-fixed"></div>',
                                     '</td>',
                                 '</tr>',
@@ -127,15 +125,13 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<div id="id-text-table-radio-other" style="display: inline-block;margin-right: 10px;vertical-align: middle;"></div>',
+                                        '<div id="id-text-table-radio-other" class="margin-right-10" style="display: inline-block;vertical-align: middle;"></div>',
                                         '<div id="id-text-table-txt-other" style="display: inline-block;vertical-align: middle;"></div>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
-                        '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                        '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -263,7 +259,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnColumns, this.spnStartAt, this.spnWidth, this.rbFixed, this.rbContents, this.rbWindow, this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther];
+            return [this.spnColumns, this.spnStartAt, this.spnWidth, this.rbFixed, this.rbContents, this.rbWindow, this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

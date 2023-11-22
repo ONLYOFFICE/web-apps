@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  StatusBar View
  *
@@ -323,7 +322,7 @@ define([
                         {caption: '--'},
                         {
                             id: "id-tab-menu-new-color",
-                            template: _.template('<a tabindex="-1" type="menuitem" style="padding-left:12px;">' + me.textNewColor + '</a>')
+                            template: _.template('<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right: 12px;': 'padding-left: 12px;') + '">' + me.textNewColor + '</a>')
                         }
                     ]
                 });
@@ -591,9 +590,7 @@ define([
                                 '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem" <% if (options.hidden) { %> data-hidden="true" <% } %>>',
                                     '<div class="color"></div>',
                                     '<span class="name"><%= caption %></span>',
-                                    '<% if (options.hidden) { %>',
-                                        '<span class="hidden-mark"><%= options.textHidden %></span>',
-                                    '<% } %>',
+                                    '<span class="hidden-mark"><% if (options.hidden) { %><%=  options.textHidden %><% } else { %><% } %></span>',
                                 '</a>'
                             ].join(''))
                         }));
@@ -745,7 +742,7 @@ define([
                         this.tabMenu.items[7].setDisabled(select.length>1);
                         this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
 
-                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle);
+                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle && this.mode.canProtect);
                         this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
@@ -1132,6 +1129,14 @@ define([
                 });
             },
 
+            getFocusedComponents: function() {
+                return [this.txtName].concat(this.getFooterButtons());
+            },
+
+            getDefaultFocusableComponent: function () {
+                return this.txtName;
+            },
+
             show: function(x,y) {
                 Common.UI.Window.prototype.show.apply(this, arguments);
                 var edit = this.txtName.$el.find('input');
@@ -1244,7 +1249,8 @@ define([
                     el: $('#status-list-names', $window),
                     store: new Common.UI.DataViewStore(pages),
                     cls: 'dbl-clickable',
-                    itemTemplate: _.template('<div id="<%= id %>" class="list-item"><%= Common.Utils.String.htmlEncode(value) %></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="list-item"><%= Common.Utils.String.htmlEncode(value) %></div>'),
+                    tabindex: 1
                 });
 
                 this.listNames.selectByIndex(0);
@@ -1253,6 +1259,14 @@ define([
 
                 this.mask = $('.modals-mask');
                 this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
+            },
+
+            getFocusedComponents: function() {
+                return [this.listNames].concat(this.getFooterButtons());
+            },
+
+            getDefaultFocusableComponent: function () {
+                return this.listNames;
             },
 
             show: function(x,y) {

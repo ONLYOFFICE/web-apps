@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  MenuItem.js
  *
@@ -107,13 +106,14 @@ define([
             dataHint    : '',
             dataHintDirection: '',
             dataHintOffset: '',
-            dataHintTitle: ''
+            dataHintTitle: '',
+            scaling: true
         },
 
         tagName : 'li',
 
         template: _.template([
-            '<a id="<%= id %>" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
+            '<a id="<%= id %>" class="menu-item" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
                 '<% } %>',
@@ -155,6 +155,7 @@ define([
             var me = this,
                 el = me.$el || $(this.el);
 
+            me.cmpEl = el;
             me.trigger('render:before', me);
 
             if (me.caption === '--') {
@@ -229,12 +230,22 @@ define([
                     el.on('mousedown',  _.bind(this.onItemMouseDown, this));
 
                     Common.UI.ToggleManager.register(me);
+
+                    if (me.options.scaling !== false && me.iconCls) {
+                        el.attr('ratio', 'ratio');
+                        me.applyScaling(Common.UI.Scaling.currentRatio());
+
+                        el.on('app:scaling', function (e, info) {
+                            if ( me.options.scaling != info.ratio ) {
+                                me.applyScaling(info.ratio);
+                            }
+                        });
+                    }
                 }
             }
             if (!this.visible)
                 this.setVisible(this.visible);
 
-            me.cmpEl = el;
             me.rendered = true;
 
             me.trigger('render:after', me);
@@ -246,7 +257,7 @@ define([
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
         },
 
         setIconCls: function(iconCls) {
@@ -254,6 +265,12 @@ define([
                 var firstChild = this.cmpEl.children(':first');
                 if (firstChild) {
                     firstChild.find('.menu-item-icon').removeClass(this.iconCls).addClass(iconCls);
+                    var svgIcon = firstChild.find('use.zoom-int');
+                    if (svgIcon.length) {
+                        var re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null";
+                        svgIcon.attr('href', '#' + icon_name);
+                    }
                 }
             }
             this.iconCls = iconCls;
@@ -389,6 +406,47 @@ define([
                     if (focused.length>0) {
                         focused.blur();
                         me.cmpEl.closest('ul').focus();
+                    }
+                }
+            }
+        },
+
+        setMenu: function (m) {
+            if (m && _.isObject(m) && _.isFunction(m.render)){
+                if (this.rendered) {
+                    if (this.menu && (this.menu instanceof Common.UI.Menu || this.menu instanceof Common.UI.MenuSimple)) {
+                        Common.UI.Menu.Manager.unregister(this.menu);
+                        this.menu.cmpEl && this.menu.cmpEl.remove();
+                    }
+                    this.menu = m;
+                    var el = this.cmpEl;
+                    el.addClass('dropdown-submenu');
+                    this.menu.render(el);
+                    el.mouseenter(_.bind(this.menu.alignPosition, this.menu));
+                    el.focusout(_.bind(this.onBlurItem, this));
+                    el.hover(
+                        _.bind(this.onHoverItem, this),
+                        _.bind(this.onUnHoverItem, this)
+                    );
+                } else
+                    this.menu = m;
+            }
+        },
+
+        applyScaling: function (ratio) {
+            var me = this;
+            if (me.options.scaling != ratio) {
+                me.options.scaling = ratio;
+                var firstChild = this.cmpEl.children(':first');
+
+                if (ratio > 2) {
+                    if (!firstChild.find('svg.menu-item-icon').length) {
+                        var iconCls = me.iconCls,
+                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null",
+                            svg_icon = '<svg class="menu-item-icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+
+                        firstChild.find('span.menu-item-icon').after(svg_icon);
                     }
                 }
             }

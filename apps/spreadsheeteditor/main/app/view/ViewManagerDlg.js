@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *
  *  ViewManagerDlg.js
@@ -53,19 +52,20 @@ define([
     SSE.Views.ViewManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ViewManagerDlg',
-            contentWidth: 460,
-            height: 330,
-            buttons: null
+            contentWidth: 460
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;">',
-                        '<div class="settings-panel active">',
+                buttons: [
+                    {value: 'ok', caption: this.textGoTo, primary: true},
+                    'close'
+                ],
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
                         '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
@@ -76,23 +76,16 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-new" style="min-width: 80px;margin-right:5px;">' + this.textNew + '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-rename" style="min-width: 80px;margin-right:5px;">' + this.textRename + '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="view-manager-btn-new" style="min-width: 80px;">' + this.textNew + '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="view-manager-btn-rename" style="min-width: 80px;">' + this.textRename + '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-duplicate" style="min-width: 80px;">' + this.textDuplicate + '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-delete" style="min-width: 80px;float: right;">' + this.textDelete + '</button>',
+                                        '<button type="button" class="btn btn-text-default auto float-right" id="view-manager-btn-delete" style="min-width: 80px;">' + this.textDelete + '</button>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
                         '</div>',
-                        '</div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok" style="min-width: 86px;width: auto;">' + this.textGoTo + '</button>',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
                     '</div>'
-                ].join('')
+                ].join(''))({scope: this})
             }, options);
 
             this.api       = options.api;
@@ -150,16 +143,15 @@ define([
             });
             this.btnDelete.on('click', _.bind(this.onDelete, this));
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary'),
-                disabled: true
-            });
-            
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ];
+            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

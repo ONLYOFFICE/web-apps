@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 
 !window.common && (window.common = {});
 !common.view && (common.view = {});
@@ -66,6 +65,13 @@ common.view.modals = new(function() {
                             '<span class="right caption">{height}:</span>' +
                         '</div>' +
                         '<textarea id="txt-embed-url" rows="4" class="form-control" readonly></textarea>';
+    
+    var _tplbody_password =  '<div class="password-body">' +
+                                '<label>{label}</label>' + 
+                                '<input id="password-input" class="form-control" type="password"/>' +
+                                '<label id="password-label-error">{error}</label>' + 
+                                '{button}' + 
+                            '</div>';
 
     return {
         create: function(name, parent) {
@@ -93,8 +99,7 @@ common.view.modals = new(function() {
                             .replace(/\{footer}/, '<button id="btn-copyshort" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-share');
-            } else
-            if (name == 'embed') {
+            } else if (name == 'embed') {
                 _$dlg = $(tplDialog
                             .replace(/\{title}/, this.txtEmbed)
                             .replace(/\{body}/, _tplbody_embed)
@@ -103,6 +108,18 @@ common.view.modals = new(function() {
                             .replace(/\{footer}/, '<button id="btn-copyembed" type="button" class="btn">' + this.txtCopy + '</button>'))
                                 .appendTo(parent)
                                 .attr('id', 'dlg-embed');
+            } else if(name == 'password') {
+                _$dlg = $(tplDialog
+                    .replace(/\{title}/, this.txtTitleProtected)
+                    .replace(/\{body}/, _tplbody_password)
+                    .replace(/\{label}/, this.txtOpenFile)
+                    .replace(/\{error}/, this.txtIncorrectPwd)
+                    .replace(/\{button}/, '<button id="password-btn" type="button" class="btn">OK</button>'))
+                        .appendTo(parent)
+                        .attr('id', 'dlg-password');
+
+                _$dlg.find('button.close').remove();
+                _$dlg.find('.modal-footer').remove();
             }
 
             return _$dlg;
@@ -111,6 +128,9 @@ common.view.modals = new(function() {
         txtHeight: 'Height',
         txtShare: 'Share Link',
         txtCopy: 'Copy to clipboard',
-        txtEmbed: 'Embed'
+        txtEmbed: 'Embed',
+        txtTitleProtected: 'Protected file',
+        txtOpenFile: 'Enter a password to open the file',
+        txtIncorrectPwd: 'Password is incorrect',
     };
 })();

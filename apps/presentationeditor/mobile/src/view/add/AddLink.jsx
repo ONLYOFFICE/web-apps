@@ -8,13 +8,14 @@ const PageTypeLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const [typeLink, setTypeLink] = useState(props.curType);
+    const isNavigate = props.isNavigate;
 
     return (
         <Page>
             <Navbar className="navbar-link-settings" title={_t.textLinkType} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-close' popupClose="#add-link-popup"></Link>
+                        <Link icon='icon-close' popupClose={!isNavigate ? "#add-link-popup" : ".add-popup"}></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -30,6 +31,7 @@ const PageLinkTo = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
+    const isNavigate = props.isNavigate;
 
     const [stateTypeTo, setTypeTo] = useState(props.curTo);
     const changeTypeTo = (type) => {
@@ -55,7 +57,7 @@ const PageLinkTo = props => {
             <Navbar className="navbar-link-settings" title={_t.textLinkTo}  backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
-                        <Link icon='icon-close' popupClose="#add-link-popup"></Link>
+                        <Link icon='icon-close' popupClose={!isNavigate ? "#add-link-popup" : ".add-popup"}></Link>
                     </NavRight>
                 }
             </Navbar>
@@ -87,7 +89,7 @@ const PageLink = props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const regx = /["https://"]/g
-
+    const isNavigate = props.isNavigate;
     const [typeLink, setTypeLink] = useState(1);
     const textType = typeLink === 1 ? _t.textExternalLink : _t.textSlideInThisPresentation;
     const changeType = (newType) => {
@@ -121,7 +123,7 @@ const PageLink = props => {
             <Navbar className="navbar-link-settings">
                 <NavLeft>
                     <Link text={Device.ios ? t('View.Add.textCancel') : ''} onClick={() => {
-                        props.isNavigate ? f7.views.current.router.back() : props.closeModal();
+                        isNavigate ? f7.views.current.router.back() : props.closeModal('#add-link-popup', '#add-link-popover');
                     }}>
                         {Device.android && <Icon icon='icon-close' />}
                     </Link>
@@ -140,7 +142,8 @@ const PageLink = props => {
             <List inlineLabels className='inputs-list'>
                 <ListItem link={'/add-link-type/'} title={_t.textLinkType} after={textType} routeProps={{
                     changeType: changeType,
-                    curType: typeLink
+                    curType: typeLink,
+                    isNavigate
                 }}/>
                 {typeLink === 1 ?
                     <ListInput label={_t.textLink}
@@ -154,7 +157,8 @@ const PageLink = props => {
                     /> :
                     <ListItem link={'/add-link-to/'} title={_t.textLinkTo} after={displayTo} routeProps={{
                         changeTo: changeTo,
-                        curTo: linkTo
+                        curTo: linkTo,
+                        isNavigate
                     }}/>
                 }
                 <ListInput label={_t.textDisplay}
@@ -174,16 +178,6 @@ const PageLink = props => {
                            onChange={(event) => {setScreenTip(event.target.value)}}
                 />
             </List>
-            {/* <List className="buttons-list">
-                <ListButton title={_t.textInsert}
-                            className={`button-fill button-raised ${typeLink === 1 && link.length < 1 && ' disabled'}`}
-                            onClick={() => {
-                                props.onInsertLink(typeLink, (typeLink === 1 ?
-                                    {url: link, display: stateDisplay, displayDisabled: displayDisabled, tip: screenTip } :
-                                    {linkTo: linkTo, numberTo: numberTo, display: stateDisplay, displayDisabled: displayDisabled, tip: screenTip}));
-                            }}
-                />
-            </List> */}
         </Page>
     )
 };

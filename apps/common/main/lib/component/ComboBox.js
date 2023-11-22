@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ComboBox.js
  *
@@ -83,9 +82,11 @@ define([
                 disabled    : false,
                 menuCls     : '',
                 menuStyle   : '',
+                restoreMenuHeight: true,
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
                 dataHint: '',
@@ -95,13 +96,13 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false"  data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -125,9 +126,13 @@ define([
                 this.store          = me.options.store || new Common.UI.ComboBoxStore();
                 this.displayField   = me.options.displayField;
                 this.valueField     = me.options.valueField;
+                this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
+
+                this.restoreMenuHeight = me.options.restoreMenuHeight;
+
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -152,6 +157,7 @@ define([
                         menuStyle   : this.menuStyle,
                         items       : items,
                         scope       : me,
+                        placeHolder : this.placeHolder,
                         dataHint    : this.options.dataHint,
                         dataHintDirection: this.options.dataHintDirection,
                         dataHintOffset: this.options.dataHintOffset,
@@ -185,6 +191,7 @@ define([
 
                     if (this.editable) {
                         el.on('change', 'input', _.bind(this.onInputChanged, this));
+                        el.on('input', 'input', _.bind(this.onInputChanging, this));
                         el.on('keydown', 'input', _.bind(this.onInputKeyDown, this));
                         el.on('focusin', 'input', _.bind(this.onInputFocusIn, this));
                         el.on('click', '.form-control', _.bind(this.onEditableInputClick, this));
@@ -263,6 +270,8 @@ define([
             },
 
             openMenu: function(delay) {
+                if (this.store.length<1) return;
+
                 var me = this;
 
                 if ( !this.scroller ) {
@@ -324,6 +333,7 @@ define([
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 var $list = $(this.el).find('ul'),
                     $selected = $list.find('> li.selected');
 
@@ -346,8 +356,36 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
-                this.trigger('show:after', this, e);
+                this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
+            },
+
+            alignMenuPosition: function () {
+                if (this.restoreMenuHeight) {
+                    var $list = $(this.el).find('ul');
+                    if (typeof this.restoreMenuHeight !== "number") {
+                        var maxHeight = parseFloat($list.css('max-height'));
+                        if ($list.hasClass('scrollable-menu') || maxHeight) {
+                            this.restoreMenuHeight = maxHeight ? maxHeight : 100000;
+                        } else {
+                            this.restoreMenuHeight = 100000;
+                        }
+                    }
+                    var cg = Common.Utils.croppedGeometry(),
+                        docH = cg.height - 10,
+                        menuH = $list.outerHeight(),
+                        menuTop = $list.get(0).getBoundingClientRect().top,
+                        newH = menuH;
+
+                    if (menuH < this.restoreMenuHeight)
+                        newH = this.restoreMenuHeight;
+
+                    if (menuTop + newH > docH)
+                        newH = docH - menuTop;
+
+                    if (newH !== menuH)
+                        $list.css('max-height', newH + 'px');
+                }
             },
 
             onBeforeHideMenu: function(e) {
@@ -465,8 +503,10 @@ define([
                     this.closeMenu();
                     this.onAfterHideMenu(e);
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN) {
-                    if (!this.isMenuOpen())
+                    if (!this.isMenuOpen()) {
                         this.openMenu();
+                        this.onAfterShowMenu();
+                    }
 
                     _.delay(function() {
                         me._skipInputChange = true;
@@ -519,6 +559,16 @@ define([
 
                 // trigger changed event
                 this.trigger('changed:after', this, record, e);
+            },
+
+            onInputChanging: function(e, extra) {
+                var newValue = $(e.target).val();
+
+                if (e.isDefaultPrevented())
+                    return;
+
+                // trigger changing event
+                this.trigger('changing', this, newValue, e);
             },
 
             onInputClick: function(e) {
@@ -727,7 +777,7 @@ define([
         setValue: function(value, defValue) {
             Common.UI.ComboBox.prototype.setValue.call(this, value, defValue);
             if (this.options.updateFormControl)
-                this.options.updateFormControl.call(this, this._selectedItem);
+                this.options.updateFormControl.call(this, this._selectedItem, defValue);
         },
 
         selectRecord: function(record) {

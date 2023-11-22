@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Transitions.js
  *
@@ -122,17 +121,18 @@ define([
                 this.lockedControls = [];
 
                 this._arrEffectName = [
-                    {title: this.textNone, imageUrl: "transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
-                    {title: this.textFade, imageUrl: "transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
-                    {title: this.textPush, imageUrl: "transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
-                    {title: this.textWipe, imageUrl: "transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
-                    {title: this.textSplit, imageUrl: "transition-split", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
-                    {title: this.textUnCover, imageUrl: "transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
-                    {title: this.textCover, imageUrl: "transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
-                    {title: this.textClock, imageUrl: "transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom,  imageUrl: "transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId(), cls: 'last-item'}
+                    {title: this.textNone, imageUrl: "btn-transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textFade, imageUrl: "btn-transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
+                    {title: this.textPush, imageUrl: "btn-transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
+                    {title: this.textWipe, imageUrl: "btn-transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
+                    {title: this.textSplit, imageUrl: "btn-transition-split", value: Asc.c_oAscSlideTransitionTypes.Split, id: Common.UI.getId()},
+                    {title: this.textUnCover, imageUrl: "btn-transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
+                    {title: this.textCover, imageUrl: "btn-transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
+                    {title: this.textClock, imageUrl: "btn-transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
+                    {title: this.textZoom, imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()},
+                    {title: this.textMorph, imageUrl: "btn-transition-morph", value: Asc.c_oAscSlideTransitionTypes.Morph, id: Common.UI.getId(),cls: 'last-item'}
                 ];
-                this._arrEffectName.forEach(function(item) {
+                this._arrEffectName.forEach(function (item) {
                     item.tip = item.title;
                 });
 
@@ -145,8 +145,8 @@ define([
                     style: 'min-width:108px;',
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
-                            '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
-                            '<div class = "caption"><%= title %></div>',
+                        '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',
+                        '<div class = "caption"><%= title %></div>',
                         '</div>'
                     ].join('')),
                     enableKeyEvents: true,
@@ -186,7 +186,7 @@ define([
                     cls: 'btn-toolbar', // x-huge icon-top',
                     caption: this.txtPreview,
                     split: false,
-                    iconCls: 'toolbar__icon preview-transitions',
+                    iconCls: 'toolbar__icon btn-preview-transitions',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -197,9 +197,11 @@ define([
                 this.btnParameters = new Common.UI.Button({
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
-                    iconCls: 'toolbar__icon icon transition-none',
+                    iconCls: 'toolbar__icon icon btn-transition-none',
+                    scaling: false,
                     menu: new Common.UI.Menu({
-                        items: this.createParametersMenuItems()}),
+                        items: this.createParametersMenuItems()
+                    }),
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -211,7 +213,7 @@ define([
                     cls: 'btn-toolbar',
                     caption: this.txtApplyToAll,
                     split: true,
-                    iconCls: 'toolbar__icon transition-apply-all',
+                    iconCls: 'toolbar__icon btn-transition-apply-all',
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock],
                     dataHint: '1',
                     dataHintDirection: 'left',
@@ -236,7 +238,7 @@ define([
 
                 this.lblDuration = new Common.UI.Label({
                     el: this.$el.find('#transit-duration'),
-                    iconCls: 'toolbar__icon animation-duration',
+                    iconCls: 'toolbar__icon btn-animation-duration',
                     caption: this.strDuration,
                     lock: [_set.slideDeleted, _set.noSlides, _set.disableOnStart, _set.transitLock]
                 });
@@ -288,39 +290,40 @@ define([
                 return this;
             },
 
-            createParametersMenuItems: function()
-            {
+            createParametersMenuItems: function () {
                 var arrEffectType = [
-                    {caption: this.textSmoothly,          value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
-                    {caption: this.textBlack,             value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
-                    {caption: this.textLeft,              value: Asc.c_oAscSlideTransitionParams.Param_Left},
-                    {caption: this.textTop,               value: Asc.c_oAscSlideTransitionParams.Param_Top},
-                    {caption: this.textRight,             value: Asc.c_oAscSlideTransitionParams.Param_Right},
-                    {caption: this.textBottom,            value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
-                    {caption: this.textTopLeft,           value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
-                    {caption: this.textTopRight,          value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
-                    {caption: this.textBottomLeft,         value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
-                    {caption: this.textBottomRight,        value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
-                    {caption: this.textVerticalIn,         value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
-                    {caption: this.textVerticalOut,        value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
-                    {caption: this.textHorizontalIn,       value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
-                    {caption: this.textHorizontalOut,      value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
-                    {caption: this.textClockwise,          value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
-                    {caption: this.textCounterclockwise,   value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
-                    {caption: this.textWedge,             value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
-                    {caption: this.textZoomIn,            value: Asc.c_oAscSlideTransitionParams.Zoom_In},
-                    {caption: this.textZoomOut,           value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
-                    {caption: this.textZoomRotate,         value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate}
-            ];
+                    {caption: this.textSmoothly, value: Asc.c_oAscSlideTransitionParams.Fade_Smoothly},
+                    {caption: this.textBlack, value: Asc.c_oAscSlideTransitionParams.Fade_Through_Black},
+                    {caption: this.textLeft, value: Asc.c_oAscSlideTransitionParams.Param_Left},
+                    {caption: this.textTop, value: Asc.c_oAscSlideTransitionParams.Param_Top},
+                    {caption: this.textRight, value: Asc.c_oAscSlideTransitionParams.Param_Right},
+                    {caption: this.textBottom, value: Asc.c_oAscSlideTransitionParams.Param_Bottom},
+                    {caption: this.textTopLeft, value: Asc.c_oAscSlideTransitionParams.Param_TopLeft},
+                    {caption: this.textTopRight, value: Asc.c_oAscSlideTransitionParams.Param_TopRight},
+                    {caption: this.textBottomLeft, value: Asc.c_oAscSlideTransitionParams.Param_BottomLeft},
+                    {caption: this.textBottomRight, value: Asc.c_oAscSlideTransitionParams.Param_BottomRight},
+                    {caption: this.textVerticalIn, value: Asc.c_oAscSlideTransitionParams.Split_VerticalIn},
+                    {caption: this.textVerticalOut, value: Asc.c_oAscSlideTransitionParams.Split_VerticalOut},
+                    {caption: this.textHorizontalIn, value: Asc.c_oAscSlideTransitionParams.Split_HorizontalIn},
+                    {caption: this.textHorizontalOut, value: Asc.c_oAscSlideTransitionParams.Split_HorizontalOut},
+                    {caption: this.textClockwise, value: Asc.c_oAscSlideTransitionParams.Clock_Clockwise},
+                    {caption: this.textCounterclockwise, value: Asc.c_oAscSlideTransitionParams.Clock_Counterclockwise},
+                    {caption: this.textWedge, value: Asc.c_oAscSlideTransitionParams.Clock_Wedge},
+                    {caption: this.textZoomIn, value: Asc.c_oAscSlideTransitionParams.Zoom_In},
+                    {caption: this.textZoomOut, value: Asc.c_oAscSlideTransitionParams.Zoom_Out},
+                    {caption: this.textZoomRotate, value: Asc.c_oAscSlideTransitionParams.Zoom_AndRotate},
+                    {caption: this.textMorphObjects, value: Asc.c_oAscSlideTransitionParams.Morph_Objects},
+                    {caption: this.textMorphWord, value: Asc.c_oAscSlideTransitionParams.Morph_Words},
+                    {caption: this.textMorphLetters, value: Asc.c_oAscSlideTransitionParams.Morph_Letters}
+                ];
 
                 var itemsMenu = [];
                 _.each(arrEffectType, function (item) {
                     itemsMenu.push({
-                            caption: item.caption,
-                            value: item.value,
-                            checkable: true,
-                            toggleGroup: 'effects'
-                        });
+                        caption: item.caption, value: item.value,
+                        checkable: true,
+                        toggleGroup: 'effects'
+                    });
                 });
                 return itemsMenu;
             },
@@ -329,7 +332,7 @@ define([
                 var me = this;
                 (new Promise(function (accept, reject) {
                     accept();
-                })).then(function() {
+                })).then(function () {
 
                     setEvents.call(me);
                 });
@@ -347,8 +350,7 @@ define([
                 return this.$el;
             },
 
-            renderComponent: function (compid, obj)
-            {
+            renderComponent: function (compid, obj) {
                 var element = this.$el.find(compid);
                 element.parent().append(obj.el);
             },
@@ -366,12 +368,11 @@ define([
 
             setDisabled: function (state) {
                 this.lockedControls && this.lockedControls.forEach(function (button) {
-                        button.setDisabled(state);
+                    button.setDisabled(state);
                 }, this);
             },
 
-            setMenuParameters: function (effect, value)
-            {
+            setMenuParameters: function (effect, value) {
                 var minMax = [-1, -1];
                 switch (effect) {
                     case Asc.c_oAscSlideTransitionTypes.Fade:
@@ -398,25 +399,27 @@ define([
                     case Asc.c_oAscSlideTransitionTypes.Zoom:
                         minMax = [17, 19];
                         break;
+                    case Asc.c_oAscSlideTransitionTypes.Morph:
+                        minMax = [20, 22];
+                        break;
                 }
 
                 var selectedElement;
 
                 _.each(this.btnParameters.menu.items, function (element, index) {
-                    if ((index >= minMax[0])&&(index <= minMax[1])) {
+                    if ((index >= minMax[0]) && (index <= minMax[1])) {
                         element.setVisible(true);
                         if (value != undefined) {
                             if (value == element.value) selectedElement = element;
                         }
-                    }
-                    else
+                    } else
                         element.setVisible(false);
                 });
 
                 if (selectedElement == undefined)
                     selectedElement = this.btnParameters.menu.items[minMax[0]];
-                
-                if (effect != Asc.c_oAscSlideTransitionTypes.None)
+
+                if (effect != Asc.c_oAscSlideTransitionTypes.None && selectedElement)
                     selectedElement.setChecked(true);
 
                 if (!this.listEffects.isDisabled()) {
@@ -426,9 +429,8 @@ define([
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.lblDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
-                return (selectedElement)?selectedElement.value:-1;
+                return (selectedElement) ? selectedElement.value : -1;
             },
-
 
             txtSec: 's',
             txtPreview: 'Preview',
@@ -446,7 +448,7 @@ define([
             textCover: 'Cover',
             textClock: 'Clock',
             textZoom: 'Zoom',
-
+            textMorph: 'Morph',
             textSmoothly: 'Smoothly',
             textBlack: 'Through Black',
             textLeft: 'Left',
@@ -466,7 +468,10 @@ define([
             textWedge: 'Wedge',
             textZoomIn: 'Zoom In',
             textZoomOut: 'Zoom Out',
-            textZoomRotate: 'Zoom and Rotate'
+            textZoomRotate: 'Zoom and Rotate',
+            textMorphObjects: 'Objects',
+            textMorphWord: 'Words',
+            textMorphLetters: 'Letters'
         }
     }()), PE.Views.Transitions || {}));
 

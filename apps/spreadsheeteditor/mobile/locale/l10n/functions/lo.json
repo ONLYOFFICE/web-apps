@@ -472,6 +472,13 @@
 	"WRAPCOLS": "WRAPCOLS",
 	"TAKE": "ໃຊ້",
 	"DROP": "ວາງລົງ",
+	"SEQUENCE": "SEQUENCE",
+	"EXPAND": "ຂະຫຍາຍ",
+	"XMATCH": "XMATCH",
+	"FILTER": "ກັ່ນຕອງ",
+	"ARRAYTOTEXT": "ການຈັດຮອບວຽນເປັນຂໍ້ຄວາມ",
+	"SORT": "ຈັດຮຽງ",
+	"SORTBY": "SORTBY",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

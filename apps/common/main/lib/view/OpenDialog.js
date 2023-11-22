@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  OpenDialog.js
  *
@@ -53,54 +52,31 @@ define([
             var t = this,
                 _options = {};
 
-            var width, height;
-
-            if (options.preview) {
-                width = 414;
-                height = (options.type==Common.Utils.importTextType.Data) ? 385 : 277;
-            } else {
-                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
-                switch (options.type) {
-                    case Common.Utils.importTextType.CSV:
-                    case Common.Utils.importTextType.Paste:
-                    case Common.Utils.importTextType.Columns:
-                        height = 190;
-                        break;
-                    case Common.Utils.importTextType.Data:
-                        height = 245;
-                        break;
-                    default:
-                        height = options.warning ? 187 : 147;
-                        break;
-                }
-            }
-
             _.extend(_options,  {
                 closable        : false, // true if save settings
                 preview         : options.preview,
                 warning         : options.warning,
                 codepages       : options.codepages,
                 warningMsg      : options.warningMsg,
-                width           : width,
-                height          : height,
+                width           : options.preview ? 414 : (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280),
                 header          : true,
-                cls             : 'open-dlg',
+                cls             : 'modal-dlg open-dlg',
                 contentTemplate : '',
                 toolcallback    : _.bind(t.onToolClose, t),
-                closeFile       : false
-
+                closeFile       : false,
+                buttons         : ['ok'].concat(options.closeFile ? [{value: 'cancel', caption: this.closeButtonText}] : []).concat(options.closable ? ['cancel'] : []),
             }, options);
 
             this.txtOpenFile = options.txtOpenFile || this.txtOpenFile;
 
             this.template = options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box">',
                     '<div class="content-panel" >',
                     '<% if (type == Common.Utils.importTextType.DRM) { %>',
                         '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon warn"></div>',
-                            '<div style="padding-left: 50px;"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
+                            '<div class="padding-left-50"><div style="font-size: 12px;word-break:break-word;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
@@ -112,7 +88,7 @@ define([
                         '<% } %>',
                     '<% } else { %>',
                         '<% if (codepages && codepages.length>0) { %>',
-                        '<div style="<% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %>width: 230px;margin-right: 10px;display: inline-block;<% } else { %>width: 100%;<% } %>margin-bottom:15px;">',
+                        '<div <% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %> class="margin-right-10" style="width: 230px;display: inline-block;" <% } else { %> style="width: 100%;"<% } %> >',
                             '<label class="header">' + t.txtEncoding + '</label>',
                             '<div>',
                             '<div id="id-codepages-combo" class="input-group-nr" style="width: 100%; display: inline-block; vertical-align: middle;"></div>',
@@ -120,26 +96,26 @@ define([
                         '</div>',
                         '<% } %>',
                         '<% if (type == Common.Utils.importTextType.CSV) { %>',
-                        '<div style="display: inline-block; margin-bottom:15px;">',
+                        '<div style="display: inline-block; <% if (!preview) { %> margin-top:15px;<% } %>">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
-                                '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
+                                '<div id="id-delimiter-other" class="input-row margin-left-10" style="display: inline-block; vertical-align: middle;"></div>',
                             '</div>',
                         '</div>',
                         '<% } %>',
                         '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data) { %>',
-                        '<div style="display: inline-block; margin-bottom:15px;width: 100%;">',
+                        '<div style="display: inline-block; <% if (codepages && codepages.length>0) { %>margin-top:15px;<% } %>width: 100%;">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
-                                '<div id="id-delimiter-other" class="input-row" style="display: inline-block; vertical-align: middle;margin-left: 10px;"></div>',
-                                '<button type="button" class="btn auto btn-text-default" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;float:right;">' + t.txtAdvanced + '</button>',
+                                '<div id="id-delimiter-other" class="input-row margin-left-10" style="display: inline-block; vertical-align: middle;"></div>',
+                                '<button type="button" class="btn auto btn-text-default float-right" id="id-delimiters-advanced" style="min-width:100px; display: inline-block;">' + t.txtAdvanced + '</button>',
                             '</div>',
                         '</div>',
                         '<% } %>',
                         '<% if (!!preview) { %>',
-                            '<div style="">',
+                            '<div style="margin-top:15px;">',
                                 '<label class="header">' + t.txtPreview + '</label>',
                                 '<div style="position: relative;">',
                                     '<div style="width: 100%;">',
@@ -158,15 +134,6 @@ define([
                         '<% } %>',
                     '<% } %>',
                     '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
-                    '<% if (closeFile) { %>',
-                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.closeButtonText + '</button>',
-                    '<% } %>',
-                    '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn custom" result="cancel" style="margin-left:10px;">' + t.cancelButtonText + '</button>',
-                    '<% } %>',
                 '</div>'
             ].join('');
 
@@ -199,17 +166,17 @@ define([
                 this.previewPanel = this.$window.find('#id-preview-data');
                 this.previewParent = this.previewPanel.parent();
                 this.previewScrolled = this.$window.find('#id-preview');
-                this.previewInner = this.previewScrolled.find('div:first-child');
+                this.previewInner = this.previewScrolled.find('> div:first-child');
 
                 if (this.type == Common.Utils.importTextType.DRM) {
                     this.inputPwd = new Common.UI.InputFieldBtnPassword({
                         el: $('#id-password-txt'),
                         type: 'password',
                         showCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' btn-sheet-view',
-                        hideCls: (this.options.iconType==='svg' ? 'svg-icon' : 'toolbar__icon') + ' hide-password',
+                        hideCls: (this.options.iconType==='svg' ? 'svg-icon hide-password' : 'toolbar__icon btn-hide-password'),
                         maxLength: this.options.maxPasswordLength,
                         validateOnBlur: false,
-                        showPwdOnClick: true,
+                        showPwdOnClick: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }
@@ -251,7 +218,7 @@ define([
             this.btnAdvanced && arr.push(this.btnAdvanced);
             this.txtDestRange && arr.push(this.txtDestRange);
 
-            return arr;
+            return arr.concat(this.getFooterButtons());
         },
 
         show: function() {
@@ -294,6 +261,11 @@ define([
                     (delimiter == -1) && (delimiter = null);
                     if (!this.closable && this.type == Common.Utils.importTextType.TXT) { //save last encoding only for opening txt files
                         Common.localStorage.setItem("de-settings-open-encoding", encoding);
+                    }
+                    if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
+                        Common.localStorage.setItem("sse-settings-csv-delimiter", delimiter === null ? -1 : delimiter);
+                        Common.localStorage.setItem("sse-settings-csv-delimiter-char", delimiterChar || '');
+                        Common.localStorage.setItem("sse-settings-csv-encoding", encoding);
                     }
 
                     var decimal = this.separatorOptions ? this.separatorOptions.decimal : undefined,
@@ -346,7 +318,7 @@ define([
                         '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem">',
                         '<div style="display: inline-block;"><%= item.displayValue %></div>',
-                        '<label style="text-align: right;width:' + lcid_width + 'px;"><%= item.lcid %></label>',
+                        '<label class="text-align-right" style="width:' + lcid_width + 'px;"><%= item.lcid %></label>',
                         '</a></li>',
                         '<% }); %>'
                     ].join(''));
@@ -370,6 +342,9 @@ define([
                 if (!this.closable && this.type == Common.Utils.importTextType.TXT) { // only for opening txt files
                     var value = Common.localStorage.getItem("de-settings-open-encoding");
                     value && (encoding = parseInt(value));
+                } else if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
+                    var value = Common.localStorage.getItem("sse-settings-csv-encoding");
+                    value && (encoding = parseInt(value));
                 }
                 this.cmbEncoding.setValue(encoding);
                 if (this.preview)
@@ -382,6 +357,19 @@ define([
             }
 
             if (this.type == Common.Utils.importTextType.CSV || this.type == Common.Utils.importTextType.Paste || this.type == Common.Utils.importTextType.Columns || this.type == Common.Utils.importTextType.Data) {
+                var delimiter = this.settings && this.settings.asc_getDelimiter() ? this.settings.asc_getDelimiter() : 4,
+                    delimiterChar = this.settings && this.settings.asc_getDelimiterChar() ? this.settings.asc_getDelimiterChar() : '';
+                if (this.type == Common.Utils.importTextType.CSV) { // only for csv files
+                    var value = Common.localStorage.getItem("sse-settings-csv-delimiter");
+                    if (value) {
+                        value = parseInt(value);
+                        if (!isNaN(value)) {
+                            delimiter = value;
+                            (delimiter===-1) && (delimiterChar = Common.localStorage.getItem("sse-settings-csv-delimiter-char") || '');
+                        }
+                    }
+                }
+
                 this.cmbDelimiter = new Common.UI.ComboBox({
                     el: $('#id-delimiters-combo', this.$window),
                     style: 'width: 100px;',
@@ -397,7 +385,7 @@ define([
                     editable: false,
                     takeFocusOnClose: true
                 });
-                this.cmbDelimiter.setValue( (this.settings && this.settings.asc_getDelimiter()) ? this.settings.asc_getDelimiter() : 4);
+                this.cmbDelimiter.setValue( delimiter);
                 this.cmbDelimiter.on('selected', _.bind(this.onCmbDelimiterSelect, this));
 
                 this.inputDelimiter = new Common.UI.InputField({
@@ -406,9 +394,9 @@ define([
                     maxLength: 1,
                     validateOnChange: true,
                     validateOnBlur: false,
-                    value: (this.settings && this.settings.asc_getDelimiterChar()) ? this.settings.asc_getDelimiterChar() : ''
+                    value: delimiterChar
                 });
-                this.inputDelimiter.setVisible(false);
+                this.inputDelimiter.setVisible(delimiter===-1);
                 if (this.preview)
                     this.inputDelimiter.on ('changing', _.bind(this.updatePreview, this));
 
@@ -580,7 +568,9 @@ define([
                         me.preview && me.updatePreview();
                     }
                 }
-            })).show();
+            })).on('close', function() {
+                me.btnAdvanced.focus();
+            }).show();
         },
 
         onSelectData: function(type) {

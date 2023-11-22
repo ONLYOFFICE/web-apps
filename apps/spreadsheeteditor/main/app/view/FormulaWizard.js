@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -46,18 +45,18 @@ define([
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 580,
-            height: 397
+            contentHeight: 312
         },
 
         initialize : function(options) {
             var me = this;
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
-                                '<table style="height:' + (this.options.height - 85 - 7) + 'px;">',
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
+                                '<table style="width: 100%;">',
                                 '<tr><td>',
                                 '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
                                 '<div id="formula-wizard-panel-args" style="">',
@@ -67,7 +66,7 @@ define([
                                     '</div>',
                                     '<div style="margin-top: 4px;">',
                                         '<label id="formula-wizard-lbl-func-res">' + this.textFunctionRes + '</label>',
-                                        '<div id="formula-wizard-lbl-val-func" class="input-label" style="float: right; width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
+                                        '<div id="formula-wizard-lbl-val-func" class="input-label float-right" style="width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div>',
                                     '</div>',
                                 '</div>',
                                 '</td></tr>',
@@ -82,11 +81,8 @@ define([
                                 '</div>',
                                 '</td></tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.props = this.options.props;
@@ -123,6 +119,8 @@ define([
             this.lblFormulaResult = $window.find('#formula-wizard-value');
             this.lblFunctionResult = $window.find('#formula-wizard-lbl-val-func');
 
+            this.innerPanel.find('> table').css('height', this.options.contentHeight - 7);
+
             this._preventCloseCellEditor = false;
 
             this.afterRender();
@@ -155,6 +153,8 @@ define([
         },
 
         _setDefaults: function () {
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
+
             var me = this;
             if (this.funcprops) {
                 var props = this.funcprops;
@@ -307,8 +307,8 @@ define([
 
         setControls: function(argcount, argtype, argval, argres) {
             var me = this,
-                argtpl = '<tr><td style="padding-right: 10px;padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
-                        '<td style="padding-right: 5px;padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
+                argtpl = '<tr><td class="padding-right-10" style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-name-arg{0}" style="min-width:' + this.minArgWidth + 'px;white-space: nowrap;margin-top: 1px;"></div></td>' +
+                        '<td class="padding-right-5" style="padding-bottom: 8px;width: 100%;vertical-align: middle;"><div id="formula-wizard-txt-arg{0}"></div></td>' +
                         '<td style="padding-bottom: 8px;vertical-align: middle;"><div id="formula-wizard-lbl-val-arg{0}" class="input-label" style="margin-top: 1px;width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"></div></td></tr>',
                 div = $(Common.Utils.String.format(argtpl, argcount));
             this.tableArgs.append(div);
@@ -342,7 +342,7 @@ define([
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
-            Common.UI.FocusManager.add(this, txt);
+            Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {

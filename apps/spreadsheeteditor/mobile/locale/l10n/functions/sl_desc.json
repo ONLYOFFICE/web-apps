@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Spusti vrstice ali stolpce z začetka ali konca matrike."
+	},
+	"SEQUENCE": {
+		"a": "(rows, [columns], [start], [step])",
+		"d": "Vrne zaporedje števil"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Razširi polje na določene dimenzije."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Vrne relativen položaj elementa v polju. Privzeto je zahtevano natančno ujemanje"
+	},
+	"FILTER": {
+		"a": "(array, include, [if_empty])",
+		"d": "Filtriraj obseg ali polje"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(matrika, [oblika])",
+		"d": "Vrne predstavitev besedila matrike"
+	},
+	"SORT": {
+		"a": "(array, [sort_index], [sort_order], [by_col])",
+		"d": "Razvrstite obseg ali polje"
+	},
+	"SORTBY": {
+		"a": "(array, by_array, [sort_order], ...)",
+		"d": "Razvrsti obseh ali polje glede na vrednosti v pripadajočem obsegu ali polju"
 	}
 }

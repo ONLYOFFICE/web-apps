@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 if (Common === undefined) {
     var Common = {};
 }
@@ -463,6 +462,10 @@ define(function(){ 'use strict';
             textComboBarLineSecondary: 'Clustered column - line on secondary axis',
             textComboAreaBar: 'Stacked area - clustered column',
             textComboCustom: 'Custom combination',
+            textRadar: 'Radar',
+            textRadarMarker: 'Radar with markers',
+            textRadarFilled: 'Filled radar',
+
 
             getChartGroupData: function(headername) {
                 return [
@@ -473,6 +476,7 @@ define(function(){ 'use strict';
                     {id: 'menu-chart-group-area', caption: this.textArea, inline: true},
                     {id: 'menu-chart-group-stock', caption: this.textStock, inline: true},
                     {id: 'menu-chart-group-scatter', caption: this.textPoint},
+                    {id: 'menu-chart-group-radar', caption: this.textRadar},
                     {id: 'menu-chart-group-combo', caption: this.textCombo}
                     // {id: 'menu-chart-group-surface', caption: this.textSurface}
                 ];
@@ -512,6 +516,9 @@ define(function(){ 'use strict';
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterLineMarker,  iconCls: 'point-line-marker', tip: this.textScatterLineMarker},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatterLine,        iconCls: 'point-line', tip: this.textScatterLine},
                     { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal', tip: this.textStock},
+                    { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radar,              iconCls: 'radar', tip: this.textRadar},
+                    { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radarMarker,        iconCls: 'radar-with-markers', tip: this.textRadarMarker},
+                    { group: 'menu-chart-group-radar',   type: Asc.c_oAscChartTypeSettings.radarFilled,        iconCls: 'filled-radar', tip: this.textRadarFilled},
                     { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLine,       iconCls: 'combo-bar-line', tip: this.textComboBarLine},
                     { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboBarLineSecondary, iconCls: 'combo-bar-line-sec', tip: this.textComboBarLineSecondary},
                     { group: 'menu-chart-group-combo',   type: Asc.c_oAscChartTypeSettings.comboAreaBar,       iconCls: 'combo-area-bar', tip: this.textComboAreaBar},
@@ -767,7 +774,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-list',
                         sectionId: Asc.c_oAscSmartArtSectionNames.List,
                         caption: this.textList,
-                        icon: 'smart-list',
+                        icon: 'btn-smart-list',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicBlockList, tip: this.textBasicBlockList},
                             { type: Asc.c_oAscSmartArtTypes.AlternatingHexagonList, tip: this.textAlternatingHexagons},
@@ -816,7 +823,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-process',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Process,
                         caption: this.textProcess,
-                        icon: 'smart-process',
+                        icon: 'btn-smart-process',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicProcess, tip: this.textBasicProcess},
                             { type: Asc.c_oAscSmartArtTypes.StepUpProcess, tip: this.textStepUpProcess},
@@ -873,7 +880,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-cycle',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Cycle,
                         caption: this.textCycle,
-                        icon: 'smart-cycle',
+                        icon: 'btn-smart-cycle',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicCycle, tip: this.textBasicCycle},
                             { type: Asc.c_oAscSmartArtTypes.TextCycle, tip: this.textTextCycle},
@@ -899,7 +906,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-hierarchy',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Hierarchy,
                         caption: this.textHierarchy,
-                        icon: 'smart-hierarchy',
+                        icon: 'btn-smart-hierarchy',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.OrganizationChart, tip: this.textOrganizationChart},
                             { type: Asc.c_oAscSmartArtTypes.PictureOrganizationChart, tip: this.textPictureOrganizationChart},
@@ -923,7 +930,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-relationship',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Relationship,
                         caption: this.textRelationship,
-                        icon: 'smart-relationship',
+                        icon: 'btn-smart-relationship',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.Balance, tip: this.textBalance},
                             { type: Asc.c_oAscSmartArtTypes.CircleRelationship, tip: this.textCircleRelationship},
@@ -972,7 +979,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-matrix',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Matrix,
                         caption: this.textMatrix,
-                        icon: 'smart-matrix',
+                        icon: 'btn-smart-matrix',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicMatrix, tip: this.textBasicMatrix},
                             { type: Asc.c_oAscSmartArtTypes.TitledMatrix, tip: this.textTitledMatrix},
@@ -985,7 +992,7 @@ define(function(){ 'use strict';
                         id: 'menu-smart-art-group-pyramid',
                         sectionId: Asc.c_oAscSmartArtSectionNames.Pyramid,
                         caption: this.textPyramid,
-                        icon: 'smart-pyramid',
+                        icon: 'btn-smart-pyramid',
                         items: [
                             { type: Asc.c_oAscSmartArtTypes.BasicPyramid, tip: this.textBasicPyramid},
                             { type: Asc.c_oAscSmartArtTypes.InvertedPyramid, tip: this.textInvertedPyramid},
@@ -1067,5 +1074,4 @@ define(function(){ 'use strict';
             },
         }
     })(), Common.define.smartArt || {});
-
 });

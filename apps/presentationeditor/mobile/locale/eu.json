@@ -42,6 +42,26 @@
       "textCustomColors": "Kolore pertsonalizatuak",
       "textStandartColors": "Kolore estandarrak",
       "textThemeColors": "Gaiaren koloreak"
+    },
+    "VersionHistory": {
+      "notcriticalErrorTitle": "Abisua",
+      "textAnonymous": "Anonimoa",
+      "textBack": "Atzera",
+      "textCancel": "Utzi",
+      "textCurrent": "Unekoa",
+      "textOk": "Ados",
+      "textRestore": "Berrezarri",
+      "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
+      "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
+      "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
+      "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -112,7 +132,7 @@
       "textHasMacros": "Fitxategiak makro automatikoak dauzka.<br>Makroak exekutatu nahi dituzu?",
       "textNo": "Ez",
       "textNoLicenseTitle": "Lizentzien mugara iritsi zara",
-      "textNoTextFound": "Ez da testua aurkitu",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOpenFile": "Idatzi pasahitza fitxategia irekitzeko",
       "textPaidFeature": "Ordainpeko ezaugarria",
       "textRemember": "Gogoratu nire aukera",
@@ -121,10 +141,13 @@
       "textRequestMacros": "Makro batek URL baterako eskaera egiten du. %1 URL-rako eskaera onartu nahi duzu?",
       "textYes": "Bai",
       "titleLicenseExp": "Lizentzia iraungi da",
+      "titleLicenseNotActive": "Lizentzia ez dago aktibo",
       "titleServerVersion": "Editorea eguneratu da",
       "titleUpdateVersion": "Bertsioa aldatu da",
       "txtIncorrectPwd": "Pasahitza ez da zuzena",
       "txtProtected": "Behin pasahitza sartu eta fitxategia ireki duzula, uneko pasahitza berrezarri egingo da",
+      "warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",
+      "warnLicenseBefore": "Lizentzia ez dago aktibo.<br>Jarri zure administratzailearekin harremanetan.",
       "warnLicenseExceeded": "Aldibereko %1 editoreren konexio-mugara iritsi zara. Dokumentu hau ikusteko bakarrik irekiko da. Jarri harremanetan administratzailearekin informazio gehiago lortzeko.",
       "warnLicenseExp": "Zure lizentzia iraungi da. Mesedez, eguneratu zure lizentzia eta freskatu orria.",
       "warnLicenseLimitedNoAccess": "Lizentzia iraungi da. Ez daukazu sarbiderik dokumentu-edizio funtzionalitatera. Mesedez, kontaktatu zure administratzailea.",
@@ -142,6 +165,7 @@
     "downloadErrorText": "Deskargak huts egin du.",
     "errorAccessDeny": "Baimenik ez duzun ekintza bat egin nahian zabiltza.<br>Mesedez kontaktatu zure administratzailea.",
     "errorBadImageUrl": "Irudiaren URLa ez da zuzena",
+    "errorComboSeries": "Diagrama konbinatu bat sortzeko, hautatu gutxienez bi datu-serie.",
     "errorConnectToServer": "Ezin da dokumentu hau gorde. Egiaztatu zure konexioaren ezarpenak edo jarri administrariarekin harremanetan.<br>'Ados' botoia sakatzean dokumentua deskargatzeko aukera emango zaizu.",
     "errorDatabaseConnection": "Kanpoko errorea.<br>Datu-basera konektatzeko errorea. Mesedez, jarri harremanetan laguntza-teknikoko taldearekin.",
     "errorDataEncrypted": "Enkriptatutako aldaketak jaso dira, ezin dira deszifratu.",
@@ -149,8 +173,10 @@
     "errorDefaultMessage": "Errore-kodea: %1",
     "errorDirectUrl": "Egiaztatu dokumenturako esteka.<br>Esteka honek deskargarako esteka zuzen bat izan behar du.",
     "errorEditingDownloadas": "Errore bat gertatu da dokumentuarekin lan egitean.<br>Erabili 'Deskargatu' aukera fitxategiaren babeskopia lokalean gordetzeko. ",
+    "errorEmailClient": "Ez da eposta bezerorik aurkitu",
     "errorFilePassProtect": "Fitxategia pasahitzez babestua dago eta ezin izan da ireki.",
     "errorFileSizeExceed": "Fitxategiaren tamaina zerbitzariaren mugaz gaindi dago.<br>Mesedez, jar zaitez harremanetan zure administratzailearekin.",
+    "errorForceSave": "Errore bat gertatu da dokumentua gordetzean. Erabili 'Deskargatu honela' aukera fitxategia zure ordenagailuko disko gogorrean gordetzeko edo saiatu berriro geroago.",
     "errorInconsistentExt": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia eta luzapena ez datoz bat.",
     "errorInconsistentExtDocx": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia testu-dokumentu bati dagokio (adibidez, docx), baina fitxategiaren luzapena ez dator bat: %1.",
     "errorInconsistentExtPdf": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia ondorengo formatuetako bati dagokio: pdf/djvu/xps/oxps, baina fitxategiaren luzapena ez dator bat: %1.",
@@ -162,6 +188,7 @@
     "errorSessionAbsolute": "Dokumentua editatzeko saioa iraungi da. Mesedez, kargatu berriro orria",
     "errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Mesedez, kargatu berriro orria.",
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, kargatu berriro orria.",
+    "errorSetPassword": "Ezin izan da pasahitza ezarri.",
     "errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, sartu datuak orrian ordena honetan:<br> irekierako prezioa, gehienezko prezioa, gutxieneko prezioa, itxierako prezioa.",
     "errorToken": "Dokumentuaren segurtasun tokena ez dago ondo osatua.<br>Jarri harremanetan zure zerbitzariaren administratzailearekin.",
     "errorTokenExpire": "Dokumentuaren segurtasun-tokena iraungi da.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
@@ -219,7 +246,8 @@
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu dokumentu honetan. Egin klik \"Jarraitu orri honetan\" gordetze automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
-    "stayButtonText": "Jarraitu orrian"
+    "stayButtonText": "Jarraitu orrian",
+    "textCloseHistory": "Itxi historia"
   },
   "View": {
     "Add": {
@@ -248,6 +276,7 @@
       "textNextSlide": "Hurrengo diapositiba",
       "textOk": "Ados",
       "textOther": "Beste bat",
+      "textPasteImageUrl": "Itsatsi irudiaren URLa",
       "textPictureFromLibrary": "Irudia liburutegitik",
       "textPictureFromURL": "Irudia URL-tik",
       "textPreviousSlide": "Aurreko diapositiba",
@@ -356,12 +385,16 @@
       "textLinkSettings": "Esteka-ezarpenak",
       "textLinkTo": "Esteka hona",
       "textLinkType": "Esteka mota",
+      "textMorph": "Mutazioa",
+      "textMorphLetters": "Letrak",
+      "textMorphObjects": "Objektuak",
+      "textMorphWords": "Hitzak",
       "textMoveBackward": "Eraman atzera",
       "textMoveForward": "Eraman aurrera",
       "textNextSlide": "Hurrengo diapositiba",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textNone": "Bat ere ez",
       "textNoStyles": "Ez dago estilorik diagrama mota honentzat.",
-      "textNoTextFound": "Ez da testua aurkitu",
       "textNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "textNumbers": "Zenbakiak",
       "textOk": "Ados",
@@ -457,7 +490,7 @@
       "textLoading": "Kargatzen...",
       "textLocation": "Kokalekua",
       "textMacrosSettings": "Makroen ezarpenak",
-      "textNoTextFound": "Ez da testua aurkitu",
+      "textNoMatches": "Ez dago bat datorrenik",
       "textOk": "Ados",
       "textOwner": "Jabea",
       "textPoint": "Puntua",
@@ -481,6 +514,7 @@
       "textUnitOfMeasurement": "Neurri-unitatea",
       "textUploaded": "Kargatuta",
       "textVersion": "Bertsioa",
+      "textVersionHistory": "Bertsioen historia",
       "txtScheme1": "Bulegoa",
       "txtScheme10": "Mediana",
       "txtScheme11": "Metroa",
@@ -502,7 +536,11 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea"
+      "txtScheme9": "Sortzailea",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -2,8 +2,12 @@
   "common.view.modals.txtCopy": "Buferə kopyalayın",
   "common.view.modals.txtEmbed": "Daxil et",
   "common.view.modals.txtHeight": "Hündürlük",
+  "common.view.modals.txtIncorrectPwd": "Parol səhvdir",
+  "common.view.modals.txtOpenFile": "Faylı açmaq üçün parol daxil edin",
   "common.view.modals.txtShare": "Link paylaşın",
+  "common.view.modals.txtTitleProtected": "Qorunan Fayl",
   "common.view.modals.txtWidth": "En",
+  "common.view.SearchBar.textFind": "Tapın",
   "DE.ApplicationController.convertationErrorText": "Çevrilmə alınmadı.",
   "DE.ApplicationController.convertationTimeoutText": "Çevrilmə vaxtı maksimumu keçdi.",
   "DE.ApplicationController.criticalErrorTitle": "Xəta",
@@ -33,6 +37,7 @@
   "DE.ApplicationController.textRequired": "Tələb olunan bütün sahələri doldurub formanı göndərin.",
   "DE.ApplicationController.textSubmit": "Göndər",
   "DE.ApplicationController.textSubmited": "<b> Forma uğurla təqdim edildi </b> <br> İpucunu bağlamaq üçün bura klikləyin",
+  "DE.ApplicationController.titleLicenseExp": "Lisenziyanın müddəti bitdi",
   "DE.ApplicationController.txtClose": "Bağla",
   "DE.ApplicationController.txtEmpty": "(Boşdur)",
   "DE.ApplicationController.txtPressLink": "%1 düyməsinə basıb linkə klikləyin",
@@ -46,5 +51,6 @@
   "DE.ApplicationView.txtFileLocation": "Fayl yerini açın",
   "DE.ApplicationView.txtFullScreen": "Tam ekran",
   "DE.ApplicationView.txtPrint": "Çap",
+  "DE.ApplicationView.txtSearch": "Axtar",
   "DE.ApplicationView.txtShare": "Paylaş"
 }

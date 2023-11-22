@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  HyperlinkSettingsDialog.js
  *
@@ -79,11 +78,11 @@ define([
                     '<div id="id-internal-link" class="hidden">',
                         '<div class="input-row">',
                             '<label>' + this.strLinkTo + '</label>',
-                            '<div class="get-link">',
-                                '<label class="link dropdown-toggle" data-toggle="dropdown" id="id-dlg-hyperlink-get-link">' + this.textGetLink + '</label>',
+                            '<div class="get-link float-right">',
+                                '<label class="link dropdown-toggle float-right" data-toggle="dropdown" id="id-dlg-hyperlink-get-link">' + this.textGetLink + '</label>',
                                 '<div id="id-clip-copy-box" class="dropdown-menu">',
                                     '<div id="id-dlg-clip-copy"></div>',
-                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default">' + this.textCopy + '</button>',
+                                    '<button id="id-dlg-copy-btn" class="btn btn-text-default margin-left-5">' + this.textCopy + '</button>',
                                 '</div>',
                             '</div>',
                         '</div>',
@@ -242,10 +241,10 @@ define([
             me.linkGetLink = $('#id-dlg-hyperlink-get-link');
             me.linkGetLink.toggleClass('hidden', !(me.appOptions && me.appOptions.canMakeActionLink));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary'),
-                disabled: true
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
+            me.btnOk.setDisabled(true);
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
@@ -256,7 +255,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
         },
 
         show: function() {

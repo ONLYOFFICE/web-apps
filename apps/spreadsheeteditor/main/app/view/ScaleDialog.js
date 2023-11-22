@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  ScaleDialog.js
  *
@@ -46,7 +45,6 @@ define([
     SSE.Views.ScaleDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 215,
-            height: 235,
             header: true,
             style: 'min-width: 215px;',
             cls: 'modal-dlg',
@@ -67,7 +65,7 @@ define([
             this.template = [
                 '<div class="box">',
                 '<div id="radio-fit-to" style="margin-bottom: 4px;"></div>',
-                '<div class="padding-left">',
+                '<div class="padding-left-22">',
                     '<div>',
                         '<label style="height: 22px;width: 55px;padding-top: 4px;display: inline-block;margin-bottom: 4px;">' + this.textWidth + '</label>',
                         '<div id="scale-width" style="display: inline-block;margin-bottom: 4px;"></div>',
@@ -78,7 +76,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div id="radio-scale-to" style="margin-bottom: 6px;"></div>',
-                '<div id="scale" class="padding-left" style="margin-bottom: 6px;"></div>',
+                '<div id="scale" class="padding-left-22" style="margin-bottom: 6px;"></div>',
                 '</div>'
             ].join('');
 
@@ -169,7 +167,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale];
+            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

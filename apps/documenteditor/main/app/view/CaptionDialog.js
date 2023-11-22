@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -49,7 +48,7 @@ define([
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 351,
-            height: 350,
+            separator: false,
             id: 'window-caption'
         },
 
@@ -58,15 +57,15 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="4" style="width: auto;">',
                                     '<tr>',
                                         '<td colspan="3" class="padding-small">',
                                             '<label class="input-label">', me.textCaption,'</label>',
-                                            '<div id="caption-txt-caption" class="margin-right"></div>',
+                                            '<div id="caption-txt-caption" class="margin-right-10"></div>',
                                         '</td>',
                                         '<td class="padding-small">',
                                             '<label class="input-label">', me.textInsert,'</label>',
@@ -76,10 +75,10 @@ define([
                                     '<tr>',
                                         '<td colspan="2" class="padding-small">',
                                             '<label class="input-label">', me.textLabel,'</label>',
-                                            '<div id="caption-combo-label" class="input-group-nr margin-right" style="width:160px;"></div>',
+                                            '<div id="caption-combo-label" class="input-group-nr margin-right-10" style="width:160px;"></div>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: bottom;">',
-                                            '<button type="button" result="add" class="btn btn-text-default margin-right" id="caption-btn-add">', me.textAdd,'</button>',
+                                            '<button type="button" result="add" class="btn btn-text-default margin-right-10" id="caption-btn-add">', me.textAdd,'</button>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: bottom;">',
                                             '<button type="button" result="add" class="btn btn-text-default" id="caption-btn-delete">', me.textDelete,'</button>',
@@ -108,7 +107,7 @@ define([
                                     '<tr>',
                                         '<td colspan="2" class="padding-small">',
                                             '<label class="input-label">', me.textChapter,'</label>',
-                                            '<div id="caption-combo-chapter" class="input-group-nr margin-right" style="width:160px;"></div>',
+                                            '<div id="caption-combo-chapter" class="input-group-nr margin-right-10" style="width:160px;"></div>',
                                         '</td>',
                                         '<td colspan="2" class="padding-small">',
                                             '<label class="input-label" >', me.textSeparator,'</label>',
@@ -122,9 +121,8 @@ define([
                                     '</tr>',
                                 '</table>',
                             '</div>',
-                        '</div></div>',
-                    '</div>'
-                ].join('')
+                        '</div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.objectType = options.objectType;
@@ -256,6 +254,7 @@ define([
                 this.cmbLabel.setData(this.arrLabel);
                 this.cmbLabel.setValue(this.arrLabel[0].value);
                 this.cmbLabel.trigger('selected', this.cmbLabel, this.arrLabel[0]);
+                this.cmbLabel.focus();
             }, this));
 
             this.chExclude = new Common.UI.CheckBox({
@@ -356,7 +355,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtCaption, this.cmbPosition, this.cmbLabel,  this.btnAdd, this.btnDelete, this.chExclude, this.cmbNumbering, this.chChapter, this.cmbChapter, this.cmbSeparator];
+            return [this.txtCaption, this.cmbPosition, this.cmbLabel,  this.btnAdd, this.btnDelete, this.chExclude, this.cmbNumbering, this.chChapter, this.cmbChapter, this.cmbSeparator].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -77,7 +76,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 400,
-            height: 442
+            separator: false,
+            id: 'window-watermark'
         },
 
         initialize : function(options) {
@@ -85,19 +85,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: _.template(
-                    [
-                        '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
-                        template,
-                        '</div></div>',
-                        '</div>',
-                        '</div>'
-                    ].join('')
-                )({
-                    scope: this
-                })
+                contentStyle: 'padding: 10px 5px;',
+                contentTemplate: _.template(template)({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -182,11 +171,14 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.imageControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
             this.btnSelectImage.menu.items[2].setVisible(this.storage);
+            this.btnSelectImage.menu.items[1].setDisabled(this.options.disableNetworkFunctionality);
+            this.btnSelectImage.menu.items[2].setDisabled(this.options.disableNetworkFunctionality);
 
             this._arrScale = [
                 {displayValue: this.textAuto,   value: -1},
@@ -322,7 +314,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                 additionalAlign: this.menuAddAlign,
                 auto: true,
                 color: 'c0c0c0',
-                menu: true
+                menu: true,
+                takeFocusOnClose: true
             });
             this.btnTextColor.setMenu();
             this.mnuTextColorPicker = this.btnTextColor.getPicker();
@@ -354,23 +347,24 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.textControls.push(this.radioHor);
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary'),
-                disabled: true
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+            this.btnOk.setDisabled(true);
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
-            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbFontSize, this.cmbScale ];
+            return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.btnTextColor, this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout,
+                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.btnSelectImage, this.cmbScale ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
             if (!this.cmbLang.isDisabled())
                 return this.cmbLang;
-            else if (!this.cmbScale.isDisabled())
-                return this.cmbScale;
+            else if (!this.btnSelectImage.isDisabled())
+                return this.btnSelectImage;
             else
                 return this.radioNone;
         },
@@ -501,7 +495,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                             }
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.btnSelectImage.focus();
+                }).show();
             } else if (item.value==2) {
                 Common.NotificationCenter.trigger('storage:image-load', 'watermark');
             } else {

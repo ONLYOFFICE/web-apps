@@ -1,4 +1,3 @@
-
 import MainPage from '../page/main';
 
 var routes = [

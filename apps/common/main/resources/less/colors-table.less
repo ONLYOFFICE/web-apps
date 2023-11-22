@@ -13,11 +13,13 @@
 :root {
     --toolbar-header-document: #446995;
     --toolbar-header-spreadsheet: #40865c;
-    --toolbar-header-presentation: #aa5252;
+    --toolbar-header-presentation: #BE664F;
+    --toolbar-header-pdf: #AA5252;
 
     --text-toolbar-header-on-background-document: #38567A;
     --text-toolbar-header-on-background-spreadsheet: #336B49;
-    --text-toolbar-header-on-background-presentation: #8D4444;
+    --text-toolbar-header-on-background-presentation: #854535;
+    --text-toolbar-header-on-background-pdf: #8D4444;
 
     --background-normal: #fff;
     --background-toolbar: #f7f7f7;
@@ -36,6 +38,7 @@
     --highlight-button-hover: #e0e0e0;
     --highlight-button-pressed: #cbcbcb;
     --highlight-button-pressed-hover: #bababa;
+    --highlight-button-pressed-focus: #848484;
     --highlight-primary-dialog-button-hover: #1c1c1c;
     --highlight-accent-button-hover: #375478;
     --highlight-accent-button-pressed: #293f59;
@@ -123,6 +126,16 @@
     --canvas-scroll-thumb-target-hover: #f7f7f7;
     --canvas-scroll-thumb-target-pressed: #f7f7f7;
 
+    --canvas-sheet-view-cell-background: #73bf92;
+    --canvas-sheet-view-cell-background-hover: #97e3b7;
+    --canvas-sheet-view-cell-background-pressed: #aaffcc;
+    --canvas-sheet-view-cell-title-label: #121213;
+    --canvas-sheet-view-select-all-icon: #3d664e;
+
+    --canvas-freeze-line-1px: #818182;
+    --canvas-freeze-line-2px: #aaaaaa;
+    --canvas-select-all-icon: #999;
+
     // Others
 
     //--button-small-normal-icon-offset-x: 0;
@@ -176,6 +189,7 @@
 @highlight-button-hover: var(--highlight-button-hover);
 @highlight-button-pressed: var(--highlight-button-pressed);
 @highlight-button-pressed-hover: var(--highlight-button-pressed-hover);
+@highlight-button-pressed-focus: var(--highlight-button-pressed-focus);
 @highlight-primary-dialog-button-hover: var(--highlight-primary-dialog-button-hover);
 @highlight-header-button-hover: var(--highlight-header-button-hover);
 @highlight-header-button-pressed: var(--highlight-header-button-pressed);

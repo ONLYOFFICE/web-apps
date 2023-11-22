@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2021
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -47,7 +46,6 @@ define([
     DE.Views.TableToTextDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 300,
-            height: 254,
             header: true,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
@@ -61,12 +59,12 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div style="margin-bottom: 8px;"><label style="font-weight: bold;">' + this.textSeparator + '</label></div>',
+                    '<div style="margin-bottom: 8px;"><label class="font-weight-bold">' + this.textSeparator + '</label></div>',
                     '<div id="id-table-text-radio-para" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-tabs" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-semi" style="margin-bottom: 5px;"></div>',
                     '<div style="margin-bottom: 24px;">',
-                        '<div id="id-table-text-radio-other" style="display: inline-block;vertical-align: middle;margin-right: 10px;"></div>',
+                        '<div id="id-table-text-radio-other" class="margin-right-10" style="display: inline-block;vertical-align: middle;"></div>',
                         '<div id="id-table-text-txt-other" style="display: inline-block;vertical-align: middle;"></div>',
                     '</div>',
                     '<div id="id-table-text-check-nested"></div>',
@@ -132,7 +130,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther, this.chNested];
+            return [this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther, this.chNested].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

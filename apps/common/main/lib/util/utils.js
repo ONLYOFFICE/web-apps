@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 if (window.Common === undefined) {
     window.Common = {};
 }
@@ -144,6 +143,8 @@ var utils = new(function() {
                         "screen and (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
                         "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
+                const str_mq_225 = "screen and (-webkit-min-device-pixel-ratio: 2.25), " +
+                        "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                 if ( window.matchMedia(str_mq_125).matches ) {
                     scale.devicePixelRatio = 1.5;
@@ -157,6 +158,10 @@ var utils = new(function() {
                 if ( window.matchMedia(str_mq_200).matches )
                     scale.devicePixelRatio = 2;
                 else scale.devicePixelRatio = 1;
+
+                if ( window.matchMedia(str_mq_225).matches ) {
+                    scale.devicePixelRatio = 2.25;
+                }
             }
 
             var $root = $(document.body);
@@ -181,10 +186,15 @@ var utils = new(function() {
                 if ( !/pixel-ratio__1_75/.test(classes) ) {
                     document.body.className = clear_list + ' pixel-ratio__1_75';
                 }
-            } else {
-                $root.addClass('pixel-ratio__2');
-                if ( !/pixel-ratio__2/.test(classes) ) {
+            } else
+            if ( !(scale.devicePixelRatio < 2) && scale.devicePixelRatio < 2.25 ) {
+                if ( !/pixel-ratio__2\b/.test(classes) ) {
                     document.body.className = clear_list + ' pixel-ratio__2';
+                }
+            } else {
+                // $root.addClass('pixel-ratio__2_5');
+                if ( !/pixel-ratio__2_5/.test(classes) ) {
+                    document.body.className = clear_list + ' pixel-ratio__2_5';
                 }
             }
 
@@ -285,18 +295,87 @@ var utils = new(function() {
 
 Common.Utils = _extend_object(Common.Utils, utils);
 
-Common.Utils.ThemeColor = new(function() {
+var themecolor = new(function() {
+    var initnames = true;
+
     return {
+        txtBlack: 'Black',
+        txtWhite: 'White',
+        txtRed: 'Red',
+        txtGreen: 'Green',
+        txtBlue: 'Blue',
+        txtYellow: 'Yellow',
+        txtPurple: 'Purple',
+        txtAqua: 'Aqua',
+        txtDarkRed: 'Dark red',
+        txtDarkGreen: 'Dark green',
+        txtDarkBlue: 'Dark blue',
+        txtDarkYellow: 'Dark yellow',
+        txtDarkPurple: 'Dark purple',
+        txtDarkTeal: 'Dark teal',
+        txtLightGray: 'Light gray',
+        txtGray: 'Gray',
+        txtLightBlue: 'Light blue',
+        txtPink: 'Pink',
+        txtLightYellow: 'Light yellow',
+        txtSkyBlue: 'Sky blue',
+        txtRose: 'Rose',
+        txtTurquosie: 'Turquosie',
+        txtLightGreen: 'Light green',
+        txtLavender: 'Lavender',
+        txtLightOrange: 'Light orange',
+        txtTeal: 'Teal',
+        txtGold: 'Gold',
+        txtOrange: 'Orange',
+        txtIndigo: 'Indigo',
+        txtBrown: 'Brown',
+        txtDarkGray: 'Dark gray',
+        txtbackground: 'Background',
+        txttext: 'Text',
+        txtaccent: 'Accent',
+        txtDarker: 'Darker',
+        txtLighter: 'Lighter',
+        txtBrightGreen: 'Bright green',
+        txtViolet: 'Violet',
+
         ThemeValues: [6, 15, 7, 16, 0, 1, 2, 3, 4, 5],
 
+        getTranslation: function(name) {
+            if (!name) return '';
+
+            return this['txt' + name.replace(' ', '')] || name
+        },
+
+        getEffectTranslation: function(value) {
+            value =  parseInt(value*100);
+            if (value !== 0) {
+                return (value>0 ? this.txtLighter : this.txtDarker) + ' ' + Math.abs(value) + '%';
+            }
+            return '';
+        },
+
         setColors: function(colors, standart_colors) {
+            if (initnames) {
+                for (var i=1; i<3; i++) {
+                    this['txtbackground'+i] = this.txtbackground + ' ' + i;
+                    this['txttext'+i] = this.txttext + ' ' + i;
+                }
+                for (var i=1; i<7; i++) {
+                    this['txtaccent'+i] = this.txtaccent + ' ' + i;
+                }
+                initnames = false;
+            }
+
             var i, j, item;
 
             if (standart_colors && standart_colors.length > 0) {
                 var standartcolors = [];
 
                 for (i = 0; i < standart_colors.length; i++) {
-                    item = this.getHexColor(standart_colors[i].get_r(), standart_colors[i].get_g(), standart_colors[i].get_b());
+                    item = {
+                        color: this.getHexColor(standart_colors[i].get_r(), standart_colors[i].get_g(), standart_colors[i].get_b()),
+                        tip: this.getTranslation(standart_colors[i].asc_getName())
+                    };
                     standartcolors.push(item);
                 }
 
@@ -308,10 +387,18 @@ Common.Utils.ThemeColor = new(function() {
             for (i = 0; i < 6; i++) {
                 for (j = 0; j < 10; j++) {
                     var idx = i + j * 6;
+                    var colorName = this.getTranslation(colors[idx].asc_getName()),
+                        schemeName = this.getTranslation(colors[idx].asc_getNameInColorScheme()),
+                        effectName = this.getEffectTranslation(colors[idx].asc_getEffectValue());
+                    if (colorName) {
+                        schemeName && (colorName += ', ' + schemeName);
+                        effectName && (colorName += ', ' + effectName);
+                    }
                     item = {
                         color: this.getHexColor(colors[idx].get_r(), colors[idx].get_g(), colors[idx].get_b()),
                         effectId: idx,
-                        effectValue: this.ThemeValues[j]
+                        effectValue: this.ThemeValues[j],
+                        tip: colorName
                     };
                     effectСolors.push(item);
                 }
@@ -367,6 +454,7 @@ Common.Utils.ThemeColor = new(function() {
         }
     }
 })();
+Common.Utils.ThemeColor = _extend_object(themecolor, Common.Utils.ThemeColor);
 
 var metrics = new(function() {
     var me = this;
@@ -701,7 +789,7 @@ Common.Utils.isBrowserSupported = function() {
 
 Common.Utils.showBrowserRestriction = function() {
     if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length>0) return;
-    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : 'that');
+    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
     var newDiv = document.createElement("div");
     newDiv.innerHTML = '<div class="app-error-panel">' +
                             '<div class="message-block">' +
@@ -964,7 +1052,7 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )
         opts.disablefunc(true);
 
-    var app = window.DE || window.PE || window.SSE;
+    var app = window.DE || window.PE || window.SSE || window.PDFE;
 
     Common.UI.warning({
         msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
@@ -1088,6 +1176,18 @@ Common.Utils.UserInfoParser = new(function() {
     }
 })();
 
+Common.Utils.getUserInitials = function(username) {
+    var fio = username.split(' ');
+    var initials = fio[0].substring(0, 1).toUpperCase();
+    for (var i = fio.length-1; i>0; i--) {
+        if (fio[i][0]!=='(' && fio[i][0]!==')') {
+            initials += fio[i].substring(0, 1).toUpperCase();
+            break;
+        }
+    }
+    return initials;
+};
+
 Common.Utils.getKeyByValue = function(obj, value) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop)) {
@@ -1097,13 +1197,11 @@ Common.Utils.getKeyByValue = function(obj, value) {
     }
 };
 
-if (Common.UI) {
-    Common.UI.isRTL = function () {
-        if ( window.isrtl == undefined ) {
-            window.isrtl = Common.localStorage.itemExists('ui-rtl') ?
-                Common.localStorage.getBool("ui-rtl") : Common.Locale.isCurrentLanguageRtl();
-        }
+!Common.UI && (Common.UI = {});
+Common.UI.isRTL = function () {
+    if ( window.isrtl === undefined ) {
+        window.isrtl = Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+    }
 
-        return window.isrtl;
-    };
-}
+    return window.isrtl;
+};

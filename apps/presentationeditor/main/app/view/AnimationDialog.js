@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  AnimationDialog.js
  *
@@ -44,9 +43,8 @@ define([
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
-            height: 396,
             header: true,
-            cls: 'animation-dlg',
+            cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
         initialize : function(options) {
@@ -54,11 +52,11 @@ define([
                 title: this.textTitle
             }, options || {});
             this.template = [
-                '<div class="box" style="width: 318px; margin: 0 auto">',
+                '<div class="box">',
                     '<div class = "input-row" id = "animation-group"></div>',
-                    '<div class = "input-row" id = "animation-level" ></div>',
-                    '<div class = "input-row" id = "animation-list" style = "margin: 16px 0;  height: 216px;"></div>',
-                    // '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
+                    '<div class = "input-row" id = "animation-level" style = "margin-top: 16px; "></div>',
+                    '<div class = "input-row" id = "animation-list" style = "margin-top: 16px;  height: 216px;"></div>',
+                    // '<div class = "input-row" id = "animation-setpreview" style = "margin-top: 16px;"></div>',
                 '</div>'
             ].join('');
             this.allEffects = Common.define.effectData.getEffectFullData();
@@ -91,14 +89,11 @@ define([
 
             var $window = this.getChild();
 
-            var footer = $window.find('.footer');
-            footer.css({"text-align": "center"});
-
             this.cmbGroup = new Common.UI.ComboBox({
                 el      : $('#animation-group'),
                 cls: 'input-group-nr',
                 editable: false,
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true,
                 data    : this.EffectGroupData,
@@ -111,7 +106,7 @@ define([
                 cls: 'input-group-nr',
                 editable: false,
                 valueField: 'id',
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true
             });
@@ -124,6 +119,7 @@ define([
                 tabindex: 1
             });
             this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
+            this.lstEffectList.on('entervalue', _.bind(this.onPrimary, this));
 
             // this.chPreview = new  Common.UI.CheckBox({
             //     el      : $('#animation-setpreview'),
@@ -138,7 +134,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -195,6 +191,11 @@ define([
         onBtnClick: function (event)
         {
             this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

@@ -1,0 +1,123 @@
+name: "Build and upload helps"
+
+on:
+    create:
+    push:
+
+
+jobs:
+    build-apps:
+        name: "Build Apps"
+        runs-on: ubuntu-latest
+        outputs:
+          help_modified: ${{steps.changes.outputs.help_modified}}
+        steps:
+
+          - name: Checkout Web-Apps
+            uses: actions/checkout@v3
+            with:
+                repository: onlyoffice/web-apps
+                ref: ${{github.ref}}
+                path: 'web-apps'
+
+          - name: Path filter for help
+            if: (startsWith(github.ref, 'refs/heads/release/') ||
+             startsWith(github.ref, 'refs/heads/hotfix/'))
+            uses: dorny/paths-filter@v2
+            id: changes
+            with:
+              working-directory: 'web-apps'
+              base: ${{github.ref}}
+              initial-fetch-depth: '1'
+              filters: |
+                help_modified:
+                  - added|deleted|modified: '**/resources/help/**'
+
+          - name: Determine branch variable
+            run: |
+              if ${{steps.changes.outputs.help_modified == 'true'}}; then
+                echo "REF=${{ github.ref }}" >> $GITHUB_ENV
+              else
+                echo "REF=develop" >> $GITHUB_ENV
+              fi
+
+          - name: Checkout SDKJS
+            uses: actions/checkout@v3
+            with:
+                repository: onlyoffice/sdkjs
+                ref: ${{env.REF}}
+                path: 'sdkjs'
+                fetch-depth: '1'
+              
+          - name: Use Node.js 16
+            uses: actions/setup-node@v3
+            with:
+                node-version: 16   
+
+          - name: Build
+            run: |
+                cd web-apps/build
+                ./sprites.sh
+                npm install
+                grunt
+
+          - name: Apps files
+            id: apps-files
+            if: steps.changes.outputs.help_modified == 'true'
+            run: tar -cvf apps.tar ./web-apps/deploy/web-apps/apps
+
+          - name: Upload artifact
+            if: steps.apps-files.outcome == 'success'
+            uses: actions/upload-artifact@v3
+            with:
+              name: apps-artifact
+              path: apps.tar
+
+    upload-apps:
+        name: "Upload on S3"
+        runs-on: ubuntu-latest
+        needs: build-apps
+        if: needs.build-apps.outputs.help_modified == 'true'
+        steps:
+
+          - name: Download artifact
+            uses: actions/download-artifact@v3
+            with:
+              name: apps-artifact
+
+          - name: Extract files
+            run: | 
+              tar -xvf apps.tar
+
+          - name: Configure AWS Credentials
+            uses: aws-actions/configure-aws-credentials@v2
+            with:
+              aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+              aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+              aws-region: us-east-1
+
+          - name: Export tag and directory path
+            id: tag-dir
+            run: |
+                BRANCH_NAME=${GITHUB_REF#refs/heads/}
+                export TAG=${BRANCH_NAME#*/}
+                echo "URI=/install/desktop/editors/help/$TAG/apps" >> $GITHUB_OUTPUT
+
+          - name: Upload
+            env:
+                URI: ${{steps.tag-dir.outputs.URI}}
+            run: |
+                aws s3 sync ./web-apps/deploy/web-apps/apps/  \
+                ${{secrets.AWS_BUCKET_URL}}${URI} \
+                --acl public-read \
+                --metadata-directive REPLACE
+
+
+          - name: Invalidate AWS CLOUDFRONT cache
+            env:
+                URI: ${{steps.tag-dir.outputs.URI}}
+            run: |
+                aws cloudfront create-invalidation \
+                    --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
+                    --paths \
+                    "${URI}/*"

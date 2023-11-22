@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -148,6 +147,13 @@ define([
             this.view.inputSelectRange.on('button:click', _.bind(this.onRangeSelect, this));
         },
 
+        changeWithinSheet: function (value) {
+            this._state.withinSheet = value;
+            this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+            this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
+            this.view.updateResultsContainerHeight();
+        },
+
         onChangeSearchOption: function (option, value, noSearch) {
             var runSearch = true;
             switch (option) {
@@ -161,13 +167,10 @@ define([
                     this._state.useRegExp = value;
                     break;
                 case 'within':
-                    this._state.withinSheet = value === 0 ? Asc.c_oAscSearchBy.Sheet : (value === 1 ? Asc.c_oAscSearchBy.Workbook : Asc.c_oAscSearchBy.Range);
-                    this.view.inputSelectRange.setDisabled(value !== Asc.c_oAscSearchBy.Range);
+                    this.changeWithinSheet(value);
                     if (value === Asc.c_oAscSearchBy.Range) {
                         runSearch = this._state.isValidSelectedRange && !!this._state.selectedRange;
                     }
-                    this.view.inputSelectRange.$el[value === Asc.c_oAscSearchBy.Range ? 'show' : 'hide']();
-                    this.view.updateResultsContainerHeight();
                     break;
                 case 'range':
                     this._state.selectedRange = value;
@@ -186,6 +189,7 @@ define([
         },
 
         onRangeSelect: function () {
+            if (this.rangeSelectDlg) return;
             var me = this;
             var handlerDlg = function(dlg, result) {
                 if (result == 'ok') {
@@ -196,15 +200,16 @@ define([
                 }
             };
 
-            var win = new SSE.Views.CellRangeDialog({
+            this.rangeSelectDlg = new SSE.Views.CellRangeDialog({
                 handler: handlerDlg
             }).on('close', function() {
+                me.rangeSelectDlg = undefined;
                 _.delay(function(){
                     me.view.inputSelectRange.focus();
                 },1);
             });
-            win.show();
-            win.setSettings({
+            this.rangeSelectDlg.show();
+            this.rangeSelectDlg.setSettings({
                 api: me.api,
                 range: (!_.isEmpty(me.view.inputSelectRange.getValue()) && (me.view.inputSelectRange.checkValidate()==true)) ? me.view.inputSelectRange.getValue() : me._state.selectedRange,
                 type: Asc.c_oAscSelectionDialogType.PrintTitles
@@ -519,6 +524,18 @@ define([
                 viewport.searchBar.hide();
             }
 
+            var activeRange = this.api.asc_getActiveRangeStr(Asc.referenceType.A, null, null, true),
+                isRangeChanged = false;
+            if (activeRange !== null) {
+                this.changeWithinSheet(Asc.c_oAscSearchBy.Range);
+                this._state.selectedRange = activeRange;
+
+                this.view.cmbWithin.setValue(Asc.c_oAscSearchBy.Range);
+                this.view.inputSelectRange.setValue(activeRange);
+
+                isRangeChanged = true;
+            }
+
             var selectedText = this.api.asc_GetSelectedText(),
                 text = typeof findText === 'string' ? findText : (selectedText && selectedText.trim() || this._state.searchText);
             if (this.resultItems && this.resultItems.length > 0 || (!text && this._state.isResults)) {
@@ -527,8 +544,8 @@ define([
                     this.onQuerySearch();
                     return;
                 }
-                if (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
-                    this._state.matchCase && text === this.view.inputText.getValue()) { // show old results
+                if (!isRangeChanged && (!this._state.matchCase && text && text.toLowerCase() === this.view.inputText.getValue().toLowerCase() ||
+                    this._state.matchCase && text === this.view.inputText.getValue())) { // show old results
                     return;
                 }
             }
@@ -542,7 +559,7 @@ define([
             }
 
             this.hideResults();
-            if (this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
+            if (!isRangeChanged && this._state.searchText !== undefined && text && text === this._state.searchText && this._state.isResults) { // search was made
                 this.api.asc_StartTextAroundSearch();
             } else if (this._state.searchText) { // search wasn't made
                 this._state.searchText = text;

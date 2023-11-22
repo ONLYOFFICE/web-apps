@@ -25,6 +25,8 @@ class SearchSettings extends SearchSettingsView {
         const { t } = this.props;
         const _t = t("View.Settings", { returnObjects: true });
         const storeAppOptions = this.props.storeAppOptions;
+        const storeVersionHistory = this.props.storeVersionHistory;
+        const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
         const isEdit = storeAppOptions.isEdit;
 
         const markup = (
@@ -38,7 +40,7 @@ class SearchSettings extends SearchSettingsView {
                 </Navbar>
                 <List>
                     <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                    {isEdit ? [
+                    {isEdit && !isVersionHistoryMode ? [
                         <ListItem key="replace" radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
                             onClick={e => this.onFindReplaceClick('replace')} />,
                         <ListItem key="replace-all" radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
@@ -140,35 +142,33 @@ const Search = withTranslation()(props => {
     useEffect(() => {
         if (f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
             const api = Common.EditorApi.get();
-            $$('.searchbar-input').focus();
             api.asc_enableKeyEvents(false);
+            $$('.searchbar-input').focus();
         }
     });
 
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
-      
+
         let lookIn = +params.lookIn === 0;
         let searchIn = +params.searchIn;
         let searchBy = +params.searchBy === 0;
 
-        if (params.find && params.find.length) {
-            let options = new Asc.asc_CFindOptions();
-    
-            options.asc_setFindWhat(params.find);
-            options.asc_setScanForward(params.forward);
-            options.asc_setIsMatchCase(params.caseSensitive);
-            options.asc_setIsWholeCell(params.matchCell);
-            options.asc_setScanOnOnlySheet(searchIn);
-            options.asc_setScanByRows(searchBy);
-            options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+        const options = new Asc.asc_CFindOptions();
 
-            if (params.highlight) api.asc_selectSearchingResults(true);
+        options.asc_setFindWhat(params.find);
+        options.asc_setScanForward(params.forward);
+        options.asc_setIsMatchCase(params.caseSensitive);
+        options.asc_setIsWholeCell(params.matchCell);
+        options.asc_setScanOnOnlySheet(searchIn);
+        options.asc_setScanByRows(searchBy);
+        options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
 
-            api.asc_findText(options, function(resultCount) {
-                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
-            });
-        }
+        if (params.highlight) api.asc_selectSearchingResults(true);
+
+        api.asc_findText(options, function(resultCount) {
+            !resultCount && f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+        });
     };
 
     const onchangeSearchQuery = params => {
@@ -179,55 +179,67 @@ const Search = withTranslation()(props => {
 
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
+
         let lookIn = +params.lookIn === 0;
         let searchIn = +params.searchIn;
         let searchBy = +params.searchBy === 0;
 
-        // if (params.find && params.find.length) {
-            api.isReplaceAll = false;
+        api.isReplaceAll = false;
 
-            let options = new Asc.asc_CFindOptions();
+        const options = new Asc.asc_CFindOptions();
 
-            options.asc_setFindWhat(params.find);
-            options.asc_setReplaceWith(params.replace || '');
-            options.asc_setIsMatchCase(params.caseSensitive);
-            options.asc_setIsWholeCell(params.matchCell);
-            options.asc_setScanOnOnlySheet(searchIn);
-            options.asc_setScanByRows(searchBy);
-            options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-            options.asc_setIsReplaceAll(false);
+        options.asc_setFindWhat(params.find);
+        options.asc_setReplaceWith(params.replace || '');
+        options.asc_setIsMatchCase(params.caseSensitive);
+        options.asc_setIsWholeCell(params.matchCell);
+        options.asc_setScanOnOnlySheet(searchIn);
+        options.asc_setScanByRows(searchBy);
+        options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+        options.asc_setIsReplaceAll(false);
 
-            api.asc_replaceText(options);
-        // }
+        api.asc_findText(options, function(resultCount) {
+            if(!resultCount) {
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+                return;
+            }
+            
+            api.asc_replaceText(options, params.replace || '', false);
+        });
     }
 
     const onReplaceAllQuery = params => {
         const api = Common.EditorApi.get();
+
         let lookIn = +params.lookIn === 0;
         let searchIn = +params.searchIn;
         let searchBy = +params.searchBy === 0;
 
-        // if (params.find && params.find.length) {
-            api.isReplaceAll = true;
+        api.isReplaceAll = true;
 
-            let options = new Asc.asc_CFindOptions();
+        const options = new Asc.asc_CFindOptions();
 
-            options.asc_setFindWhat(params.find);
-            options.asc_setReplaceWith(params.replace || '');
-            options.asc_setIsMatchCase(params.caseSensitive);
-            options.asc_setIsWholeCell(params.matchCell);
-            options.asc_setScanOnOnlySheet(searchIn);
-            options.asc_setScanByRows(searchBy);
-            options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
-            options.asc_setIsReplaceAll(true);
+        options.asc_setFindWhat(params.find);
+        options.asc_setReplaceWith(params.replace || '');
+        options.asc_setIsMatchCase(params.caseSensitive);
+        options.asc_setIsWholeCell(params.matchCell);
+        options.asc_setScanOnOnlySheet(searchIn);
+        options.asc_setScanByRows(searchBy);
+        options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
+        options.asc_setIsReplaceAll(true);
 
-            api.asc_replaceText(options);
-        // }
+        api.asc_findText(options, function(resultCount) {
+            if(!resultCount) {
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+                return;
+            }
+
+            api.asc_replaceText(options, params.replace || '', true);
+        });
     }
 
     return <SESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
-const SearchSettingsWithTranslation = inject("storeAppOptions")(observer(withTranslation()(SearchSettings)));
+const SearchSettingsWithTranslation = inject("storeAppOptions", "storeVersionHistory")(observer(withTranslation()(SearchSettings)));
 
 export {Search, SearchSettingsWithTranslation as SearchSettings}

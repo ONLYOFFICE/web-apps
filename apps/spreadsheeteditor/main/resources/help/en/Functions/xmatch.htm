@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>XMATCH Function</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+			<div class="search-field">
+				<input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+			</div>
+			<h1>XMATCH Function</h1>
+			<p>The <b>XMATCH</b> function is one of the lookup and reference functions. It is used to return the relative position of an item in an array. By default, an exact match is required.</p>
+			<p class="note">Please note that this is an array formula. To learn more, please read the <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Insert array formulas</a> article.</p>
+			<p>The <b>XMATCH</b> function syntax is:</p>
+			<p style="text-indent: 150px;"><b><em>=XMATCH(lookup_value, lookup_array, [match_mode], [search_mode])</em></b></p>
+			<p><em>where</em></p>
+			<p style="text-indent: 50px;"><b><em>lookup_value</em></b> is a value to search for.</p>
+			<p style="text-indent: 50px;"><b><em>lookup_array</em></b> is an array or range to search in.</p>
+			<p style="text-indent: 50px;">
+				<b><em>match_mode</em></b> is an optional argument. The following values are available:
+				<ul>
+					<li><b><em>0</em></b> (set by default) returns the exact match; if there is no match, the “N/A” is returned instead.</li>
+					<li><b><em>-1</em></b> returns the exact match; if there is none, the next smaller item is returned.</li>
+					<li><b><em>1</em></b> returns the exact match; if there is none, the next larger item is returned.</li>
+					<li><b><em>2</em></b> is a wildcard match.</li>
+				</ul>
+			</p>
+			<p style="text-indent: 50px;">
+				<b><em>search_mode</em></b> is an optional argument. The following values are available:
+				<ul>
+					<li><b><em>1</em></b> starts a search at the first item (set by default).</li>
+					<li><b><em>-1</em></b> starts a reverse search, i.e. at the last item.</li>
+					<li><b><em>2</em></b> starts a binary search with the <b><em>lookup_array</em></b> sorted in ascending order. If not sorted, invalid results will be returned.</li>
+					<li><b><em>-2</em></b> starts a binary search with the <b><em>lookup_array</em></b> sorted in descending order. If not sorted, invalid results will be returned.</li>
+				</ul>
+			</p>
+			<p class="note">
+				Wildcard characters include the question mark (?) that matches a single character and the asterisk (*) that matches multiple characters. If you want to find a question mark or asterisk, type a tilde (~) before the character.
+			</p>
+			<p>To apply the <b>XMATCH</b> function,</p>
+			<ol>
+				<li>select the cell where you wish to display the result,</li>
+				<li>
+					click the <b>Insert function</b> <div class="icon icon-insertfunction"></div> icon situated at the top toolbar,
+					<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
+					<br />or click the <div class="icon icon-function"></div> icon situated at the formula bar,
+				</li>
+				<li>select the <b>Lookup and Reference</b> function group from the list,</li>
+				<li>click the <b>XMATCH</b> function,</li>
+				<li>enter the required arguments in the <b>Function Arguments</b> window,</li>
+				<li>press the <b>Enter</b> button.</li>
+			</ol>
+			<p>The result will be displayed in the selected cell.</p>
+			<!--<p style="text-indent: 150px;"><img alt="XMATCH Function" src="../images/xmatch.png" /></p>-->
+		</div>
+	</body>
+</html>

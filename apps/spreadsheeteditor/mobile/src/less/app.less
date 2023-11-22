@@ -183,8 +183,9 @@
 }
 
 .tooltip-cell-data {
-    width: 186px;
-    height: 153px;
+    width: max-content;
+    max-width: 186px;
+    max-height: 153px;
     overflow-y: auto;
     box-shadow: 0px 20px 46px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
@@ -266,4 +267,15 @@
             display: none;
         }
     }
+}
+
+// Marker color sheet
+.marker-color-sheet {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.item-list.active .item-title {
+    font-weight: 600;
 }

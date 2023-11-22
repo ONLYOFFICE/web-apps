@@ -4,9 +4,11 @@ import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
 
     const storeWorksheets = props.storeWorksheets;
     const wsProps = storeWorksheets.wsProps;
@@ -64,9 +66,13 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             setShowBack(true);
         }
     };
-    const onBack = () => {
+
+    const onRequestClose = () => {
         const api = Common.EditorApi.get();
+
         if (api.asc_isDocumentModified()) {
+            api.asc_stopSaving();
+
             f7.dialog.create({
                 title   : _t.dlgLeaveTitleText,
                 text    : _t.dlgLeaveMsgText,
@@ -74,33 +80,38 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                 buttons : [
                     {
                         text: _t.leaveButtonText,
-                        onClick: function() {
-                            goBack(true);
+                        onClick: () => {
+                            api.asc_undoAllChanges();
+                            api.asc_continueSaving();
+                            Common.Gateway.requestClose();
                         }
                     },
                     {
                         text: _t.stayButtonText,
-                        bold: true
+                        bold: true,
+                        onClick: () => {
+                            api.asc_continueSaving();
+                        }
                     }
                 ]
             }).open();
         } else {
-            goBack(true);
+            Common.Gateway.requestClose();
         }
     };
+
     const goBack = (current) => {
-        //if ( !Common.Controllers.Desktop.process('goback') ) {
         if (appOptions.customization.goback.requestClose && appOptions.canRequestClose) {
-            Common.Gateway.requestClose();
+            onRequestClose();
         } else {
             const href = appOptions.customization.goback.url;
+
             if (!current && appOptions.customization.goback.blank !== false) {
                 window.open(href, "_blank");
             } else {
                 parent.location.href = href;
             }
         }
-        //}
     }
 
     const onUndo = () => {
@@ -109,6 +120,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             api.asc_Undo();
         }
     };
+
     const onRedo = () => {
         const api = Common.EditorApi.get();
         if (api) {
@@ -137,28 +149,35 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         Common.Gateway.requestEditRights();
     };
 
+    const closeHistory = () => {
+        Common.Gateway.requestHistoryClose();
+    }
+
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     isEdit={appOptions.isEdit}
-                     docTitle={docTitle}
-                     isShowBack={isShowBack}
-                     onBack={onBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
-                     disabledSearch={editFormulaMode || isEditCell}
-                     disabledSettings={disabledSettings || editFormulaMode || isEditCell}
-                     displayCollaboration={displayCollaboration}
-                     disabledCollaboration={editFormulaMode || isEditCell}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
-                     wsProps={wsProps}
-                     focusOn={focusOn}
-                     isShapeLocked={isShapeLocked}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
+            disabledSearch={editFormulaMode || isEditCell}
+            disabledSettings={disabledSettings || editFormulaMode || isEditCell}
+            displayCollaboration={displayCollaboration}
+            disabledCollaboration={editFormulaMode || isEditCell}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            wsProps={wsProps}
+            focusOn={focusOn}
+            isShapeLocked={isShapeLocked}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
         />
     )
 }));

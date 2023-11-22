@@ -83,16 +83,16 @@
 // Review
 .page-review {
     --f7-toolbar-link-color: @brandColor;
+    
     .toolbar {
         background-color: @background-secondary;
         box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
         position: absolute;
-        #btn-reject-change {
-            margin-left: 20px;
-        }
+
         #btn-goto-change {
             margin-left: 10px;
         }
+
         .next-prev {
             .link {
                 width: 44px;
@@ -285,9 +285,12 @@
         color: @text-normal;
         font-size: 16px;
     }
-    .calendar-day-selected .calendar-day-number {
+    .calendar-day-selected .calendar-day-number, .calendar-day-today.calendar-day-selected .calendar-day-number {
         border: 1px solid transparent;
         background-color: @brandColor;
+        color: @fill-white;
+    }
+    .calendar-day-selected.calendar-day-weekend .calendar-day-number {
         color: @fill-white;
     }
     .calendar-day-today .calendar-day-number {
@@ -295,7 +298,7 @@
         background-color: transparent;
     }
     .calendar-day-weekend .calendar-day-number {
-       color: #D25252;
+        color: @text-secondary;
     }
     .calendar-day-number {
         color: @text-normal;
@@ -354,6 +357,7 @@
     z-index: 10000;
     a {
         background-color: @background-primary;
+        border-radius: 50%;
 
         &:focus, &:focus-within, &:active, &.active-state {
             background-color: @background-primary;

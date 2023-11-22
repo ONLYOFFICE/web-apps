@@ -87,6 +87,7 @@
                     id: 'user id',
                     name: 'user name',
                     group: 'group name' // for customization.reviewPermissions or permissions.reviewGroups or permissions.commentGroups. Can be multiple groups separated by commas (,) : 'Group1' or 'Group1,Group2'
+                    image: 'image url'
                 },
                 recent: [
                     {
@@ -162,6 +163,7 @@
                             layout:  false / true, // layout tab
                             references:  false / true, // de references tab
                             collaboration:  false / true // collaboration tab
+                            draw:  false / true // draw tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab
                             view: {
@@ -227,6 +229,7 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
+                    mobileForceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -269,10 +272,14 @@
                 'onRequestUsers': <request users list for mentions>,// must call setUsers method
                 'onRequestSendNotify': //send when user is mentioned in a comment,
                 'onRequestInsertImage': <try to insert image>,// must call insertImage method
-                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method
+                'onRequestCompareFile': <request file to compare>,// must call setRevisedFile method. must be deprecated
                 'onRequestSharingSettings': <request sharing settings>,// must call setSharingSettings method
                 'onRequestCreateNew': <try to create document>,
                 'onRequestReferenceData': <try to refresh external data>,
+                'onRequestOpen': <try to open external link>,
+                'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
+                'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
+                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method
             }
         }
 
@@ -337,6 +344,10 @@
         _config.editorConfig.canRequestSharingSettings = _config.events && !!_config.events.onRequestSharingSettings;
         _config.editorConfig.canRequestCreateNew = _config.events && !!_config.events.onRequestCreateNew;
         _config.editorConfig.canRequestReferenceData = _config.events && !!_config.events.onRequestReferenceData;
+        _config.editorConfig.canRequestOpen = _config.events && !!_config.events.onRequestOpen;
+        _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
+        _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
+        _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -389,7 +400,7 @@
             if ( msg ) {
                 if ( msg.type === "onExternalPluginMessage" ) {
                     _sendCommand(msg);
-                } else if (msg.type === "onExternalPluginMessageCallback") {
+                } else if ((window.parent !== window) && msg.type === "onExternalPluginMessageCallback") {
                     postMessage(window.parent, msg);
                 } else
                 if ( msg.frameEditorId == placeholderId ) {
@@ -445,7 +456,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(doc|docx|doct|odt|gdoc|txt|rtf|pdf|mht|htm|html|epub|djvu|xps|oxps|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pdf|djvu|xps|oxps))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -701,6 +712,27 @@
             });
         };
 
+        var _setRequestedDocument = function(data) {
+            _sendCommand({
+                command: 'setRequestedDocument',
+                data: data
+            });
+        };
+
+        var _setRequestedSpreadsheet = function(data) {
+            _sendCommand({
+                command: 'setRequestedSpreadsheet',
+                data: data
+            });
+        };
+
+        var _setReferenceSource = function(data) {
+            _sendCommand({
+                command: 'setReferenceSource',
+                data: data
+            });
+        };
+
         var _setFavorite = function(data) {
             _sendCommand({
                 command: 'setFavorite',
@@ -788,7 +820,10 @@
             requestClose        : _requestClose,
             grabFocus           : _grabFocus,
             blurFocus           : _blurFocus,
-            setReferenceData    : _setReferenceData
+            setReferenceData    : _setReferenceData,
+            setRequestedDocument: _setRequestedDocument,
+            setRequestedSpreadsheet: _setRequestedSpreadsheet,
+            setReferenceSource: _setReferenceSource
         }
     };
 
@@ -901,12 +936,18 @@
                 'presentation': 'presentationeditor',
                 'word': 'documenteditor',
                 'cell': 'spreadsheeteditor',
-                'slide': 'presentationeditor'
+                'slide': 'presentationeditor',
+                'pdf': 'pdfeditor'
             },
             app = appMap['word'];
 
         if (typeof config.documentType === 'string') {
             app = appMap[config.documentType.toLowerCase()];
+            if (config.type !== 'mobile' && config.type !== 'embedded' && !!config.document && typeof config.document.fileType === 'string') {
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
+                if (type && typeof type[1] === 'string')
+                    app = appMap['pdf'];
+            }
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
             var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
@@ -915,17 +956,15 @@
                 if (typeof type[1] === 'string') app = appMap['cell']; else
                 if (typeof type[2] === 'string') app = appMap['slide'];
             }
+            if (config.type !== 'mobile' && config.type !== 'embedded') {
+                type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
+                if (type && typeof type[1] === 'string')
+                    app = appMap['pdf'];
+            }
         }
 
-        var userAgent = navigator.userAgent.toLowerCase(),
-            check = function(regex){ return regex.test(userAgent); },
-            isIE = !check(/opera/) && (check(/msie/) || check(/trident/) || check(/edge/)),
-            isChrome = !isIE && check(/\bchrome\b/),
-            isSafari_mobile = !isIE && !isChrome && check(/safari/) && (navigator.maxTouchPoints>0),
-            path_type;
-
         path += app + "/";
-        path_type = (config.type === "mobile" || isSafari_mobile)
+        const path_type = config.type === "mobile"
                     ? "mobile" : (config.type === "embedded")
                     ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
                     ? "forms" : "main";
@@ -977,8 +1016,9 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        if (config.editorConfig && config.editorConfig.mode == 'view' ||
-            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review ))
+        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null;
+        if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
+            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
@@ -992,6 +1032,9 @@
 
         if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
             params += "&uitheme=" + config.editorConfig.customization.uiTheme;
+
+        if (config.document && config.document.fileType)
+            params += "&fileType=" + config.document.fileType;
 
         return params;
     }

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -52,7 +51,41 @@
                 searchText: ''
             },
             _lastInputChange,
-            _searchTimer;
+            _searchTimer,
+            _mods = {
+                ctrl: false,
+                f: false,
+                other: false
+            };
+
+        var init = function (config) {
+            appConfig = config;
+
+            $(document.body).on('keydown', function (event) {
+                if (event.keyCode === 27 && $searchBar && $searchBar.is(':visible')) {
+                    highlightResults(false);
+                    $searchBar.hide();
+                    return;
+                }
+                if (event.keyCode === 70) {
+                    _mods.f = true;
+                }
+                if (event.ctrlKey || event.metaKey) {
+                    _mods.ctrl = true;
+                }
+                if (event.altKey || event.shiftKey) {
+                    _mods.other = true;
+                }
+                if (_mods.f && _mods.ctrl && !_mods.other) {
+                    event.preventDefault()
+                    onShow();
+                }
+            }).on('keyup', function () {
+                for (var key in _mods) {
+                    _mods[key] = false;
+                }
+            });
+        };
 
         var setApi = function (appApi) {
             api = appApi;
@@ -166,7 +199,7 @@
         };
 
         return {
-            init: function(config) { appConfig = config; },
+            init: init,
             setApi: setApi,
             show: onShow
         };

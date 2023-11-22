@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  StatusBar View
  *
@@ -59,14 +58,20 @@ define([
         }
 
         function _onCurrentPage(number){
-            this.pages.set('current', number+1);
+            this.pages.set('current', number);
+        }
+
+        function _onApiPageSize(width, height, type, firstNum){
+            (firstNum!==undefined) && this.pages.set('start', firstNum);
         }
 
         var _tplPages = _.template('Slide <%= current %> of <%= count %>');
 
         function _updatePagesCaption(model,value,opts) {
+            var start = model.get('start'),
+                count = model.get('count');
             $('#status-label-pages').text(
-                Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
+                Common.Utils.String.format(this.pageIndexText, model.get('current') + start, start===1 ? count : start + ' .. ' + (count + start - 1)) );
         }
 
         function _clickLanguage(menu, item) {
@@ -87,7 +92,7 @@ define([
 
             initialize: function (options) {
                 _.extend(this, options);
-                this.pages = new PE.Models.Pages({current:1, count:-1});
+                this.pages = new PE.Models.Pages({current:1, count:-1, start: 1});
                 this.pages.on('change', _.bind(_updatePagesCaption,this));
                 this._state = {no_paragraph: true};
             },
@@ -172,7 +177,7 @@ define([
                     validation  : function(value) {
                         if (/(^[0-9]+$)/.test(value)) {
                             value = parseInt(value);
-                            if (undefined !== value && value > 0 && value <= me.pages.get('count'))
+                            if (undefined !== value && value >= me.pages.get('start') && value < me.pages.get('count')+me.pages.get('start'))
                                 return true;
                         }
 
@@ -181,8 +186,9 @@ define([
                 }).on('keypress:after', function(input, e) {
                         if (e.keyCode === Common.UI.Keys.RETURN) {
                             var box = me.$el.find('#status-goto-box'),
-                                edit = box.find('input[type=text]'), page = parseInt(edit.val());
-                            if (!page || page-- > me.pages.get('count') || page < 0) {
+                                edit = box.find('input[type=text]'), page = parseInt(edit.val()),
+                                start = me.pages.get('start');
+                            if (isNaN(page) || page >= me.pages.get('count')+start || page < start) {
                                 edit.select();
                                 return false;
                             }
@@ -190,7 +196,7 @@ define([
                             box.focus();                        // for IE
                             box.parent().removeClass('open');
 
-                            me.api.goToPage(page);
+                            me.api.goToPage(page - start);
                             me.api.asc_enableKeyEvents(true);
 
                             return false;
@@ -213,7 +219,7 @@ define([
                 });
                 goto.parent().on('show.bs.dropdown',
                     function () {
-                        me.txtGoToPage.setValue(me.api.getCurrentPage() + 1);
+                        me.txtGoToPage.setValue(me.api.getCurrentPage() + me.pages.get('start'));
                         me.txtGoToPage.checkValidate();
                         var edit = me.txtGoToPage.$el.find('input');
                         _.defer(function(){edit.focus(); edit.select();}, 100);
@@ -263,12 +269,14 @@ define([
                         '</a>'
                     ].join('')),
                     menuAlign: 'bl-tl',
-                    search: true
+                    search: true,
+                    focusToCheckedItem: true
                 });
 
                 this.btnLanguage = new Common.UI.Button({
                     parentEl: $('#btn-cnt-lang', this.el),
                     cls         : 'btn-toolbar',
+                    scaling     : false,
                     caption     : 'English (United States)',
                     hint: this.tipSetLang,
                     hintAnchor  : 'top-left',
@@ -289,6 +297,7 @@ define([
                 if (this.api) {
                     this.api.asc_registerCallback('asc_onCountPages',   _.bind(_onCountPages, this));
                     this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(_onCurrentPage, this));
+                    this.api.asc_registerCallback('asc_onPresentationSize', _.bind(_onApiPageSize, this));
                     this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',     _.bind(this.onApiCoAuthoringDisconnect, this));

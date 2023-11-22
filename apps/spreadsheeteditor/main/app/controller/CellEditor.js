@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    CellEditor.js
  *
@@ -84,6 +83,7 @@ define([
             this.api.isCEditorFocused = false;
             this.api.asc_registerCallback('asc_onSelectionNameChanged', _.bind(this.onApiCellSelection, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
+            this.api.asc_registerCallback('asc_onEditorSelectionChanged', _.bind(this.onCellEditorTextChange, this));
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiDisconnect,this));
             Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiDisconnect, this));
             Common.NotificationCenter.on('cells:range', _.bind(this.onCellsRange, this));
@@ -129,7 +129,13 @@ define([
 
             this.editor.btnNamedRanges.menu.on('item:click', _.bind(this.onNamedRangesMenu, this))
                                            .on('show:before', _.bind(this.onNameBeforeShow, this));
+            $(window).on('resize', _.bind(this.onCellEditorTextChange, this));
             this.namedrange_locked = false;
+            this.isUserProtected = false;
+        },
+
+        onCellEditorTextChange:function (){
+            this.editor.cellEditorTextChange();
         },
 
         onApiEditCell: function(state) {
@@ -145,7 +151,7 @@ define([
                 this.api.isCEditorFocused = false;
                 this.editor.cellNameDisabled(false);
             }
-            this.editor.$btnfunc.toggleClass('disabled', state == Asc.c_oAscCellEditorState.editText);
+            this.editor.$btnfunc.toggleClass('disabled', state == Asc.c_oAscCellEditorState.editText || this.isUserProtected);
         },
 
         onApiCellSelection: function(info) {
@@ -154,7 +160,7 @@ define([
 
         onApiSelectionChanged: function(info) {
             if (this.viewmode || !info) return; // signed file
-
+            this.onCellEditorTextChange();
             var seltype = info.asc_getSelectionType(),
                 coauth_disable = (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle) ? (info.asc_getLocked() === true || info.asc_getLockedTable() === true || info.asc_getLockedPivotTable()===true) : false;
 
@@ -165,7 +171,8 @@ define([
                 is_image        = seltype == Asc.c_oAscSelectionType.RangeImage || seltype == Asc.c_oAscSelectionType.RangeSlicer,
                 is_mode_2       = is_shape_text || is_shape || is_chart_text || is_chart;
 
-            this.editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable);
+            this.isUserProtected = !!info.asc_getUserProtected();
+            this.editor.$btnfunc.toggleClass('disabled', is_image || is_mode_2 || coauth_disable || this.isUserProtected);
         },
 
         onApiDisconnect: function() {
@@ -184,7 +191,7 @@ define([
 
         onCellsRange: function(status) {
             this.editor.cellNameDisabled(status != Asc.c_oAscSelectionDialogType.None);
-            this.editor.$btnfunc.toggleClass('disabled', status != Asc.c_oAscSelectionDialogType.None);
+            this.editor.$btnfunc.toggleClass('disabled', status != Asc.c_oAscSelectionDialogType.None || this.isUserProtected);
         },
 
         onLayoutResize: function(o, r) {
@@ -202,6 +209,7 @@ define([
                     this.editor.$btnexpand['removeClass']('btn-collapse');
                     o && Common.localStorage.setBool('sse-celleditor-expand', false);
                 }
+                this.onCellEditorTextChange();
             }
         },
 
@@ -245,7 +253,7 @@ define([
                 this.editor.$btnexpand['addClass']('btn-collapse');
                 Common.localStorage.setBool('sse-celleditor-expand', true);
             }
-            
+            this.onCellEditorTextChange();
             Common.NotificationCenter.trigger('layout:changed', 'celleditor');
             Common.NotificationCenter.trigger('edit:complete', this.editor, {restorefocus:true});
         },
@@ -325,14 +333,14 @@ define([
         },
 
         SetDisabled: function(disabled) {
-            this.editor.$btnfunc[!disabled && this.mode.isEdit ?'removeClass':'addClass']('disabled');
+            this.editor.$btnfunc[!disabled && this.mode.isEdit && !this.isUserProtected ?'removeClass':'addClass']('disabled');
             this.editor.btnNamedRanges.setVisible(!disabled && this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle);
         },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
-            this.editor.$btnfunc[!mode && this.mode.isEdit?'removeClass':'addClass']('disabled');
+            this.editor.$btnfunc[!mode && this.mode.isEdit && !this.isUserProtected?'removeClass':'addClass']('disabled');
             this.editor.cellNameDisabled(mode && !(this.mode.isEdit && !this.mode.isEditDiagram && !this.mode.isEditMailMerge && !this.mode.isEditOle));
         }
     });

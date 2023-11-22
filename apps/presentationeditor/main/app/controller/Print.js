@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2022
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,10 +28,11 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'core',
-    'presentationeditor/main/app/view/FileMenuPanels'
+    'presentationeditor/main/app/view/FileMenuPanels',
+    'presentationeditor/main/app/view/HeaderFooterDialog'
 ], function () {
     'use strict';
 
@@ -57,7 +57,8 @@ define([
             this.addListeners({
                 'PrintWithPreview': {
                     'show': _.bind(this.onShowMainSettingsPrint, this),
-                    'render:after': _.bind(this.onAfterRender, this)
+                    'render:after': _.bind(this.onAfterRender, this),
+                    'openheader': _.bind(this.onOpenHeaderSettings, this)
                 }
             });
         },
@@ -237,7 +238,6 @@ define([
                 box.focus(); // for IE
 
                 this.api.goToPage(page-1);
-                this.api.asc_enableKeyEvents(true);
                 return false;
             }
         },
@@ -304,7 +304,9 @@ define([
                     w: rec ? rec.size[0] : undefined,
                     h: rec ? rec.size[1] : undefined,
                     preset: rec ? rec.caption : undefined
-                }
+                },
+                copies: this.printSettings.spnCopies.getNumberValue() || 1,
+                sides: this.printSettings.cmbSides.getValue()
             });
 
             if ( print ) {
@@ -334,6 +336,24 @@ define([
                 this._paperSize = record.size;
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
             }
+        },
+
+        onOpenHeaderSettings: function () {
+            var me = this;
+            (new PE.Views.HeaderFooterDialog({
+                api: this.api,
+                lang: this.api.asc_getDefaultLanguage(),
+                props: this.api.asc_getHeaderFooterProperties(),
+                type: 1,
+                handler: function(result, value) {
+                    if (result == 'ok' || result == 'all') {
+                        if (me.api) {
+                            me.api.asc_setHeaderFooterProperties(value, result == 'all');
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
         },
 
         SetDisabled: function() {

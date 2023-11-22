@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 14.12.17
@@ -133,6 +132,11 @@ define([
 
             if (!this._navigationObject) return;
 
+            if (this.timerUpdateId) {
+                clearTimeout(this.timerUpdateId);
+                this.timerUpdateId = 0;
+            }
+
             var count = this._navigationObject.get_ElementsCount(),
                 prev_level = -1,
                 header_level = -1,
@@ -172,14 +176,24 @@ define([
 
             function addToPanel() {
                 if (arr.length<1) {
+                    if (me.timerUpdateId) {
+                        clearTimeout(me.timerUpdateId);
+                        me.timerUpdateId = 0;
+                    }
                     me.panelNavigation.viewNavigationList.scroller && me.panelNavigation.viewNavigationList.scroller.update({alwaysVisibleY: true});
                     if (me._currentPos>-1 && me._currentPos<store.length)
                         me.onChangeOutlinePosition(me._currentPos);
                     me._currentPos = -1;
                     return;
                 }
-                setTimeout(function () {
-                    store.add(arr.splice(0, 100));
+                me.timerUpdateId = setTimeout(function () {
+                    var added = arr.splice(0, 100);
+                    added.forEach(function(item) {
+                        var idx = item.get('index');
+                        item.set('name', me._navigationObject.get_Text(idx));
+                        item.set('isEmptyItem', me._navigationObject.isEmptyItem(idx));
+                    });
+                    store.add(added);
                     if (me._currentPos>-1 && me._currentPos<store.length) {
                         me.onChangeOutlinePosition(me._currentPos);
                         me._currentPos = -1;
@@ -196,7 +210,10 @@ define([
 
             if (!this._navigationObject) return;
 
-            var item = this.getApplication().getCollection('Navigation').at(index);
+            var navList = this.getApplication().getCollection('Navigation');
+            if (navList.length<=index) return;
+
+            var item = navList.at(index);
             if (item.get('level') !== this._navigationObject.get_Level(index) ||
                 index==0 && item.get('isNotHeader') !== this._navigationObject.isFirstItemNotHeader()) {
                 this.updateNavigation();

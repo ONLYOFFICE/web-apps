@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  * User: Julia.Radzhabova
  * Date: 06.03.15
@@ -83,7 +82,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="history-item-wrap ' + '<% if (!isVisible) { %>' + 'hidden' + '<% } %>' + '" ',
-                    'style="display: block; ' + '<% if (!isRevision) { %>' + 'padding-left: 40px;' + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>' +'">',
+                    'style="display: block; ' + '<% if (!isRevision) { %>' + (Common.UI.isRTL() ? 'padding-right: 40px;' : 'padding-left: 40px;') + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>' +'">',
                         '<div class="user-date"><%= created %></div>',
                         '<% if (markedAsVersion) { %>',
                         '<div class="user-version">' + this.textVer + '<%=version%></div>',
@@ -92,8 +91,14 @@ define([
                             '<div class="revision-expand  ' + '<% if (isExpanded) { %>' + 'up' + '<% } %>' + '"></div>',
                         '<% } %>',
                         '<div class="user-name">',
-                            '<div class="color" style="display: inline-block; background-color:' + '<%=usercolor%>;' + '" >',
-                            '</div><%= Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username)) %>',
+                            '<div class="color"', 
+                                '<% if (avatar) { %>',
+                                    'style="background-image: url(<%=avatar%>); <% if (usercolor!==null) { %> border-color:<%=usercolor%>; border-style:solid;<% }%>"', 
+                                '<% } else { %>',
+                                    'style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;"',
+                                '<% } %>',
+                            '><% if (!avatar) { %><%=initials%><% } %></div>',
+                            '<span><%= Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username)) %></span>',
                         '</div>',
                         '<% if (canRestore && selected) { %>',
                             '<label class="revision-restore" role="presentation" tabindex="-1">' + this.textRestore + '</label>',

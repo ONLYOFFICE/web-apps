@@ -462,6 +462,13 @@
 	"WRAPCOLS": "A.CAPO.COL",
 	"TAKE": "INCLUDI",
 	"DROP": "ESCLUDI",
+	"SEQUENCE": "SEQUENZA",
+	"EXPAND": "ESPANDI",
+	"XMATCH": "CONFRONTA.X",
+	"FILTER": "FILTRO",
+	"ARRAYTOTEXT": "MATRICE.A.TESTO",
+	"SORT": "DATI.ORDINA",
+	"SORTBY": "DATI.ORDINA.PER",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -484,6 +491,20 @@
 			"na": "#N/D",
 			"getdata": "#ESTRAZIONE_DATI_IN_CORSO",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "indirizzo",
+			"col": "col",
+			"color": "colore",
+			"contents": "contenuto",
+			"filename": "nomefile",
+			"format": "formato",
+			"parentheses": "parentesi",
+			"prefix": "prefisso",
+			"protect": "proteggi",
+			"row": "riga",
+			"type": "tipo",
+			"width": "larghezza"
 		}
 	}
 }

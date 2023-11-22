@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  DocumentPreview.js
  *
@@ -49,9 +48,11 @@ define([
 
     function _updatePagesCaption(model,value,opts) {
         var curr = model.get('current'),
-            cnt = model.get('count');
+            cnt = model.get('count'),
+            start = model.get('start');
+        (curr>=cnt) && (curr = cnt-1);
         $('#preview-label-slides').text(
-            Common.Utils.String.format(this.slideIndexText, (curr<cnt) ? curr : cnt , cnt) );
+            Common.Utils.String.format(this.slideIndexText, curr + start, start===1 ? cnt : start + ' .. ' + (cnt + start - 1)) );
     }
 
     PE.Views.DocumentPreview = Common.UI.BaseView.extend(_.extend({
@@ -70,30 +71,30 @@ define([
 
             this.template = [
                 '<div id="presentation-preview" style="width:100%; height:100%"></div>',
-                '<div id="preview-controls-panel" class="preview-controls" style="position: absolute; bottom: 0;">',
+                '<div id="preview-controls-panel" class="preview-controls"">',
                     '<div class="preview-group" style="">',
-                        '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
-                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-preview-play">&nbsp;</span></button>',
-                        '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
+                        !Common.UI.isRTL() ? '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-previtem">&nbsp;</i></button>' : '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-nextitem">&nbsp;</span></button>',
+                        '<button id="btn-preview-play" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-play">&nbsp;</i></button>',
+                        !Common.UI.isRTL() ? '<button id="btn-preview-next" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-nextitem">&nbsp;</i></button>' : '<button id="btn-preview-prev" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-previtem">&nbsp;</span></button>',
                     '<div class="separator"></div>',
                     '</div>',
                     '<div class="preview-group dropup">',
                         '<label id="preview-label-slides" class="status-label dropdown-toggle" data-toggle="dropdown">Slide 1 of 1</label>',
                         '<div id="preview-goto-box" class="dropdown-menu">',
-                            '<label style="float:left;line-height:22px;">' + this.goToSlideText + '</label>',
+                            '<label class="float-left margin-right-10">' + this.goToSlideText + '</label>',
                             '<div id="preview-goto-page" style="display:inline-block;"></div>',
                         '</div>',
                     '</div>',
                     '<div class="preview-group" style="">',
                         '<div class="separator"></div>',
-                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-preview-fullscreen">&nbsp;</span></button>',
+                        '<button id="btn-preview-fullscreen" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-fullscreen">&nbsp;</i></button>',
                         '<div class="separator fullscreen"></div>',
-                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><span class="icon toolbar__icon btn-close">&nbsp;</span></button>',
+                        '<button id="btn-preview-close" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-close">&nbsp;</i></button>',
                     '</div>',
                 '</div>'
             ].join('');
 
-            this.pages = new PE.Models.Pages({current:1, count:1});
+            this.pages = new PE.Models.Pages({current:1, count:1, start:1});
             this.pages.on('change', _.bind(_updatePagesCaption,this));
         },
 
@@ -130,14 +131,12 @@ define([
             this.btnPlay.on('click', _.bind(function(btn) {
                 var iconEl = $('.icon', this.btnPlay.cmpEl);
                 if (iconEl.hasClass('btn-preview-pause')) {
-                    iconEl.removeClass('btn-preview-pause');
-                    iconEl.addClass('btn-preview-play');
+                    this.btnPlay.changeIcon({curr: 'btn-preview-pause', next: 'btn-play'});
                     this.btnPlay.updateHint(this.txtPlay);
                     if (this.api)
                         this.api.DemonstrationPause();
                 } else {
-                    iconEl.addClass('btn-preview-pause');
-                    iconEl.removeClass('btn-preview-play');
+                    this.btnPlay.changeIcon({curr: 'btn-play', next: 'btn-preview-pause'});
                     this.btnPlay.updateHint(this.txtPause);
                     if (this.api)
                         this.api.DemonstrationPlay ();
@@ -171,7 +170,7 @@ define([
                 validation  : function(value) {
                     if (/(^[0-9]+$)/.test(value)) {
                         value = parseInt(value);
-                        if (undefined !== value && value > 0 && value <= me.pages.get('count'))
+                        if (undefined !== value && value >= me.pages.get('start') && value < me.pages.get('count')+me.pages.get('start'))
                             return true;
                     }
 
@@ -180,8 +179,9 @@ define([
             }).on('keypress:after', function(input, e) {
                     if (e.keyCode === Common.UI.Keys.RETURN) {
                         var box = me.$el.find('#preview-goto-box'),
-                            edit = box.find('input[type=text]'), page = parseInt(edit.val());
-                        if (!page || page-- > me.pages.get('count') || page < 0) {
+                            edit = box.find('input[type=text]'), page = parseInt(edit.val()),
+                            start = me.pages.get('start');
+                        if (isNaN(page) || page >= me.pages.get('count')+start || page < start) {
                             edit.select();
                             return false;
                         }
@@ -189,7 +189,7 @@ define([
                         box.focus();                        // for IE
                         box.parent().removeClass('open');
 
-                        me.api.DemonstrationGoToSlide(page);
+                        me.api.DemonstrationGoToSlide(page - start);
                         me.api.asc_enableKeyEvents(true);
 
                         return false;
@@ -234,8 +234,11 @@ define([
 
             $(document).on("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange",function(){
                 var fselem = (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement );
-                $('.icon', me.btnFullScreen.cmpEl).toggleClass('btn-preview-exit-fullscreen', fselem !== undefined && fselem !== null);
-                $('.icon', me.btnFullScreen.cmpEl).toggleClass('btn-preview-fullscreen', fselem == undefined || fselem == null);
+                if (fselem !== undefined && fselem !== null) {
+                    me.btnFullScreen.changeIcon({curr: 'btn-fullscreen', next: 'btn-preview-exit-fullscreen'});
+                } else {
+                    me.btnFullScreen.changeIcon({curr: 'btn-preview-exit-fullscreen', next: 'btn-fullscreen'});
+                }
 
                 setTimeout( function() {
                     me.previewControls.css('display', '');
@@ -279,8 +282,7 @@ define([
 
             var iconEl = $('.icon', this.btnPlay.cmpEl);
             if (!iconEl.hasClass('btn-preview-pause')) {
-                iconEl.addClass('btn-preview-pause');
-                iconEl.removeClass('btn-preview-play');
+                this.btnPlay.changeIcon({curr: 'btn-play', next: 'btn-preview-pause'});
                 this.btnPlay.updateHint(this.txtPause);
             }
 
@@ -333,6 +335,7 @@ define([
 
             if (this.api) {
                 this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountSlides, this));
+                this.api.asc_registerCallback('asc_onPresentationSize', _.bind(this.onApiPageSize, this));
                 this.api.asc_registerCallback('asc_onEndDemonstration',  _.bind(this.onEndDemonstration, this));
                 this.api.asc_registerCallback('asc_onDemonstrationSlideChanged',  _.bind(this.onDemonstrationSlideChanged, this));
                 this.api.asc_registerCallback('asc_onDemonstrationStatus',  _.bind(this.onDemonstrationStatus, this));
@@ -343,7 +346,7 @@ define([
 
         setMode: function(mode) {
             this.mode = mode;
-            if (this.mode.isDesktopApp || Common.Utils.isIE11) {
+            if (this.mode.isDesktopApp || Common.Utils.isIE11 || !document.fullscreenEnabled) {
                 this.btnFullScreen.setVisible(false);
                 this.separatorFullScreen.hide();
                 $(document).off("webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange");
@@ -355,13 +358,17 @@ define([
             this.pages.set('count', count);
         },
 
+        onApiPageSize: function(width, height, type, firstNum){
+            (firstNum!==undefined) && this.pages.set('start', firstNum);
+        },
+
         onDemonstrationSlideChanged: function(slideNum) {
-            this.pages.set('current', slideNum+1);
+            this.pages.set('current', slideNum);
             if (this.api && _.isNumber(slideNum)) {
                 var count = this.api.getCountPages();
                 if (count !== this.pages.get('count'))
                     this.pages.set('count', count);
-                this.txtGoToPage.setValue(slideNum + 1);
+                this.txtGoToPage.setValue(slideNum + this.pages.get('start'));
                 this.txtGoToPage.checkValidate();
             }
         },

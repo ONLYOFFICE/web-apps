@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2020
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -54,15 +53,12 @@ define([
         },
 
         initialize : function (options) {
-            var t = this,
-                _options = {};
-
             _.extend(this.options, {
                 title: this.txtTitle
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 260px;">',
+                '<div class="box">',
                     '<div style="margin-bottom: 16px;">',
                         '<label>' + this.textDescription + '</label>',
                     '</div>',
@@ -70,7 +66,7 @@ define([
                         '<div id="rem-duplicates-dlg-headers"></div>',
                     '</div>',
                     '<div class="input-row">',
-                        '<label style="font-weight: bold;">' + this.textColumns + '</label>',
+                        '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',
                     '<div id="rem-duplicates-dlg-columns" class="" style="width: 100%; height: 162px; overflow: hidden;"></div>',
                 '</div>'
@@ -109,7 +105,7 @@ define([
                             '<input id="rdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                             '<label for="rdcheckbox-<%= id %>" class="checkbox__shape"></label>',
                         '</label>',
-                        '<div id="<%= id %>" class="list-item" style="pointer-events:none; margin-left: 20px;display: flex;">',
+                        '<div id="<%= id %>" class="list-item margin-left-20" style="pointer-events:none; display: flex;">',
                             '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                     '</div>'
@@ -251,7 +247,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chHeaders, this.columnsList];
+            return [this.chHeaders, this.columnsList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

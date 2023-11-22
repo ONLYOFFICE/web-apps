@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -50,15 +49,30 @@ define([
     Common.UI.Mixtbar = Common.UI.BaseView.extend((function () {
         var $boxTabs;
         var $scrollL;
+        var $scrollR;
         var optsFold = {timeout: 2000};
         var config = {};
         var btnsMore = [];
 
+        function setScrollButtonsDisabeled(){
+            var scrollLeft = $boxTabs.scrollLeft();
+            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
+            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+        }
+
         var onScrollTabs = function(opts, e) {
+            if($(e.target).hasClass('disabled')) return;
             var sv = $boxTabs.scrollLeft();
             if (sv || opts == 'right' || Common.UI.isRTL() && opts == 'left') {
-                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
+                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200, setScrollButtonsDisabeled);
             }
+        };
+
+        var onWheelTabs = function(e) {
+            e.preventDefault();
+            var deltaX = e.deltaX || e.detail || e.deltaY;
+            $boxTabs.scrollLeft($boxTabs.scrollLeft() + (deltaX * 60));
+            setScrollButtonsDisabeled();
         };
 
         function onTabDblclick(e) {
@@ -128,7 +142,8 @@ define([
                     '</section>';
 
                 this.$layout = $(options.template({
-                    tabsmarkup: _.template(_template_tabs)({items: options.tabs})
+                    tabsmarkup: _.template(_template_tabs)({items: options.tabs}),
+                    isRTL: Common.UI.isRTL()
                 }));
 
                 config.tabs = options.tabs;
@@ -149,7 +164,7 @@ define([
                 me.$panels = me.$boxpanels.find('> .panel');
 
                 optsFold.$bar = me.$('.toolbar');
-                var $scrollR = me.$('.tabs .scroll.right');
+                $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
 
                 $scrollL.on('click', onScrollTabs.bind(this, 'left'));
@@ -157,6 +172,7 @@ define([
 
                 $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
                 $boxTabs.on('click', '> .ribtab', me.onTabClick.bind(this));
+                $boxTabs.on('mousewheel', onWheelTabs);
             },
 
             isTabActive: function(tag) {
@@ -249,8 +265,10 @@ define([
 
             onResizeTabs: function(e) {
                 if ( this.hasTabInvisible() ) {
-                    if ( !$boxTabs.parent().hasClass('short') )
+                    if ( !$boxTabs.parent().hasClass('short') ) {
                         $boxTabs.parent().addClass('short');
+                        setScrollButtonsDisabeled();
+                    }
                 } else
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
@@ -446,7 +464,7 @@ define([
                                     for (var i=0; i<_flex.length; i++) {
                                         var item = _flex[i].el;
                                         _rightedge = $active.outerWidth() + _staticPanelWidth;
-                                        if (item.outerWidth() > parseInt(item.css('min-width'))) {
+                                        if (Math.floor(item.outerWidth()) > parseInt(item.css('min-width'))) {
                                             data.rightedge = _rightedge;
                                             return;
                                         } else
@@ -533,7 +551,7 @@ define([
                     btnsMore[tab] = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
-                        iconCls: 'toolbar__icon btn-more',
+                        iconCls: 'toolbar__icon btn-big-more',
                         enableToggle: true
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  RightMenu.js
  *
@@ -46,6 +45,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -61,7 +61,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    PE.Views.RightMenu = Backbone.View.extend(_.extend({
+    PE.Views.RightMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#right-menu',
 
         // Compile our stats template
@@ -79,6 +79,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Paragraph,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-paragraph',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -87,6 +88,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Table,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-table',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -95,6 +97,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Image,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-image',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -103,6 +106,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Slide,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-slide',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -111,6 +115,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Chart,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-chart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -119,6 +124,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.Shape,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-shape',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -128,6 +134,7 @@ define([
                 asctype: Common.Utils.documentSettingsType.TextArt,
                 enableToggle: true,
                 disabled: true,
+                iconCls: 'btn-menu-textart',
                 toggleGroup: 'tabpanelbtnsGroup',
                 allowMouseEventsOnDisabled: true
             });
@@ -156,6 +163,10 @@ define([
             el.show();
 
             el.html(this.template({}));
+
+            this.btnMoreContainer = $('#slot-right-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tr-tl';
 
             this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
@@ -187,6 +198,7 @@ define([
                     asctype: Common.Utils.documentSettingsType.Signature,
                     enableToggle: true,
                     disabled: true,
+                    iconCls: 'btn-menu-signature',
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
@@ -216,15 +228,18 @@ define([
         },
 
         setApi: function(api) {
+            var me = this;
             this.api = api;
             var fire = function() { this.fireEvent('editcomplete', this); };
+            var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
+            var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.slideSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            this.slideSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
+            this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
         },
 
@@ -300,6 +315,18 @@ define([
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.scroller.scrollTop(0);
+            }
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnChart, this.btnTextArt, this.btnSignature];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         txtParagraphSettings:       'Text Settings',

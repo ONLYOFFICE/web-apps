@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  AdvancedSettingsWindow.js
  *
@@ -46,26 +45,32 @@ define([
         initialize : function(options) {
             var _options = {};
             _.extend(_options,  {
-                height: 200,
+                height: 'auto',
                 header: true,
                 cls: 'advanced-settings-dlg',
                 toggleGroup: 'advanced-settings-group',
-                contentTemplate: '',
+                contentTemplate: '', // use instead 'template' for internal layout
+                contentStyle: '',
                 items: [],
-                buttons: ['ok', 'cancel']
+                buttons: ['ok', 'cancel'],
+                separator: true
             }, options);
 
             this.template = options.template || [
-                '<div class="box" style="height:' + (_options.height-85) + 'px;">',
+                '<div class="box">',
+                    '<% if (items.length>0) { %>',
                     '<div class="menu-panel">',
                     '<% _.each(items, function(item) { %>',
                         '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
                     '<% }); %>',
                     '</div>',
                     '<div class="separator"></div>',
-                    '<div class="content-panel" >' + _options.contentTemplate + '</div>',
+                    '<% } %>',
+                    '<div class="content-panel" style="<%= contentStyle %>">' + _options.contentTemplate + '</div>',
                 '</div>',
-                '<div class="separator horizontal"></div>'
+                '<% if (separator) { %>',
+                '<div class="separator horizontal"></div>',
+                '<% } %>'
             ].join('');
 
             _options.tpl = _.template(this.template)(_options);
@@ -106,6 +111,15 @@ define([
             cnt_panel.width(this.contentWidth);
             $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
 
+            if (this.options.contentHeight) {
+                $window.find('.body > .box').css('height', this.options.contentHeight);
+            } else if (typeof this.options.height === 'number') {
+                var bodyEl = $window.find('.body'),
+                    hfHeight = parseInt($window.find('.header').css('height')) + parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom')) +
+                               parseInt($window.css('border-bottom-width')) + parseInt($window.css('border-top-width'));
+                $window.find('.body > .box').css('height', this.options.height - hfHeight);
+            }
+
             this.content_panels = $window.find('.settings-panel');
             if (this.btnsCategory.length>0)
                 this.btnsCategory[0].toggle(true, true);
@@ -114,10 +128,20 @@ define([
         setHeight: function(height) {
             Common.UI.Window.prototype.setHeight.call(this, height);
 
-            var $window = this.getChild();
-            var boxEl = $window.find('.body > .box');
+            var $window = this.getChild(),
+                bodyEl = $window.find('.body'),
+                footerHeight = parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
+            $window.find('.body > .box').css('height', parseInt(bodyEl.css('height')) - footerHeight);
+        },
 
-            boxEl.css('height', height - 85);
+        setInnerHeight: function(height) { // height of box element
+            var $window = this.getChild(),
+                bodyEl = $window.find('.body'),
+                hfHeight = parseInt($window.find('.header').css('height')) + parseInt($window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom')) +
+                           parseInt($window.css('border-bottom-width')) + parseInt($window.css('border-top-width'));
+
+            Common.UI.Window.prototype.setHeight.call(this, height + hfHeight);
+            $window.find('.body > .box').css('height', height);
         },
 
         onDlgBtnClick: function(event) {

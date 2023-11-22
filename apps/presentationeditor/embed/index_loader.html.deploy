@@ -308,7 +308,7 @@
                       <p id="id-critical-error-message"></p>
                   </div>
                   <div class="modal-footer">
-                      <button id="id-critical-error-close" class="btn btn-sm btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+                      <button id="id-critical-error-close" class="btn btn-sm" data-dismiss="modal" aria-hidden="true">Close</button>
                   </div>
               </div>
           </div>
@@ -335,6 +335,7 @@
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

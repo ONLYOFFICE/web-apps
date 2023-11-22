@@ -23,6 +23,8 @@ class SearchSettings extends SearchSettingsView {
         const { t } = this.props;
         const _t = t("Settings", {returnObjects: true});
         const storeAppOptions = this.props.storeAppOptions;
+        const storeVersionHistory = this.props.storeVersionHistory;
+        const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
         const isEdit = storeAppOptions.isEdit;
         const isViewer = storeAppOptions.isViewer;
         const storeReview =  this.props.storeReview;
@@ -39,7 +41,7 @@ class SearchSettings extends SearchSettingsView {
                     </Navbar>
                     <List>
                         <ListItem radio title={_t.textFind} name="find-replace-checkbox" checked={!this.state.useReplace} onClick={e => this.onFindReplaceClick('find')} />
-                        {isEdit && displayMode === 'markup' && !isViewer ? [
+                        {isEdit && displayMode === 'markup' && !isViewer && !isVersionHistoryMode ? [
                             <ListItem key="replace" radio title={_t.textFindAndReplace} name="find-replace-checkbox" checked={this.state.useReplace} 
                                 onClick={e => this.onFindReplaceClick('replace')} />, 
                             <ListItem key="replace-all" radio title={_t.textFindAndReplaceAll} name="find-replace-checkbox" checked={this.state.isReplaceAll}
@@ -94,30 +96,21 @@ const Search = withTranslation()(props => {
     const { t } = props;
     const _t = t('Settings', {returnObjects: true});
 
-    useEffect(() => {
-        if(f7.searchbar.get('.searchbar')?.enabled && Device.phone) {
-            const api = Common.EditorApi.get();
-            $$('.searchbar-input').focus();
-            api.asc_enableKeyEvents(false);
-        }
-    }, []);
-
     const onSearchQuery = params => {
         const api = Common.EditorApi.get();
 
         f7.popover.close('.document-menu.modal-in', false);
 
-        if (params.find && params.find.length) {
-            var options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        const options = new AscCommon.CSearchSettings();
 
-            if (params.highlight) api.asc_selectSearchingResults(true);
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-            api.asc_findText(options, params.forward, function (resultCount) {
-                !resultCount && f7.dialog.alert(null, _t.textNoTextFound);
-            });
-        }
+        if (params.highlight) api.asc_selectSearchingResults(true);
+
+        api.asc_findText(options, params.forward, function (resultCount) {
+            !resultCount && f7.dialog.alert(null, t('Settings.textNoMatches'));
+        });
     };
 
     const onchangeSearchQuery = params => {
@@ -128,29 +121,41 @@ const Search = withTranslation()(props => {
 
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
+        const options = new AscCommon.CSearchSettings();
 
-        if (params.find && params.find.length) {
-            var options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
+
+        api.asc_findText(options, params.forward, function (resultCount) {
+            if(!resultCount) {
+                f7.dialog.alert(null, t('Settings.textNoMatches'));
+                return;
+            }
+
             api.asc_replaceText(options, params.replace || '', false);
-        }
+        });
     }
 
     const onReplaceAllQuery = params => {
         const api = Common.EditorApi.get();
+        const options = new AscCommon.CSearchSettings();
+        
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-        if (params.find && params.find.length) {
-            var options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        api.asc_findText(options, params.forward, function (resultCount) {
+            if(!resultCount) {
+                f7.dialog.alert(null, t('Settings.textNoMatches'));
+                return;
+            }
+
             api.asc_replaceText(options, params.replace || '', true);
-        }
+        });
     }
 
     return <DESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
 });
 
-const SearchSettingsWithTranslation = inject("storeAppOptions", "storeReview")(observer(withTranslation()(SearchSettings)));
+const SearchSettingsWithTranslation = inject("storeAppOptions", "storeReview", "storeVersionHistory")(observer(withTranslation()(SearchSettings)));
 
 export {Search, SearchSettingsWithTranslation as SearchSettings}

@@ -1890,5 +1890,33 @@
 	"DROP": {
 		"a": "(array, rows, [columns])",
 		"d": "Vypustí riadky alebo stĺpce zo začiatku alebo konca poľa."
+	},
+	"SEQUENCE": {
+		"a": "(riadky, [stĺpce], [začiatok], [krok])",
+		"d": "Vráti postupnosť čísel"
+	},
+	"EXPAND": {
+		"a": "(array, rows, [columns], [pad_with])",
+		"d": "Rozšíri pole na zadané rozmery."
+	},
+	"XMATCH": {
+		"a": "(lookup_value, lookup_array, [match_mode], [search_mode])",
+		"d": "Vráti relatívnu pozíciu položky poľa. Štandardne sa vyžaduje presná zhoda."
+	},
+	"FILTER": {
+		"a": "(pole, zahrnúť, [ak_prázdne])",
+		"d": "Filtruje rozsah alebo pole"
+	},
+	"ARRAYTOTEXT": {
+		"a": "(pole, [formát])",
+		"d": "Vráti textové znázornenie poľa"
+	},
+	"SORT": {
+		"a": "(pole, [index_zoradenia], [poradie_zoradenia], [podľa_stĺpca])",
+		"d": "Zoradí rozsah alebo pole"
+	},
+	"SORTBY": {
+		"a": "(pole, podľa_poľa, [poradie_zoradenia], ...)",
+		"d": "Zoradí rozsah alebo pole podľa hodnôt v zodpovedajúcom rozsahu alebo poli"
 	}
 }

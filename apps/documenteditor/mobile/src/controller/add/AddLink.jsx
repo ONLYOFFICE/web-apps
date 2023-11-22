@@ -13,11 +13,11 @@ class AddLinkController extends Component {
         this.closeModal = this.closeModal.bind(this);
     }
 
-    closeModal () {
+    closeModal(mobileSelector, tabletSelector) {
         if (Device.phone) {
-            f7.popup.close('#add-link-popup');
+            f7.popup.close(mobileSelector);
         } else {
-            f7.popover.close('#add-link-popover');
+            f7.popover.close(tabletSelector);
         }
     }
 
@@ -61,9 +61,9 @@ class AddLinkController extends Component {
         api.add_Hyperlink(props);
 
         if(this.props.isNavigate) {
-            f7.views.current.router.back();
+            this.closeModal('.add-popup', '#add-popover');
         } else {
-            this.closeModal();
+            this.closeModal('#add-link-popup', '#add-link-popover');
         }
     }
 
@@ -81,11 +81,11 @@ class AddLinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="add-link-popup" onPopupClosed={() => this.props.onClosed('add-link')}>
+                    <Popup id="add-link-popup" onPopupClosed={() => this.props.closeOptions('add-link')}>
                         <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate} />
                     </Popup>
                 :
-                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('add-link')}>
+                    <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('add-link')}>
                         <View style={{height: '410px'}}>
                             <PageAddLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getDisplayLinkText={this.getDisplayLinkText} isNavigate={this.props.isNavigate}/>
                         </View>

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 define([
     'common/main/lib/view/DocumentAccessDialog',
     'common/main/lib/view/AutoCorrectDialog'
@@ -64,8 +63,8 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -94,7 +93,9 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase(), header: this.textDownloadAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'xlsx').toLowerCase(),
+                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'SSE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -143,18 +144,18 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX},
-            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS},
-            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV},
-            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF}
+            {name: 'XLSX', imgCls: 'xlsx', type: Asc.c_oAscFileType.XLSX, ext: '.xlsx'},
+            {name: 'ODS',  imgCls: 'ods',  type: Asc.c_oAscFileType.ODS, ext: '.ods'},
+            {name: 'CSV',  imgCls: 'csv',  type: Asc.c_oAscFileType.CSV, ext: '.csv'},
+            {name: 'PDF',  imgCls: 'pdf',  type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
         ],[
-            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
-            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
-            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
+            {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX, ext: '.xltx'},
+            {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS, ext: '.ots'},
+            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM, ext: '.xlsm'},
+            {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA, ext: '.pdf'}
         ], [
-            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
-            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG}
+            {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
+            {name: 'PNG',   imgCls: 'png',  type: Asc.c_oAscFileType.PNG, ext: '.zip'}
         ]],
 
         template: _.template([
@@ -163,8 +164,8 @@ define([
                 '<div class="format-items">',
                     '<% _.each(rows, function(row) { %>',
                         '<% _.each(row, function(item) { %>',
-                            '<% if (item.type!==Asc.c_oAscFileType.DOCM || fileType=="docm") { %>',
-                                '<div class="format-item"><div class="btn-doc-format" format="<%= item.type %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
+                            '<% if (item.type!==Asc.c_oAscFileType.XLSM || fileType=="xlsm") { %>',
+                                '<div class="format-item float-left"><div class="btn-doc-format" format="<%= item.type %>" format-ext="<%= item.ext %>" data-hint="2" data-hint-direction="left-top" data-hint-offset="4, 4">',
                                     '<div class ="svg-format-<%= item.imgCls %>"></div>',
                                 '</div></div>',
                             '<% } %>',
@@ -193,7 +194,9 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'xlsx').toLowerCase(), header: this.textSaveCopyAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'xlsx').toLowerCase(),
+                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'SSE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -245,7 +248,7 @@ define([
         template: _.template([
         '<div class="flex-settings">',
             '<div class="header"><%= scope.txtAdvancedSettings %></div>',
-            '<table class="main" style="margin: 0 14px 0 20px;"><tbody>',
+            '<table class="main"><tbody>',
                 '<tr class="editsave">',
                     '<td class="group-name top" colspan="2"><label><%= scope.txtEditingSaving %></label></td>',
                 '</tr>',
@@ -301,7 +304,7 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr>',
+                '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
                 '</tr>',
                 '<tr class="quick-print">',
@@ -391,7 +394,7 @@ define([
             '</tbody></table>',
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table class="main" style="margin: 10px 18px; width: 100%"><tbody>',
+            '<table class="main" style="margin: 10px 20px; width: 100%"><tbody>',
                 '<tr>',
                     '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -483,6 +486,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: 50, displayValue: "50%" },
                     { value: 60, displayValue: "60%" },
                     { value: 70, displayValue: "70%" },
@@ -593,8 +597,8 @@ define([
                 me.updateFuncExample(record.exampleValue);
             });
 
-            var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                            { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            var regdata = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                            { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -612,7 +616,7 @@ define([
                 data        : regdata,
                 template: _.template([
                     '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="padding-left: 25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
+                    '<input type="text" class="form-control" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
                     '<span class="icon input-icon lang-flag"></span>',
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                             '<span class="caret" />',
@@ -620,8 +624,8 @@ define([
                         '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                             '<% _.each(items, function(item) { %>',
                                 '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                    '<a tabindex="-1" type="menuitem" style="padding-left: 26px !important;">',
-                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;margin-left:-21px;"></i>',
+                                    '<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':26px !important;">',
+                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;"></i>',
                                         '<%= scope.getDisplayValue(item) %>',
                                     '</a>',
                                 '</li>',
@@ -709,7 +713,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                        '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                        '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
 
@@ -842,7 +846,7 @@ define([
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
-                var scrolled = this.$el.height()< this.pnlTable.height() + 25 + this.pnlApply.height() + this.$el.find('.header').outerHeight(true);
+                var scrolled = this.$el.height() < this.pnlTable.parent().height() + 25 + this.pnlApply.height();
                 this.pnlApply.toggleClass('hidden', !scrolled);
                 this.trApply.toggleClass('hidden', scrolled);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
@@ -874,6 +878,7 @@ define([
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
+            $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
         },
 
         setApi: function(api) {
@@ -964,7 +969,7 @@ define([
             this.cmbMacros.setValue(item ? item.get('value') : 0);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             var data = [];
@@ -1069,7 +1074,7 @@ define([
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
+            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
 
@@ -1264,7 +1269,7 @@ define([
         txtWorkspace: 'Workspace',
         strReferenceStyle: 'R1C1 reference style',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         txtRegion: 'Region',
         txtProofing: 'Proofing',
         strDictionaryLanguage: 'Dictionary language',
@@ -1282,70 +1287,9 @@ define([
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
-        txtExampleHy: 'ԳՈՒՄԱՐ; ՆՎԱԶ; ԱՌԱՎ․; ՀԱՇՎԱՐԿ'
+        txtLastUsed: 'Last used'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
-
-SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
-        el: '#panel-recentfiles',
-        menu: undefined,
-
-        template: _.template([
-            '<div class="header"><%= scope.txtOpenRecent %></div>',
-            '<div id="id-recent-view"></div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-            this.recent = options.recent;
-        },
-
-        render: function() {
-            this.$el.html(this.template({scope: this}));
-
-            this.viewRecentPicker = new Common.UI.DataView({
-                el: $('#id-recent-view'),
-                store: new Common.UI.DataViewStore(this.recent),
-                itemTemplate: _.template([
-                    '<div class="recent-wrap">',
-                        '<div class="recent-icon">',
-                            '<div>',
-                                '<div class="svg-file-recent"></div>',
-                            '</div>',
-                        '</div>',
-                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
-                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
-                    '</div>'
-                ].join(''))
-            });
-
-            this.viewRecentPicker.on('item:click', _.bind(this.onRecentFileClick, this));
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            this.scroller && this.scroller.update();
-        },
-
-        onRecentFileClick: function(view, itemview, record){
-            if ( this.menu )
-                this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
-        },
-
-        txtOpenRecent: 'Open Recent'
-    });
 
     SSE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
         el: '#panel-createnew',
@@ -1891,7 +1835,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary auto">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
@@ -2202,7 +2146,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     '<div class="description"><%= scope.txtEncrypted %></div>',
                     '<div class="buttons">',
                         '<div id="fms-btn-change-pwd"></div>',
-                        '<div id="fms-btn-delete-pwd"></div>',
+                        '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
                     '</div>',
                 '</div>',
             '</div>',
@@ -2229,7 +2173,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 '<div class="<% if (!hasRequested && !hasSigned) { %>hidden<% } %>"">',
                     '<div class="signature-tip"><%= tipText %></div>',
                     '<div class="buttons">',
-                        '<label class="link signature-view-link" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                        '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
                         '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
                     '</div>',
                 '</div>'
@@ -2390,7 +2334,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                                 '<tbody>',
-                                    '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-ignore" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large">',
@@ -2401,56 +2345,55 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                                             '<div id="print-spin-pages-to"></div>',
                                         '</div>',
                                     '</td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtSettingsOfSheet %></label></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large">',
+                                        '<div class="pages">',
+                                            '<label><%= scope.txtCopies %>:</label>',
+                                            '<div id="print-txt-copies"></div>',
+                                        '</div>',
+                                    '</td></tr>',
+                                    '<tr class="desktop-settings"><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
+                                    '<tr class="desktop-settings"><td class="padding-large"><div class="separator horizontal" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtSettingsOfSheet %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-sheets" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPageSize %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtPageOrientation %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 134px;"></div></td></tr>',
-                                    '<tr><td><label class="header"><%= scope.txtScaling %></label></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
+                                    '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
+                                    '<tr><td><label class="font-weight-bold"><%= scope.txtScaling %></label></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-combo-layout" style="width: 248px;"></div></td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtPrintTitles %></label></td></tr>',
-                                    '<tr><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
-                                    '<tr><td class="padding-small">',
-                                        '<table><tbody><tr>',
-                                            '<td><div id="print-txt-top" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-top" style="width: 77px;"></div></td>',
-                                        '</tr></tbody></table>',
-                                    '</td></tr>',
-                                    '<tr><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
                                     '<tr><td class="padding-large">',
+                                        '<table class="print-titles-container"><tbody>',
+                                            '<tr class="print-titles-header"><td>',
+                                                '<span class="print-titles-caret img-commonctrl"></span>',
+                                                '<label class="font-weight-bold"><%= scope.txtPrintTitles %></label>',
+                                            '</td></tr>',
+                                            '<tr class="print-titles-options"><td><label><%= scope.txtRepeatRowsAtTop %></label></td></tr>',
+                                            '<tr class="print-titles-options"><td class="padding-small">',
                                         '<table><tbody><tr>',
-                                            '<td><div id="print-txt-left" style="width: 163px;"></div></td>',
-                                            '<td><div id="print-presets-left" style="width: 77px;"></div></td>',
+                                            '<td><div id="print-txt-top" style="width: 145px;"></div></td>',
+                                            '<td><div id="print-presets-top" style="width: 95px;"></div></td>',
                                         '</tr></tbody></table>',
                                     '</td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtMargins %></label></td></tr>',
-                                    '<tr><td>',
-                                        '<table>',
-                                            '<tbody>',
-                                                '<tr>',
-                                                    '<td><label><%= scope.txtTop %></label></td>',
-                                                    '<td><label><%= scope.txtBottom %></label></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-top"></div></td>',
-                                                    '<td class="padding-small"><div id="print-spin-margin-bottom"></div></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td><label><%= scope.txtLeft %></label></td>',
-                                                    '<td><label><%= scope.txtRight %></label></td>',
-                                                '</tr>',
-                                                '<tr>',
-                                                    '<td class="padding-large"><div id="print-spin-margin-left"></div></td>',
-                                                    '<td class="padding-large"><div id="print-spin-margin-right"></div></td>',
-                                                '</tr>',
-                                            '</tbody>',
-                                        '</table>',
+                                            '<tr class="print-titles-options"><td><label><%= scope.txtRepeatColumnsAtLeft %></label></td></tr>',
+                                            '<tr class="print-titles-options"><td>',
+                                        '<table><tbody><tr>',
+                                            '<td><div id="print-txt-left" style="width: 145px;"></div></td>',
+                                            '<td><div id="print-presets-left" style="width: 95px;"></div></td>',
+                                        '</tr></tbody></table>',
                                     '</td></tr>',
-                                    '<tr><td class="padding-small"><label class="header"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
+                                        '</tbody></table>',
+                                    '</td></tr>',
+                                    '<tr><td class="padding-small"><label class="font-weight-bold"><%= scope.txtGridlinesAndHeadings %></label></td></tr>',
                                     '<tr><td class="padding-small"><div id="print-chb-grid" style="width: 248px;"></div></td></tr>',
                                     '<tr><td class="padding-large"><div id="print-chb-rows" style="width: 248px;"></div></td></tr>',
                                     '<tr class="header-settings"><td class="padding-large"><label class="link" id="print-header-footer-settings" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtHeaderFooterSettings %></label></td></tr>',
+                                    '<tr><td class="padding-large first-page">',
+                                        '<label><%= scope.txtFirstPageNumber %></label>',
+                                        '<div id="print-spin-first-page"></div>',
+                                    '</td></tr>',
                                     //'<tr><td class="padding-large"><button type="button" class="btn btn-text-default" id="print-apply-all" style="width: 118px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtApplyToAllSheets %></button></td></tr>',
                                     '<tr class="fms-btn-apply"><td>',
                                         '<div class="footer justify">',
@@ -2479,10 +2422,10 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                         '<div id="print-next-page"></div>',
                         '<div id="print-prev-page"></div>',
                         '<% } %>',
-                        '<div class="page-number">',
+                        '<div class="page-number margin-left-10">',
                             '<label><%= scope.txtPage %></label>',
-                            '<div id="print-number-page"></div>',
-                            '<label id="print-count-page"><%= scope.txtOf %></label>',
+                            '<div id="print-number-page" class="margin-left-4"></div>',
+                            '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
                     '</div>',
@@ -2498,8 +2441,8 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
             this.menu = options.menu;
 
-            this.spinners = [];
             this._initSettings = true;
+            this.extendedPrintTitles = Common.localStorage.getBool('sse-print-titles-extended', true);
         },
 
         render: function(node) {
@@ -2540,6 +2483,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                allowBlank: true,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2553,10 +2499,51 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 value: '',
                 maxValue: 1000000,
                 minValue: 1,
+                allowDecimal: false,
+                allowBlank: true,
+                maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
+
+            this.spnCopies = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-txt-copies'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 1,
+                maxValue: 32767,
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbSides = new Common.UI.ComboBox({
+                el          : $markup.findById('#print-combo-sides'),
+                menuStyle   : 'width:100%;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 'one', displayValue: this.txtOneSide, descValue: this.txtOneSideDesc },
+                    { value: 'both-long', displayValue: this.txtBothSides, descValue: this.txtBothSidesLongDesc },
+                    { value: 'both-short', displayValue: this.txtBothSides, descValue: this.txtBothSidesShortDesc }
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<% }); %>'
+                ].join('')),
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.cmbSides.setValue('one');
 
             this.cmbSheet = new Common.UI.ComboBox({
                 el: $markup.findById('#print-combo-sheets'),
@@ -2651,8 +2638,9 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-presets-top'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
-                style: 'width: 77px;',
+                style: 'width: 95px;',
                 menu: true,
+                takeFocusOnClose: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2671,68 +2659,50 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-presets-left'),
                 cls: 'btn-text-menu-default',
                 caption: this.txtRepeat,
-                style: 'width: 77px;',
+                style: 'width: 95px;',
                 menu: true,
+                takeFocusOnClose: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
 
-            this.spnMarginTop = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-top'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginTop);
+            this.$printTitlesHeader = $markup.find('.print-titles-header');
+            this.$printTitlesHeader.on('click', _.bind(this.expandPrintTitles, this));
 
-            this.spnMarginBottom = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-bottom'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginBottom);
+            this.$printTitlesBlock = $markup.find('.print-titles-container');
+            if (!this.extendedPrintTitles) {
+                this.$printTitlesBlock.addClass('no-expand');
+            }
 
-            this.spnMarginLeft = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-left'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
+            this.cmbPaperMargins = new Common.UI.ComboBox({
+                el: $markup.findById('#print-combo-margins'),
+                menuStyle: 'max-height: 280px; min-width: 248px;',
+                editable: false,
+                takeFocusOnClose: true,
+                cls: 'input-group-nr',
+                data: [
+                    { value: 0, displayValue: this.txtMarginsNormal, size: [19.1, 17.8, 19.1, 17.8]},
+                    { value: 1, displayValue: this.txtMarginsNarrow, size: [19.1, 6.4, 19.1, 6.4]},
+                    { value: 2, displayValue: this.txtMarginsWide, size: [25.4, 25.4, 25.4, 25.4]},
+                    { value: -1, displayValue: this.txtCustom, size: null}
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<div><b><%= scope.getDisplayValue(item) %></b></div>',
+                        '<% if (item.size !== null) { %><div style="display: inline-block;margin-right: 20px;min-width: 80px;">' +
+                        '<label style="display: block;">' + this.txtTop + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtLeft + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div><div style="display: inline-block;">' +
+                        '<label style="display: block;">' + this.txtBottom + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
+                        '<label style="display: block;">' + this.txtRight + ': <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(item.size[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
+                        '<% } %>',
+                    '<% }); %>'
+                ].join('')),
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
-            this.spinners.push(this.spnMarginLeft);
-
-            this.spnMarginRight = new Common.UI.MetricSpinner({
-                el: $markup.findById('#print-spin-margin-right'),
-                step: .1,
-                width: 120,
-                defaultUnit : "cm",
-                value: '0.19 cm',
-                maxValue: 48.25,
-                minValue: 0,
-                dataHint: '2',
-                dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
-            });
-            this.spinners.push(this.spnMarginRight);
 
             this.chPrintGrid = new Common.UI.CheckBox({
                 el: $markup.findById('#print-chb-grid'),
@@ -2748,6 +2718,21 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
+            });
+
+            this.spnFirstPage = new Common.UI.MetricSpinner({
+                el: $markup.findById('#print-spin-first-page'),
+                step: 1,
+                width: 60,
+                defaultUnit : "",
+                value: '1',
+                maxValue: 32767,
+                minValue: -32767,
+                allowDecimal: false,
+                maskExp: /[0-9,\-]/,
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
 
             /*this.btnApplyAll = new Common.UI.Button({
@@ -2794,6 +2779,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-prev-page'),
                 cls: 'btn-prev-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });
@@ -2802,6 +2788,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                 parentEl: $markup.findById('#print-next-page'),
                 cls: 'btn-next-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });
@@ -2831,15 +2818,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
             this.txtActiveSheet = $markup.findById('#print-active-sheet');
 
             this.$el = $(node).html($markup);
-
-            if (!this.mode.isEdit) {
-                $markup.find('.header-settings').hide();
-            } else {
-                this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
-            }
-
+            this.$el.on('click', '#print-header-footer-settings', _.bind(this.openHeaderSettings, this));
             this.$previewBox = $('#print-preview-box');
             this.$previewEmpty = $('#print-preview-empty');
+
+            this.applyMode();
 
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
@@ -2886,6 +2869,13 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
         setMode: function(mode) {
             this.mode = mode;
+            !this._initSettings && this.applyMode();
+        },
+
+        applyMode: function() {
+            if (!this.mode || !this.$el) return;
+            this.$el.find('.header-settings')[this.mode.isEdit ? 'show' : 'hide']();
+            !this.mode.isDesktopApp && this.$el.find('.desktop-settings').hide();
         },
 
         setApi: function(api) {
@@ -2893,13 +2883,6 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         updateMetricUnit: function() {
-            if (this.spinners) {
-                for (var i=0; i<this.spinners.length; i++) {
-                    var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
-                }
-            }
             var store = this.cmbPaperSize.store;
             for (var i=0; i<store.length; i++) {
                 var item = store.at(i),
@@ -2911,6 +2894,7 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
                     parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
             }
             this.cmbPaperSize.onResetItems();
+            this.cmbPaperMargins.onResetItems();
         },
 
         addCustomScale: function (add) {
@@ -2962,11 +2946,11 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         },
 
         getPagesFrom: function () {
-            return this.spnPagesFrom.getValue();
+            return this.spnPagesFrom.getNumberValue();
         },
 
         getPagesTo: function () {
-            return this.spnPagesTo.getValue();
+            return this.spnPagesTo.getNumberValue();
         },
 
         comboRangeChange: function(combo, record) {
@@ -2992,6 +2976,12 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
 
         updateCurrentPage: function (index) {
             this.txtNumberPage.setValue(index + 1);
+        },
+
+        expandPrintTitles: function () {
+            this.extendedPrintTitles = !this.extendedPrintTitles;
+            this.$printTitlesBlock[this.extendedPrintTitles ? 'removeClass' : 'addClass']('no-expand');
+            Common.localStorage.setBool('sse-print-titles-extended', this.extendedPrintTitles);
         },
 
         txtPrint: 'Print',
@@ -3035,7 +3025,20 @@ SSE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
         txtOf: 'of {0}',
         txtSheet: 'Sheet: {0}',
         txtPageNumInvalid: 'Page number invalid',
-        txtEmptyTable: 'There is nothing to print because the table is empty'
+        txtEmptyTable: 'There is nothing to print because the table is empty',
+        txtFirstPageNumber: 'First page number:',
+        txtCopies: 'Copies',
+        txtPrintSides: 'Print sides',
+        txtOneSide: 'Print one sided',
+        txtOneSideDesc: 'Only print on one side of the page',
+        txtBothSides: 'Print on both sides',
+        txtBothSidesLongDesc: 'Flip pages on long edge',
+        txtBothSidesShortDesc: 'Flip pages on short edge',
+        txtMarginsNormal: 'Normal',
+        txtMarginsNarrow: 'Narrow',
+        txtMarginsWide: 'Wide',
+        txtMarginsLast: 'Last Custom'
+
     }, SSE.Views.PrintWithPreview || {}));
 
 });

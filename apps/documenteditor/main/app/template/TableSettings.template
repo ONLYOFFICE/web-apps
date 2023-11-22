@@ -54,8 +54,8 @@
     <tr>
         <td class="padding-small" colspan=2>
             <div id="table-combo-border-size"></div>
-            <div class="table-color">
-                <label class="input-label"><%= scope.textBorderColor %></label>
+            <div class="table-color color-btn-wrap float-right">
+                <label class="input-label margin-right-5"><%= scope.textBorderColor %></label>
                 <div id="table-border-color-btn"></div>
             </div>
         </td>
@@ -85,8 +85,10 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2 align="right">
-            <label class="input-label margin"><%= scope.textBackColor %></label>
-            <div id="table-back-color-btn" style="display: inline-block;text-align:left;"></div>
+            <div class="color-btn-wrap">
+                <label class="input-label margin-right-5"><%= scope.textBackColor %></label>
+                <div id="table-back-color-btn" style="display: inline-block;"></div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -112,15 +114,15 @@
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textHeight %></label>
-            <div id="table-btn-distrub-rows"></div>
-            <div id="table-spin-cell-height"></div>
+            <div id="table-btn-distrub-rows" class="float-right margin-left-4"></div>
+            <div id="table-spin-cell-height" class="float-right"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
             <label style="margin-top: 3px;"><%= scope.textWidth %></label>
-            <div id="table-btn-distrub-cols"></div>
-            <div id="table-spin-cell-width"></div>
+            <div id="table-btn-distrub-cols" class="float-right margin-left-4"></div>
+            <div id="table-spin-cell-width" class="float-right"></div>
         </td>
     </tr>
     <tr>

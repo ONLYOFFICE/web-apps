@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2019
+ * (c) Copyright Ascensio System SIA 2010-2023
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *  Main.js
  *
@@ -55,7 +54,8 @@ define([
     'documenteditor/main/app/collection/EquationGroups',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
-    'common/main/lib/controller/LayoutManager'
+    'common/main/lib/controller/LayoutManager',
+    'common/main/lib/controller/ExternalUsers'
 ], function () {
     'use strict';
 
@@ -284,7 +284,11 @@ define([
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
                                 if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
                                     return;
-                                me.api.asc_enableKeyEvents(true);
+                                if (Common.Utils.isLinux && me.appOptions && me.appOptions.isDesktopApp) {
+                                    if (e.relatedTarget || !e.originalEvent || e.originalEvent.sourceCapabilities)
+                                        me.api.asc_enableKeyEvents(true);
+                                } else
+                                    me.api.asc_enableKeyEvents(true);
                                 if (me.dontCloseDummyComment && /msg-reply/.test(e.target.className)) {
                                     if ($(e.target).closest('.user-comment-item').find(e.relatedTarget).length<1) /* Check if focus goes to buttons in the comment window */
                                         me.dontCloseDummyComment = me.beforeCloseDummyComment = false;
@@ -307,6 +311,7 @@ define([
                         if (event.target ) {
                             var target = $(event.target);
                             if (target.closest('.combobox').length>0 || target.closest('.dropdown-menu').length>0 ||
+                                target.closest('.input-field').length>0 || target.closest('.spinner').length>0 || target.closest('.textarea-field').length>0 ||
                                 target.closest('.ribtab').length>0 || target.closest('.combo-dataview').length>0) {
                                 event.preventDefault();
                             }
@@ -416,8 +421,12 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
+                if( Common.Controllers.Desktop.isActive() ) {
+                    !this.editorConfig.recent && (this.editorConfig.recent = []);
+                }
+
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
-                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
@@ -442,12 +451,14 @@ define([
                 this.appOptions.canRequestCompareFile = this.editorConfig.canRequestCompareFile;
                 this.appOptions.canRequestMailMergeRecipients = this.editorConfig.canRequestMailMergeRecipients;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
+                this.appOptions.canRequestSelectDocument = this.editorConfig.canRequestSelectDocument;
+                this.appOptions.canRequestSelectSpreadsheet = this.editorConfig.canRequestSelectSpreadsheet;
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canFeatureComparison = true;
                 this.appOptions.canFeatureContentControl = true;
                 this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
-                this.appOptions.uiRtl = Common.localStorage.getBool("ui-rtl");
-
+                this.appOptions.uiRtl = true;
+                this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -473,8 +484,10 @@ define([
                 Common.Utils.InternalSettings.set("de-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
+                appHeader.setWopi(this.appOptions.wopi);
 
                 Common.Controllers.Desktop.init(this.appOptions);
+                Common.UI.HintManager.setMode(this.appOptions);
             },
 
             loadDocument: function(data) {
@@ -606,7 +619,9 @@ define([
                         Asc.c_oAscFileType.OTT,
                         Asc.c_oAscFileType.FB2,
                         Asc.c_oAscFileType.EPUB,
-                        Asc.c_oAscFileType.DOCM
+                        Asc.c_oAscFileType.DOCM,
+                        Asc.c_oAscFileType.JPG,
+                        Asc.c_oAscFileType.PNG
                     ];
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string') {
@@ -681,7 +696,8 @@ define([
                     this._renameDialog && this._renameDialog.close();
                     var versions = opts.data.history,
                         historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
-                        currentVersion = null;
+                        currentVersion = null,
+                        arrIds = [];
                     if (historyStore) {
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
@@ -703,13 +719,16 @@ define([
                                     });
                                     usersStore.add(user);
                                 }
-
+                                var avatar = Common.UI.ExternalUsers.getImage(version.user.id);
+                                (avatar===undefined) && arrIds.push(version.user.id);
                                 arrVersions.push(new Common.Models.HistoryVersion({
                                     version: version.versionGroup,
                                     revision: version.version,
                                     userid : version.user.id,
                                     username : version.user.name || this.textAnonymous,
                                     usercolor: user.get('color'),
+                                    initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(version.user.name || this.textAnonymous)),
+                                    avatar : avatar,
                                     created: version.created,
                                     docId: version.key,
                                     markedAsVersion: (group!==version.versionGroup),
@@ -752,7 +771,8 @@ define([
                                                 });
                                                 usersStore.add(user);
                                             }
-
+                                            avatar = Common.UI.ExternalUsers.getImage(change.user.id);
+                                            (avatar===undefined) && arrIds.push(change.user.id);
                                             arrVersions.push(new Common.Models.HistoryVersion({
                                                 version: version.versionGroup,
                                                 revision: version.version,
@@ -760,6 +780,8 @@ define([
                                                 userid : change.user.id,
                                                 username : change.user.name || this.textAnonymous,
                                                 usercolor: user.get('color'),
+                                                initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.user.name || this.textAnonymous)),
+                                                avatar : avatar,
                                                 created: change.created,
                                                 docId: version.key,
                                                 docIdPrev: docIdPrev,
@@ -792,6 +814,7 @@ define([
                         }
                         if (currentVersion)
                             this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }
             },
@@ -949,7 +972,8 @@ define([
 //                this.getMainMenu().closeFullScaleMenu();
                 var application = this.getApplication(),
                     toolbarController = application.getController('Toolbar'),
-                    toolbarView = toolbarController.getView();
+                    toolbarView = toolbarController.getView(),
+                    rightMenu = application.getController('RightMenu').getView('RightMenu');
 
                 if (this.appOptions.isEdit && toolbarView && (toolbarView.btnInsertShape.pressed || toolbarView.btnInsertText.pressed) &&
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'tlbtn-insertshape')) { // TODO: Event from api is needed to clear btnInsertShape state
@@ -963,6 +987,10 @@ define([
                     ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
                     this.api.SetMarkerFormat(false);
                     toolbarView.btnHighlightColor.toggle(false, false);
+                }
+                if (this.appOptions.isEdit && (toolbarView && toolbarView._isEyedropperStart || rightMenu && rightMenu._isEyedropperStart)) {
+                    toolbarView._isEyedropperStart ? toolbarView._isEyedropperStart = false : rightMenu._isEyedropperStart = false;
+                    this.api.asc_cancelEyedropper();
                 }
                 application.getController('DocumentHolder').getView().focus();
 
@@ -1030,7 +1058,8 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs'] || id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
+                      (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -1198,7 +1227,9 @@ define([
                 value = Common.localStorage.getItem("de-settings-zoom");
                 Common.Utils.InternalSettings.set("de-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
+                value = Common.localStorage.getItem("de-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value):0;
+                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
                 me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
@@ -1257,7 +1288,7 @@ define([
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
 
-                value = Common.localStorage.getBool("de-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("de-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("de-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
@@ -1324,6 +1355,10 @@ define([
                     Common.Utils.InternalSettings.set("de-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
+                    value = Common.localStorage.getBool("de-settings-smart-selection", true);
+                    Common.Utils.InternalSettings.set("de-settings-smart-selection", value);
+                    me.api.asc_putSmartParagraphSelection(value);
+
                     me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion)
@@ -1385,6 +1420,8 @@ define([
                 $('.doc-placeholder').remove();
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
+                if (this._needToSaveAsFile) // warning received before document is ready
+                    this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
             },
 
             onLicenseChanged: function(params) {
@@ -1405,18 +1442,27 @@ define([
             applyLicense: function() {
                 if (this.editorConfig.mode === 'view') {
                     if (this.appOptions.canLiveView && (this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLive || this._state.licenseType===Asc.c_oLicenseResult.ConnectionsLiveOS ||
-                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS)) {
+                                                        this._state.licenseType===Asc.c_oLicenseResult.UsersViewCount || this._state.licenseType===Asc.c_oLicenseResult.UsersViewCountOS ||
+                                                        !this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous)) {
                         // show warning or write to log if Common.Utils.InternalSettings.get("de-settings-coauthmode") was true ???
                         this.disableLiveViewing(true);
                     }
+                } else if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                    this.disableEditing(true);
+                    this.api.asc_coAuthoringDisconnect();
+                    Common.NotificationCenter.trigger('api:disconnect');
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg  : this.warnLicenseAnonymous,
+                        buttons: ['ok']
+                    });
                 } else if (this._state.licenseType) {
                     var license = this._state.licenseType,
                         buttons = ['ok'],
                         primary = 'ok';
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                        (license===Asc.c_oLicenseResult.ExpiredLimited) && this.getApplication().getController('LeftMenu').leftMenu.setLimitMode();// show limited hint
-                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
@@ -1427,6 +1473,7 @@ define([
 
                     if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.isEdit || this.appOptions.isRestrictedEdit)) {
                         this.disableEditing(true);
+                        this.api.asc_coAuthoringDisconnect();
                         Common.NotificationCenter.trigger('api:disconnect');
                     }
 
@@ -1474,17 +1521,16 @@ define([
 
             onEditorPermissions: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType) {
+                if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                    Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
                     Common.UI.warning({
-                        title: this.titleLicenseExp,
-                        msg: this.warnLicenseExp,
+                        title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
+                        msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
                         buttons: [],
                         closable: false
                     });
                     return;
                 }
-                if (Asc.c_oLicenseResult.ExpiredLimited === licType)
-                    this._state.licenseType = licType;
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded()) return;
 
@@ -1554,7 +1600,7 @@ define([
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
                 this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
-                this.appOptions.canProtect     = (this.appOptions.isSignatureSupport || this.appOptions.isPasswordSupport);
+                this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.canSubmitForms = false; // this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
@@ -1598,12 +1644,17 @@ define([
                 this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                 this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                 appHeader.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
+                appHeader.setUserId(this.appOptions.user.id);
+                appHeader.setUserAvatar(this.appOptions.user.image);
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
                 this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
+                this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
+                Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -1613,6 +1664,7 @@ define([
                 this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view') && !isPDFViewer; // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && this.appOptions.canCoAuthoring && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false) ||
                                                        this.appOptions.canLiveView && !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object' && this.editorConfig.coEditing.change===false);
+                this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
 
                 this.loadCoAuthSettings();
                 this.applyModeCommonElements();
@@ -2075,8 +2127,12 @@ define([
                             Common.UI.Menu.Manager.hideAll();
                             if (this.appOptions.isDesktopApp && this.appOptions.isOffline)
                                 this.api.asc_DownloadAs();
-                            else
-                                (this.appOptions.canDownload) ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : this.api.asc_DownloadOrigin();
+                            else {
+                                if (this.appOptions.canDownload) {
+                                    this._isDocReady ? this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas') : (this._needToSaveAsFile = true);
+                                } else
+                                    this.api.asc_DownloadOrigin();
+                            }
                         } else if (id == Asc.c_oAscError.ID.SplitCellMaxRows || id == Asc.c_oAscError.ID.SplitCellMaxCols || id == Asc.c_oAscError.ID.SplitCellRowsDivider) {
                             var me = this;
                             setTimeout(function(){
@@ -2597,9 +2653,8 @@ define([
                         width: 500,
                         msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
                         iconCls: 'info',
-                        buttons: this.appOptions.canChangeCoAuthoring ? ['custom', 'cancel'] : ['ok'],
+                        buttons: this.appOptions.canChangeCoAuthoring ? [{value: 'custom', caption: this.textStrict}, 'cancel'] : ['ok'],
                         primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
-                        customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
                             if (dontshow) Common.localStorage.setItem("de-hide-try-undoredo", 1);
@@ -2788,7 +2843,7 @@ define([
                 });
                 win.$window.find('#id-equation-convert-help').on('click', function (e) {
                     win && win.close();
-                    me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
+                    Common.NotificationCenter.trigger('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
                 })
             },
 
@@ -3404,7 +3459,10 @@ define([
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
             textAnyone: 'Anyone',
-            textText: 'Text'
+            textText: 'Text',
+            warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
+            titleLicenseNotActive: 'License not active',
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
         }
     })(), DE.Controllers.Main || {}))
 });
