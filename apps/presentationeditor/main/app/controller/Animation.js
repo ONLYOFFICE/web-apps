@@ -179,7 +179,8 @@ define([
             (new PE.Views.AnimationDialog({
                 api             : this.api,
                 activeEffect    : this._state.Effect,
-                groupValue       : this._state.EffectGroup,
+                groupValue      : this._state.EffectGroup,
+                lockEmphasis    : this._state.lockEmphasis,
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
@@ -366,12 +367,16 @@ define([
 
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
+            this._state.lockEmphasis = false;
             for (var i = 0; i<selectedObjects.length; i++) {
                 var type = selectedObjects[i].get_ObjectType();
-                if (type == Asc.c_oAscTypeSelectElement.Animation) {
+                if (type === Asc.c_oAscTypeSelectElement.Animation) {
                     this.AnimationProperties = selectedObjects[i].get_ObjectValue();
-                } else if (type==Asc.c_oAscTypeSelectElement.Slide) {
+                } else if (type===Asc.c_oAscTypeSelectElement.Slide) {
                     this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
+                } else if (type===Asc.c_oAscTypeSelectElement.Shape) {
+                    var value = selectedObjects[i].get_ObjectValue();
+                    this._state.lockEmphasis = value.get_FromGroup() || value.get_FromChart() || value.get_FromSmartArt() || value.get_FromSmartArtInternal();
                 }
             }
             if (this._state.onactivetab)
@@ -381,14 +386,15 @@ define([
         setSettings: function () {
             this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = this._state.noMoveAnimationLater = this._state.noMoveAnimationEarlier = true;
             this._state.noAnimationPreview = !this.api.asc_canStartAnimationPreview();
+            var me = this,
+                view = this.view,
+                store = view.listEffects.store,
+                fieldStore = view.listEffects.fieldPicker.store;
             if (this.AnimationProperties) {
                 this._state.noGraphic = false;
                 this._state.noMoveAnimationLater = !this.api.asc_canMoveAnimationLater();
                 this._state.noMoveAnimationEarlier = !this.api.asc_canMoveAnimationEarlier();
                 var item,
-                    view = this.view,
-                    store = view.listEffects.store,
-                    fieldStore = view.listEffects.fieldPicker.store,
                     value = this.AnimationProperties.asc_getType(),
                     group = this.AnimationProperties.asc_getClass();
 
@@ -502,6 +508,22 @@ define([
                 if (this.view && this.view.listEffects)
                     this.view.listEffects.fieldPicker.deselectAll();
             }
+            if (!this.arrEmphasis) {
+                this.arrEmphasis = store.filter(function(item, index){
+                    return (item.get('group') === 'menu-effect-group-emphasis') && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                                                                                    item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                                                                                    item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK);
+                });
+            }
+            this.arrEmphasis.forEach(function(item){
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
+            fieldStore.each(function(item){
+                if (item.get('group') === 'menu-effect-group-emphasis' && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                                                                            item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                                                                            item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK))
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
             this.setLocked();
         },
 
