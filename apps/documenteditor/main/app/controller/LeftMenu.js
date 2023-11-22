@@ -645,6 +645,7 @@ define([
             this.viewmode = viewmode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         SetDisabled: function(disable, options) {

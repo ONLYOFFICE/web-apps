@@ -46,6 +46,7 @@ define([
 
     Common.UI.SideMenu = Backbone.View.extend((function () {
         return {
+            buttons: [],
             btnMoreContainer: undefined,
 
             render: function () {
@@ -123,7 +124,7 @@ define([
                                     caption: btn.hint,
                                     iconImg: btn.options.iconImg,
                                     template: _.template([
-                                        '<a id="<%= id %>" class="menu-item">',
+                                        '<a id="<%= id %>" class="menu-item" tabindex="-1" type="menuitem">',
                                         '<img class="menu-item-icon" src="<%= options.iconImg %>">',
                                         '<%= caption %>',
                                         '</a>'

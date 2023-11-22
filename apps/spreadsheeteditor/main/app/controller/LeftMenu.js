@@ -629,6 +629,7 @@ define([
             this.viewmode = mode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         onApiServerDisconnect: function(enableDownload) {
