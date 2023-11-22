@@ -255,7 +255,7 @@ define([
             if (rec) {
                 if (rec.get('active')) {
                     Common.UI.warning({
-                        msg: this.warnDeleteView.replace('%1', rec.get('name')),
+                        msg: this.warnDeleteView.replace('%1', Common.Utils.String.htmlEncode(rec.get('name'))),
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
