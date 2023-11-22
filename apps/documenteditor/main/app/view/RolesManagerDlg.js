@@ -257,7 +257,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             if (store.length===1 || rec.get('fields')<1) {
                 me._isWarningVisible = true;
                 Common.UI.warning({
-                    msg: Common.Utils.String.format(store.length===1 ? me.textDeleteLast : me.warnDelete, rec.get('name')),
+                    msg: Common.Utils.String.format(store.length===1 ? me.textDeleteLast : me.warnDelete, Common.Utils.String.htmlEncode(rec.get('name'))),
                     maxwidth: 600,
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {

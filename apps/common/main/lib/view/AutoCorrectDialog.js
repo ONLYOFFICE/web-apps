@@ -642,7 +642,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 var restore = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by')) && (this.inputBy.getValue() === rec.get('by'));
                 Common.UI.warning({
                     maxwidth: 500,
-                    msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
+                    msg: restore ? this.warnRestore.replace('%1', Common.Utils.String.htmlEncode(rec.get('replaced'))) : this.warnReplace.replace('%1', Common.Utils.String.htmlEncode(rec.get('replaced'))),
                     buttons: ['yes', 'no'],
                     primary: 'yes',
                     callback: _.bind(function(btn, dontshow){
