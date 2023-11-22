@@ -314,7 +314,7 @@ define([
                                 return me.usersBoxHeight;
                             }),
                             fmax: (function () {
-                                return me.panelBox.height() * 0.5 - me.messageBoxHeight;
+                                return Math.max(me.usersBoxHeight-20,me.panelBox.height() * 0.5 - me.messageBoxHeight);
                             })
                         }},
                     {el: items[1], rely: true, behaviour: 'splitter',
