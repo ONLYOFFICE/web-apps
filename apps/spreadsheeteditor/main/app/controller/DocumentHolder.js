@@ -192,6 +192,7 @@ define([
                     me.onCellsRange(status);
                 },
                 'tabs:dragend': _.bind(me.onDragEndMouseUp, me),
+                'pivot:dragend': _.bind(me.onDragEndMouseUp, me),
                 'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));

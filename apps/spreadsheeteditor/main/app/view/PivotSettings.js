@@ -208,6 +208,7 @@ define([
         onDragEnd: function() {
             this._dragEl && this._dragEl.remove();
             this._dragEl = null;
+            Common.NotificationCenter.trigger('pivot:dragend', this);
         },
 
         onFieldsDragStart: function (item, index, event) {
