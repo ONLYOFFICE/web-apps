@@ -47,7 +47,12 @@
   }
 
   &:not(.disabled) > .item {
-    &:hover {
+    &.disabled {
+      opacity: @component-disabled-opacity-ie;
+      opacity: @component-disabled-opacity;
+    }
+
+    &:hover:not(.disabled) {
       background-color: @highlight-button-hover-ie;
       background-color: @highlight-button-hover;
       border-color: @highlight-button-hover-ie;
@@ -57,7 +62,7 @@
       border-width: @scaled-one-px-value 0;
     }
 
-    &.selected {
+    &.selected:not(.disabled) {
       background-color: @highlight-button-pressed-ie;
       background-color: @highlight-button-pressed;
       color: @text-normal-pressed-ie;
