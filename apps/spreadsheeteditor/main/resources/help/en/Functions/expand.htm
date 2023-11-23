@@ -15,30 +15,39 @@
             <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
         </div>
         <h1>EXPAND Function</h1>
-        <p>The <b>EXPAND</b> function is a lookup and reference function. It is used to expand a range of data (array) by adding rows and columns.</p>
-        <p class="note">Please note that this is an array formula. To learn more, please read the <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Insert array formulas</a> article.</p>
-        <p>The <b>EXPAND</b> function syntax is:</p>
-        <p style="text-indent: 150px;"><b><em>=EXPAND(array, rows, [columns], [pad_with])</em></b></p>
-        <p><em>where</em></p>
-        <p style="text-indent: 50px;"><b><em>array</em></b> is the range of cells to be expanded,</p>
-        <p style="text-indent: 50px;"><b><em>rows</em></b> is the number of rows in the returned array. Although this is a required argument, if omitted, rows will not be added and the number of columns must be specified.</p>
-        <p style="text-indent: 50px;"><b><em>[columns]</em></b> is an optional argument identifying the number of columns in the returned array. If omitted, columns will not be added and the number of rows must be specified.</p>
-        <p style="text-indent: 50px;"><b><em>[pad_with]</em></b> is the value to fill in the added cells. #N/A is the default value.</p>
-        <p>To apply the <b>EXPAND</b> function,</p>
-        <ol>
-            <li>select the cell where you wish to display the result,</li>
-            <li>
-                click the <b>Insert function</b> <span class="icon icon-insertfunction"></span> icon situated at the top toolbar,
-                <br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-                <br />or click the <span class="icon icon-function"></span> icon situated at the formula bar,
-            </li>
-            <li>select the <b>Lookup and Reference</b> function group from the list,</li>
-            <li>click the <b>EXPAND</b> function,</li>
-            <li>enter the required arguments separating them by comma,</li>
-            <li>press the <b>Enter</b> button.</li>
-        </ol>
-        <p>The result will be displayed in the selected cell.</p>
-        <p style="text-indent: 150px;"><img alt="EXPAND Function" src="../images/expand.png" /></p>
+        <p>The <b>EXPAND</b> function is one of the <a href="../UsageInstructions/InsertFunction.htm#lookupreference" onclick="onhyperlinkclick(this)">lookup and reference functions</a>. It is used to expand a range of data (array) by adding rows and columns.</p>
+        <h3>Syntax</h3>
+        <p><b><em>EXPAND(array, rows, [columns], [pad_with])</em></b></p>
+        <p>The <b>EXPAND</b> function has the following arguments:</p>
+        <table style="width: 40%">
+            <tr>
+                <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                <th style="background-color: #f4f4f4"><b>Description</b></th>
+            </tr>
+            <tr>
+                <td><b><em>array</em></b></td>
+                <td>The range of cells to be expanded.</td>
+            </tr>
+            <tr>
+                <td><b><em>rows</em></b></td>
+                <td>The number of rows in the returned array. Although this is a required argument, if omitted, rows will not be added and the number of columns must be specified.</td>
+            </tr>
+            <tr>
+                <td><b><em>columns</em></b></td>
+                <td>An optional argument identifying the number of columns in the returned array. If omitted, columns will not be added and the number of rows must be specified.</td>
+            </tr>
+            <tr>
+                <td><b><em>pad_with</em></b></td>
+                <td>The value to fill in the added cells. #N/A is the default value.</td>
+            </tr>
+        </table>
+        <h3>Notes</h3>
+        <p>Please note that this is an array formula. To learn more, please read the <a href="../UsageInstructions/InsertArrayFormulas.htm" onclick="onhyperlinkclick(this)">Insert array formulas</a> article.</p>
+        <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>EXPAND</b> function.</p>        
+        
+        <h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>EXPAND</b> function.</p>
+        <p><img alt="EXPAND Function" src="../images/expand.png" /></p>
     </div>
 </body>
 </html>
