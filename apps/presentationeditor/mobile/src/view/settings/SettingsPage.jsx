@@ -6,7 +6,7 @@ import { observer, inject } from "mobx-react";
 import { MainContext } from '../../page/main';
 import { SettingsContext } from '../../controller/settings/Settings';
 
-const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(props => {
+const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
     const mainContext = useContext(MainContext);
@@ -14,9 +14,13 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings')(observer(
     const appOptions = props.storeAppOptions;
     const storeToolbarSettings = props.storeToolbarSettings;
     const disabledPreview = storeToolbarSettings.countPages <= 0;
-    const navbar = <Navbar title={_t.textSettings}>
-        {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
-    </Navbar>;
+    const storePresentationInfo = props.storePresentationInfo;
+    const docTitle = storePresentationInfo.dataDoc ? storePresentationInfo.dataDoc.title : '';
+    const navbar =
+        <Navbar>
+            <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
+            {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
+        </Navbar>;
 
     const onOpenOptions = name => {
         settingsContext.closeModal();

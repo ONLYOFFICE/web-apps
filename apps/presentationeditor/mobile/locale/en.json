@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textRenameFile": "Rename File",
+    "textEnterNewFileName": "Enter a new file name"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate"
+      "textZoomRotate": "Zoom and Rotate",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
