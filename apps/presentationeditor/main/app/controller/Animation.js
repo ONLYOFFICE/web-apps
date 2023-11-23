@@ -79,9 +79,10 @@ define([
                     'animation:repeatchange':       _.bind(this.onRepeatChange, this),
                     'animation:repeatfocusin':      _.bind(this.onRepeatComboOpen, this),
                     'animation:repeatselected':     _.bind(this.onRepeatSelected, this),
-                    'animation:durationchange':       _.bind(this.onDurationChange, this),
-                    'animation:durationfocusin':      _.bind(this.onRepeatComboOpen, this),
-                    'animation:durationselected':     _.bind(this.onDurationSelected, this)
+                    'animation:durationchange':     _.bind(this.onDurationChange, this),
+                    'animation:durationfocusin':    _.bind(this.onRepeatComboOpen, this),
+                    'animation:durationselected':   _.bind(this.onDurationSelected, this),
+                    'animation:addeffectshow':      _.bind(this.onAddEffectShow, this)
 
                 },
                 'Toolbar': {
@@ -368,15 +369,18 @@ define([
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
             this._state.lockEmphasis = false;
-            for (var i = 0; i<selectedObjects.length; i++) {
-                var type = selectedObjects[i].get_ObjectType();
+            var animatedObjects = this.api.asc_getAnimatedObjectsStack();
+            for (var i = 0; i<animatedObjects.length; i++) {
+                var type = animatedObjects[i].get_ObjectType();
                 if (type === Asc.c_oAscTypeSelectElement.Animation) {
-                    this.AnimationProperties = selectedObjects[i].get_ObjectValue();
+                    this.AnimationProperties = animatedObjects[i].get_ObjectValue();
                 } else if (type===Asc.c_oAscTypeSelectElement.Slide) {
-                    this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
+                    this._state.timingLock = animatedObjects[i].get_ObjectValue().get_LockTiming();
                 } else if (type===Asc.c_oAscTypeSelectElement.Shape) {
-                    var value = selectedObjects[i].get_ObjectValue();
-                    this._state.lockEmphasis = value.get_FromGroup() || value.get_FromChart() || value.get_FromSmartArt() || value.get_FromSmartArtInternal();
+                    var value = animatedObjects[i].get_ObjectValue();
+                    this._state.lockEmphasis = this._state.lockEmphasis || value.get_FromGroup() || value.get_FromChart() || value.get_FromSmartArt() || value.get_FromSmartArtInternal();
+                } else if (type===Asc.c_oAscTypeSelectElement.Table) {
+                    this._state.lockEmphasis = true;
                 }
             }
             if (this._state.onactivetab)
@@ -573,6 +577,21 @@ define([
             }
             else this._state.onactivetab = false;
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
+        },
+
+        onAddEffectShow: function(picker) {
+            var me = this;
+            if (!this.arrEmphasisAddEffect) {
+                this.arrEmphasisAddEffect = picker.store.filter(function(item, index){
+                    return (item.get('group') === 'menu-effect-group-emphasis') && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                        item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                        item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK);
+                });
+            }
+            this.arrEmphasisAddEffect.forEach(function(item){
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
+            picker.scroller.update({alwaysVisibleY: true});
         },
 
         lockToolbar: function (causes, lock, opts) {

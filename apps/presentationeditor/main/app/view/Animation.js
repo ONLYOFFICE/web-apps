@@ -521,7 +521,7 @@ define([
                         });
                         menu.off('show:before', onShowBefore);
                         menu.on('show:after', function () {
-                            picker.scroller.update({alwaysVisibleY: true});
+                            me.fireEvent('animation:addeffectshow', [picker]);
                         });
                         me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
