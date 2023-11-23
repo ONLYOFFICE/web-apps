@@ -131,6 +131,7 @@ define([
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
+            me.listenTo(me.model, 'change:tip',         me.onTipChange);
             me.listenTo(me.model, 'remove',             me.remove);
         },
 
@@ -208,6 +209,10 @@ define([
 
         onSelectChange: function(model, selected) {
             this.trigger('select', this, model, selected);
+        },
+
+        onTipChange: function (model, tip) {
+            this.trigger('tipchange', this, model);
         },
 
         onChange: function () {
@@ -564,6 +569,8 @@ define([
                     this.listenTo(view, 'dblclick',    this.onDblClickItem);
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
+                    if (tip === null || tip === undefined)
+                        this.listenTo(view, 'tipchange', this.onInitItemTip);
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
@@ -670,6 +677,32 @@ define([
         onChangeItem: function(view, record) {
             if (!this.isSuspendEvents) {
                 this.trigger('item:change', this, view, record);
+            }
+        },
+
+        onInitItemTip: function (view, record) {
+            var me = this,
+                view_el = $(view.el),
+                tip = view_el.data('bs.tooltip');
+            if (!(tip === null || tip === undefined))
+                view_el.removeData('bs.tooltip');
+            if (this.delayRenderTips) {
+                view_el.one('mouseenter', function () {
+                    view_el.attr('data-toggle', 'tooltip');
+                    view_el.tooltip({
+                        title: record.get('tip'),
+                        placement: 'cursor',
+                        zIndex: me.tipZIndex
+                    });
+                    view_el.mouseenter();
+                });
+            } else {
+                view_el.attr('data-toggle', 'tooltip');
+                view_el.tooltip({
+                    title: record.get('tip'),
+                    placement: 'cursor',
+                    zIndex: me.tipZIndex
+                });
             }
         },
 
@@ -799,7 +832,7 @@ define([
                 }
             }
 
-                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
                 var rec =(this.multiSelect) ? this.extremeSeletedRec : this.getSelectedRec();
@@ -816,6 +849,20 @@ define([
                         this.parentMenu.hide();
                 } else {
                     this.pressedCtrl=false;
+                    function getFirstItemIndex() {
+                        var first = 0;
+                        while(!this.dataViewItems[first] || !this.dataViewItems[first].$el || this.dataViewItems[first].$el.hasClass('disabled')) {
+                            first++;
+                        }
+                        return first;
+                    }
+                    function getLastItemIndex() {
+                        var last = this.dataViewItems.length-1;
+                        while(!this.dataViewItems[last] || !this.dataViewItems[last].$el || this.dataViewItems[last].$el.hasClass('disabled')) {
+                            last--;
+                        }
+                        return last;
+                    }
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -824,14 +871,19 @@ define([
                                 target.removeClass('over');
                                 target.find('> a').focus();
                             } else
-                                idx = 0;
+                                idx = getFirstItemIndex.call(this);
                         } else
-                            idx = 0;
+                            idx = getFirstItemIndex.call(this);
                     } else if (this.options.keyMoveDirection == 'both') {
                         if (this._layoutParams === undefined)
                             this.fillIndexesArray();
                         var topIdx = this.dataViewItems[idx].topIdx,
                             leftIdx = this.dataViewItems[idx].leftIdx;
+                        function checkEl() {
+                            var item = this.dataViewItems[this._layoutParams.itemsIndexes[topIdx][leftIdx]];
+                            if (item && item.$el && !item.$el.hasClass('disabled'))
+                                return this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                        }
 
                         idx = undefined;
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -846,13 +898,13 @@ define([
                                     } else
                                         leftIdx = this._layoutParams.columns-1;
                                 }
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                idx = checkEl.call(this);
                             }
                         } else if (data.keyCode==Common.UI.Keys.RIGHT) {
                             while (idx===undefined) {
                                 leftIdx++;
                                 if (leftIdx>this._layoutParams.columns-1) leftIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                idx = checkEl.call(this);
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
                             if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
@@ -863,7 +915,7 @@ define([
                                 while (idx===undefined) {
                                     topIdx--;
                                     if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                    idx = checkEl.call(this);
                                 }
                         } else {
                             if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
@@ -874,13 +926,25 @@ define([
                                 while (idx===undefined) {
                                     topIdx++;
                                     if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                    idx = checkEl.call(this);
                                 }
                         }
                     } else {
-                        idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
-                        ? Math.max(0, idx-1)
-                        : Math.min(this.store.length - 1, idx + 1) ;
+                        var topIdx = idx,
+                            firstIdx = getFirstItemIndex.call(this),
+                            lastIdx = getLastItemIndex.call(this);
+                        idx = undefined;
+                        function checkEl() {
+                            var item = this.dataViewItems[topIdx];
+                            if (item && item.$el && !item.$el.hasClass('disabled'))
+                                return topIdx;
+                        }
+                        while (idx===undefined) {
+                            topIdx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
+                                    ? Math.max(firstIdx, topIdx-1)
+                                    : Math.min(lastIdx, topIdx + 1);
+                            idx = checkEl.call(this);
+                        }
                     }
 
                     if (idx !== undefined && idx>=0) rec = this.store.at(idx);
@@ -1895,7 +1959,7 @@ define([
         hideTextRect: function (hide) {
             var me = this;
             this.store.each(function(item, index){
-                if (item.get('data').shapeType === 'textRect') {
+                if (item.get('data').shapeType === 'textRect' && me.dataViewItems[index] && me.dataViewItems[index].el) {
                     me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
                 }
             }, this);
@@ -1909,7 +1973,7 @@ define([
             this.store.each(function(item, index){
                 if (item.get('groupName') === 'Lines') {
                     var el = me.dataViewItems[index].el;
-                    if (el.is(':visible')) {
+                    if (el && el.is(':visible')) {
                         el.addClass('hidden');
                     }
                 }

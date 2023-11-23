@@ -50,8 +50,8 @@ define([
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height: 366,
-            buttons: null,
+            buttons: ['close'],
+            separator: false,
             id: 'window-bookmarks'
         },
 
@@ -60,10 +60,20 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 5px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                keydowncallback: function(event) {
+                    if (me.appOptions && me.appOptions.canMakeActionLink && (event.keyCode === Common.UI.Keys.ESC)) {
+                        var box = me.$window.find('#id-clip-copy-box').parent();
+                        if (box.hasClass('open')) {
+                            box.removeClass('open')
+                            me.btnGetLink.focus();
+                            return true;
+                        }
+                    }
+                },
+                contentStyle: 'padding: 0 5px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-extra-small">',
@@ -107,13 +117,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + me.textClose + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -216,7 +221,7 @@ define([
             this.chHidden.on('change', _.bind(this.onChangeHidden, this));
 
             if (this.appOptions.canMakeActionLink) {
-                var inputCopy = new Common.UI.InputField({
+                this.inputCopy = new Common.UI.InputField({
                     el          : $('#id-dlg-clip-copy'),
                     editable    : false,
                     style       : 'width: 176px;'
@@ -229,20 +234,23 @@ define([
                 copyBox.parent().on({
                     'shown.bs.dropdown': function () {
                         _.delay(function(){
-                            inputCopy._input.select().focus();
+                            me.inputCopy._input.select().focus();
                         },100);
                     },
                     'hide.bs.dropdown': function () {
                         me.txtName._input.select().focus();
                     }
                 });
-                copyBox.find('button').on('click', function() {
-                    inputCopy._input.select();
+                this.btnCopy = new Common.UI.Button({
+                    el: copyBox.find('button')
+                });
+                this.btnCopy.on('click', function() {
+                    me.inputCopy._input.select();
                     document.execCommand("copy");
                 });
 
                 Common.Gateway.on('setactionlink', function (url) {
-                    inputCopy.setValue(url);
+                    me.inputCopy.setValue(url);
                 });
             }
 
@@ -250,7 +258,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden];
+            return [this.txtName, this.radioName, this.radioLocation, this.bookmarksList, this.btnAdd, this.btnGoto, this.btnGetLink, this.btnDelete, this.chHidden, this.inputCopy, this.btnCopy].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

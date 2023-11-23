@@ -23,6 +23,7 @@ import DropdownListController from "./DropdownList";
 import { StatusbarController } from "./Statusbar";
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 
 @inject(
     "users",
@@ -138,7 +139,7 @@ class MainController extends Component {
                 }
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
 
-                value = localStorage.getItem("sse-mobile-allow-macros-request");
+                value = LocalStorage.getItem("sse-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
             };
 
@@ -1199,6 +1200,7 @@ class MainController extends Component {
                 <PluginsController />
                 <EncodingController />
                 <DropdownListController />
+                <Themes />
             </Fragment>
         )
     }

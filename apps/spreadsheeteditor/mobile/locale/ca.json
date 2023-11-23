@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega de l'historial"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "No ho mostris més",
     "textOk": "D'acord",
     "txtWarnUrl": "Si fas clic en aquest enllaç, pots perjudicar el dispositiu i les dades. <br>Segur que vols continuar?",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Vols continuar?"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Vols continuar?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -753,7 +760,7 @@
       "txtComma": "Coma",
       "txtCs": "Txec",
       "txtDa": "Danès",
-      "txtDe": "Deutsch",
+      "txtDe": "Alemany",
       "txtDelimiter": "Delimitador",
       "txtDownloadCsv": "Baixar CSV",
       "txtEl": "Grec",
@@ -811,7 +818,11 @@
       "txtUk": "Ucraïnès",
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
-      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?"
+      "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

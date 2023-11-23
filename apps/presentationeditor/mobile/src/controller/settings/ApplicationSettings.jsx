@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import {observer, inject} from "mobx-react";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
+import { ThemesContext } from "../../../../../common/mobile/lib/controller/Themes";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
     }
+
+    static contextType = ThemesContext;
 
     setUnitMeasurement(value) {
         const api = Common.EditorApi.get();
@@ -33,10 +35,11 @@ class ApplicationSettingsController extends Component {
                 setUnitMeasurement={this.setUnitMeasurement}
                 switchSpellCheck={this.switchSpellCheck} 
                 setMacrosSettings={this.setMacrosSettings}
+                changeTheme={this.context.changeTheme}
             />
         )
     }
 }
 
 
-export default inject("storeApplicationSettings")(observer(ApplicationSettingsController));
+export default inject("storeApplicationSettings", "storeAppOptions")(observer(ApplicationSettingsController));

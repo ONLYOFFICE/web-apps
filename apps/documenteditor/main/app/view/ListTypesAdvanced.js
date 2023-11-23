@@ -102,6 +102,14 @@ define([
         }, 100);
     },
 
+    getFocusedComponents: function() {
+        return [this.cmbTypes].concat(this.getFooterButtons());
+    },
+
+    getDefaultFocusableComponent: function () {
+        return this.cmbTypes;
+    },
+
     close: function(suppressevent) {
         var $window = this.getChild();
         if (!$window.find('.combobox.open').length) {

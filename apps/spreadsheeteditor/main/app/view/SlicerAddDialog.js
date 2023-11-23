@@ -57,7 +57,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 195px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label class="font-weight-bold">' + this.textColumns + '</label>',
                     '</div>',
@@ -90,7 +90,8 @@ define([
                     '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                     '</div>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                tabindex: 1
             });
             this.columnsList.on({
                 'item:change': this.onItemChanged.bind(this),
@@ -102,6 +103,14 @@ define([
 
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return [this.columnsList].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.columnsList;
         },
 
         updateColumnsList: function(props) {

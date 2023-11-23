@@ -48,21 +48,21 @@ define([
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 500,
-            height: 460,
+            contentHeight: 375,
             id: 'window-table-contents'
         },
 
         initialize : function(options) {
             var me = this;
 
-            var height = options.type ? 385 : 460;
+            var height = options.type ? 300 : 375;
             _.extend(this.options, {
                 title: options.type ? this.textTitleTOF : this.textTitle,
-                height: height,
-                template: [
-                    '<div class="box" style="height:' + (height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 15px 10px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentHeight: height,
+                contentStyle: 'padding: 15px 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="2" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-small">',
@@ -81,8 +81,8 @@ define([
                                     '</tr>',
                                     '<tr>',
                                         '<td class="padding-large">',
-                                            '<label class="input-label">' + me.textLeader + '</label>',
-                                            '<div id="tableofcontents-combo-leader" class="input-group-nr margin-left-10" style="display: inline-block; width:95px;"></div>',
+                                            '<label class="input-label vertical-align-baseline">' + me.textLeader + '</label>',
+                                            '<div id="tableofcontents-combo-leader" class="input-group-nr margin-left-10 vertical-align-baseline" style="display: inline-block; width:95px;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -115,8 +115,8 @@ define([
                                             '<div id="tableofcontents-chb-full-caption"></div>',
                                         '<% } else { %>',
                                             '<div id="tableofcontents-from-levels" style="width:220px;">',
-                                                '<label class="input-label">' + me.textLevels + '</label>',
-                                                '<div id="tableofcontents-spin-levels" class="margin-left-10" style="display: inline-block; width:95px;"></div>',
+                                                '<label class="input-label vertical-align-baseline">' + me.textLevels + '</label>',
+                                                '<div id="tableofcontents-spin-levels" class="margin-left-10 vertical-align-baseline" style="display: inline-block; width:95px;"></div>',
                                             '</div>',
                                             '<div id="tableofcontents-from-styles" class="hidden">',
                                                 '<table>',
@@ -130,16 +130,13 @@ define([
                                         '<% } %>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<label class="input-label margin-left-10">' + me.textStyles + '</label>',
-                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10" style="display: inline-block; width:95px;"></div>',
+                                            '<label class="input-label margin-left-10 vertical-align-baseline">' + me.textStyles + '</label>',
+                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10 vertical-align-baseline" style="display: inline-block; width:95px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({type: options.type || 0})
             }, options);
 
             this.api        = options.api;
@@ -444,16 +441,16 @@ define([
             this.scrollerY.update();
             this.scrollerY.scrollTop(0);
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
             return [ this.chPages, this.chAlign, this.cmbLeader, this.chLinks, this.radioLevels, this.radioStyles, this.spnLevels, this.stylesList, this.cmbStyles,
-                     this.radioCaption, this.radioStyle, this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption];
+                     this.radioCaption, this.radioStyle, this.cmbCaptions, this.cmbTOFStyles, this.chFullCaption].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

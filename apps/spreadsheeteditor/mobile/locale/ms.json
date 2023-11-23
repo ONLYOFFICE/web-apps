@@ -40,6 +40,12 @@
       "textStandartColors": "Warna Standard",
       "textThemeColors": "Warna Tema"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -81,6 +87,7 @@
     "textOk": "Okey",
     "txtWarnUrl": "Mengklik pautan ini boleh membahayakan peranti dan data anda.<br>Adakah anda mahu meneruskan?",
     "warnMergeLostData": "Hanya data dari sel kiri-atas akan kekal dalam sel dicantum. <br>Adakah anda pasti mahu meneruskan?",
+    "menuAutofill": "Autofill",
     "menuEditLink": "Edit Link"
   },
   "Controller": {
@@ -778,7 +785,11 @@
       "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textDark": "Dark",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtBe": "Belarusian",
       "txtBg": "Bulgarian",

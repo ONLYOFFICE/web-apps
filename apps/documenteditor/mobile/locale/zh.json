@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "当前文件将保存在版本历史记录中。",
       "titleWarningRestoreVersion": "是否还原此版本？",
       "txtErrorLoadHistory": "载入记录失败"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -339,7 +345,7 @@
     "textParagraphStyle": "段落样式",
     "textPictureFromLibrary": "来自图库的图片",
     "textPictureFromURL": "来自网络的图片",
-    "textPt": "点（排版单位）",
+    "textPt": "点",
     "textRecommended": "建议",
     "textRefresh": "刷新",
     "textRefreshEntireTable": "刷新整个表格",
@@ -392,7 +398,13 @@
     "textType": "类型",
     "textWe": "我们",
     "textWrap": "包裹",
-    "textWrappingStyle": "文字环绕样式"
+    "textWrappingStyle": "文字环绕样式",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
+    "textSave": "Save",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "转换超时",
@@ -751,7 +763,19 @@
     "txtScheme6": "大厅",
     "txtScheme7": "产权",
     "txtScheme8": "流程",
-    "txtScheme9": "铸造厂"
+    "txtScheme9": "铸造厂",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",

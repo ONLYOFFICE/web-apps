@@ -53,6 +53,12 @@
       "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Nerādīt vēlreiz",
     "textOk": "OK",
     "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?",
-    "warnMergeLostData": "Apvienotajā šūnā paliks tikai dati no augšējās kreisās šūnas. <br>Vai tiešām vēlaties turpināt?"
+    "warnMergeLostData": "Apvienotajā šūnā paliks tikai dati no augšējās kreisās šūnas. <br>Vai tiešām vēlaties turpināt?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -811,6 +818,10 @@
       "txtVi": "Vjetnamiešu",
       "txtZh": "Ķīniešu",
       "warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "txtDe": "German"
     }
   }

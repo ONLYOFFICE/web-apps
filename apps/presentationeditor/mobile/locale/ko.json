@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "현재 파일은 버전 기록에 저장됩니다.",
       "titleWarningRestoreVersion": "이 버전을 복원하시겠습니까?",
       "txtErrorLoadHistory": "로드 이력 실패"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "광장",
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
-      "txtScheme9": "발견"
+      "txtScheme9": "발견",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -50,7 +50,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 405,
+            contentHeight: 320,
             toggleGroup: 'control-adv-settings-group',
             storageName: 'de-control-settings-adv-category'
         },
@@ -142,7 +142,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 ],
                 themecolors: 0,
                 effects: 0,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colors = this.btnColor.getPicker();
@@ -360,7 +359,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 this.list, this.btnAdd, this.btnChange, this.btnDelete, this.btnUp, this.btnDown, // 2 tab
                 this.txtDate, this.listFormats, this.cmbLang, // 3 tab,
                 this.btnEditChecked, this.btnEditUnchecked // 4 tab,
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -816,6 +815,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         font: props.font,
                         code: props.code,
                         handler: handler
+                    }).on('close', function() {
+                        cmp.focus();
                     });
                 win.show();
                 win.on('symbol:dblclick', handler);

@@ -284,6 +284,7 @@
       "textComments": "Comments",
       "textCreated": "Created",
       "textCustomSize": "Custom Size",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDelimeter": "Delimiter",
       "textDirection": "Direction",
@@ -315,6 +316,7 @@
       "textLastModifiedBy": "Last Modified By",
       "textLeft": "Left",
       "textLeftToRight": "Left To Right",
+      "textLight": "Light",
       "textLocation": "Location",
       "textLookIn": "Look In",
       "textMacrosSettings": "Macros Settings",
@@ -338,6 +340,7 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textSameAsSystem": "Same As System",
       "textSearch": "Search",
       "textSearchBy": "Search",
       "textSearchIn": "Search In",
@@ -350,6 +353,7 @@
       "textSpreadsheetTitle": "Spreadsheet Title",
       "textSubject": "Subject",
       "textTel": "Tel",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textTop": "Top",
       "textUnitOfMeasurement": "Unit Of Measurement",
@@ -467,6 +471,12 @@
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -487,6 +497,7 @@
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
     "menuAddComment": "Add Comment",
     "menuAddLink": "Add Link",
+    "menuAutofill": "Autofill",
     "menuCancel": "Cancel",
     "menuCell": "Cell",
     "menuDelete": "Delete",

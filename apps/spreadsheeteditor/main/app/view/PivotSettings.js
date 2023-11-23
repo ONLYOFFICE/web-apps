@@ -200,7 +200,7 @@ define([
         },
 
         getDragElement: function(value) {
-            this._dragEl = $('<div style="font-weight: bold;position: absolute;left:-10000px;z-index: 10000;">' + value + '</div>');
+            this._dragEl = $('<div style="font-weight: bold;position: absolute;left:-10000px;z-index: 10000;">' + Common.Utils.String.htmlEncode(value) + '</div>');
             $(document.body).append(this._dragEl);
             return this._dragEl[0];
         },
@@ -208,6 +208,7 @@ define([
         onDragEnd: function() {
             this._dragEl && this._dragEl.remove();
             this._dragEl = null;
+            Common.NotificationCenter.trigger('pivot:dragend', this);
         },
 
         onFieldsDragStart: function (item, index, event) {

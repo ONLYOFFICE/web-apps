@@ -79,9 +79,10 @@ define([
                     'animation:repeatchange':       _.bind(this.onRepeatChange, this),
                     'animation:repeatfocusin':      _.bind(this.onRepeatComboOpen, this),
                     'animation:repeatselected':     _.bind(this.onRepeatSelected, this),
-                    'animation:durationchange':       _.bind(this.onDurationChange, this),
-                    'animation:durationfocusin':      _.bind(this.onRepeatComboOpen, this),
-                    'animation:durationselected':     _.bind(this.onDurationSelected, this)
+                    'animation:durationchange':     _.bind(this.onDurationChange, this),
+                    'animation:durationfocusin':    _.bind(this.onRepeatComboOpen, this),
+                    'animation:durationselected':   _.bind(this.onDurationSelected, this),
+                    'animation:addeffectshow':      _.bind(this.onAddEffectShow, this)
 
                 },
                 'Toolbar': {
@@ -179,7 +180,8 @@ define([
             (new PE.Views.AnimationDialog({
                 api             : this.api,
                 activeEffect    : this._state.Effect,
-                groupValue       : this._state.EffectGroup,
+                groupValue      : this._state.EffectGroup,
+                lockEmphasis    : this._state.lockEmphasis,
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
@@ -239,7 +241,7 @@ define([
         },
 
         setDuration: function(valueRecord) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
                 this.AnimationProperties.asc_putDuration(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -247,7 +249,7 @@ define([
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putDelay(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -287,7 +289,7 @@ define([
         },
 
         setRepeat: function(valueRecord) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
                 this.AnimationProperties.asc_putRepeatCount(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -316,7 +318,7 @@ define([
         },
 
         onTriggerClick: function (value) {
-            if(this.api) {
+            if(this.api && this.AnimationProperties) {
                 if(value.value == this.view.triggers.ClickSequence) {
                     this.AnimationProperties.asc_putTriggerClickSequence(true);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -326,7 +328,7 @@ define([
 
         onTriggerClickOfClick: function (value)
         {
-            if(this.api) {
+            if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putTriggerClickSequence(false);
                 this.AnimationProperties.asc_putTriggerObjectClick(value.caption);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -351,7 +353,7 @@ define([
         },
 
         onStartSelect: function (combo, record) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putStartType(record.value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -366,12 +368,19 @@ define([
 
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
-            for (var i = 0; i<selectedObjects.length; i++) {
-                var type = selectedObjects[i].get_ObjectType();
-                if (type == Asc.c_oAscTypeSelectElement.Animation) {
-                    this.AnimationProperties = selectedObjects[i].get_ObjectValue();
-                } else if (type==Asc.c_oAscTypeSelectElement.Slide) {
-                    this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
+            this._state.lockEmphasis = false;
+            var animatedObjects = this.api.asc_getAnimatedObjectsStack();
+            for (var i = 0; i<animatedObjects.length; i++) {
+                var type = animatedObjects[i].get_ObjectType();
+                if (type === Asc.c_oAscTypeSelectElement.Animation) {
+                    this.AnimationProperties = animatedObjects[i].get_ObjectValue();
+                } else if (type===Asc.c_oAscTypeSelectElement.Slide) {
+                    this._state.timingLock = animatedObjects[i].get_ObjectValue().get_LockTiming();
+                } else if (type===Asc.c_oAscTypeSelectElement.Shape) {
+                    var value = animatedObjects[i].get_ObjectValue();
+                    this._state.lockEmphasis = this._state.lockEmphasis || value.get_FromGroup() || value.get_FromChart() || value.get_FromSmartArt() || value.get_FromSmartArtInternal();
+                } else if (type===Asc.c_oAscTypeSelectElement.Table) {
+                    this._state.lockEmphasis = true;
                 }
             }
             if (this._state.onactivetab)
@@ -381,14 +390,15 @@ define([
         setSettings: function () {
             this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = this._state.noMoveAnimationLater = this._state.noMoveAnimationEarlier = true;
             this._state.noAnimationPreview = !this.api.asc_canStartAnimationPreview();
+            var me = this,
+                view = this.view,
+                store = view.listEffects.store,
+                fieldStore = view.listEffects.fieldPicker.store;
             if (this.AnimationProperties) {
                 this._state.noGraphic = false;
                 this._state.noMoveAnimationLater = !this.api.asc_canMoveAnimationLater();
                 this._state.noMoveAnimationEarlier = !this.api.asc_canMoveAnimationEarlier();
                 var item,
-                    view = this.view,
-                    store = view.listEffects.store,
-                    fieldStore = view.listEffects.fieldPicker.store,
                     value = this.AnimationProperties.asc_getType(),
                     group = this.AnimationProperties.asc_getClass();
 
@@ -502,6 +512,22 @@ define([
                 if (this.view && this.view.listEffects)
                     this.view.listEffects.fieldPicker.deselectAll();
             }
+            if (!this.arrEmphasis) {
+                this.arrEmphasis = store.filter(function(item, index){
+                    return (item.get('group') === 'menu-effect-group-emphasis') && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                                                                                    item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                                                                                    item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK);
+                });
+            }
+            this.arrEmphasis.forEach(function(item){
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
+            fieldStore.each(function(item){
+                if (item.get('group') === 'menu-effect-group-emphasis' && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                                                                            item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                                                                            item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK))
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
             this.setLocked();
         },
 
@@ -551,6 +577,21 @@ define([
             }
             else this._state.onactivetab = false;
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
+        },
+
+        onAddEffectShow: function(picker) {
+            var me = this;
+            if (!this.arrEmphasisAddEffect) {
+                this.arrEmphasisAddEffect = picker.store.filter(function(item, index){
+                    return (item.get('group') === 'menu-effect-group-emphasis') && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                        item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                        item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK);
+                });
+            }
+            this.arrEmphasisAddEffect.forEach(function(item){
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
+            picker.scroller.update({alwaysVisibleY: true});
         },
 
         lockToolbar: function (causes, lock, opts) {

@@ -15,6 +15,7 @@ import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 
 @inject(
     "users",
@@ -94,7 +95,7 @@ class MainController extends Component {
                 }
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
 
-                value = localStorage.getItem("pe-mobile-allow-macros-request");
+                value = LocalStorage.getItem("pe-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
             };
 
@@ -1007,6 +1008,7 @@ class MainController extends Component {
                 {EditorUIController.getEditCommentControllers && EditorUIController.getEditCommentControllers()}
                 <ViewCommentsController />
                 <PluginsController />
+                <Themes />
             </Fragment>
             )
     }

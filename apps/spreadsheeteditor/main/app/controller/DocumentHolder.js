@@ -192,6 +192,7 @@ define([
                     me.onCellsRange(status);
                 },
                 'tabs:dragend': _.bind(me.onDragEndMouseUp, me),
+                'pivot:dragend': _.bind(me.onDragEndMouseUp, me),
                 'protect:wslock': _.bind(me.onChangeProtectSheet, me)
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
@@ -652,7 +653,7 @@ define([
                         me.api.asc_pivotShowDetailsHeader(value.index, isAll) ;
                     }
                 },
-                items: fieldsNames,
+                fieldsNames: fieldsNames,
             }).show();
         },
         
@@ -2815,7 +2816,7 @@ define([
                     documentHolder.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     documentHolder.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     documentHolder.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar, true);
+                    documentHolder.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? documentHolder.showEqToolbar : documentHolder.hideEqToolbar);
                 }
 
                 if (showMenu) this.showPopupMenu(documentHolder.textInShapeMenu, {}, event);
@@ -2888,8 +2889,8 @@ define([
                 documentHolder.mnuFieldSettings.setVisible(!!this.propsPivot.field);
 
                 if (this.propsPivot.field) {
-                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"'), true);
-                    documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"', true);
+                    documentHolder.mnuDeleteField.setCaption(documentHolder.txtDelField + ' ' + (this.propsPivot.rowTotal || this.propsPivot.colTotal ? documentHolder.txtGrandTotal : '"' + this.propsPivot.fieldName + '"'));
+                    documentHolder.mnuSubtotalField.setCaption(documentHolder.txtSubtotalField + ' "' + this.propsPivot.fieldName + '"');
                     documentHolder.mnuFieldSettings.setCaption(this.propsPivot.fieldType===2 ? documentHolder.txtValueFieldSettings : documentHolder.txtFieldSettings);
                     if (this.propsPivot.fieldType===2) {
                         var sumval = this.propsPivot.field.asc_getSubtotal();
@@ -2909,7 +2910,7 @@ define([
                     }
                 }
                 if (this.propsPivot.filter) {
-                    documentHolder.mnuPivotFilter.menu.items[0].setCaption(this.propsPivot.fieldName ? Common.Utils.String.format(documentHolder.txtClearPivotField, ' "' + Common.Utils.String.htmlEncode(this.propsPivot.fieldName) + '"') : documentHolder.txtClear, true); // clear filter
+                    documentHolder.mnuPivotFilter.menu.items[0].setCaption(this.propsPivot.fieldName ? Common.Utils.String.format(documentHolder.txtClearPivotField, ' "' + this.propsPivot.fieldName + '"') : documentHolder.txtClear); // clear filter
                     documentHolder.mnuPivotFilter.menu.items[0].setDisabled(this.propsPivot.filter.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.None); // clear filter
                 }
                 if (inPivot) {
@@ -4981,7 +4982,7 @@ define([
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
+                    menu.items[8].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {

@@ -26,7 +26,7 @@ export default class extends React.Component {
         super(props);
 
         Common.Notifications = new Notifications();
-        Themes.init();
+        // Themes.init();
     }
 
     render() {

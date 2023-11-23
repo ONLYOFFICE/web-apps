@@ -960,7 +960,7 @@ define([
             this.cmbMacros.setValue(item ? item.get('value') : 0);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             var data = [];
@@ -1065,7 +1065,7 @@ define([
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
+            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
 
@@ -1826,7 +1826,7 @@ define([
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary auto">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
@@ -2475,6 +2475,7 @@ define([
                 maxValue: 1000000,
                 minValue: 1,
                 allowDecimal: false,
+                allowBlank: true,
                 maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2490,6 +2491,7 @@ define([
                 maxValue: 1000000,
                 minValue: 1,
                 allowDecimal: false,
+                allowBlank: true,
                 maskExp: /[0-9]/,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2629,6 +2631,7 @@ define([
                 caption: this.txtRepeat,
                 style: 'width: 95px;',
                 menu: true,
+                takeFocusOnClose: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -2649,6 +2652,7 @@ define([
                 caption: this.txtRepeat,
                 style: 'width: 95px;',
                 menu: true,
+                takeFocusOnClose: true,
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'

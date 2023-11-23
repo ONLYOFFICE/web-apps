@@ -96,6 +96,12 @@
             <div id="form-txt-format-symbols"></div>
         </td>
     </tr>
+    <tr class="form-radiobox">
+        <td class="padding-small">
+            <label class="input-label"><%= scope.textRadioChoice %></label>
+            <div id="form-txt-choice"></div>
+        </td>
+    </tr>
 </table>
 <table cols="2">
     <tr class="form-list">

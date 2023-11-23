@@ -43,6 +43,12 @@
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
     },
+    "Themes": {
+      "dark": "Întunecat",
+      "light": "Luminos",
+      "system": "La fel ca sistemul",
+      "textTheme": "Temă"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
       "textAnonymous": "Anonim",
@@ -462,6 +468,7 @@
       "textColorSchemes": "Scheme de culori",
       "textComment": "Comentariu",
       "textCreated": "A fost creat la",
+      "textDark": "Întunecat",
       "textDarkTheme": "Tema întunecată",
       "textDisableAll": "Se dezactivează toate",
       "textDisableAllMacrosWithNotification": "Se dezactivează toate macrocomenzileâ cu notificare",
@@ -481,6 +488,7 @@
       "textInch": "Inch",
       "textLastModified": "Data ultimei modificări",
       "textLastModifiedBy": "Modificat ultima dată de către",
+      "textLight": "Luminos",
       "textLoading": "Se încarcă...",
       "textLocation": "Locația",
       "textMacrosSettings": "Setări macrocomandă",
@@ -497,6 +505,7 @@
       "textReplaceAll": "Înlocuire peste tot",
       "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRTL": "Dreapta spre stânga (RTL)",
+      "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSettings": "Setări",
       "textShowNotification": "Afișare notificări",
@@ -504,6 +513,7 @@
       "textSpellcheck": "Verificarea ortografică",
       "textSubject": "Subiect",
       "textTel": "tel:",
+      "textTheme": "Temă",
       "textTitle": "Titlu",
       "textUnitOfMeasurement": "Unitate de măsură ",
       "textUploaded": "S-a încărcat",

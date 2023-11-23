@@ -275,7 +275,8 @@ define([
         const _onApplySettings = function (menu) {
             if ( !!titlebuttons.quickprint ) {
                 const var_name = window.SSE ? 'sse-settings-quick-print-button' :
-                                    window.PE ? 'pe-settings-quick-print-button' : 'de-settings-quick-print-button';
+                                    window.PE ? 'pe-settings-quick-print-button' :
+                                    window.PDFE ? 'pdfe-settings-quick-print-button' : 'de-settings-quick-print-button';
                 const is_btn_visible = Common.localStorage.getBool(var_name, false);
 
                 if ( titlebuttons.quickprint.visible != is_btn_visible ) {
@@ -387,9 +388,9 @@ define([
                         }
                     });
                 }
-
-                _checkHelpAvailable.call(this);
             }
+
+            _checkHelpAvailable.call(this);
         }
 
         const _onHidePreloader = function (mode) {
@@ -635,6 +636,9 @@ define([
             isFeatureAvailable: function (feature) {
                 return !!native && !!native[feature];
             },
+            isWinXp: function () {
+                return nativevars && nativevars.os === 'winxp';
+            },
             call: function (name) {
                 if ( native[name] ) {
                     let args = [].slice.call(arguments, 1);
@@ -648,7 +652,8 @@ define([
 
                 if ( !!nativevars && nativevars.helpUrl ) {
                     var webapp = window.SSE ? 'spreadsheeteditor' :
-                                    window.PE ? 'presentationeditor' : 'documenteditor';
+                                    window.PE ? 'presentationeditor' :
+                                        window.PDFE ? 'pdfeditor' : 'documenteditor';
                     return nativevars.helpUrl + '/' + webapp + '/main/resources/help';
                 }
 
@@ -693,7 +698,7 @@ define([
 
                 return false;
             },
-    };
+        };
     };
 
     !Common.Controllers && (Common.Controllers = {});

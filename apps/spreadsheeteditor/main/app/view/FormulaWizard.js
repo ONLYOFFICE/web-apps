@@ -45,18 +45,18 @@ define([
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 580,
-            height: 397
+            contentHeight: 312
         },
 
         initialize : function(options) {
             var me = this;
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
-                                '<table style="height:' + (this.options.height - 85 - 7) + 'px;">',
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
+                                '<table style="width: 100%;">',
                                 '<tr><td>',
                                 '<label id="formula-wizard-name" style="display: block;margin-bottom: 8px;"></label>',
                                 '<div id="formula-wizard-panel-args" style="">',
@@ -81,11 +81,8 @@ define([
                                 '</div>',
                                 '</td></tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.props = this.options.props;
@@ -122,6 +119,8 @@ define([
             this.lblFormulaResult = $window.find('#formula-wizard-value');
             this.lblFunctionResult = $window.find('#formula-wizard-lbl-val-func');
 
+            this.innerPanel.find('> table').css('height', this.options.contentHeight - 7);
+
             this._preventCloseCellEditor = false;
 
             this.afterRender();
@@ -154,6 +153,8 @@ define([
         },
 
         _setDefaults: function () {
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
+
             var me = this;
             if (this.funcprops) {
                 var props = this.funcprops;
@@ -341,7 +342,7 @@ define([
                 me.args[argcount].lblName.html(me.args[argcount].argName);
             me.args[argcount].lblValue.html('= '+ ( argres!==null && argres!==undefined ? argres : '<span style="opacity: 0.6; font-weight: bold;">' + me.args[argcount].argTypeName + '</span>'));
 
-            Common.UI.FocusManager.add(this, txt);
+            Common.UI.FocusManager.insert(this, txt, -1 * this.getFooterButtons().length);
         },
 
         onInputChanging: function(input, newValue, oldValue, e) {

@@ -11,6 +11,7 @@ export const SettingsContext = createContext();
 const SettingsController = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
     const appOptions = props.storeAppOptions;
+    const docExt = storeDocumentInfo.dataDoc.fileType;
     const { t } = useTranslation();
 
     const closeModal = () => {
@@ -108,6 +109,7 @@ const SettingsController = props => {
                     close: false,
                     onClick: () => {
                         const titleFieldValue = document.querySelector('#modal-title').value;
+                        
                         if(titleFieldValue.trim().length) {
                             changeTitle(titleFieldValue);
                             f7.dialog.close();
@@ -137,17 +139,73 @@ const SettingsController = props => {
         }).open();
     };
 
-    const changeTitle = name => {
-        const api = Common.EditorApi.get();
-        const docInfo = storeDocumentInfo.docInfo;
-        const docExt = storeDocumentInfo.dataDoc.fileType;
-        const title = `${name}.${docExt}`;
+    const cutDocName = name => {
+        if(name.length <= docExt.length) return name;
+        const idx = name.length - docExt.length;
 
-        storeDocumentInfo.changeTitle(title);
-        docInfo.put_Title(title);
-        storeDocumentInfo.setDocInfo(docInfo);
-        api.asc_setDocInfo(docInfo);
+        return name.substring(idx) == docExt ? name.substring(0, idx) : name;
     };
+
+    const changeTitle = (name) => {
+        const api = Common.EditorApi.get();
+        const currentTitle = `${name}.${docExt}`;
+        let formatName = name.trim();
+
+        if(formatName.length > 0 && cutDocName(currentTitle) !== formatName) {
+            if(/[\t*\+:\"<>?|\\\\/]/gim.test(formatName)) {
+                f7.dialog.create({
+                    title: t('Edit.notcriticalErrorTitle'),
+                    text: t('Edit.textInvalidName') + '*+:\"<>?|\/',
+                    buttons: [
+                        {
+                            text: t('Edit.textOk'),
+                            close: true
+                        }
+                    ]
+                }).open();
+            } else {
+                const wopi = appOptions.wopi;
+                formatName = cutDocName(formatName);
+
+                if(wopi) {
+                    api.asc_wopi_renameFile(formatName);
+                } else {
+                    Common.Gateway.requestRename(formatName);
+                }
+
+                const newTitle = `${formatName}.${docExt}`;
+                storeDocumentInfo.changeTitle(newTitle);
+            }
+        }
+    }
+
+    const clearAllFields = () => {
+        const api = Common.EditorApi.get();
+
+        api.asc_ClearAllSpecialForms();
+        closeModal();
+    };
+
+    const toggleFavorite = () => {
+        const isFavorite = appOptions.isFavorite;
+        Common.Notifications.trigger('markfavorite', !isFavorite);
+    };
+
+    const saveAsPdf = () => {
+        const api = Common.EditorApi.get();
+
+        if (appOptions.isOffline) {
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+        } else {
+            const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+        }
+    }
+
+    const submitForm = () => {
+        const api = Common.EditorApi.get();
+        api.asc_SendForm();
+    }
 
     return (
         <SettingsContext.Provider value={{
@@ -158,7 +216,11 @@ const SettingsController = props => {
             onDownloadOrigin,
             onChangeMobileView,
             changeTitleHandler,
-            closeModal
+            closeModal,
+            clearAllFields,
+            toggleFavorite,
+            saveAsPdf,
+            submitForm
         }}>
             <SettingsView />
         </SettingsContext.Provider>

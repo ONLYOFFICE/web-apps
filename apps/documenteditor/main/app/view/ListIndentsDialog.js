@@ -156,7 +156,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnAlign, this.spnIndents, this.cmbFollow];
+            return [this.spnAlign, this.spnIndents, this.cmbFollow].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

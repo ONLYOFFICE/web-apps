@@ -1,9 +1,6 @@
 .open-dlg {
 
   .body {
-    height: auto;
-    top: 34px;
-
     & > div {
       width: 100%;
     }
@@ -15,13 +12,8 @@
 
     .content-panel {
       vertical-align: top;
-      padding: 15px 15px 0;
+      padding-bottom: 10px;
       width: 100%;
-
-      .inner-content {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
 
       label {
         .font-size-normal();
@@ -87,18 +79,6 @@
         background: ~"url('@{common-image-const-path}/controls/warnings_s.svg#attention')" no-repeat center;
 
       }
-    }
-  }
-  .footer {
-    padding-top: 15px;
-
-    &.center {
-      text-align: center;
-    }
-
-    &.justify {
-      padding-left: 30px;
-      padding-right: 30px;
     }
   }
 }

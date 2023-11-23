@@ -18,6 +18,7 @@ import {storeSpreadsheetSettings} from "./spreadsheetSettings";
 import {storeReview} from '../../../../common/mobile/lib/store/review';
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
 import {storeToolbarSettings} from "./toolbar";
+import { storeThemes } from '../../../../common/mobile/lib/store/themes';
 import { storeVersionHistory } from "../../../../common/mobile/lib/store/versionHistory";
 
 export const stores = {
@@ -41,6 +42,6 @@ export const stores = {
     storeVersionHistory: new storeVersionHistory(),
     storeToolbarSettings: new storeToolbarSettings(),
     storeWorksheets: new storeWorksheets(),
-   
+    storeThemes: new storeThemes()
 };
 

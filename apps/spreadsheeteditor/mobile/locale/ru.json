@@ -40,6 +40,12 @@
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
     },
+    "Themes": {
+      "dark": "Темная",
+      "light": "Светлая",
+      "system": "Системная",
+      "textTheme": "Тема"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
       "textAnonymous": "Аноним",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "Ссылка указывает на несуществующую ячейку. Исправьте или удалите ссылку.",
     "menuAddComment": "Добавить комментарий",
     "menuAddLink": "Добавить ссылку",
+    "menuAutofill": "Автозаполнение",
     "menuCancel": "Отмена",
     "menuCell": "Ячейка",
     "menuDelete": "Удалить",
@@ -672,6 +679,7 @@
       "textComments": "Комментарии",
       "textCreated": "Создана",
       "textCustomSize": "Особый размер",
+      "textDark": "Темная",
       "textDarkTheme": "Темная тема",
       "textDelimeter": "Разделитель",
       "textDirection": "Направление",
@@ -703,6 +711,7 @@
       "textLastModifiedBy": "Автор последнего изменения",
       "textLeft": "Слева",
       "textLeftToRight": "Слева направо",
+      "textLight": "Светлая",
       "textLocation": "Размещение",
       "textLookIn": "Область поиска",
       "textMacrosSettings": "Настройки макросов",
@@ -726,6 +735,7 @@
       "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
       "textRight": "Справа",
       "textRightToLeft": "Справа налево",
+      "textSameAsSystem": "Системная",
       "textSearch": "Поиск",
       "textSearchBy": "Поиск",
       "textSearchIn": "Искать",
@@ -738,6 +748,7 @@
       "textSpreadsheetTitle": "Название таблицы",
       "textSubject": "Тема",
       "textTel": "Телефон",
+      "textTheme": "Тема",
       "textTitle": "Название",
       "textTop": "Сверху",
       "textUnitOfMeasurement": "Единица измерения",

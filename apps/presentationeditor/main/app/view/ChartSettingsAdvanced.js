@@ -49,7 +49,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
     PE.Views.ChartSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 535,
+            contentHeight: 450,
             toggleGroup: 'chart-adv-settings-group',
             properties: null,
             chartSettings: null,
@@ -493,6 +493,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
                 Common.UI.FocusManager.add(this, [this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 6 tab
                                                         this.inputAltTitle, this.textareaAltDescription ]); // 7 tab
             }
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         getSettings: function() {
@@ -1381,7 +1382,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             }
         },
 
-        openFormat: function(index) {
+        openFormat: function(index, btn) {
             var me = this,
                 props = me.currentAxisProps[index],
                 fmt = props.getNumFmt(),
@@ -1402,6 +1403,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
             })).on('close', function() {
                 me._isEditFormat && me.chartSettings.cancelEditData();
                 me._isEditFormat = false;
+                btn.focus();
             });
             me._isEditFormat = true;
             me.chartSettings.startEditData();

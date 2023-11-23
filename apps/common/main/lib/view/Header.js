@@ -940,7 +940,7 @@ define([
                 this.options.currentUserId = id;
             },
 
-            updateAvatarEl(){
+            updateAvatarEl: function(){
                 if(this.options.userAvatar){
                     $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
                     $btnUserName.text('');

@@ -53,7 +53,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 535,
+            contentHeight: 450,
             toggleGroup: 'image-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
@@ -1655,6 +1655,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 12 tab
                     this.inputAltTitle, this.textareaAltDescription ]); // 13 tab
             }
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         getSettings: function() {
@@ -3129,7 +3130,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
         },
 
-        openFormat: function(index) {
+        openFormat: function(index, btn) {
             var me = this,
                 props = me.currentAxisProps[index],
                 fmt = props.getNumFmt(),
@@ -3150,6 +3151,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             })).on('close', function() {
                 me._isEditFormat && me.chartSettings.cancelEditData();
                 me._isEditFormat = false;
+                btn.focus();
             });
             me._isEditFormat = true;
             me.chartSettings.startEditData();

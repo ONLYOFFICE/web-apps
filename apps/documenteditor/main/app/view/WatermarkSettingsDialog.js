@@ -76,7 +76,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
     DE.Views.WatermarkSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 400,
-            height: 442,
+            separator: false,
             id: 'window-watermark'
         },
 
@@ -85,19 +85,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: _.template(
-                    [
-                        '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
-                        template,
-                        '</div></div>',
-                        '</div>',
-                        '</div>'
-                    ].join('')
-                )({
-                    scope: this
-                })
+                contentStyle: 'padding: 10px 5px;',
+                contentTemplate: _.template(template)({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -182,7 +171,8 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                         {caption: this.textFromUrl, value: 1},
                         {caption: this.textFromStorage, value: 2}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.imageControls.push(this.btnSelectImage);
             this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
@@ -318,7 +308,7 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
 
             this.btnTextColor = new Common.UI.ButtonColored({
                 parentEl: $('#watermark-textcolor'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.textColor,
                 additionalAlign: this.menuAddAlign,
@@ -357,24 +347,24 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
             });
             this.textControls.push(this.radioHor);
 
-            this.btnOk = new Common.UI.Button({
-                el: this.$window.find('.primary'),
-                disabled: true
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: this.$window.find('.primary') });
+            this.btnOk.setDisabled(true);
 
             this.afterRender();
         },
 
         getFocusedComponents: function() {
             return [ this.radioNone, this.radioText, this.cmbLang, this.cmbText, this.cmbFonts, this.cmbFontSize, this.btnTextColor, this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout,
-                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.cmbScale ];
+                     this.chTransparency, this.radioDiag, this.radioHor, this.radioImage, this.btnSelectImage, this.cmbScale ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
             if (!this.cmbLang.isDisabled())
                 return this.cmbLang;
-            else if (!this.cmbScale.isDisabled())
-                return this.cmbScale;
+            else if (!this.btnSelectImage.isDisabled())
+                return this.btnSelectImage;
             else
                 return this.radioNone;
         },
@@ -505,7 +495,9 @@ define(['text!documenteditor/main/app/template/WatermarkSettings.template',
                             }
                         }
                     }
-                })).show();
+                })).on('close', function() {
+                    me.btnSelectImage.focus();
+                }).show();
             } else if (item.value==2) {
                 Common.NotificationCenter.trigger('storage:image-load', 'watermark');
             } else {

@@ -43,9 +43,8 @@ define([
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,
-            height: 396,
             header: true,
-            cls: 'animation-dlg',
+            cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
         initialize : function(options) {
@@ -53,11 +52,11 @@ define([
                 title: this.textTitle
             }, options || {});
             this.template = [
-                '<div class="box" style="width: 318px; margin: 0 auto">',
+                '<div class="box">',
                     '<div class = "input-row" id = "animation-group"></div>',
-                    '<div class = "input-row" id = "animation-level" ></div>',
-                    '<div class = "input-row" id = "animation-list" style = "margin: 16px 0;  height: 216px;"></div>',
-                    // '<div class = "input-row" id = "animation-setpreview" style = "margin: 16px 0;"></div>',
+                    '<div class = "input-row" id = "animation-level" style = "margin-top: 16px; "></div>',
+                    '<div class = "input-row" id = "animation-list" style = "margin-top: 16px;  height: 216px;"></div>',
+                    // '<div class = "input-row" id = "animation-setpreview" style = "margin-top: 16px;"></div>',
                 '</div>'
             ].join('');
             this.allEffects = Common.define.effectData.getEffectFullData();
@@ -65,6 +64,7 @@ define([
             this.api = this.options.api;
             this._state=[];
             this.handler =   this.options.handler;
+            this.lockEmphasis = !!this.options.lockEmphasis;
             this.EffectGroupData = Common.define.effectData.getEffectGroupData();
             this._state.activeGroup = this.EffectGroupData[0].id;
             this._state.activeGroupValue = this.EffectGroupData[0].value;
@@ -90,14 +90,11 @@ define([
 
             var $window = this.getChild();
 
-            var footer = $window.find('.footer');
-            footer.css({"text-align": "center"});
-
             this.cmbGroup = new Common.UI.ComboBox({
                 el      : $('#animation-group'),
                 cls: 'input-group-nr',
                 editable: false,
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true,
                 data    : this.EffectGroupData,
@@ -110,7 +107,7 @@ define([
                 cls: 'input-group-nr',
                 editable: false,
                 valueField: 'id',
-                style   : 'margin-top: 16px; width: 100%;',
+                style   : 'width: 100%;',
                 menuStyle: 'min-width: 100%;',
                 takeFocusOnClose: true
             });
@@ -123,6 +120,7 @@ define([
                 tabindex: 1
             });
             this.lstEffectList.on('item:select', _.bind(this.onEffectListItem,this));
+            this.lstEffectList.on('entervalue', _.bind(this.onPrimary, this));
 
             // this.chPreview = new  Common.UI.CheckBox({
             //     el      : $('#animation-setpreview'),
@@ -137,7 +135,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/];
+            return [ this.cmbGroup, this.cmbLevel, this.lstEffectList/*, this.chPreview*/].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -168,14 +166,27 @@ define([
         },
 
         fillEffect: function () {
-            var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
+            var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel }),
+                lockEmphasis = this.lockEmphasis,
+                currentIndex;
             arr = _.reject(arr, function (item) {
                 return !!item.notsupported;
             });
+            if (this._state.activeGroup==='menu-effect-group-emphasis') {
+                arr.forEach(function(item, index){
+                    if (lockEmphasis && !(item.value === AscFormat.EMPHASIS_GROW_SHRINK || item.value === AscFormat.EMPHASIS_SPIN ||
+                                        item.value === AscFormat.EMPHASIS_TRANSPARENCY || item.value === AscFormat.EMPHASIS_PULSE ||
+                                        item.value === AscFormat.EMPHASIS_TEETER || item.value === AscFormat.EMPHASIS_BLINK))
+                        item.disabled = lockEmphasis;
+                    else if (currentIndex===undefined)
+                        currentIndex = index;
+                });
+
+            }
             this.lstEffectList.store.reset(arr);
             var  item = this.lstEffectList.store.findWhere({value: this._state.activeEffect});
             if(!item)
-                item = this.lstEffectList.store.at(0);
+                item = this.lstEffectList.store.at(currentIndex || 0);
             this.lstEffectList.selectRecord(item);
             this.lstEffectList.scrollToRecord(item, true);
             this._state.activeEffect = item.get('value');
@@ -194,6 +205,11 @@ define([
         onBtnClick: function (event)
         {
             this._handleInput(event.currentTarget.attributes['result'].value);
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

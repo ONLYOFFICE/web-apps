@@ -56,7 +56,7 @@ define([
         this.index = -1;
         this.template   = _.template(['<li class="list-item <% if(active){ %>active selected<% } %> <% if(cls.length){%><%= cls %><%}%><% if(iconVisible){%> icon-visible <%}%>" data-label="<%- label %>">',
                                             '<span tabtitle="<%- label %>" draggable="true" oo_editor_input="true" tabindex="-1" data-index="<%= index %>">',
-                                            '<div class="toolbar__icon <% if(iconCls.length){%><%= iconCls %><%}%>" title="<% if(iconTitle.length){%><%=iconTitle%><%}%>"></div>',
+                                            '<div class="toolbar__icon <% if(iconCls.length){%><%= iconCls %><%}%>" title="<% if(iconTitle.length){%><%=Common.Utils.String.htmlEncode(iconTitle)%><%}%>"></div>',
                                             '<%- label %>',
                                             '</span>',
                                         '</li>'].join(''));

@@ -395,7 +395,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
-                this.appOptions.uiRtl = false;
+                this.appOptions.uiRtl = true;
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
@@ -1130,14 +1130,14 @@ define([
                 this.appOptions.canCreateNew   = this.appOptions.canCreateNew && !this.appOptions.isOffline;
                 this.appOptions.isCrypted      = this.api.asc_isCrypto();
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
+                this.appOptions.canSwitchMode = !isXpsViewer && false; // switch between View/pdf comments/pdf edit
                 this.appOptions.canEdit        = !isXpsViewer;
                 this.appOptions.isEdit         = !isXpsViewer;
                 this.appOptions.canPDFEdit     = false;//(this.permissions.edit !== false) && this.appOptions.canLicense;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canPDFAnnotate = this.appOptions.canLicense && (this.permissions.comment!== false);
+                this.appOptions.canPDFAnnotate = this.appOptions.canSwitchMode && this.appOptions.canLicense && (this.permissions.comment!== false);
                 this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.isPDFAnnotate  = false;// this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canSwitchMode = !isXpsViewer && false; // switch between View/pdf comments/pdf edit
                 this.appOptions.canComments    = !isXpsViewer;
                 this.appOptions.canViewComments = this.appOptions.canComments;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
@@ -1611,6 +1611,10 @@ define([
                             config.msg = this.errorInconsistentExt;
                         break;
 
+                    case Asc.c_oAscError.ID.MailToClientMissing:
+                        config.msg = this.errorEmailClient;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2049,9 +2053,8 @@ define([
                         width: 500,
                         msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
                         iconCls: 'info',
-                        buttons: this.appOptions.canChangeCoAuthoring ? ['custom', 'cancel'] : ['ok'],
+                        buttons: this.appOptions.canChangeCoAuthoring ? [{value: 'custom', caption: this.textStrict}, 'cancel'] : ['ok'],
                         primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
-                        customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
                             if (dontshow) Common.localStorage.setItem("pdfe-hide-try-undoredo", 1);
@@ -2452,7 +2455,8 @@ define([
             txtInvalidPdfFormat: 'The value entered does not match the format of the field "{0}".',
             txtValidPdfFormat: 'Field value should match format "{0}".',
             txtChoose: 'Choose an item',
-            txtEnterDate: 'Enter a date'
+            txtEnterDate: 'Enter a date',
+            errorEmailClient: 'No email client could be found'
         }
     })(), PDFE.Controllers.Main || {}))
 });

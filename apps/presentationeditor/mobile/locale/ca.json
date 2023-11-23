@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega del historial"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria"
+      "txtScheme9": "Foneria",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

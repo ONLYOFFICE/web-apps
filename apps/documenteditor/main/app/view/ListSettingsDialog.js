@@ -196,7 +196,7 @@ define([
                 '</td>',
                 '<% if (type == 2) { %>',
                 '<td style="width: ' + this.rightPanelWidth + 'px;vertical-align: top;">',
-                    '<div id="id-dlg-panel-more-settings" class="padding-left-20" style="width: ' + this.rightPanelWidth + 'px;">',
+                    '<div id="id-dlg-panel-more-settings" class="padding-left-5 padding-right-15" style="width: ' + this.rightPanelWidth + 'px;">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2">',
@@ -296,7 +296,7 @@ define([
 
             this.btnColor = new Common.UI.ButtonColored({
                 parentEl: $window.find('#id-dlg-bullet-color'),
-                cls         : 'btn-toolbar move-focus',
+                cls         : 'btn-toolbar',
                 iconCls     : 'toolbar__icon btn-fontcolor',
                 hint        : this.txtColor,
                 menu: true,
@@ -711,12 +711,12 @@ define([
         getFocusedComponents: function() {
             switch (this.type) {
                 case 0:
-                    return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor];
+                    return [this.cmbFormat, this.cmbAlign, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor].concat(this.getFooterButtons());
                 case 1:
-                    return [this.cmbFormat, this.cmbAlign, this.txtNumFormat, this.cmbFonts, this.btnBold, this.btnItalic, this.btnColor, this.cmbSize];
+                    return [this.cmbFormat, this.cmbAlign, this.txtNumFormat, this.cmbFonts, this.btnBold, this.btnItalic, this.btnColor, this.cmbSize].concat(this.getFooterButtons());
                 case 2:
                     return [this.cmbFormat, this.cmbSize, this.btnBold, this.btnItalic, this.btnColor, this.txtNumFormat, this.btnMore, this.levelsList,
-                            this.cmbFonts, this.cmbLevel, this.spnStart, this.chRestart, this.cmbAlign, this.spnAlign, this.spnIndents, this.cmbFollow, this.chTabStop, this.spnTabStop];
+                            this.cmbFonts, this.cmbLevel, this.spnStart, this.chRestart, this.cmbAlign, this.spnAlign, this.spnIndents, this.cmbFollow, this.chTabStop, this.spnTabStop].concat(this.getFooterButtons());
             }
             return [];
         },
@@ -978,6 +978,8 @@ define([
                 store.push(this._itemMoreTypes);
                 this.cmbFormat.setData(store);
                 this.cmbFormat.setValue((format!==undefined) ? format : '');
+                if (levelProps.get_Start()===0 && AscCommon.IntToNumberFormat(0, format)==='') // check min start value
+                    levelProps.put_Start(1);
                 this.makeFormatStr(levelProps);
             } else {
                 if (format !== Asc.c_oAscNumberingFormat.None || this.cmbFormat.store.length<1) {
@@ -1011,6 +1013,9 @@ define([
             }
 
             if (this.type===2) {
+                this.spnStart.setMinValue(AscCommon.IntToNumberFormat(0, format)!=='' ? 0 : 1);
+                if (levelProps.get_Start()===0 && AscCommon.IntToNumberFormat(0, format)==='') // check min start value
+                    levelProps.put_Start(1);
                 this.spnStart.setValue(levelProps.get_Start(), true);
                 this.spnAlign.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_NumberPosition()), true);
                 this.spnIndents.setValue(Common.Utils.Metric.fnRecalcFromMM(levelProps.get_IndentSize()), true);

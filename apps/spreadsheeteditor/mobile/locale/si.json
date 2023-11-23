@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "වත්මන් ගොනුව අනුවාද ඉතිහාසයේ සුරැකෙනු ඇත.",
       "titleWarningRestoreVersion": "මෙම අනුවාදය ප්‍රත්‍යර්පණය කරන්නද?",
       "txtErrorLoadHistory": "ඉතිහාසය පූරණයට අසමත් විය"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "යළි නොපෙන්වන්න",
     "textOk": "හරි",
     "txtWarnUrl": "සබැඳිය එබීමෙන් ඔබගේ උපාංගයට හා දත්තවලට හානි විය හැකිය.<br>ඉදිරියට යාමට වුවමනාද?",
-    "warnMergeLostData": "ඒකාබද්ධිත කෝෂයේ ඉහළ වම් කෝෂයේ දත්ත පමණක් රැඳෙනු ඇත. <br>ඔබට ඉදිරියට යාමට අවශ්‍ය බව විශ්වාසද?"
+    "warnMergeLostData": "ඒකාබද්ධිත කෝෂයේ ඉහළ වම් කෝෂයේ දත්ත පමණක් රැඳෙනු ඇත. <br>ඔබට ඉදිරියට යාමට අවශ්‍ය බව විශ්වාසද?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -811,7 +818,11 @@
       "txtUk": "යුක්රේනියානු",
       "txtVi": "වියට්නාම",
       "txtZh": "චීන",
-      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?"
+      "warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

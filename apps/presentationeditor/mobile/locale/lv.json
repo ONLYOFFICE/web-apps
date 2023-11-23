@@ -56,6 +56,12 @@
       "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -530,7 +536,11 @@
       "txtScheme6": "Atvērtība",
       "txtScheme7": "Kapitāls",
       "txtScheme8": "Plūsma",
-      "txtScheme9": "Lietuve"
+      "txtScheme9": "Lietuve",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

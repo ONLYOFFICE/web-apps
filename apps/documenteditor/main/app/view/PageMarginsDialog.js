@@ -310,7 +310,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
+            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

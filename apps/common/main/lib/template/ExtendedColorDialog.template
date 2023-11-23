@@ -1,4 +1,4 @@
-<div class="color-box">
+<div class="box">
     <div id="id-hsb-colorpicker" style="vertical-align:top;">
     </div>
     <div class="color-info" style="">
@@ -25,8 +25,4 @@
             <input id="extended-text-color" type="text" role="textbox" style="width:62px; height: 22px;">
         </div>
     </div>
-</div>
-<div class="footer center">
-    <button class="btn normal dlg-btn primary" result="1"><%= txtAdd %></button>
-    <button class="btn normal dlg-btn" result="0"><%= txtCancel %></button>
 </div>

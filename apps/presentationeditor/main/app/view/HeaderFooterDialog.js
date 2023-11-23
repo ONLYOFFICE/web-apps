@@ -47,8 +47,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 360,
-            height: 415,
-            buttons: null,
+            contentHeight: 330,
             id: 'window-header-footer'
         },
 
@@ -57,11 +56,17 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
 
             _.extend(this.options, {
                 title: this.textHFTitle,
+                buttons: [
+                    {value: 'all', caption: this.applyAllText},
+                    {value: 'ok', caption: this.applyText, id: 'hf-dlg-btn-apply'},
+                    'cancel'
+                ],
+                primary: 'all',
                 template: _.template(
                     [
-                        '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                            '<div class="content-panel" style="padding: 10px 5px;"><div class="inner-content">',
-                                '<div class="settings-panel active">',
+                        '<div class="box">',
+                            '<div class="content-panel" style="padding: 10px 5px;">',
+                                '<div class="settings-panel active"><div class="inner-content">',
                                 template,
                                 '</div></div>',
                             '</div>',
@@ -76,12 +81,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                                 '</div>',
                             '</div>',
                         '</div>',
-                        '<div class="separator horizontal"></div>',
-                        '<div class="footer center">',
-                            '<button class="btn normal dlg-btn primary" result="all" style="width: auto; min-width: 86px;">' + me.applyAllText + '</button>',
-                            '<button id="hf-dlg-btn-apply"  class="btn normal dlg-btn" result="ok" style="width: auto; min-width: 86px;">' + me.applyText + '</button>',
-                            '<button class="btn normal dlg-btn" result="cancel">' + me.cancelButtonText + '</button>',
-                        '</div>'
+                        '<div class="separator horizontal"></div>'
                     ].join('')
                 )({
                     scope: this
@@ -210,9 +210,10 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             });
             this.chNotTitle.on('change', _.bind(this.setNotTitle, this));
 
-            this.btnApply = new Common.UI.Button({
-                el: $('#hf-dlg-btn-apply')
-            });
+            this.btnApply = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#hf-dlg-btn-apply').addBack().filter('#hf-dlg-btn-apply').length>0);
+            }) || new Common.UI.Button({ el: $('#hf-dlg-btn-apply') });
+
 
             this.headerControls = this.$window.find('.notes');
             this.slideControls = this.$window.find('.slides');
@@ -221,7 +222,8 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide, this.chHeader, this.inputHeader, this.chFooter, this.inputFooter, this.chNotTitle ];
+            return [ this.btnSlide, this.btnNotes, this.chDateTime,  this.radioUpdate, this.cmbFormat, this.cmbLang, this.radioFixed, this.inputFixed, this.chSlide,
+                     this.chHeader, this.inputHeader, this.chFooter, this.inputFooter, this.chNotTitle ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
