@@ -532,10 +532,11 @@ define([
                             id: 'id-toolbar-menu-' + id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + button.textNewColor + '</a>')
                         },
-                        {caption: '--'},
+                        {caption: '--', visible: false},
                         mnu = new Common.UI.MenuItem({
                             caption: this.strMenuNoFill,
                             checkable: true,
+                            visible: false,
                             style: 'padding-left:20px;padding-right:20px;'
                         })
                     ]

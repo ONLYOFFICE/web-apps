@@ -481,6 +481,9 @@ SSE.ApplicationController = new(function(){
             if(isCustomLoader) hidePreloader();
             else $('#loading-mask').addClass("none-animation");
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        } else if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
+            api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.CSV, advOptions.asc_getRecommendedSettings() || new Asc.asc_CTextOptions());
+            onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
 
