@@ -43,6 +43,12 @@
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
     },
+    "Themes": {
+      "textTheme": "Thema",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
       "textAnonymous": "Anonym",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
       "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
       "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
-    "textCloseHistory": "Historie schließen"
+    "textCloseHistory": "Historie schließen",
+    "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
+    "textRenameFile": "Datei umbenennen"
   },
   "View": {
     "Add": {
@@ -375,6 +377,7 @@
       "textImage": "Bild",
       "textImageURL": "Bild-URL",
       "textInsertImage": "Bild einfügen",
+      "textInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
       "textLastColumn": "Letzte Spalte",
       "textLastSlide": "Letzte Folie",
       "textLayout": "Layout",
@@ -510,6 +513,7 @@
       "textSpellcheck": "Rechtschreibprüfung",
       "textSubject": "Betreff",
       "textTel": "tel.:",
+      "textTheme": "Thema",
       "textTitle": "Titel",
       "textUnitOfMeasurement": "Maßeinheit",
       "textUploaded": "Hochgeladen",
@@ -539,8 +543,7 @@
       "txtScheme9": "Foundry",
       "textDark": "Dark",
       "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textSameAsSystem": "Same As System"
     }
   }
 }

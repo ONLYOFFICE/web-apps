@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
-    "textCloseHistory": "Aizvērt vēsturi"
+    "textCloseHistory": "Aizvērt vēsturi",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "txtSortLow2High": "Šķirot no zemākā uz augstāko",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Izvēlēties CSV parametrus",

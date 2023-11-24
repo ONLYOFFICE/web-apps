@@ -40,6 +40,12 @@
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
     },
+    "Themes": {
+      "textTheme": "Thema",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
       "textAnonymous": "Anonym",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
       "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
       "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
-    "textCloseHistory": "Historie schließen"
+    "textCloseHistory": "Historie schließen",
+    "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
+    "textRenameFile": "Datei umbenennen"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Innere vertikale Rahmenlinie",
       "textInteger": "Ganze Zahl",
       "textInternalDataRange": "Interner Datenbereich",
+      "textInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
       "textInvalidRange": "Ungültiger Zellenbereich",
       "textJustified": "Blocksatz",
       "textLabelOptions": "Beschriftungsoptionen",
@@ -745,6 +748,7 @@
       "textSpreadsheetTitle": "Titel der Tabelle",
       "textSubject": "Betreff",
       "textTel": "Tel.",
+      "textTheme": "Thema",
       "textTitle": "Titel",
       "textTop": "Oben",
       "textUnitOfMeasurement": "Maßeinheit",
@@ -821,8 +825,7 @@
       "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
       "textDark": "Dark",
       "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textSameAsSystem": "Same As System"
     }
   }
 }

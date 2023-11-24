@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "응용 프로그램을 종료합니다",
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
-    "textCloseHistory": "닫기 역사"
+    "textCloseHistory": "닫기 역사",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬"
+      "txtSortLow2High": "오름차순 정렬",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",

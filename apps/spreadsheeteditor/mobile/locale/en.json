@@ -393,8 +393,8 @@
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
     "textCloseHistory": "Close History",
-    "textRenameFile": "Rename File",
-    "textEnterNewFileName": "Enter a new file name"
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Inside Vertical Border",
       "textInteger": "Integer",
       "textInternalDataRange": "Internal Data Range",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textInvalidRange": "Invalid cells range",
       "textJustified": "Justified",
       "textLabelOptions": "Label Options",
@@ -649,8 +650,7 @@
       "textYen": "Yen",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSortHigh2Low": "Sort Highest to Lowest",
-      "txtSortLow2High": "Sort Lowest to Highest",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Sort Lowest to Highest"
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",

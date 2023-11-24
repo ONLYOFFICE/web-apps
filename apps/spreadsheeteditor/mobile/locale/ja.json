@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
     "stayButtonText": "このページから移動しない",
-    "textCloseHistory": "履歴を閉じる"
+    "textCloseHistory": "履歴を閉じる",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "円",
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSortHigh2Low": " 大きい順に並べ替えます",
-      "txtSortLow2High": "小さい順に並べ替えます。"
+      "txtSortLow2High": "小さい順に並べ替えます。",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "CSVオプションを選択する",

@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
-    "textCloseHistory": "Închide istoricul"
+    "textCloseHistory": "Închide istoricul",
+    "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textRenameFile": "Redenumire fișier"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Bordură verticală în interiorul ",
       "textInteger": "Număr întreg",
       "textInternalDataRange": "Zonă de date internă",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
       "textInvalidRange": "Zona de celule nu este validă",
       "textJustified": "Aliniat stânga-dreapta",
       "textLabelOptions": "Opțiuni etichetă",
