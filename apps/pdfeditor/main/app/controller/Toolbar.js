@@ -519,6 +519,14 @@ define([
             }
         },
 
+        turnOnSelectTool: function() {
+            if (this.mode.isEdit && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
+                this.api.asc_setViewerTargetType('select');
+                this.toolbar.btnSelectTool.toggle(true, true);
+                this.toolbar.btnHandTool.toggle(false, true);
+            }
+        },
+
         onBtnStrikeout: function(btn) {
             if (btn.pressed) {
                 this._setStrikeoutColor(btn.currentColor);
@@ -538,7 +546,7 @@ define([
 
         _setStrikeoutColor: function(strcolor, h) {
             var me = this;
-
+            me.turnOnSelectTool();
             if (h === 'menu') {
                 me._state.clrstrike = undefined;
                 // me.onApiHighlightColor();
@@ -584,7 +592,7 @@ define([
 
         _setUnderlineColor: function(strcolor, h) {
             var me = this;
-
+            me.turnOnSelectTool();
             if (h === 'menu') {
                 me._state.clrunderline = undefined;
                 // me.onApiHighlightColor();
@@ -630,7 +638,7 @@ define([
 
         _setHighlightColor: function(strcolor, h) {
             var me = this;
-
+            me.turnOnSelectTool();
             if (h === 'menu') {
                 me._state.clrhighlight = undefined;
                 // me.onApiHighlightColor();
