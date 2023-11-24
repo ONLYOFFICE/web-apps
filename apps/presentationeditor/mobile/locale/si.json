@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "ඔබ යෙදුම හැරයයි",
     "leaveButtonText": "මෙම පිටුව හැරයන්න",
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
-    "textCloseHistory": "ඉතිහාසය වසන්න"
+    "textCloseHistory": "ඉතිහාසය වසන්න",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "විශාල කරන්න",
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
-      "textZoomRotate": "විශාලනය හා කරකවන්න"
+      "textZoomRotate": "විශාලනය හා කරකවන්න",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",

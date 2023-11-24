@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "مغادرة هذه الصفحة",
     "stayButtonText": "البقاء في هذه الصفحة",
-    "textCloseHistory": "إغلاق السجل"
+    "textCloseHistory": "إغلاق السجل",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "تكبير/تصغير",
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
-      "textZoomRotate": "التكبير و التدوير"
+      "textZoomRotate": "التكبير و التدوير",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "القياسي (4:3)",

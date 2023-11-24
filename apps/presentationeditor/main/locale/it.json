@@ -1,6 +1,7 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Avviso",
   "Common.Controllers.Chat.textEnterMessage": "inserisci il tuo messaggio qui",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Crea da un modello",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimo",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Chiudi",
   "Common.Controllers.ExternalDiagramEditor.warningText": "L'oggetto è disabilitato perché un altro utente lo sta modificando.",

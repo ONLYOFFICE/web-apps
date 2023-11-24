@@ -43,6 +43,12 @@
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
     },
+    "Themes": {
+      "dark": "Sombre",
+      "light": "Clair",
+      "system": "Identique au système",
+      "textTheme": "Thème"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertissement",
       "textAnonymous": "Anonyme",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "Le fichier actuel sera sauvegardé dans l'historique des versions.",
       "titleWarningRestoreVersion": "Restaurer cette version?",
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
-    "textCloseHistory": "Fermer l'historique"
+    "textCloseHistory": "Fermer l'historique",
+    "textEnterNewFileName": "Entrez un nouveau nom de ficher",
+    "textRenameFile": "Renommer le fichier"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
-      "textZoomRotate": "Zoom et rotation"
+      "textZoomRotate": "Zoom et rotation",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -468,6 +471,7 @@
       "textColorSchemes": "Jeux de couleurs",
       "textComment": "Commentaire",
       "textCreated": "Créé",
+      "textDark": "Sombre",
       "textDarkTheme": "Thème sombre",
       "textDisableAll": "Désactiver tout",
       "textDisableAllMacrosWithNotification": "Désactiver toutes les macros avec notification",
@@ -487,6 +491,7 @@
       "textInch": "Pouce",
       "textLastModified": "Dernière modification",
       "textLastModifiedBy": "Dernière modification par",
+      "textLight": "Clair",
       "textLoading": "Chargement en cours...",
       "textLocation": "Emplacement",
       "textMacrosSettings": "Réglages macros",
@@ -503,6 +508,7 @@
       "textReplaceAll": "Remplacer tout",
       "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textRTL": "De droite à gauche",
+      "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSettings": "Paramètres",
       "textShowNotification": "Montrer la notification",
@@ -510,6 +516,7 @@
       "textSpellcheck": "Vérification de l'orthographe",
       "textSubject": "Sujet",
       "textTel": "tél:",
+      "textTheme": "Thème",
       "textTitle": "Titre",
       "textUnitOfMeasurement": "Unité de mesure",
       "textUploaded": "Chargé",
@@ -536,11 +543,7 @@
       "txtScheme6": "Rotonde",
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
-      "txtScheme9": "Fonderie",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "txtScheme9": "Fonderie"
     }
   }
 }

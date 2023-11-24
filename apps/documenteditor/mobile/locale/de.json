@@ -175,6 +175,12 @@
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Designfarben"
     },
+    "Themes": {
+      "textTheme": "Thema",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
       "textAnonymous": "Anonym",
@@ -188,12 +194,6 @@
       "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
       "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
       "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -726,6 +726,7 @@
     "textStatistic": "Statistik",
     "textSubject": "Betreff",
     "textSymbols": "Symbole",
+    "textTheme": "Thema",
     "textTitle": "Titel",
     "textTop": "Oben",
     "textTrackedChanges": "Überarbeitungen",
@@ -774,8 +775,7 @@
     "textRemoveFromFavorites": "Remove from Favorites",
     "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
-    "textSubmit": "Submit",
-    "textTheme": "Theme"
+    "textSubmit": "Submit"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

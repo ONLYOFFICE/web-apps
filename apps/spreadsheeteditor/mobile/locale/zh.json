@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "您退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
-    "textCloseHistory": "关闭历史记录"
+    "textCloseHistory": "关闭历史记录",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "日元",
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSortHigh2Low": "从高到低排序",
-      "txtSortLow2High": "从低到高排序"
+      "txtSortLow2High": "从低到高排序",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "选择CSV选项",

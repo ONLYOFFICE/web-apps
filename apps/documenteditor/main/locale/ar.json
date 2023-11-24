@@ -796,7 +796,7 @@
   "DE.Controllers.LeftMenu.txtUntitled": "بدون عنوان",
   "DE.Controllers.LeftMenu.warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
   "DE.Controllers.LeftMenu.warnDownloadAsPdf": "سيتم تحويل {0} إلى تنسيق قابل للتعديل. قد يستغرق هذا وقتا. المستند الناتج سيتم تحسينه ليسمح لك بتعديل النص، لذلك شكله قد لا يكون تماما مثل الأصلي {0}، خاصة إذا كان الملف الأصلي يحتوي على الكثير من الرسومات",
-  "DE.Controllers.LeftMenu.warnDownloadAsRTF": "\nإذا تابعت الحفظ بهذه الصيغة فبعض التنسيقات قد يتم خسرانها.<br>هل تريد المتابعة؟",
+  "DE.Controllers.LeftMenu.warnDownloadAsRTF": "إذا تابعت الحفظ بهذا التنسيق، فقد يتم فقدان بعض التنسيق.<br>هل أنت متأكد من رغبتك في المتابعة؟",
   "DE.Controllers.LeftMenu.warnReplaceString": "{0} ليس حرفًا خاصًا صالحًا لمجال التبديل.",
   "DE.Controllers.Main.applyChangesTextText": "يتم تحميل التغييرات...",
   "DE.Controllers.Main.applyChangesTitleText": "يتم تحميل التغييرات",
