@@ -93,7 +93,7 @@ class SearchView extends Component {
         this.onReplaceClick = this.onReplaceClick.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.$replace = $$('#idx-replace-val');
         const $editor = $$('#editor_sdk');
 
@@ -126,8 +126,13 @@ class SearchView extends Component {
     }
 
     componentWillUnmount() {
-        $$('#editor_sdk').off('pointerdown', this.onEditorTouchStart)
-                        .off('pointerup', this.onEditorTouchEnd);
+        $$('#editor_sdk')
+            .off('pointerdown', this.onEditorTouchStart)
+            .off('pointerup', this.onEditorTouchEnd);
+        
+        if(this.searchTimer) {
+            clearInterval(this.searchTimer);
+        }
     }
 
     onSettingsClick(e) {
@@ -152,9 +157,9 @@ class SearchView extends Component {
         if (this.searchbar && this.state.searchQuery) {
             if (this.props.onSearchQuery) {
                 let params = this.searchParams();
+
                 params.find = this.state.searchQuery;
                 params.forward = action != SEARCH_BACKWARD;
-                // console.log(params);
 
                 this.props.onSearchQuery(params);
             }
@@ -190,7 +195,7 @@ class SearchView extends Component {
     // }
 
     onEditorTouchStart(e) {
-        console.log('taouch start');
+        // console.log('taouch start');
         this.startPoint = this.pointerPosition(e);
     }
 
@@ -236,11 +241,43 @@ class SearchView extends Component {
         });
     }
     
-    onSearchKeyBoard(event) {
+    onSearchKeyDown(e) {
         this.props.setNumberSearchResults(null);
 
-        if(event.keyCode === 13) {
-            this.props.onSearchQuery(this.searchParams());
+        if(e.keyCode === 13) {
+            if (this.props.onSearchQuery(this.searchParams(), true) && this.searchTimer) {
+                clearInterval(this.searchTimer);
+                this.searchTimer = undefined;
+            }
+        }
+    }
+
+    onSearchInput(e) {
+        const text = e.target.value;
+        const api = Common.EditorApi.get();
+
+        if (text && this.state.searchQuery !== text) {
+            this.setState(prevState => ({
+                ...prevState,
+                searchQuery: text
+            }));
+
+            this.lastInputChange = new Date();
+
+            if (this.searchTimer === undefined) {
+                this.searchTimer = setInterval(() => {
+                    if (new Date() - this.lastInputChange < 400) return;
+
+                    if (this.state.searchQuery !== '') {
+                        this.props.onSearchQuery(this.searchParams(), true);
+                    } else {
+                        api.asc_endFindText();
+                    }
+
+                    clearInterval(this.searchTimer);
+                    this.searchTimer = undefined;
+                }, 10);
+            }
         }
     }
 
@@ -270,7 +307,8 @@ class SearchView extends Component {
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
                             <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
-                                onKeyDown={e => this.onSearchKeyBoard(e)}
+                                onKeyDown={e => this.onSearchKeyDown(e)}
+                                onInput={e => this.onSearchInput(e)}
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />

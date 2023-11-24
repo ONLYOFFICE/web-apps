@@ -148,7 +148,7 @@ const Search = withTranslation()(props => {
         }
     });
 
-    const onSearchQuery = params => {
+    const onSearchQuery = (params, isSearchByTyping) => {
         const api = Common.EditorApi.get();
 
         let lookIn = +params.lookIn === 0;
@@ -170,7 +170,10 @@ const Search = withTranslation()(props => {
         api.asc_findText(options, function(resultCount) {
             if(!resultCount) {
                 setNumberSearchResults(0);
-                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+
+                if(!isSearchByTyping) {
+                    f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+                }
             } else {
                 setNumberSearchResults(resultCount);
             }

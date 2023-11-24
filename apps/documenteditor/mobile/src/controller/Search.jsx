@@ -97,7 +97,7 @@ const Search = withTranslation()(props => {
     const _t = t('Settings', {returnObjects: true});
     const [numberSearchResults, setNumberSearchResults] = useState(null);
 
-    const onSearchQuery = params => {
+    const onSearchQuery = (params, isSearchByTyping) => {
         const api = Common.EditorApi.get();
 
         f7.popover.close('.document-menu.modal-in', false);
@@ -113,7 +113,10 @@ const Search = withTranslation()(props => {
             if(!resultCount) {
                 setNumberSearchResults(0);
                 api.asc_selectSearchingResults(false);
-                f7.dialog.alert(null, t('Settings.textNoMatches'));
+
+                if(!isSearchByTyping) {
+                    f7.dialog.alert(null, t('Settings.textNoMatches'));
+                }
             } else {
                 setNumberSearchResults(resultCount);
             }
