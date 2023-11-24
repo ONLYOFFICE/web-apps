@@ -125,7 +125,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                             '<div style="width:122px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 5px;"><%= Common.Utils.String.htmlEncode(scopeName) %></div>',
                             '<div style="width:209px;"><%= Common.Utils.String.htmlEncode(range) %></div>',
                             '<% if (lock) { %>',
-                                '<div class="lock-user"><%=lockuser%></div>',
+                                '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                             '<% } %>',
                         '</div>'
                 ].join('')),

@@ -79,7 +79,7 @@ define([
                             '<% } else { %>',
                                 'style="background-color: <% if (msg.get("usercolor")!==null) { %> <%=msg.get("usercolor")%> <% } else { %> #cfcfcf <% }%>;"',
                             '<% } %>',
-                        '><% if (!msg.get("avatar")) { %><%=msg.get("initials")%><% } %></div>',
+                        '><% if (!msg.get("avatar")) { %><%-msg.get("initials")%><% } %></div>',
                         '<div class="user-content">',
                             '<div class="user-name" data-can-copy="true">',
                                 '<%= Common.Utils.String.htmlEncode(msg.get("parsedName")) %>',

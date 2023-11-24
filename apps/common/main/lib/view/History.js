@@ -97,7 +97,7 @@ define([
                                 '<% } else { %>',
                                     'style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;"',
                                 '<% } %>',
-                            '><% if (!avatar) { %><%=initials%><% } %></div>',
+                            '><% if (!avatar) { %><%-initials%><% } %></div>',
                             '<span><%= Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username)) %></span>',
                         '</div>',
                         '<% if (canRestore && selected) { %>',

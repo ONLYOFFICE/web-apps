@@ -10,7 +10,7 @@
             <% } else { %>
                 style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;" 
             <% } %>
-        ><% if (!avatar) { %><%=initials%><% } %></div>
+        ><% if (!avatar) { %><%-initials%><% } %></div>
         <div class="user-info-text">
             <div class="user-name"><%= scope.getEncodedName(parsedName) %></div>
             <div class="user-date"><%=date%></div>
@@ -47,7 +47,7 @@
                             <% } else { %>
                                 style="background-color: <% if (item.get('usercolor')!==null) { %> <%=item.get('usercolor')%> <% } else { %> #cfcfcf <% }%>;" 
                             <% } %>
-                    ><% if (!item.get("avatar")) { %><%=item.get("initials")%><% } %></div>
+                    ><% if (!item.get("avatar")) { %><%-item.get("initials")%><% } %></div>
                     <div class="user-info-text">
                         <div class="user-name"><%= scope.getEncodedName(item.get("parsedName")) %></div>
                         <div class="user-date"><%=item.get("date")%></div>
