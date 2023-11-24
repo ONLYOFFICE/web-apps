@@ -112,7 +112,7 @@ define([
                         '<div id="<%= id %>" class="list-item" style="width: 100%;height: 20px;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div style="width:100%;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                             '<% if (lock) { %>',
-                                '<div class="lock-user"><%=lockuser%></div>',
+                                '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                             '<% } %>',
                         '</div>'
                 ].join('')),

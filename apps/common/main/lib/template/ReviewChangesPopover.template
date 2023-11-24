@@ -7,7 +7,7 @@
             <% } else { %>
                 style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;" 
             <% } %>
-        ><% if (!avatar) { %><%=initials%><% } %></div>
+        ><% if (!avatar) { %><%-initials%><% } %></div>
         <div class="user-info-text">
             <div class="user-name"><%= scope.getUserName(username) %></div>
             <div class="user-date"><%=date%></div>
@@ -31,6 +31,6 @@
     </div>
     <% if (!hint && lock) { %>
     <div class="lock-area" style="cursor: default;"></div>
-    <div class="lock-author" style="cursor: default;"><%=lockuser%></div>
+    <div class="lock-author" style="cursor: default;"><%-lockuser%></div>
     <% } %>
 </div>
