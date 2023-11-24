@@ -2066,7 +2066,7 @@ define([
                     if (slicerTip.ref && slicerTip.ref.isVisible()) {
                         if (slicerTip.text != str) {
                             slicerTip.text = str;
-                            slicerTip.ref.setTitle(str);
+                            slicerTip.ref.setTitle(Common.Utils.String.htmlEncode(str));
                             slicerTip.ref.updateTitle();
                         }
                     }
@@ -2076,7 +2076,7 @@ define([
                         slicerTip.ref = new Common.UI.Tooltip({
                             owner   : slicerTip.parentEl,
                             html    : true,
-                            title   : str
+                            title   : Common.Utils.String.htmlEncode(str)
                         });
 
                         slicerTip.ref.show([-10000, -10000]);
@@ -2252,10 +2252,10 @@ define([
                 var customFilter = filterObj.asc_getFilter(),
                     customFilters = customFilter.asc_getCustomFilters();
 
-                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + customFilters[0].asc_getVal() + "\"";
+                str = this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[0].asc_getOperator()) + " \"" + Common.Utils.String.htmlEncode(customFilters[0].asc_getVal()) + "\"";
                 if (customFilters.length>1) {
                     str = str + " " + (customFilter.asc_getAnd() ? this.txtAnd : this.txtOr);
-                    str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + customFilters[1].asc_getVal() + "\"";
+                    str = str + " " + this.getFilterName(Asc.c_oAscAutoFilterTypes.CustomFilters, customFilters[1].asc_getOperator()) + " \"" + Common.Utils.String.htmlEncode(customFilters[1].asc_getVal()) + "\"";
                 }
             } else if (filterType === Asc.c_oAscAutoFilterTypes.ColorFilter) {
                 var colorFilter = filterObj.asc_getFilter();
@@ -2279,7 +2279,7 @@ define([
                     if (item.asc_getVisible()) {
                         visibleItems++;
                         if (strlen<100 && item.asc_getText()) {
-                            str += item.asc_getText() + "; ";
+                            str += Common.Utils.String.htmlEncode(item.asc_getText()) + "; ";
                             strlen = str.length;
                         }
                     }
@@ -2301,7 +2301,7 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + (props.asc_getColumnName() || '(' + this.txtColumn + ' ' + props.asc_getSheetColumnName() + ')') + ":</b><br>" + str;
+            str = "<b>" + (Common.Utils.String.htmlEncode(props.asc_getColumnName()) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
             return str;
         },
 
