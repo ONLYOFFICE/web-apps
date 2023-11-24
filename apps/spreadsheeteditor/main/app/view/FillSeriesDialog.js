@@ -355,13 +355,14 @@ define([
             if (newValue) {
                 this._changedProps && this._changedProps.asc_setType(field.options.value);
                 var isDate = field.options.value == Asc.c_oAscSeriesType.date,
-                    isAuto = field.options.value == Asc.c_oAscSeriesType.autoFill;
+                    isAuto = field.options.value == Asc.c_oAscSeriesType.autoFill,
+                    isTrend = this.chTrend.getValue()==='checked';
                 this.radioDay.setDisabled(!isDate);
                 this.radioMonth.setDisabled(!isDate);
                 this.radioWeek.setDisabled(!isDate);
                 this.radioYear.setDisabled(!isDate);
-                this.inputStep.setDisabled(isAuto);
-                this.inputStop.setDisabled(isAuto);
+                this.inputStep.setDisabled(isAuto || isTrend);
+                this.inputStop.setDisabled(isAuto || isTrend);
             }
         },
 
@@ -378,9 +379,19 @@ define([
         },
 
         onChangeTrend: function(field, newValue, eOpts) {
+            var checked = field.getValue()==='checked',
+                isDate = this.radioDate.getValue(),
+                isAuto = this.radioAuto.getValue();
             if (this._changedProps) {
-                this._changedProps.asc_setTrend(field.getValue()==='checked');
+                this._changedProps.asc_setTrend(checked);
             }
+            if (checked && (isDate || isAuto)) {
+                this.radioLinear.setValue(true);
+            }
+            this.radioDate.setDisabled(checked);
+            this.radioAuto.setDisabled(checked);
+            this.inputStep.setDisabled(checked || isAuto);
+            this.inputStop.setDisabled(checked || isAuto);
         },
 
         textTitle: 'Series',

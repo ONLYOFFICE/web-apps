@@ -5176,10 +5176,10 @@ define([
         onShowBeforeFillNumMenu: function() {
             if (this.api) {
                 var items = this.toolbar.btnFillNumbers.menu.items,
-                    props = this.api.asc_GetSeriesSettings().asc_getContextMenuAllowedProps();
+                    props = this.api.asc_GetSeriesSettings().asc_getToolbarMenuAllowedProps();
 
                 for (var i = 0; i < items.length; i++) {
-                    // items[i].setDisabled(!props[items[i].value]);
+                    items[i].setDisabled(!props[items[i].value]);
                 }
             }
         },
