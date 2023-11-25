@@ -316,6 +316,7 @@ define([
                     this.panelThumbnails['hide']();
                     this.btnThumbnails.toggle(false, true);
                 }
+                this.togglePluginButtons(false);
             }
         },
 
