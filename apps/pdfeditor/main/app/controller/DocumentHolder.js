@@ -952,22 +952,19 @@ define([
                     firstday: 1
                 });
                 this.cmpCalendar.on('date:click', function (cmp, date) {
-                    // var specProps = me._dateObj.get_DateTimePr();
-                    // specProps.put_FullDate(new  Date(date));
-                    // me.api.asc_SetContentControlDatePickerDate(specProps);
+                    var specProps = new AscCommon.CSdtDatePickerPr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetTextFormDatePickerDate(specProps);
                     controlsContainer.hide();
-                    me.api.asc_UncheckContentControlButtons();
                 });
                 this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
                     if (e.keyCode==Common.UI.Keys.ESC) {
                         controlsContainer.hide();
-                        me.api.asc_UncheckContentControlButtons();
                     }
                 });
                 $(document).on('mousedown', function(e) {
                     if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
                         controlsContainer.hide();
-                        me.api.asc_UncheckContentControlButtons();
                     }
                 });
 
