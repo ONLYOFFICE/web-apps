@@ -969,9 +969,14 @@ define([
                 });
 
             }
-            // var val = this._dateObj ? this._dateObj.get_FullDate() : undefined;
-            var val = undefined;
-            this.cmpCalendar.setDate(val ? new Date(val) : new Date());
+            var val = this._dateObj ? this._dateObj.GetValue() : undefined;
+            if (val) {
+                val = new Date(val);
+                if (Object.prototype.toString.call(val) !== '[object Date]' || isNaN(val))
+                    val = undefined;
+            }
+            !val && (val = new Date());
+            this.cmpCalendar.setDate(val);
 
             // align
             var offset  = controlsContainer.offset(),
