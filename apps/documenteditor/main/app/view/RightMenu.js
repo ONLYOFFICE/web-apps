@@ -315,6 +315,31 @@ define([
             this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
+        onPluginBtnMenuClick: function(btn) {
+            var pane_parent = $('.right-panel');
+
+            if (btn && btn.pressed) {
+                if ( this.minimizedMode ) {
+                    $(this.el).width(MENU_SCALE_PART);
+                    pane_parent.css("display", "inline-block" );
+                    this.minimizedMode = false;
+                    Common.localStorage.setItem("de-hide-right-settings", 0);
+                    Common.Utils.InternalSettings.set("de-hide-right-settings", false);
+                }
+                pane_parent.find('> .active').removeClass('active');
+
+                if (this.scroller) {
+                    this.scroller.scrollTop(0);
+                }
+            } else {
+                pane_parent.css("display", "none" );
+                $(this.el).width(SCALE_MIN);
+                this.minimizedMode = true;
+                Common.localStorage.setItem("de-hide-right-settings", 1);
+                Common.Utils.InternalSettings.set("de-hide-right-settings", true);
+            }
+        },
+
         SetActivePane: function(type, open) {
             if (this.minimizedMode && open!==true || this._settings[type]===undefined ) return;
 

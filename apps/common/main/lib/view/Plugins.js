@@ -408,7 +408,8 @@ define([
                 this.pluginPanels[guid].show();
             } else {
                 this.pluginPanels[guid].hide();
-                this.fireEvent('hide', this);
+                var model = this.storePlugins.findWhere({guid: guid});
+                this.fireEvent(model.get('panel') === 'right' ? 'pluginsright:hide' : 'pluginsleft:hide', this);
             }
             //this.updateLeftPluginButton(guid);
         },

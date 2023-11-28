@@ -241,7 +241,7 @@ define([
                     index = arr[1];
                 btn.cmpEl.parent().remove();
                 this.buttons.splice(index, 1);
-                this.close();
+                this.close && this.close();
 
                 this.setMoreButton();
             },
