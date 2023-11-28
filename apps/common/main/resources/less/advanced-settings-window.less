@@ -30,6 +30,48 @@
                 .pixel-ratio__2_5 & {
                     display: block;
                 }
+
+                &.svg-chartlist {
+                    padding: 5px 2px 5px 8px;
+
+                    .rtl & {
+                        padding: 5px 8px 5px 2px;
+                    }
+
+                    .icon {
+                        width: 20px;
+                        height: 20px;
+                        vertical-align: middle;
+                        .margin-right-4();
+                    }
+
+                    .caption {
+                        vertical-align: middle;
+                    }
+
+                    &:hover:not(.disabled) {
+                        svg.icon {
+                            opacity: 1;
+                        }
+                    }
+
+                    &:active,
+                    &.active {
+                        &:not(.disabled) {
+                            svg.icon {
+                                fill: @icon-normal-pressed-ie;
+                                fill: @icon-normal-pressed;
+                                opacity: 1;
+                            }
+                        }
+                    }
+
+                    svg.icon {
+                        fill: @icon-normal-ie;
+                        fill: @icon-normal;
+                        opacity: 1;
+                    }
+                }
             }
         }
 

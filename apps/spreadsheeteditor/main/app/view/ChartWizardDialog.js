@@ -90,7 +90,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                     }
                 }
             }
-            (charts.length>0) && groups.push({panelId: 'id-chart-recommended-rec', panelCaption: me.textRecommended, groupId: 'rec', charts: charts});
+            (charts.length>0) && groups.push({panelId: 'id-chart-recommended-rec', panelCaption: me.textRecommended, groupId: 'rec', charts: charts, categoryIcon: 'svgicon ' + 'chartcategory-recommended', categoryCls: 'svg-chartlist'});
             Common.define.chartData.getChartGroupData().forEach(function(group) {
                 var charts = [];
                 chartData.forEach(function(item){
@@ -99,7 +99,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                         (options.type===item.type) && (me._currentTabIndex = groups.length);
                     }
                 });
-                groups.push({panelId: 'id-chart-recommended-' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts});
+                groups.push({panelId: 'id-chart-recommended-' + group.id, panelCaption: group.caption, groupId: group.id, charts: charts, categoryIcon: 'svgicon ' + 'chartcategory-' + charts[0].iconCls, categoryCls: 'svg-chartlist'});
                 (group.id !== 'menu-chart-group-combo') && (group.id !== 'menu-chart-group-stock') && me._arrSeriesGroups.push(group);
             });
 
