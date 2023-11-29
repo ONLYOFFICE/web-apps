@@ -242,8 +242,6 @@ class SearchView extends Component {
     }
     
     onSearchKeyDown(e) {
-        this.props.setNumberSearchResults(null);
-
         if(e.keyCode === 13) {
             if (this.props.onSearchQuery(this.searchParams(), true) && this.searchTimer) {
                 clearInterval(this.searchTimer);
@@ -278,6 +276,8 @@ class SearchView extends Component {
                     this.searchTimer = undefined;
                 }, 10);
             }
+        } else {
+            this.props.setNumberSearchResults(null);
         }
     }
 
@@ -312,7 +312,8 @@ class SearchView extends Component {
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
-                            {numberSearchResults !== null ? <span className="number-search-results">{numberSearchResults}</span>
+                            {numberSearchResults !== null ? 
+                                <span className="number-search-results">{numberSearchResults}</span> 
                             : null}
                         </div>
                         {/* {usereplace || isReplaceAll ?  */}
