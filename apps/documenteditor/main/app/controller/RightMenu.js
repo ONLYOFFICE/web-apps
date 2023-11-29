@@ -575,7 +575,9 @@ define([
 
         closePlugin: function (guid) {
             this.rightmenu.closePlugin(guid);
-            this.rightmenu.onPluginBtnMenuClick();
+            this.rightmenu.onBtnMenuClick();
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            this.rightmenu.fireEvent('editcomplete', this.rightmenu);
         },
 
         onHidePlugins: function() {
@@ -584,7 +586,7 @@ define([
 
         onBtnCategoryClick: function (btn) {
             if (btn.options.type === 'plugin' && !btn.isDisabled()) {
-                this.rightmenu.onPluginBtnMenuClick(btn);
+                this.rightmenu.onBtnMenuClick(btn);
                 if (btn.pressed) {
                     this.rightmenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
                 } else {

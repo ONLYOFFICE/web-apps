@@ -146,10 +146,11 @@ label {
 }
 
 .right-panel {
-    width: 220px;
+    min-width: 220px;
+    max-width: 260px;
     height: 100%;
     display: none;
-    padding: 0 10px 0 15px;
+    //padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
@@ -159,7 +160,7 @@ label {
     .rtl & {
         border-right: @scaled-one-px-value solid @border-toolbar;
         border-left: 0 none;
-        padding: 0 15px 0 10px;
+        //padding: 0 15px 0 10px;
     }
 }
 
@@ -214,8 +215,14 @@ label {
 
 .settings-panel {
     display: none;
+    width: 220px;
     overflow: visible;
     margin-top: 7px;
+    padding: 0 10px 0 15px;
+
+    .rtl & {
+        padding: 0 15px 0 10px;
+    }
 
     & > table {
         width: 100%;
@@ -274,6 +281,14 @@ label {
             opacity: @component-disabled-opacity;
             cursor: default !important;
         }
+    }
+}
+
+.plugin-panel {
+    display: none;
+    width: 260px;
+    &.active {
+        display: block;
     }
 }
 

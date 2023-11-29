@@ -257,13 +257,13 @@ define([
                 return pressed;
             },
 
-            togglePluginButtons: function (toggle) {
+            toggleActivePluginButton: function (toggle) {
                 for (var i=0; i<this.buttons.length; i++) {
                     if (this.buttons[i].options.type === 'plugin' && this.buttons[i].pressed) {
                         this.buttons[i].toggle(toggle, true);
                     }
                 }
-            },
+            }
         }
     }()));
 });

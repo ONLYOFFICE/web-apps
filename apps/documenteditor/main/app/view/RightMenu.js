@@ -39,6 +39,7 @@
 
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
+var MENU_MAX_SCALE_PART = 300;
 
 define([
     'text!documenteditor/main/app/template/RightMenu.template',
@@ -75,6 +76,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
+            this.maximizedMode = false;
 
             this.btnText = new Common.UI.Button({
                 hint: this.txtParagraphSettings,
@@ -287,19 +289,25 @@ define([
         },
 
         onBtnMenuClick: function(btn, e) {
-            var target_pane = $("#" + this._settings[btn.options.asctype].panel);
-            var target_pane_parent = target_pane.parent();
+            var target_pane,
+                target_pane_parent = $(this.el).find('.right-panel'),
+                isPlugin = btn && btn.options.type === 'plugin',
+                width = !isPlugin ? MENU_SCALE_PART : MENU_MAX_SCALE_PART;
+            if (btn && !isPlugin) {
+                target_pane = $("#" + this._settings[btn.options.asctype].panel);
+            }
 
-            if (btn.pressed) {
-                if ( this.minimizedMode ) {
-                    $(this.el).width(MENU_SCALE_PART);
+            if (btn && btn.pressed) {
+                if ( this.minimizedMode || (!isPlugin && this.maximizedMode) || (isPlugin && !this.maximizedMode) ) {
+                    $(this.el).width(width);
                     target_pane_parent.css("display", "inline-block" );
                     this.minimizedMode = false;
+                    this.maximizedMode = isPlugin;
                     Common.localStorage.setItem("de-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("de-hide-right-settings", false);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
-                target_pane.addClass("active");
+                target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
@@ -308,36 +316,12 @@ define([
                 target_pane_parent.css("display", "none" );
                 $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
+                this.maximizedMode = false;
                 Common.localStorage.setItem("de-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
 
-            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
-        },
-
-        onPluginBtnMenuClick: function(btn) {
-            var pane_parent = $('.right-panel');
-
-            if (btn && btn.pressed) {
-                if ( this.minimizedMode ) {
-                    $(this.el).width(MENU_SCALE_PART);
-                    pane_parent.css("display", "inline-block" );
-                    this.minimizedMode = false;
-                    Common.localStorage.setItem("de-hide-right-settings", 0);
-                    Common.Utils.InternalSettings.set("de-hide-right-settings", false);
-                }
-                pane_parent.find('> .active').removeClass('active');
-
-                if (this.scroller) {
-                    this.scroller.scrollTop(0);
-                }
-            } else {
-                pane_parent.css("display", "none" );
-                $(this.el).width(SCALE_MIN);
-                this.minimizedMode = true;
-                Common.localStorage.setItem("de-hide-right-settings", 1);
-                Common.Utils.InternalSettings.set("de-hide-right-settings", true);
-            }
+            btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
         SetActivePane: function(type, open) {

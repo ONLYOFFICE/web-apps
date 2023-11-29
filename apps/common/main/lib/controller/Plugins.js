@@ -550,7 +550,7 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        addPluginToSideMenu: function (plugin, langName, panel) {
+        addPluginToSideMenu: function (plugin, langName, menu) {
             function createUniqueName (name) {
                 var n = name.toLowerCase().replace(/\s/g, '-'),
                     panelId = 'left-panel-plugins-' + name;
@@ -563,31 +563,32 @@ define([
             var pluginGuid = plugin.get_Guid(),
                 model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
                 name = createUniqueName(plugin.get_Name('en'));
-            model.set({panel: panel});
+            model.set({menu: menu});
             var $button = $('<div id="slot-btn-plugins' + name + '"></div>'),
                 button = new Common.UI.Button({
                 parentEl: $button,
                 cls: 'btn-category plugin-buttons',
                 hint: langName,
                 enableToggle: true,
-                toggleGroup: panel === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
+                toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
                 iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
                 onlyIcon: true,
                 value: pluginGuid,
                 type: 'plugin'
             });
-            var $panel = $('<div id="panel-plugins-' + name + '" class="" style="display: none; height: 100%;"></div>');
-            this.viewPlugins.fireEvent(panel === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
+            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel" style="height: 100%;"></div>');
+            this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
             this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
-                el: '#panel-plugins-' + name
+                el: '#panel-plugins-' + name,
+                menu: menu
             });
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
         },
 
         openUIPlugin: function (guid) {
             var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
-                panel = model.get('panel');
-            this.viewPlugins.fireEvent(panel === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [guid]);
+                menu = model.get('menu');
+            this.viewPlugins.fireEvent(menu === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [guid]);
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
@@ -601,8 +602,8 @@ define([
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
                         langName = plugin.get_Name(lang),
-                        panel = 'right'//variation.get_Panel() || 'left';
-                        this.addPluginToSideMenu(plugin, langName, panel);
+                        menu = 'right'//variation.get_Menu();
+                        this.addPluginToSideMenu(plugin, langName, menu);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
@@ -681,7 +682,7 @@ define([
                     this.viewPlugins.pluginPanels[guid].$el.remove();
                     delete this.viewPlugins.pluginPanels[guid];
                     var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
-                    this.viewPlugins.fireEvent(model.get('panel') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
+                    this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
                 }
             }
             if (!isIframePlugin) {
