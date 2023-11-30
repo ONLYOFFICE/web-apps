@@ -126,6 +126,14 @@ define([
             this.content_panels = $window.find('.settings-panel');
             if (this.btnsCategory.length>0)
                 this.btnsCategory[0].toggle(true, true);
+
+            var onMainWindowResize = function(){
+                $window.width(((menu_panel.length>0) ? menu_panel.width() : 0) + cnt_panel.outerWidth() + 2);
+            };
+            $(window).on('resize', onMainWindowResize);
+            this.on('close', function() {
+                $(window).off('resize', onMainWindowResize);
+            });
         },
 
         setHeight: function(height) {
