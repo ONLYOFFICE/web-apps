@@ -63,7 +63,8 @@ define([
     'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
-    'spreadsheeteditor/main/app/view/CreateSparklineDialog'
+    'spreadsheeteditor/main/app/view/CreateSparklineDialog',
+    'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -487,6 +488,8 @@ define([
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
+                toolbar.btnFillNumbers.menu.on('item:click',                _.bind(this.onFillNumMenu, this));
+                toolbar.btnFillNumbers.menu.on('show:before',               _.bind(this.onShowBeforeFillNumMenu, this));
                 Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
@@ -5150,6 +5153,36 @@ define([
 
         onEyedropperEnd: function () {
             this.toolbar._isEyedropperStart = false;
+        },
+
+        onFillNumMenu: function(menu, item, e) {
+            if (this.api) {
+                var me = this;
+                if (item.value === Asc.c_oAscFillType.series) {
+                    (new SSE.Views.FillSeriesDialog({
+                        handler: function(result, settings) {
+                            if (result == 'ok' && settings) {
+                                me.api.asc_FillCells(Asc.c_oAscFillType.series, settings);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        },
+                        props: me.api.asc_GetSeriesSettings()
+                    })).show();
+                } else {
+                    me.api.asc_FillCells(item.value);
+                }
+            }
+        },
+
+        onShowBeforeFillNumMenu: function() {
+            if (this.api) {
+                var items = this.toolbar.btnFillNumbers.menu.items,
+                    props = this.api.asc_GetSeriesSettings().asc_getToolbarMenuAllowedProps();
+
+                for (var i = 0; i < items.length; i++) {
+                    items[i].setDisabled(!props[items[i].value]);
+                }
+            }
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

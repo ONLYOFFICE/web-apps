@@ -78,6 +78,7 @@ define([
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
     'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
+    'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () {
     'use strict';
 
@@ -287,6 +288,8 @@ define([
                 view.pmiGetRangeList.on('click',                    _.bind(me.onGetLink, me));
                 view.menuParagraphEquation.menu.on('item:click',    _.bind(me.convertEquation, me));
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
+                view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
+                view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -2340,12 +2343,12 @@ define([
             }
         },
 
-        onApiContextMenu: function(event) {
+        onApiContextMenu: function(event, type) {
             if (Common.UI.HintManager.isHintVisible())
                 Common.UI.HintManager.clearHints();
             var me = this;
             _.delay(function(){
-                me.showObjectMenu.call(me, event);
+                me.showObjectMenu.call(me, event, type);
             },10);
         },
 
@@ -2481,8 +2484,12 @@ define([
             }
         },
 
-        showObjectMenu: function(event){
+        showObjectMenu: function(event, type){
             if (this.api && !this.mouse.isLeftButtonDown && !this.rangeSelectionMode){
+                if (type===Asc.c_oAscContextMenuTypes.changeSeries && this.permissions.isEdit && !this._isDisabled) {
+                    this.fillSeriesMenuProps(this.api.asc_GetSeriesSettings(), event, type);
+                    return;
+                }
                 (this.permissions.isEdit && !this._isDisabled) ? this.fillMenuProps(this.api.asc_getCellInfo(), true, event) : this.fillViewMenuProps(this.api.asc_getCellInfo(), true, event);
             }
         },
@@ -3105,7 +3112,22 @@ define([
             }
         },
 
-        showPopupMenu: function(menu, value, event){
+        fillSeriesMenuProps: function(seriesinfo, event, type){
+            if (!seriesinfo) return;
+            var documentHolder = this.documentHolder,
+                items = documentHolder.fillMenu.items,
+                props = seriesinfo.asc_getContextMenuAllowedProps();
+
+            for (var i = 0; i < items.length; i++) {
+                var val = props[items[i].value];
+                items[i].setVisible(val!==null);
+                items[i].setDisabled(!val);
+            }
+            documentHolder.fillMenu.seriesinfo = seriesinfo;
+            this.showPopupMenu(documentHolder.fillMenu, {}, event, type);
+        },
+
+        showPopupMenu: function(menu, value, event, type){
             if (!_.isUndefined(menu) && menu !== null && event){
                 Common.UI.Menu.Manager.hideAll();
 
@@ -3148,7 +3170,7 @@ define([
 
                 menu.show();
                 me.currentMenu = menu;
-                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
+                (type!==Asc.c_oAscContextMenuTypes.changeSeries) && me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
             }
         },
 
@@ -5086,6 +5108,37 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
                 }
             })).show();
+        },
+
+        onFillSeriesClick: function(menu, item) {
+            this._state.fillSeriesItemClick = true;
+            if (this.api) {
+                if (item.value===Asc.c_oAscFillType.series) {
+                    var me = this,
+                        res,
+                        win = (new SSE.Views.FillSeriesDialog({
+                            handler: function(result, settings) {
+                                if (result == 'ok' && settings) {
+                                    res = result;
+                                    me.api.asc_FillCells(item.value, settings);
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.documentHolder);
+                            },
+                            props: menu.seriesinfo
+                        })).on('close', function() {
+                            (res!=='ok') && me.api.asc_CancelFillCells();
+                        });
+                    win.show();
+                } else {
+                    this.api.asc_FillCells(item.value, menu.seriesinfo);
+                    Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                }
+            }
+        },
+
+        onFillSeriesHideAfter: function() {
+            this.api && !this._state.fillSeriesItemClick && this.api.asc_CancelFillCells();
+            this._state.fillSeriesItemClick = false;
         },
 
         getUserName: function(id){
