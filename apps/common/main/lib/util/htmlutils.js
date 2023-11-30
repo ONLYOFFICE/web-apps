@@ -44,7 +44,17 @@ if (!lang) {
     lang = lang ? lang[1] : '';
 }
 lang && (lang = lang.split(/[\-\_]/)[0].toLowerCase());
-if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' || (!checkLocalStorage || localStorage.getItem("ui-rtl") === null) && lang==='ar') {
+
+let ui_rtl = false;
+if ( window.native && window.native.rtl !== undefined ) {
+    ui_rtl = window.native.rtl;
+} else {
+    if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
+        ui_rtl = localStorage.getItem("ui-rtl") === '1';
+    else ui_rtl = lang === 'ar';
+}
+
+if ( ui_rtl ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
