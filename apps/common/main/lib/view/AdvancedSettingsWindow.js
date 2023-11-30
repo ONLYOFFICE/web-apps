@@ -61,7 +61,7 @@ define([
                     '<% if (items.length>0) { %>',
                     '<div class="menu-panel">',
                     '<% _.each(items, function(item) { %>',
-                        '<button class="btn btn-category" content-target="<%= item.panelId %>"><span class=""><%= item.panelCaption %></span></button>',
+                        '<div id="slot-category-<%= item.panelId %>"></div>',
                     '<% }); %>',
                     '</div>',
                     '<div class="separator"></div>',
@@ -94,15 +94,18 @@ define([
             this.on('animate:after', _.bind(this.onAnimateAfter, this));
 
             this.btnsCategory = [];
-            _.each($window.find('.btn-category'), function(item, index) {
-                var btnEl = $(item);
+            this.options.items.forEach(function(item, index) {
                 var btn = new Common.UI.Button({
-                    el: btnEl,
+                    parentEl: $window.find('#slot-category-' + item.panelId),
+                    cls: 'btn-category ' + (item.categoryCls || ''),
+                    caption: item.panelCaption,
+                    iconCls: item.categoryIcon || '',
                     enableToggle: true,
                     toggleGroup: me.toggleGroup,
                     allowDepress: false,
-                    contentTarget: btnEl.attr('content-target')
+                    contentTarget: item.panelId
                 });
+                btn.cmpEl.attr('content-target', item.panelId)
                 btn.on('click', _.bind(me.onCategoryClick, me, btn, index));
                 me.btnsCategory.push(btn);
             });
@@ -162,7 +165,7 @@ define([
 
         onPrimary: function() {
             if ( this.handler && this.handler.call(this, 'ok', this.getSettings()) )
-                return;
+                return false;
 
             this.close();
             return false;

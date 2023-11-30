@@ -64,6 +64,8 @@ define([
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
     'spreadsheeteditor/main/app/view/CreateSparklineDialog',
+    'spreadsheeteditor/main/app/view/ChartTypeDialog',
+    'spreadsheeteditor/main/app/view/ChartWizardDialog',
     'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () { 'use strict';
 
@@ -488,9 +490,10 @@ define([
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
+                toolbar.btnInsertChartRecommend.on('click',                 _.bind(this.onChartRecommendedClick, this));
                 toolbar.btnFillNumbers.menu.on('item:click',                _.bind(this.onFillNumMenu, this));
                 toolbar.btnFillNumbers.menu.on('show:before',               _.bind(this.onShowBeforeFillNumMenu, this));
-                Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+                Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
             }
@@ -1382,7 +1385,7 @@ define([
                                 title: this.txtSorting,
                                 msg: this.txtExpandSort,
                                 buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                    {caption: this.txtSortSelected, value: 'sort'},
                                     'cancel'],
                                 callback: function(btn){
                                     if (btn == 'expand' || btn == 'sort') {
@@ -4346,7 +4349,7 @@ define([
                     });
 
                 toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked);
-                toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
+                toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart, toolbar.btnInsertChartRecommend] } );
                 toolbar.lockToolbar(Common.enumLock.inSmartartInternal, is_smartart_internal);
             }
 
@@ -5155,6 +5158,34 @@ define([
             this.toolbar._isEyedropperStart = false;
         },
 
+        onChartRecommendedClick: function() {
+            var me = this,
+                recommended = me.api.asc_getRecommendedChartData();
+            if (!recommended) {
+                Common.UI.warning({
+                    msg: me.warnNoRecommended,
+                    maxwidth: 600,
+                    callback: function(btn) {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
+            var seltype = me.api.asc_getCellInfo().asc_getSelectionType();
+            (new SSE.Views.ChartWizardDialog({
+                api: me.api,
+                props: {recommended: recommended},
+                isEdit: (seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        me.api && me.api.asc_addChartSpace(value);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
         onFillNumMenu: function(menu, item, e) {
             if (this.api) {
                 var me = this;
@@ -5565,7 +5596,8 @@ define([
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         textRecentlyUsed: 'Recently Used',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
+        warnNoRecommended: 'To create a chart, select the cells that contain the data you\'d like to use.<br>If you have names for the rows and columns and you\'d like use them as labels, include them in your selection.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

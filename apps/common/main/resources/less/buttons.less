@@ -950,6 +950,38 @@
         }
     }
 
+    &.svg-chartlist {
+        width: 40px;
+        height: 40px;
+        .icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        &:hover:not(.disabled) {
+            svg.icon {
+                opacity: 1;
+            }
+        }
+
+        &:active,
+        &.active {
+            &:not(.disabled) {
+                svg.icon {
+                    fill: @icon-normal-pressed-ie;
+                    fill: @icon-normal-pressed;
+                    opacity: 1;
+                }
+            }
+        }
+
+        svg.icon {
+            fill: @icon-normal-ie;
+            fill: @icon-normal;
+            opacity: 1;
+        }
+    }
+
     box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
     box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
     .border-radius(@border-radius-small);

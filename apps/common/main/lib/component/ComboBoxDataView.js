@@ -207,6 +207,8 @@ define([
             onBeforeKeyDown: function(menu, e) {
                 if ((e.keyCode == Common.UI.Keys.DOWN || e.keyCode == Common.UI.Keys.SPACE) && !this.isMenuOpen()) {
                     $('button', this.cmpEl).click();
+                    e.preventDefault();
+                    e.stopPropagation();
                     return false;
                 }
             },
