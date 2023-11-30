@@ -40,6 +40,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores de tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "O mesmo que sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anônimo",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "A referência de link não existe. Corrija o link ou o exclua.",
     "menuAddComment": "Adicionar comentário",
     "menuAddLink": "Adicionar Link",
+    "menuAutofill": "Preenchimento automático",
     "menuCancel": "Cancelar",
     "menuCell": "Célula",
     "menuDelete": "Excluir",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior"
+      "txtSortLow2High": "Classificar do menor para o maior",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -672,6 +682,7 @@
       "textComments": "Comentários",
       "textCreated": "Criado",
       "textCustomSize": "Tamanho personalizado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema Escuro",
       "textDelimeter": "Delimitador",
       "textDirection": "Direção",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Última Modificação Por",
       "textLeft": "Esquerda",
       "textLeftToRight": "Da esquerda para a direita",
+      "textLight": "Claro",
       "textLocation": "Localização",
       "textLookIn": "Olhar em",
       "textMacrosSettings": "Configurações de macros",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRight": "Direita",
       "textRightToLeft": "Da direita para a esquerda",
+      "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSearchBy": "Pesquisar",
       "textSearchIn": "Procurar em",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Título da planilha",
       "textSubject": "Assunto",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textTop": "Superior",
       "textUnitOfMeasurement": "Unidade de medida",

@@ -42,6 +42,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/view/About',
     /** coauthoring begin **/
@@ -60,22 +61,10 @@ define([
     var SCALE_MIN = 40;
     var MENU_SCALE_PART = 300;
 
-    DE.Views.LeftMenu = Backbone.View.extend(_.extend({
+    DE.Views.LeftMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#left-menu',
 
         template: _.template(menuTemplate),
-
-        // Delegated events for creating new items, and clearing completed ones.
-        events: function() {
-            return {
-                'click #left-btn-support': function() {
-                    var config = this.mode.customization;
-                    config && !!config.feedback && !!config.feedback.url ?
-                        window.open(config.feedback.url) :
-                        window.open('{{SUPPORT_URL}}');
-                }
-            }
-        },
 
         initialize: function () {
             this.minimizedMode = true;
@@ -84,6 +73,10 @@ define([
 
         render: function () {
             var $markup = $(this.template({}));
+
+            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tl-tr';
 
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
@@ -114,6 +107,12 @@ define([
                 iconCls: 'btn-menu-support',
                 disabled: true
             });
+            this.btnSupport.on('click', _.bind(function() {
+                var config = this.mode.customization;
+                config && !!config.feedback && !!config.feedback.url ?
+                    window.open(config.feedback.url) :
+                    window.open('{{SUPPORT_URL}}');
+            }, this));
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
@@ -165,9 +164,6 @@ define([
             });
             this.btnThumbnails.hide();
             this.btnThumbnails.on('click', this.onBtnMenuClick.bind(this));
-
-            this.pluginSeparator = $markup.find('.separator-plugins');
-            this.pluginMoreContainer = $markup.find('#slot-btn-plugins-more');
 
             this.$el.html($markup);
 
@@ -267,9 +263,6 @@ define([
             if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
             } else
-            if (name == 'plugins' && !this.panelPlugins) {
-                this.panelPlugins = panel.render(/*'#left-panel-plugins'*/);
-            } else
             if (name == 'navigation' && !this.panelNavigation) {
                 this.panelNavigation = panel.render('#left-panel-navigation');
             } else
@@ -327,6 +320,7 @@ define([
                     this.panelThumbnails['hide']();
                     this.btnThumbnails.toggle(false, true);
                 }
+                this.togglePluginButtons(false);
             }
         },
 
@@ -348,6 +342,7 @@ define([
             /** coauthoring end **/
             this.btnNavigation.setDisabled(false);
             this.btnThumbnails.setDisabled(false);
+            this.setDisabledAllMoreMenuItems(false);
         },
 
         showMenu: function(menu, opts, suspendAfter) {
@@ -490,6 +485,11 @@ define([
 
         isVisible: function () {
             return this.$el && this.$el.is(':visible');
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSearchBar, this.btnComments, this.btnChat, this.btnNavigation, this.btnThumbnails, this.btnSupport, this.btnAbout];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         /** coauthoring begin **/

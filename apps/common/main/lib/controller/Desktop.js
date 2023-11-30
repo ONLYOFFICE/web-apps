@@ -388,9 +388,9 @@ define([
                         }
                     });
                 }
-
-                _checkHelpAvailable.call(this);
             }
+
+            _checkHelpAvailable.call(this);
         }
 
         const _onHidePreloader = function (mode) {

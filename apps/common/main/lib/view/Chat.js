@@ -59,7 +59,7 @@ define([
         storeMessages: undefined,
 
         tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
-                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= user.get("parsedName") %>',
+                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= Common.Utils.String.htmlEncode(user.get("parsedName")) %>',
                         '</div>',
                     '</li>'].join(''),
 
@@ -79,10 +79,10 @@ define([
                             '<% } else { %>',
                                 'style="background-color: <% if (msg.get("usercolor")!==null) { %> <%=msg.get("usercolor")%> <% } else { %> #cfcfcf <% }%>;"',
                             '<% } %>',
-                        '><% if (!msg.get("avatar")) { %><%=msg.get("initials")%><% } %></div>',
+                        '><% if (!msg.get("avatar")) { %><%-msg.get("initials")%><% } %></div>',
                         '<div class="user-content">',
                             '<div class="user-name" data-can-copy="true">',
-                                '<%= msg.get("parsedName") %>',
+                                '<%= Common.Utils.String.htmlEncode(msg.get("parsedName")) %>',
                             '</div>',
                             '<label class="message user-select" data-can-copy="true" tabindex="-1" oo_editor_input="true"><%= msg.get("message") %></label>',
                         '</div>',

@@ -171,7 +171,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return false;
+        return currentLang && (/^(ar)$/i.test(currentLang));
     };
 
     return {

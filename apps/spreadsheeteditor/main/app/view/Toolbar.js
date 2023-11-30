@@ -1606,6 +1606,42 @@ define([
                     dataHintOffset: '0, -6'
                 });
 
+                me.btnFillNumbers = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-fill-num',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-fill',
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit, _set.wsLock],
+                    menu        : new Common.UI.Menu({
+                        style : 'min-width: 110px',
+                        items : [
+                            {
+                                caption: me.textDown,
+                                value: Asc.c_oAscFillType.fillDown
+                            },
+                            {
+                                caption: me.textFillRight,
+                                value: Asc.c_oAscFillType.fillRight
+                            },
+                            {
+                                caption: me.textUp,
+                                value: Asc.c_oAscFillType.fillUp
+                            },
+                            {
+                                caption: me.textFillLeft,
+                                value: Asc.c_oAscFillType.fillLeft
+                            },
+                            {caption: '--'},
+                            {
+                                caption: me.textSeries,
+                                value: Asc.c_oAscFillType.series
+                            }
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -16'
+                });
+
                 me.btnClearStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-clear',
                     cls         : 'btn-toolbar',
@@ -2175,7 +2211,7 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
@@ -2359,6 +2395,7 @@ define([
             _injectComponent('#slot-btn-digit-inc',      this.btnIncDecimal);
             _injectComponent('#slot-btn-formula',        this.btnInsertFormula);
             _injectComponent('#slot-btn-named-range',    this.btnNamedRange);
+            _injectComponent('#slot-btn-fill-num',       this.btnFillNumbers);
             _injectComponent('#slot-btn-clear',          this.btnClearStyle);
             _injectComponent('#slot-btn-copystyle',      this.btnCopyStyle);
             _injectComponent('#slot-btn-cell-ins',       this.btnAddCell);
@@ -2465,6 +2502,7 @@ define([
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
             _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula + Common.Utils.String.platformKey('Shift+F3')]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
+            _updateHint(this.btnFillNumbers, this.txtFillNum);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
             _updateHint(this.btnAddCell, this.tipInsertOpt + Common.Utils.String.platformKey('Ctrl+Shift+='));
@@ -2673,6 +2711,7 @@ define([
                         caption: item.caption,
                         value: item.sectionId,
                         itemId: item.id,
+                        itemsLength: length,
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
@@ -2683,27 +2722,40 @@ define([
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        var items = [];
+                        for (var i=0; i<item.options.itemsLength; i++) {
+                            items.push({
+                                isLoading: true
+                            });
+                        }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
                             itemTemplate: _.template([
-                                '<div>',
-                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
-                                '</div>'
+                                '<% if (isLoading) { %>',
+                                    '<div class="loading-item" style="width: 70px; height: 70px;">',
+                                        '<i class="loading-spinner"></i>',
+                                    '</div>',
+                                '<% } else { %>',
+                                    '<div>',
+                                        '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                    '</div>',
+                                '<% } %>'
                             ].join('')),
-                            store: new Common.UI.DataViewStore(),
+                            store: new Common.UI.DataViewStore(items),
                             delayRenderTips: true,
                             scrollAlwaysVisible: true,
                             showLast: false
                         });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
-                            if (record) {
+                            if (record && record.get('value') !== null) {
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
                         });
+                        item.menuPicker.loaded = false;
                         item.$el.on('mouseenter', function () {
-                            if (item.menuPicker.store.length === 0) {
+                            if (!item.menuPicker.loaded) {
                                 me.fireEvent('smartart:mouseenter', [item.value]);
                             }
                         });
@@ -3703,7 +3755,13 @@ define([
         textDelPageBreak: 'Remove page break',
         textResetPageBreak: 'Reset all page breaks',
         capInsertChartRecommend: 'Recommended Chart',
-        tipInsertChartRecommend: 'Insert recommended chart'
+        tipInsertChartRecommend: 'Insert recommended chart',
+        textDown: 'Down',
+        textUp: 'Up',
+        textFillLeft: 'Left',
+        textFillRight: 'Right',
+        textSeries: 'Series',
+        txtFillNum: 'Fill'
 
     }, SSE.Views.Toolbar || {}));
 });

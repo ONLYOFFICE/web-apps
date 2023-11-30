@@ -702,6 +702,9 @@ DE.ApplicationController = new(function(){
                 $('#loading-mask').addClass("none-animation");
             }
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        } else if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+            api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, advOptions.asc_getRecommendedSettings() || new Asc.asc_CTextOptions());
+            onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
 

@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "현재 파일은 버전 기록에 저장됩니다.",
       "titleWarningRestoreVersion": "이 버전을 복원하시겠습니까?",
       "txtErrorLoadHistory": "로드 이력 실패"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "다시 표시하지 않음",
     "textOk": "확정",
     "txtWarnUrl": "이 링크는 장치와 데이터에 손상을 줄 수 있습니다. <br> 계속하시겠습니까?",
-    "warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?"
+    "warnMergeLostData": "왼쪽 위 셀의 데이터 만 병합 된 셀에 남아 있습니다. <br> 계속 하시겠습니까?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "응용 프로그램을 종료합니다",
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
-    "textCloseHistory": "닫기 역사"
+    "textCloseHistory": "닫기 역사",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "엔",
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSortHigh2Low": "가장 높은 것부터 가장 낮은 것부터 정렬",
-      "txtSortLow2High": "오름차순 정렬"
+      "txtSortLow2High": "오름차순 정렬",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "CSV 옵션 선택",
@@ -811,7 +821,11 @@
       "txtUk": "우크라이나어",
       "txtVi": "베트남어",
       "txtZh": "중국어",
-      "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?"
+      "warnDownloadAs": "이 형식으로 저장을 계속하면 텍스트를 제외한 모든 기능이 손실됩니다. 계속 하시겠습니까?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

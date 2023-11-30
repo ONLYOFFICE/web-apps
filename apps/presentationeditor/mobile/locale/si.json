@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "වත්මන් ගොනුව අනුවාද ඉතිහාසයේ සුරැකෙනු ඇත.",
       "titleWarningRestoreVersion": "මෙම අනුවාදය ප්‍රත්‍යර්පණය කරන්නද?",
       "txtErrorLoadHistory": "ඉතිහාසය පූරණයට අසමත් විය"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "ඔබ යෙදුම හැරයයි",
     "leaveButtonText": "මෙම පිටුව හැරයන්න",
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
-    "textCloseHistory": "ඉතිහාසය වසන්න"
+    "textCloseHistory": "ඉතිහාසය වසන්න",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,8 @@
       "textZoom": "විශාල කරන්න",
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
-      "textZoomRotate": "විශාලනය හා කරකවන්න"
+      "textZoomRotate": "විශාලනය හා කරකවන්න",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",
@@ -530,7 +539,11 @@
       "txtScheme6": "ජනසමූහය",
       "txtScheme7": "සමකොටස්",
       "txtScheme8": "ගලායාම",
-      "txtScheme9": "වාත්තු පොළ"
+      "txtScheme9": "වාත්තු පොළ",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

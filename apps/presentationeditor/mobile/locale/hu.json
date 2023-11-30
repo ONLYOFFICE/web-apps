@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása?",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -132,7 +138,7 @@
       "textRemember": "Választás megjegyzése",
       "textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
       "textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
-      "textRequestMacros": "A makró URL-kérést indít. Engedélyezi a %1 lekérdezését?",
+      "textRequestMacros": "A makró kérést intéz az URL-hez. Szeretné engedélyezni a kérést a %1-hoz?",
       "textYes": "Igen",
       "titleLicenseExp": "Lejárt licenc",
       "titleLicenseNotActive": "A licenc nem aktív",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
-    "textCloseHistory": "Napló bezárása"
+    "textCloseHistory": "Napló bezárása",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
-      "textZoomRotate": "Zoom és elforgatás"
+      "textZoomRotate": "Zoom és elforgatás",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",
@@ -530,7 +539,11 @@
       "txtScheme6": "Előcsarnok",
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
-      "txtScheme9": "Öntöde"
+      "txtScheme9": "Öntöde",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

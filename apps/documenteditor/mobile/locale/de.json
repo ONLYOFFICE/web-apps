@@ -175,6 +175,12 @@
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Designfarben"
     },
+    "Themes": {
+      "textTheme": "Thema",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
       "textAnonymous": "Anonym",
@@ -392,7 +398,13 @@
     "textType": "Typ",
     "textWe": "Mi",
     "textWrap": "Umbrechen",
-    "textWrappingStyle": "Textumbruch"
+    "textWrappingStyle": "Textumbruch",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
+    "textSave": "Save",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Zeitüberschreitung bei der Konvertierung.",
@@ -714,6 +726,7 @@
     "textStatistic": "Statistik",
     "textSubject": "Betreff",
     "textSymbols": "Symbole",
+    "textTheme": "Thema",
     "textTitle": "Titel",
     "textTop": "Oben",
     "textTrackedChanges": "Überarbeitungen",
@@ -752,7 +765,17 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei"
+    "txtScheme9": "Gießerei",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

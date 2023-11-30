@@ -43,6 +43,12 @@
       "textStandartColors": "Стандартные цвета",
       "textThemeColors": "Цвета темы"
     },
+    "Themes": {
+      "dark": "Темная",
+      "light": "Светлая",
+      "system": "Системная",
+      "textTheme": "Тема"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Внимание",
       "textAnonymous": "Аноним",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
     "stayButtonText": "Остаться на странице",
-    "textCloseHistory": "Закрыть историю"
+    "textCloseHistory": "Закрыть историю",
+    "textEnterNewFileName": "Введите новое имя файла",
+    "textRenameFile": "Переименовать файл"
   },
   "View": {
     "Add": {
@@ -369,6 +377,7 @@
       "textImage": "Рисунок",
       "textImageURL": "URL рисунка",
       "textInsertImage": "Вставить рисунок",
+      "textInvalidName": "Имя файла не должно содержать следующих символов: ",
       "textLastColumn": "Последний столбец",
       "textLastSlide": "Последний слайд",
       "textLayout": "Макет",
@@ -462,6 +471,7 @@
       "textColorSchemes": "Цветовые схемы",
       "textComment": "Комментарий",
       "textCreated": "Создана",
+      "textDark": "Темная",
       "textDarkTheme": "Темная тема",
       "textDisableAll": "Отключить все",
       "textDisableAllMacrosWithNotification": "Отключить все макросы с уведомлением",
@@ -481,6 +491,7 @@
       "textInch": "Дюйм",
       "textLastModified": "Последнее изменение",
       "textLastModifiedBy": "Автор последнего изменения",
+      "textLight": "Светлая",
       "textLoading": "Загрузка...",
       "textLocation": "Размещение",
       "textMacrosSettings": "Настройки макросов",
@@ -497,6 +508,7 @@
       "textReplaceAll": "Заменить все",
       "textRestartApplication": "Перезапустите приложение, чтобы изменения вступили в силу.",
       "textRTL": "Справа налево",
+      "textSameAsSystem": "Системная",
       "textSearch": "Поиск",
       "textSettings": "Настройки",
       "textShowNotification": "Показывать уведомление",
@@ -504,6 +516,7 @@
       "textSpellcheck": "Проверка орфографии",
       "textSubject": "Тема",
       "textTel": "телефон:",
+      "textTheme": "Тема",
       "textTitle": "Название",
       "textUnitOfMeasurement": "Единица измерения",
       "textUploaded": "Загружена",

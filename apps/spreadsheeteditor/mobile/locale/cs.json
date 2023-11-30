@@ -40,6 +40,12 @@
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
     },
+    "Themes": {
+      "dark": "Tmavé",
+      "light": "Světlé",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Varování",
       "textAnonymous": "Anonymní",
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
-    "textCloseHistory": "Zavřít historii"
+    "textCloseHistory": "Zavřít historii",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -672,6 +682,7 @@
       "textComments": "Komentáře",
       "textCreated": "Vytvořeno",
       "textCustomSize": "Vlastní velikost",
+      "textDark": "Tmavé",
       "textDarkTheme": "Tmavý vzhled prostředí",
       "textDelimeter": "Oddělovač",
       "textDirection": "Směr",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Naposledy upravil(a)",
       "textLeft": "Vlevo",
       "textLeftToRight": "Zleva doprava",
+      "textLight": "Světlé",
       "textLocation": "Umístění",
       "textLookIn": "Hledat v",
       "textMacrosSettings": "Nastavení maker",
@@ -811,7 +823,9 @@
       "txtUk": "ukrajinština",
       "txtVi": "vietnamština",
       "txtZh": "čínština",
-      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
+      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

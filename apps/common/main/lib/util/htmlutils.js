@@ -39,7 +39,12 @@ var checkLocalStorage = (function () {
     }
 })();
 
-if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
+if (!window.lang) {
+    window.lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    window.lang = window.lang ? window.lang[1] : '';
+}
+window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
+if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' || (!checkLocalStorage || localStorage.getItem("ui-rtl") === null) && window.lang==='ar') {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }

@@ -43,6 +43,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "O mesmo que sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anônimo",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação"
+      "textZoomRotate": "Zoom e Rotação",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
@@ -462,6 +471,7 @@
       "textColorSchemes": "Esquemas de cor",
       "textComment": "Comente",
       "textCreated": "Criado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema Escuro",
       "textDisableAll": "Desabilitar tudo",
       "textDisableAllMacrosWithNotification": "Desativar todas as macros com notificação",
@@ -481,6 +491,7 @@
       "textInch": "Polegada",
       "textLastModified": "Última modificação",
       "textLastModifiedBy": "Última Modificação Por",
+      "textLight": "Claro",
       "textLoading": "Carregando...",
       "textLocation": "Localização",
       "textMacrosSettings": "Configurações de macros",
@@ -497,6 +508,7 @@
       "textReplaceAll": "Substituir tudo",
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRTL": "Da direita para esquerda",
+      "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
       "textShowNotification": "Mostrar notificação",
@@ -504,6 +516,7 @@
       "textSpellcheck": "Verificação ortográfica",
       "textSubject": "Assunto",
       "textTel": "tel:",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",

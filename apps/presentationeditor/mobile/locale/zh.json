@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "当前文件将保存在版本历史记录中。",
       "titleWarningRestoreVersion": "是否还原此版本？",
       "txtErrorLoadHistory": "载入记录失败"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "你退出应用程序",
     "leaveButtonText": "离开这个页面",
     "stayButtonText": "留在此页面",
-    "textCloseHistory": "关闭历史记录"
+    "textCloseHistory": "关闭历史记录",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -397,7 +405,7 @@
       "textPictureFromLibrary": "来自图库的图片",
       "textPictureFromURL": "来自URL网址的图片",
       "textPreviousSlide": "上一张幻灯片",
-      "textPt": "点（排版单位）",
+      "textPt": "点",
       "textPush": "推",
       "textRecommended": "建议",
       "textRemoveChart": "删除图表",
@@ -444,7 +452,8 @@
       "textZoom": "放大",
       "textZoomIn": "放大",
       "textZoomOut": "缩小",
-      "textZoomRotate": "缩放并旋转"
+      "textZoomRotate": "缩放并旋转",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "标准（4：3）",
@@ -530,7 +539,11 @@
       "txtScheme6": "大厅",
       "txtScheme7": "产权",
       "txtScheme8": "流程",
-      "txtScheme9": "铸造厂"
+      "txtScheme9": "铸造厂",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

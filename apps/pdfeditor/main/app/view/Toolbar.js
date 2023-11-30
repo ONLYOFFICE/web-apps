@@ -70,6 +70,7 @@ define([
         undoLock:       'can-undo',
         redoLock:       'can-redo',
         copyLock:       'can-copy',
+        cutLock:        'can-cut',
         inLightTheme:   'light-theme',
         noParagraphSelected:  'no-paragraph',
         cantPrint:      'cant-print',
@@ -210,7 +211,7 @@ define([
                         id: 'id-toolbar-btn-cut',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-cut',
-                        lock: [_set.copyLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.cutLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'X'
@@ -272,7 +273,7 @@ define([
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-big-menu-comments',
+                        iconCls: 'toolbar__icon btn-add-comment',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnComment,
                         dataHint: '1',
@@ -531,10 +532,11 @@ define([
                             id: 'id-toolbar-menu-' + id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + button.textNewColor + '</a>')
                         },
-                        {caption: '--'},
+                        {caption: '--', visible: false},
                         mnu = new Common.UI.MenuItem({
                             caption: this.strMenuNoFill,
                             checkable: true,
+                            visible: false,
                             style: 'padding-left:20px;padding-right:20px;'
                         })
                     ]

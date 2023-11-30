@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
-    "menuEditLink": "Edit Link"
+    "menuEditLink": "Edit Link",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -389,7 +396,9 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -648,7 +657,8 @@
       "textCreateCustomFormat": "Create Custom Format",
       "textSave": "Save",
       "textEnterFormat": "Enter Format",
-      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file."
+      "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Choose CSV options",
@@ -821,7 +831,11 @@
       "txtZh": "Chinese",
       "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

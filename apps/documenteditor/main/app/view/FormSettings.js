@@ -391,6 +391,24 @@ define([
             me.cmbGroupKey.on('show:before', showGrouptip);
             me.cmbGroupKey.on('combo:focusin', showGrouptip);
 
+            me.txtChoice = new Common.UI.InputField({
+                el          : $markup.findById('#form-txt-choice'),
+                allowBlank  : true,
+                validateOnChange: false,
+                validateOnBlur: false,
+                style       : 'width: 100%;',
+                value       : '',
+                dataHint    : '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.lockedControls.push(this.txtChoice);
+            this.txtChoice.on('changed:after', this.onChoiceChanged.bind(this));
+            this.txtChoice.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+            this.txtChoice.cmpEl.on('focus', 'input.form-control', function() {
+                setTimeout(function(){me.txtChoice._input && me.txtChoice._input.select();}, 1);
+            });
+
             // combobox & dropdown list
             this.txtNewValue = new Common.UI.InputField({
                 el          : $markup.findById('#form-txt-new-value'),
@@ -1022,6 +1040,19 @@ define([
             }
         },
 
+        onChoiceChanged: function(input, newValue, oldValue, e) {
+            if (this.api && !this._noApply && (newValue!==oldValue)) {
+                this._state.choice = undefined;
+                var props   = this._originalProps || new AscCommon.CContentControlPr();
+                var specProps = this._originalCheckProps || new AscCommon.CSdtCheckBoxPr();
+                specProps.put_ChoiceName(newValue);
+                props.put_CheckBoxPr(specProps);
+                this.api.asc_SetContentControlProperties(props, this.internalId);
+                if (!e.relatedTarget || (e.relatedTarget.localName != 'input' && e.relatedTarget.localName != 'textarea') || !/form-control/.test(e.relatedTarget.className))
+                    this.fireEvent('editcomplete', this);
+            }
+        },
+
         fillListProps: function() {
             if (this.api && !this._noApply) {
                 var props   = this._originalProps || new AscCommon.CContentControlPr();
@@ -1315,7 +1346,7 @@ define([
                             });
                             (arr.length>0) && arr.unshift({value: '', displayValue: this.textNone});
                             this.cmbDefValue.setData(arr);
-                            this.cmbDefValue.setDisabled(arr.length<1);
+                            this.cmbDefValue.setDisabled(arr.length<1 || this._state.DisabledControls);
                             this.cmbDefValue.setValue(this.api.asc_GetFormValue(this.internalId) || '');
                         } else {
                             val = this.api.asc_GetFormValue(this.internalId);
@@ -1399,6 +1430,12 @@ define([
                                 this.cmbGroupKey.setValue(val ? val : '');
                                 this._state.groupKey=val;
                             }
+
+                            val = specProps.get_ChoiceName();
+                            if (this._state.choice !== val) {
+                                this.txtChoice.setValue(val ? val : '');
+                                this._state.choice = val;
+                            }
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
@@ -1417,7 +1454,7 @@ define([
                             this.chFixed.setValue(!!val, true);
                             this._state.Fixed=val;
                         }
-                        this.chFixed.setDisabled(!val && isShape); // disable fixed size for forms in shape
+                        this.chFixed.setDisabled(!val && isShape || this._state.DisabledControls); // disable fixed size for forms in shape
                     }
 
                     var brd = formPr.get_Border();
@@ -2002,7 +2039,8 @@ define([
         textLang: 'Language',
         textDefValue: 'Default value',
         textCheckDefault: 'Checkbox is checked by default',
-        textRadioDefault: 'Button is checked by default'
+        textRadioDefault: 'Button is checked by default',
+        textRadioChoice: 'Radio button choice'
 
     }, DE.Views.FormSettings || {}));
 });

@@ -40,6 +40,12 @@
       "textStandartColors": "標準顏色",
       "textThemeColors": "主題顏色"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "不再顯示",
     "textOk": "好",
     "txtWarnUrl": "這連結可能對您的設備和資料造成損害。<br> 您確定要繼續嗎？",
-    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？"
+    "warnMergeLostData": "只有左上角單元格中的數據會保留。<br>繼續嗎？",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "您離開應用程式。",
     "leaveButtonText": "離開此頁面",
     "stayButtonText": "留在此頁面",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,6 +649,7 @@
       "textCustomFormat": "Custom Format",
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -811,6 +821,10 @@
       "txtVi": "越南語",
       "txtZh": "中文",
       "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
   }

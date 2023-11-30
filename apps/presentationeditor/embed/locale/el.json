@@ -44,7 +44,7 @@
   "PE.ApplicationController.warnLicenseExp": "Η άδεια χρήσης σας έχει λήξει. Ενημερώστε την άδειά σας και ανανεώστε τη σελίδα.",
   "PE.ApplicationView.txtDownload": "Λήψη",
   "PE.ApplicationView.txtEmbed": "Ενσωμάτωση",
-  "PE.ApplicationView.txtFileLocation": "Άνοιγμα τοποθεσίας αρχείου",
+  "PE.ApplicationView.txtFileLocation": "Άνοιγμα θέσης αρχείου",
   "PE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "PE.ApplicationView.txtPrint": "Εκτύπωση",
   "PE.ApplicationView.txtSearch": "Αναζήτηση",

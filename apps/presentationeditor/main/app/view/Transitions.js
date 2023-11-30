@@ -419,7 +419,7 @@ define([
                 if (selectedElement == undefined)
                     selectedElement = this.btnParameters.menu.items[minMax[0]];
 
-                if (effect != Asc.c_oAscSlideTransitionTypes.None)
+                if (effect != Asc.c_oAscSlideTransitionTypes.None && selectedElement)
                     selectedElement.setChecked(true);
 
                 if (!this.listEffects.isDisabled()) {
