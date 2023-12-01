@@ -743,8 +743,8 @@ define([
             Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
 
             /** coauthoring begin **/
-            Common.localStorage.setItem("pdfe-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.chLiveComment.isChecked());
+            Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked());
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
                 Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
