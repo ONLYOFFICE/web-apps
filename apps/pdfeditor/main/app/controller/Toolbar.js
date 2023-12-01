@@ -142,6 +142,9 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
+            Common.NotificationCenter.on('comments:tryshowcomments', _.bind(function () {
+                this.toolbar && !this.toolbar.chShowComments.isChecked() && this.toolbar.chShowComments.setValue(true);
+            }, this));
         },
 
         onLaunch: function() {
