@@ -54,7 +54,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'plugins:open': _.bind(this.openPlugin, this),
                     'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
@@ -622,6 +623,10 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
         },
 
         setPreviewMode: function(mode) {
