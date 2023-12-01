@@ -142,9 +142,7 @@ define([
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
-            Common.NotificationCenter.on('comments:tryshowcomments', _.bind(function () {
-                this.toolbar && !this.toolbar.chShowComments.isChecked() && this.toolbar.chShowComments.setValue(true);
-            }, this));
+            Common.NotificationCenter.on('comments:tryshowcomments', _.bind(this.turnOnShowComments, this));
         },
 
         onLaunch: function() {
@@ -530,6 +528,10 @@ define([
             }
         },
 
+        turnOnShowComments: function() {
+            this.toolbar && !this.toolbar.chShowComments.isChecked() && this.toolbar.chShowComments.setValue(true);
+        },
+
         onBtnStrikeout: function(btn) {
             if (btn.pressed) {
                 this._setStrikeoutColor(btn.currentColor);
@@ -550,6 +552,7 @@ define([
         _setStrikeoutColor: function(strcolor, h) {
             var me = this;
             me.turnOnSelectTool();
+            me.turnOnShowComments();
             if (h === 'menu') {
                 me._state.clrstrike = undefined;
                 // me.onApiHighlightColor();
@@ -596,6 +599,7 @@ define([
         _setUnderlineColor: function(strcolor, h) {
             var me = this;
             me.turnOnSelectTool();
+            me.turnOnShowComments();
             if (h === 'menu') {
                 me._state.clrunderline = undefined;
                 // me.onApiHighlightColor();
@@ -642,6 +646,7 @@ define([
         _setHighlightColor: function(strcolor, h) {
             var me = this;
             me.turnOnSelectTool();
+            me.turnOnShowComments();
             if (h === 'menu') {
                 me._state.clrhighlight = undefined;
                 // me.onApiHighlightColor();
@@ -685,6 +690,7 @@ define([
         onDrawStart: function() {
             this.api && this.api.SetMarkerFormat(undefined, false);
             this.onApiStartHighlight();
+            this.turnOnShowComments();
         },
 
         onShowCommentsChange: function(checkbox, state) {
