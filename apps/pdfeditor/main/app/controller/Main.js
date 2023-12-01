@@ -769,10 +769,6 @@ define([
                 //         this._state.fastCoauth)
                 //     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
 
-                if ( id == Asc.c_oAscAsyncAction['Open']) {
-                    Common.Utils.InternalSettings.get("pdfe-settings-livecomment") ? this.api.asc_showComments(Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment")) : this.api.asc_hideComments();
-                }
-
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
                     this.disableEditing(false, true);
@@ -923,13 +919,8 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                /** coauthoring begin **/
-                this.isLiveCommenting = Common.localStorage.getBool("pdfe-settings-livecomment", true);
-                Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("pdfe-settings-resolvedcomment");
-                Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", value);
-                this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
-                /** coauthoring end **/
+                Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
 
                 value = Common.localStorage.getItem("pdfe-settings-zoom");
                 Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);

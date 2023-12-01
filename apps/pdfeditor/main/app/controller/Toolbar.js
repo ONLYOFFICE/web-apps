@@ -686,7 +686,6 @@ define([
 
         onShowCommentsChange: function(checkbox, state) {
             var value = state === 'checked';
-            Common.localStorage.setItem("pdfe-settings-livecomment", value ? 1 : 0);
             Common.Utils.InternalSettings.set("pdfe-settings-livecomment", value);
             (value) ? this.api.asc_showComments(Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment")) : this.api.asc_hideComments();
         },
@@ -847,7 +846,7 @@ define([
         },
 
         applySettings: function() {
-            this.toolbar && this.toolbar.chShowComments.setValue(Common.localStorage.getBool("pdfe-settings-livecomment", true), true);
+            this.toolbar && this.toolbar.chShowComments.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"), true);
         },
 
         textWarning: 'Warning',

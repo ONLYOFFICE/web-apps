@@ -426,10 +426,8 @@ define([
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
-            value = Common.localStorage.getBool("pdfe-settings-livecomment", true);
-            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("pdfe-settings-resolvedcomment");
-            Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", resolved);
+            value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment");
+            var resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
             // if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
             //     value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
@@ -634,13 +632,6 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment"),
-                resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
-
-            if (!value || !resolved) {
-                // (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
-            }
-
             if (mode === 'show') {
                 this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
             }
