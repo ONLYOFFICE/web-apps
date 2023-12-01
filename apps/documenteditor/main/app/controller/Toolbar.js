@@ -169,7 +169,7 @@ define([
                             Asc.c_oAscFileType.DOCM
                         ];
                         if (_main.appOptions.canFeatureForms) {
-                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF]);
                         }
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
