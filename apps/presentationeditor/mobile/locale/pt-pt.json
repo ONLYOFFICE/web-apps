@@ -248,8 +248,8 @@
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
     "textCloseHistory": "Fechar histórico",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
+    "textRenameFile": "Renomear ficheiro"
   },
   "View": {
     "Add": {
@@ -377,6 +377,7 @@
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsertImage": "Inserir imagem",
+      "textInvalidName": "O nome do ficheiro não pode ter qualquer um dos seguintes caracteres:",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último diapositivo",
       "textLayout": "Disposição",
@@ -452,8 +453,7 @@
       "textZoom": "Ampliação",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Ampliação e rotação",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textZoomRotate": "Ampliação e rotação"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",
