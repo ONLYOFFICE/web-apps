@@ -345,8 +345,8 @@ class MainController extends Component {
 
                     var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
                         docType = /[\?\&]documentType=\b(word)\b&?/i.exec(window.location.search),
-                        isPDF = (!!result && result.length && typeof result[2] === 'string') || !!result && result.length && typeof result[1] === 'string' &&
-                                                                                                !!docType && docType.length && typeof docType[1] !== 'string';
+                        isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') &&
+                                                                                                (!docType || !docType.length || typeof docType[1] !== 'string');
 
                     this.api = isPDF ? new Asc.PDFEditorApi({
                         'id-view'  : 'editor_sdk',
