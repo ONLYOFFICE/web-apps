@@ -66,6 +66,7 @@
     "errorInvalidLink": "Legătură de referință nu există. Corectați sau eliminați legătura.",
     "menuAddComment": "Adaugă comentariu",
     "menuAddLink": "Adăugare link",
+    "menuAutofill": "Completare automată",
     "menuCancel": "Revocare",
     "menuCell": "Celula",
     "menuDelete": "Ștergere",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Nu mai afișa",
     "textOk": "OK",
     "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
-    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
     "Main": {
