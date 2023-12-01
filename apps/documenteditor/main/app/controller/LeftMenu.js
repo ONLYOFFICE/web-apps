@@ -79,7 +79,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'plugins:open': _.bind(this.openPlugin, this),
                     'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -618,6 +619,10 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
         },
 
         onApiServerDisconnect: function(enableDownload) {

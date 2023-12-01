@@ -463,10 +463,22 @@ define([
 
         updatePluginsButtons: function() {
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
-                me = this;
+                me = this,
+                iconsInSideMenu = [];
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
+                var guid = item.get('guid');
+                if (me.viewPlugins.pluginPanels[guid]) {
+                    iconsInSideMenu.push({
+                        guid: guid,
+                        baseUrl: item.get('baseUrl'),
+                        parsedIcons: item.get('parsedIcons')
+                    });
+                }
             });
+            if (iconsInSideMenu.length > 0) {
+                me.viewPlugins.fireEvent('plugins:updateicons', [iconsInSideMenu]);
+            }
         },
 
         onSelectPlugin: function(picker, item, record, e){
