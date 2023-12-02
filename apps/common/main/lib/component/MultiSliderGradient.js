@@ -57,10 +57,7 @@ define([
             includeSnap: true,
             intervalSnap: 5,
             thumbTemplate: '<div class="thumb" style="">' +
-                                '<svg viewBox="-1 -1 15 17">' +
-                                    '<use xlink:href="#thumb-color-form" class ="thumb-over" fill="none" stroke="black" stroke-width="2"></use>' +
-                                    '<use xlink:href="#thumb-color-form" class ="thumb-inside"  stroke="white" stroke-width="3" clip-path="url(#thumb-color-clip)"></use>'+
-                                '</svg>' +
+                                '<canvas style="width: 100%; height: 100%"></canvas>' +
                             '</div>'
         },
 
@@ -77,32 +74,53 @@ define([
 
         initialize : function(options) {
             this.styleStr = {};
+            this.tmbOptions={
+                width: 13,
+                height: 16,
+                border:1,
+                borderColor:'#c0c0c0',
+                borderColorActive:'#848484'
+            };
+            this.colorTable = {
+                'theme-light' : {borderColor: '#c0c0c0', borderColorActive:'#848484'},
+                'theme-classic-light':{borderColor: '#cfcfcf', borderColorActive:'#848484'},
+                'theme-dark':{borderColor: '#666', borderColorActive:'#ccc'},
+                'theme-contrast-dark':{borderColor: '#696969', borderColorActive:'#b8b8b8'}
+            };
+            this.scale = Common.Utils.applicationPixelRatio() >= 1 ? Common.Utils.applicationPixelRatio() : 1,
             Common.UI.MultiSlider.prototype.initialize.call(this, options);
+
         },
 
         render : function(parentEl) {
             Common.UI.MultiSlider.prototype.render.call(this, parentEl);
-
             var me = this;
             me.trackEl = me.cmpEl.find('.track');
-
+            me.changeColors(false, (Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId()).toLowerCase());
             for (var i=0; i<me.thumbs.length; i++) {
                 me.thumbs[i].thumb.on('dblclick', null, function() {
                     me.trigger('thumbdblclick', me);
                 });
-                me.thumbs[i].thumbcolor = me.thumbs[i].thumb.find('> svg use.thumb-inside');
+                me.thumbs[i].thumbcolor = me.thumbs[i].thumb.find('> canvas')[0];
+                me.setSizeThumb(me.thumbs[i].thumb, me.thumbs[i].thumbcolor);
+                me.thumbs[i].context = me.thumbs[i].thumbcolor.getContext('2d');
+                me.drawThumb(me.thumbs[i]);
                 me.setColorValue(me.options.colorValues[i], i);
             }
 
             me.changeSliderStyle();
             me.changeGradientStyle();
             me.on('change', _.bind(me.changeGradientStyle, me));
+            Common.NotificationCenter.on( {
+                'window:resize':_.bind(me.onResize, me),
+                'uitheme:changed': _.bind(me.changeColors,me, true)});
+            this.on('thumbclick',_.bind(me.onActiveThumb,me));
         },
 
         setColorValue: function(color, index) {
             var ind = (index!==undefined) ? index : this.currentThumb;
             this.thumbs[ind].colorValue = color;
-            this.thumbs[ind].thumbcolor.css('fill', color);
+            this.thumbFill(this.thumbs[ind].context,color);
             this.changeGradientStyle();
         },
 
@@ -194,9 +212,101 @@ define([
             me.thumbs[index].thumb.on('dblclick', null, function() {
                 me.trigger('thumbdblclick', me);
             });
-            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> svg use.thumb-inside');
-            (index>0) && this.setColorValue(this.getColorValue(index-1), index);
+            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> canvas')[0];
+            if(index>0) {
+                me.setSizeThumb(me.thumbs[index].thumb, me.thumbs[index].thumbcolor);
+                me.thumbs[index].context = me.thumbs[index].thumbcolor.getContext('2d');
+                this.drawThumb(this.thumbs[index]);
+                this.setColorValue(this.getColorValue(index - 1), index);
+            }
             me.changeSliderStyle();
+        },
+
+        drawThumb: function (tmb)  {
+            if(!tmb) return;
+            var ctx = tmb.context,
+                borderWidth = (this.tmbOptions.border*this.scale + 0.5)>>0,
+                x1 = borderWidth / 2,
+                x2 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale + 0.5)>>0) - borderWidth / 2,
+                x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0),
+                y1 = ((this.tmbOptions.width/2*this.scale + 0.5)>>0) + borderWidth / 2,
+                y2 = ((this.tmbOptions.height*this.scale + 0.5)>>0) - borderWidth / 2,
+                y3 = ((this.scale + 0.5)>>0) + borderWidth / 2;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1, y2);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x2, y1);
+            ctx.lineTo(x3, y3);
+            ctx.lineTo(x1, y1);
+            ctx.closePath();
+            ctx.lineWidth = borderWidth;
+            ctx.strokeStyle = (tmb.thumb.hasClass('active')) ? this.tmbOptions.borderColorActive : this.tmbOptions.borderColor;
+            ctx.stroke();
+        },
+
+        thumbFill: function (ctx, color) {
+
+            var borderWidth = (this.tmbOptions.border*this.scale + 0.5)>>0,
+                x1 = 2*borderWidth,
+                x2 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale + 0.5)>>0) - 2*borderWidth,
+                x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0),
+                y1 = (((this.tmbOptions.width/2)*this.scale + borderWidth  + 0.5)>>0) ,
+                y2 = ((this.tmbOptions.height*this.scale + 0.5)>>0) - 2*borderWidth,
+                y3 = ((this.tmbOptions.border*this.scale + 2.5*borderWidth + 0.5)>>0);
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1, y2);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x2, y1);
+            ctx.lineTo(x3, y3);
+            ctx.lineTo(x1, y1);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        },
+
+        redrawThumb: function (tmb){
+            if(!tmb)return;
+            var ctx = tmb.context;
+            ctx.clearRect(0,0,tmb.thumbcolor.width, tmb.thumbcolor.height);
+            this.drawThumb(tmb);
+            this.thumbFill(tmb.context, tmb.colorValue);
+        },
+
+        onActiveThumb: function (){
+            this.redrawThumb(this.tmbOptions.activeThumb);
+            this.tmbOptions.activeThumb = this.thumbs.filter(function (tmb){return  tmb.thumb.hasClass('active');})[0];
+            this.redrawThumb(this.tmbOptions.activeThumb);
+        },
+
+        setSizeThumb: function (tmb, canv){
+            if(!tmb || !canv) return;
+            tmb.css({ width: ((this.tmbOptions.width * this.scale)>>0) / this.scale, height: ((this.tmbOptions.height * this.scale) >> 0) / this.scale});
+            canv.width = this.tmbOptions.width * this.scale;
+            canv.height = this.tmbOptions.height * this.scale;
+        },
+
+        onResize: function(){
+            if(!this.thumbs || this.thumbs.length==0) return;
+            this.scale = Common.Utils.applicationPixelRatio() >= 1 ? Common.Utils.applicationPixelRatio() : 1;
+            for (var i=0; i<this.thumbs.length; i++) {
+                this.setSizeThumb(this.thumbs[i].thumb, this.thumbs[i].thumbcolor);
+                !!this.thumbs[i].context && this.redrawThumb(this.thumbs[i]);
+            }
+        },
+
+        changeColors: function (redraw, theme) {
+            if(theme == this.currentTheme)return;
+            this.currentTheme = (theme !== 'theme-system') ? theme : this.currentTheme = window.uitheme.relevant_theme_id();
+            this.tmbOptions.borderColor = this.colorTable[this.currentTheme].borderColor;
+            this.tmbOptions.borderColorActive = this.colorTable[this.currentTheme].borderColorActive;
+            if(redraw){
+                for(var i=0; i< this.thumbs.length; i++){
+                    !!this.thumbs[i].context && this.redrawThumb(this.thumbs[i]);
+                    this.tmbOptions.activeThumb = this.thumbs[i];
+                }
+            }
         },
 
         addNewThumb: function(index, pos, curIndex) {
@@ -215,8 +325,13 @@ define([
                 var ratio = (pos - this.thumbs[indexLeftThumb].value) * 100 / (this.thumbs[indexLeftThumb + 1].value - this.thumbs[indexLeftThumb].value);
                 color = ratio < 0 ? this.thumbs[indexLeftThumb].colorValue : this.calculationNewColor(this.thumbs[indexLeftThumb].colorValue, this.thumbs[indexLeftThumb === index - 1 ? indexLeftThumb : indexLeftThumb + 1].colorValue, ratio);
             }
-            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> svg use.thumb-inside');
-            (index>0) && this.setColorValue('#' + color, index);
+            me.thumbs[index].thumbcolor = me.thumbs[index].thumb.find('> canvas')[0];
+            if(index>0) {
+                me.setSizeThumb(me.thumbs[index].thumb, me.thumbs[index].thumbcolor);
+                me.thumbs[index].context = me.thumbs[index].thumbcolor.getContext('2d');
+                me.drawThumb(me.thumbs[index]);
+                this.setColorValue('#' + color, index);
+            }
             me.sortThumbs();
             me.changeSliderStyle();
             me.changeGradientStyle();

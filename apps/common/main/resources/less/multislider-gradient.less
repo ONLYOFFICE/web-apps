@@ -7,36 +7,22 @@
         height: 15px;
         top: 18px;
         background: none;
-        svg {
-            width: 13px;
-            height: 100%;
-            margin-left:-1px;
-            margin-left: calc(1px - @scaled-one-px-value);
-            use.thumb-over{
-                stroke: @border-regular-control-ie;
-                stroke: @border-regular-control;
-                stroke-width: 2px;
-                stroke-width: @scaled-two-px-value;
-                stroke-width: calc(1px + @scaled-one-px-value);
-            }
-            use.thumb-inside {
-                stroke: @background-normal-ie;
-                stroke: @background-normal;
-                stroke-width: 3px;
-                stroke-width: calc(2px + @scaled-one-px-value);
-
-            }
-
+        canvas{
+             .margin-left(1px);
         }
-        &.active  svg use.thumb-over {
-            stroke: @border-control-focus-ie;
-            stroke: @border-control-focus;
-        }
-        &.remove svg use.thumb-over{
+
+        &.remove canvas{
             opacity: 0.5;
         }
-        &:hover {
-            filter: drop-shadow( 0px 2px 3px rgba(0, 0, 0, 0.32));
+        &:hover::after{
+            display: block;
+            content: ' ';
+            position: absolute;
+            width: 12px;
+            height: 10px;
+            bottom: 0;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
+            .margin-left(1px);
         }
     }
 
