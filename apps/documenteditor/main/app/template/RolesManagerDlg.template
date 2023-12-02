@@ -12,14 +12,14 @@
             </tr>
             <tr>
                 <td colspan=2 class="padding-small">
-                    <div id="roles-manager-roles-list" class="roles-tableview no-borders" style="width:480px; height: 170px;"></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=2 class="padding-large">
                     <button type="button" class="btn btn-text-default margin-right-5" id="roles-manager-btn-new" style="min-width: 100px;"><%= scope.textNew %></button>
                     <button type="button" class="btn btn-text-default" id="roles-manager-btn-edit" style="min-width: 100px;"><%= scope.textEdit %></button>
                     <button type="button" class="btn btn-text-default float-right" id="roles-manager-btn-delete" style="min-width: 100px;"><%= scope.textDelete %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <div id="roles-manager-roles-list" class="roles-tableview no-borders" style="width:480px; height: 170px;"></div>
                 </td>
             </tr>
         </table>

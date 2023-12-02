@@ -52,6 +52,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         options: {
             alias: 'RolesManagerDlg',
             contentWidth: 500,
+            separator: false,
             buttons: ['close']
         },
 
