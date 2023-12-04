@@ -603,6 +603,7 @@ define([
                     var guid = plugin.get_Guid(),
                         langName = plugin.get_Name(lang),
                         menu = this.isPDFEditor ? 'left' : variation.get_Menu();
+                        !menu && (menu = 'left');
                         this.addPluginToSideMenu(plugin, langName, menu);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());

@@ -39,7 +39,6 @@
 
 var SCALE_MIN = 40;
 var MENU_SCALE_PART = 260;
-var MENU_MAX_SCALE_PART = 300;
 
 define([
     'text!documenteditor/main/app/template/RightMenu.template',
@@ -289,20 +288,18 @@ define([
         },
 
         onBtnMenuClick: function(btn, e) {
-            var target_pane,
+            var isPlugin = btn && btn.options.type === 'plugin',
                 target_pane_parent = $(this.el).find('.right-panel'),
-                isPlugin = btn && btn.options.type === 'plugin',
-                width = !isPlugin ? MENU_SCALE_PART : MENU_MAX_SCALE_PART;
+                target_pane;
             if (btn && !isPlugin) {
                 target_pane = $("#" + this._settings[btn.options.asctype].panel);
             }
 
             if (btn && btn.pressed) {
-                if ( this.minimizedMode || (!isPlugin && this.maximizedMode) || (isPlugin && !this.maximizedMode) ) {
-                    $(this.el).width(width);
+                if ( this.minimizedMode ) {
+                    $(this.el).width(MENU_SCALE_PART);
                     target_pane_parent.css("display", "inline-block" );
                     this.minimizedMode = false;
-                    this.maximizedMode = isPlugin;
                     Common.localStorage.setItem("de-hide-right-settings", 0);
                     Common.Utils.InternalSettings.set("de-hide-right-settings", false);
                 }
@@ -316,7 +313,6 @@ define([
                 target_pane_parent.css("display", "none" );
                 $(this.el).width(SCALE_MIN);
                 this.minimizedMode = true;
-                this.maximizedMode = false;
                 Common.localStorage.setItem("de-hide-right-settings", 1);
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
