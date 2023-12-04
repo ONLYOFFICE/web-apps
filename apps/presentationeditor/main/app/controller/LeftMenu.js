@@ -400,6 +400,9 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
                 this.api.asc_setShowSmartGuides(value);
             }
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
 
             menu.hide();
         },

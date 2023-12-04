@@ -2016,6 +2016,7 @@
   "PE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with a notification",
   "PE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "PE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "PE.Views.FileMenuPanels.Settings.txtScreenReader": "Turn on screen reader support",
   "PE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Download as",
   "PE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save Copy as",
   "PE.Views.GridSettings.textCm": "cm",
