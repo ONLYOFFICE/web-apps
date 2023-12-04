@@ -315,10 +315,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
             return {arr: arr, deletedArr: this.deletedArr};
         },
 
-        onPrimary: function() {
-            return true;
-        },
-
         onDlgBtnClick: function(event) {
             this.handler && this.handler.call(this, event.currentTarget.attributes['result'].value, this.getSettings());
             this.close();

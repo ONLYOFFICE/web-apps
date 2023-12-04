@@ -79,7 +79,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'pluginsleft:open': _.bind(this.openPlugin, this),
                     'pluginsleft:close': _.bind(this.closePlugin, this),
-                    'pluginsleft:hide': _.bind(this.onHidePlugins, this)
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -532,6 +533,10 @@ define([
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("de-settings-showsnaplines"));
 
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
+
             menu.hide();
         },
 
@@ -618,6 +623,10 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
         },
 
         onApiServerDisconnect: function(enableDownload) {

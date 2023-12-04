@@ -2149,6 +2149,7 @@
   "DE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with a notification",
   "DE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "DE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "Turn on screen reader support",
   "DE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Download as",
   "DE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save Copy as",
   "DE.Views.FormSettings.textAlways": "Always",

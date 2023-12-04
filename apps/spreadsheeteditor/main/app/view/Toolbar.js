@@ -1248,6 +1248,17 @@ define([
                     dataHintOffset: 'small'
                 });
 
+                me.btnInsertChartRecommend = new Common.UI.Button({
+                    id          : 'tlbtn-insertchartrecommend',
+                    cls         : 'btn-toolbar x-huge icon-top',
+                    iconCls     : 'toolbar__icon btn-recommended-chart',
+                    lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText, _set['Objects']],
+                    caption     : me.capInsertChartRecommend,
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+
                 me.btnInsertSparkline = new Common.UI.Button({
                     id          : 'tlbtn-insertsparkline',
                     cls         : 'btn-toolbar x-huge icon-top',
@@ -1593,6 +1604,42 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
+                });
+
+                me.btnFillNumbers = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-fill-num',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-fill',
+                    lock        : [_set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set.selRangeEdit, _set.wsLock],
+                    menu        : new Common.UI.Menu({
+                        style : 'min-width: 110px',
+                        items : [
+                            {
+                                caption: me.textDown,
+                                value: Asc.c_oAscFillType.fillDown
+                            },
+                            {
+                                caption: me.textFillRight,
+                                value: Asc.c_oAscFillType.fillRight
+                            },
+                            {
+                                caption: me.textUp,
+                                value: Asc.c_oAscFillType.fillUp
+                            },
+                            {
+                                caption: me.textFillLeft,
+                                value: Asc.c_oAscFillType.fillLeft
+                            },
+                            {caption: '--'},
+                            {
+                                caption: me.textSeries,
+                                value: Asc.c_oAscFillType.series
+                            }
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -16'
                 });
 
                 me.btnClearStyle = new Common.UI.Button({
@@ -2164,11 +2211,11 @@ define([
                     me.btnItalic, me.btnUnderline, me.btnStrikeout, me.btnSubscript, me.btnTextColor, me.btnAlignLeft,
                     me.btnAlignCenter,me.btnAlignRight,me.btnAlignJust, me.btnAlignTop,
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
-                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
+                    me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
                     me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
-                    me.btnInsertChart, me.btnColorSchemas, me.btnInsertSparkline,
+                    me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.listStyles, me.btnPrint,
                     /*me.btnSave,*/ me.btnClearStyle, me.btnCopyStyle,
                     me.btnPageMargins, me.btnPageSize, me.btnPageOrient, me.btnPrintArea, me.btnPageBreak, me.btnPrintTitles, me.btnImgAlign, me.btnImgBackward, me.btnImgForward, me.btnImgGroup, me.btnScale,
@@ -2348,6 +2395,7 @@ define([
             _injectComponent('#slot-btn-digit-inc',      this.btnIncDecimal);
             _injectComponent('#slot-btn-formula',        this.btnInsertFormula);
             _injectComponent('#slot-btn-named-range',    this.btnNamedRange);
+            _injectComponent('#slot-btn-fill-num',       this.btnFillNumbers);
             _injectComponent('#slot-btn-clear',          this.btnClearStyle);
             _injectComponent('#slot-btn-copystyle',      this.btnCopyStyle);
             _injectComponent('#slot-btn-cell-ins',       this.btnAddCell);
@@ -2355,6 +2403,7 @@ define([
             _injectComponent('#slot-btn-colorschemas',   this.btnColorSchemas);
             _injectComponent('#slot-btn-search',         this.btnSearch);
             _injectComponent('#slot-btn-inschart',       this.btnInsertChart);
+            _injectComponent('#slot-btn-insrecommend',   this.btnInsertChartRecommend);
             _injectComponent('#slot-btn-inssparkline',   this.btnInsertSparkline);
             _injectComponent('#slot-btn-inssmartart',    this.btnInsertSmartArt);
             _injectComponent('#slot-field-styles',       this.listStyles);
@@ -2430,6 +2479,7 @@ define([
             _updateHint(this.btnInsertTable, this.tipInsertTable);
             _updateHint(this.btnInsertImage, this.tipInsertImage);
             _updateHint(this.btnInsertChart, this.tipInsertChartSpark);
+            _updateHint(this.btnInsertChartRecommend, this.tipInsertChartRecommend);
             _updateHint(this.btnInsertSparkline, this.tipInsertSpark);
             _updateHint(this.btnInsertSmartArt, this.tipInsertSmartArt);
             _updateHint(this.btnInsertText, [this.tipInsertHorizontalText ,this.tipInsertText]);
@@ -2452,6 +2502,7 @@ define([
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
             _updateHint(this.btnInsertFormula, [this.txtAutosumTip + Common.Utils.String.platformKey('Alt+='), this.txtFormula + Common.Utils.String.platformKey('Shift+F3')]);
             _updateHint(this.btnNamedRange, this.txtNamedRange);
+            _updateHint(this.btnFillNumbers, this.txtFillNum);
             _updateHint(this.btnClearStyle, this.tipClearStyle);
             _updateHint(this.btnCopyStyle, this.tipCopyStyle);
             _updateHint(this.btnAddCell, this.tipInsertOpt + Common.Utils.String.platformKey('Ctrl+Shift+='));
@@ -3702,7 +3753,15 @@ define([
         tipPageBreak: 'Add a break where you want the next page to begin in the printed copy',
         textInsPageBreak: 'Insert page break',
         textDelPageBreak: 'Remove page break',
-        textResetPageBreak: 'Reset all page breaks'
+        textResetPageBreak: 'Reset all page breaks',
+        capInsertChartRecommend: 'Recommended Chart',
+        tipInsertChartRecommend: 'Insert recommended chart',
+        textDown: 'Down',
+        textUp: 'Up',
+        textFillLeft: 'Left',
+        textFillRight: 'Right',
+        textSeries: 'Series',
+        txtFillNum: 'Fill'
 
     }, SSE.Views.Toolbar || {}));
 });

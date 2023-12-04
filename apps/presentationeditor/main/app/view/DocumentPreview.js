@@ -379,9 +379,8 @@ define([
         },
 
         onDemonstrationStatus: function(status) {
-            var iconEl = $('.icon', this.btnPlay.cmpEl);
-            iconEl.toggleClass('btn-preivew-pause', status=="play");
-            iconEl.toggleClass('btn-preivew-play', status!=="play");
+            (status=="play") ? this.btnPlay.changeIcon({curr: 'btn-play', next: 'btn-preview-pause'}) :
+                               this.btnPlay.changeIcon({curr: 'btn-preview-pause', next: 'btn-play'});
             this.btnPlay.updateHint((status=="play") ? this.txtPause : this.txtPlay);
         },
 

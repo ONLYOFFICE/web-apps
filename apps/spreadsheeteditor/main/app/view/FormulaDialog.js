@@ -196,6 +196,7 @@ define([
         },
         onPrimary: function(list, record, event) {
             this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {

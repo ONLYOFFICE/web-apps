@@ -285,7 +285,7 @@ define([
                     this.chShowComments = new Common.UI.CheckBox({
                         lock: [_set.disableOnStart],
                         labelText: this.capBtnShowComments,
-                        value: Common.localStorage.getBool("pdfe-settings-livecomment", true),
+                        value: true,
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'

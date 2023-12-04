@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, { useState } from 'react';
 import { List, ListItem, Toggle, Page, Navbar, NavRight, Link } from 'framework7-react';
-import { SearchController, SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
+import { SearchView, SearchSettingsView } from '../../../../common/mobile/lib/controller/Search';
 import { f7 } from 'framework7-react';
 import { withTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
@@ -75,22 +75,29 @@ class PESearchView extends SearchView {
 const Search = withTranslation()(props => {
     const { t } = props;
     const _t = t('View.Settings', {returnObjects: true});
+    const [numberSearchResults, setNumberSearchResults] = useState(null);
 
-    const onSearchQuery = params => {
+    const onSearchQuery = (params, isSearchByTyping) => {
         const api = Common.EditorApi.get();
 
         f7.popover.close('.document-menu.modal-in', false);
 
-        // if (params.find && params.find.length) {
-            const options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        const options = new AscCommon.CSearchSettings();
 
-            api.asc_findText(options, params.forward, function(resultCount) {
-                !resultCount && f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-            });
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-        // }
+        api.asc_findText(options, params.forward, function(resultCount) {
+            if(!resultCount) {
+                setNumberSearchResults(0);
+
+                if(!isSearchByTyping) {
+                    f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+                }
+            } else {
+                setNumberSearchResults(resultCount);
+            }
+        });
     };
 
     const onchangeSearchQuery = params => {
@@ -101,43 +108,53 @@ const Search = withTranslation()(props => {
 
     const onReplaceQuery = params => {
         const api = Common.EditorApi.get();
+        const options = new AscCommon.CSearchSettings();
 
-        // if (params.find && params.find.length) {
-            const options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-            api.asc_findText(options, params.forward, function(resultCount) {
-                if(!resultCount) {
-                    f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-                    return;
-                }
+        api.asc_findText(options, params.forward, function(resultCount) {
+            if(!resultCount) {
+                setNumberSearchResults(0);
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+                return;
+            }
 
-                api.asc_replaceText(options, params.replace || '', false);
-            });
-        // }
+            api.asc_replaceText(options, params.replace || '', false);
+            setNumberSearchResults(numberSearchResults - 1);
+        });
     }
 
     const onReplaceAllQuery = params => {
         const api = Common.EditorApi.get();
+        const options = new AscCommon.CSearchSettings();
 
-        // if (params.find && params.find.length) {
-            const options = new AscCommon.CSearchSettings();
-            options.put_Text(params.find);
-            options.put_MatchCase(params.caseSensitive);
+        options.put_Text(params.find);
+        options.put_MatchCase(params.caseSensitive);
 
-            api.asc_findText(options, params.forward, function(resultCount) {
-                if(!resultCount) {
-                    f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-                    return;
-                }
+        api.asc_findText(options, params.forward, function(resultCount) {
+            if(!resultCount) {
+                setNumberSearchResults(0);
+                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
+                return;
+            }
 
-                api.asc_replaceText(options, params.replace || '', true);
-            });
-        // }
+            api.asc_replaceText(options, params.replace || '', true);
+            setNumberSearchResults(0);
+        });
     }
 
-    return <PESearchView _t={_t} onSearchQuery={onSearchQuery} onchangeSearchQuery={onchangeSearchQuery} onReplaceQuery={onReplaceQuery} onReplaceAllQuery={onReplaceAllQuery} />
+    return ( 
+        <PESearchView 
+            _t={_t} 
+            onSearchQuery={onSearchQuery} 
+            onchangeSearchQuery={onchangeSearchQuery} 
+            onReplaceQuery={onReplaceQuery} 
+            onReplaceAllQuery={onReplaceAllQuery} 
+            numberSearchResults={numberSearchResults}
+            setNumberSearchResults={setNumberSearchResults}
+        />
+    )
 });
 
 const SearchSettingsWithTranslation = inject("storeAppOptions", "storeVersionHistory")(observer(withTranslation()(SearchSettings)));

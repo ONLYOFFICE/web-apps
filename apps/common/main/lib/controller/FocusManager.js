@@ -147,11 +147,21 @@ Common.UI.FocusManager = new(function() {
                 };
             }
             addTraps(_windows[e.cid]);
+            return index || 0;
         }
     };
 
     var _add = function(e, fields) {
         _insert(e, fields);
+    };
+
+    var _remove = function(e, start, len) {
+        if (e && e.cid && _windows[e.cid] && _windows[e.cid].fields && start!==undefined) {
+            var removed = _windows[e.cid].fields.splice(start, len);
+            removed && removed.forEach(function(item) {
+                item.el && item.el.attr && (item.cmp.setTabIndex ? item.cmp.setTabIndex(-1) : item.el.attr('tabindex', "-1"));
+            });
+        }
     };
 
     var _init = function() {
@@ -197,6 +207,7 @@ Common.UI.FocusManager = new(function() {
     return {
         init: _init,
         add: _add,
-        insert: _insert
+        insert: _insert,
+        remove: _remove
     }
 })();
