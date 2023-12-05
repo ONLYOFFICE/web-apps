@@ -319,7 +319,8 @@ const PageLineSpacing = props => {
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const lineSpacing = storeTextSettings.lineSpacing;
-    return(
+
+    return (
         <Page>
             <Navbar title={t('Edit.textLineSpacing')} backLink={t('Edit.textBack')}>
                 {Device.phone &&
@@ -478,6 +479,65 @@ const PageHighlightColor = props => {
     )
 };
 
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const shapePr = props.shapePr;
+    const [directionTextShape, setDirectionTextShape] = useState(shapePr.get_Vert());
+    const isAndroid = Device.android;
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null} 
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
+                    }
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null} 
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null
+                    }
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    after={isAndroid ? 
+                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> 
+                    : null} 
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> : null
+                    }
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -596,6 +656,14 @@ const EditText = props => {
                         </div>
                     </ListItem>
                 }
+                {shapePr &&
+                    <ListItem title={t('Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                        setOrientationTextShape: props.setOrientationTextShape,
+                        shapePr
+                    }}>
+                        {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
+                    </ListItem>
+                }
                 {!inSmartArt && !inSmartArtInternal &&
                     <ListItem title={t('Edit.textBulletsAndNumbers')} link='/edit-bullets-and-numbers/' routeProps={{
                         onBullet: props.onBullet,
@@ -626,6 +694,7 @@ const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
+// const PageTextOrientation = observer(TextOrientation);
 
 export {
     EditTextContainer as EditText,
@@ -636,5 +705,7 @@ export {
     PageTextFontColor,
     PageTextCustomFontColor,
     PageTextHighlightColor,
+    // PageTextOrientation,
+    PageOrientationTextShape
     // PageTextCustomBackColor
 };

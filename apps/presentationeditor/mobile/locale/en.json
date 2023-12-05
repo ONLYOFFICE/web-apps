@@ -450,7 +450,11 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate"
+      "textZoomRotate": "Zoom and Rotate",
+      "textTextOrientation:": "Text Orientation",
+      "textHorizontalText": "Horizontal Text",
+      "textRotateTextUp": "Rotate Text Up",
+      "textRotateTextDown": "Rotate Text Down"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
