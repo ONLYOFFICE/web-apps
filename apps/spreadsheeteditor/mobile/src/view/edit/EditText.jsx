@@ -10,6 +10,8 @@ const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
     const storeTextSettings = props.storeTextSettings;
     const textIn = storeTextSettings.textIn;
 
@@ -83,12 +85,79 @@ const EditText = props => {
                                 </a>
                             </div>
                         </ListItem>
+                        {shapeObject &&
+                            <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                                setOrientationTextShape: props.setOrientationTextShape,
+                                shapeObject
+                            }}>
+                                {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
+                            </ListItem>
+                        }
                     </List>
                 </Fragment>
             ) : null}
         </Fragment>
     );
 };
+
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const shapeObject = props.shapeObject;
+    const [directionTextShape, setDirectionTextShape] = useState(shapeObject.get_Vert());
+    const isAndroid = Device.android;
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('View.Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null} 
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
+                    }
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null} 
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null
+                    }
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    after={isAndroid ? 
+                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> 
+                    : null} 
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    {!isAndroid ?
+                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> : null
+                    }
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -101,8 +170,8 @@ const PageFonts = props => {
     const fonts = storeTextSettings.fontsArray;
     const iconWidth = storeTextSettings.iconWidth;
     const iconHeight = storeTextSettings.iconHeight;
-    const thumbs = storeTextSettings.thumbs;
-    const thumbIdx = storeTextSettings.thumbIdx;
+    // const thumbs = storeTextSettings.thumbs;
+    // const thumbIdx = storeTextSettings.thumbIdx;
     const thumbCanvas = storeTextSettings.thumbCanvas;
     const thumbContext = storeTextSettings.thumbContext;
     const spriteCols = storeTextSettings.spriteCols;
@@ -292,5 +361,6 @@ export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextFontColor,
-    PageTextCustomFontColor
+    PageTextCustomFontColor,
+    PageOrientationTextShape
 };
