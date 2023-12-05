@@ -1985,6 +1985,191 @@ define([
         }
     });
 
+    PDFE.Views.FileMenuPanels.ProtectDoc = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-protect',
+        menu: undefined,
+
+        template: _.template([
+            '<label id="id-fms-lbl-protect-header"><%= scope.strProtect %></label>',
+            '<div id="id-fms-password">',
+            '<label class="header"><%= scope.strEncrypt %></label>',
+            '<div class="encrypt-block">',
+            '<div class="description"><%= scope.txtProtectDocument %></div>',
+            '<div id="fms-btn-add-pwd"></div>',
+            '</div>',
+            '<div class="encrypted-block">',
+            '<div class="description"><%= scope.txtEncrypted %></div>',
+            '<div class="buttons">',
+            '<div id="fms-btn-change-pwd"></div>',
+            '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
+            '</div>',
+            '</div>',
+            '</div>',
+            '<div id="id-fms-signature">',
+            '<label class="header"><%= scope.strSignature %></label>',
+            '<div class="add-signature-block">',
+            '<div class="description"><%= scope.txtAddSignature %></div>',
+            '<div id="fms-btn-invisible-sign"></div>',
+            '</div>',
+            '<div class="added-signature-block">',
+            '<div class="description"><%= scope.txtAddedSignature %></div>',
+            '</div>',
+            '<div id="id-fms-signature-view"></div>',
+            '</div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+
+            var me = this;
+            this.templateSignature = _.template([
+                '<div class="<% if (!hasSigned) { %>hidden<% } %>"">',
+                '<div class="signature-tip"><%= tipText %></div>',
+                '<div class="buttons">',
+                '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
+                '</div>',
+                '</div>'
+            ].join(''));
+        },
+
+        render: function() {
+            this.$el.html(this.template({scope: this}));
+
+            var protection = PDFE.getController('Common.Controllers.Protection').getView();
+
+            this.btnAddPwd = protection.getButton('add-password');
+            this.btnAddPwd.render(this.$el.find('#fms-btn-add-pwd'));
+            this.btnAddPwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnChangePwd = protection.getButton('change-password');
+            this.btnChangePwd.render(this.$el.find('#fms-btn-change-pwd'));
+            this.btnChangePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnDeletePwd = protection.getButton('del-password');
+            this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
+            this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.cntPassword = $('#id-fms-password');
+            this.cntEncryptBlock = this.$el.find('.encrypt-block');
+            this.cntEncryptedBlock = this.$el.find('.encrypted-block');
+
+            this.btnAddInvisibleSign = protection.getButton('signature');
+            this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
+            this.btnAddInvisibleSign.on('click', _.bind(this.closeMenu, this));
+
+            this.cntSignature = $('#id-fms-signature');
+            this.cntSignatureView = $('#id-fms-signature-view');
+
+            this.cntAddSignature = this.$el.find('.add-signature-block');
+            this.cntAddedSignature = this.$el.find('.added-signature-block');
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el,
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+            }
+
+            this.$el.on('click', '.signature-edit-link', _.bind(this.onEdit, this));
+            this.$el.on('click', '.signature-view-link', _.bind(this.onView, this));
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateSignatures();
+            this.updateEncrypt();
+            this.scroller && this.scroller.update();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            this.cntSignature.toggleClass('hidden', !this.mode.isSignatureSupport);
+            this.cntPassword.toggleClass('hidden', !this.mode.isPasswordSupport);
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
+        },
+
+        closeMenu: function() {
+            this.menu && this.menu.hide();
+        },
+
+        onEdit: function() {
+            this.menu && this.menu.hide();
+
+            var me = this;
+            Common.UI.warning({
+                title: this.notcriticalErrorTitle,
+                msg: this.txtEditWarning,
+                buttons: ['ok', 'cancel'],
+                primary: 'ok',
+                callback: function(btn) {
+                    if (btn == 'ok') {
+                        me.api.asc_RemoveAllSignatures();
+                    }
+                }
+            });
+
+        },
+
+        onView: function() {
+            this.menu && this.menu.hide();
+            // PDFE.getController('RightMenu').rightmenu.SetActivePane(Common.Utils.documentSettingsType.Signature, true);
+        },
+
+        updateSignatures: function(){
+            var valid = this.api.asc_getSignatures(),
+                hasValid = false,
+                hasInvalid = false;
+
+            _.each(valid, function(item, index){
+                if (item.asc_getValid()==0)
+                    hasValid = true;
+                else
+                    hasInvalid = true;
+            });
+
+            // hasValid = true;
+            // hasInvalid = true;
+
+            var tipText = (hasInvalid) ? this.txtSignedInvalid : (hasValid ? this.txtSigned : "");
+            this.cntSignatureView.html(this.templateSignature({tipText: tipText, hasSigned: (hasValid || hasInvalid)}));
+
+            var isAddedSignature = this.btnAddInvisibleSign.$el.find('button').hasClass('hidden');
+            this.cntAddSignature.toggleClass('hidden', isAddedSignature);
+            this.cntAddedSignature.toggleClass('hidden', !isAddedSignature);
+        },
+
+        updateEncrypt: function() {
+            var isProtected = this.btnAddPwd.$el.find('button').hasClass('hidden');
+            this.cntEncryptBlock.toggleClass('hidden', isProtected);
+            this.cntEncryptedBlock.toggleClass('hidden', !isProtected);
+        },
+
+        strProtect: 'Protect Document',
+        strSignature: 'With Signature',
+        txtView: 'View signatures',
+        txtEdit: 'Edit document',
+        txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
+        notcriticalErrorTitle: 'Warning',
+        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
+        strEncrypt: 'With Password',
+        txtProtectDocument: 'Encrypt this document with a password',
+        txtEncrypted: 'A password is required to open this document',
+        txtAddSignature: 'Ensure the integrity of the document by adding an<br>invisible digital signature',
+        txtAddedSignature: 'Valid signatures have been added to the document.<br>The document is protected from editing.'
+
+    }, PDFE.Views.FileMenuPanels.ProtectDoc || {}));
+
     PDFE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
         el: '#panel-print',
         menu: undefined,
