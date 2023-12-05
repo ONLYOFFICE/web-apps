@@ -945,8 +945,8 @@
 
         if (typeof config.documentType === 'string') {
             appType = config.documentType.toLowerCase();
-            if (!!config.document && typeof config.document.fileType === 'string') {
-                var type = /^(?:(djvu|xps|oxps))$/.exec(config.document.fileType);
+            if (config.type !== 'mobile' && config.type !== 'embedded' && !!config.document && typeof config.document.fileType === 'string') {
+                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
                 if (type && typeof type[1] === 'string')
                     appType = 'pdf';
             }
@@ -957,10 +957,10 @@
             if (type) {
                 if (typeof type[1] === 'string') appType = 'cell'; else
                 if (typeof type[2] === 'string') appType = 'slide'; else
-                if (typeof type[3] === 'string') appType = 'pdf';
+                if (typeof type[3] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'pdf';
             }
         }
-        if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded')) {
+        if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded' || config.document && config.document.isForm)) {
             appType = 'word';
         }
 
@@ -1038,8 +1038,8 @@
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
-        if (config.documentType)
-            params += "&documentType=" + config.documentType;
+        if (config.document && config.isForm)
+            params += "&isForm=true";
 
         return params;
     }
