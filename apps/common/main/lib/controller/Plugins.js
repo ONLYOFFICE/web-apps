@@ -472,20 +472,25 @@ define([
         updatePluginsButtons: function() {
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
                 me = this,
-                iconsInSideMenu = [];
+                iconsInLeftMenu = [],
+                iconsInRightMenu = [];
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
                 var guid = item.get('guid');
                 if (me.viewPlugins.pluginPanels[guid]) {
-                    iconsInSideMenu.push({
+                    var menu = me.viewPlugins.pluginPanels[guid].menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
+                    menu.push({
                         guid: guid,
                         baseUrl: item.get('baseUrl'),
                         parsedIcons: item.get('parsedIcons')
                     });
                 }
             });
-            if (iconsInSideMenu.length > 0) {
-                me.viewPlugins.fireEvent('plugins:updateicons', [iconsInSideMenu]);
+            if (iconsInLeftMenu.length > 0) {
+                me.viewPlugins.fireEvent('pluginsleft:updateicons', [iconsInLeftMenu]);
+            }
+            if (iconsInRightMenu.length > 0) {
+                me.viewPlugins.fireEvent('pluginsright:updateicons', [iconsInRightMenu]);
             }
         },
 

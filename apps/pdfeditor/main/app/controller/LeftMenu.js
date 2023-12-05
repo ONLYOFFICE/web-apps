@@ -76,7 +76,7 @@ define([
                     'pluginsleft:open': _.bind(this.openPlugin, this),
                     'pluginsleft:close': _.bind(this.closePlugin, this),
                     'pluginsleft:hide': _.bind(this.onHidePlugins, this),
-                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),

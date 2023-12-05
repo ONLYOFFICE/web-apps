@@ -69,7 +69,8 @@ define([
                     'plugins:addtoright': _.bind(this.addNewPlugin, this),
                     'pluginsright:open': _.bind(this.openPlugin, this),
                     'pluginsright:close': _.bind(this.closePlugin, this),
-                    'pluginsright:hide': _.bind(this.onHidePlugins, this)
+                    'pluginsright:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsright:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 }
             });
         },
@@ -467,6 +468,10 @@ define([
 
         onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.rightmenu.updatePluginButtonsIcons(icons);
         },
 
         onBtnCategoryClick: function (btn) {
