@@ -323,6 +323,14 @@ define([
             shapeProps.asc_putShadow(this.shadowProps);
             this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
         },
+
+        getFocusedComponents: function() {
+            return [this.spinTransparency, this.spinSize, this.spinAngle, this.spinDistance].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spinTransparency;
+        },
         
         onPrimary: function() {
             this.handleOkClose();

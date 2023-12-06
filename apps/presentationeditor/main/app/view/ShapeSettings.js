@@ -1810,6 +1810,7 @@ define([
                     '</div>')
             });
             this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
+            this.btnShadowShape.menu.setInnerMenu([{menu: this.viewShadowShapePresets, index: 0}]);
 
             this.mnuShadowShapeColorPicker = new Common.UI.ThemeColorPalette({
                 el: $('#shape-button-shadow-shape-menu-picker'),
