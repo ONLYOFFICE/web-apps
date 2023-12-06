@@ -48,6 +48,7 @@ if (Common.UI === undefined) {
 Common.UI.ScreenReaderFocusManager = new(function() {
     var _needShow = false,
         _focusVisible = false,
+        _focusMode = false,
         _currentLevel = 0,
         _currentSection = document,
         _currentControls = [],
@@ -55,7 +56,6 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _isLockedKeyEvents = false,
         _isDocReady = false,
         _isEditDiagram = false,
-        _isInternalEditorLoading = true,
         _api;
 
     var _setCurrentSection = function (btn, section) {
@@ -86,15 +86,13 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _showFocus = function () {
-        console.log('_showFocus');
         if (_currentControls.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
             _getControls();
-            _setFocusInActiveTab();
+            console.log(_currentControls);
         }
+        if (!_focusVisible) _setFocusInActiveTab();
         console.log(_currentControls[_currentItemIndex]);
-        if (_currentControls[_currentItemIndex]) {
-            $(_currentControls[_currentItemIndex]).focus();
-        }
+        //_currentControls[_currentItemIndex] && $(_currentControls[_currentItemIndex]).focus();
         if (_currentControls.length > 0) {
             !_isLockedKeyEvents && _lockedKeyEvents(true);
             _focusVisible = true;
@@ -104,7 +102,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _hideFocus = function () {
-
+        _focusVisible = false;
+        _focusMode = false;
     };
 
     var _nextItem = function () {
@@ -122,6 +121,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _nextLevel = function(level) {
+        _currentItemIndex = 0;
         _currentControls.length = 0;
         if (level !== undefined) {
             _currentLevel = level;
@@ -206,18 +206,39 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         });
         $(document).on('keydown', function(e) {
             if (_focusVisible) {
+                var turnOffHints = false;
                 e.preventDefault();
-                if (e.keyCode == Common.UI.Keys.LEFT) {
+                if (e.keyCode == Common.UI.Keys.ESC ) {
+                    _hideFocus();
+                    _resetToDefault();
+                    return;
+                } else if (e.keyCode == Common.UI.Keys.RETURN) {
+                    if (_focusMode && _currentControls[_currentItemIndex]) {
+                        var button = $(_currentControls[_currentItemIndex]);
+                        button.trigger(jQuery.Event('click', {which: 1}));
+                        _nextLevel();
+                        _setCurrentSection(button);
+                    }
+                } else if (e.keyCode == Common.UI.Keys.LEFT) {
+                    turnOffHints = true;
                     _prevItem();
                 } else if (e.keyCode == Common.UI.Keys.RIGHT || e.keyCode == Common.UI.Keys.TAB) {
+                    turnOffHints = true;
                     _nextItem();
+                } else if (e.keyCode == Common.UI.Keys.UP) {
+                    turnOffHints = true;
+                    _nextLevel();
+                } else if (e.keyCode == Common.UI.Keys.DOWN) {
+                    turnOffHints = true;
+                    _prevLevel();
+                }
+                if (!_focusMode && turnOffHints) {
+                    _focusMode = true;
+                    Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
                 }
                 _showFocus();
             }
             _needShow = e.keyCode == Common.UI.Keys.ALT && !e.shiftKey && !Common.Utils.ModalWindow.isVisible() && _isDocReady && !(window.PE && $('#pe-preview').is(':visible'));
-            if (e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
-                e.preventDefault();
-            }
         });
     };
 

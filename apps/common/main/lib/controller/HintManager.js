@@ -682,14 +682,14 @@ Common.UI.HintManager = new(function() {
         return !(_hintVisible && _currentLevel > 1);
     };
 
-    var _clearHints = function (isComplete) {
+    var _clearHints = function (isComplete, leaveLockedKeyEvents) {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
         }
-        _isLockedKeyEvents && _lockedKeyEvents(false);
+        !leaveLockedKeyEvents && _isLockedKeyEvents && _lockedKeyEvents(false);
 
         if (isComplete) {
             _isComplete = true;
