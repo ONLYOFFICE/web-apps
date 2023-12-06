@@ -659,7 +659,7 @@ define([
             this.mode = mode;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = mode.isPDFAnnotate || mode.isPDFEdit;
+                canPDFSave = (mode.isPDFAnnotate || mode.isPDFEdit) && !mode.isOffline;
 
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
