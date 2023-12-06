@@ -156,7 +156,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ].concat(this.getFooterButtons());
+            return [ this.btnNew, this.btnRename, this.btnDuplicate, this.viewList, this.btnDelete ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
