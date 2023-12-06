@@ -51,8 +51,10 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
-                    'hide':        _.bind(this.onHidePlugins, this)
+                    'plugins:addtoleft': _.bind(this.addNewPlugin, this),
+                    'plugins:open': _.bind(this.openPlugin, this),
+                    'plugins:close': _.bind(this.closePlugin, this),
+                    'hide': _.bind(this.onHidePlugins, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
@@ -67,7 +69,8 @@ define([
                     'file:show': _.bind(this.fileShowHide, this, true),
                     'file:hide': _.bind(this.fileShowHide, this, false),
                     'comments:show': _.bind(this.commentsShowHide, this, true),
-                    'comments:hide': _.bind(this.commentsShowHide, this, false)
+                    'comments:hide': _.bind(this.commentsShowHide, this, false),
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, true),
@@ -220,8 +223,8 @@ define([
             if (!options || options.chat)
                 this.leftMenu.btnChat.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
             this.leftMenu.btnSpellcheck.setDisabled(disable);
+            this.leftMenu.setDisabledPluginButtons(disable);
         },
 
         createDelayedElements: function() {
@@ -251,6 +254,8 @@ define([
             Common.util.Shortcuts.resumeEvents();
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 Common.NotificationCenter.on('cells:range',   _.bind(this.onCellsRange, this));
+            this.leftMenu.setButtons();
+            this.leftMenu.setMoreButton();
             return this;
         },
 
@@ -588,11 +593,36 @@ define([
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
+        /** coauthoring end **/
 
         onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
-        /** coauthoring end **/
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.leftMenu.insertButton(button, $button);
+            this.leftMenu.insertPanel($panel);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                if (btn.pressed) {
+                    this.tryToShowLeftMenu();
+                    this.leftMenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.leftMenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                this.leftMenu.onBtnMenuClick(btn);
+            }
+        },
+
+        openPlugin: function (guid) {
+            this.leftMenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.leftMenu.closePlugin(guid);
+        },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
@@ -609,8 +639,8 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnSpellcheck.setDisabled(true);
+            this.leftMenu.setDisabledPluginButtons(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -695,7 +725,7 @@ define([
         menuFilesShowHide: function(state) {
             if (this.api) {
                 this.api.asc_closeCellEditor();
-                this.api.asc_enableKeyEvents(!(state == 'show'));
+                (state == 'show') ? this.api.asc_enableKeyEvents(false) : Common.NotificationCenter.trigger('menu:hide');
             }
 
             if ( this.dlgSearch ) {
@@ -801,7 +831,7 @@ define([
                         }
                     }
                     if ( this.leftMenu.btnAbout.pressed ||
-                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
+                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -859,21 +889,6 @@ define([
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
                 Common.Utils.lockControls(Common.enumLock.editFormula, isEditFormula, {array: this.leftMenu.panelPlugins.lockedControls});
                 this.leftMenu.panelPlugins.setLocked(isEditFormula);
-            }
-        },
-
-        onPluginOpen: function(panel, type, action) {
-            if (type == 'onboard') {
-                if (action == 'open') {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed: true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
-                }
             }
         },
 

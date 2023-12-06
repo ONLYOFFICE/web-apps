@@ -363,7 +363,7 @@
 .modal-dlg {
     .body {
         height: auto;
-        padding: 15px;
+        padding: 15px 0;
 
         .input-row {
             height: @input-height-base;
@@ -379,10 +379,15 @@
         label {
             .font-size-normal();
         }
+
+        .box {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
     }
 
     .footer {
-        padding-top: 15px;
+        padding: 15px 15px 0;
 
         &.center {
             text-align: center;
@@ -392,22 +397,22 @@
             .text-align-right();
         }
     }
+
+    .separator.horizontal {
+        width: 100%;
+    }
 }
 
 // CopyWarningDialog
 
 .copy-warning {
     .body {
-        padding: 15px 0;
-
         & > div {
             width: 100%;
-            padding: 0 20px;
         }
 
         .box {
             text-align: center;
-            padding-bottom: 15px;
         }
         .message{
             text-align: justify;
@@ -434,10 +439,6 @@
             .message {
                 text-align: center;
             }
-        }
-
-        .footer {
-            padding: 20px;
         }
     }
 }

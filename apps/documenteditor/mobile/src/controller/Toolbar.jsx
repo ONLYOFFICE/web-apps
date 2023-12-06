@@ -10,6 +10,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
+    const isEdit = appOptions.isEdit;
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const isViewer = appOptions.isViewer;
@@ -26,7 +27,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const disabledControls = storeToolbarSettings.disabledControls;
     const disabledEditControls = storeToolbarSettings.disabledEditControls;
     const disabledSettings = storeToolbarSettings.disabledSettings;
-    const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
+    const showEditDocument = !isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
     const storeDocumentInfo = props.storeDocumentInfo;
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
@@ -208,6 +209,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     const changeTitleHandler = () => {
+        if(!appOptions.canRename) return;
+
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
+
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),
             text : t('Toolbar.textEnterNewFileName'),
@@ -320,37 +326,75 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Gateway.requestHistoryClose();
     }
 
+    const moveNextField = () => {
+        const api = Common.EditorApi.get();
+        api.asc_MoveToFillingForm(true);
+    }
+
+    const movePrevField = () => {
+        const api = Common.EditorApi.get();
+        api.asc_MoveToFillingForm(false);
+    }
+
+    const saveForm = () => {
+        const isSubmitForm = appOptions.canFillForms && appOptions.canSubmitForms;
+        const isSavePdf = appOptions.canDownload && appOptions.canFillForms && !appOptions.canSubmitForms;
+
+        if(isSubmitForm) submitForm();
+        if(isSavePdf) saveAsPdf();
+    }
+
+    const saveAsPdf = () => {
+        const api = Common.EditorApi.get();
+
+        if (appOptions.isOffline) {
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+        } else {
+            const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+        }
+    }
+
+    const submitForm = () => {
+        const api = Common.EditorApi.get();
+        api.asc_SendForm();
+    }
+
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     closeOptions={props.closeOptions}
-                     isEdit={appOptions.isEdit}
-                     docTitle={docTitle}
-                     docExt={docExt}
-                     isShowBack={isShowBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     isObjectLocked={objectLocked}
-                     stateDisplayMode={stateDisplayMode}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls}
-                     disabledSettings={disabledSettings}
-                     displayCollaboration={displayCollaboration}
-                     readerMode={readerMode}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
-                     isViewer={isViewer}
-                     turnOnViewerMode={turnOnViewerMode}
-                     isMobileView={isMobileView}
-                     changeMobileView={changeMobileView}
-                     changeTitleHandler={changeTitleHandler}
-                     isVersionHistoryMode={isVersionHistoryMode}
-                     closeHistory={closeHistory}
-                     isOpenModal={props.isOpenModal}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            closeOptions={props.closeOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            docExt={docExt}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            isObjectLocked={objectLocked}
+            stateDisplayMode={stateDisplayMode}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls}
+            disabledSettings={disabledSettings}
+            displayCollaboration={displayCollaboration}
+            readerMode={readerMode}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            isViewer={isViewer}
+            turnOnViewerMode={turnOnViewerMode}
+            isMobileView={isMobileView}
+            changeMobileView={changeMobileView}
+            changeTitleHandler={changeTitleHandler}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
+            moveNextField={moveNextField}
+            movePrevField={movePrevField}
+            saveForm={saveForm}
         />
     )
 }));
 
-export {ToolbarController as Toolbar};
+export default ToolbarController;

@@ -140,8 +140,10 @@ define([
 
                 var panel = this._settings[type].panel;
                 var props = this._settings[type].props;
-                if (props && panel)
+                if (props && panel) {
                     panel.ChangeSettings.call(panel, (type==Common.Utils.documentSettingsType.Signature) ? undefined : props, this._state.wsLock, this._state.wsProps);
+                    this.rightmenu.updateScroller();
+                }
             }
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
         },
@@ -263,11 +265,17 @@ define([
                 if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
-                    if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
+                    if (!pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(true);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, true);
+                    }
                     if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
-                    if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
+                    if (pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(false);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, false);
+                    }
                     if (i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -322,6 +330,7 @@ define([
                     else
                         this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                     this._openRightMenu = false;
+                    (active !== currentactive) && this.rightmenu.updateScroller();
                 }
             }
 
@@ -385,6 +394,8 @@ define([
                 // this.rightmenu.shapeSettings.createDelayedElements();
                 this.onChangeProtectSheet();
             }
+            this.rightmenu.setButtons();
+            this.rightmenu.setMoreButton();
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -407,6 +418,7 @@ define([
             if (settingsType !== Common.Utils.documentSettingsType.Paragraph) {
                 this.rightmenu.SetActivePane(settingsType, true);
                 this._settings[settingsType].panel.ChangeSettings.call(this._settings[settingsType].panel, this._settings[settingsType].props, this._state.wsLock, this._state.wsProps);
+                this.rightmenu.updateScroller();
             }
         },
 
@@ -426,6 +438,7 @@ define([
                 type = Common.Utils.documentSettingsType.Signature;
             this._settings[type].hidden = disabled ? 1 : 0;
             this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
             this._settings[type].panel.setLocked(this._settings[type].locked);
         },
 
@@ -456,6 +469,7 @@ define([
                     this.rightmenu.btnPivot.setDisabled(disabled);
                     this.rightmenu.btnCell.setDisabled(disabled);
                     this.rightmenu.btnSlicer.setDisabled(disabled);
+                    this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }

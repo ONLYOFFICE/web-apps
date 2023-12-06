@@ -547,7 +547,7 @@ define([
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
-                
+
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
                 enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
@@ -1395,6 +1395,7 @@ define([
             me._isDocReady = true;
             this.hidePreloader();
             this.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+            Common.NotificationCenter.trigger('app:face', this.appOptions); // for Desktop controller only
             Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
             var zf = (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
@@ -1624,7 +1625,7 @@ define([
                     _menu.removeAll();
 
                     const _current = Common.UI.Themes.currentThemeId();
-                    for (const t in Common.UI.Themes.map()) {
+                    for (let t in Common.UI.Themes.map()) {
                         _menu.addItem(new Common.UI.MenuItem({
                             caption     : Common.UI.Themes.get(t).text,
                             value       : t,

@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
       "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
       "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -159,6 +165,7 @@
     "downloadErrorText": "Deskargak huts egin du.",
     "errorAccessDeny": "Baimenik ez duzun ekintza bat egin nahian zabiltza.<br>Mesedez kontaktatu zure administratzailea.",
     "errorBadImageUrl": "Irudiaren URLa ez da zuzena",
+    "errorComboSeries": "Diagrama konbinatu bat sortzeko, hautatu gutxienez bi datu-serie.",
     "errorConnectToServer": "Ezin da dokumentu hau gorde. Egiaztatu zure konexioaren ezarpenak edo jarri administrariarekin harremanetan.<br>'Ados' botoia sakatzean dokumentua deskargatzeko aukera emango zaizu.",
     "errorDatabaseConnection": "Kanpoko errorea.<br>Datu-basera konektatzeko errorea. Mesedez, jarri harremanetan laguntza-teknikoko taldearekin.",
     "errorDataEncrypted": "Enkriptatutako aldaketak jaso dira, ezin dira deszifratu.",
@@ -166,8 +173,10 @@
     "errorDefaultMessage": "Errore-kodea: %1",
     "errorDirectUrl": "Egiaztatu dokumenturako esteka.<br>Esteka honek deskargarako esteka zuzen bat izan behar du.",
     "errorEditingDownloadas": "Errore bat gertatu da dokumentuarekin lan egitean.<br>Erabili 'Deskargatu' aukera fitxategiaren babeskopia lokalean gordetzeko. ",
+    "errorEmailClient": "Ez da eposta bezerorik aurkitu",
     "errorFilePassProtect": "Fitxategia pasahitzez babestua dago eta ezin izan da ireki.",
     "errorFileSizeExceed": "Fitxategiaren tamaina zerbitzariaren mugaz gaindi dago.<br>Mesedez, jar zaitez harremanetan zure administratzailearekin.",
+    "errorForceSave": "Errore bat gertatu da dokumentua gordetzean. Erabili 'Deskargatu honela' aukera fitxategia zure ordenagailuko disko gogorrean gordetzeko edo saiatu berriro geroago.",
     "errorInconsistentExt": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia eta luzapena ez datoz bat.",
     "errorInconsistentExtDocx": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia testu-dokumentu bati dagokio (adibidez, docx), baina fitxategiaren luzapena ez dator bat: %1.",
     "errorInconsistentExtPdf": "Errore bat gertatu da fitxategia irekitzean.<br>Fitxategiaren edukia ondorengo formatuetako bati dagokio: pdf/djvu/xps/oxps, baina fitxategiaren luzapena ez dator bat: %1.",
@@ -179,6 +188,7 @@
     "errorSessionAbsolute": "Dokumentua editatzeko saioa iraungi da. Mesedez, kargatu berriro orria",
     "errorSessionIdle": "Dokumentua ez da editatu denbora luzean. Mesedez, kargatu berriro orria.",
     "errorSessionToken": "Zerbitzarira konexioa eten egin da. Mesedez, kargatu berriro orria.",
+    "errorSetPassword": "Ezin izan da pasahitza ezarri.",
     "errorStockChart": "Errenkaden ordena okerra. Kotizazio-diagrama bat sortzeko, sartu datuak orrian ordena honetan:<br> irekierako prezioa, gehienezko prezioa, gutxieneko prezioa, itxierako prezioa.",
     "errorToken": "Dokumentuaren segurtasun tokena ez dago ondo osatua.<br>Jarri harremanetan zure zerbitzariaren administratzailearekin.",
     "errorTokenExpire": "Dokumentuaren segurtasun-tokena iraungi da.<br>Jarri zure dokumentu-zerbitzariaren administratzailearekin harremanetan.",
@@ -526,7 +536,11 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea"
+      "txtScheme9": "Sortzailea",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

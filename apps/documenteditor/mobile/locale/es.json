@@ -81,7 +81,7 @@
       "textAuto": "Auto",
       "textBack": "Atrás",
       "textBaseline": "Línea de base",
-      "textBold": "Negrita",
+      "textBold": "Negritas",
       "textBreakBefore": "Salto de página antes",
       "textCancel": "Cancelar",
       "textCaps": "Mayúsculas",
@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "El archivo actual se guardará en el historial de versiones.",
       "titleWarningRestoreVersion": "¿Restaurar esta versión?",
       "txtErrorLoadHistory": "Error al cargar el historial"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -299,6 +305,7 @@
     "textImageURL": "URL de imagen",
     "textInFront": "Delante del texto",
     "textInline": "En línea con el texto",
+    "textInvalidName": "El nombre del archivo no puede contener ninguno de los siguientes símbolos:",
     "textJanuary": "enero",
     "textJuly": "julio",
     "textJune": "junio",
@@ -392,7 +399,12 @@
     "textWe": "mi.",
     "textWrap": "Ajuste",
     "textWrappingStyle": "Estilo de ajuste",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textPlaceholder": "Placeholder",
+    "textSave": "Save",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Tiempo de conversión está superado.",
@@ -401,6 +413,8 @@
     "downloadErrorText": "Error al descargar.",
     "errorAccessDeny": "Está intentando realizar una acción para la que no tiene derechos.<br>Por favor, contacte con su administrador.",
     "errorBadImageUrl": "URL de imagen es incorrecta",
+    "errorComboSeries": "Para crear un gráfico combinado, seleccione al menos dos series de datos.",
+    "errorCompare": "La función de comparación de documentos no está disponible en el modo de coedición.",
     "errorConnectToServer": "No se puede guardar este documento. Compruebe la configuración de su conexión o póngase en contacto con el administrador.<br>Cuando haga clic en OK, se le pedirá que descargue el documento.",
     "errorDatabaseConnection": "Error externo.<br>Error de conexión a la base de datos. Por favor, contacte con el equipo de soporte técnico.",
     "errorDataEncrypted": "Se han recibido cambios cifrados, ellos no pueden ser descifrados.",
@@ -411,6 +425,7 @@
     "errorEmptyTOC": "Empezar a crear una tabla de contenidos aplicando un estilo de encabezamiento de la galería de Estilos al texto seleccionado.",
     "errorFilePassProtect": "El archivo está protegido por contraseña y no se puede abrir.",
     "errorFileSizeExceed": "El tamaño del archivo excede el límite de su servidor.<br>Por favor, contacte con su administrador.",
+    "errorForceSave": "Se ha producido un error al guardar el archivo. Por favor, utilice la opción 'Descargar como' para guardar el archivo en el disco duro de su computadora o inténtelo más tarde.",
     "errorInconsistentExt": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo no coincide con la extensión del mismo.",
     "errorInconsistentExtDocx": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a documentos de texto (por ejemplo, docx), pero el archivo tiene extensión inconsistente: %1.",
     "errorInconsistentExtPdf": "Se ha producido un error al abrir el archivo.<br>El contenido del archivo corresponde a uno de los siguientes formatos: pdf/djvu/xps/oxps, pero el archivo tiene extensión inconsistente: %1.",
@@ -426,7 +441,9 @@
     "errorSessionAbsolute": "La sesión de edición del documento ha expirado. Por favor, vuelva a cargar la página.",
     "errorSessionIdle": "El documento no ha sido editado desde hace mucho tiempo. Por favor, vuelva a cargar la página.",
     "errorSessionToken": "La conexión con el servidor se ha interrumpido. Por favor, vuelva a cargar la página.",
+    "errorSetPassword": "No se ha podido establecer la contraseña.",
     "errorStockChart": "Orden incorrecto de las filas. Para construir un gráfico de cotizaciones, coloque los datos en la hoja en el siguiente orden:<br> precio de apertura, precio máximo, precio mínimo, precio de cierre.",
+    "errorSubmit": "Error al enviar.",
     "errorTextFormWrongFormat": "El valor introducido no se corresponde con el formato del campo",
     "errorToken": "El token de seguridad de documento tiene un formato incorrecto.<br>Por favor, contacte con el administrador del Servidor de Documentos.",
     "errorTokenExpire": "El token de seguridad del documento ha expirado.<br>Por favor, póngase en contacto con el administrador del Servidor de Documentos.",
@@ -442,6 +459,9 @@
     "splitMaxColsErrorText": "El número de columnas debe ser menor que %1",
     "splitMaxRowsErrorText": "El número de filas debe ser menor que %1",
     "unknownErrorText": "Error desconocido.",
+    "uploadDocExtMessage": "Formato de documento desconocido.",
+    "uploadDocFileCountMessage": "No se ha subido ningún documento.",
+    "uploadDocSizeMessage": "Se ha excedido el límite de tamaño máximo del documento.",
     "uploadImageExtMessage": "Formato de imagen desconocido.",
     "uploadImageFileCountMessage": "No hay imágenes subidas.",
     "uploadImageSizeMessage": "La imagen es demasiado grande. El tamaño máximo es de 25 MB."
@@ -620,6 +640,7 @@
     "textCommentsDisplay": "Visualización de comentarios",
     "textCreated": "Creado",
     "textCustomSize": "Tamaño personalizado",
+    "textDarkTheme": "Tema oscuro",
     "textDialogUnprotect": "Introduzca una contraseña para desbloquear el documento",
     "textDirection": "Dirección ",
     "textDisableAll": "Deshabilitar todo",
@@ -743,7 +764,18 @@
     "txtScheme6": "Concurrencia",
     "txtScheme7": "Equidad ",
     "txtScheme8": "Flujo",
-    "txtScheme9": "Fundición"
+    "txtScheme9": "Fundición",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",

@@ -102,11 +102,10 @@ class MainController extends Component {
                 }
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
 
-                value = localStorage.getItem("de-mobile-allow-macros-request");
+                value = LocalStorage.getItem("de-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
 
                 this.props.storeAppOptions.wopi = this.editorConfig.wopi;
-
                 Common.Notifications.trigger('configOptionsFill');
             };
 
@@ -294,6 +293,7 @@ class MainController extends Component {
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
+                Common.Gateway.on('setfavorite', this.onSetFavorite.bind(this));
 
                 Common.Gateway.sendInfo({
                     mode: appOptions.isEdit ? 'edit' : 'view'
@@ -343,7 +343,14 @@ class MainController extends Component {
                         delete _translate[item];
                     });
 
-                    this.api = new Asc.asc_docs_api({
+                    var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                        isPDF = (!!result && result.length && typeof result[1] === 'string');
+
+                    this.api = isPDF ? new Asc.PDFEditorApi({
+                        'id-view'  : 'editor_sdk',
+                        'mobile'   : true,
+                        'translate': _translate
+                    }) : new Asc.asc_docs_api({
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
                         'translate': _translate
@@ -748,14 +755,15 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
-          clearTimeout(this.timerLoading);
-          clearInterval(this.timerDocInfo);
-          storeDocumentInfo.changeCount(this.objectInfo);
+            clearTimeout(this.timerLoading);
+            clearInterval(this.timerDocInfo);
+            storeDocumentInfo.changeCount(this.objectInfo);
         });
 
         this.api.asc_registerCallback('asc_onMeta', (meta) => {
             if(meta) {
                 storeDocumentInfo.changeTitle(meta.title);
+                Common.Gateway.metaChange(meta);
             }
         });
 
@@ -802,6 +810,17 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', (bookmarks) => {
             storeNavigation.initBookmarks(bookmarks);
         });
+
+        Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
+    }
+
+    markFavorite(favorite) {
+        Common.Gateway.metaChange({ favorite });
+    }
+
+    onSetFavorite(favorite) {
+        const appOptions = this.props.storeAppOptions;
+        appOptions.canFavorite && appOptions.setFavorite(!!favorite);
     }
 
     onExpiredToken() {
@@ -1281,7 +1300,7 @@ class MainController extends Component {
                 <EncodingController />
                 <DropdownListController />
             </Fragment>
-            )
+        )
     }
 
     componentDidMount() {

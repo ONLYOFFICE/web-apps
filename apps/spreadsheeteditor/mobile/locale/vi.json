@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
-    "menuEditLink": "Edit Link"
+    "menuEditLink": "Edit Link",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -275,7 +282,43 @@
     "errorInconsistentExt": "An error has occurred while opening the file.<br>The file content does not match the file extension.",
     "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
     "errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
-    "errorProtectedRange": "This range is not allowed for editing."
+    "errorProtectedRange": "This range is not allowed for editing.",
+    "errNoDuplicates": "No duplicate values found.",
+    "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
+    "errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
+    "errorComboSeries": "To create a combination chart, select at least two series of data.",
+    "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
+    "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
+    "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
+    "errorEditView": "The existing sheet view cannot be edited and the new ones cannot be created at the moment as some of them are being edited.",
+    "errorEmailClient": "No email client could be found",
+    "errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
+    "errorFTChangeTableRangeError": "Operation could not be completed for the selected cell range.<br>Select a range so that the first table row was on the same row<br>and the resulting table overlapped the current one.",
+    "errorFTRangeIncludedOtherTables": "Operation could not be completed for the selected cell range.<br>Select a range which does not include other tables.",
+    "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
+    "errorLocationOrDataRangeError": "The reference for the location or data range is not valid.",
+    "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
+    "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
+    "errorNoDataToParse": "No data was selected to parse.",
+    "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
+    "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
+    "errorPivotGroup": "Cannot group that selection.",
+    "errorPivotOverlap": "A pivot table report cannot overlap a table.",
+    "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
+    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
+    "errorSetPassword": "Password could not be set.",
+    "errorSingleColumnOrRowError": "Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.",
+    "errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
+    "textClose": "Close",
+    "textFillOtherRows": "Fill other rows",
+    "textFormulaFilledAllRows": "Formula filled {0} rows have data. Filling other empty rows may take a few minutes.",
+    "textFormulaFilledAllRowsWithEmpty": "Formula filled first {0} rows. Filling other empty rows may take a few minutes.",
+    "textFormulaFilledFirstRowsOtherHaveData": "Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.",
+    "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
+    "textInformation": "Information",
+    "uploadDocExtMessage": "Unknown document format.",
+    "uploadDocFileCountMessage": "No documents uploaded.",
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "applyChangesTextText": "Loading data...",
@@ -785,7 +828,11 @@
       "txtZh": "Chinese",
       "del_textNoTextFound": "Text not found",
       "textNoMatches": "No Matches",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textTheme": "Theme",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

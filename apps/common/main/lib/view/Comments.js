@@ -309,9 +309,13 @@ define([
             Common.UI.BaseView.prototype.initialize.call(this, options);
 
             this.store = this.options.store;
+            this.hasFilters = false;
 
             var filter = Common.localStorage.getKeysFilter();
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
+
+            this.showCommentToDocAtBottom = false;
+            !this.showCommentToDocAtBottom && (this.addCommentHeight = 0);
         },
 
         render: function () {
@@ -343,11 +347,10 @@ define([
 
                 this.buttonSort = new Common.UI.Button({
                     parentEl: $('#comments-btn-sort', this.$el),
-                    cls: 'btn-toolbar',
-                    iconCls: 'toolbar__icon btn-sorting',
+                    cls: 'btn-toolbar no-caret',
+                    iconCls: 'toolbar__icon btn-more',
                     hint: this.textSort,
                     menu: new Common.UI.Menu({
-                        menuAlign: 'tr-br',
                         style: 'min-width: auto;',
                         items: [
                             {
@@ -407,6 +410,13 @@ define([
                                     style: 'min-width: auto;',
                                     items: []
                                 })
+                            }),
+                            {
+                                caption: '--'
+                            },
+                            this.mnuAddCommentToDoc = new Common.UI.MenuItem({
+                                caption: this.textAddCommentToDoc,
+                                checkable: false
                             })
                         ]
                     })
@@ -419,12 +429,21 @@ define([
                     hint: this.textClosePanel
                 });
 
+                this.buttonAddNew = new Common.UI.Button({
+                    parentEl: $('#comments-btn-add', this.$el),
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-add-comment',
+                    hint: this.textHintAddComment
+                });
+
                 this.buttonAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
                 this.buttonAdd.on('click', _.bind(this.onClickAddDocumentComment, this));
                 this.buttonCancel.on('click', _.bind(this.onClickCancelDocumentComment, this));
                 this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
                 this.buttonSort.menu.on('item:toggle', _.bind(this.onSortClick, this));
                 this.menuFilterGroups.menu.on('item:toggle', _.bind(this.onFilterGroupsClick, this));
+                this.mnuAddCommentToDoc.on('click', _.bind(this.onClickShowBoxDocumentComment, this));
+                this.buttonAddNew.on('click', _.bind(this.onClickAddNewComment, this));
 
                 this.txtComment = $('#comment-msg-new', this.el);
                 this.scrollerNewCommet = new Common.UI.Scroller({el: $('.new-comment-ct') });
@@ -526,12 +545,15 @@ define([
             if (!show) {
                 addCommentLink.css({display: 'table-row'});
                 newCommentBlock.css({display: 'none'});
+                commentMsgBlock.toggleClass('stretch', !this.mode.canComments || this.mode.compatibleFeatures || !this.showCommentToDocAtBottom);
             } else {
                 addCommentLink.css({display: 'none'});
                 newCommentBlock.css({display: 'table-row'});
+                commentMsgBlock.toggleClass('stretch', false);
 
                 this.txtComment.val('');
-                this.txtComment.focus();
+                var me = this;
+                setTimeout(function() { me.txtComment.focus();}, 10);
 
                 this.textBoxAutoSizeLocked = undefined;
             }
@@ -550,6 +572,10 @@ define([
         },
         onClickCancelDocumentComment: function () {
             this.showEditContainer(false);
+        },
+
+        onClickAddNewComment: function () {
+            Common.NotificationCenter.trigger('app:comment:add');
         },
 
         saveText: function (clear) {
@@ -649,12 +675,12 @@ define([
                    if (addcmt.css('display') !== 'none') {
                         me.layout.setResizeValue(0,
                             Math.max(-me.newCommentHeight,
-                                Math.min(height - (addcmt.height() + 4), height - me.newCommentHeight)));
+                                Math.min(height - ((addcmt.height() || 0) + 4), height - me.newCommentHeight)));
                     }
                     else {
                         me.layout.setResizeValue(0,
                             Math.max(-me.addCommentHeight,
-                                Math.min(height - (tocmt.height()), height - me.addCommentHeight)));
+                                Math.min(height - (tocmt.height() || 0), height - me.addCommentHeight)));
                     }
 
                     me.updateScrolls();
@@ -665,11 +691,20 @@ define([
         },
 
         changeLayout: function(mode) {
+            this.mode = mode;
+
             var me = this,
                 add = $('.new-comment-ct', this.el),
                 to = $('.add-link-ct', this.el),
                 msgs = $('.messages-ct', this.el);
-            msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures);
+            msgs.toggleClass('stretch', !mode.canComments || mode.compatibleFeatures || !this.showCommentToDocAtBottom);
+            this.buttonAddNew.setVisible(mode.canComments);
+            if (this.buttonSort && this.buttonSort.menu) {
+                var menu = this.buttonSort.menu;
+                menu.items[menu.items.length-1].setVisible(mode.canComments && !mode.compatibleFeatures);
+                menu.items[menu.items.length-2].setVisible(mode.canComments && !mode.compatibleFeatures);
+                this.buttonSort.updateHint(mode.canComments && !mode.compatibleFeatures ? (this.hasFilters ? this.textSortFilterMore : this.textSortMore) : (this.hasFilters ? this.textSortFilter : this.textSort));
+            }
             if (!mode.canComments || mode.compatibleFeatures) {
                 if (mode.compatibleFeatures) {
                     add.remove(); to.remove();
@@ -678,10 +713,9 @@ define([
                 }
                 this.layout.changeLayout([{el: msgs[0], rely: false, stretch: true}]);
             } else {
-                var container = $('#comments-box', this.el),
-                    items = container.find(' > .layout-item');
-                to.show();
-                this.layout.changeLayout([{el: items[0], rely: true,
+                var container = $('#comments-box', this.el);
+                this.showCommentToDocAtBottom ? to.show() : to.remove();
+                this.layout.changeLayout([{el: msgs[0], rely: true,
                     resize: {
                         hidden: false,
                         autohide: false,
@@ -698,9 +732,7 @@ define([
                                 return container.height() - me.newCommentHeight;
                             return container.height() - me.addCommentHeight;
                         })
-                }},
-                {el: items[1], stretch: true},
-                {el: items[2], stretch: true}]);
+                }}].concat(this.showCommentToDocAtBottom ? [{el: to[0], stretch: true}] : []).concat([{el: add[0], stretch: true}]));
             }
         },
 
@@ -904,6 +936,10 @@ define([
         textViewResolved: 'You have not permission for reopen comment',
         mniFilterGroups: 'Filter by Group',
         textAll: 'All',
-        txtEmpty: 'There are no comments in the document.'
+        txtEmpty: 'There are no comments in the document.',
+        textSortFilter: 'Sort and filter comments',
+        textSortMore: 'Sort and more',
+        textSortFilterMore: 'Sort, filter and more'
+
     }, Common.Views.Comments || {}))
 });

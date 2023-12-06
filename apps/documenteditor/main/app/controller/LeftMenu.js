@@ -76,12 +76,15 @@ define([
                     'hide':    _.bind(this.aboutShowHide, this, true)
                 },
                 'Common.Views.Plugins': {
-                    'plugin:open': _.bind(this.onPluginOpen, this),
-                    'hide':        _.bind(this.onHidePlugins, this)
+                    'plugins:addtoleft': _.bind(this.addNewPlugin, this),
+                    'plugins:open': _.bind(this.openPlugin, this),
+                    'plugins:close': _.bind(this.closePlugin, this),
+                    'hide': _.bind(this.onHidePlugins, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
-                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide')
+                    'comments:hide': _.bind(this.commentsShowHide, this, 'hide'),
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
@@ -230,6 +233,8 @@ define([
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
             this.onChangeProtectDocument();
             Common.util.Shortcuts.resumeEvents();
+            this.leftMenu.setButtons();
+            this.leftMenu.setMoreButton();
             return this;
         },
 
@@ -584,11 +589,36 @@ define([
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
+        /** coauthoring end **/
 
         onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
-        /** coauthoring end **/
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.leftMenu.insertButton(button, $button);
+            this.leftMenu.insertPanel($panel);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                if (btn.pressed) {
+                    this.tryToShowLeftMenu();
+                    this.leftMenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.leftMenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                this.leftMenu.onBtnMenuClick(btn);
+            }
+        },
+
+        openPlugin: function (guid) {
+            this.leftMenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.leftMenu.closePlugin(guid);
+        },
 
         onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
@@ -598,8 +628,8 @@ define([
             this.leftMenu.btnComments.setDisabled(true);
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
-            this.leftMenu.btnPlugins.setDisabled(true);
             this.leftMenu.btnNavigation.setDisabled(true);
+            this.leftMenu.setDisabledPluginButtons(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -639,7 +669,7 @@ define([
             if (!options || options.navigation && options.navigation.disable)
                 this.leftMenu.btnNavigation.setDisabled(disable);
 
-            this.leftMenu.btnPlugins.setDisabled(disable);
+            this.leftMenu.setDisabledPluginButtons(disable);
         },
 
         /** coauthoring begin **/
@@ -708,8 +738,7 @@ define([
         },
 
         menuFilesShowHide: function(state) {
-            if (this.api && state == 'hide')
-                this.api.asc_enableKeyEvents(true);
+            (state === 'hide') && Common.NotificationCenter.trigger('menu:hide');
         },
 
         onMenuChange: function (value) {
@@ -817,8 +846,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                                $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -841,21 +869,6 @@ define([
                     }
                     return false;
             /** coauthoring end **/
-            }
-        },
-
-        onPluginOpen: function(panel, type, action) {
-            if ( type == 'onboard' ) {
-                if ( action == 'open' ) {
-                    this.tryToShowLeftMenu();
-                    this.leftMenu.close();
-                    this.leftMenu.panelPlugins.show();
-                    this.leftMenu.onBtnMenuClick({pressed:true, options: {action: 'plugins'}});
-                    this.leftMenu._state.pluginIsRunning = true;
-                } else {
-                    this.leftMenu._state.pluginIsRunning = false;
-                    this.leftMenu.close();
-                }
             }
         },
 

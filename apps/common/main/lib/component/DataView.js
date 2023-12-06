@@ -131,6 +131,7 @@ define([
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
+            me.listenTo(me.model, 'change:tip',         me.onTipChange);
             me.listenTo(me.model, 'remove',             me.remove);
         },
 
@@ -208,6 +209,10 @@ define([
 
         onSelectChange: function(model, selected) {
             this.trigger('select', this, model, selected);
+        },
+
+        onTipChange: function (model, tip) {
+            this.trigger('tipchange', this, model);
         },
 
         onChange: function () {
@@ -381,7 +386,8 @@ define([
                         this.parentMenu.on('show:before', function(menu) { me.deselectAll(); });
                     this.parentMenu.on('show:after', function(menu, e) {
                         if (e && (menu.el !== e.target)) return;
-                        if (me.showLast) me.showLastSelected(); 
+                        if (me.showLast) me.showLastSelected();
+                        if (me.outerMenu && (me.outerMenu.focusOnShow===false)) return;
                         Common.NotificationCenter.trigger('dataview:focus');
                         _.delay(function() {
                             menu.cmpEl.find('.dataview').focus();
@@ -482,6 +488,7 @@ define([
             _.each(this.store.where({selected: true}), function(record){
                 record.set({selected: false});
             });
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -562,6 +569,8 @@ define([
                     this.listenTo(view, 'dblclick',    this.onDblClickItem);
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
+                    if (tip === null || tip === undefined)
+                        this.listenTo(view, 'tipchange', this.onInitItemTip);
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
@@ -668,6 +677,32 @@ define([
         onChangeItem: function(view, record) {
             if (!this.isSuspendEvents) {
                 this.trigger('item:change', this, view, record);
+            }
+        },
+
+        onInitItemTip: function (view, record) {
+            var me = this,
+                view_el = $(view.el),
+                tip = view_el.data('bs.tooltip');
+            if (!(tip === null || tip === undefined))
+                view_el.removeData('bs.tooltip');
+            if (this.delayRenderTips) {
+                view_el.one('mouseenter', function () {
+                    view_el.attr('data-toggle', 'tooltip');
+                    view_el.tooltip({
+                        title: record.get('tip'),
+                        placement: 'cursor',
+                        zIndex: me.tipZIndex
+                    });
+                    view_el.mouseenter();
+                });
+            } else {
+                view_el.attr('data-toggle', 'tooltip');
+                view_el.tooltip({
+                    title: record.get('tip'),
+                    placement: 'cursor',
+                    zIndex: me.tipZIndex
+                });
             }
         },
 
@@ -1187,6 +1222,7 @@ define([
                 record.set({selected: false});
             });
             this.cmpEl.find('.item.selected').removeClass('selected');
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -1892,7 +1928,7 @@ define([
         hideTextRect: function (hide) {
             var me = this;
             this.store.each(function(item, index){
-                if (item.get('data').shapeType === 'textRect') {
+                if (item.get('data').shapeType === 'textRect' && me.dataViewItems[index] && me.dataViewItems[index].el) {
                     me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
                 }
             }, this);
@@ -1906,7 +1942,7 @@ define([
             this.store.each(function(item, index){
                 if (item.get('groupName') === 'Lines') {
                     var el = me.dataViewItems[index].el;
-                    if (el.is(':visible')) {
+                    if (el && el.is(':visible')) {
                         el.addClass('hidden');
                     }
                 }

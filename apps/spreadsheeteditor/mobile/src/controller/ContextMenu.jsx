@@ -146,6 +146,9 @@ class ContextMenu extends ContextMenuController {
                     this.openLink(url);
                 }
                 break;
+            case 'autofillCells':
+                api.asc_fillHandleDone();
+                break;
         }
     }
 
@@ -254,6 +257,7 @@ class ContextMenu extends ContextMenuController {
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
+            const isCanFillHandle = api.asc_canFillHandle();
 
             const itemsIcon = [];
             const itemsText = [];
@@ -308,6 +312,13 @@ class ContextMenu extends ContextMenuController {
                             event: 'addcomment'
                         });
                     }
+                }
+
+                if(isCanFillHandle) {
+                    itemsText.push({
+                        caption: t('ContextMenu.menuAutofill'),
+                        event: 'autofillCells'
+                    });
                 }
 
             return itemsIcon.concat(itemsText);

@@ -54,16 +54,17 @@ define([
 
     Common.Views.Draw = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="draw-ink-panel" class="panel" data-tab="draw">' +
             '<div class="group">' +
             '<span id="slot-btn-draw-select" class="btn-slot text x-huge"></span>' +
             '<span id="slot-btn-draw-pen-0" class="btn-slot text x-huge emptycaption"></span>' +
             '<span id="slot-btn-draw-pen-1" class="btn-slot text x-huge emptycaption"></span>' +
             '<span id="slot-btn-draw-pen-2" class="btn-slot text x-huge emptycaption"></span>' +
             '<span id="slot-btn-draw-eraser" class="btn-slot text x-huge"></span>' +
-            '</div>' +
+            '</div>';
+        var templateSection =
+            '<section id="draw-ink-panel" class="panel" data-tab="draw">' +
+            template +
             '</section>';
-
         function setEvents() {
             var me = this;
             me.btnEraser.on('click', function (b) {
@@ -95,15 +96,16 @@ define([
                 this._state = {disabled: false};
                 this.lockedControls = [];
                 this.btnsPen = [];
+                this.isPDFEditor = !!window.PDFE;
 
                 var filter = Common.localStorage.getKeysFilter();
                 this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 var _set = Common.enumLock;
                 var penOptions = [
-                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool'},
-                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool'},
-                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'btn-highlighter-tool',
+                        {hint: this.txtPen,  color: '3D8A44',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool', idx: 0},
+                        {hint: this.txtPen,  color: 'D43230',  opacity: 100, size: {arr: [0.25, 0.5, 1, 2, 3.5], idx: 2}, iconCls: 'btn-pen-tool', idx: 1},
+                        {hint: this.txtHighlighter,  color: 'FFFC54',  opacity: 50, size: {arr: [2, 4, 6, 8, 10], idx: 2}, iconCls: 'btn-highlighter-tool', idx: 2,
                          colors: [
                              'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                              '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
@@ -152,7 +154,8 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small',
-                    lock: lock
+                    lock: lock,
+                    visible: !this.isPDFEditor
                 });
                 this.lockedControls.push(this.btnSelect);
 
@@ -253,8 +256,8 @@ define([
                 });
             },
 
-            getPanel: function () {
-                this.$el = $(_.template(template)( {} ));
+            getPanel: function (groups) {
+                this.$el = $(_.template(groups ? template : templateSection)( {} ));
                 var me = this;
 
                 this.btnsPen.forEach(function(button, index) {

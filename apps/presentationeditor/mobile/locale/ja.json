@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "現在のファイルはバージョン履歴に保存されます。",
       "titleWarningRestoreVersion": "このバージョンを復元しますか？",
       "txtErrorLoadHistory": "履歴の読み込みに失敗しました"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -159,6 +165,7 @@
     "downloadErrorText": "ダウンロードが失敗",
     "errorAccessDeny": "許可されていないアクションを実行しています。アドミニストレータを連絡してください。",
     "errorBadImageUrl": "イメージURLが間違い",
+    "errorComboSeries": "組み合わせチャートを作成するには、最低2つのデータを選択してください。",
     "errorConnectToServer": "この文書を保存できません。接続設定をチェックし、アドミニストレータを連絡してください。<br> 「OK」をクリックすると、文書をダウンロードするに提案されます。",
     "errorDatabaseConnection": "外部エラーです。<br>データベース接続エラーです。サポートに連絡してください。",
     "errorDataEncrypted": "暗号化された変更を受け取りましたが、解読できません。",
@@ -166,8 +173,10 @@
     "errorDefaultMessage": "エラー コード: %1",
     "errorDirectUrl": "ドキュメントへのリンクを確認してください。<br>このリンクは、ダウンロード用のファイルへの直接リンクである必要があります。",
     "errorEditingDownloadas": "文書を操作中にエラーがありました.<br>ファイルのバックアップコピーを保存するように文書をダウンロードしてください。",
+    "errorEmailClient": "メールクライアントが見つかりません",
     "errorFilePassProtect": "ファイルはパスワードで保護されており、開けませんでした。",
     "errorFileSizeExceed": "ファイルサイズがサーバーの制限を超えています。<br>管理者にお問い合わせください。",
+    "errorForceSave": "ファイルの保存中にエラーが発生しました。「名前を付けてダウンロード」オプションを使用してファイルをパソコンのハードドライブに保存するか、後でもう一度お試しください。",
     "errorInconsistentExt": "ファイルを開くときにエラーが発生しました。<br>ファイルの内容がファイルの拡張子と一致しません。",
     "errorInconsistentExtDocx": "ファイルを開くときにエラーが発生しました。<br>ファイルの内容はドキュメント (docx など) に対応していますが、ファイルの拡張子が一致していません: %1",
     "errorInconsistentExtPdf": "ファイルを開くときにエラーが発生しました。<br>ファイルの内容は次のいずれかの形式に対応しています: pdf/djvu/xps/oxps が、ファイルの拡張子が一致していません: %1",
@@ -179,6 +188,7 @@
     "errorSessionAbsolute": "文書を変更のセッションの有効期間が満期しました。ページを再びお読み込みしてください。",
     "errorSessionIdle": "文書が長いとこ変更されませんでした。ページを再び読み込みしてください。",
     "errorSessionToken": "サーバの接続が中断されました。ページを再びお読み込みしてください。",
+    "errorSetPassword": "パスワードを設定できませんでした。",
     "errorStockChart": "行の順序が正しくありません。株価チャートを作るようにシートにこのようにデータを配置してください：<br>始値、最高価格、最小価格、終値。",
     "errorToken": "ドキュメントセキュリティトークンが正しく形成されていません。<br>ドキュメントサーバーの管理者にご連絡ください。",
     "errorTokenExpire": "ドキュメントセキュリティトークンの有効期限が切れています。<br>ドキュメントサーバーの管理者に連絡してください。",
@@ -526,7 +536,11 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ"
+      "txtScheme9": "ファウンドリ",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

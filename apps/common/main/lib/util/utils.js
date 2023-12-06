@@ -789,7 +789,7 @@ Common.Utils.isBrowserSupported = function() {
 
 Common.Utils.showBrowserRestriction = function() {
     if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length>0) return;
-    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : 'that');
+    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
     var newDiv = document.createElement("div");
     newDiv.innerHTML = '<div class="app-error-panel">' +
                             '<div class="message-block">' +
@@ -1052,7 +1052,7 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )
         opts.disablefunc(true);
 
-    var app = window.DE || window.PE || window.SSE;
+    var app = window.DE || window.PE || window.SSE || window.PDFE;
 
     Common.UI.warning({
         msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
@@ -1176,6 +1176,18 @@ Common.Utils.UserInfoParser = new(function() {
     }
 })();
 
+Common.Utils.getUserInitials = function(username) {
+    var fio = username.split(' ');
+    var initials = fio[0].substring(0, 1).toUpperCase();
+    for (var i = fio.length-1; i>0; i--) {
+        if (fio[i][0]!=='(' && fio[i][0]!==')') {
+            initials += fio[i].substring(0, 1).toUpperCase();
+            break;
+        }
+    }
+    return initials;
+};
+
 Common.Utils.getKeyByValue = function(obj, value) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop)) {
@@ -1185,13 +1197,11 @@ Common.Utils.getKeyByValue = function(obj, value) {
     }
 };
 
-if (Common.UI) {
-    Common.UI.isRTL = function () {
-        if ( window.isrtl == undefined ) {
-            window.isrtl = Common.localStorage.itemExists('ui-rtl') ?
-                Common.localStorage.getBool("ui-rtl") : Common.Locale.isCurrentLanguageRtl();
-        }
+!Common.UI && (Common.UI = {});
+Common.UI.isRTL = function () {
+    if ( window.isrtl === undefined ) {
+        window.isrtl = Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+    }
 
-        return window.isrtl;
-    };
-}
+    return window.isrtl;
+};

@@ -75,8 +75,8 @@
             </td>
             <td class="padding-large">
                 <div class="base float-right">
-                    <label class="input-label"><%= scope.textBase %></label>
-                    <div id="chart-dlg-input-base-<%=idx%>" class="margin-left-5" style="display: inline-block;"></div>
+                    <label class="input-label vertical-align-baseline"><%= scope.textBase %></label>
+                    <div id="chart-dlg-input-base-<%=idx%>" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
                 </div>
             </td>
         </tr>

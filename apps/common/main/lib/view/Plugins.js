@@ -49,25 +49,7 @@ define([
     'use strict';
 
     Common.Views.Plugins = Common.UI.BaseView.extend(_.extend({
-        el: '#left-panel-plugins',
-
         storePlugins: undefined,
-        template: _.template([
-            '<div id="plugins-box" class="layout-ct vbox">',
-                '<label id="plugins-header"><%= scope.strPlugins %></label>',
-                '<div id="plugins-list" class="">',
-                '</div>',
-            '</div>',
-            '<div id="current-plugin-box" class="layout-ct vbox hidden">',
-                '<div id="current-plugin-frame" class="">',
-                '</div>',
-                '<div id="current-plugin-header">',
-                    '<label></label>',
-                    '<div id="id-plugin-close" class="close"></div>',
-                '</div>',
-            '</div>',
-            '<div id="plugins-mask" style="display: none;">'
-        ].join('')),
 
         initialize: function(options) {
             _.extend(this, options);
@@ -82,12 +64,13 @@ define([
                 }
             };
             this.lockedControls = [];
+            this.pluginPanels = {};
+            this.pluginBtns = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
         render: function(el) {
             el && (this.$el = $(el));
-            this.$el.html(this.template({scope: this}));
 
             // this.viewPluginsList = new Common.UI.DataView({
             //     el: $('#plugins-list'),
@@ -105,19 +88,6 @@ define([
             // });
             // this.lockedControls.push(this.viewPluginsList);
             // this.viewPluginsList.cmpEl.off('click');
-
-            this.pluginName = $('#current-plugin-header label');
-            this.pluginsPanel = $('#plugins-box');
-            this.pluginsMask = $('#plugins-mask', this.$el);
-            this.currentPluginPanel = $('#current-plugin-box');
-            this.currentPluginFrame = $('#current-plugin-frame');
-
-            this.pluginClose = new Common.UI.Button({
-                parentEl: $('#id-plugin-close'),
-                cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-close',
-                hint: this.textClosePanel
-            });
 
             this.pluginMenu = new Common.UI.Menu({
                 menuAlign   : 'tr-br',
@@ -221,51 +191,6 @@ define([
             }
         },
 
-        openInsideMode: function(name, url, frameId, guid) {
-            if (!this.pluginsPanel) return false;
-
-            this.pluginsPanel.toggleClass('hidden', true);
-            this.currentPluginPanel.toggleClass('hidden', false);
-
-            this.pluginName.text(name);
-            if (!this.iframePlugin) {
-                this.iframePlugin = document.createElement("iframe");
-                this.iframePlugin.id           = (frameId === undefined) ? 'plugin_iframe' : frameId;
-                this.iframePlugin.name         = 'pluginFrameEditor';
-                this.iframePlugin.width        = '100%';
-                this.iframePlugin.height       = '100%';
-                this.iframePlugin.align        = "top";
-                this.iframePlugin.frameBorder  = 0;
-                this.iframePlugin.scrolling    = "no";
-                this.iframePlugin.allow = "camera; microphone; display-capture";
-                this.iframePlugin.onload       = _.bind(this._onLoad,this);
-                this.currentPluginFrame.append(this.iframePlugin);
-
-                if (!this.loadMask)
-                    this.loadMask = new Common.UI.LoadMask({owner: this.currentPluginFrame});
-                this.loadMask.setTitle(this.textLoading);
-                this.loadMask.show();
-
-                this.iframePlugin.src = url;
-            }
-            this._state.insidePlugin = guid;
-            this.fireEvent('plugin:open', [this, 'onboard', 'open']);
-            return true;
-        },
-
-        closeInsideMode: function() {
-            if (!this.pluginsPanel) return;
-
-            if (this.iframePlugin) {
-                this.currentPluginFrame.empty();
-                this.iframePlugin = null;
-            }
-            this.currentPluginPanel.toggleClass('hidden', true);
-            // this.pluginsPanel.toggleClass('hidden', false);
-            this._state.insidePlugin = undefined;
-            this.fireEvent('plugin:open', [this, 'onboard', 'close']);
-        },
-
         openedPluginMode: function(pluginGuid) {
             // var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
             // if ( rec ) {
@@ -299,11 +224,6 @@ define([
                     }
                 }
             }
-        },
-
-        _onLoad: function() {
-            if (this.loadMask)
-                this.loadMask.hide();
         },
 
         parseIcons: function(icons) {
@@ -376,10 +296,44 @@ define([
             if (!model.get('visible'))
                 return null;
 
-            var btn = model.get('button');
-            if (btn && btn.cmpEl) {
+            var btn = model.get('button'),
+                menuItem = model.get('backgroundPlugin');
+            if (menuItem && menuItem.cmpEl) {
+                menuItem.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')['normal']);
+            } else if (btn && btn.cmpEl) {
                 btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.isActive() ? 'active' : 'normal']);
+                var guid = model.get('guid'),
+                    leftBtn = this.pluginBtns[guid];
+                if (leftBtn && leftBtn.cmpEl) {
+                    leftBtn.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[leftBtn.isActive() ? 'active' : 'normal']);
+                }
             }
+        },
+
+        createBackgroundPluginsButton: function () {
+            var _set = Common.enumLock;
+            var btn = new Common.UI.Button({
+                cls: 'btn-toolbar x-huge icon-top',
+                iconCls: 'toolbar__icon btn-background-plugins',
+                caption: this.textBackgroundPlugins,
+                menu: new Common.UI.Menu({
+                    cls: 'background-plugins',
+                    style: 'min-width: 230px;',
+                    items: [
+                        {
+                            template: _.template('<div class="menu-header">' + this.textTheListOfBackgroundPlugins + '</div>'),
+                            stopPropagation: true
+                        }
+                    ],
+                    restoreHeight: true
+                }),
+                hint: this.textBackgroundPlugins,
+                lock: [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'small'
+            });
+            return btn;
         },
 
         createPluginButton: function (model) {
@@ -445,12 +399,35 @@ define([
             this.fireEvent('hide', this );
         },
 
+        showPluginPanel: function (show, guid) {
+            if (show) {
+                for (var key in this.pluginPanels) {
+                    this.pluginPanels[key].hide();
+                }
+                this.pluginPanels[guid].show();
+            } else {
+                this.pluginPanels[guid].hide();
+                this.fireEvent('hide', this);
+            }
+            //this.updateLeftPluginButton(guid);
+        },
+
+        /*updateLeftPluginButton: function(guid) {
+            var model = this.storePlugins.findWhere({guid: guid}),
+                btn = this.pluginBtns[guid];
+            if (btn && btn.cmpEl) {
+                btn.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.pressed ? 'active' : 'normal']);
+            }
+        },*/
+
         strPlugins: 'Plugins',
-        textLoading: 'Loading',
         textStart: 'Start',
         textStop: 'Stop',
         groupCaption: 'Plugins',
-        textClosePanel: 'Close plugin'
+        tipMore: 'More',
+        textBackgroundPlugins: 'Background Plugins',
+        textTheListOfBackgroundPlugins: 'The list of background plugins',
+        textSettings: 'Settings'
 
     }, Common.Views.Plugins || {}));
 });

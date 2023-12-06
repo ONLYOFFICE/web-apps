@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -145,25 +146,23 @@ const PageCellStyle = props => {
                 }
             </Navbar>
             {cellStyles && cellStyles.length ? (
-                <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
-                    <div className="swiper-wrapper">
-                        {arraySlides.map((_, indexSlide) => {
-                            let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
-                            
-                            return (
-                                <div className="swiper-slide" key={indexSlide}>
-                                    <List className="cell-styles-list">
-                                        {stylesSlide.map((elem, index) => (
-                                            <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-                                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
-                                            </ListItem> 
-                                        ))}
-                                    </List>
-                                </div>
-                        )})}
-                    </div>
-                    <div className="swiper-pagination"></div>
-                </div>
+                <Swiper pagination={true}>
+                    {arraySlides.map((_, indexSlide) => {
+                        let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
+                        
+                        return (
+                            <SwiperSlide>
+                                <List className="cell-styles-list">
+                                    {stylesSlide.map((elem, index) => (
+                                        <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                            <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
+                                        </ListItem> 
+                                    ))}
+                                </List>
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
             ) : null}
         </Page>
     )

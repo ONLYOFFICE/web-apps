@@ -1104,8 +1104,8 @@ define([
 
                             if (menu.cmpEl) {
                                 var itemEl = $(cmp.cmpEl.find('.dataview.inner .style').get(0)).parent();
-                                var itemMargin = /*parseInt($(itemEl.get(0)).parent().css('margin-right'))*/-1;
-                                Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() < 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
+                                var itemMargin = parseFloat(itemEl.css('margin-right'));
+                                // Common.Utils.applicationPixelRatio() > 1 && Common.Utils.applicationPixelRatio() !== 2 && (itemMargin = -1 / Common.Utils.applicationPixelRatio());
                                 var itemWidth = itemEl.is(':visible') ? parseFloat(itemEl.css('width')) :
                                     (cmp.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) +
                                     parseFloat(itemEl.css('border-left-width')) + parseFloat(itemEl.css('border-right-width')));
@@ -1123,6 +1123,7 @@ define([
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
                                 if (menuWidth>Common.Utils.innerWidth())
                                     menuWidth = Math.max(Math.floor(Common.Utils.innerWidth()/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
+                                menuWidth = Math.ceil(menuWidth * 10)/10;
                                 var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft);
                                 if (Common.UI.isRTL()) {
                                     offset = cmp.openButton.$el.width();
@@ -1572,6 +1573,7 @@ define([
                         caption: item.caption,
                         value: item.sectionId,
                         itemId: item.id,
+                        itemsLength: length,
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
@@ -1582,28 +1584,45 @@ define([
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
-                        item.$el.one('mouseenter', function () {
-                            me.fireEvent('generate:smartart', [item.value]);
-                            item.$el.mouseenter();
-                        });
+                        var items = [];
+                        for (var i=0; i<item.options.itemsLength; i++) {
+                            items.push({
+                                isLoading: true
+                            });
+                        }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
                             itemTemplate: _.template([
-                                '<div>',
-                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
-                                '</div>'
+                                '<% if (isLoading) { %>',
+                                    '<div class="loading-item" style="width: 70px; height: 70px;">',
+                                        '<i class="loading-spinner"></i>',
+                                    '</div>',
+                                '<% } else { %>',
+                                    '<div>',
+                                        '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                    '</div>',
+                                '<% } %>'
                             ].join('')),
-                            store: new Common.UI.DataViewStore(),
+                            store: new Common.UI.DataViewStore(items),
                             delayRenderTips: true,
                             scrollAlwaysVisible: true,
                             showLast: false
                         });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
-                            if (record) {
+                            if (record && record.get('value') !== null) {
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
+                        });
+                        item.menuPicker.loaded = false;
+                        item.$el.on('mouseenter', function () {
+                            if (!item.menuPicker.loaded) {
+                                me.fireEvent('smartart:mouseenter', [item.value]);
+                            }
+                        });
+                        item.$el.on('mouseleave', function () {
+                            me.fireEvent('smartart:mouseleave', [item.value]);
                         });
                     });
                     menu.off('show:before', onShowBeforeSmartArt);

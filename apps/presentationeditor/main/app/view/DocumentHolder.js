@@ -810,7 +810,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption: me.addCommentText
             });
 
@@ -1838,13 +1838,13 @@ define([
 
             /** coauthoring begin **/
             me.menuAddCommentPara = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentPara.hide();
 
             me.menuAddCommentTable = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentTable.hide();
@@ -1855,7 +1855,7 @@ define([
             menuCommentSeparatorImg.hide();
 
             me.menuAddCommentImg = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentImg.hide();
@@ -2084,7 +2084,7 @@ define([
                         me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                        me.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
+                        me.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
                     }
                 },
                 items: [
@@ -2247,7 +2247,7 @@ define([
                         me.menuTableEquationSettings.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquationSettings.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuTableEquationSettings.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                        me.menuTableEquationSettings.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
+                        me.menuTableEquationSettings.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
                     }
                 },
                 items: [

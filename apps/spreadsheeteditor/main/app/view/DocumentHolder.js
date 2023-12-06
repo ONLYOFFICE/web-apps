@@ -103,7 +103,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 id: 'id-context-menu-item-view-add-comment',
                 caption: me.txtAddComment
             });
@@ -677,7 +677,7 @@ define([
             });
 
             me.pmiAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 id          : 'id-context-menu-item-add-comment',
                 caption     : me.txtAddComment
             });

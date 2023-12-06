@@ -1896,7 +1896,7 @@
 		"d": "Zwraca sekwencję liczb"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(tablica, wiersze, [kolumny], [dopełnij])",
 		"d": "Rozwija tablicę do określonych wymiarów."
 	},
 	"XMATCH": {

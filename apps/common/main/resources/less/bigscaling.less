@@ -16,7 +16,7 @@
     .advanced-settings-dlg {
         :not(.input-row) > .btn-group {
              &.split,
-             > .btn {
+             > .btn:not(.btn-text-menu-default) {
                  display: flex;
                  align-items: center;
             }
@@ -71,11 +71,14 @@
 }
 
 .btn-category,
-.btn-options {
+.btn-options,
+.combo-dataview,
+.dataview,
+.label-cmp {
     &:active,
     &.active {
         &:not(.disabled) {
-            svg.icon {
+            svg.icon:not(.uni-scale) {
                 fill: @icon-normal-pressed-ie;
                 fill: @icon-normal-pressed;
                 .btn& {
@@ -85,7 +88,7 @@
         }
     }
 
-    svg.icon {
+    svg.icon:not(.uni-scale) {
         fill: @icon-normal-ie;
         fill: @icon-normal;
 

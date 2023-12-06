@@ -87,6 +87,10 @@ define([
                 function(model){
                     return model.get('idOriginal') == id;
                 });
+        },
+
+        findOriginalUsers: function(id) {
+            return this.where({idOriginal: id});
         }
     });
 

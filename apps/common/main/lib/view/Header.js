@@ -53,11 +53,18 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
+        var isPDFEditor = !!window.PDFE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="user-name">' +
-                        '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
+                        '<div class="color"' + 
+                            '<% if (user.get("avatar")) { %>' +
+                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                            '<% } else { %>' +
+                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                            '<% } %>' +
+                        '><% if (!user.get("avatar")) { %><%=user.get("initials")%><% } %></div>' +
                         '<label><%= fnEncode(user.get("username")) %></label>' +
                         '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
@@ -100,6 +107,9 @@ define([
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-share"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-pdf-mode"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-mode"></div>' +
@@ -242,6 +252,15 @@ define([
             }
         }
 
+        function changePDFMode(config) {
+            var me = this;
+            config = config || appConfig;
+            if (!me.btnPDFMode || !config) return;
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')));
+            me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView));
+            me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate ? me.tipComment : me.tipView));
+        }
+
         function onResize() {
             if (appConfig && appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader)) {
                 updateDocNamePosition(appConfig);
@@ -344,7 +363,7 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(me.tipSave + Common.Utils.String.platformKey('Ctrl+S'));
+                me.btnSave.updateHint(me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')));
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });
@@ -383,6 +402,47 @@ define([
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
+            if (me.btnPDFMode) {
+                var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
+                                                '<% if (!_.isEmpty(iconCls)) { %>' +
+                                                    '<span class="menu-item-icon <%= iconCls %>"></span>' +
+                                                '<% } %>' +
+                                                '<b><%= caption %></b></div>' +
+                                                '<% if (options.description !== null) { %><label class="margin-left-10 description"><%= options.description %></label>' +
+                                              '<% } %></a>');
+                var arr = [];
+                appConfig.canPDFEdit && arr.push({
+                    caption: me.textEdit,
+                    iconCls : 'menu__icon btn-edit',
+                    template: menuTemplate,
+                    description: me.textEditDesc,
+                    value: 'edit'
+                });
+                arr.push({
+                    caption: me.textComment,
+                    iconCls : 'menu__icon btn-menu-comments',
+                    template: menuTemplate,
+                    description: me.textCommentDesc,
+                    value: 'comment',
+                    disabled: !appConfig.canPDFAnnotate
+                });
+                arr.push({
+                    caption: me.textView,
+                    iconCls : 'menu__icon btn-sheet-view',
+                    template: menuTemplate,
+                    description: me.textViewDesc,
+                    value: 'view'
+                });
+                me.btnPDFMode.setMenu(new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    style: 'width: 220px;',
+                    menuAlign: 'tr-br',
+                    items: arr
+                }));
+                me.btnPDFMode.menu.on('item:click', function (menu, item) {
+                    Common.NotificationCenter.trigger('pdf:mode', item.value, _.bind(changePDFMode, me));
+                });
+            }
             if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
                 Common.NotificationCenter.on('window:resize', onResize);
         }
@@ -510,6 +570,7 @@ define([
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
             },
 
             render: function (el, role) {
@@ -587,7 +648,7 @@ define([
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
 
-                        if ( config.canEdit && config.canRequestEditRights )
+                        if ( config.canEdit && config.canRequestEditRights && !isPDFEditor)
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
                     me.btnSearch.render($html.find('#slot-btn-search'));
@@ -624,6 +685,21 @@ define([
                     } else {
                         $html.find('#slot-btn-share').hide();
                     }
+
+                    if (isPDFEditor && config.isEdit && !config.isOffline && config.canSwitchMode) {
+                        me.btnPDFMode = new Common.UI.Button({
+                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
+                            caption: me.textView,
+                            menu: true,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnPDFMode.render($html.find('#slot-btn-pdf-mode'));
+                        changePDFMode.call(me, config);
+                    } else
+                        $html.find('#slot-btn-pdf-mode').hide();
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -850,8 +926,32 @@ define([
                         html: true
                     });
                 }
-                $btnUserName && $btnUserName.text(this.getInitials(name));
+                $btnUserName && this.updateAvatarEl();
+
                 return this;
+            },
+
+            setUserAvatar: function(avatar) {
+                this.options.userAvatar = avatar;
+                $btnUserName && this.updateAvatarEl();
+            },
+
+            setUserId: function(id) {
+                this.options.currentUserId = id;
+            },
+
+            updateAvatarEl: function(){
+                if(this.options.userAvatar){
+                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.text('');
+                } else {
+                    $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
+                }
+            },
+
+            avatarsUpdate: function(type, users) {
+                if (type!=='info') return;
+                this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
             getButton: function(type) {
@@ -901,18 +1001,6 @@ define([
                 }
             },
 
-            getInitials: function(name) {
-                var fio = name.split(' ');
-                var initials = fio[0].substring(0, 1).toUpperCase();
-                for (var i = fio.length-1; i>0; i--) {
-                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
-                        initials += fio[i].substring(0, 1).toUpperCase();
-                        break;
-                    }
-                }
-                return initials;
-            },
-
             setDocumentReadOnly: function (readonly) {
                 this.readOnly = readonly;
                 this.setDocumentCaption(this.documentCaption);
@@ -943,7 +1031,16 @@ define([
             tipSearch: 'Search',
             textShare: 'Share',
             tipPrintQuick: 'Quick print',
-            textReadOnly: 'Read only'
+            textReadOnly: 'Read only',
+            textView: 'Viewing',
+            textComment: 'Commenting',
+            textEdit: 'Editing',
+            textViewDesc: 'All changes will be saved locally',
+            textCommentDesc: 'All changes will be saved to the file. Real time collaboration',
+            textEditDesc: 'All changes will be saved to the file. Real time collaboration',
+            tipView: 'Viewing',
+            tipComment: 'Commenting',
+            tipEdit: 'Editing'
         }
     }(), Common.Views.Header || {}))
 });

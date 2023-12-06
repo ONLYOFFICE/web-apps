@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Die aktuelle Datei wird im Versionsverlauf gespeichert.",
       "titleWarningRestoreVersion": "Diese Version wiederherstellen?",
       "txtErrorLoadHistory": "Laden der Historie ist fehlgeschlagen"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -159,6 +165,7 @@
     "downloadErrorText": "Herunterladen ist fehlgeschlagen.",
     "errorAccessDeny": "Dieser Vorgang ist für Sie nicht verfügbar.<br>Bitte wenden Sie sich an den Administrator.",
     "errorBadImageUrl": "Bild-URL ist falsch",
+    "errorComboSeries": "Um ein Kombinationsdiagramm zu erstellen, wählen Sie mindestens zwei Datenreihen aus.",
     "errorConnectToServer": "Das Dokument kann nicht gespeichert werden. Überprüfen Sie Ihre Verbindungseinstellungen oder wenden Sie sich an den Administrator.<br>Mit einem Klick auf \"OK\" können Sie das Dokument herunterladen.",
     "errorDatabaseConnection": "Externer Fehler.<br>Datenbank-Verbindungsfehler. Wenden Sie sich an den Support.",
     "errorDataEncrypted": "Es wurden verschlüsselte Änderungen empfangen, die nicht entschlüsselt werden können.",
@@ -166,8 +173,10 @@
     "errorDefaultMessage": "Fehlercode: %1",
     "errorDirectUrl": "Bitte überprüfen Sie den Link zum Dokument.<br>Dieser Link muss ein direkter Link zum Herunterladen der Datei sein.",
     "errorEditingDownloadas": "Fehler bei der Arbeit an diesem Dokument.<br>Nutzen Sie die Funktion \"Download\", um die Datei lokal zu sichern.",
+    "errorEmailClient": "Kein E-Mail Program verfügbar",
     "errorFilePassProtect": "Die Datei ist mit einem Passwort geschützt und kann nicht geöffnet werden.",
     "errorFileSizeExceed": "Die Dateigröße überschreitet Ihre Serverbeschränkung.<br>Bitte wenden Sie sich an Ihren Administrator.",
+    "errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Verwenden Sie die Option \"Herunterladen als\", um die Datei auf Ihrer Computerfestplatte zu speichern oder versuchen Sie es später erneut.",
     "errorInconsistentExt": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei stimmt nicht mit der Dateiendung überein.",
     "errorInconsistentExtDocx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht dem Format von Textdokumenten (z.B. docx), aber die Datei hat die Dateiendung: %1.",
     "errorInconsistentExtPdf": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht einem der folgenden Formate: pdf/djvu/xps/oxps, aber die Datei hat die Dateiendung: %1.",
@@ -179,6 +188,7 @@
     "errorSessionAbsolute": "Die Bearbeitungssitzung ist abgelaufen. Bitte die Seite neu laden.",
     "errorSessionIdle": "Das Dokument wurde schon eine lange Zeit nicht bearbeitet. Bitte die Seite neu laden.",
     "errorSessionToken": "Die Verbindung mit dem Server wurde unterbrochen. Bitte die Seite neu laden.",
+    "errorSetPassword": "Passwort konnte nicht festgelegt werden.",
     "errorStockChart": "Falsche Reihenfolge der Zeilen. Um ein Aktiendiagramm zu erstellen, setzen Sie die Daten im Arbeitsblatt in diese Reihenfolge:<br> Eröffnungskurs, maximaler Preis, minimaler Preis, Schlusskurs.",
     "errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt.<br>Wenden Sie sich an Ihren Serveradministrator.",
     "errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
@@ -526,7 +536,11 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

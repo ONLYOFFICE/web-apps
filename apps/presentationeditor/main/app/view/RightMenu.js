@@ -45,6 +45,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -60,7 +61,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    PE.Views.RightMenu = Backbone.View.extend(_.extend({
+    PE.Views.RightMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#right-menu',
 
         // Compile our stats template
@@ -163,6 +164,10 @@ define([
 
             el.html(this.template({}));
 
+            this.btnMoreContainer = $('#slot-right-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tr-tl';
+
             this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($('#id-right-menu-table'), false);         this.btnTable.render();
             this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
@@ -223,16 +228,18 @@ define([
         },
 
         setApi: function(api) {
+            var me = this;
             this.api = api;
             var fire = function() { this.fireEvent('editcomplete', this); };
             var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
+            var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _.bind( fire, this));
             this.slideSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
         },
 
@@ -308,6 +315,18 @@ define([
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.scroller.scrollTop(0);
+            }
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSlide, this.btnShape, this.btnImage, this.btnText, this.btnTable, this.btnChart, this.btnTextArt, this.btnSignature];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         txtParagraphSettings:       'Text Settings',

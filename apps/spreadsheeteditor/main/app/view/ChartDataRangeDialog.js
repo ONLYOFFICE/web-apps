@@ -172,7 +172,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputRange1, this.inputRange2, this.inputRange3];
+            return [this.inputRange1, this.inputRange2, this.inputRange3].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

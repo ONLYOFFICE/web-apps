@@ -648,8 +648,6 @@
   "Common.Views.PluginDlg.textLoading": "Betöltés",
   "Common.Views.Plugins.groupCaption": "Kiegészítők",
   "Common.Views.Plugins.strPlugins": "Kiegészítők",
-  "Common.Views.Plugins.textClosePanel": "Plugin bezárása",
-  "Common.Views.Plugins.textLoading": "Betöltés",
   "Common.Views.Plugins.textStart": "Kezdés",
   "Common.Views.Plugins.textStop": "Stop",
   "Common.Views.Protection.hintAddPwd": "Jelszóval titkosít",

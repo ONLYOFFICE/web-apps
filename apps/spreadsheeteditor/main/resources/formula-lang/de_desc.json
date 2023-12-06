@@ -1896,7 +1896,7 @@
 		"d": "Gibt eine Abfolge von Zahlen zurück."
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(Array, Zeilen, [Spalten], [füllen_mit])",
 		"d": "Erweitert eine Matrix auf die angegebenen Dimensionen."
 	},
 	"XMATCH": {

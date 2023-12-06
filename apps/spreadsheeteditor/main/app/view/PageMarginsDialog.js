@@ -60,7 +60,7 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<table cols="2" style="width: 100%;margin-bottom: 8px;">',
+                    '<table cols="2" style="width: 100%;margin-bottom: 5px;">',
                         '<tr>',
                             '<td class="padding-right-10" style="padding-bottom: 8px;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
@@ -97,8 +97,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -175,11 +174,16 @@ define([
         },
 
         getFocusedComponents: function() {
-            return this.spinners.concat([this.chVert, this.chHor]);
+            return this.spinners.concat([this.chVert, this.chHor]).concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
             return this.spnTop;
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {
