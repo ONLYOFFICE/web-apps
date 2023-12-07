@@ -182,6 +182,12 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
                 _isDocReady = true;
+
+                if ( !Common.Utils.ScreeenReaderHelper ) {
+                    require(['common/main/lib/util/ScreenReaderHelper'], function () {
+                        Common.Utils.ScreeenReaderHelper.setEnabled(true);
+                    });
+                }
             }
         });
         $(document).on('keyup', function(e) {
@@ -222,15 +228,19 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 } else if (e.keyCode == Common.UI.Keys.LEFT) {
                     turnOffHints = true;
                     _prevItem();
+                    Common.Utils.ScreeenReaderHelper.speech('previous item');
                 } else if (e.keyCode == Common.UI.Keys.RIGHT || e.keyCode == Common.UI.Keys.TAB) {
                     turnOffHints = true;
                     _nextItem();
+                    Common.Utils.ScreeenReaderHelper.speech('next item');
                 } else if (e.keyCode == Common.UI.Keys.UP) {
                     turnOffHints = true;
                     _nextLevel();
+                    Common.Utils.ScreeenReaderHelper.speech('next level');
                 } else if (e.keyCode == Common.UI.Keys.DOWN) {
                     turnOffHints = true;
                     _prevLevel();
+                    Common.Utils.ScreeenReaderHelper.speech('previous level');
                 }
                 if (!_focusMode && turnOffHints) {
                     _focusMode = true;
