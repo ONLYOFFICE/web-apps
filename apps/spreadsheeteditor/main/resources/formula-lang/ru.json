@@ -501,7 +501,7 @@
 			"na": "#Н/Д",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!",
-            "calc": "#ВЫЧИСЛ!"
+			"calc": "#ВЫЧИСЛ!"
 		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "адрес",

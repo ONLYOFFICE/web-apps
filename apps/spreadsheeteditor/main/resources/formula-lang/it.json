@@ -491,7 +491,7 @@
 			"na": "#N/D",
 			"getdata": "#ESTRAZIONE_DATI_IN_CORSO",
 			"uf": "#UNSUPPORTED_FUNCTION!",
-            "calc": "#CALC!"
+			"calc": "#CALC!"
 		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "indirizzo",

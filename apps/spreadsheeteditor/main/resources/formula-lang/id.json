@@ -500,8 +500,8 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-            "uf": "#UNSUPPORTED_FUNCTION!",
-            "calc": "#CALC!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
 		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "alamat",

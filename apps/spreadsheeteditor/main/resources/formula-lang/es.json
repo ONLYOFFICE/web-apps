@@ -501,7 +501,7 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!",
-            "calc": "#CALC!"
+			"calc": "#CALC!"
 		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "DIRECCIÓN",

@@ -501,7 +501,7 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!",
-            "calc": "#HESAPLA!"
+			"calc": "#HESAPLA!"
 		},
 		"CELL_FUNCTION_INFO_TYPE": {
 			"address": "adres",
