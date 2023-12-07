@@ -3264,13 +3264,13 @@ define([
             this.DisableToolbar(true, true);
         },
 
-        DisableToolbar: function(disable, viewMode, reviewmode, fillformmode) {
+        DisableToolbar: function(disable, viewMode, reviewmode, fillformmode, viewDocMode) {
             if (viewMode!==undefined) this.editMode = !viewMode;
             disable = disable || !this.editMode;
 
             var toolbar_mask = $('.toolbar-mask'),
                 group_mask = $('.toolbar-group-mask'),
-                mask = (reviewmode || fillformmode) ? group_mask : toolbar_mask;
+                mask = (reviewmode || fillformmode || viewDocMode) ? group_mask : toolbar_mask;
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
@@ -3279,9 +3279,13 @@ define([
                 toolbar.lockToolbar(Common.enumLock.previewReviewMode, disable);
             else if (fillformmode)
                 toolbar.lockToolbar(Common.enumLock.viewFormMode, disable);
+            else if (viewDocMode)
+                toolbar.lockToolbar(Common.enumLock.viewMode, disable);
+
+            !viewDocMode && toolbar.fireEvent('docmode:disabled', [disable]);
 
             if(disable) {
-                if (reviewmode || fillformmode)
+                if (reviewmode || fillformmode || viewDocMode)
                     mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
@@ -3289,12 +3293,12 @@ define([
                 mask.remove();
             }
             toolbar.$el.find('.toolbar').toggleClass('masked', $('.toolbar-mask').length>0);
-            disable = disable || ((reviewmode || fillformmode) ? toolbar_mask.length>0 : group_mask.length>0);
+            disable = disable || ((reviewmode || fillformmode || viewDocMode) ? toolbar_mask.length>0 : group_mask.length>0);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
 
-            toolbar._state.previewmode = reviewmode && disable;
-            if (reviewmode) {
+            toolbar._state.previewmode = (reviewmode || viewDocMode) && disable;
+            if (reviewmode || viewDocMode) {
                 toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {

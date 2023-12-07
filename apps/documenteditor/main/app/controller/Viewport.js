@@ -102,6 +102,12 @@ define([
                                 me.header.btnRedo.keepState.disabled = state;
                             else me.header.btnRedo.setDisabled(state);
                     },
+                    'docmode:disabled' : function (state) {
+                        if ( me.header.btnDocMode )
+                            if ( me.header.btnDocMode.keepState )
+                                me.header.btnDocMode.keepState.disabled = state;
+                            else me.header.btnDocMode.setDisabled(state);
+                    },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
@@ -260,6 +266,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable );
             me.header.lockHeaderBtns( 'redo', _need_disable );
             me.header.lockHeaderBtns( 'users', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable );
         },
 
         applySettings: function () {
@@ -280,11 +287,13 @@ define([
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
                 this.header.lockHeaderBtns( 'rename-user', true);
+                this.header.lockHeaderBtns( 'mode', true);
             }
         },
 
         SetDisabled: function(disable) {
             this.header && this.header.lockHeaderBtns( 'rename-user', disable);
+            this.header && this.header.lockHeaderBtns( 'mode', disable);
         },
 
         onSearchShow: function () {
