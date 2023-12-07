@@ -754,8 +754,9 @@ define([
         FILE_SPREADSHEET_XLSM:  FILE_SPREADSHEET + 0x0005,
         FILE_SPREADSHEET_XLTX:  FILE_SPREADSHEET + 0x0006,
         FILE_SPREADSHEET_XLTM:  FILE_SPREADSHEET + 0x0007,
-        FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0008,
-        FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x0009,
+        FILE_SPREADSHEET_XLSB:  FILE_SPREADSHEET + 0x0008,
+        FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0009,
+        FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x000a,
 
         FILE_CROSSPLATFORM:     FILE_CROSSPLATFORM,
         FILE_CROSSPLATFORM_PDF: FILE_CROSSPLATFORM + 0x0001,
@@ -784,6 +785,7 @@ define([
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLS:     return 'xls';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLTX:    return 'xltx';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLSX:    return 'xlsx';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLSB:    return 'xlsb';
             case utils.defines.FileFormat.FILE_SPREADSHEET_ODS:     return 'ods';
             case utils.defines.FileFormat.FILE_SPREADSHEET_CSV:     return 'csv';
             case utils.defines.FileFormat.FILE_SPREADSHEET_OTS:     return 'ots';
