@@ -77,7 +77,7 @@ define([
             this.tmbOptions={
                 width: 13,
                 height: 16,
-                border:1,
+                border:0.5,
                 borderColor:'#c0c0c0',
                 borderColorActive:'#848484'
             };
@@ -251,9 +251,9 @@ define([
                 x1 = 2*borderWidth,
                 x2 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale + 0.5)>>0) - 2*borderWidth,
                 x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0),
-                y1 = (((this.tmbOptions.width/2)*this.scale + borderWidth  + 0.5)>>0) ,
+                y1 = (((this.tmbOptions.width/2)*this.scale + 2 * borderWidth  + 0.5)>>0) ,
                 y2 = ((this.tmbOptions.height*this.scale + 0.5)>>0) - 2*borderWidth,
-                y3 = ((this.tmbOptions.border*this.scale + 2.5*borderWidth + 0.5)>>0);
+                y3 = ((2*this.tmbOptions.border*this.scale + 0.5)>>0) + 3*borderWidth;
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x1, y2);

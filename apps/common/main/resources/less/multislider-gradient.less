@@ -5,10 +5,12 @@
     .thumb {
         width: 13px;
         height: 15px;
-        top: 18px;
+        top: 16px;
+        top: calc(17px - @scaled-one-px-value);
         background: none;
         canvas{
-             .margin-left(1px);
+            .margin-left(1px);
+            .margin-left(@scaled-one-px-value);
         }
 
         &.remove canvas{
@@ -23,6 +25,7 @@
             bottom: 0;
             box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
             .margin-left(1px);
+            .margin-left(@scaled-one-px-value);
         }
     }
 
