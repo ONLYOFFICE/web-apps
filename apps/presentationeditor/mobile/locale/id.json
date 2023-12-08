@@ -453,7 +453,11 @@
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
       "textZoomRotate": "Zoom dan Rotasi",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

@@ -452,8 +452,12 @@
       "textZoomIn": "Palielināt",
       "textZoomOut": "Samazināt",
       "textZoomRotate": "Palielināt un rotēt",
+      "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textMorph": "Morph"
+      "textMorph": "Morph",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standarta (4:3)",

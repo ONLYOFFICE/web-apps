@@ -441,6 +441,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
@@ -451,8 +452,11 @@
       "textNoStyles": "No styles for this type of chart.",
       "textRecommended": "Recommended",
       "textRequired": "Required",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
+      "textTextOrientation": "Text Orientation",
       "textTransitions": "Transitions"
     },
     "Settings": {

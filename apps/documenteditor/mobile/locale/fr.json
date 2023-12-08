@@ -303,6 +303,7 @@
     "textHeader": "En-tête",
     "textHeaderRow": "Ligne d’en-tête",
     "textHighlightColor": "Couleur de surlignage",
+    "textHorizontalText": "Texte horizontal",
     "textHyperlink": "Lien hypertexte",
     "textImage": "Image",
     "textImageURL": "URL d'image",
@@ -404,7 +405,10 @@
     "textWe": "mer.",
     "textWrap": "Renvoi à la ligne",
     "textWrappingStyle": "Style d'habillage",
-    "textYourOption": "Votre option"
+    "textYourOption": "Votre option",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "Délai de conversion expiré.",

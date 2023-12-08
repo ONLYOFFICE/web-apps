@@ -401,9 +401,13 @@
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
     "textInvalidName": "The file name cannot contain any of the following characters: ",
     "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
     "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
     "textYourOption": "Your option"
   },
   "Error": {

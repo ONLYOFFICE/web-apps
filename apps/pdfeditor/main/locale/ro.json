@@ -540,6 +540,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtNone": "Nu vizualiza nimic",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrint": "Afișează butonul Imprimare rapidă în antetul aplicației de editare",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Imprimanta este setată se imprime documentul este ultima imprimantă utilizată sau imprimantă implicită",
+  "PDFE.Views.FileMenuPanels.Settings.txtScreenReader": "Activare cititor de ecran",
   "PDFE.Views.FileMenuPanels.Settings.txtStrictTip": "Utilizați butonul Salvare pentru a sincroniza modificările pe care le efectuați dvs. sau alte persoane",
   "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "Utilizați tasta Alt pentru a naviga în interfața de utilizator cu ajutorul tastaturii",
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Utilizați tasta Option pentru a naviga în interfața de utilizator cu ajutorul tastaturii",

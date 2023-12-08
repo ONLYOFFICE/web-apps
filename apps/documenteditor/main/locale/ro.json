@@ -2138,6 +2138,7 @@
   "DE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Imprimanta este setată se imprime documentul este ultima imprimantă utilizată sau imprimantă implicită",
   "DE.Views.FileMenuPanels.Settings.txtRunMacros": "Se activează toate",
   "DE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Se activează toate macrocomenzile, fără notificare",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "Activare cititor de ecran",
   "DE.Views.FileMenuPanels.Settings.txtShowTrackChanges": "Afișare urmărire modificări",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Verificarea ortografică",
   "DE.Views.FileMenuPanels.Settings.txtStopMacros": "Se dezactivează toate",

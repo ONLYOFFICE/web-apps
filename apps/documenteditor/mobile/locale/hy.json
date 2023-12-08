@@ -404,7 +404,11 @@
     "textWe": "Չրք",
     "textWrap": "Ծալում",
     "textWrappingStyle": "Ծալման ոճ",
-    "textYourOption": "Ձեր տարբերակը"
+    "textYourOption": "Ձեր տարբերակը",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "Փոխարկման սպասման ժամանակը սպառվել է։",

@@ -2654,6 +2654,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRu": "Русский",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRunMacros": "Включить все",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtRunMacrosDesc": "Включить все макросы без уведомления",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtScreenReader": "Включить поддержку средства чтения с экрана",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSk": "Словацкий",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtSl": "Словенский",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtStopMacros": "Отключить все",
