@@ -39,13 +39,13 @@ var checkLocalStorage = (function () {
     }
 })();
 
-if (!lang) {
-    lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
-    lang = lang ? lang[1] : '';
+if (!window.lang) {
+    window.lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    window.lang = window.lang ? window.lang[1] : '';
 }
-lang && (lang = lang.split(/[\-\_]/)[0].toLowerCase());
+window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
-let ui_rtl = false;
+var ui_rtl = false;
 if ( window.native && window.native.rtl !== undefined ) {
     ui_rtl = window.native.rtl;
 } else {

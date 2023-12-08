@@ -162,6 +162,7 @@ define([
                 if (this.mode.isEdit === true) {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
+                    this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -834,10 +835,20 @@ define([
             }
         },
 
+        onHidePdfFormsActions: function() {
+            this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
         onShowFormsPDFActions: function(obj, x, y) {
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
                     this.onShowListActionsPDF(obj, x, y);
+                    break;
+                case AscPDF.FIELD_TYPES.text:
+                    this.onShowDateActions(obj, x, y);
                     break;
             }
         },
@@ -912,6 +923,81 @@ define([
                 menu.cmpEl.focus();
             }, 10);
             this._fromShowContentControls = false;
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var cmpEl = this.documentHolder.cmpEl,
+                controlsContainer = cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            this._dateObj = obj;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            var pagepos = obj.getPagePos(),
+                oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
+
+            controlsContainer.css({left: oGlobalCoords.X, top : oGlobalCoords.Y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var specProps = new AscCommon.CSdtDatePickerPr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetTextFormDatePickerDate(specProps);
+                    controlsContainer.hide();
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                    }
+                });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                    }
+                });
+
+            }
+            var val = this._dateObj ? this._dateObj.asc_GetValue() : undefined;
+            if (val) {
+                val = new Date(val);
+                if (Object.prototype.toString.call(val) !== '[object Date]' || isNaN(val))
+                    val = undefined;
+            }
+            !val && (val = new Date());
+            this.cmpCalendar.setDate(val);
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
         },
 
         editComplete: function() {

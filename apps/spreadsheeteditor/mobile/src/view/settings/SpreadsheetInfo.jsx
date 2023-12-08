@@ -1,7 +1,8 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useContext} from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import { SettingsContext } from "../../controller/settings/Settings";
 
 const PageSpreadsheetInfo = (props) => {
     const { t } = useTranslation();
@@ -12,6 +13,7 @@ const PageSpreadsheetInfo = (props) => {
     const dataModified = props.modified;
     const dataModifiedBy = props.modifiedBy;
     const creators = props.creators;
+    const settingsContext = useContext(SettingsContext);
   
     return (
         <Page>
@@ -20,7 +22,7 @@ const PageSpreadsheetInfo = (props) => {
                 <Fragment>
                     <BlockTitle>{_t.textSpreadsheetTitle}</BlockTitle>
                     <List>
-                        <ListItem title={dataDoc.title}></ListItem>
+                        <ListItem href="#" title={dataDoc.title} onClick={settingsContext.changeTitleHandler}></ListItem>
                     </List>
                 </Fragment>
             ) : null}

@@ -1573,6 +1573,7 @@ define([
                     this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
                     this.mode && this.mode.canRequestSendNotify && this.view.pickEMail(comment.asc_getGuid(), commentVal);
+                    Common.NotificationCenter.trigger('comments:tryshowcomments'); // only for pdf
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }
@@ -1796,7 +1797,7 @@ define([
                         checkable: true,
                         checked: last === item,
                         toggleGroup: 'filtercomments',
-                        caption: Common.Utils.String.htmlEncode(item),
+                        caption: item,
                         value: item
                     }));
                 });

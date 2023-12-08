@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
+    "textRenameFile": "Renomear ficheiro"
   },
   "View": {
     "Add": {
@@ -375,6 +377,7 @@
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsertImage": "Inserir imagem",
+      "textInvalidName": "O nome do ficheiro não pode ter qualquer um dos seguintes caracteres:",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último diapositivo",
       "textLayout": "Disposição",

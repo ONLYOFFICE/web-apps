@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Itxi historia"
+    "textCloseHistory": "Itxi historia",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",

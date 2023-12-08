@@ -118,7 +118,7 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = (!!window.DE || !!window.PDFE) ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 
@@ -463,10 +463,22 @@ define([
 
         updatePluginsButtons: function() {
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
-                me = this;
+                me = this,
+                iconsInSideMenu = [];
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
+                var guid = item.get('guid');
+                if (me.viewPlugins.pluginPanels[guid]) {
+                    iconsInSideMenu.push({
+                        guid: guid,
+                        baseUrl: item.get('baseUrl'),
+                        parsedIcons: item.get('parsedIcons')
+                    });
+                }
             });
+            if (iconsInSideMenu.length > 0) {
+                me.viewPlugins.fireEvent('plugins:updateicons', [iconsInSideMenu]);
+            }
         },
 
         onSelectPlugin: function(picker, item, record, e){

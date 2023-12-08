@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu Səhifədən çıxın",
     "stayButtonText": "Bu səhifədə qalın",
-    "textCloseHistory": "Tarixçəni bağlayın"
+    "textCloseHistory": "Tarixçəni bağlayın",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textCreateFormat": "Create Format",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",

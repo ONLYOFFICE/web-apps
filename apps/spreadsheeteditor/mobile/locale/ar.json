@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "اترك هذه الصفحة",
     "stayButtonText": "ابقى في هذه الصفحة",
-    "textCloseHistory": "إغلاق السجل"
+    "textCloseHistory": "إغلاق السجل",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "ين",
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSortHigh2Low": "الترتيب من الأعلى إلى الأقل",
-      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى"
+      "txtSortLow2High": "الترتيب من الأقل إلى الأعلى",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "اختر خيارات CSV",

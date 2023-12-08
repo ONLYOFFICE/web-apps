@@ -127,6 +127,7 @@
       "textImage": "Image",
       "textImageURL": "Image URL",
       "textInsertImage": "Insert Image",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textLastColumn": "Last Column",
       "textLastSlide": "Last Slide",
       "textLayout": "Layout",
@@ -541,6 +542,8 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

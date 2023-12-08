@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
-    "textCloseHistory": "Închide istoricul"
+    "textCloseHistory": "Închide istoricul",
+    "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textRenameFile": "Redenumire fișier"
   },
   "View": {
     "Add": {
@@ -375,6 +377,7 @@
       "textImage": "Imagine",
       "textImageURL": "URL-ul imaginii",
       "textInsertImage": "Inserare imagine",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
       "textLastColumn": "Ultima coloană",
       "textLastSlide": "Ultimul diapozitiv",
       "textLayout": "Aspect",

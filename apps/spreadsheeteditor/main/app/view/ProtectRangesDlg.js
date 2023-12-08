@@ -98,7 +98,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                             '<div class="padding-right-5" style="width:180px;"><%= range %></div>',
                             '<div style="width:70px;"><% if (pwd) { %>', me.txtYes, '<% } else { %>', me.txtNo, '<% } %></div>',
                             '<% if (lock) { %>',
-                                '<div class="lock-user"><%=lockuser%></div>',
+                                '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                             '<% } %>',
                         '</div>'
                 ].join('')),
@@ -313,10 +313,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
                 item.get('rangeChanged') && arr.push(item.get('props'));
             });
             return {arr: arr, deletedArr: this.deletedArr};
-        },
-
-        onPrimary: function() {
-            return true;
         },
 
         onDlgBtnClick: function(event) {

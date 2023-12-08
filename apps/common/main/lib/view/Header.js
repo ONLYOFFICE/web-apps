@@ -64,7 +64,7 @@ define([
                             '<% } else { %>' +
                                 'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
                             '<% } %>' +
-                        '><% if (!user.get("avatar")) { %><%=user.get("initials")%><% } %></div>' +
+                        '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
                         '<label><%= fnEncode(user.get("username")) %></label>' +
                         '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+

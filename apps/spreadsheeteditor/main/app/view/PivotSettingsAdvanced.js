@@ -227,7 +227,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         _setDefaults: function (props) {
             if (props) {
                 var me = this;
-                this.inputName.setValue(Common.Utils.String.htmlEncode(props.asc_getName()));
+                this.inputName.setValue(props.asc_getName());
 
                 this.chCols.setValue(props.asc_getRowGrandTotals(), true);
                 this.chRows.setValue(props.asc_getColGrandTotals(), true);

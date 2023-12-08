@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
-    "textCloseHistory": "Κλείσιμο ιστορικού"
+    "textCloseHistory": "Κλείσιμο ιστορικού",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "Εστίαση",
       "textZoomIn": "Μεγέθυνση",
       "textZoomOut": "Σμίκρυνση",
-      "textZoomRotate": "Εστίαση και Περιστροφή"
+      "textZoomRotate": "Εστίαση και Περιστροφή",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Τυπικό (4:3)",

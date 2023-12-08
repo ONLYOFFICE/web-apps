@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
-    "textCloseHistory": "Κλείσιμο ιστορικού"
+    "textCloseHistory": "Κλείσιμο ιστορικού",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "Γιέν",
       "txtNotUrl": "Αυτό το πεδίο πρέπει να είναι μια διεύθυνση URL με τη μορφή «http://www.example.com»",
       "txtSortHigh2Low": "Ταξινόμηση από το Υψηλότερο στο Χαμηλότερο",
-      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο"
+      "txtSortLow2High": "Ταξινόμηση από το Χαμηλότερο στο Υψηλότερο",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Επιλέξτε CSV επιλογές",

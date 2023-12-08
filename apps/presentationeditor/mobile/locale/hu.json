@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
-    "textCloseHistory": "Napló bezárása"
+    "textCloseHistory": "Napló bezárása",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,7 +452,8 @@
       "textZoom": "Zoom",
       "textZoomIn": "Nagyítás",
       "textZoomOut": "Kicsinyítés",
-      "textZoomRotate": "Zoom és elforgatás"
+      "textZoomRotate": "Zoom és elforgatás",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "mniSlideStandard": "Sztenderd (4:3)",

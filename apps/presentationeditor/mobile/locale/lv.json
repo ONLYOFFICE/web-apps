@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
-    "textCloseHistory": "Aizvērt vēsturi"
+    "textCloseHistory": "Aizvērt vēsturi",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,6 +452,7 @@
       "textZoomIn": "Palielināt",
       "textZoomOut": "Samazināt",
       "textZoomRotate": "Palielināt un rotēt",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph"
     },
     "Settings": {

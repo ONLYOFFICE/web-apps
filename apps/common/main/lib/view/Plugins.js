@@ -65,7 +65,6 @@ define([
             };
             this.lockedControls = [];
             this.pluginPanels = {};
-            this.pluginBtns = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
@@ -302,11 +301,6 @@ define([
                 menuItem.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')['normal']);
             } else if (btn && btn.cmpEl) {
                 btn.cmpEl.find(".inner-box-icon img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[btn.isActive() ? 'active' : 'normal']);
-                var guid = model.get('guid'),
-                    leftBtn = this.pluginBtns[guid];
-                if (leftBtn && leftBtn.cmpEl) {
-                    leftBtn.cmpEl.find("img").attr("src", model.get('baseUrl') + model.get('parsedIcons')[leftBtn.isActive() ? 'active' : 'normal']);
-                }
             }
         },
 
@@ -333,6 +327,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'small'
             });
+            this.lockedControls.push(btn);
             return btn;
         },
 

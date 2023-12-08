@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Orritik irten",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Itxi historia"
+    "textCloseHistory": "Itxi historia",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera"
+      "txtSortLow2High": "Antolatu txikienetik handienera",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",

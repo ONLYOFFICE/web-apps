@@ -306,8 +306,10 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
                 this.spnWidth.setMaxValue(this.sizeMax.width);
                 this.spnHeight.setMaxValue(this.sizeMax.height);
-                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
-                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Height()).toFixed(2), true);
+                value = props.get_Width();
+                this.spnWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                value = props.get_Height();
+                this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
 
