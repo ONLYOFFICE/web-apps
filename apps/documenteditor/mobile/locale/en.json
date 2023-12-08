@@ -404,7 +404,11 @@
     "textWe": "We",
     "textWrap": "Wrap",
     "textWrappingStyle": "Wrapping Style",
-    "textYourOption": "Your option"
+    "textYourOption": "Your option",
+    "textTextOrientation": "Text Orientation",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextUp": "Rotate Text Up",
+    "textRotateTextDown": "Rotate Text Down"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
