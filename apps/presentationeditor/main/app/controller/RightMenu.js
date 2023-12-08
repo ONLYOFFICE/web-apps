@@ -59,10 +59,18 @@ define([
 
             this.addListeners({
                 'RightMenu': {
-                    'rightmenuclick': this.onRightMenuClick
+                    'rightmenuclick': this.onRightMenuClick,
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'ViewTab': {
                     'rightmenu:hide': _.bind(this.onRightMenuHide, this)
+                },
+                'Common.Views.Plugins': {
+                    'plugins:addtoright': _.bind(this.addNewPlugin, this),
+                    'pluginsright:open': _.bind(this.openPlugin, this),
+                    'pluginsright:close': _.bind(this.closePlugin, this),
+                    'pluginsright:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsright:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 }
             });
         },
@@ -440,6 +448,43 @@ define([
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
-        }
+        },
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.rightmenu.insertButton(button, $button);
+            this.rightmenu.insertPanel($panel);
+        },
+
+        openPlugin: function (guid) {
+            this.rightmenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.rightmenu.closePlugin(guid);
+            this.rightmenu.onBtnMenuClick();
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+        },
+
+        onHidePlugins: function() {
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.rightmenu.updatePluginButtonsIcons(icons);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                this.rightmenu.onBtnMenuClick(btn);
+                if (btn.pressed) {
+                    this.rightmenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.rightmenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+            }
+        },
     });
 });

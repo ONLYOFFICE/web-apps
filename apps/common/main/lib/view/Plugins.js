@@ -395,14 +395,18 @@ define([
         },
 
         showPluginPanel: function (show, guid) {
+            var model = this.storePlugins.findWhere({guid: guid}),
+                menu = model.get('menu');
             if (show) {
                 for (var key in this.pluginPanels) {
-                    this.pluginPanels[key].hide();
+                    if (this.pluginPanels[key].menu === menu) {
+                        this.pluginPanels[key].$el.removeClass('active');
+                    }
                 }
-                this.pluginPanels[guid].show();
+                this.pluginPanels[guid].$el.addClass('active');
             } else {
-                this.pluginPanels[guid].hide();
-                this.fireEvent('hide', this);
+                this.pluginPanels[guid].$el.removeClass('active');
+                this.fireEvent(menu === 'right' ? 'pluginsright:hide' : 'pluginsleft:hide', this);
             }
             //this.updateLeftPluginButton(guid);
         },
