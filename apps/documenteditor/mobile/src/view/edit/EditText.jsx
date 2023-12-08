@@ -484,7 +484,6 @@ const PageOrientationTextShape = props => {
     const _t = t('Edit', {returnObjects: true});
     const shapePr = props.shapePr;
     const [directionTextShape, setDirectionTextShape] = useState(shapePr.get_Vert());
-    const isAndroid = Device.android;
 
     return (
         <Page>
@@ -500,38 +499,30 @@ const PageOrientationTextShape = props => {
             <List>
                 <ListItem title={t('Edit.textHorizontalText')} radio 
                     checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null} 
+                    radioIcon="end"
                     onChange={() => {
                         setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
                 }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
-                    }
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
                 </ListItem>
                 <ListItem title={t('Edit.textRotateTextDown')} radio
                     checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null} 
+                    radioIcon="end"
                     onChange={() => {
                         setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
                 }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null
-                    }
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> 
                 </ListItem>
                 <ListItem title={t('Edit.textRotateTextUp')} radio
                     checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
-                    after={isAndroid ? 
-                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> 
-                    : null} 
+                    radioIcon="end"
                     onChange={() => {
                         setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
                         props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
                 }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> : null
-                    }
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
                 </ListItem>
             </List>
         </Page>
