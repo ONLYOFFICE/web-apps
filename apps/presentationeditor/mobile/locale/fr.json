@@ -373,6 +373,7 @@
       "textHighlightColor": "Couleur de surlignage",
       "textHorizontalIn": "Horizontal intérieur",
       "textHorizontalOut": "Horizontal extérieur",
+      "textHorizontalText": "Texte horizontal",
       "textHyperlink": "Lien hypertexte",
       "textImage": "Image",
       "textImageURL": "URL d'image",
@@ -453,7 +454,10 @@
       "textZoomIn": "Zoom avant",
       "textZoomOut": "Zoom arrière",
       "textZoomRotate": "Zoom et rotation",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

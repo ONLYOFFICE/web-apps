@@ -373,6 +373,7 @@
       "textHighlightColor": "Highlight Color",
       "textHorizontalIn": "Horizontal In",
       "textHorizontalOut": "Horizontal Out",
+      "textHorizontalText": "Horizontal Text",
       "textHyperlink": "Hyperlink",
       "textImage": "Image",
       "textImageURL": "Image URL",
@@ -417,6 +418,8 @@
       "textReplaceImage": "Replace Image",
       "textRequired": "Required",
       "textRight": "Right",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
       "textScreenTip": "Screen Tip",
       "textSearch": "Search",
       "textSec": "s",
@@ -438,6 +441,7 @@
       "textSuperscript": "Superscript",
       "textTable": "Table",
       "textText": "Text",
+      "textTextOrientation": "Text Orientation",
       "textTheme": "Theme",
       "textTop": "Top",
       "textTopLeft": "Top-Left",
@@ -453,11 +457,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Zoom In",
       "textZoomOut": "Zoom Out",
-      "textZoomRotate": "Zoom and Rotate",
-      "textTextOrientation": "Text Orientation",
-      "textHorizontalText": "Horizontal Text",
-      "textRotateTextUp": "Rotate Text Up",
-      "textRotateTextDown": "Rotate Text Down"
+      "textZoomRotate": "Zoom and Rotate"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

@@ -404,7 +404,11 @@
     "textWe": "Sre",
     "textWrap": "Obmotaj",
     "textWrappingStyle": "Stil Obmotavanja",
-    "textYourOption": "Tvoja opcija"
+    "textYourOption": "Tvoja opcija",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",

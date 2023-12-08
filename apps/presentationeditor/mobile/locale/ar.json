@@ -45,7 +45,7 @@
     },
     "Themes": {
       "dark": "داكن",
-      "light": "سمة فاتحة",
+      "light": "فاتح",
       "system": "استخدم سمة النظام",
       "textTheme": "السمة"
     },
@@ -453,7 +453,11 @@
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
       "textZoomRotate": "التكبير و التدوير",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "القياسي (4:3)",

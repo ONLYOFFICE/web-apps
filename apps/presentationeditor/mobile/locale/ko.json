@@ -453,7 +453,11 @@
       "textZoomIn": "확대",
       "textZoomOut": "축소",
       "textZoomRotate": "확대 / 축소 및 회전",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",
