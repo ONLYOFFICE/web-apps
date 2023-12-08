@@ -346,15 +346,12 @@ class MainController extends Component {
                     var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
                         isPDF = (!!result && result.length && typeof result[1] === 'string');
 
-                    this.api = isPDF ? new Asc.PDFEditorApi({
+                    const config = {
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
                         'translate': _translate
-                    }) : new Asc.asc_docs_api({
-                        'id-view'  : 'editor_sdk',
-                        'mobile'   : true,
-                        'translate': _translate
-                    });
+                    };
+                    this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
 
                     Common.Notifications.trigger('engineCreated', this.api);
                     // Common.EditorApi = {get: () => this.api};
