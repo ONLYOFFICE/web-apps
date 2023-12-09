@@ -448,14 +448,6 @@ define([
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
-                config.isOForm && config.canDownloadForms && !Common.localStorage.getBool("de-convert-oform") && Common.UI.warning({
-                    msg  : me.view.tipSaveFile,
-                    dontshow: true,
-                    callback: function(btn, dontshow){
-                        dontshow && Common.localStorage.setItem("de-convert-oform", 1);
-                        Common.NotificationCenter.trigger('edit:complete');
-                    }
-                });
             });
         },
 

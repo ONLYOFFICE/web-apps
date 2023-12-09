@@ -131,7 +131,13 @@ define([
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
 
-            this.api = new Asc.PDFEditorApi({
+            this.isForm = /[\?\&]isForm=\btrue\b&?/i.exec(window.location.search);
+            this.isXpsViewer = /[\?\&]fileType=\b(djvu|xps|oxps)\b&?/i.exec(window.location.search);
+
+            this.api = (!!this.isXpsViewer || !this.isForm) ? new Asc.PDFEditorApi({
+                'id-view'  : 'editor_sdk',
+                'translate': this.getApplication().getController('Main').translationTable
+            }) : new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
                 'translate': this.getApplication().getController('Main').translationTable
             });

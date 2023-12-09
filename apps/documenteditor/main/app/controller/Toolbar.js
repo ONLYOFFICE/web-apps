@@ -3539,6 +3539,14 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
                 }
+                config.isOForm && config.canDownloadForms && !Common.localStorage.getBool("de-convert-oform") && Common.UI.warning({
+                    msg  : me.textConvertForm,
+                    dontshow: true,
+                    callback: function(btn, dontshow){
+                        dontshow && Common.localStorage.setItem("de-convert-oform", 1);
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
             });
         },
 
@@ -4007,7 +4015,8 @@ define([
         textGroup: 'Group',
         textEmptyMMergeUrl: 'You need to specify URL.',
         textRecentlyUsed: 'Recently Used',
-        dataUrl: 'Paste a data URL'
+        dataUrl: 'Paste a data URL',
+        textConvertForm: 'Download file as pdf to save the form in the format ready for filling.',
 
     }, DE.Controllers.Toolbar || {}));
 });

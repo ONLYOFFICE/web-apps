@@ -960,16 +960,14 @@
                 if (typeof type[3] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'pdf';
             }
         }
-        if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded' || config.document && config.document.isForm)) {
+        if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded')) {
             appType = 'word';
         }
 
         path += appMap[appType] + "/";
         const path_type = config.type === "mobile"
                     ? "mobile" : (config.type === "embedded")
-                    ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'pdf' &&
-                                appType==='word')
-                    ? "forms" : "main";
+                    ? "embed" : "main";
 
         path += path_type;
         var index = "/index.html";
@@ -1038,7 +1036,7 @@
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
-        if (config.document && config.isForm)
+        if (config.document && config.document.isForm)
             params += "&isForm=true";
 
         return params;
