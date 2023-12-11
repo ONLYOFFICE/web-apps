@@ -285,6 +285,9 @@ div {
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption
+					},
+					"options": {
+						"WOPISrc": userAuth.wopiSrc
 					}
 				},
 				"editorConfig": {
