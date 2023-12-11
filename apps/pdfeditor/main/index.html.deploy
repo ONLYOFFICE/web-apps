@@ -278,7 +278,6 @@
             document.querySelectorAll('.compact').forEach(function(item){
                 item.style.display = 'inline-block';
             });
-            document.querySelector('.fat').style.left = '655px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');

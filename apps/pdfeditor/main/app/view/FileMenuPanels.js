@@ -658,10 +658,10 @@ define([
                 this.chAutosave.setCaption(this.textAutoRecover);
             }
             /** coauthoring begin **/
-            $('tr.collaboration', this.el)[mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring && !mode.isForm || mode.canViewReview ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring && canPDFSave ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && canPDFSave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && !mode.isForm ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 

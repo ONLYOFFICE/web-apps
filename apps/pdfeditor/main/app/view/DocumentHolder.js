@@ -258,7 +258,10 @@ define([
 
         textCopy: 'Copy',
         addCommentText: 'Add Comment',
-        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        mniImageFromFile: 'Image from File',
+        mniImageFromUrl: 'Image from URL',
+        mniImageFromStorage: 'Image from Storage',
 
 }, PDFE.Views.DocumentHolder || {}));
 });

@@ -77,7 +77,7 @@ define([
                     'render:before' : function (toolbar) {
                         var config = PDFE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                        if (!config.isEdit && !config.isRestrictedEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
                         var value = Common.localStorage.getBool("pdfe-settings-quick-print-button", true);
@@ -174,7 +174,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !config.isEdit || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
+            if ( !(config.isEdit || config.isRestrictedEdit) || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar )) {
                 var panel = me.viewport.vlayout.getItem('toolbar');
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
@@ -188,7 +188,7 @@ define([
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
 
-            if (  config.isEdit && !(config.customization && config.customization.compactHeader)) {
+            if ( (config.isEdit || config.isRestrictedEdit) && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));

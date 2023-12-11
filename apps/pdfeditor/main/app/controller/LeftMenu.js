@@ -200,7 +200,11 @@ define([
             }
             /** coauthoring end **/
 
-            this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            if (this.mode.canUseViwerNavigation) {
+                this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            } else {
+                this.leftMenu.btnNavigation.hide();
+            }
 
             if (this.mode.canUseThumbnails) {
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
