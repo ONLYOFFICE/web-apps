@@ -596,7 +596,7 @@ define([
                 var showPoint, ToolTip,
                     type = moveData.get_Type();
 
-                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type==Asc.c_oAscMouseMoveDataTypes.Form) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -608,6 +608,10 @@ define([
                         ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
                         if (ToolTip.length>256)
                             ToolTip = ToolTip.substr(0, 256) + '...';
+                    } else if (type==Asc.c_oAscMouseMoveDataTypes.Form) {
+                        ToolTip = moveData.get_FormHelpText();
+                        if (ToolTip.length>1000)
+                            ToolTip = ToolTip.substr(0, 1000) + '...';
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
