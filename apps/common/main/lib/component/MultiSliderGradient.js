@@ -75,7 +75,7 @@ define([
         initialize : function(options) {
             this.styleStr = {};
             this.tmbOptions={
-                width: 13,
+                width: 12,
                 height: 16,
                 border:0.5,
                 borderColor:'#c0c0c0',
@@ -228,16 +228,22 @@ define([
                 borderWidth = (this.tmbOptions.border*this.scale + 0.5)>>0,
                 x1 = borderWidth / 2,
                 x2 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale + 0.5)>>0) - borderWidth / 2,
-                x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0),
+                x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0) + 0.5*borderWidth,
+                x4 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale - 0.5)>>0) + 0.5*borderWidth - x3,
                 y1 = ((this.tmbOptions.width/2*this.scale + 0.5)>>0) + borderWidth / 2,
                 y2 = ((this.tmbOptions.height*this.scale + 0.5)>>0) - borderWidth / 2,
                 y3 = ((this.scale + 0.5)>>0) + borderWidth / 2;
+            x2 = (this.tmbOptions.width*this.scale >>0) - x2<=0 ? x2 - borderWidth : x2;
+            y2 = (this.tmbOptions.height*this.scale >>0) - y2<=0 ? y2 - borderWidth : y2;
+            this.tmbOptions.x2 = x2;
+            this.tmbOptions.y2 = y2;
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x1, y2);
             ctx.lineTo(x2, y2);
             ctx.lineTo(x2, y1);
             ctx.lineTo(x3, y3);
+            (x3 !== x4) && ctx.lineTo(x4, y3);
             ctx.lineTo(x1, y1);
             ctx.closePath();
             ctx.lineWidth = borderWidth;
@@ -246,20 +252,21 @@ define([
         },
 
         thumbFill: function (ctx, color) {
-
             var borderWidth = (this.tmbOptions.border*this.scale + 0.5)>>0,
                 x1 = 2*borderWidth,
-                x2 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale + 0.5)>>0) - 2*borderWidth,
-                x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0),
+                x2 = this.tmbOptions.x2 - 1.5*borderWidth,
+                x3 = (((this.tmbOptions.width - this.tmbOptions.border)/2*this.scale + 0.5)>>0) + 0.5*borderWidth,
+                x4 = (((this.tmbOptions.width - this.tmbOptions.border/2)*this.scale - 0.5)>>0) + 0.5*borderWidth - x3,
                 y1 = (((this.tmbOptions.width/2)*this.scale + 2 * borderWidth  + 0.5)>>0) ,
-                y2 = ((this.tmbOptions.height*this.scale + 0.5)>>0) - 2*borderWidth,
-                y3 = ((2*this.tmbOptions.border*this.scale + 0.5)>>0) + 3*borderWidth;
+                y2 = (this.tmbOptions.y2 - 1.5*borderWidth)>>0,
+                y3 = ((this.scale + 0.5 + 3*borderWidth)>>0) ;
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x1, y2);
             ctx.lineTo(x2, y2);
             ctx.lineTo(x2, y1);
-            ctx.lineTo(x3, y3);
+            ctx.lineTo(x3, y3>>0);
+            (x3 !== x4) && ctx.lineTo(x4, y3>>0);
             ctx.lineTo(x1, y1);
             ctx.closePath();
             ctx.fillStyle = color;
