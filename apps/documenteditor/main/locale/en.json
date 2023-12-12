@@ -1550,6 +1550,7 @@
   "DE.Controllers.Toolbar.txtSymbol_vdots": "Vertical ellipsis",
   "DE.Controllers.Toolbar.txtSymbol_xsi": "Xi",
   "DE.Controllers.Toolbar.txtSymbol_zeta": "Zeta",
+  "DE.Controllers.Toolbar.textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
   "DE.Controllers.Viewport.textFitPage": "Fit to Page",
   "DE.Controllers.Viewport.textFitWidth": "Fit to Width",
   "DE.Controllers.Viewport.txtDarkMode": "Dark mode",

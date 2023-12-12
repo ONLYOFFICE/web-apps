@@ -890,7 +890,7 @@ define([
             capBtnSaveFormDesktop: 'Save as...',
             tipSaveForm: 'Save a file as a fillable PDF',
             capBtnDownloadForm: 'Download as pdf',
-            tipDownloadForm: 'Download a file as a fillable PDF',
+            tipDownloadForm: 'Download a file as a fillable PDF'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

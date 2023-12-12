@@ -4016,7 +4016,7 @@ define([
         textEmptyMMergeUrl: 'You need to specify URL.',
         textRecentlyUsed: 'Recently Used',
         dataUrl: 'Paste a data URL',
-        textConvertForm: 'Download file as pdf to save the form in the format ready for filling.',
+        textConvertForm: 'Download file as pdf to save the form in the format ready for filling.'
 
     }, DE.Controllers.Toolbar || {}));
 });
