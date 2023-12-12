@@ -91,8 +91,16 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             console.log(_currentControls);
         }
         if (!_focusVisible) _setFocusInActiveTab();
+        var currItem = _currentControls[_currentItemIndex];
         console.log(_currentControls[_currentItemIndex]);
-        //_currentControls[_currentItemIndex] && $(_currentControls[_currentItemIndex]).focus();
+        if (currItem) {
+            if (($(currItem).hasClass('btn-category') && !$(currItem).hasClass('active') &&
+                $(currItem).prop('id') !== 'left-btn-support' && $(currItem).prop('id') !== "left-btn-about") ||
+                ($(currItem).parent().hasClass('ribtab') && !$(currItem).parent().hasClass('active') && $(currItem).data('tab') !== 'file')) {
+                $(currItem).trigger(jQuery.Event('click', {which: 1}));
+            }
+            $(_currentControls[_currentItemIndex]).focus();
+        }
         if (_currentControls.length > 0) {
             !_isLockedKeyEvents && _lockedKeyEvents(true);
             _focusVisible = true;
@@ -210,21 +218,27 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             }
             _needShow = false;
         });
-        $(document).on('keydown', function(e) {
+        $(document).on('keydown.after.bs.dropdown', function(e) {
             if (_focusVisible) {
-                var turnOffHints = false;
+                if($(_currentControls[_currentItemIndex]).data('move-focus-only-tab') && e.keyCode !== Common.UI.Keys.TAB) return;
+                var turnOffHints = false,
+                    btn = _currentControls[_currentItemIndex] && $(_currentControls[_currentItemIndex]);
                 e.preventDefault();
+                Common.UI.Menu.Manager.hideAll();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
                     _hideFocus();
                     _resetToDefault();
+                    _lockedKeyEvents(false);
                     return;
-                } else if (e.keyCode == Common.UI.Keys.RETURN) {
-                    if (_focusMode && _currentControls[_currentItemIndex]) {
-                        var button = $(_currentControls[_currentItemIndex]);
-                        button.trigger(jQuery.Event('click', {which: 1}));
-                        _nextLevel();
-                        _setCurrentSection(button);
+                } else if (e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) {
+                    if (btn) {
+                        btn.trigger(jQuery.Event('click', {which: 1}));
                     }
+                    _hideFocus();
+                    _resetToDefault();
+                    _lockedKeyEvents(false);
+                    Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
+                    return;
                 } else if (e.keyCode == Common.UI.Keys.LEFT) {
                     turnOffHints = true;
                     _prevItem();
@@ -233,11 +247,12 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     turnOffHints = true;
                     _nextItem();
                     Common.Utils.ScreeenReaderHelper.speech('next item');
-                } else if (e.keyCode == Common.UI.Keys.UP) {
+                } else if (e.keyCode == Common.UI.Keys.DOWN) {
                     turnOffHints = true;
                     _nextLevel();
+                    _setCurrentSection(btn);
                     Common.Utils.ScreeenReaderHelper.speech('next level');
-                } else if (e.keyCode == Common.UI.Keys.DOWN) {
+                } else if (e.keyCode == Common.UI.Keys.UP) {
                     turnOffHints = true;
                     _prevLevel();
                     Common.Utils.ScreeenReaderHelper.speech('previous level');
