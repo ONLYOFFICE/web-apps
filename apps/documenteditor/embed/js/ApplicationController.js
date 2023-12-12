@@ -557,7 +557,7 @@ DE.ApplicationController = new(function(){
 
         // TODO: add asc_hasRequiredFields to sdk
 
-        if (appOptions.canSubmitForms && !api.asc_IsAllRequiredFormsFilled()) {
+        if (appOptions.canSubmitForms && appOptions.canFillForms && !api.asc_IsAllRequiredFormsFilled()) {
             var sgroup = $('#id-submit-group');
             btnSubmit.attr({disabled: true});
             btnSubmit.css("pointer-events", "none");
