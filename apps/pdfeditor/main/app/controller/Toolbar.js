@@ -953,7 +953,7 @@ define([
         },
 
         applySettings: function() {
-            this.toolbar && this.toolbar.chShowComments.setValue(Common.localStorage.getBool("pdfe-settings-livecomment", true), true);
+            this.toolbar && this.toolbar.chShowComments && this.toolbar.chShowComments.setValue(Common.localStorage.getBool("pdfe-settings-livecomment", true), true);
         },
 
         textWarning: 'Warning',

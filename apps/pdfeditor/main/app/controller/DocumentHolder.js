@@ -199,10 +199,20 @@ define([
         },
 
         createDelayedElements: function(view, type) {
-            var me = this;
+            var me = this,
+                view = me.documentHolder;
 
-            me.documentHolder.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
-            me.documentHolder.menuAddComment.on('click', _.bind(me.addComment, me));
+            if (type==='pdf') {
+                view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuAddComment.on('click', _.bind(me.addComment, me));
+            } else if (type==='forms') {
+                view.menuPDFFormsUndo.on('click', _.bind(me.onUndo, me));
+                view.menuPDFFormsRedo.on('click', _.bind(me.onRedo, me));
+                view.menuPDFFormsClear.on('click', _.bind(me.onClear, me));
+                view.menuPDFFormsCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            }
         },
 
         getView: function (name) {
@@ -258,10 +268,47 @@ define([
             return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: {}};
         },
 
+        fillFormsMenuProps: function(selectedElements) {
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+
+            var documentHolder = this.documentHolder;
+            if (!documentHolder.formsPDFMenu)
+                documentHolder.createDelayedElementsPDFForms();
+
+            var menu_props = {},
+                noobject = true;
+            for (var i = 0; i <selectedElements.length; i++) {
+                var elType = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                    //image
+                    menu_props.imgProps = {};
+                    menu_props.imgProps.value = elValue;
+                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+
+                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    menu_props.imgProps.content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                    menu_props.paraProps = {};
+                    menu_props.paraProps.value = elValue;
+                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
+                    menu_props.headerProps = {};
+                    menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
+            }
+
+            return (!noobject) ? {menu_to_show: documentHolder.formsPDFMenu, menu_props: menu_props} : null;
+        },
+
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = me.fillViewMenuProps();
+                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : me.fillViewMenuProps();
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -284,7 +331,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
-                var obj = me.fillViewMenuProps(selectedElements);
+                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -792,7 +839,20 @@ define([
         },
 
         onUndo: function () {
-            this.api.Undo();
+            this.api && this.api.Undo();
+        },
+
+        onRedo: function () {
+            this.api && this.api.Redo();
+        },
+
+        onClear: function () {
+            if (this.api) {
+                var props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                if (props) {
+                    this.api.asc_ClearContentControl(props.get_InternalId());
+                }
+            }
         },
 
         onPrintSelection: function(item){

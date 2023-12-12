@@ -125,6 +125,80 @@ define([
             this.fireEvent('createdelayedelements', [this, 'pdf']);
         },
 
+        createDelayedElementsPDFForms: function() {
+            var me = this;
+
+            me.menuPDFFormsCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            me.menuPDFFormsPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            });
+
+            me.menuPDFFormsCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
+            me.menuPDFFormsUndo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-undo',
+                caption: me.textUndo
+            });
+
+            me.menuPDFFormsRedo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-redo',
+                caption: me.textRedo
+            });
+
+            me.menuPDFFormsClear = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-clearstyle',
+                caption: me.textClearField
+            });
+
+            me.formsPDFMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    var cancopy = me.api.can_CopyCut(),
+                        disabled = value.paraProps && value.paraProps.locked || value.headerProps && value.headerProps.locked ||
+                                    value.imgProps && (value.imgProps.locked || value.imgProps.content_locked) || me._isDisabled;
+                    me.menuPDFFormsUndo.setDisabled(disabled || !me.api.asc_getCanUndo()); // undo
+                    me.menuPDFFormsRedo.setDisabled(disabled || !me.api.asc_getCanRedo()); // redo
+
+                    me.menuPDFFormsClear.setDisabled(disabled); // clear
+                    me.menuPDFFormsCut.setDisabled(disabled || !cancopy); // cut
+                    me.menuPDFFormsCopy.setDisabled(!cancopy); // copy
+                    me.menuPDFFormsPaste.setDisabled(disabled) // paste;
+                },
+                items: [
+                    me.menuPDFFormsUndo,
+                    me.menuPDFFormsRedo,
+                    { caption: '--' },
+                    me.menuPDFFormsClear,
+                    { caption: '--' },
+                    me.menuPDFFormsCut,
+                    me.menuPDFFormsCopy,
+                    me.menuPDFFormsPaste
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            this.fireEvent('createdelayedelements', [this, 'forms']);
+        },
+
         updateCustomItems: function(menu, data) {
             if (!menu || !data || data.length<1) return;
 
@@ -262,6 +336,11 @@ define([
         mniImageFromFile: 'Image from File',
         mniImageFromUrl: 'Image from URL',
         mniImageFromStorage: 'Image from Storage',
+        textUndo: 'Undo',
+        textRedo: 'Redo',
+        textCut: 'Cut',
+        textPaste: 'Paste',
+        textClearField: 'Clear field'
 
-}, PDFE.Views.DocumentHolder || {}));
+    }, PDFE.Views.DocumentHolder || {}));
 });
