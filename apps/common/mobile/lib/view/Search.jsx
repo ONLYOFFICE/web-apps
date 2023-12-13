@@ -53,21 +53,10 @@ class SearchSettingsView extends Component {
 
     render() {
         const show_popover = !Device.phone;
-        // const navbar =
-        //     <Navbar title="Find and replace">
-        //         {!show_popover &&
-        //             <NavRight>
-        //                 <Link popupClose=".search-settings-popup">Done</Link>
-        //             </NavRight>
-        //         }
-        //     </Navbar>;
         const extra = this.extraSearchOptions();
         const content =
             <View style={show_popover ? popoverStyle : null}>
-                {/* <Page>
-                    {navbar} */}
                 {extra}
-                {/* </Page> */}
             </View>;
         return (
             show_popover ?
@@ -143,7 +132,7 @@ class SearchView extends Component {
 
     searchParams() {
         let params = {
-            find: this.searchbar.query
+            find: this.state.searchQuery
         };
 
         if (searchOptions.usereplace || searchOptions.isReplaceAll) {
@@ -188,14 +177,7 @@ class SearchView extends Component {
         }
     }
 
-    // onSearchbarShow(isshowed, bar) {
-    //     if ( !isshowed ) {
-    //         // this.$replace.val('');
-    //     }
-    // }
-
     onEditorTouchStart(e) {
-        // console.log('taouch start');
         this.startPoint = this.pointerPosition(e);
     }
 
@@ -252,7 +234,6 @@ class SearchView extends Component {
 
     onSearchInput(e) {
         const text = e.target.value;
-        const api = Common.EditorApi.get();
 
         if (text && this.state.searchQuery !== text) {
             this.setState(prevState => ({
@@ -266,14 +247,12 @@ class SearchView extends Component {
                 this.searchTimer = setInterval(() => {
                     if (new Date() - this.lastInputChange < 400) return;
 
-                    if (this.state.searchQuery !== '') {
-                        this.props.onSearchQuery(this.searchParams(), true);
-                    } else {
-                        api.asc_endFindText();
-                    }
-
                     clearInterval(this.searchTimer);
                     this.searchTimer = undefined;
+
+                    if(this.state.searchQuery !== '') {
+                        this.props.onSearchQuery(this.searchParams(), true);
+                    }
                 }, 10);
             }
         } else {
