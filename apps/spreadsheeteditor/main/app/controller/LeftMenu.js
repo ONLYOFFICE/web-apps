@@ -953,6 +953,10 @@ define([
                     this.leftMenu.btnSpellcheck.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSpellcheck);
                 }
+                else if (this.leftMenu.btnChat.isActive()) {
+                    this.leftMenu.btnChat.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                }
             }
         },
 
