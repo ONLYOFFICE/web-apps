@@ -461,7 +461,11 @@
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
       "textMorphLetters": "Letters",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textHorizontalText": "Horizontal Text",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

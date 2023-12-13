@@ -453,7 +453,11 @@
       "textZoom": "Zumiraj",
       "textZoomIn": "Zumiraj Unutra",
       "textZoomOut": "Zumiraj Spolja",
-      "textZoomRotate": "Zumiraj i Rotiraj"
+      "textZoomRotate": "Zumiraj i Rotiraj",
+      "textHorizontalText": "Horizontal Text",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standardno (4:3)",

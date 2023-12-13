@@ -404,7 +404,11 @@
     "textWe": "qua",
     "textWrap": "Moldar",
     "textWrappingStyle": "Estilo de moldagem",
-    "textYourOption": "A sua opção"
+    "textYourOption": "A sua opção",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "Excedeu o tempo limite de conversão.",

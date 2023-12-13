@@ -453,7 +453,11 @@
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
       "textZoomRotate": "Դիտափոխում և պտտում",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",

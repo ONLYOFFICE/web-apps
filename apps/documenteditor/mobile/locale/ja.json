@@ -404,7 +404,11 @@
     "textWe": "水",
     "textWrap": "折り返す",
     "textWrappingStyle": "折り返しの種類",
-    "textYourOption": "ユーザーのオプション"
+    "textYourOption": "ユーザーのオプション",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "変換のタイムアウトを超過しました。",

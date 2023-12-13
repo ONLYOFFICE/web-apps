@@ -2006,6 +2006,7 @@
   "PE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Imprimanta este setată se imprime documentul este ultima imprimantă utilizată sau imprimantă implicită",
   "PE.Views.FileMenuPanels.Settings.txtRunMacros": "Se activează toate",
   "PE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Se activează toate macrocomenzile, fără notificare",
+  "PE.Views.FileMenuPanels.Settings.txtScreenReader": "Activare cititor de ecran",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "Verificarea ortografică",
   "PE.Views.FileMenuPanels.Settings.txtStopMacros": "Se dezactivează toate",
   "PE.Views.FileMenuPanels.Settings.txtStopMacrosDesc": "Se dezactivează toate macrocomenzile, fără notificare",

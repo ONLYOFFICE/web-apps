@@ -303,6 +303,7 @@
     "textHeader": "Header",
     "textHeaderRow": "Header Row",
     "textHighlightColor": "Highlight Color",
+    "textHorizontalText": "Horizontal Text",
     "textHyperlink": "Hyperlink",
     "textImage": "Image",
     "textImageURL": "Image URL",
@@ -364,6 +365,8 @@
     "textRequired": "Required",
     "textResizeToFitContent": "Resize to Fit Content",
     "textRightAlign": "Right Align",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
     "textSa": "Sa",
     "textSameCreatedNewStyle": "Same as created new style",
     "textSave": "Save",
@@ -392,6 +395,7 @@
     "textTableOfCont": "TOC",
     "textTableOptions": "Table Options",
     "textText": "Text",
+    "textTextOrientation": "Text Orientation",
     "textTextWrapping": "Text Wrapping",
     "textTh": "Th",
     "textThrough": "Through",
@@ -404,11 +408,7 @@
     "textWe": "We",
     "textWrap": "Wrap",
     "textWrappingStyle": "Wrapping Style",
-    "textYourOption": "Your option",
-    "textTextOrientation": "Text Orientation",
-    "textHorizontalText": "Horizontal Text",
-    "textRotateTextUp": "Rotate Text Up",
-    "textRotateTextDown": "Rotate Text Down"
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

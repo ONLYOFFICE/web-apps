@@ -453,7 +453,11 @@
       "textZoomIn": "විශාලනය",
       "textZoomOut": "කුඩාලනය",
       "textZoomRotate": "විශාලනය හා කරකවන්න",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "සම්මත (4:3)",
