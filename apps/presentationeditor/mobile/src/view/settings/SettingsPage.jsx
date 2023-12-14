@@ -9,7 +9,7 @@ import { SettingsContext } from '../../controller/settings/Settings';
 const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePresentationInfo')(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Settings', {returnObjects: true});
-    const mainContext = useContext(MainContext);
+    const {openOptions, isBranding} = useContext(MainContext);
     const settingsContext = useContext(SettingsContext);
     const appOptions = props.storeAppOptions;
     const storeToolbarSettings = props.storeToolbarSettings;
@@ -24,7 +24,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
 
     const onOpenOptions = name => {
         settingsContext.closeModal();
-        mainContext.openOptions(name);
+        openOptions(name);
     }
 
     let _isEdit = false,
@@ -33,7 +33,8 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
         _canAbout = true,
         _canHelp = true,
         _canPrint = false,
-        _canFeedback = true;
+        _canFeedback = true,
+        _canDisplayInfo = true;
 
     if (appOptions.isDisconnected) {
         _isEdit = false;
@@ -52,6 +53,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
             _canFeedback = appOptions.customization.feedback !== false;
+            _canDisplayInfo = appOptions.customization.info !== false;
         }
     }
     
@@ -101,9 +103,11 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                 }
-                <ListItem title={_t.textPresentationInfo} link="/presentation-info/">
-                    <Icon slot="media" icon="icon-info"></Icon>
-                </ListItem>
+                {!(!_canDisplayInfo && isBranding) &&
+                    <ListItem title={_t.textPresentationInfo} link="/presentation-info/">
+                        <Icon slot="media" icon="icon-info"></Icon>
+                    </ListItem>
+                }
                 {_canHelp &&
                     <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>

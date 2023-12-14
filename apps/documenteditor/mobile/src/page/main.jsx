@@ -201,6 +201,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                 openOptions: handleClickToOpenOptions,
                 closeOptions: handleOptionsViewClosed,
                 showPanels: state.addShowOptions,
+                isBranding
             }}>
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
