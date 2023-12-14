@@ -173,6 +173,8 @@ define([
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
+            toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
+            toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
             toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
             toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
             toolbar.fieldPages.cmpEl && toolbar.fieldPages.cmpEl.on('focus', 'input.form-control', function() {
@@ -189,8 +191,6 @@ define([
             if (this.mode && this.mode.isEdit) {
                 toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
                 toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
-                toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
-                toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
                 toolbar.btnAddComment.on('click', function (btn, e) {
                     Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
                 });
@@ -562,7 +562,7 @@ define([
         },
 
         turnOnSelectTool: function() {
-            if (this.mode.isEdit && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
+            if ((this.mode.isEdit && this.mode.isRestrictedEdit) && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
                 this.api.asc_setViewerTargetType('select');
                 this.toolbar.btnSelectTool.toggle(true, true);
                 this.toolbar.btnHandTool.toggle(false, true);
@@ -933,7 +933,7 @@ define([
             (new Promise(function(accept) {
                 accept();
             })).then(function () {
-                config.isEdit && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
+                (config.isEdit || config.isRestrictedEdit) && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType('hand');
             });
         },

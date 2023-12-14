@@ -148,36 +148,6 @@ define([
                     this.toolbarControls.push(this.btnSave);
                     this.btnCollabChanges = this.btnSave;
 
-                    this.btnSelectTool = new Common.UI.Button({
-                        id: 'tlbtn-selecttool',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-select',
-                        lock: [_set.disableOnStart],
-                        caption: me.capBtnSelect,
-                        toggleGroup: 'select-tools-tb',
-                        enableToggle: true,
-                        allowDepress: false,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnSelectTool);
-
-                    this.btnHandTool = new Common.UI.Button({
-                        id: 'tlbtn-handtool',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-big-hand-tool',
-                        lock: [_set.disableOnStart],
-                        caption: me.capBtnHand,
-                        toggleGroup: 'select-tools-tb',
-                        enableToggle: true,
-                        allowDepress: false,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnHandTool);
-
                     // this.btnRotate = new Common.UI.Button({
                     //     id: 'tlbtn-rotate',
                     //     cls: 'btn-toolbar x-huge icon-top',
@@ -422,6 +392,36 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnSelectAll);
+
+                    this.btnSelectTool = new Common.UI.Button({
+                        id: 'tlbtn-selecttool',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-select',
+                        lock: [_set.disableOnStart],
+                        caption: me.capBtnSelect,
+                        toggleGroup: 'select-tools-tb',
+                        enableToggle: true,
+                        allowDepress: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnSelectTool);
+
+                    this.btnHandTool = new Common.UI.Button({
+                        id: 'tlbtn-handtool',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-hand-tool',
+                        lock: [_set.disableOnStart],
+                        caption: me.capBtnHand,
+                        toggleGroup: 'select-tools-tb',
+                        enableToggle: true,
+                        allowDepress: false,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnHandTool);
 
                     this.fieldPages = new Common.UI.InputFieldFixed({
                         id: 'id-toolbar-txt-pages',
@@ -703,14 +703,11 @@ define([
                 // set hints
                 if (this.mode.isEdit) {
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnSelectTool.updateHint(this.tipSelectTool);
-                    this.btnHandTool.updateHint(this.tipHandTool);
                     this.btnAddComment.updateHint(this.tipAddComment);
                     this.btnStrikeout.updateHint(this.textStrikeout);
                     this.btnUnderline.updateHint(this.textUnderline);
                     this.btnHighlight.updateHint(this.textHighlight);
                     // this.btnRotate.updateHint(this.tipRotate);
-
                 } else if (this.mode.isRestrictedEdit) {
                     this.btnClear.updateHint(this.textClearFields);
                     this.btnPrevForm.updateHint(this.tipPrevForm);
@@ -725,6 +722,8 @@ define([
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
                 this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
+                this.btnSelectTool.updateHint(this.tipSelectTool);
+                this.btnHandTool.updateHint(this.tipHandTool);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
                 this.btnLastPage.updateHint(this.tipLastPage);
                 this.btnPrevPage.updateHint(this.tipPrevPage);
