@@ -265,6 +265,7 @@ define([
         function changeDocMode(type) {
             if (!this.btnDocMode || !appConfig) return;
 
+            var show = type!==undefined;
             if (type===undefined)
                 type = appConfig.isReviewOnly ? 'review' : 'edit';
 
@@ -273,6 +274,7 @@ define([
             this.btnDocMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isReview ? 'btn-ic-review' : 'btn-sheet-view')));
             this.btnDocMode.setCaption(isEdit ? this.textEdit : (isReview ? this.textReview : this.textView));
             this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : (isReview ? this.tipReview : this.tipDocView));
+            show && !this.btnDocMode.isVisible() && this.btnDocMode.setVisible(true);
         }
 
         function onResize() {
@@ -747,9 +749,10 @@ define([
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
                         me.btnDocMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode no-caret',
-                            iconCls: 'toolbar__icon icon--inverse btn-edit',
-                            caption: me.textEdit,
+                            iconCls: 'toolbar__icon icon--inverse ' + (config.isReviewOnly ? 'btn-ic-review' : 'btn-edit'),
+                            caption: config.isReviewOnly ? me.textReview : me.textEdit,
                             menu: true,
+                            visible: config.isReviewOnly || !config.canReview,
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
