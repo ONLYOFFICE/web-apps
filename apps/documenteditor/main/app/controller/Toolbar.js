@@ -3390,7 +3390,8 @@ define([
         },
 
         onAppShowed: function (config) {
-            var me = this;
+            var me = this,
+                application = this.getApplication();
 
             var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
             if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
@@ -3432,12 +3433,12 @@ define([
                 // if ( config.isDesktopApp ) {
                 //     if ( config.canProtect ) {
                 //         tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
-                //         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                //         $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                 //
                 //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
                 //     }
                 // }
-                var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                var drawtab = application.getController('Common.Controllers.Draw');
                 drawtab.setApi(me.api).setMode(config);
                 $panel = drawtab.createToolbarPanel();
                 if ($panel) {
@@ -3450,10 +3451,10 @@ define([
 
                 if ( config.canProtect ) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
                         (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
-                        var doctab = me.getApplication().getController('DocProtection');
+                        var doctab = application.getController('DocProtection');
                         $panel.append(doctab.createToolbarPanel());
                         me.toolbar.addTab(tab, $panel, 7);
                         me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
@@ -3461,15 +3462,17 @@ define([
                     }
                 }
 
-                var links = me.getApplication().getController('Links');
+                var links = application.getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
+
+                me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
             }
 
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
                     tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
-                    var forms = me.getApplication().getController('FormsTab');
+                    var forms = application.getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();
                     if ($panel) {
@@ -3483,7 +3486,7 @@ define([
             config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
 
             tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
-            var viewtab = me.getApplication().getController('ViewTab');
+            var viewtab = application.getController('ViewTab');
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {

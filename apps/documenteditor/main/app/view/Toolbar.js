@@ -117,7 +117,9 @@ define([
         disableOnStart: 'on-start',
         complexForm:    'complex-form',
         formsNoRoles:   'no-roles',
-        fixedForm:      'fixed-form'
+        fixedForm:      'fixed-form',
+        fileMenuOpened: 'file-menu-opened',
+        changeModeLock: 'change-mode-lock'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

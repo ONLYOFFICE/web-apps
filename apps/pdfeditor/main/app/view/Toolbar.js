@@ -77,7 +77,8 @@ define([
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
         firstPage: 'first-page',
-        lastPage: 'last-page'
+        lastPage: 'last-page',
+        fileMenuOpened: 'file-menu-opened'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

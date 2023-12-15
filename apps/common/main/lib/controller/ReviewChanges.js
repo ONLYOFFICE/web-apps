@@ -894,6 +894,7 @@ define([
                 viewMode: false,
                 reviewMode: true,
                 fillFormMode: false,
+                viewDocMode: false,
                 allowMerge: false,
                 allowSignature: false,
                 allowProtect: false,

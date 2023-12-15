@@ -90,23 +90,13 @@ define([
                                 Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
                     'undo:disabled' : function (state) {
-                        if ( me.header.btnUndo ) {
-                            if ( me.header.btnUndo.keepState )
-                                me.header.btnUndo.keepState.disabled = state;
-                            else me.header.btnUndo.setDisabled(state);
-                        }
+                        me.header.lockHeaderBtns( 'undo', state, Common.enumLock.undoLock );
                     },
                     'redo:disabled' : function (state) {
-                        if ( me.header.btnRedo )
-                            if ( me.header.btnRedo.keepState )
-                                me.header.btnRedo.keepState.disabled = state;
-                            else me.header.btnRedo.setDisabled(state);
+                        me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
                     },
                     'docmode:disabled' : function (state) {
-                        if ( me.header.btnDocMode )
-                            if ( me.header.btnDocMode.keepState )
-                                me.header.btnDocMode.keepState.disabled = state;
-                            else me.header.btnDocMode.setDisabled(state);
+                        me.header.lockHeaderBtns( 'mode', state, Common.enumLock.changeModeLock);
                     },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
@@ -263,10 +253,10 @@ define([
             var me = this;
             var _need_disable =  opts == 'show';
 
-            me.header.lockHeaderBtns( 'undo', _need_disable );
-            me.header.lockHeaderBtns( 'redo', _need_disable );
+            me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
+            me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
-            me.header.lockHeaderBtns( 'mode', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
         applySettings: function () {
@@ -287,13 +277,11 @@ define([
                 if (this.header.btnEdit)
                     this.header.btnEdit.hide();
                 this.header.lockHeaderBtns( 'rename-user', true);
-                this.header.lockHeaderBtns( 'mode', true);
             }
         },
 
         SetDisabled: function(disable) {
             this.header && this.header.lockHeaderBtns( 'rename-user', disable);
-            this.header && this.header.lockHeaderBtns( 'mode', disable);
         },
 
         onSearchShow: function () {

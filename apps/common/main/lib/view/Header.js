@@ -630,11 +630,12 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle) {
+                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle, lock) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
                         disabled: disabled === true,
+                        lock: lock,
                         dataHint:'0',
                         dataHintDirection: hintDirection ? hintDirection : (config.isDesktopApp ? 'right' : 'left'),
                         dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -18' : '10, 10'),
@@ -753,6 +754,7 @@ define([
                             caption: config.isReviewOnly ? me.textReview : me.textEdit,
                             menu: true,
                             visible: config.isReviewOnly || !config.canReview,
+                            lock: [Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockView, Common.enumLock.docLockComments, Common.enumLock.docLockForms, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -803,8 +805,10 @@ define([
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
                     me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
-                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
-                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y');
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
+                                                    [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
+                                                    [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened]);
 
                     return $html;
                 }
@@ -1023,9 +1027,11 @@ define([
                     return $panelUsers;
                 else if (type == 'share')
                     return this.btnShare;
+                else if (type == 'mode')
+                    return this.btnDocMode;
             },
 
-            lockHeaderBtns: function (alias, lock) {
+            lockHeaderBtns: function (alias, lock, cause) {
                 var me = this;
                 if ( alias == 'users' ) {
                     if ( lock ) {
@@ -1042,23 +1048,12 @@ define([
                     }
                 } else {
                     var _lockButton = function (btn) {
-                        if ( btn ) {
-                            if ( lock ) {
-                                btn.keepState = {
-                                    disabled: btn.isDisabled()
-                                };
-                                btn.setDisabled( true );
-                            } else {
-                                btn.setDisabled( btn.keepState && btn.keepState.disabled || lock);
-                                delete btn.keepState;
-                            }
-                        }
+                        btn && Common.Utils.lockControls(cause, lock, {array: [btn]});
                     };
-
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
-                    case 'mode': me.btnDocMode && _lockButton(me.btnDocMode); break;
+                    case 'mode': _lockButton(me.btnDocMode); break;
                     default: break;
                     }
                 }
