@@ -256,7 +256,12 @@
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
+            url = params["url"] ? encodeUrlParam(params["url"]) : null,
+            fileKey = params["key"] || '',
+            token = params["token"] || '',
+            isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -368,7 +373,19 @@
         return reqerr;
     };
 </script>
-<!-- application -->
-<script data-main="app_dev" src="../../../vendor/requirejs/require.js"></script>
+<script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
+<script>
+    window.isPDFForm = isForm==='true';
+    if (isForm===undefined)
+        checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
+            window.isPDFForm = !!isForm;
+            var script = document.createElement("script");
+            script.setAttribute("data-main", "app_dev");
+            script.src = "../../../vendor/requirejs/require.js";
+            document.body.appendChild(script);
+        });
+    else
+        document.write('<script data-main="app_dev" src="../../../vendor/requirejs/require.js"><\/script>');
+</script>
 </body>
 </html>

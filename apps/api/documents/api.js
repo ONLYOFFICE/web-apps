@@ -1020,6 +1020,9 @@
         if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
+        config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+        if (config.document && (config.document.isForm!==undefined))
+            params += "&isForm=" + config.document.isForm;
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
@@ -1036,8 +1039,18 @@
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
-        if (config.document && config.document.isForm)
-            params += "&isForm=true";
+        if (config.document && config.document.directUrl)
+            params += "&directUrl=" + encodeURIComponent(config.document.directUrl);
+
+        if (config.document && config.document.key)
+            params += "&key=" + config.document.key;
+
+        if (config.document && config.document.url)
+            params += "&url=" + encodeURIComponent(config.document.url);
+
+        if (config.document && config.document.token)
+            params += "&token=" + config.document.token;
+
 
         return params;
     }

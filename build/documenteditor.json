@@ -356,10 +356,17 @@
                     "dest": "../deploy/web-apps/apps/documenteditor/embed/locale/"
                 }
             ],
-            "index-page": {
-                "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy",
-                "../deploy/web-apps/apps/documenteditor/embed/index_loader.html": "../apps/documenteditor/embed/index_loader.html.deploy"
-            },
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/documenteditor/embed"
+                }
+            ],
             "images-app": [
                 {
                     "expand": true,
