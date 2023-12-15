@@ -78,14 +78,9 @@ define([
                 width: 12,
                 height: 16,
                 border:0.5,
-                borderColor:'#c0c0c0',
-                borderColorActive:'#848484'
-            };
-            this.colorTable = {
-                'theme-light' : {borderColor: '#c0c0c0', borderColorActive:'#848484'},
-                'theme-classic-light':{borderColor: '#cfcfcf', borderColorActive:'#848484'},
-                'theme-dark':{borderColor: '#666', borderColorActive:'#ccc'},
-                'theme-contrast-dark':{borderColor: '#696969', borderColorActive:'#b8b8b8'}
+                activeThumbIndex: 0,
+                borderColor: Common.UI.Themes.currentThemeColor('--border-regular-control'),
+                borderColorActive: Common.UI.Themes.currentThemeColor('--border-control-focus')
             };
             this.scale = Common.Utils.applicationPixelRatio() >= 1 ? Common.Utils.applicationPixelRatio() : 1,
             Common.UI.MultiSlider.prototype.initialize.call(this, options);
@@ -96,7 +91,6 @@ define([
             Common.UI.MultiSlider.prototype.render.call(this, parentEl);
             var me = this;
             me.trackEl = me.cmpEl.find('.track');
-            me.changeColors(false, (Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId()).toLowerCase());
             for (var i=0; i<me.thumbs.length; i++) {
                 me.thumbs[i].thumb.on('dblclick', null, function() {
                     me.trigger('thumbdblclick', me);
@@ -113,7 +107,7 @@ define([
             me.on('change', _.bind(me.changeGradientStyle, me));
             Common.NotificationCenter.on( {
                 'window:resize':_.bind(me.onResize, me),
-                'uitheme:changed': _.bind(me.changeColors,me, true)});
+                'uitheme:changed': _.bind(me.changeColors,me)});
             this.on('thumbclick',_.bind(me.onActiveThumb,me));
         },
 
@@ -282,9 +276,9 @@ define([
         },
 
         onActiveThumb: function (){
-            this.redrawThumb(this.tmbOptions.activeThumb);
-            this.tmbOptions.activeThumb = this.thumbs.filter(function (tmb){return  tmb.thumb.hasClass('active');})[0];
-            this.redrawThumb(this.tmbOptions.activeThumb);
+            this.redrawThumb(this.thumbs[this.tmbOptions.activeThumbIndex]);
+            this.tmbOptions.activeThumbIndex = this.thumbs.filter(function (tmb){return  tmb.thumb.hasClass('active');})[0].index;
+            this.redrawThumb(this.thumbs[this.tmbOptions.activeThumbIndex]);
         },
 
         setSizeThumb: function (tmb, canv){
@@ -303,16 +297,12 @@ define([
             }
         },
 
-        changeColors: function (redraw, theme) {
-            if(theme == this.currentTheme)return;
-            this.currentTheme = (theme !== 'theme-system') ? theme : this.currentTheme = window.uitheme.relevant_theme_id();
-            this.tmbOptions.borderColor = this.colorTable[this.currentTheme].borderColor;
-            this.tmbOptions.borderColorActive = this.colorTable[this.currentTheme].borderColorActive;
-            if(redraw){
-                for(var i=0; i< this.thumbs.length; i++){
-                    !!this.thumbs[i].context && this.redrawThumb(this.thumbs[i]);
-                    this.tmbOptions.activeThumb = this.thumbs[i];
-                }
+        changeColors: function () {
+            this.tmbOptions.borderColor = Common.UI.Themes.currentThemeColor('--border-regular-control');
+            this.tmbOptions.borderColorActive = Common.UI.Themes.currentThemeColor('--border-control-focus');
+            for(var i=0; i< this.thumbs.length; i++){
+                !!this.thumbs[i].context && this.redrawThumb(this.thumbs[i]);
+                this.tmbOptions.activeThumb = this.thumbs[i];
             }
         },
 
