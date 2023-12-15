@@ -10,7 +10,9 @@ const ToolbarView = props => {
     const isDisconnected = props.isDisconnected;
     const docExt = props.docExt;
     const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
-    const isForm = docExt === 'oform';
+    const isForm = props.isForm;
+    const canFillForms = props.canFillForms;
+    const isEditableForms = isForm && canFillForms;
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
@@ -62,7 +64,7 @@ const ToolbarView = props => {
                     <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-return' onClick={() => Common.Notifications.trigger('goback')}></Link>
                 }
                 {((Device.ios && props.isEdit && !isViewer && !isVersionHistoryMode) || 
-                (Device.ios && isForm)) &&          
+                (Device.ios && isEditableForms)) &&          
                     EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                         disabledUndo: !props.isCanUndo || isDisconnected,
                         disabledRedo: !props.isCanRedo || isDisconnected,
@@ -71,14 +73,14 @@ const ToolbarView = props => {
                     })
                 }
             </NavLeft>
-            {((!Device.phone || isViewer) && !isVersionHistoryMode && !isForm) && 
+            {((!Device.phone || isViewer) && !isVersionHistoryMode && !isEditableForms) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>
             }
             <NavRight>
                 {((Device.android && props.isEdit && !isViewer && !isVersionHistoryMode) || 
-                (Device.android && isForm)) && 
+                (Device.android && isEditableForms)) && 
                     EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                         disabledUndo: !props.isCanUndo,
                         disabledRedo: !props.isCanRedo,
@@ -86,7 +88,7 @@ const ToolbarView = props => {
                         onRedoClick: props.onRedo
                     })
                 }
-                {!isForm ? [
+                {!isEditableForms ? [
                     ((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && 
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                             props.changeMobileView();
