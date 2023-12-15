@@ -20,6 +20,11 @@
     <% } else { %>
         <style><%= htmlWebpackPlugin.options.skeleton.stylesheet %></style>
     <% } %>
+    <% if ( htmlWebpackPlugin.options.skeleton.checkerscript ) { %>
+    <script>
+        <%= htmlWebpackPlugin.options.skeleton.checkerscript %>
+    </script>
+    <% } %>
   <!-- built styles file will be auto injected -->
 </head>
 <body>
@@ -88,14 +93,8 @@
 
         window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
         let params = getUrlParams(),
-            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0],
-            directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
-            url = params["url"] ? encodeUrlParam(params["url"]) : null,
-            fileKey = params["key"] || '',
-            token = params["token"] || '',
-            isForm = params["isForm"];
-        
-        window.isPDFForm = isForm==='true';
+            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
+
         window.Common.Locale.currentLang = lang;
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
