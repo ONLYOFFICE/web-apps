@@ -262,8 +262,13 @@ define([
             me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate ? me.tipComment : me.tipView));
         }
 
-        function changeDocMode(type) {
+        function changeDocMode(type, lockEditing) {
             if (!this.btnDocMode || !appConfig) return;
+
+            if (lockEditing!==undefined) { //lock only menu item
+                this.btnDocMode.menu && this.btnDocMode.menu.items && (this.btnDocMode.menu.items[0].value==='edit') && this.btnDocMode.menu.items[0].setDisabled(lockEditing);
+                return;
+            }
 
             var show = type!==undefined;
             if (type===undefined)

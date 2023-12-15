@@ -3658,6 +3658,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
+                Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
             }
         },
 
