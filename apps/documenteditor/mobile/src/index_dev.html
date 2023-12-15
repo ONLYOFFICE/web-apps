@@ -20,11 +20,6 @@
     <% } else { %>
         <style><%= htmlWebpackPlugin.options.skeleton.stylesheet %></style>
     <% } %>
-    <% if ( htmlWebpackPlugin.options.skeleton.checkerscript ) { %>
-    <script>
-        <%= htmlWebpackPlugin.options.skeleton.checkerscript %>
-    </script>
-    <% } %>
   <!-- built styles file will be auto injected -->
 </head>
 <body>
@@ -32,6 +27,11 @@
     <script>
         window.asceditor = 'word';
         <%= htmlWebpackPlugin.options.skeleton.htmlscript %>
+    </script>
+    <% } %>
+    <% if ( htmlWebpackPlugin.options.skeleton.checkerscript ) { %>
+    <script>
+        <%= htmlWebpackPlugin.options.skeleton.checkerscript %>
     </script>
     <% } %>
     <section class="skl-container">
