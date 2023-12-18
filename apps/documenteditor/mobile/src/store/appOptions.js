@@ -182,6 +182,7 @@ export class storeAppOptions {
         this.isForm = !this.isXpsViewer && !!window.isPDFForm;
         this.canProtect = permissions.protect !== false;
         this.canSubmitForms = this.canLicense && (typeof (this.customization) == 'object') && !!this.customization.submitForm && !this.isOffline;
+        this.isEditableForms = this.isForm && this.canSubmitForms;
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms) && isSupportEditFeature;
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;

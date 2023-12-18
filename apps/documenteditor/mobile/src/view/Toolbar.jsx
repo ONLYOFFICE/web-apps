@@ -9,7 +9,7 @@ const ToolbarView = props => {
     const isVersionHistoryMode = props.isVersionHistoryMode;
     const isDisconnected = props.isDisconnected;
     const docExt = props.docExt;
-    const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
+    const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
     const isForm = props.isForm;
     const canFillForms = props.canFillForms;
     const isEditableForms = isForm && canFillForms;
@@ -108,7 +108,7 @@ const ToolbarView = props => {
                     (Device.phone ? null : 
                         <Link key='search-link' className={(props.disabledControls || props.readerMode || isOpenModal) && 'disabled'} icon='icon-search' searchbarEnable='.searchbar' href={false}></Link>
                     ),
-                    (window.matchMedia("(min-width: 360px)").matches && docExt !== 'oform' && !isVersionHistoryMode ? 
+                    (window.matchMedia("(min-width: 360px)").matches && !isForm && !isVersionHistoryMode ? 
                         <Link key='coauth-link' className={(props.disabledControls || isOpenModal) && 'disabled'} id='btn-coauth' href={false} icon='icon-collaboration' onClick={() => props.openOptions('coauth')}></Link> 
                     : null),
                     (isVersionHistoryMode ? 
