@@ -228,7 +228,12 @@
                 customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
                 margin = (customer !== '') ? 50 : 20,
                 loading = 'Loading...',
-                logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+                logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null,
+                directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
+                url = params["url"] ? encodeUrlParam(params["url"]) : null,
+                fileKey = params["key"] || '',
+                token = params["token"] || '',
+                isForm = params["isForm"];
 
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
@@ -328,7 +333,20 @@
       <script type="text/javascript" src="../../../../sdkjs/word/sdk-all-min.js"></script>
 
       <!--application-->
-      <script type="text/javascript" src="../../../apps/documenteditor/embed/app-all.js"></script>
+      <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+      <script>
+          window.isPDFForm = isForm==='true';
+          if (isForm===undefined)
+              checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
+                  window.isPDFForm = !!isForm;
+                  var script = document.createElement("script");
+                  script.type  = "text/javascript";
+                  script.src = "../../../apps/documenteditor/embed/app-all.js";
+                  document.body.appendChild(script);
+              });
+          else
+              document.write('<script type="text/javascript" src="../../../apps/documenteditor/embed/app-all.js"><\/script>');
+      </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||

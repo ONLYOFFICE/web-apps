@@ -105,7 +105,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                !(this.mode && this.mode.isForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
                 this.formats[1].splice(1, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
@@ -223,7 +223,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                !(this.mode && this.mode.isForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
                 this.formats[1].splice(1, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
@@ -669,10 +669,10 @@ define([
                 this.chAutosave.setCaption(this.textAutoRecover);
             }
             /** coauthoring begin **/
-            $('tr.collaboration', this.el)[mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring && !mode.isForm || mode.canViewReview ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring && canPDFSave ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && canPDFSave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && !mode.isForm ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 

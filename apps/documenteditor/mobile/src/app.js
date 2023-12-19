@@ -31,18 +31,36 @@ import { stores } from './store/mainStore.js';
 // import { LocalStorage } from '../../../common/mobile/utils/LocalStorage';
 
 const container = document.getElementById('app');
-const root = createRoot(container); 
 
-// Init F7 React Plugin
-Framework7.use(Framework7React);
+const startApp = () => {
+    const root = createRoot(container);
+    // Init F7 React Plugin
+    Framework7.use(Framework7React);
 
 // Mount React App
-root.render(
-    <I18nextProvider i18n={i18n}>
-        <Provider {...stores}>
-            {/*<Suspense fallback="loading...">*/}
+    root.render(
+        <I18nextProvider i18n={i18n}>
+            <Provider {...stores}>
+                {/*<Suspense fallback="loading...">*/}
                 <App />
-            {/*</Suspense>*/}
-        </Provider>
-    </I18nextProvider>
-);
+                {/*</Suspense>*/}
+            </Provider>
+        </I18nextProvider>
+    );
+};
+
+const params = getUrlParams(),
+      isForm = params["isForm"];
+window.isPDFForm = isForm==='true';
+if (isForm===undefined && checkExtendedPDF) {
+    const directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
+        url = params["url"] ? encodeUrlParam(params["url"]) : null,
+        fileKey = params["key"] || '',
+        token = params["token"] || '';
+    checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
+        window.isPDFForm = !!isForm;
+        startApp();
+    });
+} else
+    startApp();
+

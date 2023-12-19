@@ -196,7 +196,12 @@
 
            var params = getUrlParams(),
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+               directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
+               url = params["url"] ? encodeUrlParam(params["url"]) : null,
+               fileKey = params["key"] || '',
+               token = params["token"] || '',
+               isForm = params["isForm"];
 
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
@@ -293,7 +298,19 @@
       <script type="text/javascript" src="js/SearchBar.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
-      <script type="text/javascript" src="js/application.js"></script>
+      <script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
+      <script>
+          window.isPDFForm = isForm==='true';
+          if (isForm===undefined)
+              checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
+                  window.isPDFForm = !!isForm;
+                  var script = document.createElement("script");
+                  script.src = "js/application.js";
+                  document.body.appendChild(script);
+              });
+          else
+              document.write('<script src="js/application.js"><\/script>');
+      </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||

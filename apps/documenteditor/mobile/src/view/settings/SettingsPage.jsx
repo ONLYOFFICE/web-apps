@@ -18,7 +18,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const docInfo = props.storeDocumentInfo;
     const docTitle = docInfo.dataDoc.title;
     const docExt = docInfo.dataDoc ? docInfo.dataDoc.fileType : '';
-    const isForm = docExt && docExt === 'oform';
+    const isForm = appOptions.isForm;
     const isHistoryDisabled = docExt && (docExt === 'xps' || docExt === 'djvu' || docExt === 'pdf');
     const navbar =
         <Navbar>
@@ -36,6 +36,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const isMobileView = appOptions.isMobileView;
     const isFavorite = appOptions.isFavorite;
     const canFillForms = appOptions.canFillForms;
+    const isEditableForms = isForm && canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
   
     let _isEdit = false,
@@ -72,7 +73,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         <Page>
             {navbar}
             <List>
-                {isForm ? [
+                {isEditableForms ? [
                     (isFavorite !== undefined && isFavorite !== null ?
                         <ListItem key='add-to-favorites-link' title={isFavorite ? t('Settings.textRemoveFromFavorites') : t('Settings.textAddToFavorites')} link='#' className='no-indicator' onClick={settingsContext.toggleFavorite}>
                             <Icon slot="media" icon={isFavorite ? "icon-remove-favorites" : "icon-add-favorites"}></Icon>
@@ -92,7 +93,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-clear-fields"></Icon>
                     </ListItem>
                 ] : null}
-                {(Device.phone || isForm) &&
+                {(Device.phone || isEditableForms) &&
                     <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <Icon slot="media" icon="icon-search"></Icon>
                     </ListItem>
@@ -111,7 +112,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-version-history"></Icon>
                     </ListItem>
                 }
-                {!isForm ? 
+                {!isEditableForms ? 
                     <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('navigation');
@@ -132,7 +133,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
-                {((!isViewer && Device.phone) || isForm) &&
+                {((!isViewer && Device.phone) || isEditableForms) &&
                     <ListItem title={t('Settings.textMobileView')}>
                         <Icon slot="media" icon="icon-mobile-view"></Icon>
                         <Toggle checked={isMobileView} onToggleChange={() => {
@@ -146,14 +147,14 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-doc-setup"></Icon>
                     </ListItem>
                 }
-                {!isForm &&
+                {!isEditableForms &&
                     <ListItem title={_t.textApplicationSettings} link="/application-settings/">
                         <Icon slot="media" icon="icon-app-settings"></Icon>
                     </ListItem>
                 }
                 {_canDownload &&
-                    <ListItem title={isForm ? t('Settings.textExport') : _t.textDownload} link="/download/">
-                        <Icon slot="media" icon={isForm ? "icon-export" : "icon-download"}></Icon>
+                    <ListItem title={isEditableForms ? t('Settings.textExport') : _t.textDownload} link="/download/">
+                        <Icon slot="media" icon={isEditableForms ? "icon-export" : "icon-download"}></Icon>
                     </ListItem>
                 }
                 {_canDownloadOrigin &&
@@ -176,7 +177,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                 }
-                {(_canAbout && !isForm) &&
+                {(_canAbout && !isEditableForms) &&
                     <ListItem title={_t.textAbout} link="/about/">
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>

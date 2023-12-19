@@ -26,7 +26,7 @@ const CollaborationPage = props => {
                 }
             </Navbar>
             <List>
-                {(sharingSettingsUrl && fileType !== 'oform') &&
+                {(sharingSettingsUrl && fileType !== 'pdf') &&
                     <ListItem title={t('Common.Collaboration.textSharingSettings')} link="/sharing-settings/">
                         <Icon slot="media" icon="icon-sharing-settings"></Icon>
                     </ListItem>

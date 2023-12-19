@@ -167,7 +167,6 @@ define([
             var me = this;
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
-            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -175,23 +174,8 @@ define([
             toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
-            toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
-            toolbar.btnAddComment.on('click', function (btn, e) {
-                Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
-            });
-            toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
-            toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
-            toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
-            toolbar.btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
-            toolbar.mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
-            toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
-            toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
-            toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
-            toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
-            toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
-            // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
             toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
             toolbar.fieldPages.cmpEl && toolbar.fieldPages.cmpEl.on('focus', 'input.form-control', function() {
@@ -204,25 +188,87 @@ define([
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
-            Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
-            Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
+
+            if (this.mode && this.mode.isEdit) {
+                toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
+                toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+                toolbar.btnAddComment.on('click', function (btn, e) {
+                    Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                });
+                toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
+                toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
+                toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
+                toolbar.btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
+                toolbar.mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
+                toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
+                toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
+                toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
+                toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
+                toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
+                // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
+                Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
+                Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
+            }
+            if (this.mode && this.mode.isRestrictedEdit) {
+                toolbar.btnClear.on('click', _.bind(this.onClearClick, this));
+                toolbar.btnPrevForm.on('click', _.bind(this.onGoToForm, this, 'prev'));
+                toolbar.btnNextForm.on('click', _.bind(this.onGoToForm, this, 'next'));
+                toolbar.btnSubmit && toolbar.btnSubmit.on('click', _.bind(this.onSubmitClick, this));
+                toolbar.btnSaveForm && toolbar.btnSaveForm.on('click', _.bind(this.onSaveFormClick, this));
+                if (toolbar.btnSubmit && !this.api.asc_IsAllRequiredFormsFilled()) {
+                    toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [toolbar.btnSubmit]});
+                    if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
+                        var requiredTooltip = new Common.UI.SynchronizeTip({
+                            extCls: 'colored',
+                            placement: 'bottom-right',
+                            target: toolbar.btnSubmit.$el,
+                            text: this.textRequired,
+                            showLink: false,
+                            closable: false,
+                            showButton: true,
+                            textButton: this.textGotIt
+                        });
+                        var onclose = function () {
+                            requiredTooltip.hide();
+                            me.api && me.api.asc_MoveToFillingForm(true, true, true);
+                            toolbar.btnSubmit.updateHint(me.textRequired);
+                        };
+                        requiredTooltip.on('buttonclick', function () {
+                            onclose();
+                            Common.localStorage.setItem("pdfe-embed-hide-submittip", 1);
+                        });
+                        requiredTooltip.on('closeclick', onclose);
+                        requiredTooltip.show();
+                    } else {
+                        toolbar.btnSubmit.updateHint(me.textRequired);
+                    }
+                }
+            }
         },
 
         setApi: function(api) {
             this.api = api;
 
-            if (this.mode.isEdit) {
-                this.toolbar.setApi(api);
-
+            if (this.mode.isEdit || this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
                 this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
-                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+            }
+
+            if (this.mode.isEdit) {
+                this.toolbar.setApi(api);
+                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+            }
+            if (this.mode.isRestrictedEdit) {
+                this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
+                this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
+                this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
+                this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
             }
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
@@ -417,7 +463,7 @@ define([
                     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
+                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
@@ -440,17 +486,13 @@ define([
                         defFileName: defFileName
                     });
                     me._saveCopyDlg.on('saveaserror', function(obj, err){
-                        var config = {
+                        Common.UI.warning({
                             closable: false,
-                            title: me.notcriticalErrorTitle,
                             msg: err,
-                            iconCls: 'warn',
-                            buttons: ['ok'],
                             callback: function(btn){
                                 Common.NotificationCenter.trigger('edit:complete', me);
                             }
-                        };
-                        Common.UI.alert(config);
+                        });
                     }).on('close', function(obj){
                         me._saveCopyDlg = undefined;
                     });
@@ -521,7 +563,7 @@ define([
         },
 
         turnOnSelectTool: function() {
-            if (this.mode.isEdit && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
+            if ((this.mode.isEdit && this.mode.isRestrictedEdit) && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
                 this.api.asc_setViewerTargetType('select');
                 this.toolbar.btnSelectTool.toggle(true, true);
                 this.toolbar.btnHandTool.toggle(false, true);
@@ -703,13 +745,77 @@ define([
             // this.api && this.api.asc_Rotate();
         },
 
+        onFillRequiredFields: function(isFilled) {
+            this.toolbar && this.toolbar.btnSubmit && this.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.toolbar.btnSubmit]});
+        },
+
+        onClearClick: function() {
+            this.api && this.api.asc_ClearAllSpecialForms();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onGoToForm: function(type) {
+            this.api && this.api.asc_MoveToFillingForm(type=='next');
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSubmitClick: function() {
+            this.api && this.api.asc_SendForm();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onSaveFormClick: function() {
+            if (this.api && this.mode && this.mode.canDownload) {
+                if (this.mode.isOffline)
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                else {
+                    this._state.isFromToolbarDownloadAs = this.mode.canRequestSaveAs || !!this.mode.saveAsUrl;
+                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this._state.isFromToolbarDownloadAs));
+                }
+            }
+        },
+
+        onLongActionBegin: function(type, id) {
+            if (id==Asc.c_oAscAsyncAction['Submit'] && this.toolbar.btnSubmit) {
+                this._submitFail = false;
+                this.submitedTooltip && this.submitedTooltip.hide();
+                this.toolbar.lockToolbar(Common.enumLock.submit, true, {array: [this.toolbar.btnSubmit]})
+            }
+        },
+
+        onLongActionEnd: function(type, id) {
+            if (id==Asc.c_oAscAsyncAction['Submit'] && this.toolbar.btnSubmit) {
+                this.toolbar.lockToolbar(Common.enumLock.submit, false, {array: [this.toolbar.btnSubmit]})
+                if (!this.submitedTooltip) {
+                    this.submitedTooltip = new Common.UI.SynchronizeTip({
+                        text: this.textSubmited,
+                        extCls: 'no-arrow',
+                        showLink: false,
+                        target: $('.toolbar'),
+                        placement: 'bottom'
+                    });
+                    this.submitedTooltip.on('closeclick', function () {
+                        this.submitedTooltip.hide();
+                    }, this);
+                }
+                !this._submitFail && this.submitedTooltip.show();
+            }
+        },
+
+        onError: function(id, level, errData) {
+            if (id==Asc.c_oAscError.ID.Submit) {
+                this._submitFail = true;
+                this.submitedTooltip && this.submitedTooltip.hide();
+            }
+        },
+
         activateControls: function() {
             this.toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
+            this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
             this._state.activated = true;
         },
 
@@ -721,7 +827,7 @@ define([
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
-            this.mode.isEdit && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
+            (this.mode.isEdit || this.mode.isRestrictedEdit) && this.toolbar.setMode({isDisconnected:true, enableDownload: !!enableDownload});
             this.editMode = false;
             this.DisableToolbar(true, true);
         },
@@ -758,8 +864,8 @@ define([
         onAppShowed: function (config) {
             var me = this;
 
-            var compactview = !config.isEdit;
-            if ( config.isEdit) {
+            var compactview = !(config.isEdit || config.isRestrictedEdit);
+            if ( config.isEdit || config.isRestrictedEdit) {
                 if ( Common.localStorage.itemExists("pdfe-compact-toolbar") ) {
                     compactview = Common.localStorage.getBool("pdfe-compact-toolbar");
                 } else
@@ -769,11 +875,8 @@ define([
 
             me.toolbar.render(_.extend({isCompactView: compactview}, config));
 
-            if ( config.isEdit ) {
+            if ( config.isEdit || config.isRestrictedEdit) {
                 me.toolbar.setMode(config);
-
-                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-
                 if (!(config.customization && config.customization.compactHeader)) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
@@ -787,6 +890,9 @@ define([
                     me.toolbar.btnCopy.$el.removeClass('split');
                     me.toolbar.processPanelVisible(null, true, true);
                 }
+            }
+            if ( config.isEdit ) {
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
                 var drawtab = me.getApplication().getController('Common.Controllers.Draw');
                 drawtab.setApi(me.api).setMode(config);
@@ -835,7 +941,7 @@ define([
             (new Promise(function(accept) {
                 accept();
             })).then(function () {
-                config.isEdit && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
+                (config.isEdit || config.isRestrictedEdit) && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType('hand');
             });
         },
@@ -855,7 +961,7 @@ define([
         },
 
         applySettings: function() {
-            this.toolbar && this.toolbar.chShowComments.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"), true);
+            this.toolbar && this.toolbar.chShowComments && this.toolbar.chShowComments.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"), true);
         },
 
         textWarning: 'Warning',
@@ -865,7 +971,10 @@ define([
         txtDownload: 'Download',
         txtSaveCopy: 'Save copy',
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-        txtUntitled: 'Untitled'
+        txtUntitled: 'Untitled',
+        textRequired: 'Fill all required fields to send form.',
+        textGotIt: 'Got it',
+        textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.'
 
     }, PDFE.Controllers.Toolbar || {}));
 });

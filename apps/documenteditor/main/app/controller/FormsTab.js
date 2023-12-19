@@ -331,7 +331,7 @@ define([
             this.closeHelpTip('save', true);
             this.showRolesList(function() {
                 this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM, this.isFromFormSaveAs));
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
             });
         },
 
@@ -343,7 +343,7 @@ define([
 
                 var idx = defFileName.lastIndexOf('.');
                 if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + '.oform';
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
 
                 if (me.appConfig.canRequestSaveAs) {
                     Common.Gateway.requestSaveAs(url, defFileName, fileType);
@@ -445,7 +445,7 @@ define([
                 //     me.view.btnHighlight.currentColor = clr;
                 // }
 
-                config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showHelpTip('create'); // show tip only when create form in docxf
+                config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });

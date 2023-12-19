@@ -229,7 +229,12 @@
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
+            url = params["url"] ? encodeUrlParam(params["url"]) : null,
+            fileKey = params["key"] || '',
+            token = params["token"] || '',
+            isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -278,7 +283,6 @@
             document.querySelectorAll('.compact').forEach(function(item){
                 item.style.display = 'inline-block';
             });
-            document.querySelector('.fat').style.left = '655px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
@@ -327,7 +331,19 @@
     <inline src="../../common/main/resources/img/header/icons.svg" />
     <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
-    <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
-
+    <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+    <script>
+        window.isPDFForm = isForm==='true';
+        if (isForm===undefined)
+            checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
+                window.isPDFForm = !!isForm;
+                var script = document.createElement("script");
+                script.setAttribute("data-main", "app");
+                script.src = "../../../vendor/requirejs/require.js";
+                document.body.appendChild(script);
+            });
+        else
+            document.write('<script data-main="app" src="../../../vendor/requirejs/require.js"><\/script>');
+    </script>
 </body>
 </html>

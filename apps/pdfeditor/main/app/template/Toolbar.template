@@ -74,6 +74,19 @@
                     <span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>
                     </div>
                 </div>
+                <% if ( typeof config !== "undefined" && config.isRestrictedEdit) { %>
+                <div class="separator long"></div>
+                <div class="group" style="">
+                    <span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-form-next"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group" style="">
+                    <span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-form-save"></span>
+                </div>
+                <% } %>
             </section>
             <section class="panel" data-tab="comment">
                 <div class="group">
