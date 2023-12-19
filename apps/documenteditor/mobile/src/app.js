@@ -51,16 +51,16 @@ const startApp = () => {
 
 const params = getUrlParams(),
       isForm = params["isForm"];
-window.isPDFForm = isForm==='true';
 if (isForm===undefined && checkExtendedPDF) {
     const directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
         url = params["url"] ? encodeUrlParam(params["url"]) : null,
         fileKey = params["key"] || '',
         token = params["token"] || '';
-    checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
-        window.isPDFForm = !!isForm;
+    checkExtendedPDF(directUrl, fileKey, url, token, function (isform) {
+        window.isPDFForm = !!isform;
         startApp();
     });
-} else
+} else {
+    window.isPDFForm = isForm==='true';
     startApp();
-
+}
