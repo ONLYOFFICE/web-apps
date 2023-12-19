@@ -84,6 +84,7 @@ define([
             }
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
+            Common.NotificationCenter.on('forms:show-help', _.bind(this.showHelpTip, this));
             return this;
         },
 
@@ -466,6 +467,9 @@ define([
                 var props = this._helpTips[step],
                     target = props.target;
 
+                if (props.tip && props.tip.isVisible())
+                    return true;
+                
                 if (typeof target === 'string')
                     target = $(target);
                 if (!(target && target.length && target.is(':visible')))

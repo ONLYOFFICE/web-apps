@@ -649,6 +649,12 @@ define([
             this.lockedControls.push(this.cmbRoles);
             this.cmbRoles.on('selected', this.onRolesChanged.bind(this));
 
+            var showRolesTip = function() {
+                Common.NotificationCenter.trigger('forms:show-help', 'roles');
+                me.cmbRoles.off('show:before', showRolesTip);
+            };
+            me.cmbRoles.on('show:before', showRolesTip);
+
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-format'),
                 cls: 'input-group-nr',
