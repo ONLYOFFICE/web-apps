@@ -184,6 +184,10 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
                     this.api.SetFontRenderingMode(parseInt(value));
 
+                    value = Common.localStorage.getBool("app-settings-screen-reader");
+                    Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+                    this.api.setSpeechEnabled(value);
+
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
@@ -2203,7 +2207,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                if (!window.localStorage.getBool("pe-hide-try-undoredo"))
+                if (!Common.localStorage.getBool("pe-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
@@ -2212,7 +2216,7 @@ define([
                         primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
-                            if (dontshow) window.localStorage.setItem("pe-hide-try-undoredo", 1);
+                            if (dontshow) Common.localStorage.setItem("pe-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("pe-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);

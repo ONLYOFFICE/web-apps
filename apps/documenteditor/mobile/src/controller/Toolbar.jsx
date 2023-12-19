@@ -90,17 +90,22 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const scrollHandler = offset => {
         const api = Common.EditorApi.get();
         const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
-        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
-        const navbarHeight = navbarBgHeight + subnavbarHeight;
+        const subnavbar = document.querySelector('.subnavbar');
+        const subnavbarHeight = subnavbar.clientHeight;
+        const isSearchbarEnabled = subnavbar.querySelector('.searchbar').classList.contains('searchbar-enabled');
 
-        if(offset > 0) {
-            f7.navbar.hide('.main-navbar');
-            props.closeOptions('fab');
-            api.SetMobileTopOffset(undefined, 0);
-        } else if(offset <= 0) {
-            f7.navbar.show('.main-navbar');
-            props.openOptions('fab');
-            api.SetMobileTopOffset(undefined, navbarHeight);
+        if(!isSearchbarEnabled) {
+            const navbarHeight = navbarBgHeight + subnavbarHeight;
+            
+            if(offset > 0) {
+                f7.navbar.hide('.main-navbar');
+                props.closeOptions('fab');
+                api.SetMobileTopOffset(undefined, 0);
+            } else if(offset <= 0) {
+                f7.navbar.show('.main-navbar');
+                props.openOptions('fab');
+                api.SetMobileTopOffset(undefined, navbarHeight);
+            }
         }
     }
 

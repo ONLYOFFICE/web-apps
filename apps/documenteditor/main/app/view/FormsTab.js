@@ -133,25 +133,26 @@ define([
             this.btnDateTime && this.btnDateTime.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['datetime']);
             });
-            this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
-                var item = b.menu.getChecked();
-                if (item) {
-                    item = item.caption;
-                } else if (me._state.roles && me._state.roles.length>0) {
-                    item = me._state.roles[0].asc_getSettings().asc_getName();
-                }
-                me.fireEvent('forms:mode', [b.pressed, item]);
-            });
-            this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
-                if (!!item.checked) {
-                    me.btnViewFormRoles.toggle(true, true);
-                    me.fireEvent('forms:mode', [true, item.caption]);
-                }
-            }, me));
-            this.btnViewFormRoles.menu.on('show:after',  function (menu) {
-                me.fillRolesMenu();
-            });
-
+            if (this.btnViewFormRoles) {
+                this.btnViewFormRoles.on('click', function (b, e) {
+                    var item = b.menu.getChecked();
+                    if (item) {
+                        item = item.caption;
+                    } else if (me._state.roles && me._state.roles.length>0) {
+                        item = me._state.roles[0].asc_getSettings().asc_getName();
+                    }
+                    me.fireEvent('forms:mode', [b.pressed, item]);
+                });
+                this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                    if (!!item.checked) {
+                        me.btnViewFormRoles.toggle(true, true);
+                        me.fireEvent('forms:mode', [true, item.caption]);
+                    }
+                }, me));
+                this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                    me.fillRolesMenu();
+                });
+            }
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });

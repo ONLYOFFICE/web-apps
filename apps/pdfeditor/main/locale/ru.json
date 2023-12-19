@@ -540,6 +540,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtNone": "Никакие",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrint": "Показывать кнопку Быстрая печать в шапке редактора",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Документ будет напечатан на последнем выбранном принтере или на принтере по умолчанию",
+  "PDFE.Views.FileMenuPanels.Settings.txtScreenReader": "Включить поддержку средства чтения с экрана",
   "PDFE.Views.FileMenuPanels.Settings.txtStrictTip": "Используйте кнопку \"Сохранить\" для синхронизации изменений, внесенных вами и другими пользователями.",
   "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "Использовать клавишу Alt для навигации по интерфейсу с помощью клавиатуры",
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Использовать клавишу Option для навигации по интерфейсу с помощью клавиатуры",

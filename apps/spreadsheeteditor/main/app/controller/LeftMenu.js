@@ -54,7 +54,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'plugins:open': _.bind(this.openPlugin, this),
                     'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
@@ -521,6 +522,10 @@ define([
                 this.api.asc_setLocale(parseInt(reg), Common.localStorage.getItem("sse-settings-decimal-separator"), Common.localStorage.getItem("sse-settings-group-separator"));
             }
 
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
+
             menu.hide();
 
             this.leftMenu.fireEvent('settings:apply');
@@ -622,6 +627,10 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
         },
 
         setPreviewMode: function(mode) {

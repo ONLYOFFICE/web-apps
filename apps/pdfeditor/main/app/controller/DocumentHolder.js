@@ -1043,7 +1043,7 @@ define([
                 });
 
             }
-            var val = this._dateObjPdf ? this._dateObjPdf.GetValue() : undefined;
+            var val = this._dateObjPdf ? this._dateObjPdf.asc_GetValue() : undefined;
             if (val) {
                 val = new Date(val);
                 if (Object.prototype.toString.call(val) !== '[object Date]' || isNaN(val))

@@ -266,6 +266,14 @@ class EditTextController extends Component {
         this.updateBulletsNumbers(2);
     }
 
+    setOrientationTextShape(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.asc_CImgProperty();
+
+        properties.put_Vert(direction);
+        api.ImgApply(properties);
+    }
+
     render() {
         return (
             <EditText 
@@ -291,6 +299,7 @@ class EditTextController extends Component {
                 updateListType={this.updateListType}
                 onMultiLevelList={this.onMultiLevelList}
                 onLineSpacing={this.onLineSpacing}
+                setOrientationTextShape={this.setOrientationTextShape}
             />
         )
     }

@@ -10,7 +10,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const { t } = useTranslation();
     const _t = t('Settings', {returnObjects: true});
     const settingsContext = useContext(SettingsContext);
-    const mainContext = useContext(MainContext);
+    const {openOptions, isBranding} = useContext(MainContext);
     const appOptions = props.storeAppOptions;
     const canProtect = appOptions.canProtect;
     const storeReview = props.storeReview;
@@ -27,7 +27,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         </Navbar>;
 
     const onOpenOptions = name => {
-        mainContext.openOptions(name);
+        openOptions(name);
         settingsContext.closeModal(); 
     }
 
@@ -45,7 +45,8 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         _canAbout = true,
         _canHelp = true,
         _canPrint = false,
-        _canFeedback = true;
+        _canFeedback = true,
+        _canDisplayInfo = true;
 
     if (appOptions.isDisconnected) {
         _isEdit = false;
@@ -64,6 +65,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
             _canFeedback = appOptions.customization.feedback !== false;
+            _canDisplayInfo = appOptions.customization.info !== false;
         }
     }
 
@@ -127,7 +129,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     </ListItem>
                 : null}
                 {Device.sailfish && _isEdit &&
-                    <ListItem title={_t.textSpellcheck} onClick={() => {settingsContext.onOrthographyCheck()}} className='no-indicator' link="#">
+                    <ListItem title={_t.textSpellcheck} onClick={() => settingsContext.onOrthographyCheck()} className='no-indicator' link="#">
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
@@ -165,9 +167,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                 }
-                <ListItem title={_t.textDocumentInfo} link="/document-info/">
-                    <Icon slot="media" icon="icon-info"></Icon>
-                </ListItem>
+                {!(!_canDisplayInfo && isBranding) &&
+                    <ListItem title={_t.textDocumentInfo} link="/document-info/">
+                        <Icon slot="media" icon="icon-info"></Icon>
+                    </ListItem>
+                }
                 {_canHelp &&
                     <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>

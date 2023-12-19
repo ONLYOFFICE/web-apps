@@ -40,6 +40,12 @@
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
     },
+    "Themes": {
+      "dark": "Oscuro",
+      "light": "Claro",
+      "system": "Igual que el sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertencia",
       "textAnonymous": "Anónimo",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "El archivo actual se guardará en el historial de versiones.",
       "titleWarningRestoreVersion": "¿Restaurar esta versión?",
       "txtErrorLoadHistory": "Error al cargar el historial"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -66,6 +66,7 @@
     "errorInvalidLink": "La referencia del enlace no existe. Por favor, corrija o elimine el enlace.",
     "menuAddComment": "Agregar comentario",
     "menuAddLink": "Agregar enlace ",
+    "menuAutofill": "Autocompletar",
     "menuCancel": "Cancelar",
     "menuCell": "Celda",
     "menuDelete": "Eliminar",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "No mostrar de nuevo",
     "textOk": "Aceptar",
     "txtWarnUrl": "Hacer clic en este enlace puede ser perjudicial para su dispositivo y sus datos.<br>¿Está seguro de que quiere continuar?",
-    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "En la celda unida permanecerán sólo los datos de la celda de la esquina superior izquierda.<br>Está seguro de que quiere continuar?"
   },
   "Controller": {
     "Main": {
@@ -393,8 +393,8 @@
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
     "textCloseHistory": "Cerrar historial",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
+    "textRenameFile": "Renombrar archivo"
   },
   "View": {
     "Add": {
@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Borde vertical interno",
       "textInteger": "Entero",
       "textInternalDataRange": "Rango de datos interno",
+      "textInvalidName": "El nombre del archivo no puede contener ninguno de los siguientes símbolos:",
       "textInvalidRange": "Rango de celdas no válido",
       "textJustified": "Justificado",
       "textLabelOptions": "Opciones de etiqueta",
@@ -649,8 +650,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Este campo debe ser una dirección URL en el formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Ordenar de mayor a menor",
-      "txtSortLow2High": "Ordenar de menor a mayor ",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Ordenar de menor a mayor "
     },
     "Settings": {
       "advCSVOptions": "Elegir los parámetros de CSV",
@@ -682,6 +682,7 @@
       "textComments": "Comentarios",
       "textCreated": "Creado",
       "textCustomSize": "Tamaño personalizado",
+      "textDark": "Oscuro",
       "textDarkTheme": "Tema oscuro",
       "textDelimeter": "Delimitador",
       "textDirection": "Dirección ",
@@ -713,6 +714,7 @@
       "textLastModifiedBy": "Última modificación por",
       "textLeft": "A la izquierda",
       "textLeftToRight": "De izquierda a derecha",
+      "textLight": "Claro",
       "textLocation": "Ubicación",
       "textLookIn": "Buscar en ",
       "textMacrosSettings": "Ajustes de macros",
@@ -736,6 +738,7 @@
       "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textRight": "A la derecha",
       "textRightToLeft": "De derecha a izquierda",
+      "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSearchBy": "Buscar",
       "textSearchIn": "Buscar en",
@@ -748,6 +751,7 @@
       "textSpreadsheetTitle": "Título de hoja de cálculo",
       "textSubject": "Asunto",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textTop": "Arriba",
       "textUnitOfMeasurement": "Unidad de medida",
@@ -821,11 +825,7 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
-      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?"
     }
   }
 }

@@ -553,6 +553,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtNone": "View None",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrint": "Show the Quick Print button in the editor header",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "The document will be printed on the last selected or default printer",
+  "PDFE.Views.FileMenuPanels.Settings.txtScreenReader": "Turn on screen reader support",
   "PDFE.Views.FileMenuPanels.Settings.txtStrictTip": "Use the \"Save\" button to sync the changes you and others make",
   "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "Use Alt key to navigate the user interface using the keyboard",
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",

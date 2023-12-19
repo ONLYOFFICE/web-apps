@@ -275,7 +275,7 @@ define([
         },
 
         changeViewFormMode: function(state) {
-            if (this.view && (state !== this.view.btnViewFormRoles.isActive())) {
+            if (this.view && this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive())) {
                 this.view.btnViewFormRoles.toggle(state, true);
                 this.onModeClick(state);
             }

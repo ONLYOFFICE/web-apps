@@ -445,6 +445,7 @@
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
@@ -453,7 +454,10 @@
       "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",

@@ -2139,6 +2139,7 @@
   "DE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "The document will be printed on the last selected or default printer",
   "DE.Views.FileMenuPanels.Settings.txtRunMacros": "Enable All",
   "DE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Enable all macros without a notification",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "Turn on screen reader support",
   "DE.Views.FileMenuPanels.Settings.txtShowTrackChanges": "Show track changes",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Spell Checking",
   "DE.Views.FileMenuPanels.Settings.txtStopMacros": "Disable All",

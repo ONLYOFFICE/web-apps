@@ -10,7 +10,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
     const { t } = useTranslation();
     const appOptions = props.storeAppOptions;
     const storeSpreadsheetInfo = props.storeSpreadsheetInfo;
-    const mainContext = useContext(MainContext);
+    const {openOptions, isBranding} = useContext(MainContext);
     const settingsContext = useContext(SettingsContext);
     const _t = t('View.Settings', {returnObjects: true});
     const docTitle = storeSpreadsheetInfo.dataDoc?.title ?? '';
@@ -24,7 +24,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
 
     const onOpenOptions = name => {
         settingsContext.closeModal();
-        mainContext.openOptions(name);
+        openOptions(name);
     }
 
     let _isEdit = false,
@@ -33,7 +33,8 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
         _canAbout = true,
         _canHelp = true,
         _canPrint = false,
-        _canFeedback = true;
+        _canFeedback = true,
+        _canDisplayInfo = true;
         
     if (appOptions.isDisconnected) {
         _isEdit = false;
@@ -52,6 +53,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
             _canFeedback = appOptions.customization.feedback !== false;
+            _canDisplayInfo = appOptions.customization.info !== false;
         }
     }
     
@@ -101,9 +103,11 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                 }
-                <ListItem title={_t.textSpreadsheetInfo} link="/spreadsheet-info/">
-                    <Icon slot="media" icon="icon-info"></Icon>
-                </ListItem>
+                {!(!_canDisplayInfo && isBranding) &&
+                    <ListItem title={_t.textSpreadsheetInfo} link="/spreadsheet-info/">
+                        <Icon slot="media" icon="icon-info"></Icon>
+                    </ListItem>
+                }
                 {_canHelp &&
                     <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
@@ -116,7 +120,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
                 }
                 {_canFeedback &&
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
-                            <Icon slot="media" icon="icon-feedback"></Icon>
+                        <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
                 }
             </List>

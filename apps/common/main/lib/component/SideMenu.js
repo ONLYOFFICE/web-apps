@@ -264,6 +264,22 @@ define([
                     }
                 }
             },
+
+            updatePluginButtonsIcons: function (icons) {
+                var me = this;
+                icons.forEach(function (item) {
+                    var arr = me.getPluginButton(item.guid),
+                        btn = arr[0],
+                        index = arr[1],
+                        menuItem = _.findWhere(me.btnMore.menu.items, {value: index}),
+                        src = item.baseUrl + item.parsedIcons['normal'];
+                    btn.options.iconImg = src;
+                    btn.cmpEl.find("img").attr("src", src);
+                    if (menuItem) {
+                        menuItem.cmpEl.find("img").attr("src", src);
+                    }
+                });
+            },
         }
     }()));
 });
