@@ -375,17 +375,21 @@
 </script>
 <script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
 <script>
-    window.isPDFForm = isForm==='true';
-    if (isForm===undefined)
-        checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
-            window.isPDFForm = !!isForm;
-            var script = document.createElement("script");
-            script.setAttribute("data-main", "app_dev");
-            script.src = "../../../vendor/requirejs/require.js";
-            document.body.appendChild(script);
+    function startApp() {
+        var script = document.createElement("script");
+        script.setAttribute("data-main", "app_dev");
+        script.src = "../../../vendor/requirejs/require.js";
+        document.body.appendChild(script);
+    }
+    if (isForm===undefined) {
+        checkExtendedPDF(directUrl, fileKey, url, token, function (isform) {
+            window.isPDFForm = !!isform;
+            startApp();
         });
-    else
-        document.write('<script data-main="app_dev" src="../../../vendor/requirejs/require.js"><\/script>');
+    } else {
+        window.isPDFForm = isForm==='true';
+        startApp();
+    }
 </script>
 </body>
 </html>

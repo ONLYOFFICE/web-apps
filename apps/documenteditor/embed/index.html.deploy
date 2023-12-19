@@ -274,17 +274,21 @@
       <!--application-->
       <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
       <script>
-          window.isPDFForm = isForm==='true';
-          if (isForm===undefined)
-              checkExtendedPDF(directUrl, fileKey, url, token, function (isForm) {
-                  window.isPDFForm = !!isForm;
-                  var script = document.createElement("script");
-                  script.type  = "text/javascript";
-                  script.src = "../../../apps/documenteditor/embed/app-all.js";
-                  document.body.appendChild(script);
+          function startApp() {
+              var script = document.createElement("script");
+              script.type  = "text/javascript";
+              script.src = "../../../apps/documenteditor/embed/app-all.js";
+              document.body.appendChild(script);
+          }
+          if (isForm===undefined) {
+              checkExtendedPDF(directUrl, fileKey, url, token, function (isform) {
+                  window.isPDFForm = !!isform;
+                  startApp();
               });
-          else
-              document.write('<script type="text/javascript" src="../../../apps/documenteditor/embed/app-all.js"><\/script>');
+          } else {
+              window.isPDFForm = isForm==='true';
+              startApp();
+          }
       </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
