@@ -449,11 +449,15 @@
       "textZoomIn": "放大",
       "textZoomOut": "縮小",
       "textZoomRotate": "放大和旋轉",
+      "textHorizontalText": "Horizontal Text",
       "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
-      "textMorphWords": "Words"
+      "textMorphWords": "Words",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "標準(4:3)",

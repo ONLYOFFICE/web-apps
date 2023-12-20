@@ -2138,6 +2138,7 @@
   "DE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Документ будет напечатан на последнем выбранном принтере или на принтере по умолчанию",
   "DE.Views.FileMenuPanels.Settings.txtRunMacros": "Включить все",
   "DE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Включить все макросы без уведомления",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "Включить поддержку средства чтения с экрана",
   "DE.Views.FileMenuPanels.Settings.txtShowTrackChanges": "Показывать изменения при рецензировании",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Проверка орфографии",
   "DE.Views.FileMenuPanels.Settings.txtStopMacros": "Отключить все",

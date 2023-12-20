@@ -163,7 +163,7 @@
       "textTabs": "تغيير التبويبات",
       "textTrackChanges": "تعقب التغييرات",
       "textTryUndoRedo": "وظائف الاعادة و التراجع غير مفعلة لوضع التحرير المشترك السريع",
-      "textUnderline": "سطر تحتي",
+      "textUnderline": "تحته خط",
       "textUsers": "المستخدمون",
       "textWidow": "التحكم بالنافذة"
     },
@@ -177,7 +177,7 @@
     },
     "Themes": {
       "dark": "داكن",
-      "light": "سمة فاتحة",
+      "light": "فاتح",
       "system": "استخدم سمة النظام",
       "textTheme": "السمة"
     },
@@ -404,7 +404,11 @@
     "textWe": "الأربعاء",
     "textWrap": "التفاف",
     "textWrappingStyle": "نمط الالتفاف",
-    "textYourOption": "خيارك"
+    "textYourOption": "خيارك",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",

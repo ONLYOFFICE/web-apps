@@ -84,6 +84,7 @@ define([
             }
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
+            Common.NotificationCenter.on('forms:show-help', _.bind(this.showHelpTip, this));
             return this;
         },
 
@@ -275,7 +276,7 @@ define([
         },
 
         changeViewFormMode: function(state) {
-            if (this.view && (state !== this.view.btnViewFormRoles.isActive())) {
+            if (this.view && this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive())) {
                 this.view.btnViewFormRoles.toggle(state, true);
                 this.onModeClick(state);
             }
@@ -331,7 +332,7 @@ define([
             this.closeHelpTip('save', true);
             this.showRolesList(function() {
                 this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM, this.isFromFormSaveAs));
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
             });
         },
 
@@ -343,7 +344,7 @@ define([
 
                 var idx = defFileName.lastIndexOf('.');
                 if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + '.oform';
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
 
                 if (me.appConfig.canRequestSaveAs) {
                     Common.Gateway.requestSaveAs(url, defFileName, fileType);
@@ -445,7 +446,7 @@ define([
                 //     me.view.btnHighlight.currentColor = clr;
                 // }
 
-                config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showHelpTip('create'); // show tip only when create form in docxf
+                config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });
@@ -466,6 +467,9 @@ define([
                 var props = this._helpTips[step],
                     target = props.target;
 
+                if (props.tip && props.tip.isVisible())
+                    return true;
+                
                 if (typeof target === 'string')
                     target = $(target);
                 if (!(target && target.length && target.is(':visible')))

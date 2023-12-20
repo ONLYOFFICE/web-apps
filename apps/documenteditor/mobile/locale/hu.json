@@ -402,8 +402,12 @@
     "textChooseAnItem": "Choose an item",
     "textChooseAnOption": "Choose an option",
     "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
     "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
     "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
     "textYourOption": "Your option"
   },
   "Error": {

@@ -221,6 +221,7 @@ const config = {
       skeleton: {
           stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
           htmlscript: fs.readFileSync(`../../apps/common/mobile/utils/htmlutils.js`),
+          checkerscript: fs.readFileSync(`../../apps/common/checkExtendedPDF.js`),
       },
       system: {
           env: {

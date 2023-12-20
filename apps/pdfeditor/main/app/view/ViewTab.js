@@ -50,7 +50,7 @@ define([
             '<div class="group" data-layout-name="toolbar-view-navigation">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-navigation"></span>' +
             '</div>' +
-            '<div class="separator long" data-layout-name="toolbar-view-navigation"></div>' +
+            '<div class="separator long separator-navigation" data-layout-name="toolbar-view-navigation"></div>' +
             '<div class="group small">' +
                 '<div class="elset" style="display: flex;">' +
                     '<span class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -95,7 +95,7 @@ define([
 
             setEvents: function () {
                 var me = this;
-                me.btnNavigation.on('click', function (btn, e) {
+                me.btnNavigation && me.btnNavigation.on('click', function (btn, e) {
                     me.fireEvent('viewtab:navigation', [btn.pressed]);
                 });
                 me.btnsFitToPage.forEach(function (btn) {
@@ -137,17 +137,19 @@ define([
                 var me = this;
                 var _set = Common.enumLock;
 
-                this.btnNavigation = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-big-menu-navigation',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.textOutline,
-                    enableToggle: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                this.lockedControls.push(this.btnNavigation);
+                if (!this.appConfig.isForm) {
+                    this.btnNavigation = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-menu-navigation',
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        caption: this.textOutline,
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.lockedControls.push(this.btnNavigation);
+                }
 
                 this.cmbsZoom = [this.getZoomCombo()];
 
@@ -268,7 +270,7 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
-                this.btnNavigation.render($host.find('#slot-btn-navigation'));
+                this.btnNavigation && this.btnNavigation.render($host.find('#slot-btn-navigation'));
                 this.cmbsZoom[0].render($host.find('.slot-field-zoom'));
                 $host.find('.slot-lbl-zoom').text(this.textZoom);
                 this.btnsFitToPage[0].render($host.find('.slot-btn-ftp'));
@@ -298,7 +300,7 @@ define([
 
             onAppReady: function () {
                 var me = this;
-                this.btnNavigation.updateHint(this.tipHeadings);
+                this.btnNavigation && this.btnNavigation.updateHint(this.tipHeadings);
                 this.btnInterfaceTheme.updateHint(this.tipInterfaceTheme);
                 this.btnDarkDocument.updateHint(this.tipDarkDocument);
                 this.btnsFitToPage.forEach(function (btn) {

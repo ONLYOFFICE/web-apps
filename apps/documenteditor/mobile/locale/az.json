@@ -396,14 +396,18 @@
     "textEmpty": "Empty",
     "textEnterTitleNewStyle": "Enter title of a new style",
     "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
     "textPageNumbers": "Page Numbers",
     "textPlaceholder": "Placeholder",
     "textRefreshEntireTable": "Refresh entire table",
     "textRefreshPageNumbersOnly": "Refresh page numbers only",
     "textRightAlign": "Right Align",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
     "textSave": "Save",
     "textStructure": "Structure",
     "textTableOfCont": "TOC",
+    "textTextOrientation": "Text Orientation",
     "textYourOption": "Your option"
   },
   "Error": {
