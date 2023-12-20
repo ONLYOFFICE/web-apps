@@ -228,7 +228,88 @@ define([
             }
         },
 
+        iconsStr2IconsObj: function(icons) {
+            let result = icons;
+            if (typeof result === 'string' && result.indexOf('%') !== -1) {
+                /*
+                    valid params:
+                    theme-type - {string} theme type (light|dark|common)
+                    theme-name - {string} the name of theme
+                    state - {string} state of icons for different situations (normal|hover|active)
+                    scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+                    extension - {string} use it after symbol "." (png|jpeg|svg)
+                */
+                let scaleValue = {
+                    '100%' : 'icon.',
+                    '125%' : 'icon@1.25x.',
+                    '150%' : 'icon@1.5x.',
+                    '175%' : 'icon@1.75x.',
+                    '200%' : 'icon@2x.'
+                }
+                let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension'],
+                    template = result,
+                    start = template.indexOf('%'),
+                    commonPart = template.substring(0, start),
+                    end = 0,
+                    param = null,
+                    values = null,
+                    tempObj = {};
+
+                result = [];
+
+                for (let index = 0; index < arrParams.length; index++) {
+                    param = arrParams[index];
+                    start = template.indexOf(param);
+                    if (start === -1 )
+                        continue;
+
+                    start += param.length + 2;
+                    end = template.indexOf(')', start);
+                    values = template.substring(start, end);
+                    tempObj[param] = values.split('|');
+                }
+
+                // we don't work with svg yet. Change it when we will work with it (extended variant).
+                if (tempObj['scale'] && (tempObj['scale'] == 'default' || tempObj['scale'] == 'extended') ) {
+                    tempObj['scale'] = ['100', '125', '150', '175', '200'];
+                } else if (!tempObj['scale']) {
+                    tempObj['scale'] = ['100'];
+                }
+
+                if (!tempObj['state']) {
+                    tempObj['state'] = ['normal'];
+                }
+
+                let bHasName = !!tempObj['theme-name'];
+                let bHasType = (tempObj['theme-type'] && tempObj['theme-type'][0] !== 'common');
+                let arrThemes = bHasName ? tempObj['theme-name'] : (bHasType ? tempObj['theme-type'] : []);
+                let paramName = bHasName ? 'theme' : 'style';
+                if (arrThemes.length) {
+                    for (let thInd = 0; thInd < arrThemes.length; thInd++) {
+                        result.push({[paramName]: arrThemes[thInd]});
+                    }
+                } else {
+                    result.push({});
+                }
+
+                for (let index = 0; index < result.length; index++) {
+                    for (let scaleInd = 0; scaleInd < tempObj['scale'].length; scaleInd++) {
+                        let themePath = (result[index][paramName] || 'img') + '/';
+                        let scale = tempObj['scale'][scaleInd] + '%';
+                        let obj = {};
+                        for (let stateInd = 0; stateInd < tempObj['state'].length; stateInd++) {
+                            let state = tempObj['state'][stateInd];
+                            obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + (scaleValue[scale] || 'icon.') + tempObj['extension'][0];
+                        }
+                        result[index][scale] = obj;
+                    }
+                }
+            }
+            return result;
+        },
+
         parseIcons: function(icons) {
+            icons = this.iconsStr2IconsObj(icons);
             if (icons.length && typeof icons[0] !== 'string') {
                 var theme = Common.UI.Themes.currentThemeId().toLowerCase(),
                     style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
@@ -270,9 +351,9 @@ define([
                 }
                 (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
                 return {
-                    'normal': bestUrl['normal'],
-                    'hover': bestUrl['hover'] || bestUrl['normal'],
-                    'active': bestUrl['active'] || bestUrl['normal']
+                    'normal': bestUrl ? bestUrl['normal'] : '',
+                    'hover': bestUrl ? bestUrl['hover'] || bestUrl['normal'] : '',
+                    'active': bestUrl ? bestUrl['active'] || bestUrl['normal'] : ''
                 };
             } else { // old version
                 var url = icons[((Common.Utils.applicationPixelRatio() > 1 && icons.length > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];

@@ -770,7 +770,7 @@ define([
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: itemVar.icons2 || itemVar.icons,
+                                icons: (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -1073,7 +1073,6 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-
+        }
     }, Common.Controllers.Plugins || {}));
 });
