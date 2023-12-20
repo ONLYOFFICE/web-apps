@@ -180,6 +180,9 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _currentControls = arr.filter(function (item) {
             return ($(item).is(':visible') && !_isItemDisabled($(item)));
         });
+        _currentControls.forEach(function (item) {
+            $(item).attr("tabindex", 0);
+        });
     };
 
     var _init = function(api) {
@@ -208,6 +211,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     _showFocus();
                 } else {
                     _hideFocus();
+                    _resetToDefault();
                     if (_isLockedKeyEvents) {
                         _isLockedKeyEvents = false;
                         _api.asc_enableKeyEvents(true);
@@ -236,7 +240,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     }
                     _hideFocus();
                     _resetToDefault();
-                    _lockedKeyEvents(false);
+                    //_lockedKeyEvents(false);
                     Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
                     return;
                 } else if (e.keyCode == Common.UI.Keys.LEFT) {
