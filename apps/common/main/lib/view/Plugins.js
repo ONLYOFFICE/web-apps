@@ -238,15 +238,16 @@ define([
                     state - {string} state of icons for different situations (normal|hover|active)
                     scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
                     extension - {string} use it after symbol "." (png|jpeg|svg)
+                    icon-name - {string} the name of icon, "icon" by default
                 */
                 let scaleValue = {
-                    '100%' : 'icon.',
-                    '125%' : 'icon@1.25x.',
-                    '150%' : 'icon@1.5x.',
-                    '175%' : 'icon@1.75x.',
-                    '200%' : 'icon@2x.'
+                    '100%' : '.',
+                    '125%' : '@1.25x.',
+                    '150%' : '@1.5x.',
+                    '175%' : '@1.75x.',
+                    '200%' : '@2x.'
                 }
-                let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension'],
+                let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension', 'icon-name'],
                     template = result,
                     start = template.indexOf('%'),
                     commonPart = template.substring(0, start),
@@ -280,6 +281,10 @@ define([
                     tempObj['state'] = ['normal'];
                 }
 
+                if (!tempObj['icon-name']) {
+                    tempObj['icon-name'] = ['icon'];
+                }
+
                 let bHasName = !!tempObj['theme-name'];
                 let bHasType = (tempObj['theme-type'] && tempObj['theme-type'][0] !== 'common');
                 let arrThemes = bHasName ? tempObj['theme-name'] : (bHasType ? tempObj['theme-type'] : []);
@@ -299,7 +304,7 @@ define([
                         let obj = {};
                         for (let stateInd = 0; stateInd < tempObj['state'].length; stateInd++) {
                             let state = tempObj['state'][stateInd];
-                            obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + (scaleValue[scale] || 'icon.') + tempObj['extension'][0];
+                            obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + tempObj['icon-name'] + (scaleValue[scale] || '.') + tempObj['extension'][0];
                         }
                         result[index][scale] = obj;
                     }
