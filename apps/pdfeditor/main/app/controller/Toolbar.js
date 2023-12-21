@@ -457,10 +457,10 @@ define([
                     }
                 });
             } else if (this.api) {
-                var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
-                    return;
+                // var isModified = this.api.asc_isDocumentCanSave();
+                // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
+                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
+                //     return;
 
                 this.api.asc_Save();
                 toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
