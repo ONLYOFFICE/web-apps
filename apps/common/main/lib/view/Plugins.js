@@ -238,7 +238,8 @@ define([
                     state - {string} state of icons for different situations (normal|hover|active)
                     scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
                     extension - {string} use it after symbol "." (png|jpeg|svg)
-                    icon-name - {string} the name of icon, "icon" by default
+
+                    Example: "resources/%theme-type%(light|dark)/%state%(normal)icon%scale%(default).%extension%(png)"
                 */
                 let scaleValue = {
                     '100%' : '.',
@@ -247,27 +248,39 @@ define([
                     '175%' : '@1.75x.',
                     '200%' : '@2x.'
                 }
-                let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension', 'icon-name'],
-                    template = result,
-                    start = template.indexOf('%'),
-                    commonPart = template.substring(0, start),
+                let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension'],
+                    start = result.indexOf('%'),
+                    template = result.substring(start).replace(/[/.]/g, ('')),
+                    commonPart = result.substring(0, start),
                     end = 0,
                     param = null,
                     values = null,
+                    iconName = '',
                     tempObj = {};
 
                 result = [];
 
                 for (let index = 0; index < arrParams.length; index++) {
                     param = arrParams[index];
-                    start = template.indexOf(param);
-                    if (start === -1 )
+                    start = template.indexOf(param) - 1;
+                    if (start < 0 )
                         continue;
 
-                    start += param.length + 2;
-                    end = template.indexOf(')', start);
-                    values = template.substring(start, end);
+                    end = param.length + 2;
+                    template = template.substring(0, start) + template.substring(start + end);
+                    start = template.indexOf('(', 0);
+                    end = template.indexOf(')', 0);
+                    values = template.substring((start + 1), end);
+                    template = template.substring(0, start) + template.substring(++end);
                     tempObj[param] = values.split('|');
+                }
+
+                if (template.length) {
+                    iconName = template;
+                } else {
+                    let arr = commonPart.split('/');
+                    iconName = arr.pop().replace(/\./g, '');
+                    commonPart = arr.join('/') + '/';
                 }
 
                 // we don't work with svg yet. Change it when we will work with it (extended variant).
@@ -281,8 +294,8 @@ define([
                     tempObj['state'] = ['normal'];
                 }
 
-                if (!tempObj['icon-name']) {
-                    tempObj['icon-name'] = ['icon'];
+                if (!iconName) {
+                    iconName = 'icon';
                 }
 
                 let bHasName = !!tempObj['theme-name'];
@@ -304,7 +317,7 @@ define([
                         let obj = {};
                         for (let stateInd = 0; stateInd < tempObj['state'].length; stateInd++) {
                             let state = tempObj['state'][stateInd];
-                            obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + tempObj['icon-name'] + (scaleValue[scale] || '.') + tempObj['extension'][0];
+                            obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + iconName + (scaleValue[scale] || '.') + tempObj['extension'][0];
                         }
                         result[index][scale] = obj;
                     }
