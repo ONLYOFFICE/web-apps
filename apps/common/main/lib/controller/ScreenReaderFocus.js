@@ -50,7 +50,9 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _focusVisible = false,
         _focusMode = false,
         _currentLevel = 0,
+        _lastLevel = 0,
         _currentSection = document,
+        _lastSection = document,
         _currentControls = [],
         _currentItemIndex,
         _isLockedKeyEvents = false,
@@ -59,6 +61,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _api;
 
     var _setCurrentSection = function (btn, section) {
+        _lastSection = _currentSection;
         if (section) {
             _currentSection = section;
             return;
@@ -74,7 +77,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         } else if ($('#file-menu-panel').is(':visible')) {
             _currentSection = $('#file-menu-panel');
         } else {
-            _currentSection = (btn && btn.closest('.hint-section')) || document;
+            _currentSection = _currentLevel === 0 ? document : ((btn && btn.closest('.hint-section')) || document);
         }
     };
 
@@ -90,7 +93,16 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             _getControls();
             console.log(_currentControls);
         }
-        if (!_focusVisible) _setFocusInActiveTab();
+        if (!_focusVisible) {
+            _setFocusInActiveTab();
+        } else if (_currentLevel !== _lastLevel && _currentLevel === 0) {
+            var id = $(_lastSection).prop('id');
+            if (id === 'toolbar') {
+                _setFocusInActiveTab();
+            } else if (id === 'left-menu' || id === 'right-menu') {
+                _setFocusInActiveCategory(id);
+            }
+        }
         var currItem = _currentControls[_currentItemIndex];
         console.log(_currentControls[_currentItemIndex]);
         if (currItem) {
@@ -115,6 +127,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _nextItem = function () {
+        _lastLevel = _currentLevel;
         _currentItemIndex++;
         if (_currentItemIndex > _currentControls.length - 1) {
             _currentItemIndex = 0;
@@ -122,6 +135,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _prevItem = function () {
+        _lastLevel = _currentLevel;
         _currentItemIndex--;
         if (_currentItemIndex < 0) {
             _currentItemIndex = _currentControls.length - 1;
@@ -129,6 +143,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _nextLevel = function(level) {
+        _lastLevel = _currentLevel;
         _currentItemIndex = 0;
         _currentControls.length = 0;
         if (level !== undefined) {
@@ -139,6 +154,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _prevLevel = function() {
+        _lastLevel = _currentLevel;
         _currentControls.length = 0;
         _currentLevel--;
     };
@@ -154,6 +170,20 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         for (var i=0; i<_currentControls.length; i++) {
             var parent = $(_currentControls[i]).parent();
             if (parent && parent.hasClass('ribtab') && parent.hasClass('active')) {
+                activeTab = _currentControls[i];
+                break;
+            }
+        }
+        if (activeTab) {
+            _currentItemIndex = i;
+        }
+    };
+
+    var _setFocusInActiveCategory = function (id) {
+        var activeTab;
+        for (var i=0; i<_currentControls.length; i++) {
+            var item = $(_currentControls[i]);
+            if ($(item.closest('.hint-section')).prop('id') === id && item.hasClass('btn-category') && item.hasClass('active')) {
                 activeTab = _currentControls[i];
                 break;
             }
@@ -181,8 +211,14 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             return ($(item).is(':visible') && !_isItemDisabled($(item)));
         });
         _currentControls.forEach(function (item) {
-            $(item).attr("tabindex", 0);
+            if ($(item).attr("tabindex") === undefined) $(item).attr("tabindex", 0);
         });
+    };
+
+    var _exitFocusMode = function () {
+        _hideFocus();
+        _resetToDefault();
+        _isLockedKeyEvents && _lockedKeyEvents(false);
     };
 
     var _init = function(api) {
@@ -201,6 +237,12 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 }
             }
         });
+        $('#editor_sdk').on('click', function () {
+            _exitFocusMode();
+        });
+        $(document).on('mousedown', function () {
+            _exitFocusMode();
+        });
         $(document).on('keyup', function(e) {
             if ((e.keyCode == Common.UI.Keys.ALT || e.keyCode === 91) && _needShow && !(window.SSE && window.SSE.getController('Statusbar').getIsDragDrop())) {
                 e.preventDefault();
@@ -210,12 +252,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     _setCurrentSection();
                     _showFocus();
                 } else {
-                    _hideFocus();
-                    _resetToDefault();
-                    if (_isLockedKeyEvents) {
-                        _isLockedKeyEvents = false;
-                        _api.asc_enableKeyEvents(true);
-                    }
+                    _exitFocusMode();
                 }
             } else if (_focusVisible) {
                 e.preventDefault();
@@ -230,9 +267,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 e.preventDefault();
                 Common.UI.Menu.Manager.hideAll();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
-                    _hideFocus();
-                    _resetToDefault();
-                    _lockedKeyEvents(false);
+                    _exitFocusMode();
                     return;
                 } else if (e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) {
                     if (btn) {
@@ -252,13 +287,17 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     _nextItem();
                     Common.Utils.ScreeenReaderHelper.speech('next item');
                 } else if (e.keyCode == Common.UI.Keys.DOWN) {
+                    var attr = '[data-hint="' + (_currentLevel + 1) + '"]';
+                    if ($(_currentSection).find(attr).length === 0) return;
                     turnOffHints = true;
                     _nextLevel();
                     _setCurrentSection(btn);
                     Common.Utils.ScreeenReaderHelper.speech('next level');
                 } else if (e.keyCode == Common.UI.Keys.UP) {
+                    if (_currentLevel === 0) return;
                     turnOffHints = true;
                     _prevLevel();
+                    _setCurrentSection(btn);
                     Common.Utils.ScreeenReaderHelper.speech('previous level');
                 }
                 if (!_focusMode && turnOffHints) {
