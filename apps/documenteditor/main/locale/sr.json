@@ -2138,6 +2138,7 @@
   "DE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Dokument će biti štampan na poslednje odabranom ili podrazumevanom štampaču",
   "DE.Views.FileMenuPanels.Settings.txtRunMacros": "Omogući Sve",
   "DE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Omogući sve makroe bez notifikacije",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "Uključi podršku za čitač ekrana",
   "DE.Views.FileMenuPanels.Settings.txtShowTrackChanges": "Prikaži praćene promene",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Provera Pravopisa ",
   "DE.Views.FileMenuPanels.Settings.txtStopMacros": "Onemogući Sve",

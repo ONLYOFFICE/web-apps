@@ -373,6 +373,7 @@
       "textHighlightColor": "Istakni Boju",
       "textHorizontalIn": "Horizontalno Unutra",
       "textHorizontalOut": "Horizontalno Spolja",
+      "textHorizontalText": "Horizontalni Tekst",
       "textHyperlink": "Hiperlink",
       "textImage": "Slika",
       "textImageURL": "URL Slike",
@@ -417,6 +418,8 @@
       "textReplaceImage": "Zameni Sliku",
       "textRequired": "Potrebno",
       "textRight": "Desno",
+      "textRotateTextDown": "Rotiraj Tekst Dole ",
+      "textRotateTextUp": "Rotiraj Tekst Gore",
       "textScreenTip": "Savet Za Ekran",
       "textSearch": "Pretraži",
       "textSec": "s",
@@ -438,6 +441,7 @@
       "textSuperscript": "Nadindeks",
       "textTable": "Tabela",
       "textText": "Tekst",
+      "textTextOrientation": "Tekst Orijentacija ",
       "textTheme": "Tema",
       "textTop": "Vrh",
       "textTopLeft": "Gore-Levo",
@@ -453,11 +457,7 @@
       "textZoom": "Zumiraj",
       "textZoomIn": "Zumiraj Unutra",
       "textZoomOut": "Zumiraj Spolja",
-      "textZoomRotate": "Zumiraj i Rotiraj",
-      "textHorizontalText": "Horizontal Text",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textZoomRotate": "Zumiraj i Rotiraj"
     },
     "Settings": {
       "mniSlideStandard": "Standardno (4:3)",

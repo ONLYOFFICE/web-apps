@@ -2138,6 +2138,7 @@
   "DE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "O documento será impresso na última impressora selecionada ou padrão",
   "DE.Views.FileMenuPanels.Settings.txtRunMacros": "Habilitar todos",
   "DE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Habilitar todas as macros sem uma notificação",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "Habilitar o suporte ao leitor de tela",
   "DE.Views.FileMenuPanels.Settings.txtShowTrackChanges": "Mostrar alterações de faixa",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "Verificação ortográfica",
   "DE.Views.FileMenuPanels.Settings.txtStopMacros": "Desabilitar tudo",
