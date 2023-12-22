@@ -401,7 +401,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported());
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 

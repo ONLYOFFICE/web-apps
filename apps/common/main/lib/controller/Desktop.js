@@ -698,6 +698,9 @@ define([
 
                 return false;
             },
+            uiRtlSupported: function () {
+                return nativevars && nativevars.rtl != undefined;
+            },
         };
     };
 
