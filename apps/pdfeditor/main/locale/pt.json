@@ -540,6 +540,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtNone": "Visualizar nenhum",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrint": "Mostrar o botão Impressão rápida no cabeçalho do editor",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "O documento será impresso na última impressora selecionada ou padrão",
+  "PDFE.Views.FileMenuPanels.Settings.txtScreenReader": "Habilitar o suporte ao leitor de tela",
   "PDFE.Views.FileMenuPanels.Settings.txtStrictTip": "Use o botão \"Salvar\" para sincronizar as alterações que você e outras pessoas fazem",
   "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "Use a tecla Alt para navegar na interface do usuário usando o teclado",
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Use a tecla Opção para navegar na interface do usuário usando o teclado",

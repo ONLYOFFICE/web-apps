@@ -248,8 +248,8 @@
     "leaveButtonText": "مغادرة هذه الصفحة",
     "stayButtonText": "البقاء في هذه الصفحة",
     "textCloseHistory": "إغلاق السجل",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "ادخل اسم جديد للملف",
+    "textRenameFile": "إعادة تسمية الملف"
   },
   "View": {
     "Add": {
@@ -373,10 +373,12 @@
       "textHighlightColor": "لون تمييز النص",
       "textHorizontalIn": "أفقي للداخل",
       "textHorizontalOut": "أفقي للخارج",
+      "textHorizontalText": "النص الأفقي",
       "textHyperlink": "ارتباط تشعبي",
       "textImage": "صورة",
       "textImageURL": "رابط صورة",
       "textInsertImage": "إدراج صورة",
+      "textInvalidName": "لا يمكن لاسم الملف أن يحتوي على الرموز التالية:",
       "textLastColumn": "العمود الأخير",
       "textLastSlide": "الشريحة الأخيرة",
       "textLayout": "تخطيط الصفحة",
@@ -416,6 +418,8 @@
       "textReplaceImage": "استبدال الصورة",
       "textRequired": "مطلوب",
       "textRight": "يمين",
+      "textRotateTextDown": "تدوير النص للأسفل",
+      "textRotateTextUp": "تدوير النص للأعلى",
       "textScreenTip": "تلميح شاشة",
       "textSearch": "بحث",
       "textSec": "ثانية",
@@ -437,6 +441,7 @@
       "textSuperscript": "نص مرتفع",
       "textTable": "جدول",
       "textText": "نص",
+      "textTextOrientation": "اتجاه النص",
       "textTheme": "السمة",
       "textTop": "أعلى",
       "textTopLeft": "أعلى اليسار",
@@ -452,12 +457,7 @@
       "textZoom": "تكبير/تصغير",
       "textZoomIn": "تكبير",
       "textZoomOut": "تصغير",
-      "textZoomRotate": "التكبير و التدوير",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textZoomRotate": "التكبير و التدوير"
     },
     "Settings": {
       "mniSlideStandard": "القياسي (4:3)",

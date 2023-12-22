@@ -303,6 +303,7 @@
     "textHeader": "Zaglavlje",
     "textHeaderRow": "Zaglavlje Red",
     "textHighlightColor": "Istakni Boju",
+    "textHorizontalText": "Horizontalni Tekst",
     "textHyperlink": "Hiperlink",
     "textImage": "Slika",
     "textImageURL": "URL Slike",
@@ -364,6 +365,8 @@
     "textRequired": "Potrebno",
     "textResizeToFitContent": "Promeni veličinu da Uklopi Sadržaj",
     "textRightAlign": "Desno Poravnanje",
+    "textRotateTextDown": "Rotiraj Tekst Dole ",
+    "textRotateTextUp": "Rotiraj Tekst Gore",
     "textSa": "Sub",
     "textSameCreatedNewStyle": "Isto kao kreirani novi stil",
     "textSave": "Sačuvaj",
@@ -392,6 +395,7 @@
     "textTableOfCont": "Sadržaj",
     "textTableOptions": "Tabela Opcija",
     "textText": "Tekst",
+    "textTextOrientation": "Tekst Orijentacija ",
     "textTextWrapping": "Obmotavanje Teksta",
     "textTh": "Čet",
     "textThrough": "Kroz",
@@ -404,11 +408,7 @@
     "textWe": "Sre",
     "textWrap": "Obmotaj",
     "textWrappingStyle": "Stil Obmotavanja",
-    "textYourOption": "Tvoja opcija",
-    "textHorizontalText": "Horizontal Text",
-    "textRotateTextDown": "Rotate Text Down",
-    "textRotateTextUp": "Rotate Text Up",
-    "textTextOrientation": "Text Orientation"
+    "textYourOption": "Tvoja opcija"
   },
   "Error": {
     "convertationTimeoutText": "Vremensko ograničenje preobraćanja prekoračeno.",
