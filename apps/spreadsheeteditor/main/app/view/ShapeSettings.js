@@ -94,6 +94,7 @@ define([
                 BGColor: 'ffffff',
                 GradColor: '000000',
                 ShadowColor: 'transparent',
+                ShadowPreset: null,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 DisabledFillPanels: false,
                 DisabledControls: false,
@@ -1251,8 +1252,10 @@ define([
                 } 
 
                 if(shadowPresetRecord) {
+                    this._state.ShadowPreset = shadowPresetRecord;
                     this.viewShadowShapePresets.selectRecord(shadowPresetRecord);
                 } else {
+                    this._state.ShadowPreset = null;
                     this.viewShadowShapePresets.deselectAll();
                 }
 
@@ -1799,6 +1802,18 @@ define([
             );
             this.btnShadowShape.menu.on('item:click', _.bind(this.onSelectShadowMenu, this));
             this.mnuShadowShapeColor.menu.on('item:click', _.bind(this.onSelectShadowColorMenu, this));
+            this.btnShadowShape.menu.on('show:before', () => {
+                if(this._state.ShadowPreset) {
+                    this.viewShadowShapePresets.selectRecord(this._state.ShadowPreset);
+                } else {
+                    this.viewShadowShapePresets.deselectAll();
+                }
+            });            
+            this.mnuShadowShapeColor.menu.on('show:before', () => {
+                if(this._state.ShadowColor) {
+                    this.mnuShadowShapeColorPicker.select(this._state.ShadowColor,true);
+                }
+            });      
 
             this.viewShadowShapePresets = new Common.UI.DataView({
                 el: $('#shape-button-shadow-shape-menu'),
@@ -1821,7 +1836,7 @@ define([
                 ]),
                 itemTemplate: _.template(
                     '<div class="item-shadow">' +
-                        '<div style="margin-bottom:<%= offsetY %>px; margin-right:<%= offsetX %>px; box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px rgba(0, 0, 0, 0.40);"></div>' +
+                        '<div style="margin-bottom:<%= offsetY %>px; margin-right:<%= offsetX %>px; box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px var(--text-tertiary);"></div>' +
                     '</div>')
             });
             this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
