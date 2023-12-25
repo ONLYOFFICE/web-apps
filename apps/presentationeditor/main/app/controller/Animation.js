@@ -350,6 +350,7 @@ define([
                     Common.Utils.lockControls(Common.enumLock.noAnimationParam, false, {array: [this.view.btnParameters]});
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onStartSelect: function (combo, record) {
