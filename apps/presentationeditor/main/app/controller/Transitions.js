@@ -188,6 +188,7 @@ define([
 
             this._state.Effect = type;
             this.onParameterClick(parameter);
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onFocusObject: function(selectedObjects) {
