@@ -108,6 +108,9 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
+            <List mediaList>
+                <ListItem title={_t.textDirection + " (Beta)"} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>
+            </List>
         </Page>
     );
 };

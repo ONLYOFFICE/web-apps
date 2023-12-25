@@ -610,9 +610,10 @@ define([
                 dataHintOffset: 'big'
             });
 
+            const txt_Beta = Common.Locale.get("txtSymbol_beta",{name:"DE.Controllers.Toolbar", default: "Beta"});
             this.chRTL = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-rtl-ui'),
-                labelText: this.strRTLSupport,
+                labelText: this.strRTLSupport + ' (' + txt_Beta + ')',
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
