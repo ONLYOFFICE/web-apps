@@ -242,10 +242,6 @@
             margin = (customer !== '') ? 50 : 20,
             loading = 'Loading...',
             logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null,
-            directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
-            url = params["url"] ? encodeUrlParam(params["url"]) : null,
-            fileKey = params["key"] || '',
-            token = params["token"] || '',
             isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
@@ -335,7 +331,7 @@
             document.body.appendChild(script);
         }
         if (isForm===undefined) {
-            checkExtendedPDF(directUrl, fileKey, url, token, function (isform) {
+            listenApiMsg(function (isform) {
                 window.isPDFForm = !!isform;
                 startApp();
             });
