@@ -257,10 +257,6 @@
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
             logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
-            directUrl = params["directUrl"] ? encodeUrlParam(params["directUrl"]) : null,
-            url = params["url"] ? encodeUrlParam(params["url"]) : null,
-            fileKey = params["key"] || '',
-            token = params["token"] || '',
             isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
@@ -382,7 +378,7 @@
         document.body.appendChild(script);
     }
     if (isForm===undefined) {
-        checkExtendedPDF(directUrl, fileKey, url, token, function (isform) {
+        listenApiMsg(function (isform) {
             window.isPDFForm = !!isform;
             startApp();
         });

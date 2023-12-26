@@ -117,3 +117,45 @@ function downloadPartialy(url, limit, headers, callback) {
     }
     xhr.send();
 }
+
+var startCallback;
+var eventFn = function(msg) {
+    if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
+
+    var data = msg.data;
+    if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
+        return;
+    }
+    try {
+        data = window.JSON.parse(data)
+    } catch(e) {
+        data = '';
+    }
+
+    if (data && data.command==="checkParams") {
+        data = data.data || {};
+        checkExtendedPDF(data.directUrl, data.key, data.url, data.token, startCallback);
+        _unbindWindowEvents();
+    }
+};
+
+var _bindWindowEvents = function() {
+    if (window.addEventListener) {
+        window.addEventListener("message", eventFn, false)
+    } else if (window.attachEvent) {
+        window.attachEvent("onmessage", eventFn);
+    }
+};
+
+var _unbindWindowEvents = function() {
+    if (window.removeEventListener) {
+        window.removeEventListener("message", eventFn)
+    } else if (window.detachEvent) {
+        window.detachEvent("onmessage", eventFn);
+    }
+};
+
+function listenApiMsg(callback) {
+    startCallback = callback;
+    _bindWindowEvents();
+}
