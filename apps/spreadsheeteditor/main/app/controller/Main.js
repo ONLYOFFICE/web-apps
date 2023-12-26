@@ -1087,6 +1087,7 @@ define([
                     var formulasDlgController = application.getController('FormulaDialog');
                     formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
                     documentHolderView.createDelayedElementsViewer();
+                    Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }

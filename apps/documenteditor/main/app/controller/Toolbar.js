@@ -459,6 +459,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             }
+            this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
@@ -3539,15 +3540,54 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
                 }
-                config.isOForm && config.canDownloadForms && !Common.localStorage.getBool("de-convert-oform") && Common.UI.warning({
-                    msg  : me.textConvertForm,
-                    dontshow: true,
-                    callback: function(btn, dontshow){
-                        dontshow && Common.localStorage.setItem("de-convert-oform", 1);
+
+                config.isOForm && config.canDownloadForms && Common.UI.warning({
+                    msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
+                    buttons: [{value: 'ok', caption: config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textSavePdf : me.textDownloadPdf}, 'cancel'],
+                    callback: function(btn){
+                        if (btn==='ok') {
+                            me.isFromFormSaveAs = config.canRequestSaveAs || !!config.saveAsUrl;
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs));
+                        }
                         Common.NotificationCenter.trigger('edit:complete');
                     }
                 });
             });
+        },
+
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromFormSaveAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
+
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        Common.UI.warning({
+                            closable: false,
+                            msg: err,
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        });
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            }
+            this.isFromFormSaveAs = false;
         },
 
         getView: function (name) {
@@ -4016,7 +4056,11 @@ define([
         textEmptyMMergeUrl: 'You need to specify URL.',
         textRecentlyUsed: 'Recently Used',
         dataUrl: 'Paste a data URL',
-        textConvertForm: 'Download file as pdf to save the form in the format ready for filling.'
+        textConvertFormSave: 'Save file as a fillable PDF form to be able to fill it out.',
+        textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
+        txtUntitled: 'Untitled',
+        textSavePdf: 'Save as pdf',
+        textDownloadPdf: 'Download pdf'
 
     }, DE.Controllers.Toolbar || {}));
 });
