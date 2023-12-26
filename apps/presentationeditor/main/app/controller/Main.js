@@ -1002,6 +1002,7 @@ define([
                     }, 50);
                 } else {
                     documentHolderController.getView().createDelayedElementsViewer();
+                    Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }

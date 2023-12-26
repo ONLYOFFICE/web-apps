@@ -1031,6 +1031,7 @@ define([
                     }, 500);
                 } else {
                     Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.Utils.injectSvgIcons();
                     me.applyLicense();
                 }
 
