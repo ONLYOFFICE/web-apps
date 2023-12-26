@@ -1016,11 +1016,12 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null;
-        if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
+        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null,
+            isPdf = type && typeof type[1] === 'string';
+        if (!isPdf && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
-        config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+        config.document.isForm = isPdf ? config.document.isForm : false;
         if (config.document && (config.document.isForm!==undefined))
             params += "&isForm=" + config.document.isForm;
 
@@ -1039,18 +1040,19 @@
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
-        if (config.document && config.document.directUrl)
-            params += "&directUrl=" + encodeURIComponent(config.document.directUrl);
+        if (isPdf) {
+            if (config.document && config.document.directUrl)
+                params += "&directUrl=" + encodeURIComponent(config.document.directUrl);
 
-        if (config.document && config.document.key)
-            params += "&key=" + config.document.key;
+            if (config.document && config.document.key)
+                params += "&key=" + config.document.key;
 
-        if (config.document && config.document.url)
-            params += "&url=" + encodeURIComponent(config.document.url);
+            if (config.document && config.document.url)
+                params += "&url=" + encodeURIComponent(config.document.url);
 
-        if (config.document && config.document.token)
-            params += "&token=" + config.document.token;
-
+            if (config.document && config.document.token)
+                params += "&token=" + config.document.token;
+        }
 
         return params;
     }
