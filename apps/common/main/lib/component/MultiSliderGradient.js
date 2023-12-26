@@ -79,8 +79,8 @@ define([
                 height: 16,
                 border:0.5,
                 activeThumbIndex: 0,
-                borderColor: Common.UI.Themes.currentThemeColor('--border-regular-control'),
-                borderColorActive: Common.UI.Themes.currentThemeColor('--border-control-focus')
+                borderColor: Common.Utils.isIE ?'#cfcfcf' :Common.UI.Themes.currentThemeColor('--border-regular-control'),
+                borderColorActive: Common.Utils.isIE? '#848484' :Common.UI.Themes.currentThemeColor('--border-control-focus')
             };
             this.scale = Common.Utils.applicationPixelRatio() >= 1 ? Common.Utils.applicationPixelRatio() : 1,
             Common.UI.MultiSlider.prototype.initialize.call(this, options);
@@ -298,6 +298,7 @@ define([
         },
 
         changeColors: function () {
+            if(Common.Utils.isIE) return;
             this.tmbOptions.borderColor = Common.UI.Themes.currentThemeColor('--border-regular-control');
             this.tmbOptions.borderColorActive = Common.UI.Themes.currentThemeColor('--border-control-focus');
             for(var i=0; i< this.thumbs.length; i++){
