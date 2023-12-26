@@ -94,13 +94,19 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             console.log(_currentControls);
         }
         if (!_focusVisible) {
-            _setFocusInActiveTab();
-        } else if (_currentLevel !== _lastLevel && _currentLevel === 0) {
+            if ($('#file-menu-panel').is(':visible')) {
+                _setFocusInActiveFileMenuItem();
+            } else {
+                _setFocusInActiveTab();
+            }
+        } else if (_currentLevel !== _lastLevel && (_currentLevel === 0 || _currentLevel === 1 && $('#file-menu-panel').is(':visible'))) {
             var id = $(_lastSection).prop('id');
             if (id === 'toolbar') {
                 _setFocusInActiveTab();
             } else if (id === 'left-menu' || id === 'right-menu') {
                 _setFocusInActiveCategory(id);
+            } else if (id === 'file-menu-panel') {
+                _setFocusInActiveFileMenuItem();
             }
         }
         var currItem = _currentControls[_currentItemIndex];
@@ -180,15 +186,28 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _setFocusInActiveCategory = function (id) {
-        var activeTab;
+        var activeCategory;
         for (var i=0; i<_currentControls.length; i++) {
             var item = $(_currentControls[i]);
             if ($(item.closest('.hint-section')).prop('id') === id && item.hasClass('btn-category') && item.hasClass('active')) {
-                activeTab = _currentControls[i];
+                activeCategory = _currentControls[i];
                 break;
             }
         }
-        if (activeTab) {
+        if (activeCategory) {
+            _currentItemIndex = i;
+        }
+    };
+
+    var _setFocusInActiveFileMenuItem = function () {
+        var activeItem;
+        for (var i=0; i<_currentControls.length; i++) {
+            if ($(_currentControls[i]).parent().hasClass('active')) {
+                activeItem = _currentControls[i];
+                break;
+            }
+        }
+        if (activeItem) {
             _currentItemIndex = i;
         }
     };
@@ -264,6 +283,17 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 if($(_currentControls[_currentItemIndex]).data('move-focus-only-tab') && e.keyCode !== Common.UI.Keys.TAB) return;
                 var turnOffHints = false,
                     btn = _currentControls[_currentItemIndex] && $(_currentControls[_currentItemIndex]);
+                var isFileMenu = $('#file-menu-panel').is(':visible'),
+                    left = e.keyCode == Common.UI.Keys.LEFT,
+                    right = e.keyCode == Common.UI.Keys.RIGHT,
+                    up = e.keyCode == Common.UI.Keys.UP,
+                    down = e.keyCode == Common.UI.Keys.DOWN,
+                    tab = e.keyCode == Common.UI.Keys.TAB,
+                    shiftTab = e.shiftKey && e.keyCode == Common.UI.Keys.TAB,
+                    isPrevItem = isFileMenu ? left || up : left || shiftTab,
+                    isNextItem = isFileMenu ? right || down : right || tab && !shiftTab,
+                    isPrevLevel = isFileMenu ? shiftTab : up,
+                    isNextLevel = isFileMenu ? tab && !shiftTab : down;
                 e.preventDefault();
                 Common.UI.Menu.Manager.hideAll();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
@@ -273,27 +303,35 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     if (btn) {
                         btn.trigger(jQuery.Event('click', {which: 1}));
                     }
-                    _hideFocus();
-                    _resetToDefault();
-                    //_lockedKeyEvents(false);
-                    Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
-                    return;
-                } else if (e.keyCode == Common.UI.Keys.LEFT) {
+                    if (btn && btn.data('tab') === 'file') {
+                        _nextLevel();
+                        _setCurrentSection(btn);
+                    } else if (isFileMenu && _currentLevel === 1) {
+                        _nextLevel();
+                        _setCurrentSection(btn);
+                        Common.Utils.ScreeenReaderHelper.speech('next level');
+                    } else {
+                        _hideFocus();
+                        _resetToDefault();
+                        Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
+                        return;
+                    }
+                } else if (isPrevItem) {
                     turnOffHints = true;
                     _prevItem();
                     Common.Utils.ScreeenReaderHelper.speech('previous item');
-                } else if (e.keyCode == Common.UI.Keys.RIGHT || e.keyCode == Common.UI.Keys.TAB) {
+                } else if (isNextItem) {
                     turnOffHints = true;
                     _nextItem();
                     Common.Utils.ScreeenReaderHelper.speech('next item');
-                } else if (e.keyCode == Common.UI.Keys.DOWN) {
+                } else if (isNextLevel) {
                     var attr = '[data-hint="' + (_currentLevel + 1) + '"]';
                     if ($(_currentSection).find(attr).length === 0) return;
                     turnOffHints = true;
                     _nextLevel();
                     _setCurrentSection(btn);
                     Common.Utils.ScreeenReaderHelper.speech('next level');
-                } else if (e.keyCode == Common.UI.Keys.UP) {
+                } else if (isPrevLevel) {
                     if (_currentLevel === 0) return;
                     turnOffHints = true;
                     _prevLevel();
