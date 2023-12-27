@@ -517,7 +517,7 @@
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
                 window.AscEmbed && window.AscEmbed.initWorker(iframe);
 
-            if (_config.document && (_config.document.isForm===undefined)) {
+            if (_config.document && (_config.document.isForm!==true && _config.document.isForm!==false)) {
                 iframe.onload = function() {
                     _sendCommand({
                         command: 'checkParams',
@@ -1037,7 +1037,7 @@
 
         if (config.document) {
             config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
-            (config.document.isForm!==undefined) && (params += "&isForm=" + config.document.isForm);
+            (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
         }
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
