@@ -73,49 +73,67 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     const handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);
 
-        let opened = false;
-        const newState = {...state};
-
-        if(opts === 'edit') {
-            if(newState.editOptionsVisible) opened = true;
-            else newState.editOptionsVisible = true;
-            newState.isOpenModal = true;
-        } else if(opts === 'add') {
-            if(newState.addOptionsVisible) opened = true;
-            else newState.addOptionsVisible = true;
-            newState.addShowOptions = showOpts;
-            newState.isOpenModal = true;
-        } else if(opts === 'settings') {
-            if(newState.settingsVisible) opened = true;
-            else newState.settingsVisible = true;
-            newState.isOpenModal = true;
-        } else if(opts === 'coauth') {
-            if(newState.collaborationVisible) opened = true;
-            else newState.collaborationVisible = true;
-            newState.isOpenModal = true;
-        } else if(opts === 'navigation') {
-            if(newState.navigationVisible) opened = true;
-            else newState.navigationVisible = true;
-        } else if(opts === 'add-link') {
-            if(newState.addLinkSettingsVisible) opened = true;
-            else newState.addLinkSettingsVisible = true;
-        } else if(opts === 'edit-link') {
-            if(newState.editLinkSettingsVisible) opened = true;
-            else newState.editLinkSettingsVisible = true;
-        } else if(opts === 'snackbar') {
-            newState.snackbarVisible = true;
-        } else if(opts === 'fab') {
-            newState.fabVisible = true;
-        } else if(opts === 'history') {
-            newState.historyVisible = true;
-        }
-
-        if(!opened) {
-            setState(newState);
-
-            if((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                f7.navbar.hide('.main-navbar');
+        setState(prevState => {
+            if(opts === 'edit') {
+                return {
+                    ...prevState,
+                    editOptionsVisible: true,
+                    isOpenModal: true
+                }
+            } else if(opts === 'add') {
+                return {
+                    ...prevState,
+                    addOptionsVisible: true,
+                    addShowOptions: showOpts,
+                    isOpenModal: true
+                }
+            } else if(opts === 'settings') {
+                return {
+                    ...prevState,
+                    settingsVisible: true,
+                    isOpenModal: true
+                }
+            } else if(opts === 'coauth') {
+                return {
+                    ...prevState,
+                    collaborationVisible: true,
+                    isOpenModal: true
+                }
+            } else if(opts === 'navigation') {
+                return {
+                    ...prevState,
+                    navigationVisible: true
+                }
+            } else if(opts === 'add-link') {
+                return {
+                    ...prevState,
+                    addLinkSettingsVisible: true
+                }
+            } else if(opts === 'edit-link') {
+                return {
+                    ...prevState,
+                    editLinkSettingsVisible: true
+                }
+            } else if(opts === 'snackbar') {
+                return {
+                    ...prevState,
+                    snackbarVisible: true
+                }
+            } else if(opts === 'fab') {
+                return {
+                    ...prevState,
+                    fabVisible: true
+                }
+            } else if(opts === 'history') {
+                return {
+                    ...prevState,
+                    historyVisible: true
+                }
             }
+        })
+           
+        if((opts === 'edit' || opts === 'coauth') && Device.phone) {
+            f7.navbar.hide('.main-navbar');
         }
     };
 

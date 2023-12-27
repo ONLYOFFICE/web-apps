@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
@@ -35,6 +35,19 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
 
+    const getNavbarTotalHeight = useCallback(() => {
+      	const navbarBg = document.querySelector('.navbar-bg');
+      	const subnavbar = document.querySelector('.subnavbar');
+  
+      	if(navbarBg && subnavbar) {
+    		return navbarBg.clientHeight + subnavbar.clientHeight;
+      	}
+
+      	return 0;
+    }, []);
+
+    const navbarHeight = useMemo(() => getNavbarTotalHeight(), []);
+
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
@@ -56,12 +69,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     useEffect(() => {
         const api = Common.EditorApi.get();
-        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
-        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
-        const navbarHeight = navbarBgHeight + subnavbarHeight;
 
         const onEngineCreated = api => {
-            if(isViewer) {
+            if(api && isViewer && navbarHeight) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -76,7 +86,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api && isViewer) {
+            if (api && isViewer && navbarHeight) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -89,21 +99,16 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const scrollHandler = offset => {
         const api = Common.EditorApi.get();
-        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
-        const subnavbar = document.querySelector('.subnavbar');
-        const subnavbarHeight = subnavbar.clientHeight;
-        const isSearchbarEnabled = subnavbar.querySelector('.searchbar').classList.contains('searchbar-enabled');
+        const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
-        if(!isSearchbarEnabled) {
-            const navbarHeight = navbarBgHeight + subnavbarHeight;
-            
+        if(!isSearchbarEnabled && navbarHeight) {
             if(offset > 0) {
-                f7.navbar.hide('.main-navbar');
                 props.closeOptions('fab');
+                f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
             } else if(offset <= 0) {
-                f7.navbar.show('.main-navbar');
                 props.openOptions('fab');
+                f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
             }
         }
