@@ -301,7 +301,7 @@ define([
                 let paramName = bHasName ? 'theme' : 'style';
                 if (arrThemes.length) {
                     for (let thInd = 0; thInd < arrThemes.length; thInd++) {
-                        result.push({[paramName]: arrThemes[thInd]});
+                        result.push({paramName: arrThemes[thInd]});
                     }
                 } else {
                     result.push({});
