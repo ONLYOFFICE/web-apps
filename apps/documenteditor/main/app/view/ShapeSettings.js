@@ -1958,7 +1958,12 @@ define([
                 ]),
                 itemTemplate: _.template(
                     '<div class="item-shadow">' +
-                        '<div style="margin-bottom:<%= offsetY %>px; margin-right:<%= offsetX %>px; box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px var(--text-tertiary);"></div>' +
+                        '<div ' +
+                            'style="margin-bottom:<%= offsetY %>px;' +
+                            'margin-right:<%= offsetX %>px;' +
+                            'box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px <% if(Common.Utils.isIE) {%>rgba(0,0,0,0.4)<%} else {%>var(--text-tertiary)<%}%>;"' +
+                        '>' +
+                        '</div>' + 
                     '</div>')
             });
             this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
