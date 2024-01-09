@@ -170,7 +170,7 @@ define([
                     me.menuPDFFormsUndo.setDisabled(disabled || !me.api.asc_getCanUndo()); // undo
                     me.menuPDFFormsRedo.setDisabled(disabled || !me.api.asc_getCanRedo()); // redo
 
-                    me.menuPDFFormsClear.setDisabled(disabled); // clear
+                    me.menuPDFFormsClear.setDisabled(disabled || !me.api.asc_IsContentControl()); // clear
                     me.menuPDFFormsCut.setDisabled(disabled || !cancopy); // cut
                     me.menuPDFFormsCopy.setDisabled(!cancopy); // copy
                     me.menuPDFFormsPaste.setDisabled(disabled) // paste;
