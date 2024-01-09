@@ -751,6 +751,7 @@ define([
                                 panel.dataRangeLeft = valid;
                             txtRange.setValue(valid);
                             txtRange.checkValidate();
+                            txtRange._input.blur();
                         }
                     };
 
@@ -780,6 +781,7 @@ define([
                     value = this.api.asc_getPrintTitlesRange(Asc.c_oAscPrintTitlesRangeType.first, type=='left', panel.cmbSheet.getValue());
                 txtRange.setValue(value);
                 txtRange.checkValidate();
+                txtRange._input.blur();
                 if (type=='top')
                     panel.dataRangeTop = value;
                 else
