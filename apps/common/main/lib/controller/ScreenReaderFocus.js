@@ -301,7 +301,11 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     return;
                 } else if (e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) {
                     if (btn) {
-                        btn.trigger(jQuery.Event('click', {which: 1}));
+                        if (btn.attr('for')) { // to trigger event in checkbox
+                            $('#' + btn.attr('for')).trigger(jQuery.Event('click', {which: 1}));
+                        } else {
+                            btn.trigger(jQuery.Event('click', {which: 1}));
+                        }
                     }
                     if (btn && btn.data('tab') === 'file') {
                         _nextLevel();
