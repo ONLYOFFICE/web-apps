@@ -29,6 +29,8 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
+const isIE = /msie|trident/i.test(navigator.userAgent);
+
 var checkLocalStorage = (function () {
     try {
         var storage = window['localStorage'];
@@ -44,12 +46,10 @@ if (!window.lang) {
     window.lang = window.lang ? window.lang[1] : '';
 }
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
-if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' || (!checkLocalStorage || localStorage.getItem("ui-rtl") === null) && window.lang==='ar') {
+if ( !isIE && (checkLocalStorage && localStorage.getItem("ui-rtl") === '1' || (!checkLocalStorage || localStorage.getItem("ui-rtl") === null) && window.lang==='ar')) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
-
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 function checkScaling() {
     var matches = {

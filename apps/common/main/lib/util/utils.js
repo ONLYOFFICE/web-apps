@@ -1200,7 +1200,7 @@ Common.Utils.getKeyByValue = function(obj, value) {
 !Common.UI && (Common.UI = {});
 Common.UI.isRTL = function () {
     if ( window.isrtl === undefined ) {
-        window.isrtl = Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+        window.isrtl =  !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
     }
 
     return window.isrtl;
