@@ -517,6 +517,7 @@
     "errorUpdateVersion": "The file version has been changed. The page will be reloaded.",
     "leavePageText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "notcriticalErrorTitle": "Warning",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
     "SDK": {
       " -Section ": " -Section ",
       "above": "above",
@@ -729,7 +730,7 @@
     "textRightToLeft": "Right To Left",
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
-    "textSaveAsPdf": "Save as PDF",
+    "del_textSaveAsPdf": "Save as PDF",
     "textSearch": "Search",
     "textSetPassword": "Set Password",
     "textSettings": "Settings",

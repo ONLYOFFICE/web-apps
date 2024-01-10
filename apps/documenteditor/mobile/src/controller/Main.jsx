@@ -239,8 +239,10 @@ class MainController extends Component {
                 if (this._isDocReady)
                     return;
 
+                const { t } = this.props;
                 const appOptions = this.props.storeAppOptions;
                 const isForm = appOptions.isForm;
+                const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
 
                 f7.emit('resize');
@@ -302,6 +304,18 @@ class MainController extends Component {
                 Common.Notifications.trigger('document:ready');
                 Common.Gateway.documentReady();
                 appOptions.changeDocReady(true);
+
+                if(isOForm) {
+                    f7.dialog.create({
+                        title: t('Main.notcriticalErrorTitle'),
+                        text: t('Main.textConvertForm'),
+                        buttons: [
+                            {
+                                text: t('Main.textOk')
+                            }
+                        ]
+                    }).open();
+                }
             };
 
             const _process_array = (array, fn) => {

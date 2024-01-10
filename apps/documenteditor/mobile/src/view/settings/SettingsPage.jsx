@@ -85,7 +85,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         </ListItem> 
                     : ''),
                     (_canDownload && canFillForms && !canSubmitForms ? 
-                        <ListItem key='save-form-link' title={t('Settings.textSaveAsPdf')} link='#' className='no-indicator' onClick={settingsContext.saveAsPdf}>
+                        <ListItem key='save-form-link' title={t('Settings.textSave')} link='#' className='no-indicator' onClick={settingsContext.saveAsPdf}>
                             <Icon slot="media" icon="icon-save-form"></Icon>
                         </ListItem>
                     : ''),
