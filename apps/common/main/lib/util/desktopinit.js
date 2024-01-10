@@ -66,6 +66,11 @@ if ( window.AscDesktopEditor ) {
                 // window.desktop.themes = map_themes;
             }
         }
+
+        if ( window.RendererProcessVariable.rtl !== undefined ) {
+            const nativevars = window.RendererProcessVariable;
+            localStorage.setItem("ui-rtl", (nativevars.rtl == 'yes' || nativevars.rtl == 'true') ? 1 : 0);
+        }
     }
 
     window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
