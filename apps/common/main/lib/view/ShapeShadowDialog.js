@@ -356,7 +356,7 @@ define([
                 parseInt(this.spinTransparency.getValue()),
                 parseInt(this.spinSize.getValue()),
                 parseInt(this.spinAngle.getValue()),
-                parseInt(this.spinDistance.getValue()),
+                parseInt(this.spinDistance.getValue())
             );
             this.handler && this.handler.call(this, 'ok');
         },
