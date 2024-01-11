@@ -112,8 +112,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         var currItem = _currentControls[_currentItemIndex];
         console.log(_currentControls[_currentItemIndex]);
         if (currItem) {
-            if (($(currItem).hasClass('btn-category') && !$(currItem).hasClass('active') &&
-                $(currItem).prop('id') !== 'left-btn-support' && $(currItem).prop('id') !== "left-btn-about") ||
+            if (/*($(currItem).hasClass('btn-category') && !$(currItem).hasClass('active') &&
+                $(currItem).prop('id') !== 'left-btn-support' && $(currItem).prop('id') !== "left-btn-about") ||*/
                 ($(currItem).parent().hasClass('ribtab') && !$(currItem).parent().hasClass('active') && $(currItem).data('tab') !== 'file')) {
                 $(currItem).trigger(jQuery.Event('click', {which: 1}));
             }
@@ -306,6 +306,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                         } else {
                             btn.trigger(jQuery.Event('click', {which: 1}));
                         }
+                        if (btn.data('toggle') !== 'dropdown') btn.blur();
                     }
                     if (btn && btn.data('tab') === 'file') {
                         _nextLevel();
@@ -318,6 +319,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                         _hideFocus();
                         _resetToDefault();
                         Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
+                        _isLockedKeyEvents = false;
                         return;
                     }
                 } else if (isPrevItem) {
@@ -352,7 +354,12 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         });
     };
 
+    var _isFocusMode = function () {
+        return !!_focusMode;
+    }
+
     return {
-        init: _init
+        init: _init,
+        isFocusMode: _isFocusMode
     }
 })();

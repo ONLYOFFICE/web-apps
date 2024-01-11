@@ -644,7 +644,7 @@ Common.UI.HintManager = new(function() {
 
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
                 e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
-                !(window.PE && $('#pe-preview').is(':visible')));
+                !(window.PE && $('#pe-preview').is(':visible')) && !(Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()));
             if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
