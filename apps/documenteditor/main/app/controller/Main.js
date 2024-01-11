@@ -241,6 +241,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
+                    Common.NotificationCenter.on('doc:mode-apply',                  _.bind(this.onDocModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -831,6 +832,7 @@ define([
                     viewMode: disable,
                     reviewMode: false,
                     fillFormMode: false,
+                    viewDocMode: false,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -873,7 +875,7 @@ define([
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode, options.viewDocMode);
                 }
                 if (options.documentHolder) {
                     options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
@@ -1611,6 +1613,7 @@ define([
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
                     this.appOptions.canComments = false;
+                this.appOptions.canSwitchMode  = this.appOptions.isEdit;
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1738,6 +1741,45 @@ define([
 
                 Common.Utils.InternalSettings.set("de-settings-coauthmode", fastCoauth);
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
+            },
+
+            onDocModeApply: function(mode, force) {// force !== true - change mode only if not in view mode
+                if (!this.appOptions.canSwitchMode) return;
+
+                var disable = mode==='view',
+                    inViewMode = !!this.stackDisableActions.get({type: 'view'});
+
+                if (force) {
+                    (disable || inViewMode) && Common.NotificationCenter.trigger('editing:disable', disable, {
+                        viewMode: false,
+                        reviewMode: false,
+                        fillFormMode: false,
+                        viewDocMode: true,
+                        allowMerge: false,
+                        allowSignature: false,
+                        allowProtect: false,
+                        rightMenu: {clear: disable, disable: true},
+                        statusBar: true,
+                        leftMenu: {disable: true, previewMode: true},
+                        fileMenu: {protect: true, history: false},
+                        navigation: {disable: false, previewMode: true},
+                        comments: {disable: false, previewMode: true},
+                        chat: false,
+                        review: true,
+                        viewport: false,
+                        documentHolder: {clear: true, disable: true},
+                        toolbar: true,
+                        plugins: true,
+                        protect: true
+                    }, 'view');
+
+                    if (mode==='edit') {
+                        Common.NotificationCenter.trigger('reviewchanges:turn', false);
+                    } else if (mode==='review') {
+                        Common.NotificationCenter.trigger('reviewchanges:turn', true);
+                    }
+                }
+                (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
 
             applyModeCommonElements: function() {

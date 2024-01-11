@@ -113,7 +113,8 @@ define([
         wsLockFormatFill: 'worksheet-lock-format-fill',
         editVisibleArea: 'is-visible-area',
         userProtected: 'cell-user-protected',
-        pageBreakLock: 'page-break-lock'
+        pageBreakLock: 'page-break-lock',
+        fileMenuOpened: 'file-menu-opened'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

@@ -100,7 +100,8 @@ define([
         noAnimationRepeat: 'no-animation-repeat',
         noAnimationDuration: 'no-animation-duration',
         timingLock: 'timing-lock',
-        copyLock:   'can-copy'
+        copyLock:   'can-copy',
+        fileMenuOpened: 'file-menu-opened'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
