@@ -571,6 +571,7 @@
   "PDFE.Views.PrintWithPreview.txtPageSize": "Rozmiar strony",
   "PDFE.Views.PrintWithPreview.txtPortrait": "Pionowa",
   "PDFE.Views.PrintWithPreview.txtPrint": "Drukuj",
+  "PDFE.Views.PrintWithPreview.txtPrintPdf": "Zapisz jako PDF",
   "PDFE.Views.PrintWithPreview.txtPrintRange": "Drukuj zakres",
   "PDFE.Views.PrintWithPreview.txtRight": "Prawy",
   "PDFE.Views.PrintWithPreview.txtSelection": "Zaznaczenie",

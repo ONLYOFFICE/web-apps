@@ -540,6 +540,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtNone": "Pregledaj Ništa ",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrint": "Prikaži dugme za Brzo Štampanje u zaglavlju uređivača",
   "PDFE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Dokument će biti štampan na poslednje odabranom ili podrazumevanom štampaču",
+  "PDFE.Views.FileMenuPanels.Settings.txtScreenReader": "Uključi podršku za čitač ekrana",
   "PDFE.Views.FileMenuPanels.Settings.txtStrictTip": "Koristi \"Sačuvaj\" dugme da sinhronizuješ promene koje ti i drugi pravite",
   "PDFE.Views.FileMenuPanels.Settings.txtUseAltKey": "Koristite Alt dugme da upravljate korisničkim interfejsom koristeći tastaturu",
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Koristi Opcija dugme da upravljaš interfejsom korisnika koristeći tastaturu",

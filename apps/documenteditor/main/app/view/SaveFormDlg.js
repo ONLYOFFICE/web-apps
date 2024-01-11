@@ -159,7 +159,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         txtTitle: 'Save as Form',
         saveButtonText : 'Save',
         textEmpty: 'There are no roles associated with fields.',
-        textDescription: 'When saving to the oform, only roles with fields are added to the filling list',
+        textDescription: 'When saving to the pdf, only roles with fields are added to the filling list',
         textFill: 'Filling list',
         textAnyone: 'Anyone'
 

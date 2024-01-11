@@ -201,7 +201,11 @@ define([
             }
             /** coauthoring end **/
 
-            this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            if (this.mode.canUseViwerNavigation) {
+                this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            } else {
+                this.leftMenu.btnNavigation.hide();
+            }
 
             if (this.mode.canUseThumbnails) {
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
@@ -407,7 +411,7 @@ define([
             var value;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = this.mode.isPDFAnnotate || this.mode.isPDFEdit;
+                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && !this.mode.isOffline;
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave ) {
                 if (this.mode.canChangeCoAuthoring) {

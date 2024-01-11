@@ -248,8 +248,8 @@
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Digite um novo nome para o arquivo",
+    "textRenameFile": "Renomear arquivo"
   },
   "View": {
     "Add": {
@@ -373,10 +373,12 @@
       "textHighlightColor": "Cor de realce",
       "textHorizontalIn": "Horizontal para dentro",
       "textHorizontalOut": "Horizontal para fora",
+      "textHorizontalText": "Texto horizontal",
       "textHyperlink": "Hiperlink",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsertImage": "Inserir imagem",
+      "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último slide",
       "textLayout": "Layout",
@@ -405,7 +407,7 @@
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textPreviousSlide": "Slide anterior",
-      "textPt": "Pt",
+      "textPt": "pt",
       "textPush": "Empurrar",
       "textRecommended": "Recomendado",
       "textRemoveChart": "Remover gráfico",
@@ -416,9 +418,11 @@
       "textReplaceImage": "Substituir imagem",
       "textRequired": "Necessário",
       "textRight": "Direita",
+      "textRotateTextDown": "Girar o texto para baixo",
+      "textRotateTextUp": "Girar o texto para cima",
       "textScreenTip": "Dica de tela",
       "textSearch": "Pesquisar",
-      "textSec": "S",
+      "textSec": "s",
       "textSelectObjectToEdit": "Selecione o objeto para editar",
       "textSendToBackground": "Enviar para plano de fundo",
       "textShape": "Forma",
@@ -437,6 +441,7 @@
       "textSuperscript": "Sobrescrito",
       "textTable": "Tabela",
       "textText": "Тexto",
+      "textTextOrientation": "Orientação do texto",
       "textTheme": "Tema",
       "textTop": "Parte superior",
       "textTopLeft": "Parte superior esquerda",
@@ -452,12 +457,7 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduzir",
-      "textZoomRotate": "Zoom e Rotação",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textZoomRotate": "Zoom e Rotação"
     },
     "Settings": {
       "mniSlideStandard": "Padrão (4:3)",

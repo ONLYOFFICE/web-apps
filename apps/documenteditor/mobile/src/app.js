@@ -31,18 +31,32 @@ import { stores } from './store/mainStore.js';
 // import { LocalStorage } from '../../../common/mobile/utils/LocalStorage';
 
 const container = document.getElementById('app');
-const root = createRoot(container); 
 
-// Init F7 React Plugin
-Framework7.use(Framework7React);
+const startApp = () => {
+    const root = createRoot(container);
+    // Init F7 React Plugin
+    Framework7.use(Framework7React);
 
 // Mount React App
-root.render(
-    <I18nextProvider i18n={i18n}>
-        <Provider {...stores}>
-            {/*<Suspense fallback="loading...">*/}
+    root.render(
+        <I18nextProvider i18n={i18n}>
+            <Provider {...stores}>
+                {/*<Suspense fallback="loading...">*/}
                 <App />
-            {/*</Suspense>*/}
-        </Provider>
-    </I18nextProvider>
-);
+                {/*</Suspense>*/}
+            </Provider>
+        </I18nextProvider>
+    );
+};
+
+const params = getUrlParams(),
+      isForm = params["isForm"];
+if (isForm===undefined && listenApiMsg) {
+    listenApiMsg(function (isform) {
+        window.isPDFForm = !!isform;
+        startApp();
+    });
+} else {
+    window.isPDFForm = isForm==='true';
+    startApp();
+}

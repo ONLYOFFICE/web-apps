@@ -176,10 +176,15 @@ export class storeAppOptions {
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
-        const typeForm = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
-        this.canFillForms = this.canLicense && !!(typeForm && typeof typeForm[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.isXpsViewer = /^(?:(djvu|xps|oxps))$/.exec(document.fileType);
+        this.typeForm = /^(?:(pdf))$/.exec(document.fileType); // can fill forms only in pdf format
+        this.typeOForm = /^(?:(oform))$/.exec(document.fileType);
+        this.isOForm = !!(this.typeOForm && typeof this.typeOForm[1] === 'string');
+        this.canFillForms = this.canLicense && !!(this.typeForm && typeof this.typeForm[1] === 'string') && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.isForm = !this.isXpsViewer && !!window.isPDFForm;
         this.canProtect = permissions.protect !== false;
         this.canSubmitForms = this.canLicense && (typeof (this.customization) == 'object') && !!this.customization.submitForm && !this.isOffline;
+        this.isEditableForms = this.isForm && this.canSubmitForms;
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms) && isSupportEditFeature;
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;

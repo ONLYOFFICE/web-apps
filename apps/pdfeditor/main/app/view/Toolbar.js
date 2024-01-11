@@ -77,7 +77,9 @@ define([
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
         firstPage: 'first-page',
-        lastPage: 'last-page'
+        lastPage: 'last-page',
+        requiredNotFilled: 'required-not-filled',
+        submit: 'submit'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -126,13 +128,189 @@ define([
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
                                 {caption: me.textTabComment, action: 'comment', extcls: 'canedit', dataHintTitle: 'C'}
-                            ]
+                            ],
+                            config: config
                         }
                     );
 
                     this.btnSaveCls = 'btn-save';
                     this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
+                    this.btnSave = new Common.UI.Button({
+                        id: 'id-toolbar-btn-save',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        signals: ['disabled'],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintTitle: 'S'
+                    });
+                    this.toolbarControls.push(this.btnSave);
+                    this.btnCollabChanges = this.btnSave;
 
+                    // this.btnRotate = new Common.UI.Button({
+                    //     id: 'tlbtn-rotate',
+                    //     cls: 'btn-toolbar x-huge icon-top',
+                    //     iconCls: 'toolbar__icon btn-update',
+                    //     lock: [_set.disableOnStart],
+                    //     caption: this.capBtnRotate,
+                    //     dataHint: '1',
+                    //     dataHintDirection: 'bottom',
+                    //     dataHintOffset: 'small'
+                    // });
+                    // this.toolbarControls.push(this.btnRotate);
+
+                    this.btnAddComment = new Common.UI.Button({
+                        id: 'tlbtn-addcomment',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-add-comment',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnComment,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnAddComment);
+
+                    this.chShowComments = new Common.UI.CheckBox({
+                        lock: [_set.disableOnStart],
+                        labelText: this.capBtnShowComments,
+                        value: true,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.chShowComments);
+
+                    this.btnStrikeout = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-strikeout',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-strikeout',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16',
+                        penOptions: {color: '000000'},
+                        type: AscPDF.ANNOTATIONS_TYPES.Strikeout
+                    });
+                    this.paragraphControls.push(this.btnStrikeout);
+
+                    this.btnUnderline = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-underline',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-underline',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16',
+                        penOptions: {color: '000000'},
+                        type: AscPDF.ANNOTATIONS_TYPES.Underline
+                    });
+                    this.paragraphControls.push(this.btnUnderline);
+
+                    this.btnHighlight = new Common.UI.ButtonColored({
+                        id: 'id-toolbar-btn-highlight',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-highlight',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        enableToggle: true,
+                        allowDepress: true,
+                        split: true,
+                        menu: true,
+                        type: AscPDF.ANNOTATIONS_TYPES.Highlight,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: '0, -16',
+                        penOptions: {color: 'FFFC54', colors: [
+                                'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                                '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                            ]}
+                    });
+                    this.paragraphControls.push(this.btnHighlight);
+
+                } else if ( config.isRestrictedEdit ) {
+                    Common.UI.Mixtbar.prototype.initialize.call(this, {
+                            template: _.template(template),
+                            tabs: [
+                                {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
+                                {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'}
+                            ],
+                            config: config
+                        }
+                    );
+
+                    this.btnClear = new Common.UI.Button({
+                        id: 'id-toolbar-btn-clear',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-clear-style',
+                        lock: [_set.disableOnStart],
+                        caption: this.textClear,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnClear);
+
+                    this.btnPrevForm = new Common.UI.Button({
+                        id: 'id-toolbar-btn-prev',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-previous-field',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnPrev,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnPrevForm);
+
+                    this.btnNextForm = new Common.UI.Button({
+                        id: 'id-toolbar-btn-next',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-next-field',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnNext,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnNextForm);
+
+                    if (config.canSubmitForms) {
+                        this.btnSubmit = new Common.UI.Button({
+                            id: 'id-toolbar-btn-submit',
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-submit-form',
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            caption: this.capBtnSubmit,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnSubmit);
+                    } else if (config.canDownload) {
+                        this.btnSaveForm = new Common.UI.Button({
+                            id: 'id-toolbar-btn-download-form',
+                            cls: 'btn-toolbar x-huge icon-top',
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            iconCls: 'toolbar__icon btn-save-form',
+                            caption: config.canRequestSaveAs || !!config.saveAsUrl ? this.capBtnSaveForm : (config.isOffline ? this.capBtnSaveFormDesktop : this.capBtnDownloadForm),
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnSaveForm);
+                    }
+                }
+
+                if ( config.isEdit || config.isRestrictedEdit) {
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
@@ -147,19 +325,6 @@ define([
                         printType: 'print'
                     });
                     this.toolbarControls.push(this.btnPrint);
-
-                    this.btnSave = new Common.UI.Button({
-                        id: 'id-toolbar-btn-save',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        signals: ['disabled'],
-                        dataHint: '1',
-                        dataHintDirection: 'top',
-                        dataHintTitle: 'S'
-                    });
-                    this.toolbarControls.push(this.btnSave);
-                    this.btnCollabChanges = this.btnSave;
 
                     this.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
@@ -258,94 +423,6 @@ define([
                     });
                     this.toolbarControls.push(this.btnHandTool);
 
-                    // this.btnRotate = new Common.UI.Button({
-                    //     id: 'tlbtn-rotate',
-                    //     cls: 'btn-toolbar x-huge icon-top',
-                    //     iconCls: 'toolbar__icon btn-update',
-                    //     lock: [_set.disableOnStart],
-                    //     caption: this.capBtnRotate,
-                    //     dataHint: '1',
-                    //     dataHintDirection: 'bottom',
-                    //     dataHintOffset: 'small'
-                    // });
-                    // this.toolbarControls.push(this.btnRotate);
-
-                    this.btnAddComment = new Common.UI.Button({
-                        id: 'tlbtn-addcomment',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-comment',
-                        lock: [_set.disableOnStart],
-                        caption: this.capBtnComment,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnAddComment);
-
-                    this.chShowComments = new Common.UI.CheckBox({
-                        lock: [_set.disableOnStart],
-                        labelText: this.capBtnShowComments,
-                        value: true,
-                        dataHint    : '1',
-                        dataHintDirection: 'left',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.chShowComments);
-
-                    this.btnStrikeout = new Common.UI.ButtonColored({
-                        id: 'id-toolbar-btn-strikeout',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
-                        enableToggle: true,
-                        allowDepress: true,
-                        split: true,
-                        menu: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'},
-                        type: AscPDF.ANNOTATIONS_TYPES.Strikeout
-                    });
-                    this.paragraphControls.push(this.btnStrikeout);
-
-                    this.btnUnderline = new Common.UI.ButtonColored({
-                        id: 'id-toolbar-btn-underline',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
-                        enableToggle: true,
-                        allowDepress: true,
-                        split: true,
-                        menu: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'},
-                        type: AscPDF.ANNOTATIONS_TYPES.Underline
-                    });
-                    this.paragraphControls.push(this.btnUnderline);
-
-                    this.btnHighlight = new Common.UI.ButtonColored({
-                        id: 'id-toolbar-btn-highlight',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-highlight',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
-                        enableToggle: true,
-                        allowDepress: true,
-                        split: true,
-                        menu: true,
-                        type: AscPDF.ANNOTATIONS_TYPES.Highlight,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -16',
-                        penOptions: {color: 'FFFC54', colors: [
-                                'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
-                                '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
-                            ]}
-                    });
-                    this.paragraphControls.push(this.btnHighlight);
-
                     this.fieldPages = new Common.UI.InputFieldFixed({
                         id: 'id-toolbar-txt-pages',
                         style       : 'width: 100%;',
@@ -438,7 +515,7 @@ define([
                 this.fireEvent('render:before', [this]);
 
                 me.isCompactView = mode.isCompactView;
-                if ( mode.isEdit ) {
+                if ( mode.isEdit || mode.isRestrictedEdit) {
                     me.$el.html(me.rendererComponents(me.$layout));
                 } else {
                     me.$layout.find('.canedit').hide();
@@ -460,9 +537,8 @@ define([
                     this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
                     this.needShowSynchTip = false;
                     /** coauthoring end **/
-
-                    me.setTab('home');
                 }
+                (mode.isEdit || mode.isRestrictedEdit) && me.setTab('home');
 
                 if ( me.isCompactView )
                     me.setFolded(true);
@@ -516,6 +592,11 @@ define([
                 _injectComponent('#slot-btn-prev-page', this.btnPrevPage);
                 _injectComponent('#slot-btn-next-page', this.btnNextPage);
                 _injectComponent('#slot-chk-showcomment', this.chShowComments);
+                _injectComponent('#slot-btn-form-clear', this.btnClear);
+                _injectComponent('#slot-btn-form-prev', this.btnPrevForm);
+                _injectComponent('#slot-btn-form-next', this.btnNextForm);
+                _injectComponent('#slot-btn-form-submit', this.btnSubmit);
+                _injectComponent('#slot-btn-form-save', this.btnSaveForm);
 
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
@@ -571,7 +652,7 @@ define([
                 (new Promise( function(resolve, reject) {
                     resolve();
                 })).then(function () {
-                    if ( !config.isEdit ) return;
+                    if ( !config.isEdit && !config.isRestrictedEdit) return;
 
                     if(me.btnPrint.menu){
                         me.btnPrint.setMenu(
@@ -596,17 +677,17 @@ define([
                                 ]
                             }));
                     }
-                    if (me.btnStrikeout.menu) {
+                    if (me.btnStrikeout && me.btnStrikeout.menu) {
                         var arr = me.createPen(me.btnStrikeout, 'strikeout');
                         me.mnuStrikeoutColorPicker = arr[0];
                         me.mnuStrikeoutTransparent = arr[1];
                     }
-                    if (me.btnUnderline.menu) {
+                    if (me.btnUnderline && me.btnUnderline.menu) {
                         var arr = me.createPen(me.btnUnderline, 'underline');
                         me.mnuUnderlineColorPicker = arr[0];
                         me.mnuUnderlineTransparent = arr[1];
                     }
-                    if (me.btnHighlight.menu) {
+                    if (me.btnHighlight && me.btnHighlight.menu) {
                         var arr = me.createPen(me.btnHighlight, 'highlight');
                         me.mnuHighlightColorPicker = arr[0];
                         me.mnuHighlightTransparent = arr[1];
@@ -620,8 +701,21 @@ define([
                 }
 
                 // set hints
+                if (this.mode.isEdit) {
+                    this.btnSave.updateHint(this.btnSaveTip);
+                    this.btnAddComment.updateHint(this.tipAddComment);
+                    this.btnStrikeout.updateHint(this.textStrikeout);
+                    this.btnUnderline.updateHint(this.textUnderline);
+                    this.btnHighlight.updateHint(this.textHighlight);
+                    // this.btnRotate.updateHint(this.tipRotate);
+                } else if (this.mode.isRestrictedEdit) {
+                    this.btnClear.updateHint(this.textClearFields);
+                    this.btnPrevForm.updateHint(this.tipPrevForm);
+                    this.btnNextForm.updateHint(this.tipNextForm);
+                    this.btnSubmit && this.btnSubmit.updateHint(this.tipSubmit);
+                    this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
+                }
                 this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
-                this.btnSave.updateHint(this.btnSaveTip);
                 this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
                 this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
                 this.btnCopy.updateHint(this.tipCopy + Common.Utils.String.platformKey('Ctrl+C'));
@@ -630,11 +724,6 @@ define([
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
-                this.btnAddComment.updateHint(this.tipAddComment);
-                this.btnStrikeout.updateHint(this.textStrikeout);
-                this.btnUnderline.updateHint(this.textUnderline);
-                this.btnHighlight.updateHint(this.textHighlight);
-                // this.btnRotate.updateHint(this.tipRotate);
                 this.btnFirstPage.updateHint(this.tipFirstPage);
                 this.btnLastPage.updateHint(this.tipLastPage);
                 this.btnPrevPage.updateHint(this.tipPrevPage);
@@ -786,7 +875,21 @@ define([
             tipLastPage: 'Go to the last page',
             tipPrevPage: 'Go to the previous page',
             tipNextPage: 'Go to the next page',
-            capBtnShowComments: 'Show Comments'
+            capBtnShowComments: 'Show Comments',
+            textClearFields: 'Clear All Fields',
+            textClear: 'Clear Fields',
+            capBtnPrev: 'Previous Field',
+            capBtnNext: 'Next Field',
+            capBtnSubmit: 'Submit',
+            tipPrevForm: 'Go to the previous field',
+            tipNextForm: 'Go to the next field',
+            tipSubmit: 'Submit form',
+            textSubmited: 'Form submitted successfully',
+            capBtnSaveForm: 'Save as pdf',
+            capBtnSaveFormDesktop: 'Save as...',
+            tipSaveForm: 'Save a file as a fillable PDF',
+            capBtnDownloadForm: 'Download as pdf',
+            tipDownloadForm: 'Download a file as a fillable PDF'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

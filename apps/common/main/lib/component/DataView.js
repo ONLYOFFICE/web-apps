@@ -854,6 +854,7 @@ define([
                 } else {
                     this.pressedCtrl=false;
                     function getFirstItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
                         var first = 0;
                         while(!this.dataViewItems[first] || !this.dataViewItems[first].$el || this.dataViewItems[first].$el.hasClass('disabled')) {
                             first++;
@@ -861,6 +862,7 @@ define([
                         return first;
                     }
                     function getLastItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
                         var last = this.dataViewItems.length-1;
                         while(!this.dataViewItems[last] || !this.dataViewItems[last].$el || this.dataViewItems[last].$el.hasClass('disabled')) {
                             last--;
@@ -1395,6 +1397,7 @@ define([
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         function getFirstItemIndex() {
+                            if (this.dataViewItems.length===0) return 0;
                             var first = 0;
                             while(!this.dataViewItems[first].el.is(':visible')) {
                                 first++;

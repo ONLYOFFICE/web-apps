@@ -29,6 +29,8 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
+const isIE = /msie|trident/i.test(navigator.userAgent);
+
 var checkLocalStorage = (function () {
     try {
         var storage = window['localStorage'];
@@ -54,12 +56,10 @@ if ( window.native && window.native.rtl !== undefined ) {
     else ui_rtl = lang === 'ar';
 }
 
-if ( ui_rtl ) {
+if ( ui_rtl && !isIE ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
-
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 function checkScaling() {
     var matches = {

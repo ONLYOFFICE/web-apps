@@ -691,11 +691,17 @@ module.exports = function(grunt) {
                 localization: {
                     files: packageFile['embed']['copy']['localization']
                 },
-                'index-page': {
-                    files: packageFile['embed']['copy']['index-page']
+                indexhtml: {
+                    files: packageFile['embed']['copy']['indexhtml']
                 },
                 'images-app': {
                     files: packageFile['embed']['copy']['images-app']
+                }
+            },
+
+            inline: {
+                dist: {
+                    src: '<%= pkg.embed.copy.indexhtml[0].dest %>/*.html'
                 }
             }
         });
@@ -783,7 +789,7 @@ module.exports = function(grunt) {
                                                             'copy:images-app', 'copy:webpack-dist', 'concat', 'json-minify'/*,*/
                                                             /*'replace:writeVersion', 'replace:fixResourceUrl'*/]);
 
-    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'terser', 'less', 'copy', 'clean:postbuild']);
+    grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'terser', 'less', 'copy', 'inline', 'clean:postbuild']);
     grunt.registerTask('deploy-app-test',               ['test-app-init', 'clean:prebuild', 'terser', 'less', 'copy']);
 
     doRegisterInitializeAppTask('common',               'Common',               'common.json');
