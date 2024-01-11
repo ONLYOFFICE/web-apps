@@ -1802,16 +1802,16 @@ define([
             );
             this.btnShadowShape.menu.on('item:click', _.bind(this.onSelectShadowMenu, this));
             this.mnuShadowShapeColor.menu.on('item:click', _.bind(this.onSelectShadowColorMenu, this));
-            this.btnShadowShape.menu.on('show:before', () => {
-                if(this._state.ShadowPreset) {
-                    this.viewShadowShapePresets.selectRecord(this._state.ShadowPreset);
+            this.btnShadowShape.menu.on('show:before', function() {
+                if(me._state.ShadowPreset) {
+                    me.viewShadowShapePresets.selectRecord(me._state.ShadowPreset);
                 } else {
-                    this.viewShadowShapePresets.deselectAll();
+                    me.viewShadowShapePresets.deselectAll();
                 }
             });            
-            this.mnuShadowShapeColor.menu.on('show:before', () => {
-                if(this._state.ShadowColor) {
-                    this.mnuShadowShapeColorPicker.select(this._state.ShadowColor,true);
+            this.mnuShadowShapeColor.menu.on('show:before', function() {
+                if(me._state.ShadowColor) {
+                    me.mnuShadowShapeColorPicker.select(me._state.ShadowColor, true);
                 }
             });      
 

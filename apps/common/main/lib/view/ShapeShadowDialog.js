@@ -350,7 +350,7 @@ define([
             this.close(true);
         },
 
-        handleOkClose() {
+        handleOkClose: function() {
             this.api.setEndPointHistory();
             this.setAllProperties(
                 parseInt(this.spinTransparency.getValue()),
@@ -361,7 +361,7 @@ define([
             this.handler && this.handler.call(this, 'ok');
         },
 
-        handleCancelClose() {
+        handleCancelClose: function() {
             if(this.isShadowEmpty) {
                 var shapeProps = new Asc.asc_CShapeProperty();
                 shapeProps.asc_putShadow(null);
