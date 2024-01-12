@@ -446,6 +446,7 @@
   "PDFE.Controllers.Viewport.txtDarkMode": "Modo escuro",
   "PDFE.Views.DocumentHolder.addCommentText": "Adicionar comentário",
   "PDFE.Views.DocumentHolder.textCopy": "Copiar",
+  "PDFE.Views.DocumentHolder.textCut": "Cortar",
   "PDFE.Views.DocumentHolder.txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo ou aos seus dados.<br>Deseja continuar?",
   "PDFE.Views.FileMenu.btnBackCaption": "Abrir localização do ficheiro",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Fechar menu",

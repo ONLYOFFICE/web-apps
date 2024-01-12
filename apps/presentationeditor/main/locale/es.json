@@ -2006,6 +2006,7 @@
   "PE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "El documento se imprimirá en la última impresora seleccionada o predeterminada",
   "PE.Views.FileMenuPanels.Settings.txtRunMacros": "Habilitar todo",
   "PE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Habilitar todas las macros sin notificación",
+  "PE.Views.FileMenuPanels.Settings.txtScreenReader": "Activar el soporte para lectores de pantalla",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "Сorrección ortográfica",
   "PE.Views.FileMenuPanels.Settings.txtStopMacros": "Deshabilitar todo",
   "PE.Views.FileMenuPanels.Settings.txtStopMacrosDesc": "Deshabilitar todas las macros sin notificación",
