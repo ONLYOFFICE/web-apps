@@ -52,6 +52,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         options: {
             alias: 'RolesManagerDlg',
             contentWidth: 500,
+            separator: false,
             buttons: ['close']
         },
 
@@ -138,7 +139,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.btnUp, this.btnDown, this.rolesList, this.btnNewRole, this.btnEditRole, this.btnDeleteRole ].concat(this.getFooterButtons());
+            return [ this.btnUp, this.btnDown, this.btnNewRole, this.btnEditRole, this.btnDeleteRole, this.rolesList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -257,7 +258,7 @@ define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
             if (store.length===1 || rec.get('fields')<1) {
                 me._isWarningVisible = true;
                 Common.UI.warning({
-                    msg: Common.Utils.String.format(store.length===1 ? me.textDeleteLast : me.warnDelete, rec.get('name')),
+                    msg: Common.Utils.String.format(store.length===1 ? me.textDeleteLast : me.warnDelete, Common.Utils.String.htmlEncode(rec.get('name'))),
                     maxwidth: 600,
                     buttons: ['ok', 'cancel'],
                     callback: function(btn) {

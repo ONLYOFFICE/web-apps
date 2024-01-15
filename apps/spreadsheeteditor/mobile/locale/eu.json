@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
       "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
       "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Ez erakutsi berriro",
     "textOk": "Ados",
     "txtWarnUrl": "Esteka honetan klik egitea kaltegarria izan daiteke zure gailu eta datuentzat<br>Ziur zaude jarraitu nahi duzula?",
-    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?"
+    "warnMergeLostData": "Goren-ezkerreko gelaxkako datuak bakarrik mantenduko dira elkartutako gelaxkan.<br>Seguru zaude jarraitu nahi duzula?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Orritik irten",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Itxi historia"
+    "textCloseHistory": "Itxi historia",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Eremu hau URL helbide bat izan behar da \"http://www.adibidea.eus\" bezalakoa",
       "txtSortHigh2Low": "Antolatu handienetik txikienera",
-      "txtSortLow2High": "Antolatu txikienetik handienera"
+      "txtSortLow2High": "Antolatu txikienetik handienera",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Hautatu CSV aukerak",
@@ -811,7 +821,11 @@
       "txtUk": "Ukrainera",
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
-      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?"
+      "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

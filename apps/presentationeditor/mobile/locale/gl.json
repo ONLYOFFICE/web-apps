@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Saíu do aplicativo",
     "leaveButtonText": "Saír desta página",
     "stayButtonText": "Quedarse nesta páxina",
-    "textCloseHistory": "Pechar historial"
+    "textCloseHistory": "Pechar historial",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -442,9 +450,14 @@
       "textZoomRotate": "Ampliar e rotación",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
-      "textMorphObjects": "Objects"
+      "textMorphObjects": "Objects",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Estándar (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Concorrencia",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundición"
+      "txtScheme9": "Fundición",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -64,6 +64,7 @@ define([
             this.api = this.options.api;
             this._state=[];
             this.handler =   this.options.handler;
+            this.lockEmphasis = !!this.options.lockEmphasis;
             this.EffectGroupData = Common.define.effectData.getEffectGroupData();
             this._state.activeGroup = this.EffectGroupData[0].id;
             this._state.activeGroupValue = this.EffectGroupData[0].value;
@@ -165,14 +166,27 @@ define([
         },
 
         fillEffect: function () {
-            var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel });
+            var arr = _.where(this.allEffects, {group: this._state.activeGroup, level: this.activeLevel }),
+                lockEmphasis = this.lockEmphasis,
+                currentIndex;
             arr = _.reject(arr, function (item) {
                 return !!item.notsupported;
             });
+            if (this._state.activeGroup==='menu-effect-group-emphasis') {
+                arr.forEach(function(item, index){
+                    if (lockEmphasis && !(item.value === AscFormat.EMPHASIS_GROW_SHRINK || item.value === AscFormat.EMPHASIS_SPIN ||
+                                        item.value === AscFormat.EMPHASIS_TRANSPARENCY || item.value === AscFormat.EMPHASIS_PULSE ||
+                                        item.value === AscFormat.EMPHASIS_TEETER || item.value === AscFormat.EMPHASIS_BLINK))
+                        item.disabled = lockEmphasis;
+                    else if (currentIndex===undefined)
+                        currentIndex = index;
+                });
+
+            }
             this.lstEffectList.store.reset(arr);
             var  item = this.lstEffectList.store.findWhere({value: this._state.activeEffect});
             if(!item)
-                item = this.lstEffectList.store.at(0);
+                item = this.lstEffectList.store.at(currentIndex || 0);
             this.lstEffectList.selectRecord(item);
             this.lstEffectList.scrollToRecord(item, true);
             this._state.activeEffect = item.get('value');

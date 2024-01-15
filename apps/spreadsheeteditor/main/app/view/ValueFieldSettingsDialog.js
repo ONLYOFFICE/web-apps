@@ -247,7 +247,7 @@ define([
                 this.format.formatInfo = field.asc_getNumFormatInfo();
 
                 this.lblSourceName.html(Common.Utils.String.htmlEncode(this.cache_names[field.asc_getIndex()].asc_getName()));
-                this.inputCustomName.setValue(Common.Utils.String.htmlEncode(field.asc_getName()));
+                this.inputCustomName.setValue(field.asc_getName());
                 this.cmbSummarize.setValue(field.asc_getSubtotal());
 
                 var show_as = field.asc_getShowDataAs();

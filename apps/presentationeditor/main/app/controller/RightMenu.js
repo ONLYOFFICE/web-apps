@@ -59,10 +59,18 @@ define([
 
             this.addListeners({
                 'RightMenu': {
-                    'rightmenuclick': this.onRightMenuClick
+                    'rightmenuclick': this.onRightMenuClick,
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'ViewTab': {
                     'rightmenu:hide': _.bind(this.onRightMenuHide, this)
+                },
+                'Common.Views.Plugins': {
+                    'plugins:addtoright': _.bind(this.addNewPlugin, this),
+                    'pluginsright:open': _.bind(this.openPlugin, this),
+                    'pluginsright:close': _.bind(this.closePlugin, this),
+                    'pluginsright:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsright:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 }
             });
         },
@@ -180,11 +188,17 @@ define([
                 if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
-                    if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
+                    if (!pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(true);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, true);
+                    }
                     if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
-                    if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
+                    if (pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(false);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, false);
+                    }
                     if ( i!=Common.Utils.documentSettingsType.Slide && i!=Common.Utils.documentSettingsType.Signature)
                         lastactive = i;
                     if ( pnl.needShow ) {
@@ -273,6 +287,7 @@ define([
                     this.rightmenu.btnShape.setDisabled(disabled);
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
+                    this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
@@ -346,6 +361,8 @@ define([
                     this.onFocusObject(selectedElements);
                 }
             }
+            this.rightmenu.setButtons();
+            this.rightmenu.setMoreButton();
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -370,6 +387,7 @@ define([
                 type = Common.Utils.documentSettingsType.Signature;
             this._settings[type].hidden = disabled ? 1 : 0;
             this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
             this._settings[type].panel.setLocked(this._settings[type].locked);
         },
 
@@ -379,6 +397,7 @@ define([
                 if ( this._state.no_slides && !this.rightmenu.minimizedMode)
                     this.rightmenu.clearSelection();
                 this._settings[Common.Utils.documentSettingsType.Slide].btn.setDisabled(this._state.no_slides);
+                this.rightmenu.setDisabledMoreMenuItem(this._settings[Common.Utils.documentSettingsType.Slide].btn, this._state.no_slides);
             }
         },
 
@@ -429,6 +448,43 @@ define([
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
-        }
+        },
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.rightmenu.insertButton(button, $button);
+            this.rightmenu.insertPanel($panel);
+        },
+
+        openPlugin: function (guid) {
+            this.rightmenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.rightmenu.closePlugin(guid);
+            this.rightmenu.onBtnMenuClick();
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+        },
+
+        onHidePlugins: function() {
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.rightmenu.updatePluginButtonsIcons(icons);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                this.rightmenu.onBtnMenuClick(btn);
+                if (btn.pressed) {
+                    this.rightmenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.rightmenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+            }
+        },
     });
 });

@@ -90,8 +90,8 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
 
             this.cmbRange = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-range'),
-                style       : 'width: 132px;',
-                menuStyle   : 'min-width: 132px;max-height: 280px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 100%;max-height: 280px;',
                 editable    : false,
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',

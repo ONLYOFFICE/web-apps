@@ -56,6 +56,12 @@
       "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
-    "textCloseHistory": "Aizvērt vēsturi"
+    "textCloseHistory": "Aizvērt vēsturi",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoomIn": "Palielināt",
       "textZoomOut": "Samazināt",
       "textZoomRotate": "Palielināt un rotēt",
-      "textMorph": "Morph"
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textMorph": "Morph",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standarta (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Atvērtība",
       "txtScheme7": "Kapitāls",
       "txtScheme8": "Plūsma",
-      "txtScheme9": "Lietuve"
+      "txtScheme9": "Lietuve",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

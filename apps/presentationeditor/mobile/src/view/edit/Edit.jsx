@@ -3,7 +3,7 @@ import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import { EditLinkController } from "../../controller/edit/EditLink";
 import { Theme, Layout, Transition, Type, Effect, StyleFillColor, CustomFillColor } from './EditSlide';
-import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextBulletsLinkSettings } from './EditText';
+import { PageTextFonts, PageTextFontColor, PageTextHighlightColor, PageTextCustomFontColor, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextBulletsLinkSettings, PageOrientationTextShape } from './EditText';
 import { PageShapeStyle, PageShapeStyleNoFill, PageReplaceContainer, PageReorderContainer, PageAlignContainer, PageShapeBorderColor, PageShapeCustomBorderColor, PageShapeCustomFillColor } from './EditShape';
 import { PageImageReplace, PageImageReorder, PageImageAlign, PageLinkSettings } from './EditImage';
 import { PageTableStyle, PageTableStyleOptions, PageTableCustomFillColor, PageTableBorderColor, PageTableCustomBorderColor, PageTableReorder, PageTableAlign } from './EditTable';
@@ -86,7 +86,6 @@ const routes = [
     },
 
     // Shape
-
     {
         path: '/edit-style-shape/',
         component: PageShapeStyle
@@ -118,6 +117,10 @@ const routes = [
     {
         path: '/edit-shape-custom-fill-color/',
         component: PageShapeCustomFillColor
+    },
+    {
+        path: '/edit-text-shape-orientation/',
+        component: PageOrientationTextShape
     },
 
     // Image

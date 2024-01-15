@@ -40,6 +40,12 @@
       "textStandartColors": "Standaardkleuren",
       "textThemeColors": "Themakleuren"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -80,6 +86,7 @@
     "textCopyCutPasteActions": "Acties Kopiëren, Knippen en Plakken",
     "textDoNotShowAgain": "Niet meer laten zien.",
     "warnMergeLostData": "Alleen de gegevens in de cel linksboven blijven behouden in de samengevoegde cel.<br>Wilt u doorgaan?",
+    "menuAutofill": "Autofill",
     "textOk": "Ok",
     "txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?"
   },
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "U verlaat de applicatie",
     "leaveButtonText": "Pagina verlaten",
     "stayButtonText": "Op deze pagina blijven",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -639,6 +648,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textOk": "Ok",
       "textSave": "Save"
     },
@@ -805,11 +815,15 @@
       "txtVi": "Vietnamees",
       "txtZh": "Chinees",
       "warnDownloadAs": "Als u doorgaat met opslaan in dit formaat, gaat alle opmaak verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
+      "textDark": "Dark",
       "textDirection": "Direction",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRightToLeft": "Right To Left",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }

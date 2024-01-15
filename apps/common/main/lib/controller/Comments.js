@@ -1573,6 +1573,7 @@ define([
                     this.api.asc_addComment(comment);
                     this.view.showEditContainer(false);
                     this.mode && this.mode.canRequestSendNotify && this.view.pickEMail(comment.asc_getGuid(), commentVal);
+                    Common.NotificationCenter.trigger('comments:tryshowcomments'); // only for pdf
                     if (!_.isUndefined(this.api.asc_SetDocumentPlaceChangedEnabled)) {
                         this.api.asc_SetDocumentPlaceChangedEnabled(false);
                     }
@@ -1772,12 +1773,15 @@ define([
                     usergroups = _.intersection(usergroups, viewgroups);
                 usergroups = _.uniq(this.userGroups.concat(usergroups));
             }
-            if (this.view && this.view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
+            var view = this.view;
+            if (view && view.buttonSort && _.difference(usergroups, this.userGroups).length>0) {
                 this.userGroups = usergroups;
-                var menu = this.view.buttonSort.menu;
-                menu.items[menu.items.length-1].setVisible(this.userGroups.length>0);
-                menu.items[menu.items.length-2].setVisible(this.userGroups.length>0);
-                menu = menu.items[menu.items.length-1].menu;
+                view.hasFilters = this.userGroups.length>0;
+                view.buttonSort.updateHint(this.mode.canComments && !this.mode.compatibleFeatures ? (view.hasFilters ? view.textSortFilterMore : view.textSortMore) : (view.hasFilters ? view.textSortFilter : view.textSort));
+                var menu = view.buttonSort.menu;
+                menu.items[menu.items.length-3].setVisible(view.hasFilters);
+                menu.items[menu.items.length-4].setVisible(view.hasFilters);
+                menu = menu.items[menu.items.length-3].menu;
                 menu.removeAll();
 
                 var last = Common.Utils.InternalSettings.get(this.appPrefix + "comments-filtergroups");
@@ -1785,7 +1789,7 @@ define([
                     checkable: true,
                     checked: last===-1 || last===undefined,
                     toggleGroup: 'filtercomments',
-                    caption: this.view.textAll,
+                    caption: view.textAll,
                     value: -1
                 }));
                 this.userGroups.forEach(function(item){
@@ -1793,7 +1797,7 @@ define([
                         checkable: true,
                         checked: last === item,
                         toggleGroup: 'filtercomments',
-                        caption: Common.Utils.String.htmlEncode(item),
+                        caption: item,
                         value: item
                     }));
                 });

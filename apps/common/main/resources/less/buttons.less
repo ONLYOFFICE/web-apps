@@ -609,14 +609,14 @@
         }
     }
 
-    &:not(.disabled) {
+    &:not(.disabled):not(.btn-side-more) {
         &:focus {
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
             &.active,
             &:active {
-                border-color: @highlight-button-pressed-focus-ie;
-                border-color: @highlight-button-pressed-focus;
+                border-color: @border-button-pressed-focus-ie;
+                border-color: @border-button-pressed-focus;
                 .box-inner-shadow(0 0 0 1px @background-normal-ie);
                 .box-inner-shadow(0 0 0 @scaled-one-px-value @background-normal);
             }
@@ -950,6 +950,38 @@
         }
     }
 
+    &.svg-chartlist {
+        width: 40px;
+        height: 40px;
+        .icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        &:hover:not(.disabled) {
+            svg.icon {
+                opacity: 1;
+            }
+        }
+
+        &:active,
+        &.active {
+            &:not(.disabled) {
+                svg.icon {
+                    fill: @icon-normal-pressed-ie;
+                    fill: @icon-normal-pressed;
+                    opacity: 1;
+                }
+            }
+        }
+
+        svg.icon {
+            fill: @icon-normal-ie;
+            fill: @icon-normal;
+            opacity: 1;
+        }
+    }
+
     box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-regular-control-ie;
     box-shadow: inset 0 0 0 @scaled-one-px-value @border-regular-control;
     .border-radius(@border-radius-small);
@@ -977,10 +1009,10 @@
         .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
         &.active,
         &:active {
-            -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-            -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
-            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-            box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
+            -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
+            -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
+            box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
+            box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
         }
     }
 
@@ -1014,8 +1046,8 @@
         border-color: @border-control-focus-ie;
         border-color: @border-control-focus;
         &.active {
-            border-color: @highlight-button-pressed-focus-ie;
-            border-color: @highlight-button-pressed-focus;
+            border-color: @border-button-pressed-focus-ie;
+            border-color: @border-button-pressed-focus;
         }
     }
 
@@ -1064,6 +1096,9 @@
         .rtl & {
             right: auto;
             left: 1px;
+        }
+        .ie & {
+            top: 2px;
         }
     }
 
@@ -1196,10 +1231,10 @@
             .box-inner-shadow(0 0 0 @scaled-one-px-value @border-control-focus);
             &.active,
             &:active {
-                -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-                -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
-                box-shadow: inset 0 0 0 @scaled-one-px-value-ie @highlight-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
-                box-shadow: inset 0 0 0 @scaled-one-px-value @highlight-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
+                -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
+                -webkit-box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
+                box-shadow: inset 0 0 0 @scaled-one-px-value-ie @border-button-pressed-focus-ie, inset 0 0 0 2px @background-normal-ie;
+                box-shadow: inset 0 0 0 @scaled-one-px-value @border-button-pressed-focus, inset 0 0 0 @scaled-two-px-value @background-normal;
             }
         }
     }
@@ -1381,12 +1416,15 @@
         color: @text-inverse;
         background-color: @background-primary-dialog-button-ie;
         background-color: @background-primary-dialog-button;
-        border: 0 none;
+        border-color: @background-primary-dialog-button-ie;
+        border-color: @background-primary-dialog-button;
 
         &:hover:not(.disabled),
         &.hover:not(.disabled) {
             background-color: @highlight-primary-dialog-button-hover-ie;
             background-color: @highlight-primary-dialog-button-hover;
+            border-color: @highlight-primary-dialog-button-hover-ie;
+            border-color: @highlight-primary-dialog-button-hover;
         }
     }
 
@@ -1405,8 +1443,8 @@
             border-color: @border-control-focus-ie;
             border-color: @border-control-focus;
             &.primary {
-                border: @scaled-one-px-value-ie solid @highlight-button-pressed-focus-ie;
-                border: @scaled-one-px-value solid @highlight-button-pressed-focus;
+                border-color: @border-button-pressed-focus-ie;
+                border-color: @border-button-pressed-focus;
                 .box-inner-shadow(0 0 0 1px @background-normal-ie);
                 .box-inner-shadow(0 0 0 @scaled-one-px-value @background-normal);
             }

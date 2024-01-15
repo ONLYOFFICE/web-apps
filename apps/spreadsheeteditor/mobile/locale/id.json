@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "File saat ini akan disimpan dalam riwayat versi.",
       "titleWarningRestoreVersion": "Pulihkan versi ini?",
       "txtErrorLoadHistory": "Gagal memuat riwayat"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Jangan tampilkan lagi",
     "textOk": "OK",
     "txtWarnUrl": "Mengklik tautan ini dapat membahayakan perangkat dan data Anda.<br>Apakah Anda yakin untuk melanjutkan?",
-    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?"
+    "warnMergeLostData": "Hanya data dari sel atas-kiri akan tetap berada di sel merging. <br>Apakah Anda ingin melanjutkan?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
     "stayButtonText": "Tetap di halaman ini",
-    "textCloseHistory": "Tutup Riwayat"
+    "textCloseHistory": "Tutup Riwayat",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Yen",
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSortHigh2Low": "Sortir Tertinggi ke Terendah",
-      "txtSortLow2High": "Sortir Terendah ke Tertinggi"
+      "txtSortLow2High": "Sortir Terendah ke Tertinggi",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Pilih Opsi CSV",
@@ -811,7 +821,11 @@
       "txtUk": "Ukraina",
       "txtVi": "Vietnam",
       "txtZh": "China",
-      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?"
+      "warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

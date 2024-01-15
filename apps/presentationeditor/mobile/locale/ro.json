@@ -43,6 +43,12 @@
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
     },
+    "Themes": {
+      "dark": "Întunecat",
+      "light": "Luminos",
+      "system": "La fel ca sistemul",
+      "textTheme": "Temă"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
       "textAnonymous": "Anonim",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
-    "textCloseHistory": "Închide istoricul"
+    "textCloseHistory": "Închide istoricul",
+    "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textRenameFile": "Redenumire fișier"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "Culoare de evidențiere",
       "textHorizontalIn": "Orizontal în interior",
       "textHorizontalOut": "Orizontal în exterior",
+      "textHorizontalText": "Text orizontal",
       "textHyperlink": "Hyperlink",
       "textImage": "Imagine",
       "textImageURL": "URL-ul imaginii",
       "textInsertImage": "Inserare imagine",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
       "textLastColumn": "Ultima coloană",
       "textLastSlide": "Ultimul diapozitiv",
       "textLayout": "Aspect",
@@ -408,6 +418,8 @@
       "textReplaceImage": "Înlocuire imagine",
       "textRequired": "Obligatoriu",
       "textRight": "Dreapta",
+      "textRotateTextDown": "Rotirea textului în jos",
+      "textRotateTextUp": "Rotirea textului în sus",
       "textScreenTip": "Sfaturi ecran",
       "textSearch": "Căutare",
       "textSec": "s",
@@ -429,6 +441,7 @@
       "textSuperscript": "Exponent",
       "textTable": "Tabel",
       "textText": "Text",
+      "textTextOrientation": "Orientarea textului",
       "textTheme": "Temă",
       "textTop": "Sus",
       "textTopLeft": "Stânga sus",
@@ -462,6 +475,7 @@
       "textColorSchemes": "Scheme de culori",
       "textComment": "Comentariu",
       "textCreated": "A fost creat la",
+      "textDark": "Întunecat",
       "textDarkTheme": "Tema întunecată",
       "textDisableAll": "Se dezactivează toate",
       "textDisableAllMacrosWithNotification": "Se dezactivează toate macrocomenzileâ cu notificare",
@@ -481,6 +495,7 @@
       "textInch": "Inch",
       "textLastModified": "Data ultimei modificări",
       "textLastModifiedBy": "Modificat ultima dată de către",
+      "textLight": "Luminos",
       "textLoading": "Se încarcă...",
       "textLocation": "Locația",
       "textMacrosSettings": "Setări macrocomandă",
@@ -497,6 +512,7 @@
       "textReplaceAll": "Înlocuire peste tot",
       "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRTL": "Dreapta spre stânga (RTL)",
+      "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSettings": "Setări",
       "textShowNotification": "Afișare notificări",
@@ -504,6 +520,7 @@
       "textSpellcheck": "Verificarea ortografică",
       "textSubject": "Subiect",
       "textTel": "tel:",
+      "textTheme": "Temă",
       "textTitle": "Titlu",
       "textUnitOfMeasurement": "Unitate de măsură ",
       "textUploaded": "S-a încărcat",

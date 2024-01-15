@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
       "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
       "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Itxi historia"
+    "textCloseHistory": "Itxi historia",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "Zooma",
       "textZoomIn": "Handiagotu",
       "textZoomOut": "Txikiagotu",
-      "textZoomRotate": "Zoom eta biratu"
+      "textZoomRotate": "Zoom eta biratu",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Estandarra (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea"
+      "txtScheme9": "Sortzailea",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

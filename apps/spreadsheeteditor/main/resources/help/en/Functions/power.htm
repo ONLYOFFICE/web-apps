@@ -7,7 +7,7 @@
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
@@ -15,27 +15,31 @@
                 <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
             </div>
 			<h1>POWER Function</h1>
-			<p>The <b>POWER</b> function is one of the math and trigonometry functions. It is used to return the result of a number raised to the desired power.</p>
-			<p>The <b>POWER</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>POWER(x, y)</em></b></p> 
-			<p><em>where</em></p> 
-				<p style="text-indent: 50px;"><b><em>x</em></b> is a number you wish to raise.</p>
-				<p style="text-indent: 50px;"><b><em>y</em></b> is a power you wish to raise the number to.</p>
-			<p>The numeric values can be entered manually or included into the cell you make reference to.</p>
-			<p>To apply the <b>POWER</b> function,</p>
-			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert function</b> <div class = "icon icon-insertfunction"></div> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <div class = "icon icon-function"></div> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Math and trigonometry</b> function group from the list,</li>
-			<li>click the <b>POWER</b> function,</li>
-			<li>enter the required arguments separating them by comma,</li>
-			<li>press the <b>Enter</b> button.</li>
-			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="POWER Function" src="../images/power.png" /></p>
+			<p>The <b>POWER</b> function is one of the <a href="../UsageInstructions/InsertFunction.htm#mathtrigonometry" onclick="onhyperlinkclick(this)">math and trigonometry functions</a>. It is used to return the result of a number raised to the desired power.</p>
+			<h3>Syntax</h3> 
+			<p><b><em>POWER(number, power)</em></b></p> 
+			<p>The <b>POWER</b> function has the following arguments:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>number</em></b></td>
+                    <td>A number you wish to raise.</td>
+                </tr>
+				<tr>
+                    <td><b><em>power</em></b></td>
+                    <td>A power you wish to raise the number to.</td>
+                </tr>
+            </table>
+			
+			<h3>Notes</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>POWER</b> function.</p>
+			
+			<h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>POWER</b> function.</p>
+			<p><img alt="POWER Function" src="../images/power.png" /></p>
 		</div>
 	</body>
 </html>

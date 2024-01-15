@@ -137,7 +137,8 @@ class MainPage extends Component {
                     closeOptions: this.handleOptionsViewClosed.bind(this),
                     showOptions: this.state.addShowOptions,
                     wsLock,
-                    wsProps
+                    wsProps,
+                    isBranding
                 }}>
                     <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}

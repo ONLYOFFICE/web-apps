@@ -7,7 +7,7 @@ import ContextMenuController from '../../../../common/mobile/lib/controller/Cont
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
 import EditorUIController from '../lib/patch';
 
-@inject ( stores => ({
+@inject(stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
@@ -22,7 +22,8 @@ import EditorUIController from '../lib/patch';
     objects: stores.storeFocusObjects.settings,
     isViewer: stores.storeAppOptions.isViewer,
     isProtected: stores.storeAppOptions.isProtected,
-    typeProtection: stores.storeAppOptions.typeProtection
+    typeProtection: stores.storeAppOptions.typeProtection,
+    isForm: stores.storeAppOptions.isForm
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -276,7 +277,7 @@ class ContextMenu extends ContextMenuController {
     initMenuItems() {
         if ( !Common.EditorApi ) return [];
 
-        const { isEdit, canFillForms, isDisconnected, isViewer, canEditComments, isProtected, typeProtection } = this.props;
+        const { isEdit, canFillForms, isDisconnected, isViewer, canEditComments, isProtected, typeProtection, isForm } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -327,14 +328,14 @@ class ContextMenu extends ContextMenuController {
             }
 
             if (!isDisconnected) {
-                if (canFillForms && canCopy && !locked && (!isViewer || docExt === 'oform') && isAllowedEditing) {
+                if (canFillForms && canCopy && !locked && (!isViewer || isForm) && isAllowedEditing) {
                     itemsIcon.push({
                         event: 'cut',
                         icon: 'icon-cut'
                     });
                 }
 
-                if (canFillForms && canCopy && !locked && (!isViewer || docExt === 'oform') && isAllowedEditing) {
+                if (canFillForms && canCopy && !locked && (!isViewer || isForm) && isAllowedEditing) {
                     itemsIcon.push({
                         event: 'paste',
                         icon: 'icon-paste'

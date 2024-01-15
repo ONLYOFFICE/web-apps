@@ -63,7 +63,7 @@ define([
         hasCoeditingUsers: 'has-coediting-users',
         previewReviewMode: 'preview-review-mode', // display mode on Collaboration tab
         viewFormMode:   'view-form-mode', // view form mode on Forms tab
-        viewMode:       'view-mode', // view mode on disconnect, version history etc (used for locking buttons not in toolbar)
+        viewMode:       'view-mode', // view mode on disconnect, version history etc (used for locking buttons not in toolbar) or view mode from header mode button (for toolbar)
         hideComments:   'hide-comments', // no live comments and left panel is closed
         cantShare: 'cant-share'
     };
@@ -272,7 +272,7 @@ define([
                         caption: this.txtAccept,
                         split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-save',
-                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
+                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -284,7 +284,7 @@ define([
                         caption: this.txtReject,
                         split: !this.appConfig.canUseReviewPermissions,
                         iconCls: 'toolbar__icon btn-review-deny',
-                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
+                        lock: [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -297,7 +297,7 @@ define([
                             caption: this.txtCompare,
                             split: true,
                             iconCls: 'toolbar__icon btn-compare',
-                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
@@ -309,7 +309,7 @@ define([
                             caption: this.txtCombine,
                             split: true,
                             iconCls: 'toolbar__icon btn-combine',
-                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            lock: [_set.hasCoeditingUsers, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
@@ -319,7 +319,7 @@ define([
                     this.btnTurnOn = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-big-ic-review',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview, _set.viewMode],
                         caption: this.txtTurnon,
                         split: !this.appConfig.isReviewOnly,
                         enableToggle: true,
@@ -334,7 +334,7 @@ define([
                     this.btnPrev = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-prev',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.viewMode],
                         caption: this.txtPrev,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -345,7 +345,7 @@ define([
                     this.btnNext = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-review-next',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode, _set.viewMode],
                         caption: this.txtNext,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -361,7 +361,7 @@ define([
                         this.btnReviewView = new Common.UI.Button({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconCls: 'toolbar__icon btn-ic-reviewview',
-                            lock: [_set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                            lock: [_set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                             caption: this.txtView,
                             menu: new Common.UI.Menu({
                                 cls: 'ppm-toolbar',
@@ -429,7 +429,7 @@ define([
                     this.btnCoAuthMode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-coedit',
-                        lock: [_set.viewFormMode, _set.lostConnect, _set.docLockView],
+                        lock: [_set.viewFormMode, _set.lostConnect, _set.docLockView, _set.viewMode],
                         caption: this.txtCoAuthMode,
                         menu: true,
                         dataHint: '1',
@@ -476,7 +476,7 @@ define([
                         caption: this.txtCommentRemove,
                         split: true,
                         iconCls: 'toolbar__icon btn-rem-comment',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -487,7 +487,7 @@ define([
                         caption: this.txtCommentResolve,
                         split: true,
                         iconCls: 'toolbar__icon btn-resolve-all',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -866,6 +866,7 @@ define([
                         button.menu.items[3].setChecked(!state && !!global, true);
                     }
                 }, this);
+                Common.NotificationCenter.trigger('doc:mode-apply', state ? 'review' : 'edit', false);
             },
 
             markChanges: function(status) {
@@ -1045,7 +1046,7 @@ define([
                 caption     : this.txtAccept,
                 split       : true,
                 disabled    : this.mode.isReviewOnly || this.docProtection.isReviewOnly || !!Common.Utils.InternalSettings.get(this.appPrefix + "accept-reject-lock"),
-                lock        : [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
+                lock        : [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview, _set.viewMode],
                 menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
                         this.mnuAcceptCurrent = new Common.UI.MenuItem({
@@ -1065,7 +1066,7 @@ define([
                 cls         : 'btn-toolbar',
                 caption     : this.txtReject,
                 split       : true,
-                lock        : [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview],
+                lock        : [_set.reviewChangelock, _set.isReviewOnly, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.docLockReview, _set.viewMode],
                 menu        : this.mode.canUseReviewPermissions ? false : new Common.UI.Menu({
                     items: [
                         this.mnuRejectCurrent = new Common.UI.MenuItem({

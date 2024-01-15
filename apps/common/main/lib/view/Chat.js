@@ -59,7 +59,7 @@ define([
         storeMessages: undefined,
 
         tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
-                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= user.get("parsedName") %>',
+                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= Common.Utils.String.htmlEncode(user.get("parsedName")) %>',
                         '</div>',
                     '</li>'].join(''),
 
@@ -79,10 +79,10 @@ define([
                             '<% } else { %>',
                                 'style="background-color: <% if (msg.get("usercolor")!==null) { %> <%=msg.get("usercolor")%> <% } else { %> #cfcfcf <% }%>;"',
                             '<% } %>',
-                        '><% if (!msg.get("avatar")) { %><%=msg.get("initials")%><% } %></div>',
+                        '><% if (!msg.get("avatar")) { %><%-msg.get("initials")%><% } %></div>',
                         '<div class="user-content">',
                             '<div class="user-name" data-can-copy="true">',
-                                '<%= msg.get("parsedName") %>',
+                                '<%= Common.Utils.String.htmlEncode(msg.get("parsedName")) %>',
                             '</div>',
                             '<label class="message user-select" data-can-copy="true" tabindex="-1" oo_editor_input="true"><%= msg.get("message") %></label>',
                         '</div>',
@@ -98,7 +98,7 @@ define([
         events: {
         },
 
-        usersBoxHeight: 72,
+        usersBoxHeight: 117,
         messageBoxHeight: 70,
         addMessageBoxHeight: 110,
 
@@ -120,7 +120,7 @@ define([
 
         render: function(el) {
             el = el || this.el;
-            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength}));
+            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength, textChat: this.textChat }));
 
             this.panelBox       = $('#chat-box', this.el);
             this.panelUsers     = $('#chat-users', this.el);
@@ -140,6 +140,14 @@ define([
                 minScrollbarLength  : 40
             });
             this.panelOptions.scroller = new Common.UI.Scroller({el: $('#chat-options')});
+
+            this.buttonClose = new Common.UI.Button({
+                parentEl: $('#chat-btn-close', this.$el),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-close',
+                hint: this.textClosePanel
+            });
+            this.buttonClose.on('click', _.bind(this.onClickClosePanel, this));
 
             $('#chat-msg-btn-add', this.el).on('click', _.bind(this._onBtnAddMessage, this));
             this.txtMessage.on('keydown', _.bind(this._onKeyDown, this));
@@ -306,7 +314,7 @@ define([
                                 return me.usersBoxHeight;
                             }),
                             fmax: (function () {
-                                return me.panelBox.height() * 0.5 - me.messageBoxHeight;
+                                return Math.max(me.usersBoxHeight-20,me.panelBox.height() * 0.5 - me.messageBoxHeight);
                             })
                         }},
                     {el: items[1], rely: true, behaviour: 'splitter',
@@ -445,7 +453,13 @@ define([
             }
         },
 
-        textSend: "Send"
+        onClickClosePanel: function() {
+            Common.NotificationCenter.trigger('leftmenu:change', 'hide');
+        },
+
+        textSend: "Send",
+        textChat: "Chat",
+        textClosePanel: "Close chat"
 
     }, Common.Views.Chat || {}))
 });

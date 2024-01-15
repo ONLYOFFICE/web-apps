@@ -6,19 +6,25 @@ import { observer, inject } from "mobx-react";
 import { MainContext } from '../../page/main';
 import { SettingsContext } from '../../controller/settings/Settings';
 
-const SettingsPage = inject('storeAppOptions')(observer(props => {
+const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(props => {
     const { t } = useTranslation();
     const appOptions = props.storeAppOptions;
-    const mainContext = useContext(MainContext);
+    const storeSpreadsheetInfo = props.storeSpreadsheetInfo;
+    const {openOptions, isBranding} = useContext(MainContext);
     const settingsContext = useContext(SettingsContext);
     const _t = t('View.Settings', {returnObjects: true});
-    const navbar = <Navbar title={_t.textSettings}>
-        {Device.phone && <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>}
-    </Navbar>;
+    const docTitle = storeSpreadsheetInfo.dataDoc?.title ?? '';
+    const navbar = 
+        <Navbar>
+            <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
+            {Device.phone && 
+                <NavRight><Link popupClose=".settings-popup">{_t.textDone}</Link></NavRight>
+            }
+        </Navbar>;
 
     const onOpenOptions = name => {
         settingsContext.closeModal();
-        mainContext.openOptions(name);
+        openOptions(name);
     }
 
     let _isEdit = false,
@@ -27,7 +33,8 @@ const SettingsPage = inject('storeAppOptions')(observer(props => {
         _canAbout = true,
         _canHelp = true,
         _canPrint = false,
-        _canFeedback = true;
+        _canFeedback = true,
+        _canDisplayInfo = true;
         
     if (appOptions.isDisconnected) {
         _isEdit = false;
@@ -46,6 +53,7 @@ const SettingsPage = inject('storeAppOptions')(observer(props => {
         if (appOptions.customization) {
             _canHelp = appOptions.customization.help !== false;
             _canFeedback = appOptions.customization.feedback !== false;
+            _canDisplayInfo = appOptions.customization.info !== false;
         }
     }
     
@@ -95,9 +103,11 @@ const SettingsPage = inject('storeAppOptions')(observer(props => {
                         <Icon slot="media" icon="icon-print"></Icon>
                     </ListItem>
                 }
-                <ListItem title={_t.textSpreadsheetInfo} link="/spreadsheet-info/">
-                    <Icon slot="media" icon="icon-info"></Icon>
-                </ListItem>
+                {!(!_canDisplayInfo && isBranding) &&
+                    <ListItem title={_t.textSpreadsheetInfo} link="/spreadsheet-info/">
+                        <Icon slot="media" icon="icon-info"></Icon>
+                    </ListItem>
+                }
                 {_canHelp &&
                     <ListItem title={_t.textHelp} link="#" className='no-indicator' onClick={settingsContext.showHelp}>
                         <Icon slot="media" icon="icon-help"></Icon>
@@ -110,7 +120,7 @@ const SettingsPage = inject('storeAppOptions')(observer(props => {
                 }
                 {_canFeedback &&
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
-                            <Icon slot="media" icon="icon-feedback"></Icon>
+                        <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
                 }
             </List>

@@ -77,14 +77,24 @@ define([
                         if (!this.viewPlugins.pluginPanels[guid]) {
                             me.api.asc_pluginRun(guid, type, '');
                         } else {
-                            me.viewPlugins.liftUpPluginButton(guid);
-                            me.viewPlugins.openPlugin(guid);
+                            me.openUIPlugin(guid);
                         }
                     }
                 },
                 'LeftMenu': {
-                    'plugins:disable': function (disable) {
-                        me.viewPlugins.setDisabledLeftPluginButtons(disable);
+                    'plugins:showpanel': function (guid) {
+                        me.viewPlugins.showPluginPanel(true, guid);
+                    },
+                    'plugins:hidepanel': function (guid) {
+                        me.viewPlugins.showPluginPanel(false, guid);
+                    }
+                },
+                'RightMenu': {
+                    'plugins:showpanel': function (guid) {
+                        me.viewPlugins.showPluginPanel(true, guid);
+                    },
+                    'plugins:hidepanel': function (guid) {
+                        me.viewPlugins.showPluginPanel(false, guid);
                     }
                 }
             });
@@ -116,7 +126,7 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = (!!window.DE || !!window.PDFE) ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 
@@ -203,7 +213,7 @@ define([
 
         onAfterRender: function(panel, guid) {
             var me = this;
-            this.viewPlugins.openPlugin(guid);
+            this.openUIPlugin(guid);
             panel.pluginClose.on('click', _.bind(this.onToolClose, this, panel));
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
@@ -461,10 +471,27 @@ define([
 
         updatePluginsButtons: function() {
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
-                me = this;
+                me = this,
+                iconsInLeftMenu = [],
+                iconsInRightMenu = [];
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
+                var guid = item.get('guid');
+                if (me.viewPlugins.pluginPanels[guid]) {
+                    var menu = me.viewPlugins.pluginPanels[guid].menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
+                    menu.push({
+                        guid: guid,
+                        baseUrl: item.get('baseUrl'),
+                        parsedIcons: item.get('parsedIcons')
+                    });
+                }
             });
+            if (iconsInLeftMenu.length > 0) {
+                me.viewPlugins.fireEvent('pluginsleft:updateicons', [iconsInLeftMenu]);
+            }
+            if (iconsInRightMenu.length > 0) {
+                me.viewPlugins.fireEvent('pluginsright:updateicons', [iconsInRightMenu]);
+            }
         },
 
         onSelectPlugin: function(picker, item, record, e){
@@ -540,6 +567,47 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
+        addPluginToSideMenu: function (plugin, langName, menu) {
+            function createUniqueName (name) {
+                var n = name.toLowerCase().replace(/\s/g, '-'),
+                    panelId = 'left-panel-plugins-' + name;
+                var length = $('#' + panelId).length;
+                if (length > 0) {
+                    n = n + '-' + length;
+                }
+                return n;
+            }
+            var pluginGuid = plugin.get_Guid(),
+                model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
+                name = createUniqueName(plugin.get_Name('en'));
+            model.set({menu: menu});
+            var $button = $('<div id="slot-btn-plugins' + name + '"></div>'),
+                button = new Common.UI.Button({
+                parentEl: $button,
+                cls: 'btn-category plugin-buttons',
+                hint: langName,
+                enableToggle: true,
+                toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
+                iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
+                onlyIcon: true,
+                value: pluginGuid,
+                type: 'plugin'
+            });
+            var $panel = $('<div id="panel-plugins-' + name + '" class="plugin-panel" style="height: 100%;"></div>');
+            this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
+            this.viewPlugins.pluginPanels[pluginGuid] = new Common.Views.PluginPanel({
+                el: '#panel-plugins-' + name,
+                menu: menu
+            });
+            this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
+        },
+
+        openUIPlugin: function (guid) {
+            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
+                menu = model.get('menu');
+            this.viewPlugins.fireEvent(menu === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [guid]);
+        },
+
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
@@ -551,12 +619,9 @@ define([
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
                         langName = plugin.get_Name(lang),
-                        leftMenu = this.getApplication().getController('LeftMenu'),
-                        panelId = this.viewPlugins.addNewPluginToLeftMenu(leftMenu, plugin, variation, langName);
-                        this.viewPlugins.pluginPanels[guid] = new Common.Views.PluginPanel({
-                            el: '#' + panelId
-                        });
-                        this.viewPlugins.pluginPanels[guid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[guid], guid));
+                        menu = this.isPDFEditor ? 'left' : variation.get_Menu();
+                        !menu && (menu = 'left');
+                        this.addPluginToSideMenu(plugin, langName, menu);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
@@ -632,8 +697,10 @@ define([
                 if (panel && panel.iframePlugin) {
                     isIframePlugin = true;
                     panel.closeInsideMode(guid);
-                    this.viewPlugins.onClosePlugin(guid);
-                    delete this.viewPlugins.pluginPanels[name];
+                    this.viewPlugins.pluginPanels[guid].$el.remove();
+                    delete this.viewPlugins.pluginPanels[guid];
+                    var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
+                    this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
                 }
             }
             if (!isIframePlugin) {
@@ -771,7 +838,7 @@ define([
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: itemVar.icons2 || itemVar.icons,
+                                icons: (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -1074,7 +1141,6 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-
+        }
     }, Common.Controllers.Plugins || {}));
 });

@@ -432,7 +432,7 @@ define([
                 if (this.btnInsField.menu.items.length<1) {
                     _.each(this._state.fieldsList, function(field, index) {
                         var mnu = new Common.UI.MenuItem({
-                            caption: '«' + Common.Utils.String.htmlEncode(field) + '»',
+                            caption: '«' + field + '»',
                             field: field
                         }).on('click', function(item, e) {
                             if (me.api) {
@@ -839,6 +839,7 @@ define([
                 viewMode: disable,
                 reviewMode: false,
                 fillFormMode: false,
+                viewDocMode: false,
                 allowMerge: true,
                 allowSignature: false,
                 allowProtect: false,

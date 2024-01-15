@@ -40,6 +40,12 @@
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
     },
+    "Themes": {
+      "dark": "Oscuro",
+      "light": "Claro",
+      "system": "Igual que el sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertencia",
       "textAnonymous": "Anónimo",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "La referencia del enlace no existe. Por favor, corrija o elimine el enlace.",
     "menuAddComment": "Agregar comentario",
     "menuAddLink": "Agregar enlace ",
+    "menuAutofill": "Autocompletar",
     "menuCancel": "Cancelar",
     "menuCell": "Celda",
     "menuDelete": "Eliminar",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
-    "textCloseHistory": "Cerrar historial"
+    "textCloseHistory": "Cerrar historial",
+    "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
+    "textRenameFile": "Renombrar archivo"
   },
   "View": {
     "Add": {
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "Borde vertical interno",
       "textInteger": "Entero",
       "textInternalDataRange": "Rango de datos interno",
+      "textInvalidName": "El nombre del archivo no puede contener ninguno de los siguientes símbolos:",
       "textInvalidRange": "Rango de celdas no válido",
       "textJustified": "Justificado",
       "textLabelOptions": "Opciones de etiqueta",
@@ -672,6 +682,7 @@
       "textComments": "Comentarios",
       "textCreated": "Creado",
       "textCustomSize": "Tamaño personalizado",
+      "textDark": "Oscuro",
       "textDarkTheme": "Tema oscuro",
       "textDelimeter": "Delimitador",
       "textDirection": "Dirección ",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Última modificación por",
       "textLeft": "A la izquierda",
       "textLeftToRight": "De izquierda a derecha",
+      "textLight": "Claro",
       "textLocation": "Ubicación",
       "textLookIn": "Buscar en ",
       "textMacrosSettings": "Ajustes de macros",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textRight": "A la derecha",
       "textRightToLeft": "De derecha a izquierda",
+      "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSearchBy": "Buscar",
       "textSearchIn": "Buscar en",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Título de hoja de cálculo",
       "textSubject": "Asunto",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textTop": "Arriba",
       "textUnitOfMeasurement": "Unidad de medida",

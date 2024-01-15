@@ -45,6 +45,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -62,7 +63,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    SSE.Views.RightMenu = Backbone.View.extend(_.extend({
+    SSE.Views.RightMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#right-menu',
 
         // Compile our stats template
@@ -189,6 +190,10 @@ define([
 
             el.html(this.template({}));
 
+            this.btnMoreContainer = $('#slot-right-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tr-tl';
+
             this.btnText.setElement($('#id-right-menu-text'), false);           this.btnText.render();
             this.btnImage.setElement($('#id-right-menu-image'), false);         this.btnImage.render();
             this.btnChart.setElement($('#id-right-menu-chart'), false);         this.btnChart.render();
@@ -284,10 +289,14 @@ define([
         },
 
         onBtnMenuClick: function(btn, e) {
-            var target_pane = $("#" + this._settings[btn.options.asctype].panel);
-            var target_pane_parent = target_pane.parent();
+            var isPlugin = btn && btn.options.type === 'plugin',
+                target_pane_parent = $(this.el).find('.right-panel'),
+                target_pane;
+            if (btn && !isPlugin) {
+                target_pane = $("#" + this._settings[btn.options.asctype].panel);
+            }
 
-            if (btn.pressed) {
+            if (btn && btn.pressed) {
                 if ( this.minimizedMode ) {
                     $(this.el).width(MENU_SCALE_PART);
                     target_pane_parent.css("display", "inline-block" );
@@ -296,7 +305,7 @@ define([
                     Common.Utils.InternalSettings.set("sse-hide-right-settings", false);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
-                target_pane.addClass("active");
+                target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
@@ -309,7 +318,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-hide-right-settings", true);
             }
 
-            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
+            btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
         SetActivePane: function(type, open) {
@@ -334,7 +343,8 @@ define([
         },
 
         GetActivePane: function() {
-            return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
+            var active = this.$el.find(".settings-panel.active");
+            return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
         clearSelection: function() {
@@ -355,6 +365,11 @@ define([
                 this.scroller.update();
                 this.scroller.scrollTop(0);
             }
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnCell, this.btnTable, this.btnShape, this.btnImage, this.btnChart, this.btnText, this.btnTextArt, this.btnPivot, this.btnSlicer, this.btnSignature];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         txtParagraphSettings:       'Paragraph Settings',

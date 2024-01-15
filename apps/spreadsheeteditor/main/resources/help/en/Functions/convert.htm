@@ -7,7 +7,7 @@
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
         <div class="mainpart">
@@ -15,19 +15,33 @@
                 <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
             </div>
             <h1>CONVERT Function</h1>
-            <p>The <b>CONVERT</b> function is one of the engineering functions. It is used to convert a number from one measurement system to another. For example, CONVERT can translate a table of distances in miles to a table of distances in kilometers.</p>
-            <p>The <b>CONVERT</b> function syntax is:</p>
-            <p style="text-indent: 150px;"><b><em>CONVERT(number, from_unit, to_unit)</em></b></p>
-            <p><em>where</em></p>
-            <p style="text-indent: 50px;"><b><em>number</em></b> is the value to be converted,</p>
-            <p style="text-indent: 50px;"><b><em>from_unit</em></b> is the original measurement unit. A text string enclosed in quotes. The possible values are listed in the table below.</p>
-            <p style="text-indent: 50px;"><b><em>to_unit</em></b> is the measurement unit that the <b><em>number</em></b> should be converted to. A text string enclosed in quotes. The possible values are listed in the table below.</p>
-            <p class="note"><b>Note:</b> the <b><em>from_unit</em></b> and <b><em>to_unit</em></b> must be compatible, i.e. they should belong to the same measurement type.</p>
+            <p>The <b>CONVERT</b> function is one of the <a href="../UsageInstructions/InsertFunction.htm#engineering" onclick="onhyperlinkclick(this)">engineering functions</a>. It is used to convert a number from one measurement system to another. For example, CONVERT can translate a table of distances in miles to a table of distances in kilometers.</p>
+            <h3>Syntax</h3>
+            <p><b><em>CONVERT(number, from_unit, to_unit)</em></b></p>
+            <p>The <b>CONVERT</b> function has the following arguments:</p>
+            <table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>number</em></b></td>
+                    <td>The value to be converted.</td>
+                </tr>
+				<tr>
+                    <td><b><em>from_unit</em></b></td>
+                    <td>The original measurement unit. A text string enclosed in quotes. The possible values are listed in the table below.</td>
+                </tr>
+				<tr>
+                    <td><b><em>to_unit</em></b></td>
+                    <td>The measurement unit that the <b><em>number</em></b> should be converted to. A text string enclosed in quotes. The possible values are listed in the table below.</td>
+                </tr>
+            </table>
             <h3>Weight and mass</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Gram</td>
@@ -77,8 +91,8 @@
             <h3>Distance</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Meter</td>
@@ -136,8 +150,8 @@
             <h3>Time</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Year</td>
@@ -163,8 +177,8 @@
             <h3>Pressure</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Pascal</td>
@@ -190,8 +204,8 @@
             <h3>Force</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Newton</td>
@@ -213,8 +227,8 @@
             <h3>Energy</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Joule</td>
@@ -256,8 +270,8 @@
             <h3>Power</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Horsepower</td>
@@ -275,8 +289,8 @@
             <h3>Magnetism</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Tesla</td>
@@ -290,8 +304,8 @@
             <h3>Temperature</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Degree Celsius</td>
@@ -317,8 +331,8 @@
             <h3>Volume (or l iquid measure )</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Teaspoon</td>
@@ -424,8 +438,8 @@
             <h3>Area</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>International acre</td>
@@ -487,8 +501,8 @@
             <h3>Information</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Bit</td>
@@ -502,8 +516,8 @@
             <h3>Speed</h3>
             <table style="width: 40%">
                 <tr>
-                    <td width="50%"><b>Unit</b></td>
-                    <td width="50%"><b>Text value</b></td>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Unit</b></th>
+                    <th width="50%" style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>Admiralty knot</td>
@@ -530,9 +544,9 @@
             <h3>Prefixes</h3>
             <table style="width: 40%">
                 <tr>
-                    <td><b>Prefix</b></td>
-                    <td><b>Multiplier</b></td>
-                    <td><b>Text value</b></td>
+                    <th style="background-color: #f4f4f4"><b>Prefix</b></th>
+                    <th style="background-color: #f4f4f4"><b>Multiplier</b></th>
+                    <th style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>yotta</td>
@@ -638,9 +652,9 @@
             <h3>Binary Prefixes</h3>
             <table style="width: 40%">
                 <tr>
-                    <td><b>Prefix</b></td>
-                    <td><b>Prefix value</b></td>
-                    <td><b>Text value</b></td>
+                    <th style="background-color: #f4f4f4"><b>Prefix</b></th>
+                    <th style="background-color: #f4f4f4"><b>Prefix value</b></th>
+                    <th style="background-color: #f4f4f4"><b>Text value</b></th>
                 </tr>
                 <tr>
                     <td>yobi</td>
@@ -683,21 +697,13 @@
                     <td>"ki"</td>
                 </tr>
             </table>
-            <p>To apply the <b>CONVERT</b> function,</p>
-            <ol>
-                <li>select the cell where you wish to display the result,</li>
-                <li>
-                    click the <b>Insert function</b> <div class = "icon icon-insertfunction"></div> icon situated at the top toolbar,
-                    <br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-                    <br />or click the <div class = "icon icon-function"></div> icon situated at the formula bar,
-                </li>
-                <li>select the <b>Engineering</b> function group from the list,</li>
-                <li>click the <b>CONVERT</b> function,</li>
-                <li>enter the required arguments separating them by comma,</li>
-                <li>press the <b>Enter</b> button.</li>
-            </ol>
-            <p>The result will be displayed in the selected cell.</p>
-            <p style="text-indent: 150px;"><img alt="CONVERT Function" src="../images/convert.png" /></p>
+            <h3>Notes</h3>
+            <p>The <b><em>from_unit</em></b> and <b><em>to_unit</em></b> arguments must be compatible, i.e. they should belong to the same measurement type.</p>
+            <p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>CONVERT</b> function.</p>
+            
+            <h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>CONVERT</b> function.</p>
+            <p><img alt="CONVERT Function" src="../images/convert.png" /></p>
         </div>
 	</body>
 </html>

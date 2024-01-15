@@ -51,7 +51,11 @@ define([
                     'hide': _.bind(this.onHideChat, this)
                 },
                 'Common.Views.Plugins': {
-                    'hide':        _.bind(this.onHidePlugins, this)
+                    'plugins:addtoleft': _.bind(this.addNewPlugin, this),
+                    'pluginsleft:open': _.bind(this.openPlugin, this),
+                    'pluginsleft:close': _.bind(this.closePlugin, this),
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
@@ -66,7 +70,8 @@ define([
                     'file:show': _.bind(this.fileShowHide, this, true),
                     'file:hide': _.bind(this.fileShowHide, this, false),
                     'comments:show': _.bind(this.commentsShowHide, this, true),
-                    'comments:hide': _.bind(this.commentsShowHide, this, false)
+                    'comments:hide': _.bind(this.commentsShowHide, this, false),
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, true),
@@ -220,7 +225,7 @@ define([
                 this.leftMenu.btnChat.setDisabled(disable);
 
             this.leftMenu.btnSpellcheck.setDisabled(disable);
-            this.leftMenu.fireEvent('plugins:disable', [disable]);
+            this.leftMenu.setDisabledPluginButtons(disable);
         },
 
         createDelayedElements: function() {
@@ -250,6 +255,8 @@ define([
             Common.util.Shortcuts.resumeEvents();
             if (!this.mode.isEditMailMerge && !this.mode.isEditDiagram && !this.mode.isEditOle)
                 Common.NotificationCenter.on('cells:range',   _.bind(this.onCellsRange, this));
+            this.leftMenu.setButtons();
+            this.leftMenu.setMoreButton();
             return this;
         },
 
@@ -515,6 +522,10 @@ define([
                 this.api.asc_setLocale(parseInt(reg), Common.localStorage.getItem("sse-settings-decimal-separator"), Common.localStorage.getItem("sse-settings-group-separator"));
             }
 
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
+
             menu.hide();
 
             this.leftMenu.fireEvent('settings:apply');
@@ -587,17 +598,47 @@ define([
             $(this.leftMenu.btnChat.el).blur();
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
+        /** coauthoring end **/
 
         onHidePlugins: function() {
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
-        /** coauthoring end **/
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.leftMenu.insertButton(button, $button);
+            this.leftMenu.insertPanel($panel);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                if (btn.pressed) {
+                    this.tryToShowLeftMenu();
+                    this.leftMenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.leftMenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                this.leftMenu.onBtnMenuClick(btn);
+            }
+        },
+
+        openPlugin: function (guid) {
+            this.leftMenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.leftMenu.closePlugin(guid);
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
+        },
 
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -609,7 +650,7 @@ define([
             this.leftMenu.btnChat.setDisabled(true);
             /** coauthoring end **/
             this.leftMenu.btnSpellcheck.setDisabled(true);
-            this.leftMenu.fireEvent('plugins:disable', [true]);
+            this.leftMenu.setDisabledPluginButtons(true);
 
             this.leftMenu.getMenu('file').setMode({isDisconnected: true, enableDownload: !!enableDownload});
         },
@@ -799,7 +840,7 @@ define([
                             return false;
                         }
                     }
-                    if ( this.leftMenu.btnAbout.pressed ||
+                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() ||
                         ($(e.target).parents('#left-menu').length || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
@@ -911,6 +952,10 @@ define([
                 } else if (this.leftMenu.btnSpellcheck.isActive() && this.api) {
                     this.leftMenu.btnSpellcheck.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSpellcheck);
+                }
+                else if (this.leftMenu.btnChat.isActive()) {
+                    this.leftMenu.btnChat.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
         },

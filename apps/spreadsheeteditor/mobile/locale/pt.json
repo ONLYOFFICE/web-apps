@@ -40,6 +40,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores de tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "O mesmo que sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anônimo",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "A referência de link não existe. Corrija o link ou o exclua.",
     "menuAddComment": "Adicionar comentário",
     "menuAddLink": "Adicionar Link",
+    "menuAutofill": "Preenchimento automático",
     "menuCancel": "Cancelar",
     "menuCell": "Célula",
     "menuDelete": "Excluir",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Digite um novo nome para o arquivo",
+    "textRenameFile": "Renomear arquivo"
   },
   "View": {
     "Add": {
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "Limite vertical interior",
       "textInteger": "Inteiro",
       "textInternalDataRange": "Intervalo de dados interno",
+      "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
       "textInvalidRange": "Intervalo de células inválido",
       "textJustified": "Justificado",
       "textLabelOptions": "Opções de rótulos",
@@ -672,6 +682,7 @@
       "textComments": "Comentários",
       "textCreated": "Criado",
       "textCustomSize": "Tamanho personalizado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema Escuro",
       "textDelimeter": "Delimitador",
       "textDirection": "Direção",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Última Modificação Por",
       "textLeft": "Esquerda",
       "textLeftToRight": "Da esquerda para a direita",
+      "textLight": "Claro",
       "textLocation": "Localização",
       "textLookIn": "Olhar em",
       "textMacrosSettings": "Configurações de macros",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRight": "Direita",
       "textRightToLeft": "Da direita para a esquerda",
+      "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSearchBy": "Pesquisar",
       "textSearchIn": "Procurar em",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Título da planilha",
       "textSubject": "Assunto",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textTop": "Superior",
       "textUnitOfMeasurement": "Unidade de medida",

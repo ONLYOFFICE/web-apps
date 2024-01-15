@@ -7,7 +7,7 @@
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
@@ -15,27 +15,35 @@
                 <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
             </div>
 			<h1>RANK.EQ Function</h1>
-			<p>The <b>RANK.EQ</b> function is one of the statistical functions. It is used to return the rank of a number in a list of numbers. The rank of a number is its size relative to other values in a list (if you were to sort the list, the rank of the number would be its position). If more than one value has the same rank, the top rank of that set of values is returned.</p>
-			<p>The <b>RANK.EQ</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>RANK.EQ(number, ref[, order])</em></b></p> 
-			<p><em>where</em></p> 
-				<p style="text-indent: 50px;"><b><em>number</em></b> is the value you want to find the rank for.</p>
-				<p style="text-indent: 50px;"><b><em>ref</em></b> is the selected range of cells containing the specified <b><em>number</em></b>.</p>
-				<p style="text-indent: 50px;"><b><em>order</em></b> is the numeric value that specifyes how to order the <b><em>ref</em></b> array. It is an optional argument. If it is 0 or omitted, the function ranks <b><em>number</em></b> as if <b><em>ref</em></b> were a list sorted in descending order. Аny other numeric value is treated as the value 1 and the function ranks <b><em>number</em></b> as if <b><em>ref</em></b> were a list sorted in ascending order.</p>
-			<p>To apply the <b>RANK.EQ</b> function,</p>
-			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert function</b> <div class = "icon icon-insertfunction"></div> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <div class = "icon icon-function"></div> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Statistical</b> function group from the list,</li>
-			<li>click the <b>RANK.EQ</b> function,</li>
-			<li>enter the required arguments separating them by commas,</li>
-			<li>press the <b>Enter</b> button.</li>
-			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="RANK.EQ Function" src="../images/rank-eq.png" /></p>
+			<p>The <b>RANK.EQ</b> function is one of the <a href="../UsageInstructions/InsertFunction.htm#statistical" onclick="onhyperlinkclick(this)">statistical functions</a>. It is used to return the rank of a number in a list of numbers. The rank of a number is its size relative to other values in a list (if you were to sort the list, the rank of the number would be its position). If more than one value has the same rank, the top rank of that set of values is returned.</p>
+			<h3>Syntax</h3> 
+			<p><b><em>RANK.EQ(number, ref, [order])</em></b></p> 
+			<p>The <b>RANK.EQ</b> function has the following arguments:</p> 
+			<table style="width: 40%">
+                <tr>
+                    <th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+                    <th style="background-color: #f4f4f4"><b>Description</b></th>
+                </tr>
+                <tr>
+                    <td><b><em>number</em></b></td>
+                    <td>The value you want to find the rank for.</td>
+                </tr>
+				<tr>
+                    <td><b><em>ref</em></b></td>
+                    <td>The selected range of cells containing the specified <b><em>number</em></b>.</td>
+                </tr>
+				<tr>
+                    <td><b><em>order</em></b></td>
+                    <td>The numeric value that specifyes how to order the <b><em>ref</em></b> array. It is an optional argument. If it is 0 or omitted, the function ranks <b><em>number</em></b> as if <b><em>ref</em></b> were a list sorted in descending order. Any other numeric value is treated as the value 1 and the function ranks <b><em>number</em></b> as if <b><em>ref</em></b> were a list sorted in ascending order.</td>
+                </tr>
+            </table>
+			
+			<h3>Notes</h3>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>RANK.EQ</b> function.</p>
+			
+			<h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>RANK.EQ</b> function.</p>
+			<p><img alt="RANK.EQ Function" src="../images/rank-eq.png" /></p>
 		</div>
 	</body>
 </html>

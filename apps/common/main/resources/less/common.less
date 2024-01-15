@@ -110,11 +110,8 @@ label {
     }
 }
 
-#left-btn-plugins-more {
-    width: 100%;
-    .btn {
-        z-index: 0;
-    }
+.btn-side-more.btn {
+    z-index: 0;
 }
 
 .btn-category.plugin-buttons {
@@ -152,7 +149,6 @@ label {
     width: 220px;
     height: 100%;
     display: none;
-    padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
@@ -162,7 +158,14 @@ label {
     .rtl & {
         border-right: @scaled-one-px-value solid @border-toolbar;
         border-left: 0 none;
-        padding: 0 15px 0 10px;
+    }
+
+    .settings-panel {
+        padding: 0 10px 0 15px;
+
+        .rtl & {
+            padding: 0 15px 0 10px;
+        }
     }
 }
 
@@ -213,6 +216,13 @@ label {
         position: relative;
     }
 
+    .beta-hint {
+        background-color: #ffb400;
+        color: #6e4e00;
+        padding: 3px 5px;
+        border-radius: 2px;
+        .margin-left-10();
+    }
 }
 
 .settings-panel {
@@ -277,6 +287,13 @@ label {
             opacity: @component-disabled-opacity;
             cursor: default !important;
         }
+    }
+}
+
+.plugin-panel {
+    display: none;
+    &.active {
+        display: block;
     }
 }
 
@@ -388,4 +405,31 @@ body {
 .color-btn-wrap {
     display: flex;
     align-items: center;
+}
+
+.menu-add-smart-art {
+    .loading-item {
+        .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
+        .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .loading-spinner {
+            display: block;
+            width: 28px;
+            height: 28px;
+            background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==)";
+            background-color: transparent;
+            opacity: 0.5;
+            animation-duration: .8s;
+            animation-name: rotation;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+
+            .theme-type-dark & {
+                opacity: 0.8;
+            }
+        }
+    }
 }

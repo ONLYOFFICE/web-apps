@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
@@ -11,6 +11,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
     const isEdit = appOptions.isEdit;
+    const isForm = appOptions.isForm;
+    const canFillForms = appOptions.canFillForms;
+    const canSubmitForms = appOptions.canSubmitForms;
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const isViewer = appOptions.isViewer;
@@ -31,6 +34,19 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const storeDocumentInfo = props.storeDocumentInfo;
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
+
+    const getNavbarTotalHeight = useCallback(() => {
+      	const navbarBg = document.querySelector('.navbar-bg');
+      	const subnavbar = document.querySelector('.subnavbar');
+  
+      	if(navbarBg && subnavbar) {
+    		return navbarBg.clientHeight + subnavbar.clientHeight;
+      	}
+
+      	return 0;
+    }, []);
+
+    const navbarHeight = useMemo(() => getNavbarTotalHeight(), []);
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -53,12 +69,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     useEffect(() => {
         const api = Common.EditorApi.get();
-        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
-        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
-        const navbarHeight = navbarBgHeight + subnavbarHeight;
 
         const onEngineCreated = api => {
-            if(isViewer) {
+            if(api && isViewer && navbarHeight) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_registerCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -73,7 +86,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         return () => {
             const api = Common.EditorApi.get();
 
-            if (api && isViewer) {
+            if (api && isViewer && navbarHeight) {
                 api.SetMobileTopOffset(navbarHeight, navbarHeight);
                 api.asc_unregisterCallback('onMobileScrollDelta', scrollHandler);
             }
@@ -86,18 +99,18 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const scrollHandler = offset => {
         const api = Common.EditorApi.get();
-        const navbarBgHeight = document.querySelector('.navbar-bg').clientHeight;
-        const subnavbarHeight = document.querySelector('.subnavbar').clientHeight;
-        const navbarHeight = navbarBgHeight + subnavbarHeight;
+        const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
-        if(offset > 0) {
-            f7.navbar.hide('.main-navbar');
-            props.closeOptions('fab');
-            api.SetMobileTopOffset(undefined, 0);
-        } else if(offset <= 0) {
-            f7.navbar.show('.main-navbar');
-            props.openOptions('fab');
-            api.SetMobileTopOffset(undefined, navbarHeight);
+        if(!isSearchbarEnabled && navbarHeight) {
+            if(offset > 0) {
+                props.closeOptions('fab');
+                f7.navbar.hide('.main-navbar');
+                api.SetMobileTopOffset(undefined, 0);
+            } else if(offset <= 0) {
+                props.openOptions('fab');
+                f7.navbar.show('.main-navbar');
+                api.SetMobileTopOffset(undefined, navbarHeight);
+            }
         }
     }
 
@@ -337,8 +350,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     }
 
     const saveForm = () => {
-        const isSubmitForm = appOptions.canFillForms && appOptions.canSubmitForms;
-        const isSavePdf = appOptions.canDownload && appOptions.canFillForms && !appOptions.canSubmitForms;
+        const isSubmitForm = canFillForms && canSubmitForms;
+        const isSavePdf = appOptions.canDownload && canFillForms && !canSubmitForms;
 
         if(isSubmitForm) submitForm();
         if(isSavePdf) saveAsPdf();
@@ -393,6 +406,8 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             moveNextField={moveNextField}
             movePrevField={movePrevField}
             saveForm={saveForm}
+            isForm={isForm}
+            canFillForms={canFillForms}
         />
     )
 }));

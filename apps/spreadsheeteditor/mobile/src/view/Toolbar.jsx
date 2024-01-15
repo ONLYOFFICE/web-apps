@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect} from 'react';
-import {NavLeft, NavRight, NavTitle, Link} from 'framework7-react';
+import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
 import { useTranslation } from 'react-i18next';
@@ -59,7 +59,11 @@ const ToolbarView = props => {
                 }}>{t("Toolbar.textCloseHistory")}</a> : null}
                 {(Device.ios && !isVersionHistoryMode) && undo_box}
             </NavLeft>
-            {(!Device.phone && !isVersionHistoryMode) && <NavTitle style={{width: '71%'}}>{props.docTitle}</NavTitle>}
+            {(!Device.phone && !isVersionHistoryMode) && 
+                <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
+                    {props.docTitle}
+                </div>
+            }
             <NavRight>
                 {(Device.android && !isVersionHistoryMode) && undo_box}
                 {(props.showEditDocument && !isVersionHistoryMode) &&

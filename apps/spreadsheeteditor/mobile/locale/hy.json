@@ -40,6 +40,12 @@
       "textStandartColors": "Ստանդարտ գույներ",
       "textThemeColors": "Ոճի գույներ"
     },
+    "Themes": {
+      "dark": "Մուգ",
+      "light": "Բաց",
+      "system": "Նույնը, ինչ համակարգը",
+      "textTheme": "Ոճ"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Զգուշացում",
       "textAnonymous": "Անանուն",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "Հղման հղումը գոյություն չունի:Խնդրում ենք ուղղել հղումը կամ ջնջել այն։",
     "menuAddComment": "Ավելացնել մեկնաբանություն",
     "menuAddLink": "Հավելել հղում",
+    "menuAutofill": "Ինքնալրացում",
     "menuCancel": "Չեղարկել",
     "menuCell": "Վանդակ",
     "menuDelete": "Ջնջել",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
-    "textCloseHistory": "Փակել պատմությունը"
+    "textCloseHistory": "Փակել պատմությունը",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Յուան",
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
-      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:"
+      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",
@@ -672,6 +682,7 @@
       "textComments": "Մեկնաբանություններ",
       "textCreated": "Ստեղծված",
       "textCustomSize": "Հարմարեցված չափ",
+      "textDark": "Մուգ",
       "textDarkTheme": "Մուգ ոճ",
       "textDelimeter": "Բաժանիչ",
       "textDirection": "Ուղղություն",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Վերջին փոփոխման հեղինակ",
       "textLeft": "Ձախ",
       "textLeftToRight": "Ձախից աջ",
+      "textLight": "Բաց",
       "textLocation": "Տեղ",
       "textLookIn": "Որոնման տարածք",
       "textMacrosSettings": "Մակրոների կարգավորումներ",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textRight": "Աջ",
       "textRightToLeft": "Աջից ձախ",
+      "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Որոնել",
       "textSearchBy": "Որոնել",
       "textSearchIn": "Որոնման տարածք",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Աղյուսակաթերթի անուն",
       "textSubject": "Նյութ",
       "textTel": "Հեռ.",
+      "textTheme": "Ոճ",
       "textTitle": "Վերնագիր",
       "textTop": "Վերև",
       "textUnitOfMeasurement": "Չափման միավոր",

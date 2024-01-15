@@ -159,10 +159,14 @@ define([
                             .on('combo:blur',    _.bind(me.onComboBlur, me, false));
                     });
 
-                    me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function (btn, state) {
-                        if (state !== me.view.btnNavigation.pressed)
-                            me.view.turnNavigation(state);
-                    });
+                    if (me.view.btnNavigation) {
+                        me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function (btn, state) {
+                            if (state !== me.view.btnNavigation.pressed)
+                                me.view.turnNavigation(state);
+                        });
+                    } else {
+                        me.view.$el.find('.separator-navigation').hide().prev('.group').hide();
+                    }
 
                     if (Common.UI.Themes.available()) {
                         function _fill_themes() {

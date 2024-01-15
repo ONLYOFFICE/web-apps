@@ -40,6 +40,12 @@
       "textStandartColors": "Standart Renkler",
       "textThemeColors": "Tema Renkleri"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -80,6 +86,7 @@
     "textDoNotShowAgain": "Tekrar gösterme",
     "txtWarnUrl": "Bu bağlantıyı tıklamak cihazınıza ve verilerinize zarar verebilir.<br>Devam etmek istediğinizden emin misiniz?",
     "warnMergeLostData": "Sadece üst sol hücredeki veri birleştirilmiş hücrede kalacaktır. <br>Devam etmek istediğinizden emin misiniz?",
+    "menuAutofill": "Autofill",
     "menuEditLink": "Edit Link",
     "textOk": "Ok"
   },
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
     "stayButtonText": "Bu Sayfada Kal",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,6 +649,7 @@
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDone": "Done",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -807,9 +817,13 @@
       "txtVi": "Viyetnam dili",
       "txtZh": "Çince",
       "warnDownloadAs": "Bu formatta kaydetmeye devam ederseniz, metin dışındaki tüm özellikler kaybolacak.<br>Devam etmek istediğinize emin misiniz?",
+      "textDark": "Dark",
       "textDirection": "Direction",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }

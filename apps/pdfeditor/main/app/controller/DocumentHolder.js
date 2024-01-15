@@ -41,7 +41,10 @@
 
 define([
     'core',
-    'pdfeditor/main/app/view/DocumentHolder'
+    'pdfeditor/main/app/view/DocumentHolder',
+    'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SaveAsDlg'
 ], function () {
     'use strict';
 
@@ -162,6 +165,14 @@ define([
                 if (this.mode.isEdit === true) {
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
+                    this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
+                }
+                if (this.mode.isRestrictedEdit) {
+                    this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
+                    this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
+                    Common.Gateway.on('insertimage',        _.bind(this.insertImage, this));
+                    Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
+                    Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
@@ -188,10 +199,20 @@ define([
         },
 
         createDelayedElements: function(view, type) {
-            var me = this;
+            var me = this,
+                view = me.documentHolder;
 
-            me.documentHolder.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
-            me.documentHolder.menuAddComment.on('click', _.bind(me.addComment, me));
+            if (type==='pdf') {
+                view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuAddComment.on('click', _.bind(me.addComment, me));
+            } else if (type==='forms') {
+                view.menuPDFFormsUndo.on('click', _.bind(me.onUndo, me));
+                view.menuPDFFormsRedo.on('click', _.bind(me.onRedo, me));
+                view.menuPDFFormsClear.on('click', _.bind(me.onClear, me));
+                view.menuPDFFormsCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            }
         },
 
         getView: function (name) {
@@ -247,10 +268,47 @@ define([
             return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: {}};
         },
 
+        fillFormsMenuProps: function(selectedElements) {
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+
+            var documentHolder = this.documentHolder;
+            if (!documentHolder.formsPDFMenu)
+                documentHolder.createDelayedElementsPDFForms();
+
+            var menu_props = {},
+                noobject = true;
+            for (var i = 0; i <selectedElements.length; i++) {
+                var elType = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                    //image
+                    menu_props.imgProps = {};
+                    menu_props.imgProps.value = elValue;
+                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+
+                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    menu_props.imgProps.content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                    menu_props.paraProps = {};
+                    menu_props.paraProps.value = elValue;
+                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
+                    menu_props.headerProps = {};
+                    menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
+            }
+
+            return (!noobject) ? {menu_to_show: documentHolder.formsPDFMenu, menu_props: menu_props} : null;
+        },
+
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = me.fillViewMenuProps();
+                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : me.fillViewMenuProps();
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -273,7 +331,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
-                var obj = me.fillViewMenuProps(selectedElements);
+                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -585,7 +643,7 @@ define([
                 var showPoint, ToolTip,
                     type = moveData.get_Type();
 
-                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type==Asc.c_oAscMouseMoveDataTypes.Form) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -597,6 +655,10 @@ define([
                         ToolTip = (_.isEmpty(hyperProps.get_ToolTip())) ? hyperProps.get_Value() : hyperProps.get_ToolTip();
                         if (ToolTip.length>256)
                             ToolTip = ToolTip.substr(0, 256) + '...';
+                    } else if (type==Asc.c_oAscMouseMoveDataTypes.Form) {
+                        ToolTip = moveData.get_FormHelpText();
+                        if (ToolTip.length>1000)
+                            ToolTip = ToolTip.substr(0, 1000) + '...';
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
@@ -777,7 +839,20 @@ define([
         },
 
         onUndo: function () {
-            this.api.Undo();
+            this.api && this.api.Undo();
+        },
+
+        onRedo: function () {
+            this.api && this.api.Redo();
+        },
+
+        onClear: function () {
+            if (this.api) {
+                var props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                if (props) {
+                    this.api.asc_ClearContentControl(props.get_InternalId());
+                }
+            }
         },
 
         onPrintSelection: function(item){
@@ -834,10 +909,20 @@ define([
             }
         },
 
+        onHidePdfFormsActions: function() {
+            this.listControlMenuPdf && this.listControlMenuPdf.isVisible() && this.listControlMenuPdf.hide();
+            var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container-pdf');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
         onShowFormsPDFActions: function(obj, x, y) {
             switch (obj.type) {
                 case AscPDF.FIELD_TYPES.combobox:
                     this.onShowListActionsPDF(obj, x, y);
+                    break;
+                case AscPDF.FIELD_TYPES.text:
+                    this.onShowDateActionsPDF(obj, x, y);
                     break;
             }
         },
@@ -845,16 +930,16 @@ define([
         onShowListActionsPDF: function(obj) {
             var isForm = true,
                 cmpEl = this.documentHolder.cmpEl,
-                menu = this.listControlMenu,
+                menu = this.listControlMenuPdf,
                 menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
                 me = this;
 
-            me._listObj = obj;
+            me._listObjPdf = obj;
             this._fromShowContentControls = true;
             Common.UI.Menu.Manager.hideAll();
 
             if (!menu) {
-                this.listControlMenu = menu = new Common.UI.Menu({
+                this.listControlMenuPdf = menu = new Common.UI.Menu({
                     maxHeight: 207,
                     menuAlign: 'tr-bl',
                     items: []
@@ -874,7 +959,7 @@ define([
                 menu.render(menuContainer);
                 menu.cmpEl.attr({tabindex: "-1"});
                 menu.on('hide:after', function(){
-                    me.listControlMenu.removeAll();
+                    me.listControlMenuPdf.removeAll();
                     if (!me._fromShowContentControls)
                         me.api.asc_UncheckContentControlButtons();
                 });
@@ -912,6 +997,387 @@ define([
                 menu.cmpEl.focus();
             }, 10);
             this._fromShowContentControls = false;
+        },
+
+        onShowDateActionsPDF: function(obj, x, y) {
+            var cmpEl = this.documentHolder.cmpEl,
+                controlsContainer = cmpEl.find('#calendar-control-container-pdf'),
+                me = this;
+
+            this._dateObjPdf = obj;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container-pdf" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control-pdf" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            var pagepos = obj.getPagePos(),
+                oGlobalCoords = AscPDF.GetGlobalCoordsByPageCoords(pagepos.x + pagepos.w, pagepos.y + pagepos.h, obj.getPage(), true);
+
+            controlsContainer.css({left: oGlobalCoords.X, top : oGlobalCoords.Y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendarPdf) {
+                this.cmpCalendarPdf = new Common.UI.Calendar({
+                    el: cmpEl.find('#id-document-calendar-control-pdf'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendarPdf.on('date:click', function (cmp, date) {
+                    var specProps = new AscCommon.CSdtDatePickerPr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetTextFormDatePickerDate(specProps);
+                    controlsContainer.hide();
+                });
+                this.cmpCalendarPdf.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                    }
+                });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                    }
+                });
+
+            }
+            var val = this._dateObjPdf ? this._dateObjPdf.asc_GetValue() : undefined;
+            if (val) {
+                val = new Date(val);
+                if (Object.prototype.toString.call(val) !== '[object Date]' || isNaN(val))
+                    val = undefined;
+            }
+            !val && (val = new Date());
+            this.cmpCalendarPdf.setDate(val);
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendarPdf.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendarPdf.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendarPdf.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
+        },
+
+        onShowContentControlsActions: function(obj, x, y) {
+            if (this._isDisabled) return;
+
+            var me = this;
+            switch (obj.type) {
+                case Asc.c_oAscContentControlSpecificType.DateTime:
+                    this.onShowDateActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.Picture:
+                    if (obj.pr && obj.pr.get_Lock) {
+                        var lock = obj.pr.get_Lock();
+                        if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
+                            return;
+                    }
+                    this.onShowImageActions(obj, x, y);
+                    break;
+                case Asc.c_oAscContentControlSpecificType.DropDownList:
+                case Asc.c_oAscContentControlSpecificType.ComboBox:
+                    this.onShowListActions(obj, x, y);
+                    break;
+            }
+        },
+
+        onHideContentControlsActions: function() {
+            this.listControlMenu && this.listControlMenu.isVisible() && this.listControlMenu.hide();
+            var controlsContainer = this.documentHolder.cmpEl.find('#calendar-control-container');
+            if (controlsContainer.is(':visible'))
+                controlsContainer.hide();
+        },
+
+        onShowImageActions: function(obj, x, y) {
+            var cmpEl = this.documentHolder.cmpEl,
+                menu = this.imageControlMenu,
+                menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this.internalFormObj = obj && obj.pr ? obj.pr.get_InternalId() : null;
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.imageControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tl-bl',
+                    items: [
+                        {caption: this.documentHolder.mniImageFromFile, value: 'file'},
+                        {caption: this.documentHolder.mniImageFromUrl, value: 'url'},
+                        {caption: this.documentHolder.mniImageFromStorage, value: 'storage', visible: this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1}
+                    ]
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        me.onImageSelect(menu, item);
+                    }, 1);
+                    setTimeout(function(){
+                        me.api.asc_UncheckContentControlButtons();
+                    }, 500);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onImageSelect: function(menu, item) {
+            if (item.value=='url') {
+                var me = this;
+                (new Common.Views.ImageFromUrlDialog({
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.setImageUrl(checkUrl);
+                                }
+                            }
+                        }
+                    }
+                })).show();
+            } else if (item.value=='storage') {
+                Common.NotificationCenter.trigger('storage:image-load', 'control');
+            } else {
+                if (this._isFromFile) return;
+                this._isFromFile = true;
+                this.api.asc_addImage(this.internalFormObj);
+                this._isFromFile = false;
+            }
+        },
+
+        openImageFromStorage: function(type) {
+            var me = this;
+            if (this.mode.canRequestInsertImage) {
+                Common.Gateway.requestInsertImage(type);
+            } else {
+                (new Common.Views.SelectFileDlg({
+                    fileChoiceUrl: this.mode.fileChoiceUrl.replace("{fileExt}", "").replace("{documentType}", "ImagesOnly")
+                })).on('selectfile', function(obj, file){
+                    file && (file.c = type);
+                    !file.images && (file.images = [{fileType: file.fileType, url: file.url}]); // SelectFileDlg uses old format for inserting image
+                    file.url = null;
+                    me.insertImage(file);
+                }).show();
+            }
+        },
+
+        setImageUrl: function(url, token) {
+            this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj && this.internalFormObj.pr ? this.internalFormObj.pr.get_InternalId() : null, token);
+        },
+
+        insertImage: function(data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+
+                var arr = [];
+                if (data.images && data.images.length>0) {
+                    for (var i=0; i<data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push( data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
+            }
+            Common.NotificationCenter.trigger('storage:image-insert', data);
+        },
+
+        insertImageFromStorage: function(data) {
+            if (data && data._urls && data.c=='control') {
+                this.setImageUrl(data._urls[0], data.token);
+            }
+        },
+
+        onShowListActions: function(obj, x, y) {
+            var type = obj.type,
+                props = obj.pr,
+                specProps = (type == Asc.c_oAscContentControlSpecificType.ComboBox) ? props.get_ComboBoxPr() : props.get_DropDownListPr(),
+                isForm = !!props.get_FormPr(),
+                cmpEl = this.documentHolder.cmpEl,
+                menu = this.listControlMenu,
+                menuContainer = menu ? cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id)) : null,
+                me = this;
+
+            this._listObj = props;
+
+            this._fromShowContentControls = true;
+            Common.UI.Menu.Manager.hideAll();
+
+            if (!menu) {
+                this.listControlMenu = menu = new Common.UI.Menu({
+                    maxHeight: 207,
+                    menuAlign: 'tr-bl',
+                    items: []
+                });
+                menu.on('item:click', function(menu, item) {
+                    setTimeout(function(){
+                        (item.value!==-1) && me.api.asc_SelectContentControlListItem(item.value, me._listObj.get_InternalId());
+                    }, 1);
+                });
+
+                // Prepare menu container
+                if (!menuContainer || menuContainer.length < 1) {
+                    menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                    cmpEl.append(menuContainer);
+                }
+
+                menu.render(menuContainer);
+                menu.cmpEl.attr({tabindex: "-1"});
+                menu.on('hide:after', function(){
+                    me.listControlMenu.removeAll();
+                    if (!me._fromShowContentControls)
+                        me.api.asc_UncheckContentControlButtons();
+                });
+            }
+            if (specProps) {
+                if (isForm){ // for dropdown and combobox form control always add placeholder item
+                    var text = props.get_PlaceholderText();
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : (text.trim()!=='') ? text : this.documentHolder.txtEmpty,
+                        value       : '',
+                        template    : _.template([
+                            '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                }
+                var count = specProps.get_ItemsCount();
+                for (var i=0; i<count; i++) {
+                    (specProps.get_ItemValue(i)!=='' || !isForm) && menu.addItem(new Common.UI.MenuItem({
+                        caption     : specProps.get_ItemDisplayText(i),
+                        value       : specProps.get_ItemValue(i),
+                        template    : _.template([
+                            '<a id="<%= id %>" style="<%= style %>" tabindex="-1" type="menuitem">',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
+                            '</a>'
+                        ].join(''))
+                    }));
+                }
+                if (!isForm && menu.items.length<1) {
+                    menu.addItem(new Common.UI.MenuItem({
+                        caption     : this.documentHolder.txtEmpty,
+                        value       : -1
+                    }));
+                }
+            }
+
+            menuContainer.css({left: x, top : y});
+            menuContainer.attr('data-value', 'prevent-canvas-click');
+            this._preventClick = true;
+            menu.show();
+
+            _.delay(function() {
+                menu.cmpEl.focus();
+            }, 10);
+            this._fromShowContentControls = false;
+        },
+
+        onShowDateActions: function(obj, x, y) {
+            var props = obj.pr,
+                specProps = props.get_DateTimePr(),
+                cmpEl = this.documentHolder.cmpEl,
+                controlsContainer = cmpEl.find('#calendar-control-container'),
+                me = this;
+
+            this._dateObj = props;
+
+            if (controlsContainer.length < 1) {
+                controlsContainer = $('<div id="calendar-control-container" style="position: absolute;z-index: 1000;"><div id="id-document-calendar-control" style="position: fixed; left: -1000px; top: -1000px;"></div></div>');
+                cmpEl.append(controlsContainer);
+            }
+
+            Common.UI.Menu.Manager.hideAll();
+
+            controlsContainer.css({left: x, top : y});
+            controlsContainer.show();
+
+            if (!this.cmpCalendar) {
+                this.cmpCalendar = new Common.UI.Calendar({
+                    el: cmpEl.find('#id-document-calendar-control'),
+                    enableKeyEvents: true,
+                    firstday: 1
+                });
+                this.cmpCalendar.on('date:click', function (cmp, date) {
+                    var specProps = me._dateObj.get_DateTimePr();
+                    specProps.put_FullDate(new  Date(date));
+                    me.api.asc_SetContentControlDatePickerDate(specProps);
+                    controlsContainer.hide();
+                    me.api.asc_UncheckContentControlButtons();
+                });
+                this.cmpCalendar.on('calendar:keydown', function (cmp, e) {
+                    if (e.keyCode==Common.UI.Keys.ESC) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+                $(document).on('mousedown', function(e) {
+                    if (e.target.localName !== 'canvas' && controlsContainer.is(':visible') && controlsContainer.find(e.target).length==0) {
+                        controlsContainer.hide();
+                        me.api.asc_UncheckContentControlButtons();
+                    }
+                });
+
+            }
+            var val = specProps ? specProps.get_FullDate() : undefined;
+            this.cmpCalendar.setDate(val ? new Date(val) : new Date());
+
+            // align
+            var offset  = controlsContainer.offset(),
+                docW    = Common.Utils.innerWidth(),
+                docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
+                menuW   = this.cmpCalendar.cmpEl.outerWidth(),
+                menuH   = this.cmpCalendar.cmpEl.outerHeight(),
+                buttonOffset = 22,
+                left = offset.left - menuW,
+                top  = offset.top;
+            if (top + menuH > docH) {
+                top = docH - menuH;
+                left -= buttonOffset;
+            }
+            if (top < 0)
+                top = 0;
+            if (left + menuW > docW)
+                left = docW - menuW;
+            this.cmpCalendar.cmpEl.css({left: left, top : top});
+
+            this._preventClick = true;
         },
 
         editComplete: function() {

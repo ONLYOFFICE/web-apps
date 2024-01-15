@@ -43,6 +43,12 @@
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
     },
+    "Themes": {
+      "textTheme": "Thema",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
       "textAnonymous": "Anonym",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Sie verlassen die Anwendung",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
-    "textCloseHistory": "Historie schließen"
+    "textCloseHistory": "Historie schließen",
+    "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
+    "textRenameFile": "Datei umbenennen"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "Hervorhebungsfarbe",
       "textHorizontalIn": "Horizontal nach innen",
       "textHorizontalOut": "Horizontal nach außen",
+      "textHorizontalText": "Horizontaler Text",
       "textHyperlink": "Hyperlink",
       "textImage": "Bild",
       "textImageURL": "Bild-URL",
       "textInsertImage": "Bild einfügen",
+      "textInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
       "textLastColumn": "Letzte Spalte",
       "textLastSlide": "Letzte Folie",
       "textLayout": "Layout",
@@ -408,6 +418,8 @@
       "textReplaceImage": "Bild ersetzen",
       "textRequired": "Erforderlich",
       "textRight": "Rechts",
+      "textRotateTextDown": "Text nach unten drehen",
+      "textRotateTextUp": "Text nach oben drehen",
       "textScreenTip": "Quick Info",
       "textSearch": "Suche",
       "textSec": "s",
@@ -429,6 +441,7 @@
       "textSuperscript": "Hochgestellt",
       "textTable": "Tabelle",
       "textText": "Text",
+      "textTextOrientation": "Textausrichtung",
       "textTheme": "Thema",
       "textTop": "Oben",
       "textTopLeft": "Oben links",
@@ -504,6 +517,7 @@
       "textSpellcheck": "Rechtschreibprüfung",
       "textSubject": "Betreff",
       "textTel": "tel.:",
+      "textTheme": "Thema",
       "textTitle": "Titel",
       "textUnitOfMeasurement": "Maßeinheit",
       "textUploaded": "Hochgeladen",
@@ -530,7 +544,10 @@
       "txtScheme6": "Concourse",
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Flow",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

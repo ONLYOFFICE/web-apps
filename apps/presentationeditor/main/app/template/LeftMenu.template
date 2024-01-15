@@ -9,14 +9,13 @@
         <button id="left-btn-support" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-support">&nbsp;</i></button>
         <button id="left-btn-about" class="btn btn-category" data-hint="0" data-hint-direction="right" data-hint-offset="big" content-target=""><i class="icon toolbar__icon btn-menu-about">&nbsp;</i></button>
         <div class="separator horizontal separator-plugins" style="display: none;"></div>
-        <div id="slot-btn-plugins-more"></div>
+        <div id="slot-left-menu-more"></div>
     </div>
-    <div class="left-panel" style="">
+    <div class="left-panel side-panel" style="">
         <div id="left-panel-search" class="" style="display: none;"></div>
         <!-- /** coauthoring begin **/ -->
         <div id="left-panel-comments" class="" style="display: none;"></div>
         <div id="left-panel-chat" class="" style="display: none;"></div>
         <!-- /** coauthoring end **/ -->
-        <div id="left-panel-plugins" class="" style="display: none; height: 100%;"></div>
     </div>
 </div>

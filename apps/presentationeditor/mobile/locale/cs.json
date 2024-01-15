@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Aktuální soubor bude uložen v historii verzí.",
       "titleWarningRestoreVersion": "Obnovit vybranou verzi? ",
       "txtErrorLoadHistory": "Načítání historie selhalo"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
-    "textCloseHistory": "Zavřít historii"
+    "textCloseHistory": "Zavřít historii",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "Přiblížení",
       "textZoomIn": "Přiblížit",
       "textZoomOut": "Oddálit",
-      "textZoomRotate": "Přiblížit a otočit"
+      "textZoomRotate": "Přiblížit a otočit",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standardní (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Hala",
       "txtScheme7": "Rovnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Slévárna"
+      "txtScheme9": "Slévárna",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

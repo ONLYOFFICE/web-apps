@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Ne mutassa újra",
     "textOk": "Rendben",
     "txtWarnUrl": "A link megnyitása káros lehet az eszközére és adataira.<br>Biztosan folytatja?",
-    "warnMergeLostData": "Csak a bal felső cellából származó adatok maradnak az egyesített cellában.<br>Biztosan folytatni szeretné?"
+    "warnMergeLostData": "Csak a bal felső cellából származó adatok maradnak az egyesített cellában.<br>Biztosan folytatni szeretné?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
-    "textCloseHistory": "Előzmények bezárása"
+    "textCloseHistory": "Előzmények bezárása",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Jen",
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
-      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez"
+      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",
@@ -811,7 +821,11 @@
       "txtUk": "Ukrán",
       "txtVi": "Vietnámi",
       "txtZh": "Kínai",
-      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?"
+      "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega de l'historial"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,17 @@
     "textType": "Tipus",
     "textWe": "dc.",
     "textWrap": "Ajustament",
-    "textWrappingStyle": "Estil d'ajustament"
+    "textWrappingStyle": "Estil d'ajustament",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
+    "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "S'ha superat el temps de conversió.",
@@ -628,6 +644,7 @@
     "textCommentsDisplay": "Visualització de comentaris",
     "textCreated": "S'ha creat",
     "textCustomSize": "Mida personalitzada",
+    "textDarkTheme": "Tema fosc",
     "textDialogUnprotect": "Introdueix una contrasenya per desbloquejar el document",
     "textDirection": "Direcció",
     "textDisableAll": "Inhabilita-ho tot",
@@ -752,7 +769,17 @@
     "txtScheme7": "Equitat",
     "txtScheme8": "Flux",
     "txtScheme9": "Foneria",
-    "textDarkTheme": "Dark Theme"
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

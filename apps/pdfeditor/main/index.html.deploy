@@ -229,7 +229,8 @@
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -278,7 +279,6 @@
             document.querySelectorAll('.compact').forEach(function(item){
                 item.style.display = 'inline-block';
             });
-            document.querySelector('.fat').style.left = '655px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
@@ -327,7 +327,23 @@
     <inline src="../../common/main/resources/img/header/icons.svg" />
     <div class="inlined-svg"></div>
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
-    <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
-
+    <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+    <script>
+        function startApp() {
+            var script = document.createElement("script");
+            script.setAttribute("data-main", "app");
+            script.src = "../../../vendor/requirejs/require.js";
+            document.body.appendChild(script);
+        }
+        if (isForm===undefined) {
+            listenApiMsg(function (isform) {
+                window.isPDFForm = !!isform;
+                startApp();
+            });
+        } else {
+            window.isPDFForm = isForm==='true';
+            startApp();
+        }
+    </script>
 </body>
 </html>

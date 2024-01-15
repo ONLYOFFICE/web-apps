@@ -7,7 +7,7 @@
 		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
@@ -15,32 +15,37 @@
                 <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
             </div>
 			<h1>FIND/FINDB Function</h1>
-			<p>The <b>FIND</b>/<b>FINDB</b> function is one of the text and data functions. Is used to find the specified substring (string-1) within a string (string-2). The <b>FIND</b> function is intended for languages that use the single-byte character set (SBCS), while <b>FINDB</b> - for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.</p>
-			<p>The <b>FIND/FINDB</b> function syntax is:</p> 
-			<p style="text-indent: 150px;"><b><em>FIND(string-1, string-2 [,start-pos])</em></b></p> 
-			<p style="text-indent: 150px;"><b><em>FINDB(string-1, string-2 [,start-pos])</em></b></p> 
-			<p><em>where</em></p>
-			<p style="text-indent: 50px;"><b><em>string-1</em></b> is a string you are looking for,</p>
-			<p style="text-indent: 50px;"><b><em>string-2</em></b> is a string you are searching within,</p>
-			<p style="text-indent: 50px;"><b><em>start-pos</em></b> is a position in a string where the search will start. It is an optional argument. If it is omitted, the funcion will start search from the beginning of the string.</p>
-			<p>The values can be entered manually or included into the cell you make reference to.</p>
-			<p class="note"><b>Note</b>: if there are no matches, the function will return the <b>#VALUE!</b> error.</p>
-			<p>To apply the <b>FIND/FINDB</b> function,</p>
-			<ol>
-			<li>select the cell where you wish to display the result,</li>
-			<li>click the <b>Insert function</b> <div class = "icon icon-insertfunction"></div> icon situated at the top toolbar,
-				<br />or right-click within a selected cell and select the <b>Insert Function</b> option from the menu,
-				<br />or click the <div class = "icon icon-function"></div> icon situated at the formula bar,
-			</li>
-			<li>select the <b>Text and data</b> function group from the list,</li>
-			<li>click the <b>FIND/FINDB</b> function,</li>
-			<li>enter the required arguments separating them by comma,
-			<p class="note"><b>Note</b>: the FIND/FINDB function is <b>case-sensitive</b>.</p>
-			</li>
-			<li>press the <b>Enter</b> button.</li>
-			</ol>
-			<p>The result will be displayed in the selected cell.</p>
-			<p style="text-indent: 150px;"><img alt="FIND/FINDB Function" src="../images/find.png" /></p>
+			<p>The <b>FIND</b>/<b>FINDB</b> function is one of the <a href="../UsageInstructions/InsertFunction.htm#textdata" onclick="onhyperlinkclick(this)">text and data functions</a>. Is used to find the specified substring (find_text) within a string (within_text). The <b>FIND</b> function is intended for languages that use the single-byte character set (SBCS), while <b>FINDB</b> - for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.</p>
+			<h3>Syntax</h3> 
+			<p><b><em>FIND(find_text, within_text, [start_num])</em></b></p> 
+			<p><b><em>FINDB(find_text, within_text, [start_num])</em></b></p> 
+			<p>The <b>FIND/FINDB</b> function has the following arguments:</p>
+			<table style="width: 40%">
+				<tr>
+					<th style="background-color: #f4f4f4" width="150ch"><b>Argument</b></th>
+					<th style="background-color: #f4f4f4"><b>Description</b></th>
+				</tr>
+				<tr>
+					<td><b><em>find_text</em></b></td>
+					<td>A string you are looking for.</td>
+				</tr>
+				<tr>
+					<td><b><em>within_text</em></b></td>
+					<td>A string you are searching within.</td>
+				</tr>
+				<tr>
+					<td><b><em>start_num</em></b></td>
+					<td>A position in a string where the search will start. It is an optional argument. If it is omitted, the funcion will start search from the beginning of the string.</td>
+				</tr>
+			</table>
+			<h3>Notes</h3>
+			<p>The FIND/FINDB function is <b>case-sensitive</b>.</p>
+			<p>If there are no matches, the function will return the <b>#VALUE!</b> error.</p>
+			<p><a href="../UsageInstructions/InsertFunction.htm#applyfunction" onclick="onhyperlinkclick(this)">How to apply</a> the <b>FIND/FINDB</b> function.</p>
+			
+			<h3>Examples</h3>
+            <p>The figure below displays the result returned by the <b>FIND</b> function.</p>
+			<p><img alt="FIND/FINDB Function" src="../images/find.png" /></p>
 		</div>
 	</body>
 </html>

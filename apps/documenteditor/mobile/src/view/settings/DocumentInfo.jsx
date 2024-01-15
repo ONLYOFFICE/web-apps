@@ -1,7 +1,8 @@
-import React, {Fragment} from "react";
+import React, { Fragment, useContext } from "react";
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import { SettingsContext } from "../../controller/settings/Settings";
 
 const PageDocumentInfo = props => {
     const { t } = useTranslation();
@@ -9,6 +10,7 @@ const PageDocumentInfo = props => {
     const storeInfo = props.storeDocumentInfo;
     const fileType = storeInfo.dataDoc.fileType;
     const dataApp = props.getAppProps();
+    const settingsContext = useContext(SettingsContext);
     
     const {
         pageCount,
@@ -44,7 +46,7 @@ const PageDocumentInfo = props => {
                 <Fragment>
                     <BlockTitle>{_t.textDocumentTitle}</BlockTitle>
                     <List>
-                        <ListItem href="#" title={dataDoc.title} onClick={props.changeTitleHandler}></ListItem>
+                        <ListItem href="#" title={dataDoc.title} onClick={settingsContext.changeTitleHandler}></ListItem>
                     </List>
                 </Fragment>
             ) : null}

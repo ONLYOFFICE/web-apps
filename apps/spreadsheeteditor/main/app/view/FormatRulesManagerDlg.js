@@ -155,11 +155,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
-                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
                         '<div style="width:128px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
                         '<% if (lock) { %>',
-                            '<div class="lock-user"><%=lockuser%></div>',
+                            '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                         '<% } %>',
                     '</div>'
                 ].join('')),
@@ -175,7 +175,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             };
             this.rulesList.on('item:select', _.bind(this.onSelectRule, this))
                             .on('item:keydown', _.bind(this.onKeyDown, this))
-                            .on('item:keyup', _.bind(this.onKeyUp, this));
+                            .on('item:keyup', _.bind(this.onKeyUp, this))
+                            .on('item:dblclick', _.bind(this.onEditRule, this,true))
+                            .on('entervalue', _.bind(function (e) {!!e.store.length && this.onEditRule(true);},this));
 
             this.btnNew = new Common.UI.Button({
                 el: $('#format-manager-btn-new')
@@ -577,6 +579,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var me = this,
                 i = item.get('ruleIndex'),
                 cmpEl = this.rulesList.cmpEl.find('#format-manager-item-' + i);
+
             if (!this.rules[i])
                 this.rules[i] = {};
             var rule = this.rules[i];
@@ -602,6 +605,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 }
 
             }).on('button:click', _.bind(this.onSelectData, this, rule, item));
+            input.cmpEl.on('dblclick', 'input', function (e){e.stopPropagation();});
             Common.UI.FocusManager.add(this, input);
 
             var val = item.get('range');

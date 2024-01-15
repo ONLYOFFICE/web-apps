@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "Mevcut dosya sürüm geçmişine kaydedilecektir.",
       "titleWarningRestoreVersion": "Bu versiyonu eskiye dönürmek istiyor musun?",
       "txtErrorLoadHistory": "Geçmiş yüklemesi başarısız"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Uygulamadan çıktınız",
     "leaveButtonText": "Bu Sayfadan Ayrıl",
     "stayButtonText": "Bu Sayfada Kal",
-    "textCloseHistory": "Geçmişi kapat"
+    "textCloseHistory": "Geçmişi kapat",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "Büyütme",
       "textZoomIn": "Yakınlaştır",
       "textZoomOut": "Uzaklaştır",
-      "textZoomRotate": "Büyüt ve Döndür"
+      "textZoomRotate": "Büyüt ve Döndür",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standart (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Toplama",
       "txtScheme7": "Net Değer",
       "txtScheme8": "Yayılma",
-      "txtScheme9": "Döküm"
+      "txtScheme9": "Döküm",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

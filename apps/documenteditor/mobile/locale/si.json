@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "වත්මන් ගොනුව අනුවාද ඉතිහාසයේ සුරැකෙනු ඇත.",
       "titleWarningRestoreVersion": "මෙම අනුවාදය ප්‍රත්‍යර්පණය කරන්නද?",
       "txtErrorLoadHistory": "ඉතිහාසය පූරණයට අසමත් විය"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,17 @@
     "textType": "වර්ගය",
     "textWe": "අපි",
     "textWrap": "වෙළීම",
-    "textWrappingStyle": "දවටන ශෛලිය"
+    "textWrappingStyle": "දවටන ශෛලිය",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
+    "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "අනුවර්තන කාලය ඉක්මවා ඇත.",
@@ -752,7 +768,18 @@
     "txtScheme7": "සමකොටස්",
     "txtScheme8": "ගලායාම",
     "txtScheme9": "වාත්තු පොළ",
-    "textDarkTheme": "Dark Theme"
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ස්වයං සුරැකීම සඳහා රැඳෙන්න 'මෙම පිටුවෙහි රැඳී සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවත දැමීමට 'මෙම පිටුවෙන් ඉවත් වන්න' ඔබන්න.",

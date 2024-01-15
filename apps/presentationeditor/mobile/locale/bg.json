@@ -123,10 +123,12 @@
       "textHighlightColor": "Highlight Color",
       "textHorizontalIn": "Horizontal In",
       "textHorizontalOut": "Horizontal Out",
+      "textHorizontalText": "Horizontal Text",
       "textHyperlink": "Hyperlink",
       "textImage": "Image",
       "textImageURL": "Image URL",
       "textInsertImage": "Insert Image",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textLastColumn": "Last Column",
       "textLastSlide": "Last Slide",
       "textLayout": "Layout",
@@ -165,6 +167,8 @@
       "textReplaceImage": "Replace Image",
       "textRequired": "Required",
       "textRight": "Right",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
       "textScreenTip": "Screen Tip",
       "textSearch": "Search",
       "textSec": "s",
@@ -185,6 +189,7 @@
       "textSuperscript": "Superscript",
       "textTable": "Table",
       "textText": "Text",
+      "textTextOrientation": "Text Orientation",
       "textTheme": "Theme",
       "textTop": "Top",
       "textTopLeft": "Top-Left",
@@ -218,6 +223,7 @@
       "textColorSchemes": "Color Schemes",
       "textComment": "Comment",
       "textCreated": "Created",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDisableAll": "Disable All",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
@@ -237,6 +243,7 @@
       "textInch": "Inch",
       "textLastModified": "Last Modified",
       "textLastModifiedBy": "Last Modified By",
+      "textLight": "Light",
       "textLoading": "Loading...",
       "textLocation": "Location",
       "textMacrosSettings": "Macros Settings",
@@ -253,6 +260,7 @@
       "textReplaceAll": "Replace All",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textSameAsSystem": "Same As System",
       "textSearch": "Search",
       "textSettings": "Settings",
       "textShowNotification": "Show Notification",
@@ -260,6 +268,7 @@
       "textSpellcheck": "Spell Checking",
       "textSubject": "Subject",
       "textTel": "tel:",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textUnitOfMeasurement": "Unit Of Measurement",
       "textUploaded": "Uploaded",
@@ -332,6 +341,12 @@
       "textCustomColors": "Custom Colors",
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
@@ -531,6 +546,8 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

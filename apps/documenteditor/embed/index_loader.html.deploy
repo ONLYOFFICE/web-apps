@@ -228,7 +228,8 @@
                 customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
                 margin = (customer !== '') ? 50 : 20,
                 loading = 'Loading...',
-                logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+                logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null,
+                isForm = params["isForm"];
 
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
@@ -328,13 +329,31 @@
       <script type="text/javascript" src="../../../../sdkjs/word/sdk-all-min.js"></script>
 
       <!--application-->
-      <script type="text/javascript" src="../../../apps/documenteditor/embed/app-all.js"></script>
+      <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+      <script>
+          function startApp() {
+              var script = document.createElement("script");
+              script.type  = "text/javascript";
+              script.src = "../../../apps/documenteditor/embed/app-all.js";
+              document.body.appendChild(script);
+          }
+          if (isForm===undefined) {
+              listenApiMsg(function (isform) {
+                  window.isPDFForm = !!isform;
+                  startApp();
+              });
+          } else {
+              window.isPDFForm = isForm==='true';
+              startApp();
+          }
+      </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

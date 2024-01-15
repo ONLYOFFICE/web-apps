@@ -77,7 +77,7 @@ define([
                     'render:before' : function (toolbar) {
                         var config = PDFE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                        if (!config.isEdit && !config.isRestrictedEdit || config.customization && !!config.customization.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
                         var value = Common.localStorage.getBool("pdfe-settings-quick-print-button", true);
@@ -90,17 +90,10 @@ define([
                                 Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
                     'undo:disabled' : function (state) {
-                        if ( me.header.btnUndo ) {
-                            if ( me.header.btnUndo.keepState )
-                                me.header.btnUndo.keepState.disabled = state;
-                            else me.header.btnUndo.setDisabled(state);
-                        }
+                        me.header.lockHeaderBtns( 'undo', state, Common.enumLock.undoLock );
                     },
                     'redo:disabled' : function (state) {
-                        if ( me.header.btnRedo )
-                            if ( me.header.btnRedo.keepState )
-                                me.header.btnRedo.keepState.disabled = state;
-                            else me.header.btnRedo.setDisabled(state);
+                        me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
                     },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
@@ -131,7 +124,11 @@ define([
             // Create and render main view
             this.viewport = this.createView('Viewport').render();
 
-            this.api = new Asc.PDFEditorApi({
+            this.isXpsViewer = /[\?\&]fileType=\b(djvu|xps|oxps)\b&?/i.exec(window.location.search);
+            this.api = (!!this.isXpsViewer || !window.isPDFForm) ? new Asc.PDFEditorApi({
+                'id-view'  : 'editor_sdk',
+                'translate': this.getApplication().getController('Main').translationTable
+            }) : new Asc.asc_docs_api({
                 'id-view'  : 'editor_sdk',
                 'translate': this.getApplication().getController('Main').translationTable
             });
@@ -168,7 +165,7 @@ define([
 
             me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
 
-            if ( !config.isEdit || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
+            if ( !(config.isEdit || config.isRestrictedEdit) || ( !Common.localStorage.itemExists("pdfe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar )) {
                 var panel = me.viewport.vlayout.getItem('toolbar');
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
@@ -182,7 +179,7 @@ define([
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
 
-            if (  config.isEdit && !(config.customization && config.customization.compactHeader)) {
+            if ( (config.isEdit || config.isRestrictedEdit) && !(config.customization && config.customization.compactHeader)) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));
@@ -243,8 +240,8 @@ define([
             var me = this;
             var _need_disable =  opts == 'show';
 
-            me.header.lockHeaderBtns( 'undo', _need_disable );
-            me.header.lockHeaderBtns( 'redo', _need_disable );
+            me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
+            me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
