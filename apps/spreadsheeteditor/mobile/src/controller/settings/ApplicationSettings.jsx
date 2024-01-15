@@ -4,6 +4,7 @@ import {observer, inject} from "mobx-react";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import { withTranslation } from 'react-i18next';
 import { ThemesContext } from "../../../../../common/mobile/lib/controller/Themes";
+import { f7 } from "framework7-react";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class ApplicationSettingsController extends Component {
         this.onChangeDisplayComments = this.onChangeDisplayComments.bind(this);
         this.onRegSettings = this.onRegSettings.bind(this);
         this.initRegSettings = this.initRegSettings.bind(this);
+        this.changeDirectionMode = this.changeDirectionMode.bind(this);
         this.initFormulaLangsCollection = this.initFormulaLangsCollection.bind(this);
         this.props.storeApplicationSettings.initRegData();
         this.initRegSettings();
@@ -119,8 +121,22 @@ class ApplicationSettingsController extends Component {
         Common.Notifications.trigger('changeRegSettings');
     }
 
-    changeDirection(value) {
-        LocalStorage.setItem('mode-direction', value);
+    changeDirectionMode(direction) {
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
+
+        this.props.storeApplicationSettings.changeDirectionMode(direction);
+        LocalStorage.setItem('mode-direction', direction);
+
+        f7.dialog.create({
+            title: _t.notcriticalErrorTitle,
+            text: t('View.Settings.textRestartApplication'),
+            buttons: [
+                {
+                    text: _t.textOk
+                }
+            ]
+        }).open();
     }
 
     render() {
@@ -135,7 +151,7 @@ class ApplicationSettingsController extends Component {
                 onChangeMacrosSettings={this.onChangeMacrosSettings}  
                 onFormulaLangChange={this.onFormulaLangChange}     
                 onRegSettings={this.onRegSettings}   
-                changeDirection={this.changeDirection}
+                changeDirectionMode={this.changeDirectionMode}
                 changeTheme={this.context.changeTheme}
             />
         )

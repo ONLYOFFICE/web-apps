@@ -313,7 +313,6 @@ class MainController extends Component {
                             {
                                 text: appOptions.canRequestSaveAs || !!appOptions.saveAsUrl || appOptions.isOffline ? t('Main.textSaveAsPdf') : t('Main.textDownloadPdf'),
                                 onClick: () => {
-                                    console.log(appOptions.canRequestSaveAs || !!appOptions.saveAsUrl);
                                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, appOptions.canRequestSaveAs || !!appOptions.saveAsUrl));
                                 }
                             },
