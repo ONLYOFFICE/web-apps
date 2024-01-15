@@ -467,6 +467,8 @@
       "textAddress": "address:",
       "textApplication": "Application",
       "textApplicationSettings": "Application Settings",
+      "textRtlInterface": "RTL Interface",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textAuthor": "Author",
       "textBack": "Back",
       "textCaseSensitive": "Case Sensitive",

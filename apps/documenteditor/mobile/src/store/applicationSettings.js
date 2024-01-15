@@ -32,7 +32,6 @@ export class storeApplicationSettings {
     isComments = false;
     isResolvedComments = false;
     macrosMode = 0;
-
     directionMode = LocalStorage.getItem('mode-direction') || 'ltr';
 
     changeDirectionMode(value) {
