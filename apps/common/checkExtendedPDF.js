@@ -32,16 +32,16 @@
 function checkExtendedPDF(directUrl, key, url, token, callback) {
     var limit = 110;
     if (directUrl) {
-        downloadPartialy(directUrl, limit, {}, function(text) {
+        downloadPartialy(directUrl, limit, null, function(text) {
             callback(isExtendedPDFFile(text))
         });
     } else {
-        var headers = {
-            'Authorization': 'Bearer ' + token,
-            'x-url': encodeURI(url)
-        }
+        let postData = JSON.stringify({
+            'url': url,
+            "token": token
+        });
         var handlerUrl = "../../../../downloadfile/"+encodeURIComponent(key);
-        downloadPartialy(handlerUrl, limit, headers, function(text) {
+        downloadPartialy(handlerUrl, limit, postData, function(text) {
             callback(isExtendedPDFFile(text))
         });
     }
@@ -88,7 +88,7 @@ function isExtendedPDFFile(text) {
 
     return true;
 }
-function downloadPartialy(url, limit, headers, callback) {
+function downloadPartialy(url, limit, postData, callback) {
     var callbackCalled = false;
     var xhr = new XMLHttpRequest();
     //value of responseText always has the current content received from the server, even if it's incomplete
@@ -98,7 +98,7 @@ function downloadPartialy(url, limit, headers, callback) {
         if (callbackCalled) {
             return;
         }
-        if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 206 || xhr.status === 1223)) {
+        if (xhr.readyState === 4) {
             callbackCalled = true;
             callback(xhr.responseText);
         } else if (xhr.readyState === 3 && xhr.responseText.length >= limit) {
@@ -108,12 +108,50 @@ function downloadPartialy(url, limit, headers, callback) {
             callback(res);
         }
     };
-    xhr.open('GET', url, true);
+    let method = postData ? 'POST' : 'GET';
+    xhr.open(method, url, true);
     xhr.setRequestHeader('Range', 'bytes=0-' + limit); // the bytes (incl.) you request
-    for (var header in headers) {
-        if (headers.hasOwnProperty(header)) {
-            xhr.setRequestHeader(header, headers[header]);
-        }
+    xhr.send(postData);
+}
+
+var startCallback;
+var eventFn = function(msg) {
+    if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
+
+    var data = msg.data;
+    if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
+        return;
     }
-    xhr.send();
+    try {
+        data = window.JSON.parse(data)
+    } catch(e) {
+        data = '';
+    }
+
+    if (data && data.command==="checkParams") {
+        data = data.data || {};
+        checkExtendedPDF(data.directUrl, data.key, data.url, data.token, startCallback);
+        _unbindWindowEvents();
+    }
+};
+
+var _bindWindowEvents = function() {
+    if (window.addEventListener) {
+        window.addEventListener("message", eventFn, false)
+    } else if (window.attachEvent) {
+        window.attachEvent("onmessage", eventFn);
+    }
+};
+
+var _unbindWindowEvents = function() {
+    if (window.removeEventListener) {
+        window.removeEventListener("message", eventFn)
+    } else if (window.detachEvent) {
+        window.detachEvent("onmessage", eventFn);
+    }
+};
+
+function listenApiMsg(callback) {
+    startCallback = callback;
+    _bindWindowEvents();
 }

@@ -517,6 +517,20 @@
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
                 window.AscEmbed && window.AscEmbed.initWorker(iframe);
 
+            if (_config.document && (_config.document.isForm!==true && _config.document.isForm!==false)) {
+                iframe.onload = function() {
+                    _sendCommand({
+                        command: 'checkParams',
+                        data: {
+                            url: _config.document.url,
+                            directUrl: _config.document.directUrl,
+                            token: _config.document.token,
+                            key: _config.document.key
+                        }
+                    })
+                };
+            }
+
             if (iframe.src) {
                 var pathArray = iframe.src.split('/');
                 this.frameOrigin = pathArray[0] + '//' + pathArray[2];
@@ -1020,9 +1034,11 @@
         if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
-        config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
-        if (config.document && (config.document.isForm!==undefined))
-            params += "&isForm=" + config.document.isForm;
+
+        if (config.document) {
+            config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+            (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
+        }
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
@@ -1038,19 +1054,6 @@
 
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
-
-        if (config.document && config.document.directUrl)
-            params += "&directUrl=" + encodeURIComponent(config.document.directUrl);
-
-        if (config.document && config.document.key)
-            params += "&key=" + config.document.key;
-
-        if (config.document && config.document.url)
-            params += "&url=" + encodeURIComponent(config.document.url);
-
-        if (config.document && config.document.token)
-            params += "&token=" + config.document.token;
-
 
         return params;
     }

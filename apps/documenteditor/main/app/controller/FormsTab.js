@@ -61,7 +61,9 @@ define([
             this._state = {
                 lastViewRole: undefined, // last selected role in the preview mode
                 lastRoleInList: undefined, // last role in the roles list,
-                formCount: 0
+                formCount: 0,
+                formAdded: undefined,
+                formRadioAdded: undefined
             };
         },
 
@@ -97,8 +99,8 @@ define([
             });
             this._helpTips = {
                 'create': {name: 'de-form-tip-create', placement: 'bottom-right', text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
-                'key': {name: 'de-form-tip-settings', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
-                'group-key': {name: 'de-form-tip-settings', placement: 'left-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
+                'key': {name: 'de-form-tip-settings-key', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
+                'group-key': {name: 'de-form-tip-settings-group', placement: 'left-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
                 'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
                 'roles': {name: 'de-form-tip-roles', placement: 'bottom-left', text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
                 'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-left', text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
@@ -181,8 +183,25 @@ define([
             Common.Utils.lockControls(Common.enumLock.inSmartartInternal, in_smart_art_internal, {array: arr});
 
             if (control_props && control_props.get_FormPr()) {
-                (control_props.get_SpecificType() === Asc.c_oAscContentControlSpecificType.CheckBox &&
-                control_props.get_CheckBoxPr() && (typeof control_props.get_CheckBoxPr().get_GroupKey()==='string')) ? this.closeHelpTip('key') : this.closeHelpTip('group-key');
+                var isRadio = control_props.get_SpecificType() === Asc.c_oAscContentControlSpecificType.CheckBox &&
+                              control_props.get_CheckBoxPr() && (typeof control_props.get_CheckBoxPr().get_GroupKey()==='string');
+                isRadio ? this.closeHelpTip('key') : this.closeHelpTip('group-key');
+                var me = this;
+                setTimeout(function() {
+                    if (me._state.formRadioAdded && isRadio) {
+                        if (me.showHelpTip('group-key')) {
+                            me._state.formRadioAdded = false;
+                            me.closeHelpTip('settings', true);
+                        } else
+                            me.showHelpTip('settings');
+                    } else if (me._state.formAdded && !isRadio) {
+                        if (me.showHelpTip('key')) {
+                            me._state.formAdded = false;
+                            me.closeHelpTip('settings', true);
+                        } else
+                            me.showHelpTip('settings');
+                    }
+                }, 500);
             } else {
                 this.closeHelpTip('key');
                 this.closeHelpTip('group-key');
@@ -211,6 +230,8 @@ define([
                 oFormPr = new AscCommon.CSdtFormPr();
             oFormPr.put_Role(Common.Utils.InternalSettings.get('de-last-form-role') || this._state.lastRoleInList);
             this.toolbar.toolbar.fireEvent('insertcontrol', this.toolbar.toolbar);
+            (this._state.formAdded===undefined) && (type !== 'radiobox') && (this._state.formAdded = true);
+            (this._state.formRadioAdded===undefined) && (type === 'radiobox') && (this._state.formRadioAdded = true);
             if (type == 'picture')
                 this.api.asc_AddContentControlPicture(oFormPr);
             else if (type == 'checkbox' || type == 'radiobox') {
@@ -249,9 +270,6 @@ define([
             var me = this;
             if (!this._state.formCount) { // add first form
                 this.closeHelpTip('create');
-                setTimeout(function() {
-                    !me.showHelpTip(type === 'radiobox' ? 'group-key' : 'key') && me.showHelpTip('settings');
-                }, 500);
             } else if (this._state.formCount===1) {
                 setTimeout(function() {
                     me.showHelpTip('roles');
@@ -567,9 +585,10 @@ define([
         },
 
         onRightMenuClick: function(menu, type, minimized, event) {
-            if (!minimized && event && type === Common.Utils.documentSettingsType.Form)
+            if (!minimized && event && type === Common.Utils.documentSettingsType.Form) {
                 this.closeHelpTip('settings', true);
-            else if (minimized || type !== Common.Utils.documentSettingsType.Form) {
+                (this._state.formRadioAdded || this._state.formAdded) && this.onApiFocusObject(this.api.getSelectedElements());
+            } else if (minimized || type !== Common.Utils.documentSettingsType.Form) {
                 this.closeHelpTip('key');
                 this.closeHelpTip('group-key');
                 this.closeHelpTip('settings');

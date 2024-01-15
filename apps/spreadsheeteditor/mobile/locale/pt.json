@@ -393,8 +393,8 @@
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
     "textCloseHistory": "Fechar histórico",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Digite um novo nome para o arquivo",
+    "textRenameFile": "Renomear arquivo"
   },
   "View": {
     "Add": {
@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Limite vertical interior",
       "textInteger": "Inteiro",
       "textInternalDataRange": "Intervalo de dados interno",
+      "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
       "textInvalidRange": "Intervalo de células inválido",
       "textJustified": "Justificado",
       "textLabelOptions": "Opções de rótulos",
@@ -649,8 +650,7 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSortHigh2Low": "Classificar do maior para o menor",
-      "txtSortLow2High": "Classificar do menor para o maior",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Classificar do menor para o maior"
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",

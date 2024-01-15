@@ -96,7 +96,7 @@
                     docparams.permissions.edit = !(docparams.permissions.review = true);
 
                 if (urlParams['isForm'] !== undefined)
-                    docparams.isForm = urlParams['isForm'];
+                    docparams.isForm = (urlParams['isForm']==='true');
 
                 return docparams;
             }

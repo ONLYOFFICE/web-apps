@@ -144,6 +144,7 @@ define([
 
             var showtip = function() {
                 Common.NotificationCenter.trigger('forms:close-help', 'key', true);
+                Common.NotificationCenter.trigger('forms:close-help', 'settings', true);
                 me.cmbKey.off('show:before', showtip);
                 me.cmbKey.off('combo:focusin', showtip);
             };
@@ -385,6 +386,7 @@ define([
 
             var showGrouptip = function() {
                 Common.NotificationCenter.trigger('forms:close-help', 'group-key', true);
+                Common.NotificationCenter.trigger('forms:close-help', 'settings', true);
                 me.cmbGroupKey.off('show:before', showGrouptip);
                 me.cmbGroupKey.off('combo:focusin', showGrouptip);
             };

@@ -170,7 +170,7 @@ define([
                     me.menuPDFFormsUndo.setDisabled(disabled || !me.api.asc_getCanUndo()); // undo
                     me.menuPDFFormsRedo.setDisabled(disabled || !me.api.asc_getCanRedo()); // redo
 
-                    me.menuPDFFormsClear.setDisabled(disabled); // clear
+                    me.menuPDFFormsClear.setDisabled(disabled || !me.api.asc_IsContentControl()); // clear
                     me.menuPDFFormsCut.setDisabled(disabled || !cancopy); // cut
                     me.menuPDFFormsCopy.setDisabled(!cancopy); // copy
                     me.menuPDFFormsPaste.setDisabled(disabled) // paste;
@@ -249,6 +249,7 @@ define([
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
+                        iconImg: me.parseIcons(item.icons),
                         disabled: !!item.disabled
                     });
                 });
@@ -266,7 +267,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;
@@ -292,6 +292,7 @@ define([
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                iconImg: me.parseIcons(item.icons),
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -319,6 +320,14 @@ define([
                 }
             }
             this._hasCustomItems = false;
+        },
+
+        parseIcons: function(icons) {
+            var plugins = PDFE.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
+            if (icons && icons.length && plugins && plugins.parseIcons) {
+                icons = plugins.parseIcons(icons);
+                return icons ? icons['normal'] : undefined;
+            }
         },
 
         focus: function() {

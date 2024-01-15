@@ -303,6 +303,7 @@
     "textHeader": "الرأس",
     "textHeaderRow": "الصف الرأس",
     "textHighlightColor": "لون تمييز النص",
+    "textHorizontalText": "النص الأفقي",
     "textHyperlink": "رابط تشعبي",
     "textImage": "صورة",
     "textImageURL": "رابط صورة",
@@ -364,6 +365,8 @@
     "textRequired": "مطلوب",
     "textResizeToFitContent": "تغيير الحجم لملائمة المحتوى",
     "textRightAlign": "محاذاة لليمين",
+    "textRotateTextDown": "تدوير النص للأسفل",
+    "textRotateTextUp": "تدوير النص للأعلى",
     "textSa": "السبت",
     "textSameCreatedNewStyle": "تماما كالنمط الجديد المنشأ",
     "textSave": "حفظ",
@@ -392,6 +395,7 @@
     "textTableOfCont": "جدول المحتويات",
     "textTableOptions": "خيارات الجدول",
     "textText": "نص",
+    "textTextOrientation": "اتجاه النص",
     "textTextWrapping": "التفاف النص",
     "textTh": "الخميس",
     "textThrough": "خلال",
@@ -404,11 +408,7 @@
     "textWe": "الأربعاء",
     "textWrap": "التفاف",
     "textWrappingStyle": "نمط الالتفاف",
-    "textYourOption": "خيارك",
-    "textHorizontalText": "Horizontal Text",
-    "textRotateTextDown": "Rotate Text Down",
-    "textRotateTextUp": "Rotate Text Up",
-    "textTextOrientation": "Text Orientation"
+    "textYourOption": "خيارك"
   },
   "Error": {
     "convertationTimeoutText": "استغرق التحويل وقتا طويلا تم تجاوز المهلة",

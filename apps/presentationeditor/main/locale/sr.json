@@ -2006,6 +2006,7 @@
   "PE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Dokument će biti štampan na poslednje odabranom ili podrazumevanom štampaču",
   "PE.Views.FileMenuPanels.Settings.txtRunMacros": "Omogući Sve",
   "PE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Omogući sve makroe bez notifikacije",
+  "PE.Views.FileMenuPanels.Settings.txtScreenReader": "Uključi podršku za čitač ekrana",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "Provera pravopisa ",
   "PE.Views.FileMenuPanels.Settings.txtStopMacros": "Onemogući Sve",
   "PE.Views.FileMenuPanels.Settings.txtStopMacrosDesc": "Onemogući sve makroe bez obaveštenja",

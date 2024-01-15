@@ -447,6 +447,11 @@ define([
                 !this.panels['recent'] && (this.panels['recent'] = (new Common.Views.RecentFiles({ el: '#panel-recentfiles', menu:this, recent: this.mode.recent})).render());
             }
 
+            if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
+                !this.panels['protect'] && (this.panels['protect'] = (new PDFE.Views.FileMenuPanels.ProtectDoc({menu:this})).render());
+                this.panels['protect'].setMode(this.mode);
+            }
+
             if (this.mode.canDownload) {
                 !this.panels['saveas'] && (this.panels['saveas'] = ((new PDFE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType, mode: this.mode})).render()));
             } else if (this.mode.canDownloadOrigin)

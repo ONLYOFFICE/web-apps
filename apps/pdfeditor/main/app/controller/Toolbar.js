@@ -457,18 +457,16 @@ define([
                     }
                 });
             } else if (this.api) {
-                var isModified = this.api.asc_isDocumentCanSave();
-                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
-                    return;
+                // var isModified = this.api.asc_isDocumentCanSave();
+                // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
+                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
+                //     return;
 
                 this.api.asc_Save();
                 toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
-
-            Common.NotificationCenter.trigger('edit:complete', toolbar);
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -563,7 +561,7 @@ define([
         },
 
         turnOnSelectTool: function() {
-            if ((this.mode.isEdit && this.mode.isRestrictedEdit) && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
+            if ((this.mode.isEdit || this.mode.isRestrictedEdit) && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
                 this.api.asc_setViewerTargetType('select');
                 this.toolbar.btnSelectTool.toggle(true, true);
                 this.toolbar.btnHandTool.toggle(false, true);
@@ -815,7 +813,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
+            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(!this.mode.saveAlwaysEnabled && !this.api.isDocumentModified());
             this._state.activated = true;
         },
 
