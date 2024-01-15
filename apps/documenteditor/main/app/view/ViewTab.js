@@ -46,7 +46,7 @@ define([
 
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="view">' +
+        '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group" data-layout-name="toolbar-view-navigation">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-navigation"></span>' +
             '</div>' +

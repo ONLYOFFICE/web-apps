@@ -291,7 +291,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     tab = e.keyCode == Common.UI.Keys.TAB,
                     shiftTab = e.shiftKey && e.keyCode == Common.UI.Keys.TAB,
                     isPrevItem = isFileMenu ? left || up : left || shiftTab,
-                    isNextItem = isFileMenu ? right || down : right || tab && !shiftTab,
+                    isNextItem = isFileMenu ? (_currentLevel === 2 ? (right || down || tab && !shiftTab) : (right || down)) : right || tab && !shiftTab,
                     isPrevLevel = isFileMenu ? shiftTab : up,
                     isNextLevel = isFileMenu ? tab && !shiftTab : down;
                 e.preventDefault();
@@ -314,7 +314,6 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     } else if (isFileMenu && _currentLevel === 1) {
                         _nextLevel();
                         _setCurrentSection(btn);
-                        Common.Utils.ScreeenReaderHelper.speech('next level');
                     } else {
                         _hideFocus();
                         _resetToDefault();
@@ -325,24 +324,20 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 } else if (isPrevItem) {
                     turnOffHints = true;
                     _prevItem();
-                    Common.Utils.ScreeenReaderHelper.speech('previous item');
                 } else if (isNextItem) {
                     turnOffHints = true;
                     _nextItem();
-                    Common.Utils.ScreeenReaderHelper.speech('next item');
                 } else if (isNextLevel) {
                     var attr = '[data-hint="' + (_currentLevel + 1) + '"]';
                     if ($(_currentSection).find(attr).length === 0) return;
                     turnOffHints = true;
                     _nextLevel();
                     _setCurrentSection(btn);
-                    Common.Utils.ScreeenReaderHelper.speech('next level');
                 } else if (isPrevLevel) {
                     if (_currentLevel === 0) return;
                     turnOffHints = true;
                     _prevLevel();
                     _setCurrentSection(btn);
-                    Common.Utils.ScreeenReaderHelper.speech('previous level');
                 }
                 if (!_focusMode && turnOffHints) {
                     _focusMode = true;

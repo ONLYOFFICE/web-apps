@@ -62,7 +62,7 @@ define([
             '<span id="slot-btn-draw-eraser" class="btn-slot text x-huge"></span>' +
             '</div>';
         var templateSection =
-            '<section id="draw-ink-panel" class="panel" data-tab="draw">' +
+            '<section id="draw-ink-panel" class="panel" data-tab="draw" role="tabpanel" aria-labelledby="draw">' +
             template +
             '</section>';
         function setEvents() {
