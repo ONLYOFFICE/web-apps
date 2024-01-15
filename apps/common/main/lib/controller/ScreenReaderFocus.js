@@ -58,6 +58,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _isLockedKeyEvents = false,
         _isDocReady = false,
         _isEditDiagram = false,
+        _isSidePanelMode = false,
         _api;
 
     var _setCurrentSection = function (btn, section) {
@@ -112,9 +113,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         var currItem = _currentControls[_currentItemIndex];
         console.log(_currentControls[_currentItemIndex]);
         if (currItem) {
-            if (/*($(currItem).hasClass('btn-category') && !$(currItem).hasClass('active') &&
-                $(currItem).prop('id') !== 'left-btn-support' && $(currItem).prop('id') !== "left-btn-about") ||*/
-                ($(currItem).parent().hasClass('ribtab') && !$(currItem).parent().hasClass('active') && $(currItem).data('tab') !== 'file')) {
+            if ($(currItem).parent().hasClass('ribtab') && !$(currItem).parent().hasClass('active') && $(currItem).data('tab') !== 'file') {
                 $(currItem).trigger(jQuery.Event('click', {which: 1}));
             }
             $(_currentControls[_currentItemIndex]).focus();
@@ -130,6 +129,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     var _hideFocus = function () {
         _focusVisible = false;
         _focusMode = false;
+        _isSidePanelMode = false;
     };
 
     var _nextItem = function () {
@@ -284,16 +284,38 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 var turnOffHints = false,
                     btn = _currentControls[_currentItemIndex] && $(_currentControls[_currentItemIndex]);
                 var isFileMenu = $('#file-menu-panel').is(':visible'),
+                    isBtnCategory = btn && btn.hasClass('btn-category'),
                     left = e.keyCode == Common.UI.Keys.LEFT,
                     right = e.keyCode == Common.UI.Keys.RIGHT,
                     up = e.keyCode == Common.UI.Keys.UP,
                     down = e.keyCode == Common.UI.Keys.DOWN,
                     tab = e.keyCode == Common.UI.Keys.TAB,
                     shiftTab = e.shiftKey && e.keyCode == Common.UI.Keys.TAB,
-                    isPrevItem = isFileMenu ? left || up : left || shiftTab,
-                    isNextItem = isFileMenu ? (_currentLevel === 2 ? (right || down || tab && !shiftTab) : (right || down)) : right || tab && !shiftTab,
-                    isPrevLevel = isFileMenu ? shiftTab : up,
-                    isNextLevel = isFileMenu ? tab && !shiftTab : down;
+                    isPrevItem,
+                    isNextItem,
+                    isPrevLevel,
+                    isNextLevel;
+                if (isFileMenu) {
+                    isPrevItem = left || up;
+                    isNextItem = _currentLevel === 2 ? (right || down || tab && !shiftTab) : (right || down);
+                    isPrevLevel = shiftTab;
+                    isNextLevel = tab && !shiftTab;
+                } else if (isBtnCategory) {
+                    isPrevItem = up || shiftTab;
+                    isNextItem = down || tab;
+                    isPrevLevel = false;
+                    isNextLevel = right || left;
+                } else if (_isSidePanelMode) {
+                    isPrevItem = shiftTab;
+                    isNextItem = tab;
+                    isPrevLevel = false;
+                    isNextLevel = false;
+                } else {
+                    isPrevItem = left || shiftTab;
+                    isNextItem = right || tab && !shiftTab;
+                    isPrevLevel = up;
+                    isNextLevel = down;
+                }
                 e.preventDefault();
                 Common.UI.Menu.Manager.hideAll();
                 if (e.keyCode == Common.UI.Keys.ESC ) {
@@ -308,10 +330,11 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                         }
                         if (btn.data('toggle') !== 'dropdown') btn.blur();
                     }
-                    if (btn && btn.data('tab') === 'file') {
+                    if (btn && btn.data('tab') === 'file' || isFileMenu && _currentLevel === 1) {
                         _nextLevel();
                         _setCurrentSection(btn);
-                    } else if (isFileMenu && _currentLevel === 1) {
+                    } else if (btn && isBtnCategory && btn.hasClass('active')) {
+                        _isSidePanelMode = true;
                         _nextLevel();
                         _setCurrentSection(btn);
                     } else {
@@ -333,6 +356,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     turnOffHints = true;
                     _nextLevel();
                     _setCurrentSection(btn);
+                    if (isBtnCategory) _isSidePanelMode = true;
                 } else if (isPrevLevel) {
                     if (_currentLevel === 0) return;
                     turnOffHints = true;
