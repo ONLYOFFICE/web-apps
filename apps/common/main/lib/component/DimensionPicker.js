@@ -83,30 +83,10 @@ define([
                 me.options.height = me.options.itemSize* this.options.minRows;
                 var rootEl = this.cmpEl;
 
-                me.borderColor1 ={
-                    'theme-light': '#c0c0c0',
-                    'theme-classic-light': '#cfcfcf',
-                    'theme-dark': '#666',
-                    'theme-contrast-dark': '#696969'
-                };
-                me.fillColor1 ={
-                    'theme-light': '#fff',
-                    'theme-classic-light': '#fff',
-                    'theme-dark': '#333',
-                    'theme-contrast-dark': '#212121'
-                };
-                me.borderColorHighlighted1 ={
-                    'theme-light': '#848484',
-                    'theme-classic-light': '#848484',
-                    'theme-dark': '#ccc',
-                    'theme-contrast-dark': '#b8b8b8'
-                };
-                me.fillColorHighlighted1 ={
-                    'theme-light': '#cbcbcb',
-                    'theme-classic-light': '#7d858c',
-                    'theme-dark': '#707070',
-                    'theme-contrast-dark': '#666666'
-                };
+                me.borderColor = Common.Utils.isIE ?'#cfcfcf' :Common.UI.Themes.currentThemeColor('--border-regular-control');
+                me.fillColor = Common.Utils.isIE ?'#fff' :Common.UI.Themes.currentThemeColor('--background-normal');
+                me.borderColorHighlighted = Common.Utils.isIE ?'#848484' :Common.UI.Themes.currentThemeColor('--border-control-focus');
+                me.fillColorHighlighted = Common.Utils.isIE ?'#7d858c' :Common.UI.Themes.currentThemeColor('--highlight-button-pressed');
 
 
                 me.itemSize    = me.options.itemSize;
@@ -163,10 +143,9 @@ define([
                     me.areaMouseCatcher.on('click', onHighLightedMouseClick);
                     me.areaMouseCatcher.on('mouseleave', onMouseLeave);
                     me.areaStatus.html(!Common.UI.isRTL() ? this.curColumns + ' x ' + this.curRows : this.curRows + ' x ' + this.curColumns);
-                    me.changeColors();
                     me.resizeCanvas();
                     $(window).resize(_.bind(me.resizeCanvas,me));
-                    Common.NotificationCenter.on('uitheme:changed', me.changeColors.bind(me));
+                    (!Common.Utils.isIE) && Common.NotificationCenter.on('uitheme:changed', me.changeColors.bind(me));
 
 
                     if (me.direction === 'right') {
@@ -184,13 +163,10 @@ define([
 
 
             changeColors: function (){
-                this.currentTheme = (Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId()).toLowerCase();
-                if(this.currentTheme == 'theme-system')
-                    this.currentTheme = window.uitheme.relevant_theme_id();
-                this.borderColor = this.borderColor1[this.currentTheme];                        //border-regular-control
-                this.fillColor = this.fillColor1[this.currentTheme];                            //background-normal
-                this.borderColorHighlighted = this.borderColorHighlighted1[this.currentTheme];  //border-control-focus
-                this.fillColorHighlighted = this.fillColorHighlighted1[this.currentTheme];      //highlight-button-pressed
+                this.borderColor = Common.UI.Themes.currentThemeColor('--border-regular-control');
+                this.fillColor = Common.UI.Themes.currentThemeColor('--background-normal');
+                this.borderColorHighlighted = Common.UI.Themes.currentThemeColor('--border-control-focus');
+                this.fillColorHighlighted = Common.UI.Themes.currentThemeColor('--highlight-button-pressed');
 
                 this.context.clearRect(0,0, this.width*this.scale, this.height*this.scale);
                 this.drawTable(this.minColumns,this.minRows,this.fillColor,this.borderColor);
