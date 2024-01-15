@@ -242,6 +242,10 @@ define([
             }).on('changed:after', function() {
                 me.isStepChanged = true;
             });
+            this.inputStep._input.on('input', function (e) {
+                me.isInputStepFirstChange && me.inputStep.showError();
+                me.isInputStepFirstChange = false;
+            });
 
             this.inputStop = new Common.UI.InputField({
                 el               : $window.find('#fill-input-stop-value'),
@@ -250,6 +254,10 @@ define([
                 validateOnBlur   : false
             }).on('changed:after', function() {
                 me.isStopChanged = true;
+            });
+            this.inputStop._input.on('input', function (e) {
+                me.isInputStopFirstChange && me.inputStop.showError();
+                me.isInputStopFirstChange = false;
             });
 
             this.afterRender();
@@ -330,21 +338,24 @@ define([
         },
 
         isValid: function() {
+            var regstr = new RegExp('^\s*[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)\s*$');
             if (this.isStepChanged) {
                 var value = this.inputStep.getValue();
                 (typeof value === 'string') && (value = value.replace(',','.'));
-                if (value!=='' && isNaN(parseFloat(value))) {
+                if (value!=='' && (!regstr.test(value.trim()) || isNaN(parseFloat(value)))) {
                     this.inputStep.showError([this.txtErrorNumber]);
                     this.inputStep.focus();
+                    this.isInputStepFirstChange = true;
                     return false;
                 }
             }
             if (this.isStopChanged) {
                 var value = this.inputStop.getValue();
                 (typeof value === 'string') && (value = value.replace(',','.'));
-                if (value!=='' && isNaN(parseFloat(value))) {
+                if (value!=='' && (!regstr.test(value.trim()) || isNaN(parseFloat(value)))) {
                     this.inputStop.showError([this.txtErrorNumber]);
                     this.inputStop.focus();
+                    this.isInputStopFirstChange = true;
                     return false;
                 }
             }
