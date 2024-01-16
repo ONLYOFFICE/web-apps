@@ -74,6 +74,6 @@ if ( window.AscDesktopEditor ) {
     }
 
     !window.features && (window.features = {});
-    window.features.size = {width: window.outerWidth, height: outerHeight};
+    window.features.size = {width: window.innerWidth, height: window.innerHeight};
     window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
 }
