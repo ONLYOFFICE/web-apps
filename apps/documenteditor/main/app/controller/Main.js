@@ -419,7 +419,8 @@ define([
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
                                                                             Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
-                Common.localStorage.setItem("token", this.editorConfig.token);
+                Common.localStorage.setItem("token", this.editorConfig.token); // set token to the local storage
+                Common.localStorage.removeItem("this._arrLineRule");
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
                 if( Common.Controllers.Desktop.isActive() ) {
@@ -1847,6 +1848,7 @@ define([
             },
 
             onError: function(id, level, errData) {
+              
                 if (id == Asc.c_oAscError.ID.LoadingScriptError) {
                     this.showTips([this.scriptLoadError]);
                     this.tooltip && this.tooltip.getBSTip().$tip.css('z-index', 10000);

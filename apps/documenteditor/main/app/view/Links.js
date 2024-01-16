@@ -179,9 +179,9 @@ define([
                         .then(response => response.json())
                         .then(data => {
                          const finaldata= data.map(item => ({
-                                displayValue: 'https://api.onlyoffice.com/editors/methods#setActionLink',  
-                                defaultValue: 'https://api.onlyoffice.com/editors/methods#setActionLink', 
-                                value: 'https://api.onlyoffice.com/editors/methods#setActionLink',                  
+                                displayValue: item.title,  
+                                defaultValue:item.title, 
+                                value:item.id,                  
                             }));
                             Common.localStorage.setItem('this._arrLineRule',JSON.stringify(finaldata) )  
                        
