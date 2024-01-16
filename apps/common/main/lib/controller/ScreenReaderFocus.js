@@ -59,7 +59,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _isDocReady = false,
         _isEditDiagram = false,
         _isSidePanelMode = false,
-        _api;
+        _api,
+        _app;
 
     var _setCurrentSection = function (btn, section) {
         _lastSection = _currentSection;
@@ -109,6 +110,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             } else if (id === 'file-menu-panel') {
                 _setFocusInActiveFileMenuItem();
             }
+        } else if (_currentLevel === 1 && _currentLevel !== _lastLevel && ($(_currentSection).prop('id') === 'left-menu' || $(_currentSection).prop('id') === 'right-menu')) {
+            _setFocusInSideMenu($(_currentSection).prop('id') === 'left-menu');
         }
         var currItem = _currentControls[_currentItemIndex];
         console.log(_currentControls[_currentItemIndex]);
@@ -212,6 +215,24 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         }
     };
 
+    var _setFocusInSideMenu = function (isLeftMenu) {
+        var index = 0,
+            view, btn;
+        if (isLeftMenu) {
+            view = _app.getController('LeftMenu').getView('LeftMenu');
+            btn = view.getFocusElement();
+        }
+        if (btn) {
+            for (var i=0; i<_currentControls.length; i++) {
+                if ($(_currentControls[i]).is($(btn))) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        _currentItemIndex = index;
+    };
+
     var _isItemDisabled = function (item) {
         return (item.hasClass('disabled') || item.parent().hasClass('disabled') || item.attr('disabled'));
     };
@@ -244,6 +265,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko) // turn off hints on IE and FireFox (shortcut F6 selects link in address bar)
             return;
         _api = api;
+
+        _app = window.DE || window.PE || window.SSE || window.PDFE;
 
         Common.NotificationCenter.on({
             'app:ready': function (mode) {
@@ -352,7 +375,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     _nextItem();
                 } else if (isNextLevel) {
                     var attr = '[data-hint="' + (_currentLevel + 1) + '"]';
-                    if ($(_currentSection).find(attr).length === 0) return;
+                    if ($(_currentSection).find(attr).length === 0 || btn && $(btn.closest('.hint-section')).find(attr).filter(':visible').length === 0) return;
                     turnOffHints = true;
                     _nextLevel();
                     _setCurrentSection(btn);

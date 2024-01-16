@@ -323,6 +323,10 @@ define([
             }, 10);
         },
 
+        getFocusElement: function () {
+            return this.inputText.$el.find('input');
+        },
+
         setSearchMode: function (mode) {
             if (this.mode !== mode) {
                 this.$el.find('.edit-setting')[mode !== 'no-replace' ? 'show' : 'hide']();

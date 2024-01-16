@@ -159,6 +159,10 @@ define([
             this.setupAutoSizingTextBox();
         },
 
+        getFocusElement: function () {
+            return this.txtMessage;
+        },
+
         _onKeyDown: function(event) {
             if (event.keyCode == Common.UI.Keys.RETURN) {
                 if ((event.ctrlKey || event.metaKey) && !event.altKey) {
