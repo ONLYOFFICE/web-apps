@@ -66,28 +66,45 @@ define([
                 title: this.textTitle
             }, options || {});
 
+        
+            this._arrLineRule1 = [
+                {displayValue: 'Helllo',defaultValue: 5, value: '1', minValue: 0.03,   step: 0.01, defaultUnit: 'cm'},
+                {displayValue: 'CK',   defaultValue: 1, value: '2', minValue: 0.5,    step: 0.01, defaultUnit: ''},
+                {displayValue: 'MedQDoc',  defaultValue: 5, value: '3', minValue: 0.03,   step: 0.01, defaultUnit: 'cm'}
+            ];
+  
+            this._arrLineRule=JSON.parse(Common.localStorage.getItem('this._arrLineRule'))
+       
+
             this.template = [
                 '<div class="box" style="height: 319px;">',
+
                     '<div class="input-row" style="margin-bottom: 10px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-external">', this.textExternal,'</button>',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hyperlink-internal">', this.textInternal,'</button>',
                     '</div>',
+                  
+
                     '<div id="id-external-link">',
                         '<div class="input-row">',
-                            '<label>' + this.textUrl + '</label>',
+                            '<label>'+ 'Edit ' + this.textUrl+ '</label>',
                         '</div>',
-                        '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
+                    '<div id="id-dlg-hyperlink-ck" class="input-row" style="margin-bottom: 5px;"></div>',
                     '</div>',
-                    '<div id="id-internal-link">',
+
+                     '<div id="id-internal-link">',
                         '<div class="input-row">',
-                            '<label>' + this.textUrl + '</label>',
+                            '<label>' + this.textUrl +  'chandani khanesha'+ '</label>',
                         '</div>',
                         '<div id="id-dlg-hyperlink-list" style="width:100%; height: 171px;"></div>',
                     '</div>',
-                    '<div class="input-row">',
-                        '<label>' + this.textDisplay + '</label>',
+
+                    '<div class="input-row">',  
+                     '<label>' + this.textDisplay + '</label>',
                     '</div>',
                     '<div id="id-dlg-hyperlink-display" class="input-row" style="margin-bottom: 5px;"></div>',
+
                     '<div class="input-row">',
                         '<label>' + this.textTooltip + '</label>',
                     '</div>',
@@ -102,19 +119,21 @@ define([
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
+ 
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
-
+        
             var me = this,
                 $window = this.getChild();
 
+        
             me.btnExternal = new Common.UI.Button({
                 el: $('#id-dlg-hyperlink-external'),
                 enableToggle: true,
                 toggleGroup: 'hyperlink-type',
                 allowDepress: false,
-                pressed: true
+                pressed: true  
             });
             me.btnExternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.WebLink));
 
@@ -126,30 +145,71 @@ define([
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
 
-            me.inputUrl = new Common.UI.InputField({
-                el          : $('#id-dlg-hyperlink-url'),
-                allowBlank  : false,
-                blankError  : me.txtEmpty,
-                style       : 'width: 100%;',
+            me.inputUrl = new Common.UI.ComboBox({
+                el: $('#id-dlg-hyperlink-url'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 85px;',
+                placeHolder:'- select -',
+                editable: false,
+                data: this._arrLineRule,
+                disabled: this._locked,
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big',
                 validateOnBlur: false,
-                validation  : function(value) {
-                    var trimmed = $.trim(value);
-                    if (trimmed.length>2083) return me.txtSizeLimit;
-
-                    me.urlType = me.api.asc_getUrlType(trimmed);
-                    return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
-                }
-            });
-            me.inputUrl._input.on('input', function (e) {
+            }).on('selected', function(combo, record) {
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
-                var val = $(e.target).val();
+                var val = record.value;
+                Common.localStorage.setItem("ck", me.isAutoUpdate);
                 if (me.isAutoUpdate) {
                     me.inputDisplay.setValue(val);
                     me.isTextChanged = true;
+                    // me.btnOk.setDisabled(false);
                 }
-                me.btnOk.setDisabled($.trim(val)=='');
+                // me.btnOk.setDisabled(false);
             });
+
+            // me.inputCk = new Common.UI.ComboBox({
+            //     el: $('#id-dlg-hyperlink-ck'),
+            //     cls: 'input-group-nr',
+            //     menuStyle: 'min-width: 85px;',
+            //     editable: false,
+            //     data: this._arrLineRule,
+            //     // disabled: this._locked,
+            //     dataHint: '1',
+            //     dataHintDirection: 'bottom',
+            //     dataHintOffset: 'big'
+            // });
+            
+       
+            // me.cmbLineRule.setValue('');
+      
+
+            // me.inputUrl = new Common.UI.InputField({
+            //     el          : $('#id-dlg-hyperlink-url'),
+            //     allowBlank  : false,
+            //     blankError  : me.txtEmpty,
+            //     style       : 'width: 100%;',
+            //     validateOnBlur: false,
+            //     validation  : function(value) {
+            //         var trimmed = $.trim(value);
+            //         if (trimmed.length>2083) return me.txtSizeLimit;
+
+            //         me.urlType = me.api.asc_getUrlType(trimmed);
+            //         return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
+            //     }
+            // });
+            // me.inputUrl._input.on('input', function (e) {
+            //     me.isInputFirstChange && me.inputUrl.showError();
+            //     me.isInputFirstChange = false;
+            //     var val = $(e.target).val();
+            //     if (me.isAutoUpdate) {
+            //         me.inputDisplay.setValue(val);
+            //         me.isTextChanged = true;
+            //     }
+            //     me.btnOk.setDisabled($.trim(val)=='');
+            // });
 
             me.inputDisplay = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-display'),
@@ -187,8 +247,11 @@ define([
             me.internalPanel = $window.find('#id-internal-link');
         },
 
+        // setLocked: function (locked) {
+        //     this._locked = locked;
+        // },
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputDisplay, this.inputTip];
+            return [this.inputUrl,this.inputCk, this.internalList, this.inputDisplay, this.inputTip,];
         },
 
         ShowHideElem: function(value) {
@@ -282,6 +345,7 @@ define([
                     me.inputDisplay.focus();
                 },50);
             } else {
+
                 this.btnOk.setDisabled($.trim(this.inputUrl.getValue())=='');
                 var me = this;
                 _.delay(function(){
