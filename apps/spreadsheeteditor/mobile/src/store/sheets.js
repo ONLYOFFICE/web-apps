@@ -20,7 +20,7 @@ class Worksheet {
 }
 
 export class storeWorksheets {
-    sheets;
+    sheets = [];
 
     constructor() {
         makeObservable(this, {

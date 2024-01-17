@@ -43,6 +43,12 @@
       "textStandartColors": "Τυπικά Χρώματα",
       "textThemeColors": "Χρώματα Θέματος"
     },
+    "Themes": {
+      "dark": "Σκουρόχρωμο",
+      "light": "Ανοιχτόχρωμο",
+      "system": "Ίδιο με το σύστημα",
+      "textTheme": "Θέμα"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Προειδοποίηση",
       "textAnonymous": "Ανώνυμος",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "Το τρέχον αρχείο θα αποθηκευτεί στο ιστορικό εκδόσεων.",
       "titleWarningRestoreVersion": "Επαναφορά αυτής της έκδοσης;",
       "txtErrorLoadHistory": "Η φόρτωση του ιστορικού απέτυχε"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
-    "textCloseHistory": "Κλείσιμο ιστορικού"
+    "textCloseHistory": "Κλείσιμο ιστορικού",
+    "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
+    "textRenameFile": "Μετονομασία αρχείου"
   },
   "View": {
     "Add": {
@@ -371,10 +373,12 @@
       "textHighlightColor": "Χρώμα Επισήμανσης",
       "textHorizontalIn": "Οριζόντιο Εσωτερικό",
       "textHorizontalOut": "Οριζόντιο Εξωτερικό",
+      "textHorizontalText": "Οριζόντιο κείμενο",
       "textHyperlink": "Υπερσύνδεσμος",
       "textImage": "Εικόνα",
       "textImageURL": "URL εικόνας",
       "textInsertImage": "Εισαγωγή εικόνας",
+      "textInvalidName": "Το όνομα αρχείου δεν μπορεί να περιέχει κανέναν από τους ακόλουθους χαρακτήρες:",
       "textLastColumn": "Τελευταία Στήλη",
       "textLastSlide": "Τελευταία Διαφάνεια",
       "textLayout": "Διάταξη",
@@ -414,6 +418,8 @@
       "textReplaceImage": "Αντικατάσταση Εικόνας",
       "textRequired": "Απαιτείται",
       "textRight": "Δεξιά",
+      "textRotateTextDown": "Περιστροφή κειμένου κάτω",
+      "textRotateTextUp": "Περιστροφή κειμένου επάνω",
       "textScreenTip": "Συμβουλή Οθόνης",
       "textSearch": "Αναζήτηση",
       "textSec": "S",
@@ -435,6 +441,7 @@
       "textSuperscript": "Εκθέτης",
       "textTable": "Πίνακας",
       "textText": "Κείμενο",
+      "textTextOrientation": "Προσανατολισμός κειμένου",
       "textTheme": "Θέμα",
       "textTop": "Πάνω",
       "textTopLeft": "Πάνω-Αριστερά",
@@ -468,6 +475,7 @@
       "textColorSchemes": "Χρωματικοί Συνδυασμοί",
       "textComment": "Σχόλιο",
       "textCreated": "Δημιουργήθηκε",
+      "textDark": "Σκουρόχρωμο",
       "textDarkTheme": "Σκούρο Θέμα",
       "textDisableAll": "Απενεργοποίηση όλων",
       "textDisableAllMacrosWithNotification": "Απενεργοποίηση όλων των μακροεντολών με ειδοποίηση",
@@ -487,6 +495,7 @@
       "textInch": "Ίντσα",
       "textLastModified": "Τελευταίο Τροποποιημένο",
       "textLastModifiedBy": "Τελευταία Τροποποίηση Από",
+      "textLight": "Ανοιχτόχρωμο",
       "textLoading": "Φόρτωση...",
       "textLocation": "Τοποθεσία",
       "textMacrosSettings": "Ρυθμίσεις μακροεντολών",
@@ -503,6 +512,7 @@
       "textReplaceAll": "Αντικατάσταση όλων",
       "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
       "textRTL": "ΑΠΔ",
+      "textSameAsSystem": "Ίδιο με το σύστημα",
       "textSearch": "Αναζήτηση",
       "textSettings": "Ρυθμίσεις",
       "textShowNotification": "Εμφάνιση ειδοποίησης",
@@ -510,6 +520,7 @@
       "textSpellcheck": "Έλεγχος ορθογραφίας",
       "textSubject": "Θέμα",
       "textTel": "τηλ:",
+      "textTheme": "Θέμα",
       "textTitle": "Τίτλος",
       "textUnitOfMeasurement": "Μονάδα μέτρησης",
       "textUploaded": "Μεταφορτώθηκε",
@@ -536,11 +547,7 @@
       "txtScheme6": "Συνάθροιση",
       "txtScheme7": "Μετοχή",
       "txtScheme8": "Ροή",
-      "txtScheme9": "Χυτήριο",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "txtScheme9": "Χυτήριο"
     }
   }
 }

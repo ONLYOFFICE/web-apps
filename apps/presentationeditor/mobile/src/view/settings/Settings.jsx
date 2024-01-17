@@ -10,7 +10,6 @@ import { PresentationColorSchemes } from "./PresentationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
-import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
 
 const routes = [
@@ -83,7 +82,7 @@ const SettingsView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
+            <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
                 <View style={{ height: '410px' }} routes={routes} url='/settings-page/'>
                     <SettingsPage />
                 </View>

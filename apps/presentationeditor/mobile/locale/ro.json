@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
-    "textCloseHistory": "Închide istoricul"
+    "textCloseHistory": "Închide istoricul",
+    "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textRenameFile": "Redenumire fișier"
   },
   "View": {
     "Add": {
@@ -371,10 +373,12 @@
       "textHighlightColor": "Culoare de evidențiere",
       "textHorizontalIn": "Orizontal în interior",
       "textHorizontalOut": "Orizontal în exterior",
+      "textHorizontalText": "Text orizontal",
       "textHyperlink": "Hyperlink",
       "textImage": "Imagine",
       "textImageURL": "URL-ul imaginii",
       "textInsertImage": "Inserare imagine",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
       "textLastColumn": "Ultima coloană",
       "textLastSlide": "Ultimul diapozitiv",
       "textLayout": "Aspect",
@@ -414,6 +418,8 @@
       "textReplaceImage": "Înlocuire imagine",
       "textRequired": "Obligatoriu",
       "textRight": "Dreapta",
+      "textRotateTextDown": "Rotirea textului în jos",
+      "textRotateTextUp": "Rotirea textului în sus",
       "textScreenTip": "Sfaturi ecran",
       "textSearch": "Căutare",
       "textSec": "s",
@@ -435,6 +441,7 @@
       "textSuperscript": "Exponent",
       "textTable": "Tabel",
       "textText": "Text",
+      "textTextOrientation": "Orientarea textului",
       "textTheme": "Temă",
       "textTop": "Sus",
       "textTopLeft": "Stânga sus",

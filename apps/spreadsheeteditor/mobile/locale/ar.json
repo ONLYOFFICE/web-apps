@@ -42,7 +42,7 @@
     },
     "Themes": {
       "dark": "داكن",
-      "light": "سمة فاتحة",
+      "light": "فاتح",
       "system": "استخدم سمة النظام",
       "textTheme": "السمة"
     },
@@ -66,6 +66,7 @@
     "errorInvalidLink": "مرجع الرابط غير موجود. يرجى تصحيح الرابط أو حذفه.",
     "menuAddComment": "اضافة تعليق",
     "menuAddLink": "إضافة رابط",
+    "menuAutofill": "ملء تلقائي",
     "menuCancel": "الغاء",
     "menuCell": "خلية",
     "menuDelete": "حذف",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "لا تظهر مجددا",
     "textOk": "موافق",
     "txtWarnUrl": "الضغط على هذا الرابط قد يؤذي جهازك و بياناتك.<br>هل تريد الإكمال؟",
-    "warnMergeLostData": "ستبقى فقط البيانات من الخلية العلوية اليسرى في الخلية المدمجة.<br> هل أنت متأكد أنك تريد المتابعة؟",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "ستبقى فقط البيانات من الخلية العلوية اليسرى في الخلية المدمجة.<br> هل أنت متأكد أنك تريد المتابعة؟"
   },
   "Controller": {
     "Main": {
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "اترك هذه الصفحة",
     "stayButtonText": "ابقى في هذه الصفحة",
-    "textCloseHistory": "إغلاق السجل"
+    "textCloseHistory": "إغلاق السجل",
+    "textEnterNewFileName": "ادخل اسم جديد للملف",
+    "textRenameFile": "إعادة تسمية الملف"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "بداخل الحد العمودي",
       "textInteger": "عدد صحيح",
       "textInternalDataRange": "نطاق البيانات الداخلية",
+      "textInvalidName": "لا يمكن لاسم الملف أن يحتوي على الرموز التالية:",
       "textInvalidRange": "نطاق خلايا غير صالح",
       "textJustified": "مضبوط",
       "textLabelOptions": "تسميات الخيارات",

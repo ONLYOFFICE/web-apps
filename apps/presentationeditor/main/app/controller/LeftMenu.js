@@ -73,7 +73,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'plugins:open': _.bind(this.openPlugin, this),
                     'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
@@ -399,6 +400,9 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
                 this.api.asc_setShowSmartGuides(value);
             }
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
 
             menu.hide();
         },
@@ -480,6 +484,10 @@ define([
             this.leftMenu.closePlugin(guid);
         },
 
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
+        },
+
         onShowTumbnails: function(obj, show) {
             this.api.ShowThumbnails(show);
 
@@ -498,6 +506,7 @@ define([
             this.viewmode = mode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -674,7 +683,7 @@ define([
                         }
                     }
 
-                    if ( this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
+                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

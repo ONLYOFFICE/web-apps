@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Inside Vertical Border",
       "textInteger": "Integer",
       "textInternalDataRange": "Internal Data Range",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textInvalidRange": "Invalid cells range",
       "textJustified": "Justified",
       "textLabelOptions": "Label Options",
@@ -662,6 +665,8 @@
       "textAddress": "Address",
       "textApplication": "Application",
       "textApplicationSettings": "Application Settings",
+      "textRtlInterface": "RTL Interface",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textAuthor": "Author",
       "textBack": "Back",
       "textBottom": "Bottom",

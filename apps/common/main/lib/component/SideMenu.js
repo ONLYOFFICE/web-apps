@@ -46,6 +46,7 @@ define([
 
     Common.UI.SideMenu = Backbone.View.extend((function () {
         return {
+            buttons: [],
             btnMoreContainer: undefined,
 
             render: function () {
@@ -123,7 +124,7 @@ define([
                                     caption: btn.hint,
                                     iconImg: btn.options.iconImg,
                                     template: _.template([
-                                        '<a id="<%= id %>" class="menu-item">',
+                                        '<a id="<%= id %>" class="menu-item" tabindex="-1" type="menuitem">',
                                         '<img class="menu-item-icon" src="<%= options.iconImg %>">',
                                         '<%= caption %>',
                                         '</a>'
@@ -243,6 +244,41 @@ define([
                 this.close();
 
                 this.setMoreButton();
+            },
+
+            isPluginButtonPressed: function () {
+                var pressed = false;
+                for (var i=0; i<this.buttons.length; i++) {
+                    if (this.buttons[i].options.type === 'plugin' && this.buttons[i].pressed) {
+                        pressed = true;
+                        break;
+                    }
+                }
+                return pressed;
+            },
+
+            togglePluginButtons: function (toggle) {
+                for (var i=0; i<this.buttons.length; i++) {
+                    if (this.buttons[i].options.type === 'plugin' && this.buttons[i].pressed) {
+                        this.buttons[i].toggle(toggle, true);
+                    }
+                }
+            },
+
+            updatePluginButtonsIcons: function (icons) {
+                var me = this;
+                icons.forEach(function (item) {
+                    var arr = me.getPluginButton(item.guid),
+                        btn = arr[0],
+                        index = arr[1],
+                        menuItem = _.findWhere(me.btnMore.menu.items, {value: index}),
+                        src = item.baseUrl + item.parsedIcons['normal'];
+                    btn.options.iconImg = src;
+                    btn.cmpEl.find("img").attr("src", src);
+                    if (menuItem) {
+                        menuItem.cmpEl.find("img").attr("src", src);
+                    }
+                });
             },
         }
     }()));

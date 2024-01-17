@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
+    "textRenameFile": "Renomear ficheiro"
   },
   "View": {
     "Add": {
@@ -371,10 +373,12 @@
       "textHighlightColor": "Cor de destaque",
       "textHorizontalIn": "Horizontal para dentro",
       "textHorizontalOut": "Horizontal para fora",
+      "textHorizontalText": "Texto horizontal",
       "textHyperlink": "Hiperligação",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsertImage": "Inserir imagem",
+      "textInvalidName": "O nome do ficheiro não pode ter qualquer um dos seguintes caracteres:",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último diapositivo",
       "textLayout": "Disposição",
@@ -414,6 +418,8 @@
       "textReplaceImage": "Substituir imagem",
       "textRequired": "Necessário",
       "textRight": "Direita",
+      "textRotateTextDown": "Rodar texto para baixo",
+      "textRotateTextUp": "Rodar texto para cima",
       "textScreenTip": "Dica no ecrã",
       "textSearch": "Pesquisar",
       "textSec": "s",
@@ -435,6 +441,7 @@
       "textSuperscript": "Sobrescrito",
       "textTable": "Tabela",
       "textText": "Texto",
+      "textTextOrientation": "Orientação do texto",
       "textTheme": "Tema",
       "textTop": "Cima",
       "textTopLeft": "Superior esquerda",

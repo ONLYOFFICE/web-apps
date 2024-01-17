@@ -116,8 +116,10 @@ define([
             '<a id="<%= id %>" class="menu-item" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
+                '<% } else if (!_.isEmpty(iconImg)) { %>',
+                    '<img src="<%= iconImg %>" class="menu-item-icon">',
                 '<% } %>',
-                '<%= caption %>',
+                '<%- caption %>',
             '</a>'
         ].join('')),
 
@@ -169,6 +171,7 @@ define([
                         id      : me.id,
                         caption : me.caption,
                         iconCls : me.iconCls,
+                        iconImg : me.options.iconImg,
                         style   : me.style,
                         options : me.options
                     }));
@@ -253,11 +256,11 @@ define([
             return this;
         },
 
-        setCaption: function(caption, noencoding) {
+        setCaption: function(caption) {
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = caption;
         },
 
         setIconCls: function(iconCls) {

@@ -66,7 +66,14 @@ if ( window.AscDesktopEditor ) {
                 // window.desktop.themes = map_themes;
             }
         }
+
+        if ( window.RendererProcessVariable.rtl !== undefined ) {
+            const nativevars = window.RendererProcessVariable;
+            localStorage.setItem("ui-rtl", (nativevars.rtl == 'yes' || nativevars.rtl == 'true') ? 1 : 0);
+        }
     }
 
+    !window.features && (window.features = {});
+    window.features.framesize = {width: window.innerWidth, height: window.innerHeight};
     window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
 }

@@ -521,7 +521,7 @@ define([
                         });
                         menu.off('show:before', onShowBefore);
                         menu.on('show:after', function () {
-                            picker.scroller.update({alwaysVisibleY: true});
+                            me.fireEvent('animation:addeffectshow', [picker]);
                         });
                         me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
@@ -663,10 +663,9 @@ define([
             },
 
             setColor: function (color){
-                if(color) {
-                    this._effectColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase();
-                    (!!this.colorPickerParameters)  && this.colorPickerParameters.selectByRGB(this._effectColor, true);
-                }
+               this._effectColor = (color) ? Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase(): this._effectColor;
+            (!!this.colorPickerParameters && this._effectColor)  && this.colorPickerParameters.selectByRGB(this._effectColor, true);
+
             },
 
             updateColors: function (){

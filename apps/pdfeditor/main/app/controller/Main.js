@@ -98,8 +98,10 @@ define([
                 });
 
                 this.translationTable = {
+                    'Your text here': this.txtArt,
                     "Choose an item": this.txtChoose,
-                    "Enter a date": this.txtEnterDate
+                    "Enter a date": this.txtEnterDate,
+                    "Click to load image": this.txtClickToLoad
                 };
             },
 
@@ -154,6 +156,10 @@ define([
                         case '1': this.api.SetFontRenderingMode(1); break;
                         case '2': this.api.SetFontRenderingMode(2); break;
                     }
+
+                    value = Common.localStorage.getBool("app-settings-screen-reader");
+                    Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+                    this.api.setSpeechEnabled(value);
 
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_DE}}') ) {
@@ -397,7 +403,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
 
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
 
@@ -451,7 +457,9 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
 
-                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
+                    var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
+                    docInfo.asc_putIsEnabledMacroses(!!enable);
+                    enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
 //                    docInfo.put_Review(this.permissions.review);
 
@@ -475,11 +483,18 @@ define([
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
+                this.api.asc_registerCallback('asc_onRunAutostartMacroses', _.bind(this.onRunAutostartMacroses, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
                 if (data.doc) {
                     appHeader.setDocumentCaption(data.doc.title);
+                }
+            },
+
+            onRunAutostartMacroses: function() {
+                if (!this.editorConfig.customization || (this.editorConfig.customization.macros!==false)) {
+                    this.api.asc_runAutostartMacroses();
                 }
             },
 
@@ -771,10 +786,6 @@ define([
                 //         this._state.fastCoauth)
                 //     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
 
-                if ( id == Asc.c_oAscAsyncAction['Open']) {
-                    Common.Utils.InternalSettings.get("pdfe-settings-livecomment") ? this.api.asc_showComments(Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment")) : this.api.asc_hideComments();
-                }
-
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
                     this.disableEditing(false, true);
@@ -925,13 +936,8 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                /** coauthoring begin **/
-                this.isLiveCommenting = Common.localStorage.getBool("pdfe-settings-livecomment", true);
-                Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.isLiveCommenting);
-                value = Common.localStorage.getBool("pdfe-settings-resolvedcomment");
-                Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", value);
-                this.isLiveCommenting ? this.api.asc_showComments(value) : this.api.asc_hideComments();
-                /** coauthoring end **/
+                Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
 
                 value = Common.localStorage.getItem("pdfe-settings-zoom");
                 Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);
@@ -1002,8 +1008,8 @@ define([
 
                 documentHolderController.getView().on('editcomplete', _.bind(me.onEditComplete, me));
 
-                if (me.appOptions.isEdit) {
-                    if (me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
+                if (me.appOptions.isEdit || me.appOptions.isRestrictedEdit) {
+                    if (me.appOptions.isEdit && me.appOptions.canForcesave) {// use asc_setIsForceSaveOnUserSave only when customization->forcesave = true
                         me.appOptions.forcesave = Common.localStorage.getBool("pdfe-settings-forcesave", me.appOptions.canForcesave);
                         Common.Utils.InternalSettings.set("pdfe-settings-forcesave", me.appOptions.forcesave);
                         me.api.asc_setIsForceSaveOnUserSave(me.appOptions.forcesave);
@@ -1012,6 +1018,7 @@ define([
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
 
+                    me.appOptions.isRestrictedEdit && me.api.asc_SetHighlightRequiredFields(true);
 
                     var timer_sl = setTimeout(function(){
                         toolbarController.createDelayedElements();
@@ -1026,6 +1033,7 @@ define([
                     }, 500);
                 } else {
                     Common.NotificationCenter.trigger('document:ready', 'main');
+                    Common.Utils.injectSvgIcons();
                     me.applyLicense();
                 }
 
@@ -1067,7 +1075,7 @@ define([
 
             onLicenseChanged: function(params) {
                 var licType = params.asc_getLicenseType();
-                if (licType !== undefined && (this.appOptions.canPDFEdit) && this.editorConfig.mode !== 'view' &&
+                if (licType !== undefined && (this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view' || this.appOptions.isRestrictedEdit) &&
                    (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount || licType===Asc.c_oLicenseResult.ConnectionsOS || licType===Asc.c_oLicenseResult.UsersCountOS
                    || licType===Asc.c_oLicenseResult.SuccessLimit && (this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0))
                     this._state.licenseType = licType;
@@ -1077,6 +1085,9 @@ define([
             },
 
             applyLicense: function() {
+                if (this.appOptions.isForm)
+                    return this.applyLicenseForm();
+
                 if (this.appOptions.canSwitchMode && (this.appOptions.canPDFAnnotate || this.appOptions.canPDFEdit) &&
                     !this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
@@ -1091,6 +1102,57 @@ define([
                                 window.open('mailto:{{SALES_EMAIL}}', "_blank");
                         }
                     });
+                }
+            },
+
+            applyLicenseForm: function() {
+                if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
+                    this.api.asc_coAuthoringDisconnect();
+                    Common.NotificationCenter.trigger('api:disconnect');
+                    Common.UI.warning({
+                        title: this.notcriticalErrorTitle,
+                        msg  : this.warnLicenseAnonymous,
+                        buttons: ['ok']
+                    });
+                } else if (this._state.licenseType) {
+                    var license = this._state.licenseType,
+                        buttons = ['ok'],
+                        primary = 'ok';
+                    if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
+                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = this.warnLicenseLimitedRenewed;
+                    } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
+                        license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
+                    } else {
+                        license = (license===Asc.c_oLicenseResult.ConnectionsOS) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                        buttons = [{value: 'buynow', caption: this.textBuyNow}, {value: 'contact', caption: this.textContactUs}];
+                        primary = 'buynow';
+                    }
+
+                    if (this._state.licenseType!==Asc.c_oLicenseResult.SuccessLimit && this.appOptions.isRestrictedEdit) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
+
+                    var value = Common.localStorage.getItem("pdfe-license-warning");
+                    value = (value!==null) ? parseInt(value) : 0;
+                    var now = (new Date).getTime();
+                    if (now - value > 86400000) {
+                        Common.UI.info({
+                            maxwidth: 500,
+                            title: this.textNoLicenseTitle,
+                            msg  : license,
+                            buttons: buttons,
+                            primary: primary,
+                            callback: function(btn) {
+                                Common.localStorage.setItem("pdfe-license-warning", now);
+                                if (btn == 'buynow')
+                                    window.open('{{PUBLISHER_URL}}', "_blank");
+                                else if (btn == 'contact')
+                                    window.open('mailto:{{SALES_EMAIL}}', "_blank");
+                            }
+                        });
+                    }
                 }
             },
 
@@ -1119,8 +1181,8 @@ define([
                 if (params.asc_getRights() !== Asc.c_oRights.Edit)
                     this.permissions.edit = this.permissions.review = false;
 
-                var isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType) || Common.Locale.getDefaultLanguage() === 'ru';
-
+                this.appOptions.isXpsViewer = /^(?:(djvu|xps|oxps))$/.test(this.document.fileType) || Common.Locale.getDefaultLanguage() === 'ru';
+                this.appOptions.isForm = !this.appOptions.isXpsViewer && !!window.isPDFForm;
                 this.appOptions.permissionsLicense = licType;
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
@@ -1129,18 +1191,18 @@ define([
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
                 /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
-                this.appOptions.canCreateNew   = this.appOptions.canCreateNew && !this.appOptions.isOffline;
+                this.appOptions.canCreateNew   = this.appOptions.canCreateNew && !this.appOptions.isOffline && !this.isForm;
                 this.appOptions.isCrypted      = this.api.asc_isCrypto();
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canSwitchMode = !isXpsViewer && false; // switch between View/pdf comments/pdf edit
-                this.appOptions.canEdit        = !isXpsViewer;
-                this.appOptions.isEdit         = !isXpsViewer;
+                this.appOptions.canSwitchMode = !this.appOptions.isXpsViewer && !this.appOptions.isForm && false; // switch between View/pdf comments/pdf edit
+                this.appOptions.canEdit        = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
+                this.appOptions.isEdit         = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
                 this.appOptions.canPDFEdit     = false;//(this.permissions.edit !== false) && this.appOptions.canLicense;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canPDFAnnotate = this.appOptions.canSwitchMode && this.appOptions.canLicense && (this.permissions.comment!== false);
+                this.appOptions.canPDFAnnotate = (this.appOptions.canSwitchMode || !this.appOptions.isXpsViewer && !this.appOptions.isForm && this.appOptions.isDesktopApp && this.appOptions.isOffline) && this.appOptions.canLicense && (this.permissions.comment!== false);
                 this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.isPDFAnnotate  = false;// this.appOptions.canLicense && this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canComments    = !isXpsViewer;
+                this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate && this.appOptions.isDesktopApp && this.appOptions.isOffline; // this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! online files always open in view mode
+                this.appOptions.canComments    = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
                 this.appOptions.canViewComments = this.appOptions.canComments;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
                                                                                                                (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
@@ -1154,7 +1216,7 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isPDFEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.saveAlwaysEnabled = true;
+                this.appOptions.saveAlwaysEnabled = !this.appOptions.isPDFAnnotate;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
@@ -1166,9 +1228,14 @@ define([
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
                 this.appOptions.isBeta         = params.asc_getIsBeta();
                 this.appOptions.isSignatureSupport= false;//this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isSignaturesSupport() && (this.permissions.protect!==false);
-                this.appOptions.isPasswordSupport = false;//this.appOptions.isEdit && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false);
+                this.appOptions.isPasswordSupport = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline && this.api.asc_isProtectionSupport() && (this.permissions.protect!==false) && !this.appOptions.isForm;
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
+                this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+                // TODO: check view mode
+                this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isForm && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
+                this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
+                this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canFillForms;
 
                 if ( !this.appOptions.canCoAuthoring ) {
                     this.appOptions.canChat = false;
@@ -1176,8 +1243,8 @@ define([
 
                 this.appOptions.canDownloadOrigin = false;
                 this.appOptions.canDownload       = this.permissions.download !== false;
-                this.appOptions.canUseSelectHandTools = isXpsViewer;
-                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = true;
+                this.appOptions.canUseSelectHandTools = this.appOptions.isXpsViewer;
+                this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = !this.appOptions.isForm;
 
                 this.appOptions.fileKey = this.document.key;
 
@@ -1226,7 +1293,8 @@ define([
                     this.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                 }
 
-                this.api.asc_setViewMode(!this.appOptions.isEdit);
+                this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
+                this.appOptions.isRestrictedEdit && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_LoadDocument();
             },
 
@@ -1330,9 +1398,9 @@ define([
             onPdfModeApply: function() {
                 if (!this.api) return;
 
-                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : false;
+                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : this.appOptions.isForm;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
-                this.api.asc_setAutoSaveGap(this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : 0);
+                this.api.asc_setAutoSaveGap(this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : (this.appOptions.isForm ? 1 : 0));
                 if (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) {
                     var value = Common.Utils.InternalSettings.get((this._state.fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
                     switch(value) {
@@ -1342,7 +1410,8 @@ define([
                         default: value = (this._state.fastCoauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                     }
                     this.api.SetCollaborativeMarksShowType(value);
-                }
+                } else
+                    this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
 
                 this.getApplication().getController('LeftMenu').leftMenu.getMenu('file').applyMode();
             },
@@ -1398,7 +1467,9 @@ define([
                 if (this.appOptions.isEdit) {
                     // var fontsControllers    = application.getController('Common.Controllers.Fonts');
                     // fontsControllers    && fontsControllers.setApi(me.api);
-                    // application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
+
+                    if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
+                        application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
                     var viewport = this.getApplication().getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
@@ -1430,7 +1501,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                }
+                } else
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg, options) {
@@ -1597,6 +1669,10 @@ define([
 
                     case Asc.c_oAscError.ID.PasswordIsNotCorrect:
                         config.msg = this.errorPasswordIsNotCorrect;
+                        break;
+
+                    case Asc.c_oAscError.ID.TextFormWrongFormat:
+                        config.msg = this.errorTextFormWrongFormat;
                         break;
 
                     case Asc.c_oAscError.ID.ConvertationOpenFormat:
@@ -1896,6 +1972,11 @@ define([
 
             onUnload: function() {
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
+            },
+
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
             },
 
             hidePreloader: function() {
@@ -2458,7 +2539,9 @@ define([
             txtValidPdfFormat: 'Field value should match format "{0}".',
             txtChoose: 'Choose an item',
             txtEnterDate: 'Enter a date',
-            errorEmailClient: 'No email client could be found'
+            errorEmailClient: 'No email client could be found',
+            errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
+            txtArt: 'Your text here',
         }
     })(), PDFE.Controllers.Main || {}))
 });

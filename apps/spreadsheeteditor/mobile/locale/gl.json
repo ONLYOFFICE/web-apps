@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Saiu do aplicativo",
     "leaveButtonText": "Saír desta página",
     "stayButtonText": "Quedarse nesta páxina",
-    "textCloseHistory": "Pechar historial"
+    "textCloseHistory": "Pechar historial",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textCreateFormat": "Create Format",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",

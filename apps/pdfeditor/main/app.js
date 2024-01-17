@@ -156,7 +156,8 @@ require([
             'Common.Controllers.Chat',
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
-            'Common.Controllers.Plugins'
+            'Common.Controllers.Plugins',
+            'Common.Controllers.Protection'
         ]
     });
 
@@ -185,7 +186,8 @@ require([
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/
                 'common/main/lib/controller/Plugins',
-                'common/main/lib/controller/Draw'
+                'common/main/lib/controller/Draw',
+                'common/main/lib/controller/Protection'
             ], function() {
                 app.start();
             });

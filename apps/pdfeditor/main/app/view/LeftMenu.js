@@ -316,6 +316,7 @@ define([
                     this.panelThumbnails['hide']();
                     this.btnThumbnails.toggle(false, true);
                 }
+                this.togglePluginButtons(false);
             }
         },
 
@@ -394,6 +395,7 @@ define([
             this.mode = mode;
             this.btnAbout.panel.setMode(mode);
             mode.canUseThumbnails && this.btnThumbnails.show();
+            mode.canUseViwerNavigation && this.btnNavigation.show();
             return this;
         },
 

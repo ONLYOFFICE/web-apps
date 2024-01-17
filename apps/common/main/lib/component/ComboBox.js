@@ -410,6 +410,7 @@ define([
 
             onAfterKeydownMenu: function(e) {
                 if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
+                    this.onBeforeShowMenu();
                     this.openMenu();
                     this.onAfterShowMenu();
                     return false;

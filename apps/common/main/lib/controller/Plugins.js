@@ -118,7 +118,7 @@ define([
         loadConfig: function(data) {
             var me = this;
             me.configPlugins.config = data.config.plugins;
-            me.editor = (!!window.DE || !!window.PDFE) ? 'word' : !!window.PE ? 'slide' : 'cell';
+            me.editor = !!window.PDFE ? 'pdf' : !!window.DE ? 'word' : !!window.PE ? 'slide' : 'cell';
             me.isPDFEditor = !!window.PDFE;
         },
 
@@ -463,10 +463,22 @@ define([
 
         updatePluginsButtons: function() {
             var storePlugins = this.getApplication().getCollection('Common.Collections.Plugins'),
-                me = this;
+                me = this,
+                iconsInSideMenu = [];
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
+                var guid = item.get('guid');
+                if (me.viewPlugins.pluginPanels[guid]) {
+                    iconsInSideMenu.push({
+                        guid: guid,
+                        baseUrl: item.get('baseUrl'),
+                        parsedIcons: item.get('parsedIcons')
+                    });
+                }
             });
+            if (iconsInSideMenu.length > 0) {
+                me.viewPlugins.fireEvent('plugins:updateicons', [iconsInSideMenu]);
+            }
         },
 
         onSelectPlugin: function(picker, item, record, e){
@@ -806,7 +818,7 @@ define([
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: itemVar.icons2 || itemVar.icons,
+                                icons: (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -1109,7 +1121,6 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
-        },
-
+        }
     }, Common.Controllers.Plugins || {}));
 });

@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Вы выходите из приложения",
     "leaveButtonText": "Уйти со страницы",
     "stayButtonText": "Остаться на странице",
-    "textCloseHistory": "Закрыть историю"
+    "textCloseHistory": "Закрыть историю",
+    "textEnterNewFileName": "Введите новое имя файла",
+    "textRenameFile": "Переименовать файл"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Внутренняя вертикальная граница",
       "textInteger": "Целочисленный",
       "textInternalDataRange": "Внутренний диапазон данных",
+      "textInvalidName": "Имя файла не должно содержать следующих символов: ",
       "textInvalidRange": "Недопустимый диапазон ячеек",
       "textJustified": "По ширине",
       "textLabelOptions": "Параметры подписи",

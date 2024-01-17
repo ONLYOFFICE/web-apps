@@ -137,8 +137,8 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="pointer-events:none;width: 100%;display:flex;">',
-                        '<div class="padding-right-5" style="width:110px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= replaced %></div>',
-                        '<div style="width:230px;overflow-x: clip;overflow-y:visible;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;white-space: nowrap;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= by %></div>',
+                        '<div class="padding-right-5" style="width:110px;overflow: hidden;text-overflow: ellipsis;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= Common.Utils.String.htmlEncode(replaced) %></div>',
+                        '<div style="width:230px;overflow-x: clip;overflow-y:visible;text-overflow: ellipsis;flex-grow:1;font-family: Cambria Math;font-size:13px;white-space: nowrap;<% if (defaultDisabled) { %> font-style:italic; opacity: 0.5;<% } %>"><%= Common.Utils.String.htmlEncode(by) %></div>',
                     '</div>'
                 ].join('')),
                 scrollAlwaysVisible: true,
@@ -642,7 +642,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                 var restore = rec.get('defaultValue') && (rec.get('defaultValueStr')!==rec.get('by')) && (this.inputBy.getValue() === rec.get('by'));
                 Common.UI.warning({
                     maxwidth: 500,
-                    msg: restore ? this.warnRestore.replace('%1', rec.get('replaced')) : this.warnReplace.replace('%1', rec.get('replaced')),
+                    msg: restore ? this.warnRestore.replace('%1', Common.Utils.String.htmlEncode(rec.get('replaced'))) : this.warnReplace.replace('%1', Common.Utils.String.htmlEncode(rec.get('replaced'))),
                     buttons: ['yes', 'no'],
                     primary: 'yes',
                     callback: _.bind(function(btn, dontshow){

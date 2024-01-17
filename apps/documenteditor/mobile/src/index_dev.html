@@ -29,6 +29,11 @@
         <%= htmlWebpackPlugin.options.skeleton.htmlscript %>
     </script>
     <% } %>
+    <% if ( htmlWebpackPlugin.options.skeleton.checkerscript ) { %>
+    <script>
+        <%= htmlWebpackPlugin.options.skeleton.checkerscript %>
+    </script>
+    <% } %>
     <section class="skl-container">
         <div class="skl-navbar skl-navbar--word"></div>
         <div class="skl-lines">
@@ -79,6 +84,12 @@
 
             return urlParams;
         };
+        function encodeUrlParam(str) {
+            return str.replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
 
         window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
         let params = getUrlParams(),

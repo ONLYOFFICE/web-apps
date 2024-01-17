@@ -75,7 +75,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'plugins:open': _.bind(this.openPlugin, this),
                     'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -200,7 +201,11 @@ define([
             }
             /** coauthoring end **/
 
-            this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            if (this.mode.canUseViwerNavigation) {
+                this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            } else {
+                this.leftMenu.btnNavigation.hide();
+            }
 
             if (this.mode.canUseThumbnails) {
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
@@ -406,7 +411,7 @@ define([
             var value;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = this.mode.isPDFAnnotate || this.mode.isPDFEdit;
+                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && !this.mode.isOffline;
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave ) {
                 if (this.mode.canChangeCoAuthoring) {
@@ -426,10 +431,8 @@ define([
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
-            value = Common.localStorage.getBool("pdfe-settings-livecomment", true);
-            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("pdfe-settings-resolvedcomment");
-            Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", resolved);
+            value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment");
+            var resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
             // if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
             //     value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
@@ -456,6 +459,10 @@ define([
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pdfe-settings-showsnaplines"));
+
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
 
             menu.hide();
         },
@@ -545,6 +552,10 @@ define([
             this.leftMenu.closePlugin(guid);
         },
 
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
+        },
+
         onApiServerDisconnect: function(enableDownload) {
             this.mode.isEdit = false;
             this.leftMenu.close();
@@ -568,6 +579,7 @@ define([
             var viewmode = this._state.disableEditing;
             if (this.viewmode === viewmode) return;
             this.viewmode = viewmode;
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         SetDisabled: function(disable, options) {
@@ -633,13 +645,6 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment"),
-                resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
-
-            if (!value || !resolved) {
-                // (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
-            }
-
             if (mode === 'show') {
                 this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
             }
@@ -768,8 +773,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                                $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle, f7 } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
 const PageApplicationSettings = props => {
@@ -15,6 +15,8 @@ const PageApplicationSettings = props => {
     const isHiddenTableBorders = storeApplicationSettings.isHiddenTableBorders;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
+    const directionMode = storeApplicationSettings.directionMode;
+    const newDirectionMode = directionMode !== 'ltr' ? 'ltr' : 'rtl';
 
     const changeMeasureSettings = value => {
         storeApplicationSettings.changeUnitMeasurement(value);
@@ -108,6 +110,23 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
+            <List>
+                <ListItem>
+                    <div>
+                        <span>{t("Settings.textRtlInterface")}</span>
+                        <span className="beta-badge">Beta</span>
+                    </div>
+                    <Toggle checked={directionMode !== 'ltr'}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                props.changeDirectionMode(newDirectionMode);
+                            }}
+                    />
+                </ListItem>
+            </List>
+            <Block>
+                <p>{t('Settings.textExplanationChangeDirection')}</p>
+            </Block>
         </Page>
     );
 };
@@ -132,38 +151,6 @@ const PageThemeSettings = props => {
             </List>
         </Page>
     )
-}
-
-const PageDirection = props => {
-    const { t } = useTranslation();
-    const _t = t("Settings", { returnObjects: true });
-    const storeApplicationSettings = props.storeApplicationSettings;
-    const directionMode = storeApplicationSettings.directionMode;
-
-    const changeDirection = value => {
-        storeApplicationSettings.changeDirectionMode(value);
-        props.changeDirection(value);
-
-        f7.dialog.create({
-            title: _t.notcriticalErrorTitle,
-            text: t('Settings.textRestartApplication'),
-            buttons: [
-                {
-                    text: _t.textOk
-                }
-            ]
-        }).open();
-    };
-
-    return (
-        <Page>
-            <Navbar title={t('Settings.textDirection')} backLink={_t.textBack} />
-            <List mediaList>
-                <ListItem radio name="direction" title={t('Settings.textLeftToRight')} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
-                <ListItem radio name="direction" title={t('Settings.textRightToLeft')} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
-            </List>
-        </Page>
-    );
 }
 
 const PageMacrosSettings = props => {
@@ -194,7 +181,6 @@ const PageMacrosSettings = props => {
 
 const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeReview", "storeThemes")(observer(PageApplicationSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
-const Direction = inject("storeApplicationSettings")(observer(PageDirection));
 const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 
-export {ApplicationSettings, MacrosSettings, Direction, ThemeSettings};
+export {ApplicationSettings, MacrosSettings, ThemeSettings};

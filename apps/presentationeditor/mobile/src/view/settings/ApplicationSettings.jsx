@@ -1,8 +1,7 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
-import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
@@ -10,6 +9,8 @@ const PageApplicationSettings = props => {
     const storeApplicationSettings = props.storeApplicationSettings;
     const unitMeasurement = storeApplicationSettings.unitMeasurement;
     const isSpellChecking = storeApplicationSettings.isSpellChecking;
+    const directionMode = storeApplicationSettings.directionMode;
+    const newDirectionMode = directionMode !== 'ltr' ? 'ltr' : 'rtl';
 
     const changeMeasureSettings = value => {
         storeApplicationSettings.changeUnitMeasurement(value);
@@ -51,7 +52,6 @@ const PageApplicationSettings = props => {
                             />
                         </ListItem>
                     </List>
-                    {/*<RTLSetting />*/}
                 </Fragment>
             }
             {!!isConfigSelectTheme &&
@@ -61,13 +61,28 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
-            {/* {_isShowMacros && */}
             <List mediaList>
                 <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>
             </List>
-            {/* } */}
+            <List>
+                <ListItem>
+                    <div>
+                        <span>{t("View.Settings.textRtlInterface")}</span>
+                        <span className="beta-badge">Beta</span>
+                    </div>
+                    <Toggle checked={directionMode !== 'ltr'}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                props.changeDirectionMode(newDirectionMode);
+                            }}
+                    />
+                </ListItem>
+            </List>
+            <Block>
+                <p>{t('View.Settings.textExplanationChangeDirection')}</p>
+            </Block>
         </Page>
     );
 };
@@ -91,38 +106,6 @@ const PageThemeSettings = props => {
                 })}
             </List>
         </Page>
-    )
-}
-
-const RTLSetting = () => {
-    const { t } = useTranslation();
-    const _t = t("View.Settings", { returnObjects: true });
-
-    let direction = LocalStorage.getItem('mode-direction');
-    const [isRTLMode, setRTLMode] = useState(direction === 'rtl' ? true : false);
-
-    const switchRTLMode = rtl => {
-        LocalStorage.setItem("mode-direction", rtl ? 'rtl' : 'ltr');
-
-        f7.dialog.create({
-            title: t('View.Settings.notcriticalErrorTitle'),
-            text: t('View.Settings.textRestartApplication'),
-            buttons: [
-                {
-                    text: t('View.Settings.textOk')
-                }
-            ]
-        }).open();
-    }
-
-    return (
-        <List>
-            <ListItem title={t('View.Settings.textRTL')}>
-                <Toggle checked={isRTLMode}
-                    onToggleChange={toggle => {switchRTLMode(!toggle), setRTLMode(!toggle)}}>
-                </Toggle>
-            </ListItem>            
-        </List>
     )
 }
 

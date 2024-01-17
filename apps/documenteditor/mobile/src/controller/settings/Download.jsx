@@ -9,6 +9,7 @@ class DownloadController extends Component {
     constructor(props) {
         super(props);
         this.onSaveFormat = this.onSaveFormat.bind(this);
+        this.appOptions = this.props.storeAppOptions;
     }
 
     closeModal() {
@@ -81,7 +82,11 @@ class DownloadController extends Component {
 
     render() {
         return (
-            <Download onSaveFormat={this.onSaveFormat} />
+            <Download 
+                onSaveFormat={this.onSaveFormat} 
+                isForm={this.appOptions.isForm}
+                canFillForms={this.appOptions.canFillForms}
+            />
         );
     }
 }

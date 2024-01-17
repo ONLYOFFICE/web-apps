@@ -405,7 +405,8 @@
 
   .item {
     border: none;
-    width: calc(100% - 4px);
+    .margin-left-4;
+    width: 100%;
     .box-shadow(none);
   }
 
@@ -431,7 +432,7 @@
         height: 100%;
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-          background-size: 744px 30px;
+          background-size: 1056px 30px;
           &:not(.svg-file-recent) {
             .pixel-ratio__1_25 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -450,57 +451,78 @@
             }
           }
         }
+        .format-from-index(@index) {
+          background-position: -24px*@index 0;
+        }
         .img-format- {
           &docx {
-            background-position: 0px 0px;
+            .format-from-index(0);
           }
           &pdf {
-            background-position: 408px 0px;
+            .format-from-index(14);
           }
           &odt {
-            background-position: 696px 0px;
+            .format-from-index(2);
           }
           &txt {
-            background-position: 648px 0px;
+            .format-from-index(4);
           }
           &dotx {
-            background-position: 240px 0px;
+            .format-from-index(21);
           }
           &pdfa {
-            background-position: 408px 0px;
+            .format-from-index(14);
           }
           &ott {
-            background-position: 168px 0px;
+            .format-from-index(24);
           }
           &rtf {
-            background-position: 672px 0px;
+            .format-from-index(3);
           }
           &doc {
-            background-position: 720px 0px;
+            .format-from-index(1);
           }
           &docxf {
-            background-position: 48px 0px;
+            .format-from-index(29);
           }
           &oform {
-            background-position: 24px 0px;
+            .format-from-index(30);
           }
           &html, &htm {
-            background-position: 624px 0px;
+            .format-from-index(5);
           }
           &fb2 {
-            background-position: 264px 0px;
+            .format-from-index(20);
           }
           &epub {
-            background-position: 288px 0px;
+            .format-from-index(19);
           }
           &xps {
-            background-position: 360px 0px;
+            .format-from-index(16);
+          }
+          &xml {
+            .format-from-index(17);
           }
           &djvu {
-            background-position: 384px 0px;
+            .format-from-index(15);
           }
           &mht {
-            background-position: 312px 0px;
+            .format-from-index(18);
+          }
+          &docm {
+            .format-from-index(32);
+          }
+          &dotm {
+            .format-from-index(33);
+          }
+          &fodt {
+            .format-from-index(34);
+          }
+          &md {
+            .format-from-index(42);
+          }
+          &neutral {
+            .format-from-index(43);
           }
         }
         .svg-file-recent {

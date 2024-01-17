@@ -43,8 +43,8 @@
     "Themes": {
       "dark": "Tmavé",
       "light": "Světlé",
-      "system": "Same as system",
-      "textTheme": "Theme"
+      "system": "Stejné jako systémové",
+      "textTheme": "Prostředí"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Varování",
@@ -66,6 +66,7 @@
     "errorInvalidLink": "Odkaz neexistuje. Prosím, opravte odkaz nebo jej smažte.",
     "menuAddComment": "Přidat komentář",
     "menuAddLink": "Přidat odkaz",
+    "menuAutofill": "Dynamické doplňování",
     "menuCancel": "Zrušit",
     "menuCell": "Buňka",
     "menuDelete": "Smazat",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
   },
   "Controller": {
     "Main": {
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
-    "textCloseHistory": "Zavřít historii"
+    "textCloseHistory": "Zavřít historii",
+    "textEnterNewFileName": "Zadejte nový název souboru",
+    "textRenameFile": "Přejmenovat soubor"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Vnitřní svislé ohraničení",
       "textInteger": "Celé číslo",
       "textInternalDataRange": "Vnitřní rozsah dat",
+      "textInvalidName": "Název souboru nesmí obsahovat žádný z následujících znaků:",
       "textInvalidRange": "Neplatný rozsah buněk",
       "textJustified": "Oprávněný",
       "textLabelOptions": "Možnosti štítku",
@@ -679,7 +682,7 @@
       "textComments": "Komentáře",
       "textCreated": "Vytvořeno",
       "textCustomSize": "Vlastní velikost",
-      "textDark": "Tmavé",
+      "textDark": "Tmavá",
       "textDarkTheme": "Tmavý vzhled prostředí",
       "textDelimeter": "Oddělovač",
       "textDirection": "Směr",
@@ -735,6 +738,7 @@
       "textRestartApplication": "Pro provedení změn restartujete aplikaci",
       "textRight": "Vpravo",
       "textRightToLeft": "Zprava doleva",
+      "textSameAsSystem": "Stejné jako systémové",
       "textSearch": "Hledat",
       "textSearchBy": "Hledat",
       "textSearchIn": "Hledat v",
@@ -747,6 +751,7 @@
       "textSpreadsheetTitle": "Nadpis sešitu",
       "textSubject": "Předmět",
       "textTel": "Telefon",
+      "textTheme": "Prostředí",
       "textTitle": "Název",
       "textTop": "Nahoru",
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",
@@ -820,9 +825,7 @@
       "txtUk": "ukrajinština",
       "txtVi": "vietnamština",
       "txtZh": "čínština",
-      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?"
     }
   }
 }

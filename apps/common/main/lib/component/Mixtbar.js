@@ -143,7 +143,8 @@ define([
 
                 this.$layout = $(options.template({
                     tabsmarkup: _.template(_template_tabs)({items: options.tabs}),
-                    isRTL: Common.UI.isRTL()
+                    isRTL: Common.UI.isRTL(),
+                    config: options.config
                 }));
 
                 config.tabs = options.tabs;

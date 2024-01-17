@@ -54,7 +54,8 @@ define([
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
                     'plugins:open': _.bind(this.openPlugin, this),
                     'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'hide': _.bind(this.onHidePlugins, this),
+                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
@@ -521,6 +522,10 @@ define([
                 this.api.asc_setLocale(parseInt(reg), Common.localStorage.getItem("sse-settings-decimal-separator"), Common.localStorage.getItem("sse-settings-group-separator"));
             }
 
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
+
             menu.hide();
 
             this.leftMenu.fireEvent('settings:apply');
@@ -624,11 +629,16 @@ define([
             this.leftMenu.closePlugin(guid);
         },
 
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
+        },
+
         setPreviewMode: function(mode) {
             if (this.viewmode === mode) return;
             this.viewmode = mode;
 
             this.leftMenu.panelSearch && this.leftMenu.panelSearch.setSearchMode(this.viewmode ? 'no-replace' : 'search');
+            this.leftMenu.setDisabledPluginButtons(this.viewmode);
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -830,7 +840,7 @@ define([
                             return false;
                         }
                     }
-                    if ( this.leftMenu.btnAbout.pressed ||
+                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() ||
                         ($(e.target).parents('#left-menu').length || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();

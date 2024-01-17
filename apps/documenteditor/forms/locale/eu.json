@@ -149,7 +149,7 @@
   "DE.Controllers.ApplicationController.txtUntitled": "Izengabea",
   "DE.Controllers.ApplicationController.unknownErrorText": "Errore ezezaguna.",
   "DE.Controllers.ApplicationController.unsupportedBrowserErrorText": "Zure nabigatzaileak ez du euskarririk.",
-  "DE.Controllers.ApplicationController.uploadImageExtMessage": "Irudi formatu ezezaguna.",
+  "DE.Controllers.ApplicationController.uploadImageExtMessage": "Irudi-formatu ezezaguna.",
   "DE.Controllers.ApplicationController.uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da.",
   "DE.Controllers.ApplicationController.waitText": "Mesedez, itxaron...",
   "DE.Controllers.ApplicationController.warnLicenseAnonymous": "Sarbidea debekatuta erabiltzaile anonimoentzat.<br>Irakurtzeko soilik irekiko da dokumentu hau.",

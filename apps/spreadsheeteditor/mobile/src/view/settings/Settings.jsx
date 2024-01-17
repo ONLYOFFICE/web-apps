@@ -7,10 +7,7 @@ import SpreadsheetInfoController from '../../controller/settings/SpreadsheetInfo
 import { DownloadWithTranslation } from '../../controller/settings/Download.jsx';
 import { SpreadsheetColorSchemes, SpreadsheetFormats, SpreadsheetMargins } from './SpreadsheetSettings.jsx';
 import { MacrosSettings, RegionalSettings, FormulaLanguage, ThemeSettings } from './ApplicationSettings.jsx';
-// import SpreadsheetAbout from './SpreadsheetAbout.jsx';
 import About from '../../../../../common/mobile/lib/view/About';
-import { Direction } from '../../../../../spreadsheeteditor/mobile/src/view/settings/ApplicationSettings';
-// import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
 import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
@@ -69,10 +66,6 @@ const routes = [
         path: '/about/',
         component: About
     },
-    {
-        path: '/direction/',
-        component: Direction
-    },
     // Version History 
     {
         path: '/version-history',
@@ -105,7 +98,7 @@ const SettingsView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
+            <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
                 <View routes={routes} url='/settings-page/' style={{ height: '410px' }}>
                     <SettingsPage />
                 </View>

@@ -241,7 +241,8 @@
             customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
             margin = (customer !== '') ? 50 : 20,
             loading = 'Loading...',
-            logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+            logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null,
+            isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -321,7 +322,23 @@
     <inline src="../../common/main/resources/img/header/icons.svg" />
     <div id="viewport"></div>
     <div class="inlined-svg"></div>
-    <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
-
+    <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+    <script>
+        function startApp() {
+            var script = document.createElement("script");
+            script.setAttribute("data-main", "app");
+            script.src = "../../../vendor/requirejs/require.js";
+            document.body.appendChild(script);
+        }
+        if (isForm===undefined) {
+            listenApiMsg(function (isform) {
+                window.isPDFForm = !!isform;
+                startApp();
+            });
+        } else {
+            window.isPDFForm = isForm==='true';
+            startApp();
+        }
+    </script>
 </body>
 </html>

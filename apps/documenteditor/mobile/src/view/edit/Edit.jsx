@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Popover, Sheet, View, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
-import { PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor } from "./EditText";
+import { PageTextFonts, PageTextAddFormatting, PageTextBulletsAndNumbers, PageTextLineSpacing, PageTextFontColor, PageTextCustomFontColor, PageTextHighlightColor, PageOrientationTextShape } from "./EditText";
 import { ParagraphAdvSettings, PageParagraphBackColor, PageParagraphCustomColor, PageParagraphStyle, PageCreateTextStyle, PageChangeNextParagraphStyle } from "./EditParagraph";
 import { PageShapeStyleNoFill, PageShapeStyle, PageShapeCustomFillColor, PageShapeBorderColor, PageShapeCustomBorderColor, PageWrap, PageReorder, PageReplace } from "./EditShape";
 import { PageImageReorder, PageImageReplace, PageImageWrap, PageLinkSettings, PageWrappingStyle } from "./EditImage";
@@ -45,6 +45,10 @@ const routes = [
     {
         path: '/edit-text-highlight-color/',
         component: PageTextHighlightColor,
+    },
+    {
+        path: '/edit-text-shape-orientation/',
+        component: PageOrientationTextShape
     },
 
     // Edit link

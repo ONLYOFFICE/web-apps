@@ -91,9 +91,12 @@
                         download: true
                     }
                 };
-                
+
                 if (urlParams['mode'] == 'review')
                     docparams.permissions.edit = !(docparams.permissions.review = true);
+
+                if (urlParams['isForm'] !== undefined)
+                    docparams.isForm = (urlParams['isForm']==='true');
 
                 return docparams;
             }

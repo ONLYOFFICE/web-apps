@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Digite um novo nome para o arquivo",
+    "textRenameFile": "Renomear arquivo"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Limite vertical interior",
       "textInteger": "Inteiro",
       "textInternalDataRange": "Intervalo de dados interno",
+      "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
       "textInvalidRange": "Intervalo de células inválido",
       "textJustified": "Justificado",
       "textLabelOptions": "Opções de rótulos",

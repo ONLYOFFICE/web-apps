@@ -159,7 +159,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                         '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
                         '<div style="width:128px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
                         '<% if (lock) { %>',
-                            '<div class="lock-user"><%=lockuser%></div>',
+                            '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                         '<% } %>',
                     '</div>'
                 ].join('')),

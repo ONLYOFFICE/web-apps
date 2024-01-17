@@ -45,7 +45,7 @@
     },
     "Themes": {
       "dark": "داكن",
-      "light": "سمة فاتحة",
+      "light": "فاتح",
       "system": "استخدم سمة النظام",
       "textTheme": "السمة"
     },
@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "انت تغادر التطبيق",
     "leaveButtonText": "مغادرة هذه الصفحة",
     "stayButtonText": "البقاء في هذه الصفحة",
-    "textCloseHistory": "إغلاق السجل"
+    "textCloseHistory": "إغلاق السجل",
+    "textEnterNewFileName": "ادخل اسم جديد للملف",
+    "textRenameFile": "إعادة تسمية الملف"
   },
   "View": {
     "Add": {
@@ -371,10 +373,12 @@
       "textHighlightColor": "لون تمييز النص",
       "textHorizontalIn": "أفقي للداخل",
       "textHorizontalOut": "أفقي للخارج",
+      "textHorizontalText": "النص الأفقي",
       "textHyperlink": "ارتباط تشعبي",
       "textImage": "صورة",
       "textImageURL": "رابط صورة",
       "textInsertImage": "إدراج صورة",
+      "textInvalidName": "لا يمكن لاسم الملف أن يحتوي على الرموز التالية:",
       "textLastColumn": "العمود الأخير",
       "textLastSlide": "الشريحة الأخيرة",
       "textLayout": "تخطيط الصفحة",
@@ -414,6 +418,8 @@
       "textReplaceImage": "استبدال الصورة",
       "textRequired": "مطلوب",
       "textRight": "يمين",
+      "textRotateTextDown": "تدوير النص للأسفل",
+      "textRotateTextUp": "تدوير النص للأعلى",
       "textScreenTip": "تلميح شاشة",
       "textSearch": "بحث",
       "textSec": "ثانية",
@@ -435,6 +441,7 @@
       "textSuperscript": "نص مرتفع",
       "textTable": "جدول",
       "textText": "نص",
+      "textTextOrientation": "اتجاه النص",
       "textTheme": "السمة",
       "textTop": "أعلى",
       "textTopLeft": "أعلى اليسار",

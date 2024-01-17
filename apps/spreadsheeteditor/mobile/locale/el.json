@@ -40,6 +40,12 @@
       "textStandartColors": "Τυπικά Χρώματα",
       "textThemeColors": "Χρώματα Θέματος"
     },
+    "Themes": {
+      "dark": "Σκουρόχρωμο",
+      "light": "Ανοιχτόχρωμο",
+      "system": "Ίδιο με το σύστημα",
+      "textTheme": "Θέμα"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Προειδοποίηση",
       "textAnonymous": "Ανώνυμος",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Το τρέχον αρχείο θα αποθηκευτεί στο ιστορικό εκδόσεων.",
       "titleWarningRestoreVersion": "Επαναφορά αυτής της έκδοσης;",
       "txtErrorLoadHistory": "Η φόρτωση του ιστορικού απέτυχε"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -66,6 +66,7 @@
     "errorInvalidLink": "Η παραπομπή του συνδέσμου δεν υπάρχει. Παρακαλούμε διορθώστε τον σύνδεσμο ή διαγράψτε τον.",
     "menuAddComment": "Προσθήκη σχολίου",
     "menuAddLink": "Προσθήκη Συνδέσμου",
+    "menuAutofill": "Αυτόματη συμπλήρωση",
     "menuCancel": "Ακύρωση",
     "menuCell": "Κελί",
     "menuDelete": "Διαγραφή",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Να μην εμφανιστεί ξανά",
     "textOk": "Εντάξει",
     "txtWarnUrl": "Η συσκευή και τα δεδομένα σας μπορεί να κινδυνεύσουν αν κάνετε κλικ σε αυτόν τον σύνδεσμο.<br>Θέλετε σίγουρα να συνεχίσετε;",
-    "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Μόνο τα δεδομένα από το επάνω αριστερό κελί θα παραμείνουν στο συγχωνευμένο κελί.<br>Είστε σίγουροι ότι θέλετε να συνεχίσετε;"
   },
   "Controller": {
     "Main": {
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Έξοδος από την εφαρμογή",
     "leaveButtonText": "Έξοδος από τη σελίδα",
     "stayButtonText": "Παραμονή στη σελίδα",
-    "textCloseHistory": "Κλείσιμο ιστορικού"
+    "textCloseHistory": "Κλείσιμο ιστορικού",
+    "textEnterNewFileName": "Εισαγάγετε ένα νέο όνομα αρχείου",
+    "textRenameFile": "Μετονομασία αρχείου"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Εσωτερικό κατακόρυφο περίγραμμα",
       "textInteger": "Ακέραιος αριθμός",
       "textInternalDataRange": "Εσωτερικό εύρος δεδομένων",
+      "textInvalidName": "Το όνομα αρχείου δεν μπορεί να περιέχει κανέναν από τους ακόλουθους χαρακτήρες:",
       "textInvalidRange": "Μη έγκυρο εύρος κελιών",
       "textJustified": "Πλήρης στοίχιση",
       "textLabelOptions": "Επιλογές Ετικέτας",
@@ -679,6 +682,7 @@
       "textComments": "Σχόλια",
       "textCreated": "Δημιουργήθηκε",
       "textCustomSize": "Προσαρμοσμένο Μέγεθος",
+      "textDark": "Σκουρόχρωμο",
       "textDarkTheme": "Σκούρο θέμα",
       "textDelimeter": "Διαχωριστικό",
       "textDirection": "Κατεύθυνση",
@@ -710,6 +714,7 @@
       "textLastModifiedBy": "Τελευταία Τροποποίηση Από",
       "textLeft": "Αριστερά",
       "textLeftToRight": "Αριστερά Προς Δεξιά",
+      "textLight": "Ανοιχτόχρωμο",
       "textLocation": "Τοποθεσία",
       "textLookIn": "Αναζήτηση Σε",
       "textMacrosSettings": "Ρυθμίσεις μακροεντολών",
@@ -733,6 +738,7 @@
       "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
       "textRight": "Δεξιά",
       "textRightToLeft": "Δεξιά Προς Αριστερά",
+      "textSameAsSystem": "Ίδιο με το σύστημα",
       "textSearch": "Αναζήτηση",
       "textSearchBy": "Αναζήτηση",
       "textSearchIn": "Αναζήτηση Σε",
@@ -745,6 +751,7 @@
       "textSpreadsheetTitle": "Τίτλος υπολογιστικού Φύλλου",
       "textSubject": "Θέμα",
       "textTel": "Τηλ",
+      "textTheme": "Θέμα",
       "textTitle": "Τίτλος",
       "textTop": "Πάνω",
       "textUnitOfMeasurement": "Μονάδα μέτρησης",
@@ -818,11 +825,7 @@
       "txtUk": "Ουκρανικά",
       "txtVi": "Βιετναμέζικα",
       "txtZh": "Κινέζικα",
-      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
     }
   }
 }
