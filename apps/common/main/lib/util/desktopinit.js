@@ -69,7 +69,7 @@ if ( window.AscDesktopEditor ) {
 
         if ( window.RendererProcessVariable.rtl != undefined ) {
             window.native = {
-                rtl: window.RendererProcessVariable.rtl == "yes" || window.RendererProcessVariable.rtl == "true"
+                rtl: window.RendererProcessVariable.rtl === true || window.RendererProcessVariable.rtl == "yes" || window.RendererProcessVariable.rtl == "true"
             };
         }
     }
