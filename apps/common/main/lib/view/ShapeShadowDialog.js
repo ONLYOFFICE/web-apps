@@ -105,16 +105,6 @@ define([
             this.methodApplySettings    = options.methodApplySettings; 
 
             this.isShadowEmpty  = !this.shadowProps; 
-            if(!this.shadowProps) {
-                this.shadowProps = new Asc.asc_CShadowProperty();
-                this.shadowProps.putPreset('t');
-            }
-
-            this.oldTransparency = this.shadowProps.getTransparency();
-            this.oldSize = this.shadowProps.getSize();
-            this.oldAngle = this.shadowProps.getAngle();
-            this.oldDistance = this.shadowProps.getDistance();
-
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
         },
@@ -122,11 +112,19 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
             
             this.api.setStartPointHistory();
+            
+            var shapeProps = new Asc.asc_CShapeProperty();
+            this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
             if(this.isShadowEmpty) {
-                var shapeProps = new Asc.asc_CShapeProperty();
+                this.shadowProps = new Asc.asc_CShadowProperty();
+                this.shadowProps.putPreset('t');
                 shapeProps.asc_putShadow(this.shadowProps);
                 this.methodApplySettings && this.methodApplySettings.call(this, shapeProps);
             }
+            this.oldTransparency = this.shadowProps.getTransparency();
+            this.oldSize = this.shadowProps.getSize();
+            this.oldAngle = this.shadowProps.getAngle();
+            this.oldDistance = this.shadowProps.getDistance();
 
             this.sldrTransparency = new Common.UI.SingleSlider({
                 el: $('#shape-shadow-transparency-slider'),
@@ -234,6 +232,7 @@ define([
             this.spinDistance.setValue(this.oldDistance, true);
             this.spinDistance.on('change', _.bind(this.onSpinnerDistanceChange, this));
 
+            this.setAllProperties(this.oldTransparency, this.oldSize, this.oldAngle, this.oldDistance);
 
             this.on('close', _.bind(this.handleCancelClose, this));
         },
