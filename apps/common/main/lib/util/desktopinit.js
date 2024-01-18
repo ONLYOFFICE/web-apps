@@ -68,8 +68,9 @@ if ( window.AscDesktopEditor ) {
         }
 
         if ( window.RendererProcessVariable.rtl !== undefined ) {
-            const nativevars = window.RendererProcessVariable;
-            localStorage.setItem("ui-rtl", (nativevars.rtl == 'yes' || nativevars.rtl == 'true') ? 1 : 0);
+            window.native = {
+                rtl: window.RendererProcessVariable.rtl === true || window.RendererProcessVariable.rtl == "yes" || window.RendererProcessVariable.rtl == "true"
+            };
         }
     }
 
