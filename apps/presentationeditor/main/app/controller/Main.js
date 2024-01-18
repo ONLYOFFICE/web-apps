@@ -698,7 +698,7 @@ define([
                 if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
                                                                              id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
                     (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
-                    this.onEditComplete(this.loadMask);
+                    // this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
             },
