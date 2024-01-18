@@ -339,7 +339,7 @@ define([
                     this._changedProps.asc_setStepValue(res[1]);
             }
             if (this.isStopChanged) {
-                var res = this._changedProps.asc_isValidStepValue(this.inputStop.getValue());
+                var res = this._changedProps.asc_isValidStopValue(this.inputStop.getValue());
                 if (res[0]!==Asc.c_oAscError.ID.No) {
                     this.inputStop.showError([this.txtErrorNumber]);
                     this.inputStop.focus();
