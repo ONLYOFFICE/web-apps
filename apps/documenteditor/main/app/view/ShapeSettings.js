@@ -2135,7 +2135,6 @@ define([
                     methodApplySettings: function(shapeProps) {
                         me.imgprops.put_ShapeProperties(shapeProps);
                         me.api.ImgApply(me.imgprops);
-                        me.api.ImgApply(me.imgprops);
                     },
                     handler: function(result) {
                         me.fireEvent('editcomplete', this);
