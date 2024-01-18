@@ -330,7 +330,7 @@ define([
         isValid: function() {
             if (this.isStepChanged) {
                 var res = this._changedProps.asc_isValidStepValue(this.inputStep.getValue());
-                if (res[0]!==Asc.c_oAscError.ID.No || res[1]===null) {
+                if (res[0]!==Asc.c_oAscError.ID.No) {
                     this.inputStep.showError([this.txtErrorNumber]);
                     this.inputStep.focus();
                     this.isInputStepFirstChange = true;
@@ -340,7 +340,7 @@ define([
             }
             if (this.isStopChanged) {
                 var res = this._changedProps.asc_isValidStepValue(this.inputStop.getValue());
-                if (res[0]!==Asc.c_oAscError.ID.No || res[1]===null) {
+                if (res[0]!==Asc.c_oAscError.ID.No) {
                     this.inputStop.showError([this.txtErrorNumber]);
                     this.inputStop.focus();
                     this.isInputStopFirstChange = true;
