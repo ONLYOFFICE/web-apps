@@ -68,7 +68,7 @@ if ( window.AscDesktopEditor ) {
         }
 
         if ( window.RendererProcessVariable.rtl !== undefined ) {
-            window.native = {
+            window.nativeprocvars = {
                 rtl: window.RendererProcessVariable.rtl === true || window.RendererProcessVariable.rtl == "yes" || window.RendererProcessVariable.rtl == "true"
             };
         }
