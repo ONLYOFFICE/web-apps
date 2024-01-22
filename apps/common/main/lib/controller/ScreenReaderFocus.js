@@ -304,6 +304,13 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         $(document).on('keydown.after.bs.dropdown', function(e) {
             if (_focusVisible) {
                 if($(_currentControls[_currentItemIndex]).data('move-focus-only-tab') && e.keyCode !== Common.UI.Keys.TAB) return;
+                var tag = $(_currentControls[_currentItemIndex]).prop('tagName'),
+                    isInputFocused = tag === 'INPUT' || tag === 'TEXTAREA',
+                    isDirectionEvent = e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.RIGHT ||
+                        e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN;
+                if (!(isDirectionEvent || e.keyCode == Common.UI.Keys.ESC || e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) || (e.keyCode == Common.UI.Keys.SPACE && isInputFocused)) return;
+                if (isDirectionEvent) e.preventDefault(); // allow to write in inputs
+                Common.UI.Menu.Manager.hideAll();
                 var turnOffHints = false,
                     btn = _currentControls[_currentItemIndex] && $(_currentControls[_currentItemIndex]);
                 var isFileMenu = $('#file-menu-panel').is(':visible'),
@@ -339,9 +346,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                     isPrevLevel = up;
                     isNextLevel = down;
                 }
-                e.preventDefault();
-                Common.UI.Menu.Manager.hideAll();
-                if (e.keyCode == Common.UI.Keys.ESC ) {
+                if (e.keyCode == Common.UI.Keys.ESC) {
                     _exitFocusMode();
                     return;
                 } else if (e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) {
