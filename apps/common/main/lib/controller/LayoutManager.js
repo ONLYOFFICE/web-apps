@@ -47,7 +47,8 @@ if (Common.UI === undefined) {
 
 Common.UI.LayoutManager = new(function() {
     var _config,
-        _licensed;
+        _licensed,
+        _lastInternalTabIdx = 10;
     var _init = function(config, licensed) {
         _config = config;
         _licensed = licensed;
@@ -110,11 +111,129 @@ Common.UI.LayoutManager = new(function() {
         }
     };
 
+    var _createTab = function(toolbar, action, caption) {
+        if (!toolbar || !action || !caption) return;
+
+        var _tab = {action: action, caption: caption},
+            _panel = $('<section id="' + action + '" class="panel" data-tab="' + action + '"></section>'),
+            _group = $('<div class="group"></div>');
+        _group.appendTo(_panel);
+
+        toolbar.addTab(_tab, _panel, toolbar.getLastTabIdx());
+        toolbar.setVisible(action, true);
+        console.log('create ' + action);
+        return _panel;
+    };
+
+    var _getTab = function (toolbar, action, caption) {
+        if (!toolbar || !action) return;
+        return toolbar.getTab(action) || _createTab(toolbar, action, caption);
+    };
+
+    var _addCustomItems = function (toolbar, data, api) {
+        if (!data || data.length<1) return;
+
+        var lang = Common.Locale.getCurrentLanguage();
+        data.forEach(function(plugin) {
+            /*
+            plugin = {
+                guid: 'plugin-guid',
+                tab: {
+                    id: 'tab-id',
+                    text: 'caption' or { "fr": "french caption", "es": "spanish caption"}
+                },
+                items: [
+                    {
+                        id: 'button-id',
+                        type: 'button'='big-button' or 'small-button',
+                        icons: 'template string' or object
+                        text: 'caption' or { "fr": "french caption", "es": "spanish caption"},
+                        hint: 'hint' or { "fr": "french hint", "es": "spanish hint"},
+                        separator: true/false - inserted before item,
+                        split: true/false - used when has menu
+                        menu: [
+                            {
+                                id: 'item-id',
+                                text: 'caption' or { "fr": "french caption", "es": "spanish caption"},
+                                separator: true/false - inserted before item,
+                            }
+                        ],
+                        lockInViewMode: true/false - lock in view mode
+                    }
+                ]
+            }
+            */
+            if (plugin.tab) {
+                var $panel = _getTab(toolbar, plugin.tab.id, plugin.tab.text) || _getTab(toolbar, 'plugins');
+                if ($panel) {
+                    plugin.items && plugin.items.forEach(function(item) {
+                        var _groups = $panel.children().filter('.group'),
+                            _group;
+                        if (_groups.length>0 && !item.separator)
+                            _group = $(_groups[_groups.length-1]);
+                        else {
+                            item.separator && $('<div class="separator long"></div>').appendTo($panel);
+                            _group = $('<div class="group"></div>');
+                            _group.appendTo($panel);
+                        }
+
+                        if (item.type==='button' || item.type==='big-button') {
+                            var _set = Common.enumLock;
+                            var btn = new Common.UI.ButtonCustom({
+                                cls: 'btn-toolbar x-huge icon-top',
+                                iconsSet: item.icons,
+                                caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
+                                menu: item.menu && item.menu.length > 0,
+                                split: item.menu && item.menu.length > 0 && !!item.split,
+                                value: item.id,
+                                guid: plugin.guid,
+                                hint: ((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',
+                                lock: item.lockInViewMode ? [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ] : [],
+                                dataHint: '1',
+                                dataHintDirection: 'bottom',
+                                dataHintOffset: 'small'
+                            });
+
+                            if (btn.menu) {
+                                var _menu_items = [];
+                                item.menu.forEach(function(menuItem) {
+                                    if (menuItem.separator) _menu_items.push({caption: '--'});
+                                    menuItem.text && _menu_items.push({
+                                        caption: ((typeof menuItem.text == 'object') ? menuItem.text[lang] || menuItem.text['en'] : menuItem.text) || '',
+                                        value: menuItem.id,
+                                        iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(menuItem.icons)),
+                                        guid: plugin.guid
+                                    });
+                                });
+                                btn.setMenu(new Common.UI.Menu({
+                                    items: _menu_items
+                                }));
+                                btn.menu.on('item:click', function(menu, mi, e) {
+                                    api && api.onPluginButtonClick && api.onPluginButtonClick(mi.options.guid, mi.value);
+                                });
+                            }
+                            if ( !btn.menu || btn.split) {
+                                btn.on('click', function(b, e) {
+                                    api && api.onPluginButtonClick && api.onPluginButtonClick(b.options.guid, b.options.value);
+                                });
+                            }
+                            var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
+                            btn.render($slot);
+                        }
+                    });
+                }
+            }
+        });
+    };
+
     return {
         init: _init,
         applyCustomization: _applyCustomization,
         isElementVisible: _isElementVisible,
-        getInitValue: _getInitValue
+        getInitValue: _getInitValue,
+        lastTabIdx: _lastInternalTabIdx,
+        getTab: _getTab,
+        addCustomItems: _addCustomItems
     }
 })();
 

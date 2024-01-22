@@ -969,5 +969,39 @@ define([
             }
         }
     });
+
+    Common.UI.ButtonCustom = Common.UI.Button.extend(_.extend({
+        initialize : function(options) {
+            Common.UI.Button.prototype.initialize.call(this, options);
+
+            this.iconsSet = Common.UI.iconsStr2IconsObj(this.options.iconsSet || ['']);
+            var icons = Common.UI.getSuitableIcons(this.iconsSet);
+            this.iconImg = icons['normal'];
+
+            Common.UI.Button.prototype.initialize.call(this, _.extend({
+                iconImg: this.iconImg
+            }, options));
+
+            this.iconActiveImg = icons['active'];
+        },
+
+        render: function (parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+            Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
+            Common.NotificationCenter.on('window:resize', this.updateIcons.bind(this));
+        },
+
+        updateIcons: function() {
+            var icons = Common.UI.getSuitableIcons(this.iconsSet);
+            this.iconImg = this.options.iconImg = icons['normal'];
+            this.iconActiveImg = icons['active'];
+            this.cmpEl && this.cmpEl.find("img").attr("src", this.pressed ? this.iconActiveImg : this.iconImg);
+        },
+
+        toggle: function(toggle, suppressEvent) {
+            Common.UI.Button.prototype.toggle.call(this, toggle, suppressEvent);
+            this.cmpEl && this.cmpEl.find("img").attr("src", this.pressed ? this.iconActiveImg : this.iconImg);
+        }
+    }, Common.UI.ButtonCustom || {}));
 });
 

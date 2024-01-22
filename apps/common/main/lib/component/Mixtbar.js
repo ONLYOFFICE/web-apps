@@ -391,6 +391,17 @@ define([
                 }
             },
 
+            getTab: function(tab) {
+                if (tab && this.$panels) {
+                    var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                    return panel.length ? panel : undefined;
+                }
+            },
+
+            getLastTabIdx: function() {
+                return config.tabs.length;
+            },
+
             isCompact: function () {
                 return this.isFolded;
             },
