@@ -1892,7 +1892,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                } else
+                }
+                if (!this.appOptions.isEdit)
                     window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
