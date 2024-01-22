@@ -394,7 +394,7 @@ define([
         }
 
         const _onHidePreloader = function (mode) {
-            features.viewmode = !mode.isEdit;
+            features.viewmode = !window.PDFE ? !mode.isEdit : !!mode.isXpsViewer;
             features.viewmode && (features.btnhome = false);
             features.crypted = mode.isCrypted;
             native.execCommand('webapps:features', JSON.stringify(features));

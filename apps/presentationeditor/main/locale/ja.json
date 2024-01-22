@@ -2006,6 +2006,7 @@
   "PE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "最後に選択した、またはデフォルトのプリンターで印刷されます。",
   "PE.Views.FileMenuPanels.Settings.txtRunMacros": "全てを有効にする",
   "PE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "通知を使用せずにすべてのマクロを有効にする",
+  "PE.Views.FileMenuPanels.Settings.txtScreenReader": "スクリーンリーダーのサポートをオンにする",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "スペルチェック",
   "PE.Views.FileMenuPanels.Settings.txtStopMacros": "全てを無効にする",
   "PE.Views.FileMenuPanels.Settings.txtStopMacrosDesc": "通知を使用せずにすべてのマクロを無効にする",

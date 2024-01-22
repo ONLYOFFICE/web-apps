@@ -301,7 +301,7 @@ define(['common/main/lib/view/AdvancedSettingsWindow',
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;" id="chart-recommend-item-<%= seriesIndex %>">',
                         '<div class="series-color" id="chart-recommend-series-preview-<%= seriesIndex %>"></div>',
-                        '<div class="series-value" style="width: 125px;"><%= value %></div>',
+                        '<div class="series-value" style="width: 125px;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '<div class="series-cmb" style="width: 150px;"><div id="chart-recommend-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
                         '<div class="series-chk"><div id="chart-recommend-chk-series-<%= seriesIndex %>" style=""></div></div>',
                     '</div>'

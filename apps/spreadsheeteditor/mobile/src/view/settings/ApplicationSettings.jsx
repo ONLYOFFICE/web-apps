@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
-import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon, f7 } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Icon, f7, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
 
 const PageApplicationSettings = props => {
@@ -20,6 +20,8 @@ const PageApplicationSettings = props => {
     const isRefStyle = storeApplicationSettings.isRefStyle;
     const isComments = storeApplicationSettings.isComments;
     const isResolvedComments = storeApplicationSettings.isResolvedComments;
+    const directionMode = storeApplicationSettings.directionMode;
+    const newDirectionMode = directionMode !== 'ltr' ? 'ltr' : 'rtl';
 
     const changeMeasureSettings = value => {
         storeApplicationSettings.changeUnitMeasurement(value);
@@ -102,18 +104,28 @@ const PageApplicationSettings = props => {
                         }}></ListItem>
                     </List>
                 }
-
-                {/*<List mediaList>*/}
-                {/*    <ListItem title={t("View.Settings.textDirection")} link="/direction/" routeProps={{changeDirection: props.changeDirection}}></ListItem>*/}
-                {/*</List>*/}
-            {/* } */}
-            {/* {_isShowMacros && */}
                 <List>
                     <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                         onChangeMacrosSettings: props.onChangeMacrosSettings
                     }}></ListItem>
                 </List>
-            {/* } */}
+                <List>
+                    <ListItem>
+                        <div>
+                            <span>{t("View.Settings.textRtlInterface")}</span>
+                            <span className="beta-badge">Beta</span>
+                        </div>
+                        <Toggle checked={directionMode !== 'ltr'}
+                                onToggleChange={() => {
+                                    storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                    props.changeDirectionMode(newDirectionMode);
+                                }}
+                        />
+                    </ListItem>
+                </List>
+                <Block>
+                    <p>{t('View.Settings.textExplanationChangeDirection')}</p>
+                </Block>
         </Page>
     );
 };
@@ -139,38 +151,6 @@ const PageThemeSettings = props => {
         </Page>
     )
 };
-
-const PageDirection = props => {
-    const { t } = useTranslation();
-    const _t = t("View.Settings", { returnObjects: true });
-    const storeApplicationSettings = props.storeApplicationSettings;
-    const directionMode = storeApplicationSettings.directionMode;
-
-    const changeDirection = value => {
-        storeApplicationSettings.changeDirectionMode(value);
-        props.changeDirection(value);
-
-        f7.dialog.create({
-            title: _t.notcriticalErrorTitle,
-            text: t('View.Settings.textRestartApplication'),
-            buttons: [
-                {
-                    text: _t.textOk
-                }
-            ]
-        }).open();
-    };
-
-    return (
-        <Page>
-            <Navbar title={t('View.Settings.textDirection')} backLink={_t.textBack} />
-            <List mediaList>
-                <ListItem radio name="direction" title={t('View.Settings.textLeftToRight')} checked={directionMode === 'ltr'} onChange={() => changeDirection('ltr')}></ListItem>
-                <ListItem radio name="direction" title={t('View.Settings.textRightToLeft')} checked={directionMode === 'rtl'} onChange={() => changeDirection('rtl')}></ListItem>
-            </List>
-        </Page>
-    );
-}
 
 const PageRegionalSettings = props => {
     const { t } = useTranslation();
@@ -257,7 +237,6 @@ const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions"
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 const RegionalSettings = inject("storeApplicationSettings")(observer(PageRegionalSettings));
 const FormulaLanguage = inject("storeApplicationSettings")(observer(PageFormulaLanguage));
-const Direction = inject("storeApplicationSettings")(observer(PageDirection));
 const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 
 export {
@@ -265,6 +244,5 @@ export {
     MacrosSettings,
     RegionalSettings,
     FormulaLanguage,
-    Direction,
     ThemeSettings
 };

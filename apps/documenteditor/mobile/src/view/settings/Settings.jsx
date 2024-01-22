@@ -6,7 +6,7 @@ import DocumentInfoController from "../../controller/settings/DocumentInfo";
 import { DownloadController } from "../../controller/settings/Download";
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
 import { DocumentFormats, DocumentMargins, DocumentColorSchemes } from "./DocumentSettings";
-import { MacrosSettings, Direction, ThemeSettings } from "./ApplicationSettings";
+import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import NavigationController from '../../controller/settings/Navigation';
 import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
@@ -63,26 +63,16 @@ const routes = [
         path: '/theme-settings/',
         component: ThemeSettings
     },
-
     // Navigation
-
     {
         path: '/navigation',
         component: NavigationController
     },
-
-    // Direction 
-    {
-        path: '/direction/',
-        component: Direction
-    },
-
     // Sharing Settings
     {
         path: '/sharing-settings/',
         component: SharingSettings
     },
-
     // Protection
     {
         path: '/protection',
@@ -92,13 +82,11 @@ const routes = [
         path: '/protect',
         component: ProtectionDocumentController
     },
-
     // Encryption
     {
         path: '/encrypt',
         component: FileEncryptionController
     },
-    
     // Version History 
     {
         path: '/version-history',

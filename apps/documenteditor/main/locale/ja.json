@@ -2138,6 +2138,7 @@
   "DE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "最後に選択した、またはデフォルトのプリンターで印刷されます。",
   "DE.Views.FileMenuPanels.Settings.txtRunMacros": "全てを有効にする",
   "DE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "全てのマクロを有効にして、通知しない",
+  "DE.Views.FileMenuPanels.Settings.txtScreenReader": "スクリーンリーダーのサポートをオンにする",
   "DE.Views.FileMenuPanels.Settings.txtShowTrackChanges": "変更履歴を表示する",
   "DE.Views.FileMenuPanels.Settings.txtSpellCheck": "スペルチェック",
   "DE.Views.FileMenuPanels.Settings.txtStopMacros": "全てを無効にする",

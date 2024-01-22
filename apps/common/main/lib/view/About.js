@@ -90,7 +90,7 @@ define([
                     '<tr>',
                         '<td colspan="3" align="center" class="padding-small">',
                         '<label class="asc-about-desc-name">' + this.txtTel + '</label>',
-                        '<label class="asc-about-desc"><%= phonenum %></label>',
+                        '<label class="asc-about-desc" dir="ltr"><%= phonenum %></label>',
                         '</td>',
                     '</tr>',
                     '<tr>',

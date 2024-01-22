@@ -1,8 +1,8 @@
 {
   "About": {
     "textAbout": "O programie",
+    "textAddress": "Adres",
     "textBack": "Wstecz",
-    "textAddress": "Address",
     "textEditor": "Spreadsheet Editor",
     "textEmail": "Email",
     "textPoweredBy": "Powered By",
@@ -390,6 +390,7 @@
   "View": {
     "Add": {
       "textAddLink": "Dodaj link",
+      "textAddress": "Adres",
       "textBack": "Wstecz",
       "textCancel": "Anuluj",
       "textSheet": "Arkusz",
@@ -405,7 +406,6 @@
       "sCatMathematic": "Math and trigonometry",
       "sCatStatistical": "Statistical",
       "sCatTextAndData": "Text and data",
-      "textAddress": "Address",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textChart": "Chart",
       "textComment": "Comment",
@@ -452,6 +452,7 @@
     },
     "Edit": {
       "textAddCustomColor": "Dodaj niestandardowy kolor",
+      "textAddress": "Adres",
       "textAlign": "Wyrównaj",
       "textAlignBottom": "Wyrównaj do dołu",
       "textAlignCenter": "Wyśrodkuj",
@@ -475,7 +476,6 @@
       "notcriticalErrorTitle": "Warning",
       "textAccounting": "Accounting",
       "textActualSize": "Actual Size",
-      "textAddress": "Address",
       "textAlignMiddle": "Align Middle",
       "textAngleClockwise": "Angle Clockwise",
       "textAngleCounterclockwise": "Angle Counterclockwise",
@@ -645,6 +645,7 @@
     },
     "Settings": {
       "textAbout": "O programie",
+      "textAddress": "Adres",
       "textApplication": "Aplikacja",
       "textApplicationSettings": "Ustawienia aplikacji",
       "textAuthor": "Autor",
@@ -663,7 +664,6 @@
       "notcriticalErrorTitle": "Warning",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
-      "textAddress": "Address",
       "textByColumns": "By columns",
       "textByRows": "By rows",
       "textCentimeter": "Centimeter",

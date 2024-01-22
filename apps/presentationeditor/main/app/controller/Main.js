@@ -698,7 +698,7 @@ define([
                 if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
                                                                              id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
                     (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
-                    this.onEditComplete(this.loadMask);
+                    // this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -1476,7 +1476,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                }
+                } else
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg) {
@@ -1876,6 +1877,11 @@ define([
 
             onUnload: function() {
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
+            },
+
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
             },
 
             hidePreloader: function() {

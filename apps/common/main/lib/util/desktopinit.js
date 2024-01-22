@@ -67,12 +67,14 @@ if ( window.AscDesktopEditor ) {
             }
         }
 
-        if ( window.RendererProcessVariable.rtl != undefined ) {
-            window.native = {
+        if ( window.RendererProcessVariable.rtl !== undefined ) {
+            window.nativeprocvars = {
                 rtl: window.RendererProcessVariable.rtl === true || window.RendererProcessVariable.rtl == "yes" || window.RendererProcessVariable.rtl == "true"
             };
         }
     }
 
+    !window.features && (window.features = {});
+    window.features.framesize = {width: window.innerWidth, height: window.innerHeight};
     window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
 }

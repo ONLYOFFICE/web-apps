@@ -195,7 +195,7 @@ define([
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;" id="chart-type-dlg-item-<%= seriesIndex %>">',
                         '<div class="series-color" id="chart-type-dlg-series-preview-<%= seriesIndex %>"></div>',
-                        '<div class="series-value"><%= value %></div>',
+                        '<div class="series-value"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '<div class="series-cmb"><div id="chart-type-dlg-cmb-series-<%= seriesIndex %>" class="input-group-nr" style=""></div></div>',
                         '<div class="series-chk"><div id="chart-type-dlg-chk-series-<%= seriesIndex %>" style=""></div></div>',
                     '</div>'
