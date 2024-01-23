@@ -1878,8 +1878,8 @@ define([
                     '<div dir="ltr"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
                     '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>') :
                     _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                    '<div dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> x ' +
-                    '<%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %></div></a>');
+                    '<div dir="ltr"><span dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> </span><span><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> x </span>' +
+                    '<span dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> </span><span dir="ltr"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %></span></div></a>');
 
                 me.btnPageSize = new Common.UI.Button({
                     id: 'tlbtn-pagesize',
