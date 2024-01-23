@@ -1820,21 +1820,13 @@ define([
                     dataHintOffset: 'small'
                 });
 
-                var pageMarginsTemplate = !Common.UI.isRTL() ? _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
                     '<% if (options.value !== null) { %><div class="margin-vertical">' +
                     '<label>' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
                     '<label>' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
                     '<div class="margin-horizontal">' +
                     '<label>' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
                     '<label>' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
-                    '<% } %></a>') :
-                    _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                    '<% if (options.value !== null) { %><div class="margin-vertical">' +
-                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %>' + this.textTop + '</label>' +
-                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %>' + this.textLeft + '</label></div>' +
-                    '<div class="margin-horizontal">' +
-                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %>' + this.textBottom + '</label>' +
-                    '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %>' + this.textRight + '</label></div>' +
                     '<% } %></a>');
 
                 me.btnPageMargins = new Common.UI.Button({
