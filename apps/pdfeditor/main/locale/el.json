@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Χωρίς χρώμα",
   "Common.UI.InputFieldBtnCalendar.textDate": "Επιλογή ημερομηνίας",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Απόκρυψη συνθηματικού",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Πατήστε παρατεταμένα για να εμφανιστεί ο κωδικός πρόσβασης",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Εμφάνιση κωδικού πρόσβασης",
   "Common.UI.SearchBar.textFind": "Εύρεση",
   "Common.UI.SearchBar.tipCloseSearch": "Κλείσιμο αναζήτησης",

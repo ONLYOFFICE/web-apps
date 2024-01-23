@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Sense color",
   "Common.UI.InputFieldBtnCalendar.textDate": "Selecciona la data",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Amaga la contrasenya",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Premeu i manteniu premut per a mostrar la contrasenya",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Mostrar la contrasenya",
   "Common.UI.SearchBar.textFind": "Cerca",
   "Common.UI.SearchBar.tipCloseSearch": "Tanca la cerca",

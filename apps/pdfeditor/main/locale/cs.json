@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Bez barvy",
   "Common.UI.InputFieldBtnCalendar.textDate": "Vybrat datum",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Skrýt heslo",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Stiskněte a podržte tlačítko, dokud se nezobrazí heslo.",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Zobrazit heslo",
   "Common.UI.SearchBar.textFind": "Najít",
   "Common.UI.SearchBar.tipCloseSearch": "Zavřít hledání",

@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Sin color",
   "Common.UI.InputFieldBtnCalendar.textDate": "Seleccionar fecha",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Ocultar la contraseña",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Manténgalo pulsado para mostrar la contraseña",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Mostrar la contraseña",
   "Common.UI.SearchBar.textFind": "Buscar",
   "Common.UI.SearchBar.tipCloseSearch": "Cerrar búsqueda",

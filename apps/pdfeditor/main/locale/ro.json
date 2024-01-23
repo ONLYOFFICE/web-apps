@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Fără culoare",
   "Common.UI.InputFieldBtnCalendar.textDate": "Selectați data",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Ascunde parola",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Apăsați și mențineți apăsat butonul până când se afișează parola",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Afișează parola",
   "Common.UI.SearchBar.textFind": "Găsire",
   "Common.UI.SearchBar.tipCloseSearch": "Închide căutare",

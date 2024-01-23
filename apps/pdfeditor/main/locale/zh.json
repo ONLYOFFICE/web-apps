@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "没有颜色",
   "Common.UI.InputFieldBtnCalendar.textDate": "选择日期",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "隐藏密码",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "按住显示密码",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "显示密码",
   "Common.UI.SearchBar.textFind": "查找",
   "Common.UI.SearchBar.tipCloseSearch": "关闭搜索",

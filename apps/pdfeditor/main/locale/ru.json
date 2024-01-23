@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Без цвета",
   "Common.UI.InputFieldBtnCalendar.textDate": "Выберите дату",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Скрыть пароль",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Нажмите и удерживайте, чтобы показать пароль",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Показать пароль",
   "Common.UI.SearchBar.textFind": "Поиск",
   "Common.UI.SearchBar.tipCloseSearch": "Закрыть поиск",

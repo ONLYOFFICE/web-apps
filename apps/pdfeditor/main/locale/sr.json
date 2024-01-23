@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Nema Boje",
   "Common.UI.InputFieldBtnCalendar.textDate": "Odaberi datum ",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Sakrij lozinku",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Pritisni i drži da se prikaže lozinka",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Pokaži lozinku",
   "Common.UI.SearchBar.textFind": "Pronađi",
   "Common.UI.SearchBar.tipCloseSearch": "Zatvori pretragu",
