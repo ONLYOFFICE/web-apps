@@ -59,6 +59,10 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.svg$/,
+        use: "svg-sprite-loader"
+      },
+      {
         test: /\.(mjs|js|jsx)$/,
         use: {
             loader: 'babel-loader',
@@ -145,7 +149,7 @@ const config = {
         ],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
