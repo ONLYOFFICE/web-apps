@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Nincs szín",
   "Common.UI.InputFieldBtnCalendar.textDate": "Dátum kiválasztása",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Jelszó elrejtése",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Nyomja meg és tartsa lenyomva a jelszó megjelenítéséhez",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Jelszó megjelenítése",
   "Common.UI.SearchBar.textFind": "Keres",
   "Common.UI.SearchBar.tipCloseSearch": "Keresés bezárása",

@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Առանց գույն",
   "Common.UI.InputFieldBtnCalendar.textDate": "Ընտրել ամսաթիվը",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Թաքցնել գաղտնաբառը",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Սեղմեք և պահեք՝ գաղտնաբառը ցուցադրելու համար",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Ցուցադրել գաղտնաբառը",
   "Common.UI.SearchBar.textFind": "Գտնել",
   "Common.UI.SearchBar.tipCloseSearch": "Փակել որոնումը",

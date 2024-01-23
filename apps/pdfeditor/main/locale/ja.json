@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "色なし",
   "Common.UI.InputFieldBtnCalendar.textDate": "日付の選択",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "パスワードを表示しない",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "長押しでパスワード表示",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "パスワードを表示",
   "Common.UI.SearchBar.textFind": "検索",
   "Common.UI.SearchBar.tipCloseSearch": "検索を閉じる",

@@ -53,6 +53,7 @@
   "Common.UI.HSBColorPicker.textNoColor": "Kolorerik ez",
   "Common.UI.InputFieldBtnCalendar.textDate": "Hautatu data",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Ezkutatu pasahitza",
+  "Common.UI.InputFieldBtnPassword.textHintHold": "Sakatu eta mantendu pasahitza erakusteko",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Erakutsi pasahitza",
   "Common.UI.SearchBar.textFind": "Bilatu",
   "Common.UI.SearchBar.tipCloseSearch": "Itxi bilaketa",
