@@ -712,6 +712,7 @@ define([
                     this.btnHighlight.updateHint(this.textHighlight);
                     // this.btnRotate.updateHint(this.tipRotate);
                 } else if (this.mode.isRestrictedEdit) {
+                    this.btnSave && this.btnSave.updateHint(this.btnSaveTip);
                     this.btnClear.updateHint(this.textClearFields);
                     this.btnPrevForm.updateHint(this.tipPrevForm);
                     this.btnNextForm.updateHint(this.tipNextForm);

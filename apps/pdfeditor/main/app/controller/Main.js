@@ -1463,7 +1463,9 @@ define([
                 var toolbarController   = application.getController('Toolbar');
                 toolbarController   && toolbarController.setApi(me.api);
 
-                if (this.appOptions.isEdit) {
+                if (this.appOptions.isRestrictedEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline) { // for saving forms in desktop offline
+                    me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
+                } else if (this.appOptions.isEdit) {
                     // var fontsControllers    = application.getController('Common.Controllers.Fonts');
                     // fontsControllers    && fontsControllers.setApi(me.api);
 
@@ -1500,7 +1502,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                } else
+                }
+                if (!this.appOptions.isEdit)
                     window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
