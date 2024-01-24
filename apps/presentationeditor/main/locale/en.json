@@ -475,6 +475,7 @@
   "Common.Utils.String.textAlt": "Alt",
   "Common.Utils.String.textCtrl": "Ctrl",
   "Common.Utils.String.textShift": "Shift",
+  "Common.Utils.String.textComma": ",",
   "Common.Utils.ThemeColor.txtaccent": "Accent",
   "Common.Utils.ThemeColor.txtAqua": "Aqua",
   "Common.Utils.ThemeColor.txtbackground": "Background",

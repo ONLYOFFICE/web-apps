@@ -325,6 +325,7 @@
   "Common.Utils.String.textAlt": "Alt",
   "Common.Utils.String.textCtrl": "Ctrl",
   "Common.Utils.String.textShift": "Shift",
+  "Common.Utils.String.textComma": "،",
   "Common.Utils.ThemeColor.txtaccent": "علامات التشكيل",
   "Common.Utils.ThemeColor.txtAqua": "أزرق مائي",
   "Common.Utils.ThemeColor.txtbackground": "الخلفية",
