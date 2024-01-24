@@ -193,7 +193,7 @@ define([
                 parentEl: $('#slide-btn-background-reset'),
                 cls: 'btn-toolbar align-left',
                 caption: this.strBackgroundReset,
-                iconCls: 'toolbar__icon btn-shadow',
+                iconCls: 'toolbar__icon btn-reset',
                 style: "width:100%;",
                 dataHint: '1',
                 dataHintDirection: 'bottom',
