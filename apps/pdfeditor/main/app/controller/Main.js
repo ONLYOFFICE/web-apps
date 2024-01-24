@@ -2096,7 +2096,31 @@ define([
                 if (this._state.openDlg) return;
 
                 var me = this;
-                if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+                    me._state.openDlg = new Common.Views.OpenDialog({
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'TXT'),
+                        closable: (mode==2), // if save settings
+                        type: Common.Utils.importTextType.TXT,
+                        preview: advOptions.asc_getData(),
+                        codepages: advOptions.asc_getCodePages(),
+                        settings: advOptions.asc_getRecommendedSettings(),
+                        api: me.api,
+                        handler: function (result, settings) {
+                            me.isShowOpenDialog = false;
+                            if (result == 'ok') {
+                                if (me && me.api) {
+                                    if (mode==2) {
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(settings.textOptions);
+                                        me.api.asc_DownloadAs(formatOptions);
+                                    } else
+                                        me.api.asc_setAdvancedOptions(type, settings.textOptions);
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,
