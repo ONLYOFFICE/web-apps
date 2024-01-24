@@ -1480,8 +1480,8 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.btnBackgroundReset.setDisabled(!!props.get_lockResetBackground(), true);
-                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyToAll(), true);
+                this.btnBackgroundReset.setDisabled(!!props.get_lockResetBackground());
+                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyToAll());
 
                 this.chBackgroundGraphics.setValue(!!props.get_ShowMasterSp(), true);
 
