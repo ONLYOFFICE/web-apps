@@ -216,6 +216,10 @@ define([
                 toolbar.btnNextForm.on('click', _.bind(this.onGoToForm, this, 'next'));
                 toolbar.btnSubmit && toolbar.btnSubmit.on('click', _.bind(this.onSubmitClick, this));
                 toolbar.btnSaveForm && toolbar.btnSaveForm.on('click', _.bind(this.onSaveFormClick, this));
+                if (this.mode.isOffline) {
+                    toolbar.btnSave.on('click', _.bind(this.tryToSave, this));
+                    Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
+                }
             }
         },
 
@@ -407,7 +411,8 @@ define([
             var toolbar = this.toolbar,
                 mode = toolbar.mode,
                 me = this;
-            if (!mode.isPDFAnnotate && !mode.isPDFEdit) {
+
+            if (!mode.isPDFAnnotate && !mode.isPDFEdit && !mode.isRestrictedEdit) {
                 var canDownload = mode.canDownload && (!mode.isDesktopApp || !mode.isOffline),
                     saveSopy = (mode.canDownload && (!mode.isDesktopApp || !mode.isOffline)) && (mode.canRequestSaveAs || mode.saveAsUrl),
                     saveAs = mode.canDownload && mode.isDesktopApp && mode.isOffline,
@@ -861,10 +866,9 @@ define([
                     me.toolbar.btnCopy.$el.removeClass('split');
                     me.toolbar.processPanelVisible(null, true, true);
                 }
+                ( !config.isRestrictedEdit || config.isOffline) && me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
             }
             if ( config.isEdit ) {
-                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
-
                 var drawtab = me.getApplication().getController('Common.Controllers.Draw');
                 drawtab.setApi(me.api).setMode(config);
                 $panel = drawtab.createToolbarPanel(true);

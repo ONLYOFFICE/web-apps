@@ -809,7 +809,7 @@ define([
                     if ( config.canQuickPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
-                    if (!isPDFEditor || !config.isForm)
+                    if (!isPDFEditor || !config.isForm || config.isOffline)
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);

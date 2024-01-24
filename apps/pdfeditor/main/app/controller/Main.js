@@ -739,8 +739,9 @@ define([
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave ||
+                                    !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate && !(this.appOptions.isRestrictedEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline);
+                    toolbarView.btnSave && toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
                 }
 
                 Common.UI.HintManager.clearHints(true);
@@ -1214,7 +1215,6 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isPDFEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.saveAlwaysEnabled = !this.appOptions.isPDFAnnotate;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
@@ -1234,6 +1234,7 @@ define([
                 this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isForm && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canFillForms;
+                this.appOptions.saveAlwaysEnabled = !this.appOptions.isPDFAnnotate && !(this.appOptions.isRestrictedEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline); // save is always enabled for online pdf (not forms)
 
                 if ( !this.appOptions.canCoAuthoring ) {
                     this.appOptions.canChat = false;
@@ -1917,8 +1918,9 @@ define([
                 if (toolbarView && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
-                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave ||
+                                    !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate && !(this.appOptions.isRestrictedEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline);
+                        toolbarView.btnSave && toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
                 }
 
                 /** coauthoring begin **/
@@ -1934,8 +1936,9 @@ define([
                 if (toolbarView && this.api && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave ||
+                                    !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate && !(this.appOptions.isRestrictedEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline);
+                        toolbarView.btnSave && toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
                 }
             },
 

@@ -134,21 +134,6 @@ define([
                         }
                     );
 
-                    this.btnSaveCls = 'btn-save';
-                    this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
-                    this.btnSave = new Common.UI.Button({
-                        id: 'id-toolbar-btn-save',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        signals: ['disabled'],
-                        dataHint: '1',
-                        dataHintDirection: 'top',
-                        dataHintTitle: 'S'
-                    });
-                    this.toolbarControls.push(this.btnSave);
-                    this.btnCollabChanges = this.btnSave;
-
                     // this.btnRotate = new Common.UI.Button({
                     //     id: 'tlbtn-rotate',
                     //     cls: 'btn-toolbar x-huge icon-top',
@@ -312,6 +297,23 @@ define([
                 }
 
                 if ( config.isEdit || config.isRestrictedEdit) {
+                    if (!config.isRestrictedEdit || config.isOffline) {
+                        this.btnSaveCls = 'btn-save';
+                        this.btnSaveTip = this.tipSave;// + Common.Utils.String.platformKey('Ctrl+S');
+                        this.btnSave = new Common.UI.Button({
+                            id: 'id-toolbar-btn-save',
+                            cls: 'btn-toolbar',
+                            iconCls: 'toolbar__icon no-mask ' + this.btnSaveCls,
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            signals: ['disabled'],
+                            dataHint: '1',
+                            dataHintDirection: 'top',
+                            dataHintTitle: 'S'
+                        });
+                        this.toolbarControls.push(this.btnSave);
+                        this.btnCollabChanges = this.btnSave;
+                    }
+
                     this.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
                         cls: 'btn-toolbar',
