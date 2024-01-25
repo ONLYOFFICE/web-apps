@@ -77,32 +77,32 @@ define([
             {
               displayValue: "Document",
 
-              value: 1,
+              value: "Document",
             },
             {
               displayValue: "Layout",
 
-              value: 2,
+              value: "Layout",
             },
             {
               displayValue: "Case",
 
-              value: 3,
+              value: "Case",
             },
             {
               displayValue: "New Layout",
 
-              value: 4,
+              value: "New Layout",
             },
             {
               displayValue: "New Case",
 
-              value: 5,
+              value: "New Case",
             },
             {
               displayValue: "Global Link",
 
-              value: 6,
+              value: "Global Link",
             },
           ];
 
@@ -218,7 +218,7 @@ define([
           me.inputCombo.on("selected", function (combo, record) {
           
             var val = record.value;
-            me.inputUrl.setData(val===1?JSON.parse(
+            me.inputUrl.setData(val==="Document"?JSON.parse(
               Common.localStorage.getItem("this._arrLineRule")
             ):[]);
            
@@ -259,34 +259,6 @@ define([
             me.btnOk.setDisabled($.trim(val) == "");
           });
 
-
-          
-
-          // me.inputUrl = new Common.UI.InputField({
-          //     el          : $('#id-dlg-hyperlink-url'),
-          //     allowBlank  : false,
-          //     blankError  : me.txtEmpty,
-          //     style       : 'width: 100%;',
-          //     validateOnBlur: false,
-          //     validation  : function(value) {
-          //         var trimmed = $.trim(value);
-          //         if (trimmed.length>2083) return me.txtSizeLimit;
-
-          //         me.urlType = me.api.asc_getUrlType(trimmed);
-          //         return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
-          //     }
-          // });
-          // me.inputUrl._input.on('input', function (e) {
-          //     me.isInputFirstChange && me.inputUrl.showError();
-          //     me.isInputFirstChange = false;
-
-          //     var val = $(e.target).val();
-          //     if (me.isAutoUpdate) {
-          //         me.inputDisplay.setValue(val);
-          //         me.isTextChanged = true;
-          //     }
-          //     me.btnOk.setDisabled($.trim(val)=='');
-          // });
 
           me.inputDisplay = new Common.UI.InputField({
             el: $("#id-dlg-hyperlink-display"),
@@ -555,9 +527,9 @@ define([
           return await fetch("http://localhost:3001/link", {
             method: "POST",
             body: JSON.stringify({
-              link_to: "Document",
+              link_to: this.inputCombo.getValue()||"Document",
               id_of_to: Number(this.inputUrl.getValue()),
-              action: this.inputAction.getValue(),
+              action: this.inputAction.getValue()||'New Tab',
             }),
             headers: {
               Accept: "application/json",
