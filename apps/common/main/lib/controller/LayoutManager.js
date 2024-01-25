@@ -133,7 +133,8 @@ Common.UI.LayoutManager = new(function() {
     var _addCustomItems = function (toolbar, data, api) {
         if (!data || data.length<1) return;
 
-        var lang = Common.Locale.getCurrentLanguage();
+        var lang = Common.Locale.getCurrentLanguage(),
+            btns = [];
         data.forEach(function(plugin) {
             /*
             plugin = {
@@ -221,11 +222,13 @@ Common.UI.LayoutManager = new(function() {
                             }
                             var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
                             btn.render($slot);
+                            btns.push(btn);
                         }
                     });
                 }
             }
         });
+        return btns;
     };
 
     return {

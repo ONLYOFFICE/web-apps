@@ -459,6 +459,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             }
+            this.api.asc_registerCallback('onPluginContextMenu', _.bind(this.onPluginContextMenu, this)); // TODO: handle add buttons to toolbar
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
@@ -3708,6 +3709,130 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
                 Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
             }
+        },
+
+        onPluginContextMenu: function(data) {
+            // Common.UI.LayoutManager.getTab(toolbar, 'tab1', 'Tab 1');
+            // Common.UI.LayoutManager.getTab(toolbar, 'tab2', 'Tab 2');
+            // Common.UI.LayoutManager.getTab(toolbar, 'tab1', 'Tab 1');
+            // toolbar.setVisible('tab1', true);
+            // toolbar.setVisible('tab2', true);
+            var icons = [
+                {
+                    "theme" : "theme-classic-light",
+                    "100%": {
+                        "normal": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/light/icon.png",
+                        "active": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/dark/icon.png"
+                    },
+                    "200%": {
+                        "normal": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/light/icon@2x.png",
+                        "active": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/dark/icon@2x.png"
+                    }
+                },
+                {
+                    "style" : "light",
+                    "100%": {
+                        "normal": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/light/icon.png"
+                    },
+                    "200%": {
+                        "normal": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/light/icon@2x.png"
+                    }
+                },
+                {
+                    "style" : "dark",
+                    "100%": {
+                        "normal": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/dark/icon.png"
+                    },
+                    "200%": {
+                        "normal": "http://127.0.0.1:8000/sdkjs-plugins/chatgpt/resources/dark/icon@2x.png"
+                    }
+                }
+            ];
+            data = [{
+                guid: 'plugin-guid-1',
+                tab: {
+                    id: 'tab1',
+                    text: 'Tab1'
+                },
+                items: [
+                    {
+                        id: 'button-id-1',
+                        type: 'button',
+                        icons: icons,
+                        text:  { "en": "english Button 1", "es": "spanish Button 1"},
+                        hint: 'hint',
+                        lockInViewMode: true
+                    },
+                    {
+                        id: 'button-id-2',
+                        type: 'button',
+                        icons: icons,
+                        text:  { "en": "english Toggle 2", "es": "spanish Toggle 2"},
+                        enableToggle: true,
+                        hint: 'hint',
+                        lockInViewMode: true
+                    },
+                    {
+                        id: 'button-id-3',
+                        type: 'button',
+                        icons: icons,
+                        text:  { "en": "english Menu 3", "es": "spanish Menu 3"},
+                        hint: 'hint',
+                        separator: true,
+                        split: false,
+                        menu: [
+                            {
+                                id: 'item-id-1',
+                                text: 'Text1'
+                            }
+                        ],
+                        lockInViewMode: true
+                    },
+                    {
+                        id: 'button-id-4',
+                        type: 'button',
+                        icons: icons,
+                        text:  { "en": "english Split Menu 4", "es": "spanish Split Menu 4"},
+                        hint: 'hint',
+                        split: true,
+                        menu: [
+                            {
+                                id: 'item-id-2',
+                                text: 'Text2'
+                            },
+                            {
+                                id: 'item-id-2',
+                                text: 'Text2',
+                                separator: true
+                            }
+                        ],
+                        lockInViewMode: true
+                    },
+                    {
+                        id: 'button-id-5',
+                        type: 'button',
+                        icons: icons,
+                        text:  { "en": "english Toggle Split Menu 5", "es": "spanish Toggle Split Menu 5"},
+                        hint: 'hint',
+                        split: true,
+                        enableToggle: true,
+                        menu: [
+                            {
+                                id: 'item-id-2',
+                                text: 'Text2'
+                            },
+                            {
+                                id: 'item-id-2',
+                                text: 'Text2',
+                                separator: true
+                            }
+                        ],
+                        lockInViewMode: true
+                    }
+                ]
+            }];
+            var btns = Common.UI.LayoutManager.addCustomItems(this.toolbar, data, this.api);
+            Array.prototype.push.apply(this.toolbar.lockControls, btns);
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
