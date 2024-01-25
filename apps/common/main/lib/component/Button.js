@@ -972,35 +972,66 @@ define([
 
     Common.UI.ButtonCustom = Common.UI.Button.extend(_.extend({
         initialize : function(options) {
+            options.iconCls = 'icon-custom ' + (options.iconCls || '');
             Common.UI.Button.prototype.initialize.call(this, options);
 
-            this.iconsSet = Common.UI.iconsStr2IconsObj(this.options.iconsSet || ['']);
+            this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconImg = icons['normal'];
-
-            Common.UI.Button.prototype.initialize.call(this, _.extend({
-                iconImg: this.iconImg
-            }, options));
-
+            this.iconNormalImg = icons['normal'];
             this.iconActiveImg = icons['active'];
         },
 
         render: function (parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
+
+            var _current_active = false,
+                me = this;
+            this.cmpButtonFirst = $('button:first', this.$el || $(this.el));
+            const _callback = function (records, observer) {
+                var _hasactive = me.cmpButtonFirst.hasClass('active') || me.cmpButtonFirst.is(':active');
+                if ( _hasactive !== _current_active ) {
+                    me.updateIcon();
+                    _current_active = _hasactive;
+                }
+            };
+            this.cmpButtonFirst[0] && (new MutationObserver(_callback))
+                .observe(this.cmpButtonFirst[0], {
+                    attributes : true,
+                    attributeFilter : ['class'],
+                });
+
+            if (this.menu && !this.split) {
+                var onMouseDown = function (e) {
+                    _callback();
+                    $(document).on('mouseup',   onMouseUp);
+                };
+                var onMouseUp = function (e) {
+                    _callback();
+                    $(document).off('mouseup',   onMouseUp);
+                };
+                this.cmpButtonFirst.on('mousedown', _.bind(onMouseDown, this));
+            }
+
+            this.updateIcon();
             Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
-            Common.NotificationCenter.on('window:resize', this.updateIcons.bind(this));
         },
 
         updateIcons: function() {
             var icons = Common.UI.getSuitableIcons(this.iconsSet);
-            this.iconImg = this.options.iconImg = icons['normal'];
+            this.iconNormalImg = icons['normal'];
             this.iconActiveImg = icons['active'];
-            this.cmpEl && this.cmpEl.find("img").attr("src", this.pressed ? this.iconActiveImg : this.iconImg);
+            this.updateIcon();
         },
 
-        toggle: function(toggle, suppressEvent) {
-            Common.UI.Button.prototype.toggle.call(this, toggle, suppressEvent);
-            this.cmpEl && this.cmpEl.find("img").attr("src", this.pressed ? this.iconActiveImg : this.iconImg);
+        updateIcon: function() {
+            this.$icon && this.$icon.css({'background-image': 'url('+ (this.cmpButtonFirst && (this.cmpButtonFirst.hasClass('active') || this.cmpButtonFirst.is(':active')) ? this.iconActiveImg : this.iconNormalImg) +')'});
+        },
+
+        applyScaling: function (ratio) {
+            if ( this.options.scaling !== ratio ) {
+                this.options.scaling = ratio;
+                this.updateIcons();
+            }
         }
     }, Common.UI.ButtonCustom || {}));
 });

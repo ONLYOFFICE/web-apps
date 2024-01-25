@@ -158,6 +158,7 @@ Common.UI.LayoutManager = new(function() {
                                 separator: true/false - inserted before item,
                             }
                         ],
+                        enableToggle: true/false - can press and depress button, only when no menu or has split menu
                         lockInViewMode: true/false - lock in view mode
                     }
                 ]
@@ -185,6 +186,7 @@ Common.UI.LayoutManager = new(function() {
                                 caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
                                 menu: item.menu && item.menu.length > 0,
                                 split: item.menu && item.menu.length > 0 && !!item.split,
+                                enableToggle: item.enableToggle && (!item.menu || !!item.split),
                                 value: item.id,
                                 guid: plugin.guid,
                                 hint: ((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',
@@ -214,7 +216,7 @@ Common.UI.LayoutManager = new(function() {
                             }
                             if ( !btn.menu || btn.split) {
                                 btn.on('click', function(b, e) {
-                                    api && api.onPluginButtonClick && api.onPluginButtonClick(b.options.guid, b.options.value);
+                                    api && api.onPluginButtonClick && api.onPluginButtonClick(b.options.guid, b.options.value, b.pressed);
                                 });
                             }
                             var $slot = $('<span class="btn-slot text x-huge"></span>').appendTo(_group);
