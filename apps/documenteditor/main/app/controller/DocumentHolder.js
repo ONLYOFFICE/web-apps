@@ -96,8 +96,7 @@ var c_tableBorder = {
 
 define([
     'core',
-    'documenteditor/main/app/view/DocumentHolder',
-    'documenteditor/main/app/view/LinkModalDialog'
+    'documenteditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 
