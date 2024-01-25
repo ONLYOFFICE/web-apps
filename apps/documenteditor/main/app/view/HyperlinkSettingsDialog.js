@@ -49,6 +49,7 @@ define([
   "common/main/lib/util/utils",
   "common/main/lib/component/InputField",
   "common/main/lib/component/Window",
+
 ], function () {
   "use strict";
 
@@ -108,6 +109,24 @@ define([
           this._arrLineRuleForDocuments = JSON.parse(
             Common.localStorage.getItem("this._arrLineRule")
           );
+          this._arrLineRuleForActions =[
+            {
+              displayValue: "Redirect",
+
+              value: "Redirect",
+            },
+            {
+              displayValue: "Modal",
+
+              value: "Modal",
+            },
+            {
+              displayValue: 'New Tab',
+
+              value: 'New Tab',
+            },
+          
+          ]; ;
 
           this.template = [
             '<div class="box" style="height: 319px;">',
@@ -126,6 +145,7 @@ define([
             "<label>" + "Edit" + this.textUrl + "</label>",
             "</div>",
             '<div id="id-dlg-hyperlink-document" class="input-row" style="margin-bottom: 5px;"></div>',
+            '<div id="id-dlg-hyperlink-action" class="input-row" style="margin-bottom: 5px;"></div>',
             '<div id="id-dlg-hyperlink-url" class="input-row" style="margin-bottom: 5px;"></div>',
             "</div>",
 
@@ -203,12 +223,24 @@ define([
             ):[]);
            
           });
+          
+          me.inputAction = new Common.UI.ComboBox({
+            el: $("#id-dlg-hyperlink-action"),
+            cls: "input-group-nr",
+            menuStyle: "min-width: 85px;",
+            placeHolder: "- Select Document Action -",
+            editable: false,
+            data:this._arrLineRuleForActions,
+            dataHint: "1",
+            dataHintDirection: "bottom",
+            dataHintOffset: "big",
+          });
 
           me.inputUrl = new Common.UI.ComboBox({
             el: $("#id-dlg-hyperlink-url"),
             cls: "input-group-nr",
             menuStyle: "min-width: 85px;",
-            placeHolder: "- select -",
+            placeHolder: "- Select -",
             editable: false,
             data:[],
             dataHint: "1",
@@ -226,6 +258,9 @@ define([
             }
             me.btnOk.setDisabled($.trim(val) == "");
           });
+
+
+          
 
           // me.inputUrl = new Common.UI.InputField({
           //     el          : $('#id-dlg-hyperlink-url'),
@@ -293,6 +328,7 @@ define([
           return [
             this.inputUrl,
             this.inputCombo,
+            this.inputAction,
             this.internalList,
             this.inputDisplay,
             this.inputTip,
@@ -464,16 +500,16 @@ define([
 
           if (type == c_oHyperlinkType.WebLink) {
             const id=await this.createLink()
-            var url =  $.trim(me.inputDisplay.getValue()) + id;
+            var url = `http://localhost:3000/editor/${id}`// `${$.trim(me.inputDisplay.getValue())}/${id}`;
 
            if (
                 me.urlType !== AscCommon.c_oAscUrlType.Unsafe &&
                 !/(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url)
               )
-                url =
-                  (me.urlType == AscCommon.c_oAscUrlType.Email
-                    ? "mailto:"
-                    : "http://") + url;
+                // url =
+                //   (me.urlType == AscCommon.c_oAscUrlType.Email
+                //     ? "mailto:"
+                //     : "http://") + url;
   
               url = url.replace(new RegExp("%20", "g"), " ");
               props.put_Value(url);
@@ -521,7 +557,7 @@ define([
             body: JSON.stringify({
               link_to: "Document",
               id_of_to: Number(this.inputUrl.getValue()),
-              action: "New Tab",
+              action: this.inputAction.getValue(),
             }),
             headers: {
               Accept: "application/json",
@@ -664,11 +700,17 @@ define([
                   "de-settings-link-type",
                   this.btnInternal.isActive()
                 ); // save last added hyperlink
+
+
+                const props = await this.demoLink();
+                this.options.handler.call(this, this, state,props);
+            }else{
+              this.options.handler.call(this, this, state);
             }
         
-          const props = await this.demoLink();
+  
     
-          this.options.handler.call(this, this, state,props);
+      
        
           }
           this.close();
