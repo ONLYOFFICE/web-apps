@@ -303,12 +303,13 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         });
         $(document).on('keydown.after.bs.dropdown', function(e) {
             if (_focusVisible) {
-                if($(_currentControls[_currentItemIndex]).data('move-focus-only-tab') && e.keyCode !== Common.UI.Keys.TAB) return;
                 var tag = $(_currentControls[_currentItemIndex]).prop('tagName'),
                     isInputFocused = tag === 'INPUT' || tag === 'TEXTAREA',
                     isDirectionEvent = e.keyCode == Common.UI.Keys.TAB || e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.RIGHT ||
-                        e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN;
-                if (!(isDirectionEvent || e.keyCode == Common.UI.Keys.ESC || e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE) || (e.keyCode == Common.UI.Keys.SPACE && isInputFocused)) return;
+                        e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN,
+                    isControlEvent = e.keyCode == Common.UI.Keys.ESC || e.keyCode == Common.UI.Keys.RETURN || e.keyCode == Common.UI.Keys.SPACE;
+                if($(_currentControls[_currentItemIndex]).data('move-focus-only-tab') && e.keyCode !== Common.UI.Keys.TAB && !isControlEvent) return;
+                if (!(isDirectionEvent || isControlEvent) || (e.keyCode == Common.UI.Keys.SPACE && isInputFocused)) return;
                 if (isDirectionEvent) e.preventDefault(); // allow to write in inputs
                 Common.UI.Menu.Manager.hideAll();
                 var turnOffHints = false,
@@ -397,6 +398,8 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 }
                 _showFocus();
             }
+        });
+        $(document).on('keydown', function(e) {
             _needShow = e.keyCode == Common.UI.Keys.ALT && !e.shiftKey && !Common.Utils.ModalWindow.isVisible() && _isDocReady && !(window.PE && $('#pe-preview').is(':visible'));
         });
     };
