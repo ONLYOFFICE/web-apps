@@ -2817,7 +2817,8 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            // me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            window.open(url, "_blank"); // download by url, don't convert file again (+ fix print selection)
                         }
                     };
                 }
