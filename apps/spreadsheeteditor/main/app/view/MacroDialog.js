@@ -109,7 +109,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
                 cls: 'dbl-clickable',
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;width:216px;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.macroList.on('item:dblclick', _.bind(this.onDblClickMacro, this));
             this.macroList.on('entervalue', _.bind(this.onPrimary, this));
