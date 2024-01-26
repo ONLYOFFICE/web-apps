@@ -191,6 +191,10 @@ define([
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
 
+    var templateBtnCaption =
+        '<%= caption %>' +
+        '<i class="caret"></i>';
+
     var templateHugeCaption =
             '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
                 '<div class="inner-box-icon">' +
@@ -208,9 +212,7 @@ define([
                     templateBtnIcon +
                 '</div>' +
                 '<div class="inner-box-caption">' +
-                    '<span class="caption"><%= caption %>' +
-                        '<i class="caret"></i>' +
-                    '</span>' +
+                    '<span class="caption">' + templateBtnCaption + '</span>' +
                     '<i class="caret compact-caret"></i>' +
                 '</div>' +
             '</button>' +
@@ -225,9 +227,7 @@ define([
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<span class="btn-fixflex-vcenter">' +
-                    '<span class="caption"><%= caption %>' +
-                        '<i class="caret"></i>' +
-                    '</span>' +
+                    '<span class="caption">' + templateBtnCaption + '</span>' +
                     '<i class="caret compact-caret"></i>' +
                 '</span>' +
             '</button>' +
@@ -880,7 +880,7 @@ define([
 
         setCaption: function(caption) {
             if (this.caption != caption) {
-                if ( /icon-top/.test(this.cls) && !!this.caption && /huge/.test(this.cls) ) {
+                if ( /icon-top/.test(this.options.cls) && !!this.caption && /huge/.test(this.options.cls) ) {
                     var newCaption = this.getCaptionWithBreaks(caption);
                     this.caption = newCaption || caption;
                 } else
@@ -890,7 +890,7 @@ define([
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.html(this.caption);
+                        captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
                     } else {
                         this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }

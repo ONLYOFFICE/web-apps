@@ -3780,6 +3780,7 @@ define([
                         hint: 'hint',
                         separator: true,
                         split: false,
+                        // disabled: true,
                         menu: [
                             {
                                 id: 'item-id-1',
@@ -3803,6 +3804,17 @@ define([
                             {
                                 id: 'item-id-2',
                                 text: 'Text2',
+                                items: [
+                                    {
+                                        id: 'item-id-3',
+                                        text: 'Text3'
+                                    },
+                                    {
+                                        id: 'item-id-3',
+                                        text: 'Text3',
+                                        separator: true
+                                    }
+                                ],
                                 separator: true
                             }
                         ],
@@ -3831,8 +3843,7 @@ define([
                     }
                 ]
             }];
-            var btns = Common.UI.LayoutManager.addCustomItems(this.toolbar, data, this.api);
-            Array.prototype.push.apply(this.toolbar.lockControls, btns);
+            Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
