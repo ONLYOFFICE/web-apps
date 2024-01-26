@@ -92,7 +92,7 @@ function downloadPartialy(url, limit, postData, callback) {
     var callbackCalled = false;
     var xhr = new XMLHttpRequest();
     //value of responseText always has the current content received from the server, even if it's incomplete
-    xhr.responseType = "text";
+    // xhr.responseType = "json"; it raises an IE error. bug 66160
     xhr.overrideMimeType('text/xml; charset=iso-8859-1');
     xhr.onreadystatechange = function () {
         if (callbackCalled) {
