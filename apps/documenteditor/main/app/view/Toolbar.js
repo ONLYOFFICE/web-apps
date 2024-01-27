@@ -846,7 +846,7 @@ define([
                     this.btnDropCap = new Common.UI.Button({
                         id: 'tlbtn-dropcap',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-dropcap',
+                        iconCls: 'toolbar__icon btn-dropcap' + (Common.UI.isRTL() ? ' icon-rtl' : ''),
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.controlPlain, _set.dropcapLock, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: me.capBtnInsDropcap,
@@ -864,7 +864,7 @@ define([
                                 },
                                 {
                                     caption: this.textInText,
-                                    iconCls: 'menu__icon btn-dropcap-intext',
+                                    iconCls: 'menu__icon btn-dropcap-intext' + (Common.UI.isRTL() ? ' icon-rtl' : ''),
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -872,7 +872,7 @@ define([
                                 },
                                 {
                                     caption: this.textInMargin,
-                                    iconCls: 'menu__icon btn-dropcap-inmargin',
+                                    iconCls: 'menu__icon btn-dropcap-inmargin' + (Common.UI.isRTL() ? ' icon-rtl' : ''),
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
