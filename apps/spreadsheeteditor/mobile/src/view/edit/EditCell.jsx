@@ -133,11 +133,9 @@ const PageCellStyle = props => {
     const storeCellSettings = props.storeCellSettings;
     const styleName = storeCellSettings.styleName;
     const cellStyles = storeCellSettings.cellStyles;
-    console.log(cellStyles);
     const countStylesSlide = Device.phone ? 6 : 15;
     const countSlides = Math.floor(cellStyles.length / countStylesSlide);
     const arraySlides = Array(countSlides).fill(countSlides);
-    console.log(arraySlides);
 
     return (
         <Page>
