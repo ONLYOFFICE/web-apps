@@ -57,7 +57,7 @@ function isExtendedPDFFile(text) {
 
     let pFirst = text.substring(indexFirst + 6);
 
-    if (!pFirst.startsWith('1 0 obj\x0A<<\x0A')) {
+    if (!(pFirst.lastIndexOf('1 0 obj\x0A<<\x0A', 0) === 0)) {
         return false;
     }
 
