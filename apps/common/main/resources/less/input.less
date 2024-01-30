@@ -123,6 +123,9 @@ input.error {
 
 input[type="password"] {
     font-size: 16px;
+    &::-ms-reveal {
+        display: none;
+    }
 }
 
 input[type="text"]::selection, textarea::selection {
