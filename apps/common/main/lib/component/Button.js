@@ -658,6 +658,14 @@ define([
                         }
                     });
                 }
+
+                if (me.enableToggle && !me.menu) {
+                    $('button', el).attr('aria-pressed', !!me.pressed)
+                }
+
+                if (me.menu) {
+                    $('[data-toggle^=dropdown]', el).attr('aria-haspopup', 'menu');
+                }
             }
 
             me.rendered = true;
@@ -691,8 +699,10 @@ define([
 
             this.pressed = state;
 
-            if (this.cmpEl)
+            if (this.cmpEl) {
+                this.cmpEl.attr('aria-pressed', state);
                 this.cmpEl.trigger('button.internal.active', [state]);
+            }
 
             if (!suppressEvent)
                 this.trigger('toggle', this, state);
