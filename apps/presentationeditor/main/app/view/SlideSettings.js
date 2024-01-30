@@ -1111,7 +1111,7 @@ define([
         onClickApplyAllSlides: function() {
             if (this.api) {
                 var props = new Asc.CAscSlideProps();
-                props.put_ApplyToAll(true);
+                props.put_ApplyBackgroundToAll(true);
                 this.api.SetSlideProps(props);
             }
         },
@@ -1480,8 +1480,8 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.btnBackgroundReset.setDisabled(!!props.get_lockResetBackground());
-                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyToAll());
+                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground());
+                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll());
 
                 this.chBackgroundGraphics.setValue(!!props.get_ShowMasterSp(), true);
 
