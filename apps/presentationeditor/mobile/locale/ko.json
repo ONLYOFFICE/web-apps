@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "현재 파일은 버전 기록에 저장됩니다.",
       "titleWarningRestoreVersion": "이 버전을 복원하시겠습니까?",
       "txtErrorLoadHistory": "로드 이력 실패"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "응용 프로그램을 종료합니다",
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
-    "textCloseHistory": "닫기 역사"
+    "textCloseHistory": "닫기 역사",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "확대/축소",
       "textZoomIn": "확대",
       "textZoomOut": "축소",
-      "textZoomRotate": "확대 / 축소 및 회전"
+      "textZoomRotate": "확대 / 축소 및 회전",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "광장",
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
-      "txtScheme9": "발견"
+      "txtScheme9": "발견",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

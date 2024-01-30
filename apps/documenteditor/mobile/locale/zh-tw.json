@@ -175,6 +175,12 @@
       "textStandartColors": "標準顏色",
       "textThemeColors": "主題顏色"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -392,7 +398,17 @@
     "textWe": "We",
     "textWrap": "包覆",
     "textWrappingStyle": "文繞圖樣式",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
+    "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "轉換逾時。",
@@ -749,8 +765,19 @@
     "txtScheme7": "產權",
     "txtScheme8": "流程",
     "txtScheme9": "鑄造廠",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVersionHistory": "Version History"
   },

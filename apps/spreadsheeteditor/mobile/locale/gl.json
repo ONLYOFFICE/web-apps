@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Non amosar de novo",
     "textOk": "Aceptar",
     "txtWarnUrl": "Prema nesta ligazón pode ser prexudicial para o seu dispositivo e os seus datos.<br> Ten a certeza de que quere continuar?",
-    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?"
+    "warnMergeLostData": "Na celda unida permanecerán só os datos da celda da esquina superior esquerda.<br>Ten a certeza de que quere continuar?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Saiu do aplicativo",
     "leaveButtonText": "Saír desta página",
     "stayButtonText": "Quedarse nesta páxina",
-    "textCloseHistory": "Pechar historial"
+    "textCloseHistory": "Pechar historial",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textCreateFormat": "Create Format",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Elexir os parámetros de CSV",
@@ -811,7 +821,11 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinés",
-      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?"
+      "warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

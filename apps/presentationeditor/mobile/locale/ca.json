@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega del historial"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Estàs sortint de l'aplicació",
     "leaveButtonText": "Sortir d'aquesta Pàgina",
     "stayButtonText": "Queda't en aquesta Pàgina",
-    "textCloseHistory": "Tanca l'historial"
+    "textCloseHistory": "Tanca l'historial",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduir",
-      "textZoomRotate": "Ampliar i girar"
+      "textZoomRotate": "Ampliar i girar",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria"
+      "txtScheme9": "Foneria",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

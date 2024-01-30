@@ -146,13 +146,14 @@
     // Password input
     .password-field {
         &__wrap {
+            display: flex;
+            justify-content: space-between;
             position: relative;
         }
 
         &__icon {
-            position: absolute;
-            right: 0;
-            top: calc(50% - 12px);
+            min-width: 24px;
+            min-height: 24px;
         }
 
         &__input {

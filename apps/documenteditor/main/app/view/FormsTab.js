@@ -133,25 +133,26 @@ define([
             this.btnDateTime && this.btnDateTime.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['datetime']);
             });
-            this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
-                var item = b.menu.getChecked();
-                if (item) {
-                    item = item.caption;
-                } else if (me._state.roles && me._state.roles.length>0) {
-                    item = me._state.roles[0].asc_getSettings().asc_getName();
-                }
-                me.fireEvent('forms:mode', [b.pressed, item]);
-            });
-            this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
-                if (!!item.checked) {
-                    me.btnViewFormRoles.toggle(true, true);
-                    me.fireEvent('forms:mode', [true, item.caption]);
-                }
-            }, me));
-            this.btnViewFormRoles.menu.on('show:after',  function (menu) {
-                me.fillRolesMenu();
-            });
-
+            if (this.btnViewFormRoles) {
+                this.btnViewFormRoles.on('click', function (b, e) {
+                    var item = b.menu.getChecked();
+                    if (item) {
+                        item = item.caption;
+                    } else if (me._state.roles && me._state.roles.length>0) {
+                        item = me._state.roles[0].asc_getSettings().asc_getName();
+                    }
+                    me.fireEvent('forms:mode', [b.pressed, item]);
+                });
+                this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                    if (!!item.checked) {
+                        me.btnViewFormRoles.toggle(true, true);
+                        me.fireEvent('forms:mode', [true, item.caption]);
+                    }
+                }, me));
+                this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                    me.fillRolesMenu();
+                });
+            }
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });
@@ -660,15 +661,15 @@ define([
             tipSubmit: 'Submit form',
             textSubmited: 'Form submitted successfully',
             textRequired: 'Fill all required fields to send form.',
-            capBtnSaveForm: 'Save as oform',
-            tipSaveForm: 'Save a file as a fillable OFORM document',
+            capBtnSaveForm: 'Save as pdf',
+            tipSaveForm: 'Save a file as a fillable PDF',
             txtUntitled: 'Untitled',
-            textCreateForm: 'Add fields and create a fillable OFORM document',
+            textCreateForm: 'Add fields and create a fillable PDF',
             textGotIt: 'Got it',
             capBtnManager: 'Manage Roles',
             tipManager: 'Manage Roles',
-            capBtnDownloadForm: 'Download as oform',
-            tipDownloadForm: 'Download a file as a fillable OFORM document',
+            capBtnDownloadForm: 'Download as pdf',
+            tipDownloadForm: 'Download a file as a fillable PDF',
             capBtnEmail: 'Email Address',
             capBtnPhone: 'Phone Number',
             capBtnComplex: 'Complex Field',
@@ -687,7 +688,16 @@ define([
             tipZipCode: 'Insert zip code',
             tipCreditCard: 'Insert credit card number',
             capDateTime: 'Date & Time',
-            tipDateTime: 'Insert date and time'
+            tipDateTime: 'Insert date and time',
+            tipCreateField: 'To create a field select the desired field type on the toolbar and click on it. The field will appear in the document.',
+            tipFormKey: 'You can assign a key to a field or a group of fields. When a user fills in the data, it will be copied to all the fields with the same key.',
+            tipFormGroupKey: 'Group radio buttons to make the filling process faster. Choices with the same names will be synchronized. Users can only tick one radio button from the group.',
+            tipFieldSettings: 'You can configure selected fields on the right sidebar. Click this icon to open the field settings.',
+            tipHelpRoles: 'Use the Manage Roles feature to group fields by purpose and assign the responsible team members.',
+            tipSaveFile: 'Click “Save as pdf” to save the form in the format ready for filling.',
+            tipRolesLink: 'Learn more about roles',
+            tipFieldsLink: 'Learn more about field parameters'
+
         }
     }()), DE.Views.FormsTab || {}));
 });

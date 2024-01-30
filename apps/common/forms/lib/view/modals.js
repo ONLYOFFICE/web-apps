@@ -44,13 +44,13 @@ define([
             width: 300,
             header: true,
             style: 'min-width: 300px;',
-            cls: 'modal-dlg',
-            buttons: null
+            cls: 'modal-dlg'
         },
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                buttons: [{value: 'ok', caption: this.txtCopy}]
             }, options || {});
 
             this.template = [
@@ -73,10 +73,7 @@ define([
                     '</tr>',
                 '</table>',
                 '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                    '<button class="btn normal primary dlg-btn" style="min-width: 86px;width: auto;">' + this.txtCopy + '</button>',
-                '</div>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -160,13 +157,13 @@ define([
             width: 300,
             header: true,
             style: 'min-width: 300px;',
-            cls: 'modal-dlg',
-            buttons: null
+            cls: 'modal-dlg'
         },
 
         initialize : function(options) {
             _.extend(this.options, {
-                title: this.textTitle
+                title: this.textTitle,
+                buttons: [{value: 'ok', caption: this.txtCopy}]
             }, options || {});
 
             this.template = [
@@ -189,10 +186,7 @@ define([
                     '</tr>',
                 '</table>',
                 '</div>',
-                '<div class="separator horizontal"></div>',
-                '<div class="footer center">',
-                '<button class="btn normal primary dlg-btn" style="min-width: 86px;width: auto;">' + this.txtCopy + '</button>',
-                '</div>'
+                '<div class="separator horizontal"></div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);

@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Uneko fitxategia bertsioen historian gordeko da.",
       "titleWarningRestoreVersion": "Bertsio hau berrezarri?",
       "txtErrorLoadHistory": "Huts egin du historia kargatzeak"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,17 @@
     "textType": "Mota",
     "textWe": "az.",
     "textWrap": "Doikuntza",
-    "textWrappingStyle": "Egokitze-estiloa"
+    "textWrappingStyle": "Egokitze-estiloa",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
+    "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Bihurketaren denbora-muga gainditu da.",
@@ -752,7 +768,18 @@
     "txtScheme7": "Berdintza",
     "txtScheme8": "Fluxua",
     "txtScheme9": "Sortzailea",
-    "textDarkTheme": "Dark Theme"
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textDarkTheme": "Dark Theme",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Gorde gabeko aldaketak dituzu. Egin klik \"Jarraitu orri honetan\" gordetze-automatikoari itxaroteko. Egin klik \"Utzi orri hau\" gorde gabeko aldaketa guztiak baztertzeko.",

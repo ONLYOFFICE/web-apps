@@ -43,6 +43,12 @@
       "textStandartColors": "Kolore estandarrak",
       "textThemeColors": "Gaiaren koloreak"
     },
+    "Themes": {
+      "dark": "Iluna",
+      "light": "Argia",
+      "system": "Sistemako berdina",
+      "textTheme": "Itxura"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Abisua",
       "textAnonymous": "Anonimoa",
@@ -198,7 +204,7 @@
     "splitMaxColsErrorText": "Zutabe kopurua %1 baino txikiagoa izan behar da",
     "splitMaxRowsErrorText": "Errenkada kopurua %1 baino txikiagoa izan behar da",
     "unknownErrorText": "Errore ezezaguna.",
-    "uploadImageExtMessage": "Irudi formatu ezezaguna.",
+    "uploadImageExtMessage": "Irudi-formatu ezezaguna.",
     "uploadImageFileCountMessage": "Ez da irudirik kargatu.",
     "uploadImageSizeMessage": "Irudia handiegia da. Gehienezko tamaina 25 MB da."
   },
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Aplikazioa uzten duzu",
     "leaveButtonText": "Irten orritik",
     "stayButtonText": "Jarraitu orrian",
-    "textCloseHistory": "Itxi historia"
+    "textCloseHistory": "Itxi historia",
+    "textEnterNewFileName": "Idatzi fitxategi-izen berria",
+    "textRenameFile": "Berrizendatu fitxategia"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "Nabarmentze-kolorea",
       "textHorizontalIn": "Horizontala barnera",
       "textHorizontalOut": "Horizontala kanpora",
+      "textHorizontalText": "Testu horizontala",
       "textHyperlink": "Hiperesteka",
       "textImage": "Irudia",
       "textImageURL": "Irudiaren URLa",
       "textInsertImage": "Txertatu irudia",
+      "textInvalidName": "Fitxategi-izenak ezin ditu ondorengo karaktereak eduki:",
       "textLastColumn": "Azken zutabea",
       "textLastSlide": "Azken diapositiba",
       "textLayout": "Diseinua",
@@ -408,6 +418,8 @@
       "textReplaceImage": "Ordeztu irudia",
       "textRequired": "Nahitaezkoa",
       "textRight": "Eskuina",
+      "textRotateTextDown": "Biratu testua behera",
+      "textRotateTextUp": "Biratu testua gora",
       "textScreenTip": "Pantailako aholkua",
       "textSearch": "Bilatu",
       "textSec": "s",
@@ -429,6 +441,7 @@
       "textSuperscript": "Goi-indizea",
       "textTable": "Taula",
       "textText": "Testua",
+      "textTextOrientation": "Testuaren orientazioa",
       "textTheme": "Itxura",
       "textTop": "Goian",
       "textTopLeft": "Goian ezkerrean",
@@ -462,6 +475,7 @@
       "textColorSchemes": "Kolore-eskemak",
       "textComment": "Iruzkina",
       "textCreated": "Sortze-data",
+      "textDark": "Iluna",
       "textDarkTheme": "Itxura iluna",
       "textDisableAll": "Desgaitu guztiak",
       "textDisableAllMacrosWithNotification": "Desgaitu makro guztiak jakinarazpenarekin",
@@ -481,6 +495,7 @@
       "textInch": "Hazbete",
       "textLastModified": "Azken aldaketa",
       "textLastModifiedBy": "Azken aldaketaren egilea",
+      "textLight": "Argia",
       "textLoading": "Kargatzen...",
       "textLocation": "Kokalekua",
       "textMacrosSettings": "Makroen ezarpenak",
@@ -497,6 +512,7 @@
       "textReplaceAll": "Ordeztu guztia",
       "textRestartApplication": "Mesedez berrabiarazi aplikazioa aldaketek eragina izan dezaten",
       "textRTL": "Esk.-Ezk.",
+      "textSameAsSystem": "Sistemako berdina",
       "textSearch": "Bilatu",
       "textSettings": "Ezarpenak",
       "textShowNotification": "Erakutsi jakinarazpena",
@@ -504,6 +520,7 @@
       "textSpellcheck": "Ortografia-egiaztapena",
       "textSubject": "Gaia",
       "textTel": "tel:",
+      "textTheme": "Itxura",
       "textTitle": "Izenburua",
       "textUnitOfMeasurement": "Neurri-unitatea",
       "textUploaded": "Kargatuta",

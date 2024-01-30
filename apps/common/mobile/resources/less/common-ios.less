@@ -4,6 +4,7 @@
     @item-border-color: #c8c7cc;
     @darkGreen: #40865c;
     @text-normal: var(--text-normal);
+    @background-warning: #FF9F0A;
 
     --f7-navbar-link-color: @brandColor;
     --f7-subnavbar-link-color: @brandColor;
@@ -180,6 +181,10 @@
                 }
             }
         }
+    }
+
+    .popover-arrow:after {
+        background: rgba(0, 0, 0, 0.9);
     }
 
     .list {
@@ -433,6 +438,7 @@
             background: var(--f7-navbar-bg-color);
         }
         .searchbar-input-wrap {
+            position: relative;
             margin-right: 10px;
             height: 28px;
         }
@@ -441,23 +447,37 @@
         }
     }
 
-    .searchbar input {
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        display: block;
-        border: none;
-        appearance: none;
-        border-radius: 5px;
-        font-family: inherit;
-        color: @text-normal;
-        font-size: 14px;
-        font-weight: 400;
-        padding: 0 8px;
-        background-color: @background-button;
-        padding: 0 28px;
-        &::placeholder {
+    .searchbar {
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            display: block;
+            border: none;
+            appearance: none;
+            border-radius: 5px;
+            font-family: inherit;
+            color: @text-normal;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 0 8px;
+            background-color: @background-button;
+            padding: 0 36px 0 28px;
+
+            &::placeholder {
+                color: @text-tertiary;
+            }
+        }
+
+        .number-search-results {
+            position: absolute;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 18px;
+            right: 26px;
             color: @text-tertiary;
+            top: 5px;
+            z-index: 100;
         }
     }
 
@@ -651,6 +671,11 @@
         line-height: 22px;
         letter-spacing: -0.41px;
         color: @brandColor;
+        margin-left: 10px;
+    }
+
+    .beta-badge {
+        background-color: @background-warning;
         margin-left: 10px;
     }
 }

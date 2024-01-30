@@ -43,6 +43,12 @@
       "textStandartColors": "Standaardkleuren",
       "textThemeColors": "Themakleuren"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "U verlaat de applicatie",
     "leaveButtonText": "Pagina verlaten",
     "stayButtonText": "Op deze pagina blijven",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -437,14 +445,19 @@
       "textCancel": "Cancel",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standaard (4:3)",
@@ -525,11 +538,15 @@
       "txtScheme8": "Stroom",
       "txtScheme9": "Gieterij",
       "notcriticalErrorTitle": "Warning",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
   }

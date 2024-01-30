@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { View, Popup, Popover, f7 } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
 import ApplicationSettingsController from "../../controller/settings/ApplicationSettings";
-import { MacrosSettings } from "./ApplicationSettings";
+import { MacrosSettings, ThemeSettings } from "./ApplicationSettings";
 import DownloadController from "../../controller/settings/Download";
 import PresentationInfoController from "../../controller/settings/PresentationInfo";
 import PresentationSettingsController from "../../controller/settings/PresentationSettings";
@@ -10,7 +10,6 @@ import { PresentationColorSchemes } from "./PresentationSettings";
 import About from '../../../../../common/mobile/lib/view/About';
 import SettingsPage from './SettingsPage';
 import { MainContext } from '../../page/main';
-import SharingSettings from "../../../../../common/mobile/lib/view/SharingSettings";
 import VersionHistoryController from '../../../../../common/mobile/lib/controller/VersionHistory';
 
 const routes = [
@@ -27,6 +26,10 @@ const routes = [
         path: '/macros-settings/',
         component: MacrosSettings
     }, 
+    {
+        path: '/theme-settings/',
+        component: ThemeSettings
+    },
     {
         path: '/download/',
         component: DownloadController
@@ -79,7 +82,7 @@ const SettingsView = () => {
 
     return (
         !Device.phone ?
-            <Popover id="settings-popover" className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
+            <Popover id="settings-popover" closeByOutsideClick={false} className="popover__titled" onPopoverClosed={() => mainContext.closeOptions('settings')}>
                 <View style={{ height: '410px' }} routes={routes} url='/settings-page/'>
                     <SettingsPage />
                 </View>

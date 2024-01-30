@@ -689,10 +689,13 @@ define([
                 }
 
                 if (event.ctrlKey && !event.altKey){
-                    if (delta < 0)
+                    if (delta < 0) {
                         me.api.zoomOut();
-                    else if (delta > 0)
+                        me._handleZoomWheel = true;
+                    } else if (delta > 0) {
                         me.api.zoomIn();
+                        me._handleZoomWheel = true;
+                    }
 
                     event.preventDefault();
                     event.stopPropagation();
@@ -886,7 +889,7 @@ define([
             }
 
             if (moveData) {
-                var showPoint, ToolTip,
+                var showPoint, ToolTip = '',
                     type = moveData.get_Type();
 
                 if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
@@ -1424,10 +1427,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
@@ -1765,6 +1769,7 @@ define([
                         caption: item.caption,
                         value: item.sectionId,
                         itemId: item.id,
+                        itemsLength: length,
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
@@ -1785,27 +1790,40 @@ define([
 
                 var onShowBeforeSmartArt = function (menu) {
                     menu.items.forEach(function (item, index) {
+                        var items = [];
+                        for (var i=0; i<item.options.itemsLength; i++) {
+                            items.push({
+                                isLoading: true
+                            });
+                        }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#placeholder-' + item.options.itemId),
                             parentMenu: menu.items[index].menu,
                             itemTemplate: _.template([
-                                '<div>',
-                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
-                                '</div>'
+                                '<% if (isLoading) { %>',
+                                    '<div class="loading-item" style="width: 70px; height: 70px;">',
+                                        '<i class="loading-spinner"></i>',
+                                    '</div>',
+                                '<% } else { %>',
+                                    '<div>',
+                                        '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                    '</div>',
+                                '<% } %>'
                             ].join('')),
-                            store: new Common.UI.DataViewStore(),
+                            store: new Common.UI.DataViewStore(items),
                             delayRenderTips: true,
                             scrollAlwaysVisible: true,
                             showLast: false
                         });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
-                            if (record) {
+                            if (record && record.get('value') !== null) {
                                 me.api.asc_createSmartArt(record.get('value'), me._state.placeholderObj);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
                         });
+                        item.menuPicker.loaded = false;
                         item.$el.on('mouseenter', function () {
-                            if (item.menuPicker.store.length === 0) {
+                            if (!item.menuPicker.loaded) {
                                 me.documentHolder.fireEvent('smartart:mouseenter', [item.value, menu]);
                             }
                         });

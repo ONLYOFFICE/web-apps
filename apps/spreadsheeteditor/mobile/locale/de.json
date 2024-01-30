@@ -40,6 +40,12 @@
       "textStandartColors": "Standardfarben",
       "textThemeColors": "Farben des Themas"
     },
+    "Themes": {
+      "textTheme": "Thema",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
       "textAnonymous": "Anonym",
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
     "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Sie schließen die App",
     "leaveButtonText": "Seite verlassen",
     "stayButtonText": "Auf dieser Seite bleiben",
-    "textCloseHistory": "Historie schließen"
+    "textCloseHistory": "Historie schließen",
+    "textEnterNewFileName": "Geben Sie einen neuen Dateinamen ein",
+    "textRenameFile": "Datei umbenennen"
   },
   "View": {
     "Add": {
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "Innere vertikale Rahmenlinie",
       "textInteger": "Ganze Zahl",
       "textInternalDataRange": "Interner Datenbereich",
+      "textInvalidName": "Dieser Dateiname darf keines der folgenden Zeichen enthalten:",
       "textInvalidRange": "Ungültiger Zellenbereich",
       "textJustified": "Blocksatz",
       "textLabelOptions": "Beschriftungsoptionen",
@@ -738,6 +748,7 @@
       "textSpreadsheetTitle": "Titel der Tabelle",
       "textSubject": "Betreff",
       "textTel": "Tel.",
+      "textTheme": "Thema",
       "textTitle": "Titel",
       "textTop": "Oben",
       "textUnitOfMeasurement": "Maßeinheit",
@@ -811,7 +822,10 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

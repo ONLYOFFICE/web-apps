@@ -196,7 +196,8 @@
 
            var params = getUrlParams(),
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+               isForm = params["isForm"];
 
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
@@ -293,13 +294,30 @@
       <script type="text/javascript" src="js/SearchBar.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
-      <script type="text/javascript" src="js/application.js"></script>
+      <script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
+      <script>
+          function startApp() {
+              var script = document.createElement("script");
+              script.src = "js/application.js";
+              document.body.appendChild(script);
+          }
+          if (isForm===undefined) {
+              listenApiMsg(function (isform) {
+                  window.isPDFForm = !!isform;
+                  startApp();
+              });
+          } else {
+              window.isPDFForm = isForm==='true';
+              startApp();
+          }
+      </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

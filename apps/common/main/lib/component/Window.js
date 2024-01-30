@@ -176,11 +176,11 @@ define([
                                 '</div>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %>' +
-                                '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
+                                '<% if (typeof (buttonsParsed) !== "undefined" && _.size(buttonsParsed) > 0) { %>' +
                                 '<div class="footer">' +
-                                    '<% for(var bt in buttons) { %>' +
-                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
-                                    '<% } %>' +
+                                    '<% _.each(buttonsParsed, function (item) { %>' +
+                                        '<button class="btn normal dlg-btn <%= item.cls %>" result="<%= item.value %>" <% if (item.id) { %>id="<%=item.id%>" <% } %> ><%= item.text %></button>'+
+                                    '<% }); %>' +
                                 '</div>' +
                                 '<% } %>' +
                             '</div>' +
@@ -201,6 +201,9 @@ define([
         function _keydown(event) {
             if (!this.isLocked() && this.isVisible()
                         && this.initConfig.enableKeyEvents && this.pauseKeyEvents !== false) {
+                if (this.initConfig.keydowncallback && this.initConfig.keydowncallback.call(this, event))
+                    return false;
+
                 switch (event.keyCode) {
                     case Common.UI.Keys.ESC:
                         if ( $('.asc-loadmask').length<1 ) {
@@ -216,6 +219,9 @@ define([
                         }
                         break;
                     case Common.UI.Keys.RETURN:
+                        var target = $(event.target);
+                        if (target.hasClass('dlg-btn') && !target.hasClass('primary')) return;
+
                         if (this.$window.find('.btn.primary').length && $('.asc-loadmask').length<1) {
                             if ((this.initConfig.onprimary || this.onPrimary).call(this)===false) {
                                 event.preventDefault();
@@ -484,11 +490,15 @@ define([
             _.extend(options, {
                 cls: 'alert',
                 onprimary: onKeyDown,
+                getFocusedComponents: getFocusedComponents,
+                getDefaultFocusableComponent: getDefaultFocusableComponent,
                 tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
                chDontShow = null;
+            win.getFocusedComponents = getFocusedComponents;
+            win.getDefaultFocusableComponent = getDefaultFocusableComponent;
 
             function autoSize(window) {
                 var text_cnt    = window.getChild('.info-box');
@@ -542,6 +552,16 @@ define([
                 return false;
             }
 
+            function getFocusedComponents(event) {
+                return win.getFooterButtons();
+           }
+
+            function getDefaultFocusableComponent() {
+                return _.find(win.getFooterButtons(), function (item) {
+                    return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+                });
+            }
+
             win.on({
                 'render:after': function(obj){
                     var footer = obj.getChild('.footer');
@@ -552,9 +572,6 @@ define([
                         labelText: options.textDontShow || win.textDontShow
                     });
                     autoSize(obj);
-                },
-                show: function(obj) {
-                    obj.getChild('.footer .dlg-btn').focus();
                 },
                 close: function() {
                     options.callback && options.callback.call(win, 'close');
@@ -626,19 +643,20 @@ define([
                 if (options.buttons && _.isArray(options.buttons)) {
                     if (options.primary==undefined)
                         options.primary = 'ok';
-                    var newBtns = {};
+                    var newBtns = [];
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
-                            if (b.value !== undefined)
-                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                            if (b.value !== undefined) {
+                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                b.id && (item.id = b.id);
+                                newBtns.push(item);
+                            }
                         } else if (b!==undefined) {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
-                            if (b=='custom')
-                                newBtns[b].cls += ' custom';
+                            newBtns.push({value: b, text: arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''});
                         }
                     });
 
-                    options.buttons = newBtns;
+                    options.buttonsParsed = newBtns;
                     options.footerCls = options.footerCls || 'center';
                 }
 
@@ -1031,6 +1049,19 @@ define([
             },
 
             getDefaultFocusableComponent: function() {
+            },
+
+            getFooterButtons: function() {
+                if (!this.footerButtons) {
+                    var arr = [];
+                    this.$window.find('.dlg-btn').each(function(index, item) {
+                        arr.push(new Common.UI.Button({
+                            el: $(item)
+                        }));
+                    });
+                    this.footerButtons = arr;
+                }
+                return this.footerButtons;
             },
 
             cancelButtonText: 'Cancel',

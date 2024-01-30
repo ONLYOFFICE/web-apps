@@ -46,7 +46,7 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
     PE.Views.ChartSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'chart-adv-settings-group',
             properties: null,
             storageName: 'pe-chart-settings-adv-category',
@@ -245,11 +245,11 @@ define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputChartName, // 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

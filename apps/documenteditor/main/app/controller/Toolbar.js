@@ -169,7 +169,7 @@ define([
                             Asc.c_oAscFileType.DOCM
                         ];
                         if (_main.appOptions.canFeatureForms) {
-                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF]);
                         }
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -459,6 +459,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             }
+            this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
@@ -3500,7 +3501,7 @@ define([
 
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-menu-comments', this.toolbar.capBtnComment,
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-add-comment', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
                                     Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ],
@@ -3515,6 +3516,12 @@ define([
                         if (btn.cmpEl.closest('#review-changes-panel').length>0)
                             btn.setCaption(me.toolbar.capBtnAddComment);
                     }, this);
+                    if (_comments.buttonAddNew) {
+                        _comments.buttonAddNew.options.lock = [ Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
+                                                                Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
+                                                                Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ];
+                        this.btnsComment.add(_comments.buttonAddNew);
+                    }
                 }
                 Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
                 Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
@@ -3533,7 +3540,54 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
                 }
+
+                config.isOForm && config.canDownloadForms && Common.UI.warning({
+                    msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
+                    buttons: [{value: 'ok', caption: config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textSavePdf : me.textDownloadPdf}, 'cancel'],
+                    callback: function(btn){
+                        if (btn==='ok') {
+                            me.isFromFormSaveAs = config.canRequestSaveAs || !!config.saveAsUrl;
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs));
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
             });
+        },
+
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromFormSaveAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
+
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        Common.UI.warning({
+                            closable: false,
+                            msg: err,
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        });
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            }
+            this.isFromFormSaveAs = false;
         },
 
         getView: function (name) {
@@ -3592,6 +3646,8 @@ define([
         onApiBeginSmartArtPreview: function (type) {
             this.smartArtGenerating = type;
             this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            var menuPicker = _.findWhere(this.smartArtGroups, {value: type}).menuPicker;
+            menuPicker.loaded = true;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
         },
 
@@ -3602,18 +3658,13 @@ define([
                     section = _.findWhere(this.smartArtData, {sectionId: sectionId}),
                     item = _.findWhere(section.items, {type: image.asc_getName()}),
                     menu = _.findWhere(this.smartArtGroups, {value: sectionId}),
-                    menuPicker = menu.menuPicker;
-                if (item) {
-                    var arr = [{
-                        tip: item.tip,
-                        value: item.type,
-                        imageUrl: image.asc_getImage()
-                    }];
-                    //if (menuPicker.store.length < 1) {
-                        //menuPicker.store.reset(arr);
-                    //} else {
-                        menuPicker.store.add(arr);
-                    //}
+                    menuPicker = menu.menuPicker,
+                    pickerItem = menuPicker.store.findWhere({isLoading: true});
+                if (pickerItem) {
+                    pickerItem.set('isLoading', false, {silent: true});
+                    pickerItem.set('value', item.type, {silent: true});
+                    pickerItem.set('imageUrl', image.asc_getImage(), {silent: true});
+                    pickerItem.set('tip', item.tip);
                 }
                 this.currentSmartArtMenu = menu;
             }, this));
@@ -4004,7 +4055,12 @@ define([
         textGroup: 'Group',
         textEmptyMMergeUrl: 'You need to specify URL.',
         textRecentlyUsed: 'Recently Used',
-        dataUrl: 'Paste a data URL'
+        dataUrl: 'Paste a data URL',
+        textConvertFormSave: 'Save file as a fillable PDF form to be able to fill it out.',
+        textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
+        txtUntitled: 'Untitled',
+        textSavePdf: 'Save as pdf',
+        textDownloadPdf: 'Download pdf'
 
     }, DE.Controllers.Toolbar || {}));
 });

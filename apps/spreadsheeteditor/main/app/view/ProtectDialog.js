@@ -155,7 +155,7 @@ define([
                 maxLength: 255,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true
+                showPwdOnClick: false
             });
 
             if (this.type == 'sheet') {
@@ -242,7 +242,7 @@ define([
             (this.type == 'range') && (arr = arr.concat([this.inputRangeName, this.txtDataRange]));
             arr = arr.concat([this.inputPwd, this.repeatPwd]);
             (this.type == 'sheet') && (arr = [this.btnAllowRanges].concat(arr).concat([this.optionsList]));
-            return arr;
+            return arr.concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

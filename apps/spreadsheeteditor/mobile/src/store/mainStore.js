@@ -1,8 +1,5 @@
-
-// import {storeDocumentSettings} from './documentSettings';
 import {storeFocusObjects} from "./focusObjects";
 import {storeUsers} from '../../../../common/mobile/lib/store/users';
-import {storeWorksheets} from './sheets';
 import {storeFunctions} from './functions';
 import {storePalette} from "./palette";
 import {storeTextSettings} from "./textSettings";
@@ -18,7 +15,9 @@ import {storeSpreadsheetSettings} from "./spreadsheetSettings";
 import {storeReview} from '../../../../common/mobile/lib/store/review';
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
 import {storeToolbarSettings} from "./toolbar";
+import { storeThemes } from '../../../../common/mobile/lib/store/themes';
 import { storeVersionHistory } from "../../../../common/mobile/lib/store/versionHistory";
+import {storeWorksheets} from "./sheets";
 
 export const stores = {
     storeFocusObjects: new storeFocusObjects(),
@@ -41,6 +40,6 @@ export const stores = {
     storeVersionHistory: new storeVersionHistory(),
     storeToolbarSettings: new storeToolbarSettings(),
     storeWorksheets: new storeWorksheets(),
-   
+    storeThemes: new storeThemes()
 };
 

@@ -43,6 +43,12 @@
       "textStandartColors": "ສີມາດຕະຖານ",
       "textThemeColors": " ຮູບແບບສີ"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
     "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -437,14 +445,19 @@
       "textChangeShape": "Change Shape",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "ມາດຕະຖານ (4:3)",
@@ -525,11 +538,15 @@
       "txtScheme8": "ຂະບວນການ",
       "txtScheme9": "ໂຮງຫລໍ່",
       "notcriticalErrorTitle": "Warning",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
   }

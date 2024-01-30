@@ -257,11 +257,17 @@ define([
                 if (pnl===undefined || pnl.btn===undefined || pnl.panel===undefined) continue;
 
                 if ( pnl.hidden ) {
-                    if (!pnl.btn.isDisabled()) pnl.btn.setDisabled(true);
+                    if (!pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(true);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, true);
+                    }
                     if (activePane == pnl.panelId)
                         currentactive = -1;
                 } else {
-                    if (pnl.btn.isDisabled()) pnl.btn.setDisabled(false);
+                    if (pnl.btn.isDisabled()) {
+                        pnl.btn.setDisabled(false);
+                        this.rightmenu.setDisabledMoreMenuItem(pnl.btn, false);
+                    }
                     if (i!=Common.Utils.documentSettingsType.MailMerge && i!=Common.Utils.documentSettingsType.Signature) lastactive = i;
                     if ( pnl.needShow ) {
                         pnl.needShow = false;
@@ -399,6 +405,8 @@ define([
                 }
             }
             this.onChangeProtectDocument();
+            this.rightmenu.setButtons();
+            this.rightmenu.setMoreButton();
         },
 
         onDoubleClickOnObject: function(obj) {
@@ -430,6 +438,7 @@ define([
             var type = Common.Utils.documentSettingsType.MailMerge;
             this._settings[type].hidden = 0;
             this._settings[type].btn.setDisabled(false);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, false);
             this.rightmenu.SetActivePane(type, true);
             this._settings[type].panel.setLocked(this._settings[type].locked);
             this._settings[type].panel.ChangeSettings.call(this._settings[type].panel);
@@ -440,6 +449,7 @@ define([
             if (id==Asc.c_oAscError.ID.MailMergeLoadFile) {
                 this._settings[Common.Utils.documentSettingsType.MailMerge].hidden = 1;
                 this._settings[Common.Utils.documentSettingsType.MailMerge].btn.setDisabled(true);
+                this.rightmenu.setDisabledMoreMenuItem(this._settings[Common.Utils.documentSettingsType.MailMerge].btn, true);
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0)
                     this.onFocusObject(selectedElements);
@@ -453,6 +463,7 @@ define([
                 type = Common.Utils.documentSettingsType.Signature;
             this._settings[type].hidden = disabled ? 1 : 0;
             this._settings[type].btn.setDisabled(disabled);
+            this.rightmenu.setDisabledMoreMenuItem(this._settings[type].btn, disabled);
             this._settings[type].panel.setLocked(this._settings[type].locked);
             this._settings[type].panel.setProtected(this._state.docProtection ? this._state.docProtection.isReadOnly || this._state.docProtection.isFormsOnly || this._state.docProtection.isCommentsOnly : false);
         },
@@ -487,6 +498,7 @@ define([
                     this.rightmenu.btnTextArt.setDisabled(disabled);
                     this.rightmenu.btnChart.setDisabled(disabled);
                     this.rightmenu.btnForm && this.rightmenu.btnForm.setDisabled(disabled);
+                    this.rightmenu.setDisabledAllMoreMenuItems(disabled);
                 } else {
                     var selectedElements = this.api.getSelectedElements();
                     if (selectedElements.length > 0)
@@ -537,8 +549,10 @@ define([
                 } else {
                     this.rightmenu.signatureSettings && this.rightmenu.signatureSettings.hideSignatureTooltip();
                 }
+                !status && Common.NotificationCenter.trigger('forms:close-help', 'key');
+                !status && Common.NotificationCenter.trigger('forms:close-help', 'group-key');
+                !status && Common.NotificationCenter.trigger('forms:close-help', 'settings');
             }
-
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         }

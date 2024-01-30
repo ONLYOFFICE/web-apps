@@ -396,7 +396,8 @@
 
             .item {
                 border: none;
-                width: calc(100% - 4px);
+                .margin-left-4;
+                width: 100%;
                 .box-shadow(none);
             }
 
@@ -421,7 +422,7 @@
                         height: 100%;
                         div{
                             background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-                            background-size: 744px 30px;
+                            background-size: 1056px 30px;
                             &:not(.svg-file-recent) {
                                 .pixel-ratio__1_25 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -440,33 +441,51 @@
                                 }
                             }
                         }
+                        .format-from-index(@index) {
+                            background-position: -24px*@index 0;
+                        }
                         .img-format- {
                             &pptx {
-                                background-position: 504px 0px;
+                                .format-from-index(10);
                             }
 
                             &pdf, &pdfa {
-                                background-position: 408px 0px;
+                                .format-from-index(14);
                             }
 
                             &odp {
-                                background-position: 456px 0px;
+                                .format-from-index(12);
                             }
 
                             &potx {
-                                background-position: 192px 0px;
+                                .format-from-index(23);
                             }
 
                             &otp {
-                                background-position: 120px 0px;
+                                .format-from-index(26);
                             }
 
                             &ppsx {
-                                background-position: 72px 0px;
+                                .format-from-index(28);
                             }
 
                             &ppt {
-                                background-position: 480px 0px;
+                                .format-from-index(11);
+                            }
+                            &pptm {
+                                .format-from-index(38);
+                            }
+                            &ppsm {
+                                .format-from-index(39);
+                            }
+                            &potm {
+                                .format-from-index(40);
+                            }
+                            &fodp {
+                                .format-from-index(41);
+                            }
+                            &.neutral {
+                                .format-from-index(43);
                             }
                         }
                         .svg-file-recent {

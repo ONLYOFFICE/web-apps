@@ -58,7 +58,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 100px;">',
+                '<div class="box">',
                 '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
                     '<tr>',
                         '<td colspan="2" class="padding-right-10">',
@@ -87,8 +87,7 @@ define([
                         '</td>',
                     '</tr>',
                 '</table>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -136,7 +135,8 @@ define([
                         {caption: '--'},
                         {caption: this.textNoRepeat, value: 'empty', range: ''}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnPresetsTop.menu.on('item:click', _.bind(this.onPresetSelect, this, 'top'));
             this.txtRangeTop.on('button:click', _.bind(this.onPresetSelect, this, 'top', this.btnPresetsTop.menu, {value: 'select'}));
@@ -173,7 +173,8 @@ define([
                         {caption: '--'},
                         {caption: this.textNoRepeat, value: 'empty', range: ''}
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.btnPresetsLeft.menu.on('item:click', _.bind(this.onPresetSelect, this, 'left'));
             this.txtRangeLeft.on('button:click', _.bind(this.onPresetSelect, this, 'left', this.btnPresetsLeft.menu, {value: 'select'}));
@@ -186,7 +187,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtRangeTop, this.txtRangeLeft];
+            return [this.txtRangeTop, this.btnPresetsTop, this.txtRangeLeft, this.btnPresetsLeft].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -205,6 +206,11 @@ define([
                 return false;
             }
             return true;
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {
@@ -291,9 +297,6 @@ define([
                     this.dataRangeTop = value;
                 else
                     this.dataRangeLeft = value;
-                _.delay(function(){
-                    txtRange.focus();
-                },1);
             }
         },
 

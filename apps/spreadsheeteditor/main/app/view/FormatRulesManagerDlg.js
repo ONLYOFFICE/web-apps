@@ -90,20 +90,16 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
     SSE.Views.FormatRulesManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'FormatRulesManagerDlg',
-            contentWidth: 560,
-            height: 340,
-            buttons: ['ok', 'cancel']
+            separator: false,
+            contentWidth: 560
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -159,11 +155,11 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 template: _.template(['<div class="listview inner" style=""></div>'].join('')),
                 itemTemplate: _.template([
                     '<div class="list-item" style="width: 100%;display:inline-block;" id="format-manager-item-<%= ruleIndex %>">',
-                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= name %></div>',
+                        '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div style="width:197px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 10px;display: inline-block;vertical-align: middle;"><div id="format-manager-txt-rule-<%= ruleIndex %>" style=""></div></div>',
                         '<div style="width:128px;display: inline-block;vertical-align: middle;"><div id="format-manager-item-preview-<%= ruleIndex %>" style="height:22px;background-color: #ffffff;"></div></div>',
                         '<% if (lock) { %>',
-                            '<div class="lock-user"><%=lockuser%></div>',
+                            '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                         '<% } %>',
                     '</div>'
                 ].join('')),
@@ -242,7 +238,6 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             Common.UI.FocusManager.add(this, this.btnDelete);
             Common.UI.FocusManager.add(this, this.rulesList);
 
-
             this.rulesList.on('item:add', _.bind(this.addControls, this));
             this.rulesList.on('item:change', _.bind(this.addControls, this));
             this.currentSheet = this.api.asc_getActiveWorksheetIndex();
@@ -253,6 +248,8 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             this.api.asc_registerCallback('asc_onUnLockCFManager', this.wrapEvents.onUnLockCFManager);
             this.api.asc_registerCallback('asc_onLockCFRule', this.wrapEvents.onLockCFRule);
             this.api.asc_registerCallback('asc_onUnLockCFRule', this.wrapEvents.onUnLockCFRule);
+
+            Common.UI.FocusManager.add(this, this.getFooterButtons());
         },
 
         refreshScopeList: function() {

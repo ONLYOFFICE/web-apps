@@ -60,7 +60,10 @@ define([
         onLaunch: function () {
             this._state = {
                 lastViewRole: undefined, // last selected role in the preview mode
-                lastRoleInList: undefined // last role in the roles list
+                lastRoleInList: undefined, // last role in the roles list,
+                formCount: 0,
+                formAdded: undefined,
+                formRadioAdded: undefined
             };
         },
 
@@ -82,6 +85,8 @@ define([
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
             }
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
+            Common.NotificationCenter.on('forms:show-help', _.bind(this.showHelpTip, this));
             return this;
         },
 
@@ -92,6 +97,15 @@ define([
                 toolbar: this.toolbar.toolbar,
                 config: config.config
             });
+            this._helpTips = {
+                'create': {name: 'de-form-tip-create', placement: 'bottom-right', text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
+                'key': {name: 'de-form-tip-settings-key', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
+                'group-key': {name: 'de-form-tip-settings-group', placement: 'left-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
+                'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
+                'roles': {name: 'de-form-tip-roles', placement: 'bottom-left', text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
+                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-left', text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
+            };
+            !Common.localStorage.getItem(this._helpTips['key'].name) && this.addListeners({'RightMenu': {'rightmenuclick': this.onRightMenuClick}});
             this.addListeners({
                 'FormsTab': {
                     'forms:insert': this.onControlsSelect,
@@ -167,6 +181,31 @@ define([
                 in_smart_art_internal = shape_pr && shape_pr.asc_getFromSmartArtInternal();
             Common.Utils.lockControls(Common.enumLock.inSmartart, in_smart_art, {array: arr});
             Common.Utils.lockControls(Common.enumLock.inSmartartInternal, in_smart_art_internal, {array: arr});
+
+            if (control_props && control_props.get_FormPr()) {
+                var isRadio = control_props.get_SpecificType() === Asc.c_oAscContentControlSpecificType.CheckBox &&
+                              control_props.get_CheckBoxPr() && (typeof control_props.get_CheckBoxPr().get_GroupKey()==='string');
+                isRadio ? this.closeHelpTip('key') : this.closeHelpTip('group-key');
+                var me = this;
+                setTimeout(function() {
+                    if (me._state.formRadioAdded && isRadio) {
+                        if (me.showHelpTip('group-key')) {
+                            me._state.formRadioAdded = false;
+                            me.closeHelpTip('settings', true);
+                        } else
+                            me.showHelpTip('settings');
+                    } else if (me._state.formAdded && !isRadio) {
+                        if (me.showHelpTip('key')) {
+                            me._state.formAdded = false;
+                            me.closeHelpTip('settings', true);
+                        } else
+                            me.showHelpTip('settings');
+                    }
+                }, 500);
+            } else {
+                this.closeHelpTip('key');
+                this.closeHelpTip('group-key');
+            }
         },
 
         // onChangeSpecialFormsGlobalSettings: function() {
@@ -191,6 +230,8 @@ define([
                 oFormPr = new AscCommon.CSdtFormPr();
             oFormPr.put_Role(Common.Utils.InternalSettings.get('de-last-form-role') || this._state.lastRoleInList);
             this.toolbar.toolbar.fireEvent('insertcontrol', this.toolbar.toolbar);
+            (this._state.formAdded===undefined) && (type !== 'radiobox') && (this._state.formAdded = true);
+            (this._state.formRadioAdded===undefined) && (type === 'radiobox') && (this._state.formRadioAdded = true);
             if (type == 'picture')
                 this.api.asc_AddContentControlPicture(oFormPr);
             else if (type == 'checkbox' || type == 'radiobox') {
@@ -227,9 +268,14 @@ define([
             }
 
             var me = this;
-            setTimeout(function() {
-                me.showSaveFormTip();
-            }, 500);
+            if (!this._state.formCount) { // add first form
+                this.closeHelpTip('create');
+            } else if (this._state.formCount===1) {
+                setTimeout(function() {
+                    me.showHelpTip('roles');
+                }, 500);
+            }
+            this._state.formCount++;
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -248,7 +294,7 @@ define([
         },
 
         changeViewFormMode: function(state) {
-            if (this.view && (state !== this.view.btnViewFormRoles.isActive())) {
+            if (this.view && this.view.btnViewFormRoles && (state !== this.view.btnViewFormRoles.isActive())) {
                 this.view.btnViewFormRoles.toggle(state, true);
                 this.onModeClick(state);
             }
@@ -301,9 +347,10 @@ define([
         },
 
         onSaveFormClick: function() {
+            this.closeHelpTip('save', true);
             this.showRolesList(function() {
                 this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.OFORM, this.isFromFormSaveAs));
+                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
             });
         },
 
@@ -315,7 +362,7 @@ define([
 
                 var idx = defFileName.lastIndexOf('.');
                 if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + '.oform';
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
 
                 if (me.appConfig.canRequestSaveAs) {
                     Common.Gateway.requestSaveAs(url, defFileName, fileType);
@@ -416,56 +463,62 @@ define([
                 //     clr && (clr = Common.Utils.ThemeColor.getHexColor(clr.get_r(), clr.get_g(), clr.get_b()));
                 //     me.view.btnHighlight.currentColor = clr;
                 // }
-                config.isEdit && config.canFeatureContentControl && config.isFormCreator && me.showCreateFormTip(); // show tip only when create form in docxf
+
+                config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });
         },
 
-        showCreateFormTip: function() {
-            if (!Common.localStorage.getItem("de-hide-createform-tip")) {
-                var target = $('.toolbar').find('.ribtab [data-tab=forms]').parent();
-                var tip = new Common.UI.SynchronizeTip({
-                    extCls: 'colored',
-                    placement: 'bottom-right',
-                    target: target,
-                    text: this.view.textCreateForm,
-                    showLink: false,
-                    closable: false,
-                    showButton: true,
-                    textButton: this.view.textGotIt
-                });
-                tip.on({
-                    'buttonclick': function() {
-                        Common.localStorage.setItem("de-hide-createform-tip", 1);
-                        tip.close();
-                    }
-                });
-                tip.show();
+        closeHelpTip: function(step, force) {
+            var props = this._helpTips[step];
+            if (props) {
+                props.tip && props.tip.close();
+                props.tip = undefined;
+                force && Common.localStorage.setItem(props.name, 1);
             }
         },
 
-        showSaveFormTip: function() {
-            if (this.view.btnSaveForm && !Common.localStorage.getItem("de-hide-saveform-tip") && !this.tipSaveForm) {
-                var me = this;
-                me.tipSaveForm = new Common.UI.SynchronizeTip({
+        showHelpTip: function(step) {
+            if (!this._helpTips[step]) return;
+            if (!Common.localStorage.getItem(this._helpTips[step].name)) {
+                var props = this._helpTips[step],
+                    target = props.target;
+
+                if (props.tip && props.tip.isVisible())
+                    return true;
+                
+                if (typeof target === 'string')
+                    target = $(target);
+                if (!(target && target.length && target.is(':visible')))
+                    return false;
+
+                props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
-                    placement: 'bottom-right',
-                    target: this.view.btnSaveForm.$el,
-                    text: this.view.tipSaveForm,
-                    showLink: false,
+                    placement: props.placement,
+                    target: target,
+                    text: props.text,
+                    showLink: !!props.link,
+                    textLink: props.link ? props.link.text : '',
                     closable: false,
                     showButton: true,
                     textButton: this.view.textGotIt
                 });
-                me.tipSaveForm.on({
+                props.tip.on({
                     'buttonclick': function() {
-                        Common.localStorage.setItem("de-hide-saveform-tip", 1);
-                        me.tipSaveForm.close();
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
+                    },
+                    'dontshowclick': function() {
+                        Common.NotificationCenter.trigger('file:help', props.link.src);
+                    },
+                    'close': function() {
+                        Common.localStorage.setItem(props.name, 1);
                     }
                 });
-                me.tipSaveForm.show();
+                props.tip.show();
             }
+            return true;
         },
 
         onRefreshRolesList: function(roles) {
@@ -479,6 +532,7 @@ define([
 
         onManagerClick: function() {
             var me = this;
+            this.closeHelpTip('roles', true);
             this.api.asc_GetOForm() && (new DE.Views.RolesManagerDlg({
                 api: me.api,
                 handler: function(result, settings) {
@@ -486,6 +540,7 @@ define([
                 },
                 props : undefined
             })).on('close', function(win){
+                me.showHelpTip('save');
             }).show();
         },
 
@@ -506,7 +561,9 @@ define([
 
         onActiveTab: function(tab) {
             if (tab !== 'forms') {
-                this.tipSaveForm && this.tipSaveForm.close();
+                this.closeHelpTip('create');
+                this.closeHelpTip('roles');
+                this.closeHelpTip('save');
             }
         },
 
@@ -524,6 +581,17 @@ define([
                     Common.Utils.lockControls(Common.enumLock.docLockReview, props.isReviewOnly,   {array: arr});
                     Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly,   {array: arr});
                 }
+            }
+        },
+
+        onRightMenuClick: function(menu, type, minimized, event) {
+            if (!minimized && event && type === Common.Utils.documentSettingsType.Form) {
+                this.closeHelpTip('settings', true);
+                (this._state.formRadioAdded || this._state.formAdded) && this.onApiFocusObject(this.api.getSelectedElements());
+            } else if (minimized || type !== Common.Utils.documentSettingsType.Form) {
+                this.closeHelpTip('key');
+                this.closeHelpTip('group-key');
+                this.closeHelpTip('settings');
             }
         }
 

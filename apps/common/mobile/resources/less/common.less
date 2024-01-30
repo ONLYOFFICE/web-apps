@@ -117,7 +117,7 @@
     --menu-list-offset: 0px;
 
     ul {
-        width: 100%;
+        max-width: 100%;
         background: var(--f7-list-bg-color);
     }
 
@@ -758,7 +758,8 @@ input[type="number"]::-webkit-inner-spin-button {
   background-position: -16px -120px;
 }
 .lang-flag.id,
-.lang-flag.id-ID {
+.lang-flag.id-ID,
+.lang-flag.en-ID {
   background-position: -32px -120px;
 }
 .lang-flag.bg,
@@ -1157,6 +1158,12 @@ input[type="number"]::-webkit-inner-spin-button {
             right: 4px;
             top: calc(50% - 12.5px);
         }
+
+        .item-input-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
 }
 
@@ -1180,6 +1187,18 @@ input[type="number"]::-webkit-inner-spin-button {
 .accept-reject .link {
     margin-right: 20px;
 }
+
+// Beta badge
+.beta-badge {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: @fill-white;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
 
 
 

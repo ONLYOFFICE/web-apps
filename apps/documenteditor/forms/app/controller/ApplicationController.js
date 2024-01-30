@@ -547,13 +547,13 @@ define([
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
-                
+
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
                 enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                 docInfo.asc_putIsEnabledPlugins(!!enable);
 
-                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
+                var type = /^(?:(djvu|xps|oxps))$/.exec(data.doc.fileType);
                 if (type && typeof type[1] === 'string') {
                     this.permissions.edit = this.permissions.review = false;
                 }
@@ -606,7 +606,7 @@ define([
             this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
             this.appOptions.canSubmitForms = this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
 
-            var type = /^(?:(oform))$/.exec(this.document.fileType); // can fill forms only in oform format
+            var type = /^(?:(pdf))$/.exec(this.document.fileType); // can fill forms only in pdf format
             this.appOptions.isOFORM = !!(type && typeof type[1] === 'string');
             this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isOFORM && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
             this.api.asc_setViewMode(!this.appOptions.canFillForms);
@@ -1071,7 +1071,7 @@ define([
                 Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
                 return;
             }
-            var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
+            var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
             if (type && typeof type[1] === 'string')
                 this.api.asc_DownloadOrigin(true);
             else
@@ -1281,7 +1281,7 @@ define([
                         value       : '',
                         template    : _.template([
                             '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= caption %>',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
                             '</a>'
                         ].join(''))
                     }));
@@ -1625,7 +1625,7 @@ define([
                     _menu.removeAll();
 
                     const _current = Common.UI.Themes.currentThemeId();
-                    for (const t in Common.UI.Themes.map()) {
+                    for (let t in Common.UI.Themes.map()) {
                         _menu.addItem(new Common.UI.MenuItem({
                             caption     : Common.UI.Themes.get(t).text,
                             value       : t,

@@ -43,6 +43,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "system": "O mesmo que o sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anónimo",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Introduza um novo nome para o ficheiro",
+    "textRenameFile": "Renomear ficheiro"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "Cor de destaque",
       "textHorizontalIn": "Horizontal para dentro",
       "textHorizontalOut": "Horizontal para fora",
+      "textHorizontalText": "Texto horizontal",
       "textHyperlink": "Hiperligação",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsertImage": "Inserir imagem",
+      "textInvalidName": "O nome do ficheiro não pode ter qualquer um dos seguintes caracteres:",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último diapositivo",
       "textLayout": "Disposição",
@@ -408,6 +418,8 @@
       "textReplaceImage": "Substituir imagem",
       "textRequired": "Necessário",
       "textRight": "Direita",
+      "textRotateTextDown": "Rodar texto para baixo",
+      "textRotateTextUp": "Rodar texto para cima",
       "textScreenTip": "Dica no ecrã",
       "textSearch": "Pesquisar",
       "textSec": "s",
@@ -429,6 +441,7 @@
       "textSuperscript": "Sobrescrito",
       "textTable": "Tabela",
       "textText": "Texto",
+      "textTextOrientation": "Orientação do texto",
       "textTheme": "Tema",
       "textTop": "Cima",
       "textTopLeft": "Superior esquerda",
@@ -462,6 +475,7 @@
       "textColorSchemes": "Esquemas de cor",
       "textComment": "Comentário",
       "textCreated": "Criado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema escuro",
       "textDisableAll": "Desativar tudo",
       "textDisableAllMacrosWithNotification": "Desativar todas as macros com notificação",
@@ -481,6 +495,7 @@
       "textInch": "Polegada",
       "textLastModified": "Última modificação",
       "textLastModifiedBy": "Última modificação por",
+      "textLight": "Claro",
       "textLoading": "A carregar...",
       "textLocation": "Localização",
       "textMacrosSettings": "Definições de macros",
@@ -497,6 +512,7 @@
       "textReplaceAll": "Substituir tudo",
       "textRestartApplication": "Reinicie a aplicação para aplicar as alterações",
       "textRTL": "RTL",
+      "textSameAsSystem": "O mesmo que o sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Definições",
       "textShowNotification": "Mostrar notificação",
@@ -504,6 +520,7 @@
       "textSpellcheck": "Verificação ortográfica",
       "textSubject": "Assunto",
       "textTel": "tel:",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",

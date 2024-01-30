@@ -43,6 +43,12 @@
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
     },
+    "Themes": {
+      "dark": "Tmavé",
+      "light": "Světlé",
+      "system": "Stejné jako systémové",
+      "textTheme": "Prostředí"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Varování",
       "textAnonymous": "Anonymní",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
-    "textCloseHistory": "Zavřít historii"
+    "textCloseHistory": "Zavřít historii",
+    "textEnterNewFileName": "Zadejte nový název souboru",
+    "textRenameFile": "Přejmenovat soubor"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "Barva zvýraznění",
       "textHorizontalIn": "Vodorovně uvnitř",
       "textHorizontalOut": "Vodorovně vně",
+      "textHorizontalText": "Vodorovný text",
       "textHyperlink": "Hypertextový odkaz",
       "textImage": "Obrázek",
       "textImageURL": "URL obrázku",
       "textInsertImage": "Vložit obrázek",
+      "textInvalidName": "Název souboru nesmí obsahovat žádný z následujících znaků:",
       "textLastColumn": "Poslední sloupec",
       "textLastSlide": "Poslední snímek",
       "textLayout": "Rozvržení",
@@ -408,6 +418,8 @@
       "textReplaceImage": "Nahradit obrázek",
       "textRequired": "Požadováno",
       "textRight": "Vpravo",
+      "textRotateTextDown": "Otočit text dolů",
+      "textRotateTextUp": "Otočit text nahoru",
       "textScreenTip": "Nápověda",
       "textSearch": "Hledat",
       "textSec": "s",
@@ -429,6 +441,7 @@
       "textSuperscript": "Horní index",
       "textTable": "Tabulka",
       "textText": "Text",
+      "textTextOrientation": "Orientace textu",
       "textTheme": "Prostředí",
       "textTop": "Nahoru",
       "textTopLeft": "Vlevo nahoře",
@@ -462,6 +475,7 @@
       "textColorSchemes": "Schémata barev",
       "textComment": "Komentář",
       "textCreated": "Vytvořeno",
+      "textDark": "Tmavé",
       "textDarkTheme": "Tmavý vzhled prostředí",
       "textDisableAll": "Vypnout vše",
       "textDisableAllMacrosWithNotification": "Vypnout všechna makra s notifikacemi",
@@ -481,6 +495,7 @@
       "textInch": "Palec",
       "textLastModified": "Naposledy upraveno",
       "textLastModifiedBy": "Naposledy upravil(a)",
+      "textLight": "Světlé",
       "textLoading": "Načítání...",
       "textLocation": "Umístění",
       "textMacrosSettings": "Nastavení maker",
@@ -497,6 +512,7 @@
       "textReplaceAll": "Nahradit vše",
       "textRestartApplication": "Pro provedení změn restartujete aplikaci",
       "textRTL": "RTL",
+      "textSameAsSystem": "Stejné jako systémové",
       "textSearch": "Hledat",
       "textSettings": "Nastavení",
       "textShowNotification": "Zobrazit notifikace",
@@ -504,6 +520,7 @@
       "textSpellcheck": "Kontrola pravopisu",
       "textSubject": "Předmět",
       "textTel": "Telefon:",
+      "textTheme": "Prostředí",
       "textTitle": "Název",
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",
       "textUploaded": "Nahráno",

@@ -106,7 +106,6 @@ class MainController extends Component {
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
 
                 this.props.storeAppOptions.wopi = this.editorConfig.wopi;
-
                 Common.Notifications.trigger('configOptionsFill');
             };
 
@@ -158,7 +157,7 @@ class MainController extends Component {
                     }
                 }
 
-                let type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
+                let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
                 if (type && typeof type[1] === 'string') {
                     (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
@@ -214,20 +213,19 @@ class MainController extends Component {
                 this.appOptions.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
 
                 const storeAppOptions = this.props.storeAppOptions;
+                const isForm = storeAppOptions.isForm;
                 const editorConfig = window.native?.editorConfig;
-                const isForceEdit = editorConfig?.mobileForceView === false;
+                const config = storeAppOptions.config;
+                const customization = config.customization;
+                const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
-                const storeDocumentInfo = this.props.storeDocumentInfo;
-                const dataDoc = storeDocumentInfo.dataDoc;
-                const isExtRestriction = dataDoc.fileType !== 'oform';
-
-                if(isExtRestriction && !isForceEdit) {
+                if(!isForm && isMobileForceView) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
-                } else if(isExtRestriction && isForceEdit) {
+                } else if(!isForm && !isMobileForceView) {
                     storeAppOptions.changeViewerMode(false);
                 } else {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.OnlyForms)
@@ -241,11 +239,11 @@ class MainController extends Component {
                 if (this._isDocReady)
                     return;
 
+                const { t } = this.props;
                 const appOptions = this.props.storeAppOptions;
+                const isForm = appOptions.isForm;
+                const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
-                const storeDocumentInfo = this.props.storeDocumentInfo;
-                const dataDoc = storeDocumentInfo.dataDoc;
-                const isExtRestriction = dataDoc.fileType !== 'oform';
 
                 f7.emit('resize');
 
@@ -278,7 +276,7 @@ class MainController extends Component {
 
                 value = LocalStorage.getBool('mobile-view', true);
 
-                if(value && isExtRestriction) {
+                if(value && !isForm) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -292,6 +290,7 @@ class MainController extends Component {
                 Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
+                Common.Gateway.on('setfavorite', this.onSetFavorite.bind(this));
 
                 Common.Gateway.sendInfo({
                     mode: appOptions.isEdit ? 'edit' : 'view'
@@ -305,6 +304,24 @@ class MainController extends Component {
                 Common.Notifications.trigger('document:ready');
                 Common.Gateway.documentReady();
                 appOptions.changeDocReady(true);
+
+                if(isOForm) {
+                    f7.dialog.create({
+                        title: t('Main.notcriticalErrorTitle'),
+                        text: t('Main.textConvertFormSave'),
+                        buttons: [
+                            {
+                                text: appOptions.canRequestSaveAs || !!appOptions.saveAsUrl || appOptions.isOffline ? t('Main.textSaveAsPdf') : t('Main.textDownloadPdf'),
+                                onClick: () => {
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, appOptions.canRequestSaveAs || !!appOptions.saveAsUrl));
+                                }
+                            },
+                            {
+                                text: t('Main.textCancel')
+                            }
+                        ]
+                    }).open();
+                }
             };
 
             const _process_array = (array, fn) => {
@@ -341,18 +358,15 @@ class MainController extends Component {
                         delete _translate[item];
                     });
 
-                    var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
-                        isPDF = (!!result && result.length && typeof result[1] === 'string');
+                    var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                        isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
-                    this.api = isPDF ? new Asc.PDFEditorApi({
+                    const config = {
                         'id-view'  : 'editor_sdk',
                         'mobile'   : true,
                         'translate': _translate
-                    }) : new Asc.asc_docs_api({
-                        'id-view'  : 'editor_sdk',
-                        'mobile'   : true,
-                        'translate': _translate
-                    });
+                    };
+                    this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
 
                     Common.Notifications.trigger('engineCreated', this.api);
                     // Common.EditorApi = {get: () => this.api};
@@ -499,16 +513,13 @@ class MainController extends Component {
         const warnLicenseUsersExceeded = _t.warnLicenseUsersExceeded.replace(/%1/g, __COMPANY_NAME__);
 
         const appOptions = this.props.storeAppOptions;
-        const storeDocumentInfo = this.props.storeDocumentInfo;
-        const dataDoc = storeDocumentInfo.dataDoc;
-        const docExt = dataDoc.fileType;
-        const isOpenForm = docExt === 'oform';
+        const isForm = appOptions.isForm;
 
         if (appOptions.config.mode !== 'view' && !EditorUIController.isSupportEditFeature()) {
             let value = LocalStorage.getItem("de-opensource-warning");
             value = (value !== null) ? parseInt(value) : 0;
             const now = (new Date).getTime();
-            if (now - value > 86400000 && !isOpenForm) {
+            if (now - value > 86400000 && !isForm) {
                 LocalStorage.setItem("de-opensource-warning", now);
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
@@ -653,13 +664,10 @@ class MainController extends Component {
 
         this.api.asc_registerCallback('asc_onShowContentControlsActions', (obj, x, y) => {
             const storeAppOptions = this.props.storeAppOptions;
-            const storeDocumentInfo = this.props.storeDocumentInfo;
+            const isForm = storeAppOptions.isForm;
             const isViewer = storeAppOptions.isViewer;
-            const dataDoc = storeDocumentInfo.dataDoc;
-            const docExt = dataDoc.fileType;
-            const isAvailableExt = docExt && docExt !== 'oform';
 
-            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected || (isViewer && isAvailableExt)) return;
+            if (!storeAppOptions.isEdit && !(storeAppOptions.isRestrictedEdit && storeAppOptions.canFillForms) || this.props.users.isDisconnected || (isViewer && !isForm)) return;
 
             switch (obj.type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
@@ -753,14 +761,15 @@ class MainController extends Component {
         });
 
         this.api.asc_registerCallback('asc_onGetDocInfoEnd', () => {
-          clearTimeout(this.timerLoading);
-          clearInterval(this.timerDocInfo);
-          storeDocumentInfo.changeCount(this.objectInfo);
+            clearTimeout(this.timerLoading);
+            clearInterval(this.timerDocInfo);
+            storeDocumentInfo.changeCount(this.objectInfo);
         });
 
         this.api.asc_registerCallback('asc_onMeta', (meta) => {
             if(meta) {
                 storeDocumentInfo.changeTitle(meta.title);
+                Common.Gateway.metaChange(meta);
             }
         });
 
@@ -807,6 +816,17 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onViewerBookmarksUpdate', (bookmarks) => {
             storeNavigation.initBookmarks(bookmarks);
         });
+
+        Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
+    }
+
+    markFavorite(favorite) {
+        Common.Gateway.metaChange({ favorite });
+    }
+
+    onSetFavorite(favorite) {
+        const appOptions = this.props.storeAppOptions;
+        appOptions.canFavorite && appOptions.setFavorite(!!favorite);
     }
 
     onExpiredToken() {
@@ -1286,7 +1306,7 @@ class MainController extends Component {
                 <EncodingController />
                 <DropdownListController />
             </Fragment>
-            )
+        )
     }
 
     componentDidMount() {

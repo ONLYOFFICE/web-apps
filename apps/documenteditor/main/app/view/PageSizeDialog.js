@@ -58,7 +58,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 85px;">',
+                '<div class="box">',
                     '<table cols="2" style="width: 100%;">',
                         '<tr>',
                             '<td colspan="2">',
@@ -77,8 +77,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -173,7 +172,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbPreset, this.spnWidth, this.spnHeight];
+            return [this.cmbPreset, this.spnWidth, this.spnHeight].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

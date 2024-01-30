@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása?",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,17 @@
     "textType": "Típus",
     "textWe": "Sze",
     "textWrap": "Tördel",
-    "textWrappingStyle": "Tördelés stílus"
+    "textWrappingStyle": "Tördelés stílus",
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
+    "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "A átalakítás időkorlátja lejárt.",
@@ -628,6 +644,7 @@
     "textCommentsDisplay": "Hozzászólások megjelenítése",
     "textCreated": "Létrehozva",
     "textCustomSize": "Egyéni méret",
+    "textDarkTheme": "Sötét téma",
     "textDialogUnprotect": "Jelszó megadása a dokumentum védelmének feloldásához",
     "textDirection": "Irány",
     "textDisableAll": "Összes letiltása",
@@ -752,7 +769,17 @@
     "txtScheme7": "Méltányosság",
     "txtScheme8": "Folyam",
     "txtScheme9": "Öntöde",
-    "textDarkTheme": "Dark Theme"
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",

@@ -566,7 +566,7 @@ define([
                         hidentems.forEach(function(item){
                             me.tabMenu.items[6].menu.addItem(new Common.UI.MenuItem({
                                 style: 'white-space: pre-wrap',
-                                caption: Common.Utils.String.htmlEncode(item.label),
+                                caption: item.label,
                                 value: item.sheetindex
                             }));
                         });
@@ -1129,6 +1129,14 @@ define([
                 });
             },
 
+            getFocusedComponents: function() {
+                return [this.txtName].concat(this.getFooterButtons());
+            },
+
+            getDefaultFocusableComponent: function () {
+                return this.txtName;
+            },
+
             show: function(x,y) {
                 Common.UI.Window.prototype.show.apply(this, arguments);
                 var edit = this.txtName.$el.find('input');
@@ -1241,7 +1249,8 @@ define([
                     el: $('#status-list-names', $window),
                     store: new Common.UI.DataViewStore(pages),
                     cls: 'dbl-clickable',
-                    itemTemplate: _.template('<div id="<%= id %>" class="list-item"><%= Common.Utils.String.htmlEncode(value) %></div>')
+                    itemTemplate: _.template('<div id="<%= id %>" class="list-item"><%= Common.Utils.String.htmlEncode(value) %></div>'),
+                    tabindex: 1
                 });
 
                 this.listNames.selectByIndex(0);
@@ -1250,6 +1259,14 @@ define([
 
                 this.mask = $('.modals-mask');
                 this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
+            },
+
+            getFocusedComponents: function() {
+                return [this.listNames].concat(this.getFooterButtons());
+            },
+
+            getDefaultFocusableComponent: function () {
+                return this.listNames;
             },
 
             show: function(x,y) {

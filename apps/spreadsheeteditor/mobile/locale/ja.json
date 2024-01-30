@@ -40,6 +40,12 @@
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマカラー"
     },
+    "Themes": {
+      "dark": "ダーク",
+      "light": "ライト",
+      "system": "システム設定と同じ",
+      "textTheme": "テーマ"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "警告",
       "textAnonymous": "匿名",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "リンクの参照先が存在しません。リンクを修正するか、削除してください。",
     "menuAddComment": "コメントを追加する",
     "menuAddLink": "リンクを追加する",
+    "menuAutofill": "自動入力",
     "menuCancel": "キャンセル",
     "menuCell": "セル",
     "menuDelete": "削除",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "アプリケーションを終了します",
     "leaveButtonText": "このページから移動する",
     "stayButtonText": "このページから移動しない",
-    "textCloseHistory": "履歴を閉じる"
+    "textCloseHistory": "履歴を閉じる",
+    "textEnterNewFileName": "新しいファイル名を入力する",
+    "textRenameFile": "ファイル名の変更"
   },
   "View": {
     "Add": {
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "縦罫線 (内側)",
       "textInteger": "整数値",
       "textInternalDataRange": "内部のデータ範囲",
+      "textInvalidName": "ファイル名に次の文字を使うことはできません。",
       "textInvalidRange": "無効なセル範囲",
       "textJustified": "両端揃え",
       "textLabelOptions": "ラベル オプション\t",
@@ -672,6 +682,7 @@
       "textComments": "コメント",
       "textCreated": "作成された",
       "textCustomSize": "ユーザー設定サイズ",
+      "textDark": "ダーク",
       "textDarkTheme": "ダークテーマ",
       "textDelimeter": "デリミタ",
       "textDirection": "方向",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "最後の変更の作成者",
       "textLeft": "左",
       "textLeftToRight": "左から右へ",
+      "textLight": "ライト",
       "textLocation": "位置",
       "textLookIn": "検索の範囲",
       "textMacrosSettings": "マクロの設定",
@@ -726,6 +738,7 @@
       "textRestartApplication": "変更を有効にするには、アプリケーションを再起動してください",
       "textRight": "右",
       "textRightToLeft": "右から左に",
+      "textSameAsSystem": "システム設定と同じ",
       "textSearch": "検索",
       "textSearchBy": "検索",
       "textSearchIn": "検索する場所",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "スプレッドシートの名",
       "textSubject": "件名",
       "textTel": "電話",
+      "textTheme": "テーマ",
       "textTitle": "タイトル",
       "textTop": "上",
       "textUnitOfMeasurement": "測定単位",

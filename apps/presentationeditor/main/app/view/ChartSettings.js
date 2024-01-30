@@ -180,7 +180,10 @@ define([
                 }
 
                 var props3d = this.chartProps ? this.chartProps.getView3d() : null;
-                this.ShowHideElem(!!props3d);
+                if ( this._state.is3D!==!!props3d ) {
+                    this._state.is3D=!!props3d;
+                    this.ShowHideElem(this._state.is3D);
+                }
                 if (props3d) {
                     value = props3d.asc_getRotX();
                     if ((this._state.X===undefined || value===undefined)&&(this._state.X!==value) ||
@@ -790,6 +793,7 @@ define([
 
         ShowHideElem: function(is3D) {
             this.Chart3DContainer.toggleClass('settings-hidden', !is3D);
+            this.fireEvent('updatescroller', this);
         },
 
         onXRotation: function(field, newValue, oldValue, eOpts){

@@ -58,7 +58,13 @@ define([
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="user-name">' +
-                        '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
+                        '<div class="color"' + 
+                            '<% if (user.get("avatar")) { %>' +
+                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                            '<% } else { %>' +
+                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                            '<% } %>' +
+                        '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
                         '<label><%= fnEncode(user.get("username")) %></label>' +
                         '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
@@ -216,7 +222,7 @@ define([
         function updateDocNamePosition(config) {
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
-                if (!config.isEdit) {
+                if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
@@ -236,7 +242,7 @@ define([
                     }
                 }
 
-                if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && config.customization.compactHeader)) {
                     var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt($labelDocName.css('min-width') || 50); // 2px - box-shadow
                     config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
@@ -256,7 +262,7 @@ define([
         }
 
         function onResize() {
-            if (appConfig && appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader)) {
+            if (appConfig && (appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader)) {
                 updateDocNamePosition(appConfig);
             }
         }
@@ -377,7 +383,7 @@ define([
                 });
             }
 
-            if ( !mode.isEdit ) {
+            if ( !(mode.isEdit || isPDFEditor && mode.isRestrictedEdit) ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
@@ -437,7 +443,7 @@ define([
                     Common.NotificationCenter.trigger('pdf:mode', item.value, _.bind(changePDFMode, me));
                 });
             }
-            if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
+            if ((appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader))
                 Common.NotificationCenter.on('window:resize', onResize);
         }
 
@@ -564,6 +570,7 @@ define([
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
             },
 
             render: function (el, role) {
@@ -631,7 +638,7 @@ define([
                         $html.find('#slot-btn-favorite').hide();
                     }
 
-                    if ( !config.isEdit ) {
+                    if ( !(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
@@ -646,7 +653,7 @@ define([
                     }
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
-                    if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
+                    if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous) {
                             me.btnUserName = new Common.UI.Button({
                                 el: $html.findById('.slot-btn-user-name'),
@@ -727,13 +734,15 @@ define([
                     $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
 
-                    if ( config.canPrint && config.isEdit ) {
+                    if ( config.canPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
-                    if ( config.canQuickPrint && config.isEdit )
+                    if ( config.canQuickPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
-                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                    if (!isPDFEditor || !config.isForm)
+                        me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y');
 
@@ -919,8 +928,32 @@ define([
                         html: true
                     });
                 }
-                $btnUserName && $btnUserName.text(this.getInitials(name));
+                $btnUserName && this.updateAvatarEl();
+
                 return this;
+            },
+
+            setUserAvatar: function(avatar) {
+                this.options.userAvatar = avatar;
+                $btnUserName && this.updateAvatarEl();
+            },
+
+            setUserId: function(id) {
+                this.options.currentUserId = id;
+            },
+
+            updateAvatarEl: function(){
+                if(this.options.userAvatar){
+                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.text('');
+                } else {
+                    $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
+                }
+            },
+
+            avatarsUpdate: function(type, users) {
+                if (type!=='info') return;
+                this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
             getButton: function(type) {
@@ -968,18 +1001,6 @@ define([
                     default: break;
                     }
                 }
-            },
-
-            getInitials: function(name) {
-                var fio = name.split(' ');
-                var initials = fio[0].substring(0, 1).toUpperCase();
-                for (var i = fio.length-1; i>0; i--) {
-                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
-                        initials += fio[i].substring(0, 1).toUpperCase();
-                        break;
-                    }
-                }
-                return initials;
             },
 
             setDocumentReadOnly: function (readonly) {

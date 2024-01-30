@@ -53,6 +53,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Bir daha göstərmə",
     "textOk": "OK",
     "txtWarnUrl": "Bu linkə klikləmək cihazınız və məlumatlarınız üçün təhlükəli ola bilər. <br> Davam etmək istədiyinizə əminsiniz?",
-    "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?"
+    "warnMergeLostData": "Birləşdirilmiş xanada yalnız yuxarı sol xanadakı məlumatlar qalacaq. <br>Davam etmək istədiyinizdən əminsiniz?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Proqramdan çıxdınız",
     "leaveButtonText": "Bu Səhifədən çıxın",
     "stayButtonText": "Bu səhifədə qalın",
-    "textCloseHistory": "Tarixçəni bağlayın"
+    "textCloseHistory": "Tarixçəni bağlayın",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textCreateFormat": "Create Format",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "CSV seçimlərini seçin",
@@ -810,8 +820,12 @@
       "txtVi": "Vyetnamlı",
       "txtZh": "Çinli",
       "warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizdən əminsiniz?",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
-      "textRestartApplication": "Please restart the application for the changes to take effect"
+      "textLight": "Light",
+      "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

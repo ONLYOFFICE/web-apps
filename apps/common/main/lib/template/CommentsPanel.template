@@ -13,6 +13,7 @@
     <div id="comments-header" class="">
         <label><%=textComments%></label>
         <div id="comments-btn-close" class="float-right margin-left-4"></div>
-        <div id="comments-btn-sort" class="float-right"></div>
+        <div id="comments-btn-sort" class="float-right margin-left-4"></div>
+        <div id="comments-btn-add" class="float-right"></div>
     </div>
 </div>

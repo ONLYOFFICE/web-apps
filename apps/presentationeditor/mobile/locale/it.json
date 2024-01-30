@@ -43,6 +43,12 @@
       "textStandartColors": "Colori standard",
       "textThemeColors": "Colori del tema"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -437,14 +445,19 @@
       "textCancel": "Cancel",
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
+      "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
       "textNoMatches": "No Matches",
       "textRecommended": "Recommended",
-      "textRequired": "Required"
+      "textRequired": "Required",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -529,7 +542,11 @@
       "txtScheme7": "Equità",
       "txtScheme8": "Flusso",
       "txtScheme9": "Fonderia",
+      "textDark": "Dark",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History"
     }
   }

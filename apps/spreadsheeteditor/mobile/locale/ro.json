@@ -40,6 +40,12 @@
       "textStandartColors": "Culori standard",
       "textThemeColors": "Culori temă"
     },
+    "Themes": {
+      "dark": "Întunecat",
+      "light": "Luminos",
+      "system": "La fel ca sistemul",
+      "textTheme": "Temă"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Avertisment",
       "textAnonymous": "Anonim",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "Legătură de referință nu există. Corectați sau eliminați legătura.",
     "menuAddComment": "Adaugă comentariu",
     "menuAddLink": "Adăugare link",
+    "menuAutofill": "Completare automată",
     "menuCancel": "Revocare",
     "menuCell": "Celula",
     "menuDelete": "Ștergere",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
-    "textCloseHistory": "Închide istoricul"
+    "textCloseHistory": "Închide istoricul",
+    "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textRenameFile": "Redenumire fișier"
   },
   "View": {
     "Add": {
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "Bordură verticală în interiorul ",
       "textInteger": "Număr întreg",
       "textInternalDataRange": "Zonă de date internă",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
       "textInvalidRange": "Zona de celule nu este validă",
       "textJustified": "Aliniat stânga-dreapta",
       "textLabelOptions": "Opțiuni etichetă",
@@ -672,6 +682,7 @@
       "textComments": "Comentarii",
       "textCreated": "A fost creat la",
       "textCustomSize": "Dimensiunea particularizată",
+      "textDark": "Întunecat",
       "textDarkTheme": "Tema întunecată",
       "textDelimeter": "Delimitator",
       "textDirection": "Orientare",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Modificat ultima dată de către",
       "textLeft": "Stânga",
       "textLeftToRight": "De la stânga la dreapta",
+      "textLight": "Luminos",
       "textLocation": "Locația",
       "textLookIn": "Domenii de căutare",
       "textMacrosSettings": "Setări macrocomandă",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRight": "Dreapta",
       "textRightToLeft": "De la dreapta la stânga",
+      "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSearchBy": "Căutare",
       "textSearchIn": "Caută în",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Titlu foaie de calcul",
       "textSubject": "Subiect",
       "textTel": "Tel",
+      "textTheme": "Temă",
       "textTitle": "Titlu",
       "textTop": "Sus",
       "textUnitOfMeasurement": "Unitate de măsură ",

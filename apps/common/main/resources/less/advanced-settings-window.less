@@ -30,6 +30,23 @@
                 .pixel-ratio__2_5 & {
                     display: block;
                 }
+
+                &.png-icons {
+                    padding: 5px 2px 5px 8px;
+
+                    .rtl & {
+                        padding: 5px 8px 5px 2px;
+                    }
+
+                    .icon {
+                        vertical-align: middle;
+                        .margin-right-4();
+                    }
+
+                    .caption {
+                        vertical-align: middle;
+                    }
+                }
             }
         }
 
@@ -43,6 +60,13 @@
                 padding-left: 10px;
                 padding-right: 10px;
             }
+        }
+
+        padding-bottom: 15px;
+    }
+    &.no-footer {
+        .body {
+            padding-bottom: 0;
         }
     }
 
@@ -135,3 +159,23 @@
     height: @input-height-base;
 }
 
+.dataview {
+    &.focus-inner {
+        > .item {
+            &:hover,
+            &.selected {
+                .box-shadow(0 0 0 1px @border-preview-select-ie);
+                .box-shadow(0 0 0 @scaled-one-px-value @border-preview-select);
+            }
+        }
+        &:focus:not(.disabled) {
+            > .item {
+                &:hover,
+                &.selected {
+                    .box-shadow(0 0 0 2px @border-preview-select-ie);
+                    .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
+                }
+            }
+        }
+    }
+}

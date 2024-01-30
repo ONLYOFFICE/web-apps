@@ -38,10 +38,14 @@ export class storeAppOptions {
             setTypeProtection: action,
 
             isFileEncrypted: observable,
-            setEncryptionFile: action
+            setEncryptionFile: action,
+
+            isFavorite: observable,
+            setFavorite: action
         });
     }
 
+    isFavorite;
     isEdit = false;
 
     isFileEncrypted = false;
@@ -121,11 +125,13 @@ export class storeAppOptions {
         this.canRequestSharingSettings = config.canRequestSharingSettings;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
+        this.saveAsUrl = config.saveAsUrl;
         this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
         this.canBackToFolder = (config.canBackToFolder!==false) && (typeof (config.customization) == 'object') && (typeof (config.customization.goback) == 'object')
             && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
         this.canBack = this.canBackToFolder === true;
+        this.canRequestSaveAs = config.canRequestSaveAs;
         this.canPlugins = false;
         this.canFeatureForms = !!Common.EditorApi.get().asc_isSupportFeature("forms");
 
@@ -170,9 +176,14 @@ export class storeAppOptions {
         this.canEditStyles = this.canLicense && this.canEdit;
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
-        const typeForm = /^(?:(oform))$/.exec(document.fileType); // can fill forms only in oform format
-        this.canFillForms = this.canLicense && !!(typeForm && typeof typeForm[1] === 'string') && ((permissions.fillForms===undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.isXpsViewer = /^(?:(djvu|xps|oxps))$/.exec(document.fileType);
+        this.typeForm = document.fileType === 'pdf'; // can fill forms only in pdf format
+        this.isOForm = document.fileType === 'oform';
+        this.canFillForms = this.canLicense && this.typeForm && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.isForm = !this.isXpsViewer && !!window.isPDFForm;
         this.canProtect = permissions.protect !== false;
+        this.canSubmitForms = this.canLicense && (typeof (this.customization) == 'object') && !!this.customization.submitForm && !this.isOffline;
+        this.isEditableForms = this.isForm && this.canSubmitForms;
         this.isRestrictedEdit = !this.isEdit && (this.canComments || this.canFillForms) && isSupportEditFeature;
         if (this.isRestrictedEdit && this.canComments && this.canFillForms) // must be one restricted mode, priority for filling forms
             this.canComments = false;
@@ -186,6 +197,9 @@ export class storeAppOptions {
 
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
+
+        this.canFavorite = document.info && (document.info.favorite !== undefined && document.info.favorite !== null) && !this.isOffline;
+        this.isFavorite = document.info.favorite;
 
         if ( this.isLightVersion ) {
             this.canUseHistory = this.canReview = this.isReviewOnly = false;
@@ -201,7 +215,12 @@ export class storeAppOptions {
         this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && !(type && typeof type[1] === 'string') && isSupportEditFeature;
         this.isAnonymousSupport = !!Common.EditorApi.get().asc_isAnonymousSupport();
     }
+
     setCanViewReview (value) {
         this.canViewReview = value;
+    }
+
+    setFavorite(value) {
+        this.isFavorite = value;
     }
 }

@@ -59,7 +59,7 @@ define([
         storeMessages: undefined,
 
         tplUser: ['<li id="<%= user.get("iid") %>"<% if (!user.get("online")) { %> class="offline"<% } %>>',
-                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= scope.getUserName(user.get("username")) %>',
+                        '<div class="name"><div class="color" style="background-color: <%= user.get("color") %>;" ></div><%= Common.Utils.String.htmlEncode(user.get("parsedName")) %>',
                         '</div>',
                     '</li>'].join(''),
 
@@ -73,10 +73,19 @@ define([
                     '<% if (msg.get("type")==1) { %>',
                         '<div class="message service" data-can-copy="true"><%= msg.get("message") %></div>',
                     '<% } else { %>',
-                        '<div class="user-name" data-can-copy="true">',
-                            '<div class="color" style="display: inline-block; background-color: <% if (msg.get("usercolor")!==null) { %><%=msg.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(msg.get("username")) %>',
+                        '<div class="color"', 
+                            '<% if (msg.get("avatar")) { %>',
+                                'style="background-image: url(<%=msg.get("avatar")%>); <% if (msg.get("usercolor")!==null) { %> border-color:<%=msg.get("usercolor")%>; border-style:solid;<% }%>"', 
+                            '<% } else { %>',
+                                'style="background-color: <% if (msg.get("usercolor")!==null) { %> <%=msg.get("usercolor")%> <% } else { %> #cfcfcf <% }%>;"',
+                            '<% } %>',
+                        '><% if (!msg.get("avatar")) { %><%-msg.get("initials")%><% } %></div>',
+                        '<div class="user-content">',
+                            '<div class="user-name" data-can-copy="true">',
+                                '<%= Common.Utils.String.htmlEncode(msg.get("parsedName")) %>',
+                            '</div>',
+                            '<label class="message user-select" data-can-copy="true" tabindex="-1" oo_editor_input="true"><%= msg.get("message") %></label>',
                         '</div>',
-                        '<label class="message user-select" data-can-copy="true" tabindex="-1" oo_editor_input="true"><%= msg.get("message") %></label>',
                     '<% } %>',
             '</li>'].join(''),
 
@@ -196,6 +205,13 @@ define([
             }
         },
 
+        renderMessages: function() {
+            if (this.panelMessages && this.storeMessages) {
+                this.panelMessages.html(this.templateMsgList({messages: this.storeMessages.models, msgtpl: this.tplMsg, scope: this}));
+                this.panelMessages.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+            }
+        },
+
         _onBtnAddMessage: function(e) {
             if (this.txtMessage) {
                 this.fireEvent('message:add', [this, this.txtMessage.val().trim()]);
@@ -205,11 +221,15 @@ define([
         },
 
         _prepareMessage: function(m) {
-            var user    = this.storeUsers.findOriginalUser(m.get('userid'));
+            var user    = this.storeUsers.findOriginalUser(m.get('userid')),
+                avatar = Common.UI.ExternalUsers.getImage(m.get('userid'));
             m.set({
                 usercolor   : user ? user.get('color') : null,
+                avatar      : avatar,
+                initials    : user ? user.get('initials') : Common.Utils.getUserInitials(m.get('parsedName')),
                 message     : this._pickLink(m.get('message'))
             }, {silent:true});
+            (avatar===undefined) && Common.UI.ExternalUsers.get('info', [m.get('userid')]);
         },
 
         _pickLink: function(message) {
@@ -264,10 +284,6 @@ define([
                 str_res += Common.Utils.String.htmlEncode(message.substring(arr[i-1].end, message.length));
             }
             return str_res;
-        },
-
-        getUserName: function (username) {
-            return Common.Utils.String.htmlEncode(AscCommon.UserInfoParser.getParsedName(username));
         },
 
         hide: function () {

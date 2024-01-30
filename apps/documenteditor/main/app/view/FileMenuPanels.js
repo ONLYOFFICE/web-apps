@@ -55,8 +55,7 @@ define([
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
@@ -123,7 +122,7 @@ define([
             }
 
             if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 2); // remove docxf and oform
+                this.formats[0].splice(3, 1); // remove docxf
             }
 
             this.$el.html(this.template({rows:this.formats,
@@ -180,8 +179,7 @@ define([
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM, ext: '.oform'}
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
@@ -249,7 +247,7 @@ define([
             }
 
             if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 2); // remove docxf and oform
+                this.formats[0].splice(3, 1); // remove docxf
             }
 
             this.$el.html(this.template({rows:this.formats,
@@ -397,6 +395,9 @@ define([
                 '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-scrn-reader"></div></td>',
+                '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
@@ -404,7 +405,7 @@ define([
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
                 '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
                 '<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -471,6 +472,14 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chScreenReader = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-scrn-reader'),
+                labelText: this.txtScreenReader,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
@@ -880,6 +889,7 @@ define([
 
         updateSettings: function() {
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
+            this.chScreenReader.setValue(Common.Utils.InternalSettings.get("app-settings-screen-reader"));
 
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
@@ -951,7 +961,7 @@ define([
             }
             this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
 
             if (this.mode.canViewReview) {
                 value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
@@ -968,6 +978,7 @@ define([
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+            Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
@@ -1009,7 +1020,7 @@ define([
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
             Common.localStorage.setItem("de-settings-smart-selection", this.chSmartSelection.isChecked() ? 1 : 0);
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
+            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
 
@@ -1127,7 +1138,8 @@ define([
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
         txtLastUsed: 'Last used',
-        textSmartSelection: 'Use smart paragraph selection'
+        textSmartSelection: 'Use smart paragraph selection',
+        txtScreenReader: 'Turn on screen reader support'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
@@ -1960,7 +1972,7 @@ define([
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom margin-right-10">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary auto margin-right-10">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));

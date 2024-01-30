@@ -368,10 +368,17 @@
                     "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed/locale/"
                 }
             ],
-            "index-page": {
-                "../deploy/web-apps/apps/spreadsheeteditor/embed/index.html": "../apps/spreadsheeteditor/embed/index.html.deploy",
-                "../deploy/web-apps/apps/spreadsheeteditor/embed/index_loader.html": "../apps/spreadsheeteditor/embed/index_loader.html.deploy"
-            },
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/spreadsheeteditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/spreadsheeteditor/embed"
+                }
+            ],
             "images-app": [
                 {
                     "expand": true,

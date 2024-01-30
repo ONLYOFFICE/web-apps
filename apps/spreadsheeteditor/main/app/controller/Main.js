@@ -206,6 +206,10 @@ define([
                 value = Common.localStorage.getBool("sse-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
 
+                value = Common.localStorage.getBool("app-settings-screen-reader");
+                Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+                this.api.setSpeechEnabled(value);
+
                 if ( !Common.Utils.isIE ) {
                     if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
                         const _url_obj = new URL('{{HELP_CENTER_WEB_SSE}}');
@@ -461,7 +465,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = false;
+                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
@@ -782,15 +786,18 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl) {
                             if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) {
                                 Common.UI.HintManager.setInternalEditorLoading(false);
                             }
                             this.api.asc_enableKeyEvents(true);
+                        }
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
+                                                                                  id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
+                        (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
@@ -1080,6 +1087,7 @@ define([
                     var formulasDlgController = application.getController('FormulaDialog');
                     formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
                     documentHolderView.createDelayedElementsViewer();
+                    Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }
@@ -1364,6 +1372,8 @@ define([
                     this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                     this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                     this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
+                    this.headerView.setUserId(this.appOptions.user.id);
+                    this.headerView.setUserAvatar(this.appOptions.user.image);
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1405,6 +1415,8 @@ define([
                     this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                     Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
+                    this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
+                    Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -1617,7 +1629,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                }
+                } else
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg, options) {
@@ -2094,6 +2107,10 @@ define([
                         config.maxwidth = 600;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellGoalSeek:
+                        config.msg = this.errorLockedCellGoalSeek;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2281,6 +2298,11 @@ define([
 
             onUnload: function() {
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
+            },
+
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
             },
 
             hidePreloader: function() {
@@ -2927,18 +2949,17 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                var val = window.localStorage.getItem("sse-hide-try-undoredo");
+                var val = Common.localStorage.getItem("sse-hide-try-undoredo");
                 if (!(val && parseInt(val) == 1))
                     Common.UI.info({
                         width: 500,
                         msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
                         iconCls: 'info',
-                        buttons: this.appOptions.canChangeCoAuthoring ? ['custom', 'cancel'] : ['ok'],
+                        buttons: this.appOptions.canChangeCoAuthoring ? [{value: 'custom', caption: this.textStrict}, 'cancel'] : ['ok'],
                         primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
-                        customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
-                            if (dontshow) window.localStorage.setItem("sse-hide-try-undoredo", 1);
+                            if (dontshow) Common.localStorage.setItem("sse-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("sse-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
@@ -3258,7 +3279,8 @@ define([
                     this._renameDialog && this._renameDialog.close();
                     var versions = opts.data.history,
                         historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
-                        currentVersion = null;
+                        currentVersion = null,
+                        arrIds = [];
                     if (historyStore) {
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
@@ -3280,13 +3302,16 @@ define([
                                     });
                                     usersStore.add(user);
                                 }
-
+                                var avatar = Common.UI.ExternalUsers.getImage(version.user.id);
+                                (avatar===undefined) && arrIds.push(version.user.id);
                                 arrVersions.push(new Common.Models.HistoryVersion({
                                     version: version.versionGroup,
                                     revision: version.version,
                                     userid : version.user.id,
                                     username : version.user.name,
                                     usercolor: user.get('color'),
+                                    initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(version.user.name || this.textAnonymous)),
+                                    avatar : avatar,
                                     created: version.created,
                                     docId: version.key,
                                     markedAsVersion: (group!==version.versionGroup),
@@ -3329,7 +3354,8 @@ define([
                                                 });
                                                 usersStore.add(user);
                                             }
-
+                                            avatar = Common.UI.ExternalUsers.getImage(change.user.id);
+                                            (avatar===undefined) && arrIds.push(change.user.id);
                                             arrVersions.push(new Common.Models.HistoryVersion({
                                                 version: version.versionGroup,
                                                 revision: version.version,
@@ -3337,6 +3363,8 @@ define([
                                                 userid : change.user.id,
                                                 username : change.user.name,
                                                 usercolor: user.get('color'),
+                                                initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.user.name || this.textAnonymous)),
+                                                avatar : avatar,
                                                 created: change.created,
                                                 docId: version.key,
                                                 docIdPrev: docIdPrev,
@@ -3369,6 +3397,7 @@ define([
                         }
                         // if (currentVersion)
                         //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }
             },
@@ -3891,7 +3920,8 @@ define([
             textKeep: 'Keep',
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
-            txtPicture: 'Picture'
+            txtPicture: 'Picture',
+            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.'
         }
     })(), SSE.Controllers.Main || {}))
 });

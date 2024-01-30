@@ -48,7 +48,7 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         options: {
             alias: 'ImageSettingsAdvanced',
             contentWidth: 340,
-            height: 342,
+            contentHeight: 257,
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
             storageName: 'pe-img-settings-adv-category'
@@ -260,12 +260,12 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputImageName, // 0 tab
                 this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, this.spnX, this.cmbFromX, this.spnY, this.cmbFromY,// 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
                 this.inputAltTitle, this.textareaAltDescription  // 3 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -306,8 +306,10 @@ define([    'text!presentationeditor/main/app/template/ImageSettingsAdvanced.tem
 
                 this.spnWidth.setMaxValue(this.sizeMax.width);
                 this.spnHeight.setMaxValue(this.sizeMax.height);
-                this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Width()).toFixed(2), true);
-                this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(props.get_Height()).toFixed(2), true);
+                value = props.get_Width();
+                this.spnWidth.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
+                value = props.get_Height();
+                this.spnHeight.setValue((value!==undefined) ? Common.Utils.Metric.fnRecalcFromMM(value).toFixed(2) : '', true);
 
                 this.btnOriginalSize.setDisabled(props.get_ImageUrl()===null || props.get_ImageUrl()===undefined);
 

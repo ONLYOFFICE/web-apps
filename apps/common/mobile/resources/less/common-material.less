@@ -7,7 +7,6 @@
     @darkGrey: #757575;
     @text-normal: var(--text-normal);
     @brand-text-on-brand: var(--brand-text-on-brand);
-
     @touchColor: rgba(255,255,255,0.1);
 
     --f7-navbar-shadow-image: none;
@@ -435,14 +434,54 @@
         }
     }
 
-    .searchbar .input-clear-button {
-        width: 18px;
-        height: 18px;
-        margin-top: -8px;
-        &:after {
+    .searchbar {
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            display: block;
+            border: none;
+            appearance: none;
+            border-radius: 0;
+            font-family: inherit;
             color: @fill-white;
-            font-size: 19px;
-            line-height: 19px;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 0;
+            border-bottom: 1px solid @fill-white;
+            height: 100%;
+            padding: 0 40px 0 24px;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: 0 center;
+            opacity: 1;
+            background-size: 24px 24px;
+            transition-duration: .3s;
+            .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            &::placeholder {
+                color: @fill-white;
+            }
+        }
+
+        .input-clear-button {
+            width: 18px;
+            height: 18px;
+            top: 7px;
+            margin: 0;
+
+            &:after {
+                color: @fill-white;
+                font-size: 19px;
+                line-height: 19px;
+            }
+        }
+
+        .number-search-results {
+            position: absolute;
+            right: 26px;
+            top: 4px;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
         }
     }
 
@@ -450,33 +489,6 @@
         &:after {
             color: @fill-white;
             font-size: 19px;
-        }
-    }
-
-    .searchbar input {
-        box-sizing: border-box;
-        width: 100%;
-        display: block;
-        border: none;
-        appearance: none;
-        border-radius: 0;
-        font-family: inherit;
-        color: @fill-white;
-        font-size: 16px;
-        font-weight: 400;
-        padding: 0;
-        border-bottom: 1px solid @fill-white;
-        height: 100%;
-        padding: 0 36px 0 24px;
-        background-color: transparent;
-        background-repeat: no-repeat;
-        background-position: 0 center;
-        opacity: 1;
-        background-size: 24px 24px;
-        transition-duration: .3s;
-        .encoded-svg-background('<svg xmlns="http://www.w3.org/2000/svg" fill="@{white}" height="24" viewBox="0 0 24 24" width="24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-        &::placeholder {
-            color: @fill-white;
         }
     }
     
@@ -596,7 +608,7 @@
 
     // Navbar link settings 
 
-    .navbar-link-settings {
+    .navbar-link-settings, .navbar-dropdown-list {
         .navbar-inner {
             background: @background-primary;
 
@@ -726,5 +738,10 @@
         letter-spacing: 0.15px;
         color: @toolbar-icons;
         margin-left: 16px;
+    }
+
+    .beta-badge {
+        background-color: @brand-secondary;
+        margin-left: 8px;
     }
 }

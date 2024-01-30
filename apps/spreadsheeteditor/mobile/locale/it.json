@@ -40,6 +40,12 @@
       "textStandartColors": "Colori standard",
       "textThemeColors": "Colori del tema"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Non mostrare di nuovo",
     "textOk": "Ok",
     "txtWarnUrl": "Fare clic su questo collegamento può danneggiare il tuo dispositivo e i tuoi dati.<br>Sei sicuro che vuoi continuare?",
-    "warnMergeLostData": "Solo i dati dalla cella sinistra superiore rimangono nella cella unita.<br>Sei sicuro di voler continuare?"
+    "warnMergeLostData": "Solo i dati dalla cella sinistra superiore rimangono nella cella unita.<br>Sei sicuro di voler continuare?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,6 +649,7 @@
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -809,7 +819,11 @@
       "warnDownloadAs": "Se continui a salvare in questo formato, tutte le funzioni tranne il testo saranno perse.<br>Sei sicuro di voler continuare?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textDark": "Dark",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }

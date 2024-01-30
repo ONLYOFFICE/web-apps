@@ -77,6 +77,7 @@
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-formula"></span>
+                        <span class="btn-slot split" id="slot-btn-fill-num"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-named-range"></span>
@@ -139,9 +140,13 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-insrecommend"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssparkline"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -266,6 +271,10 @@
                     <span class="btn-slot text x-huge" id="slot-btn-text-column"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-rem-duplicates"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-data-validation"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-goal-seek"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

@@ -1896,7 +1896,7 @@
 		"d": "Retorna uma sequência de números"
 	},
 	"EXPAND": {
-		"a": "(matriz, linhas, [colunas], [pad_with])",
+		"a": "(matriz, linhas, [colunas], [preenchimento_com])",
 		"d": "Expande uma matriz para as dimensões especificadas."
 	},
 	"XMATCH": {

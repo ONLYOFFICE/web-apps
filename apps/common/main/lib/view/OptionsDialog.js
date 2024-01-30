@@ -109,7 +109,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return this.radio;
+            return this.radio.concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

@@ -137,7 +137,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption: me.addCommentText
             });
 
@@ -662,10 +662,10 @@ define([
                     var onlyCommonProps = ( value.imgProps.isImg && value.imgProps.isChart || value.imgProps.isImg && value.imgProps.isShape ||
                                             value.imgProps.isShape && value.imgProps.isChart);
                     if (onlyCommonProps) {
-                        me.menuImageAdvanced.setCaption(me.advancedText, true);
+                        me.menuImageAdvanced.setCaption(me.advancedText);
                         me.menuImageAdvanced.setIconCls('menu__icon btn-menu-image');
                     } else {
-                        me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText), true);
+                        me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText));
                         me.menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
 
@@ -936,7 +936,7 @@ define([
 
             /** coauthoring begin **/
             me.menuAddCommentTable = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             /** coauthoring end **/
@@ -1391,7 +1391,7 @@ define([
                     if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(false);
                     } else {
-                        me.menuSpellTable.setCaption(me.loadSpellText, true);
+                        me.menuSpellTable.setCaption(me.loadSpellText);
                         me.clearWordVariants(false);
                         me.menuSpellMoreTable.setVisible(false);
                     }
@@ -1419,9 +1419,9 @@ define([
                         me.menuTableEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuTableEquation.menu.items[8].options.isEquationInline = isInlineMath;
-                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText, true);
+                        me.menuTableEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
                         me.menuTableEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
-                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
+                        me.menuTableEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var control_lock = (value.paraProps) ? (!value.paraProps.value.can_DeleteBlockContentControl() || !value.paraProps.value.can_EditBlockContentControl() ||
@@ -1630,7 +1630,7 @@ define([
             });
 
             me.menuAddCommentPara = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             /** coauthoring end **/
@@ -1981,7 +1981,7 @@ define([
                     if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
-                        me.menuSpellPara.setCaption(me.loadSpellText, true);
+                        me.menuSpellPara.setCaption(me.loadSpellText);
                         me.clearWordVariants(true);
                         me.menuSpellMorePara.setVisible(false);
                     }
@@ -2010,9 +2010,9 @@ define([
                         me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuParagraphEquation.menu.items[8].options.isEquationInline = isInlineMath;
-                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText, true);
+                        me.menuParagraphEquation.menu.items[8].setCaption(isInlineMath ? me.eqToDisplayText : me.eqToInlineText);
                         me.menuParagraphEquation.menu.items[9].options.isToolbarHide = isEqToolbarHide;
-                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
+                        me.menuParagraphEquation.menu.items[9].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
 
                     var frame_pr = value.paraProps.value.get_FramePr();
@@ -2155,7 +2155,7 @@ define([
             this.hdrMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
-                    menuEditHeaderFooter.setCaption(value.Header ? me.editHeaderText : me.editFooterText, true);
+                    menuEditHeaderFooter.setCaption(value.Header ? me.editHeaderText : me.editFooterText);
                     menuEditHeaderFooter.off('click').on('click', function(item) {
                         if (me.api){
                             if (value.Header) {
@@ -2825,7 +2825,7 @@ define([
             } else {
                 moreMenu.setVisible(false);
                 spellMenu.setVisible(true);
-                spellMenu.setCaption(me.noSpellVariantsText, true);
+                spellMenu.setCaption(me.noSpellVariantsText);
             }
         },
 
@@ -3010,6 +3010,7 @@ define([
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
+                        iconImg: me.parseIcons(item.icons),
                         disabled: !!item.disabled
                     });
                 });
@@ -3027,7 +3028,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;
@@ -3053,6 +3053,7 @@ define([
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                iconImg: me.parseIcons(item.icons),
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -3080,6 +3081,14 @@ define([
                 }
             }
             this._hasCustomItems = false;
+        },
+
+        parseIcons: function(icons) {
+            var plugins = DE.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
+            if (icons && icons.length && plugins && plugins.parseIcons) {
+                icons = plugins.parseIcons(icons);
+                return icons ? icons['normal'] : undefined;
+            }
         },
 
         focus: function() {

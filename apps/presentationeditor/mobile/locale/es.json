@@ -43,6 +43,12 @@
       "textStandartColors": "Colores estándar",
       "textThemeColors": "Colores de tema"
     },
+    "Themes": {
+      "dark": "Oscuro",
+      "light": "Claro",
+      "system": "Igual que el sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertencia",
       "textAnonymous": "Anónimo",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Usted abandona la aplicación",
     "leaveButtonText": "Salir de esta página",
     "stayButtonText": "Quedarse en esta página",
-    "textCloseHistory": "Cerrar historial"
+    "textCloseHistory": "Cerrar historial",
+    "textEnterNewFileName": "Escriba un nuevo nombre de archivo",
+    "textRenameFile": "Renombrar archivo"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "Color de resaltado",
       "textHorizontalIn": "Horizontal entrante",
       "textHorizontalOut": "Horizontal saliente",
+      "textHorizontalText": "Texto horizontal",
       "textHyperlink": "Hiperenlace",
       "textImage": "Imagen",
       "textImageURL": "URL de imagen",
       "textInsertImage": "Insertar imagen",
+      "textInvalidName": "El nombre del archivo no puede contener ninguno de los siguientes símbolos:",
       "textLastColumn": "Última columna",
       "textLastSlide": "Última diapositiva",
       "textLayout": "Diseño",
@@ -408,6 +418,8 @@
       "textReplaceImage": "Reemplazar imagen",
       "textRequired": "Necesario",
       "textRight": "A la derecha",
+      "textRotateTextDown": "Girar texto hacia abajo",
+      "textRotateTextUp": "Girar texto hacia arriba",
       "textScreenTip": "Consejo de pantalla",
       "textSearch": "Buscar",
       "textSec": "s",
@@ -429,6 +441,7 @@
       "textSuperscript": "Superíndice",
       "textTable": "Tabla",
       "textText": "Texto",
+      "textTextOrientation": "Orientación del texto",
       "textTheme": "Tema",
       "textTop": "Arriba",
       "textTopLeft": "Arriba a la izquierda",
@@ -462,6 +475,7 @@
       "textColorSchemes": "Esquemas de color",
       "textComment": "Comentario",
       "textCreated": "Creado",
+      "textDark": "Oscuro",
       "textDarkTheme": "Tema oscuro",
       "textDisableAll": "Deshabilitar todo",
       "textDisableAllMacrosWithNotification": "Deshabilitar todas las macros con notificación",
@@ -481,6 +495,7 @@
       "textInch": "Pulgada",
       "textLastModified": "Última modificación",
       "textLastModifiedBy": "Última modificación por",
+      "textLight": "Claro",
       "textLoading": "Cargando...",
       "textLocation": "Ubicación",
       "textMacrosSettings": "Ajustes de macros",
@@ -497,6 +512,7 @@
       "textReplaceAll": "Reemplazar todo",
       "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textRTL": "De derecha a izquierda",
+      "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSettings": "Ajustes",
       "textShowNotification": "Mostrar notificación",
@@ -504,6 +520,7 @@
       "textSpellcheck": "Сorrección ortográfica",
       "textSubject": "Asunto",
       "textTel": "tel:",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textUnitOfMeasurement": "Unidad de medida",
       "textUploaded": "Cargado",

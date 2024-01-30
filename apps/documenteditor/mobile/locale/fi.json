@@ -188,6 +188,12 @@
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?",
       "txtErrorLoadHistory": "Loading history failed"
+    },
+    "Themes": {
+      "textTheme": "Theme",
+      "system": "Same as system",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
   "ContextMenu": {
@@ -396,7 +402,17 @@
     "textCustomStyle": "Custom Style",
     "textWrappingStyle": "Wrapping Style",
     "textArrange": "Arrange",
-    "textInvalidName": "The file name cannot contain any of the following characters: "
+    "textInvalidName": "The file name cannot contain any of the following characters: ",
+    "textChooseAnOption": "Choose an option",
+    "textChooseAnItem": "Choose an item",
+    "textEnterYourOption": "Enter your option",
+    "textSave": "Save",
+    "textYourOption": "Your option",
+    "textPlaceholder": "Placeholder",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -760,7 +776,18 @@
     "textVersionHistory": "Version History",
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "textDarkTheme": "Dark Theme"
+    "textDarkTheme": "Dark Theme",
+    "textTheme": "Theme",
+    "textSameAsSystem": "Same as system",
+    "textDark": "Dark",
+    "textLight": "Light",
+    "textExport": "Export",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textRemoveFromFavorites": "Remove from Favorites",
+    "textSubmit": "Submit",
+    "textSaveAsPdf": "Save as PDF",
+    "textExportAs": "Export As"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

@@ -188,6 +188,12 @@
       "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -392,7 +398,17 @@
     "textWe": "Mēs",
     "textWrap": "Aplauzt",
     "textWrappingStyle": "Aplaušanas stils",
-    "textCustomStyle": "Custom Style"
+    "textChooseAnItem": "Choose an item",
+    "textChooseAnOption": "Choose an option",
+    "textCustomStyle": "Custom Style",
+    "textEnterYourOption": "Enter your option",
+    "textHorizontalText": "Horizontal Text",
+    "textPlaceholder": "Placeholder",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textSave": "Save",
+    "textTextOrientation": "Text Orientation",
+    "textYourOption": "Your option"
   },
   "Error": {
     "convertationTimeoutText": "Konversijas taimauts pārsniegts.",
@@ -746,12 +762,23 @@
     "txtScheme7": "Kapitāls",
     "txtScheme8": "Plūsma",
     "txtScheme9": "Lietuve",
+    "textAddToFavorites": "Add to Favorites",
+    "textClearAllFields": "Clear All Fields",
+    "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
     "textEncryptFile": "Encrypt File",
+    "textExport": "Export",
+    "textExportAs": "Export As",
+    "textLight": "Light",
     "textPasswordNotMatched": "Passwords DonвЂ™t Match",
     "textPasswordWarning": "If the password is forgotten or lost, it cannot be recovered.",
     "textProtectTurnOff": "Protection is turned off",
+    "textRemoveFromFavorites": "Remove from Favorites",
     "textRequirePassword": "Require Password",
+    "textSameAsSystem": "Same as system",
+    "textSaveAsPdf": "Save as PDF",
+    "textSubmit": "Submit",
+    "textTheme": "Theme",
     "textTypeEditing": "Type Of Editing"
   },
   "Toolbar": {

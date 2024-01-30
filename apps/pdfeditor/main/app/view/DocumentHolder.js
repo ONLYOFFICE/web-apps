@@ -97,7 +97,7 @@ define([
             });
 
             me.menuAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
 
@@ -123,6 +123,80 @@ define([
             });
 
             this.fireEvent('createdelayedelements', [this, 'pdf']);
+        },
+
+        createDelayedElementsPDFForms: function() {
+            var me = this;
+
+            me.menuPDFFormsCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            me.menuPDFFormsPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            });
+
+            me.menuPDFFormsCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
+            me.menuPDFFormsUndo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-undo',
+                caption: me.textUndo
+            });
+
+            me.menuPDFFormsRedo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-redo',
+                caption: me.textRedo
+            });
+
+            me.menuPDFFormsClear = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-clearstyle',
+                caption: me.textClearField
+            });
+
+            me.formsPDFMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    var cancopy = me.api.can_CopyCut(),
+                        disabled = value.paraProps && value.paraProps.locked || value.headerProps && value.headerProps.locked ||
+                                    value.imgProps && (value.imgProps.locked || value.imgProps.content_locked) || me._isDisabled;
+                    me.menuPDFFormsUndo.setDisabled(disabled || !me.api.asc_getCanUndo()); // undo
+                    me.menuPDFFormsRedo.setDisabled(disabled || !me.api.asc_getCanRedo()); // redo
+
+                    me.menuPDFFormsClear.setDisabled(disabled || !me.api.asc_IsContentControl()); // clear
+                    me.menuPDFFormsCut.setDisabled(disabled || !cancopy); // cut
+                    me.menuPDFFormsCopy.setDisabled(!cancopy); // copy
+                    me.menuPDFFormsPaste.setDisabled(disabled) // paste;
+                },
+                items: [
+                    me.menuPDFFormsUndo,
+                    me.menuPDFFormsRedo,
+                    { caption: '--' },
+                    me.menuPDFFormsClear,
+                    { caption: '--' },
+                    me.menuPDFFormsCut,
+                    me.menuPDFFormsCopy,
+                    me.menuPDFFormsPaste
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            this.fireEvent('createdelayedelements', [this, 'forms']);
         },
 
         updateCustomItems: function(menu, data) {
@@ -175,6 +249,7 @@ define([
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
+                        iconImg: me.parseIcons(item.icons),
                         disabled: !!item.disabled
                     });
                 });
@@ -192,7 +267,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;
@@ -218,6 +292,7 @@ define([
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                iconImg: me.parseIcons(item.icons),
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -247,6 +322,14 @@ define([
             this._hasCustomItems = false;
         },
 
+        parseIcons: function(icons) {
+            var plugins = PDFE.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
+            if (icons && icons.length && plugins && plugins.parseIcons) {
+                icons = plugins.parseIcons(icons);
+                return icons ? icons['normal'] : undefined;
+            }
+        },
+
         focus: function() {
             var me = this;
             _.defer(function(){  me.cmpEl.focus(); }, 50);
@@ -258,7 +341,15 @@ define([
 
         textCopy: 'Copy',
         addCommentText: 'Add Comment',
-        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?'
+        txtWarnUrl: 'Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?',
+        mniImageFromFile: 'Image from File',
+        mniImageFromUrl: 'Image from URL',
+        mniImageFromStorage: 'Image from Storage',
+        textUndo: 'Undo',
+        textRedo: 'Redo',
+        textCut: 'Cut',
+        textPaste: 'Paste',
+        textClearField: 'Clear field'
 
-}, PDFE.Views.DocumentHolder || {}));
+    }, PDFE.Views.DocumentHolder || {}));
 });

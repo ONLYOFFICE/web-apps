@@ -64,6 +64,7 @@ define([
                 'PE.Views.Animation': {
                     'animation:preview':            _.bind(this.onPreviewClick, this),
                     'animation:parameters':         _.bind(this.onParameterClick, this),
+                    'animation:parameterscolor':    _.bind(this.onSelectColor, this),
                     'animation:selecteffect':       _.bind(this.onEffectSelect, this),
                     'animation:delay':              _.bind(this.onDelayChange, this),
                     'animation:animationpane':      _.bind(this.onAnimationPane, this),
@@ -78,9 +79,10 @@ define([
                     'animation:repeatchange':       _.bind(this.onRepeatChange, this),
                     'animation:repeatfocusin':      _.bind(this.onRepeatComboOpen, this),
                     'animation:repeatselected':     _.bind(this.onRepeatSelected, this),
-                    'animation:durationchange':       _.bind(this.onDurationChange, this),
-                    'animation:durationfocusin':      _.bind(this.onRepeatComboOpen, this),
-                    'animation:durationselected':     _.bind(this.onDurationSelected, this)
+                    'animation:durationchange':     _.bind(this.onDurationChange, this),
+                    'animation:durationfocusin':    _.bind(this.onRepeatComboOpen, this),
+                    'animation:durationselected':   _.bind(this.onDurationSelected, this),
+                    'animation:addeffectshow':      _.bind(this.onAddEffectShow, this)
 
                 },
                 'Toolbar': {
@@ -150,19 +152,24 @@ define([
 
         onParameterClick: function (value, toggleGroup) {
             if(this.api && this.AnimationProperties) {
-                if(toggleGroup=='animateeffects') {
+                if(toggleGroup == 'animateeffects') {
                     this.AnimationProperties.asc_putSubtype(value);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
                 }
-                else if(toggleGroup=='custompath') {
+                else if(toggleGroup == 'custompath') {
                     var groupName = _.findWhere(this.EffectGroups, {value: AscFormat.PRESET_CLASS_PATH}).id;
                     this.addNewEffect(AscFormat.MOTION_CUSTOM_PATH, AscFormat.PRESET_CLASS_PATH, groupName,true, value);
                 }
-                else {
+                else if(toggleGroup != 'themecolor') {
                     var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
                     this.addNewEffect(value, this._state.EffectGroup, groupName,true, this._state.EffectOption);
                 }
             }
+        },
+
+        onSelectColor: function (color){
+            var groupName = _.findWhere(this.EffectGroups, {value: this._state.EffectGroup}).id;
+            this.addNewEffect(this._state.Effect, this._state.EffectGroup, groupName,true, this._state.EffectOption, undefined, color);
         },
 
         onAnimationPane: function() {
@@ -173,7 +180,8 @@ define([
             (new PE.Views.AnimationDialog({
                 api             : this.api,
                 activeEffect    : this._state.Effect,
-                groupValue       : this._state.EffectGroup,
+                groupValue      : this._state.EffectGroup,
+                lockEmphasis    : this._state.lockEmphasis,
                 handler         : function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
@@ -194,9 +202,9 @@ define([
             }
         },
 
-        addNewEffect: function (type, group, groupName, replace, parametr, preview) {
+        addNewEffect: function (type, group, groupName, replace, parametr, preview, color) {
             var parameter = this.view.setMenuParameters(type, groupName, parametr);
-            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
+            this.api.asc_AddAnimation(group, type, (parameter != undefined)?parameter:0, color ? color : null, replace, !Common.Utils.InternalSettings.get("pe-animation-no-auto-preview"));
         },
 
         onDurationChange: function(before,combo, record, e) {
@@ -233,7 +241,7 @@ define([
         },
 
         setDuration: function(valueRecord) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
                 this.AnimationProperties.asc_putDuration(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -241,7 +249,7 @@ define([
         },
 
         onDelayChange: function(field, newValue, oldValue, eOpts) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putDelay(field.getNumberValue() * 1000);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -281,7 +289,7 @@ define([
         },
 
         setRepeat: function(valueRecord) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 var value = valueRecord < 0 ? valueRecord : valueRecord * 1000;
                 this.AnimationProperties.asc_putRepeatCount(value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -310,7 +318,7 @@ define([
         },
 
         onTriggerClick: function (value) {
-            if(this.api) {
+            if(this.api && this.AnimationProperties) {
                 if(value.value == this.view.triggers.ClickSequence) {
                     this.AnimationProperties.asc_putTriggerClickSequence(true);
                     this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -320,7 +328,7 @@ define([
 
         onTriggerClickOfClick: function (value)
         {
-            if(this.api) {
+            if(this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putTriggerClickSequence(false);
                 this.AnimationProperties.asc_putTriggerObjectClick(value.caption);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
@@ -342,10 +350,11 @@ define([
                     Common.Utils.lockControls(Common.enumLock.noAnimationParam, false, {array: [this.view.btnParameters]});
                 }
             }
+            Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
         onStartSelect: function (combo, record) {
-            if (this.api) {
+            if (this.api && this.AnimationProperties) {
                 this.AnimationProperties.asc_putStartType(record.value);
                 this.api.asc_SetAnimationProperties(this.AnimationProperties);
             }
@@ -360,12 +369,19 @@ define([
 
         onFocusObject: function(selectedObjects) {
             this.AnimationProperties = null;
-            for (var i = 0; i<selectedObjects.length; i++) {
-                var type = selectedObjects[i].get_ObjectType();
-                if (type == Asc.c_oAscTypeSelectElement.Animation) {
-                    this.AnimationProperties = selectedObjects[i].get_ObjectValue();
-                } else if (type==Asc.c_oAscTypeSelectElement.Slide) {
-                    this._state.timingLock = selectedObjects[i].get_ObjectValue().get_LockTiming();
+            this._state.lockEmphasis = false;
+            var animatedObjects = this.api.asc_getAnimatedObjectsStack();
+            for (var i = 0; i<animatedObjects.length; i++) {
+                var type = animatedObjects[i].get_ObjectType();
+                if (type === Asc.c_oAscTypeSelectElement.Animation) {
+                    this.AnimationProperties = animatedObjects[i].get_ObjectValue();
+                } else if (type===Asc.c_oAscTypeSelectElement.Slide) {
+                    this._state.timingLock = animatedObjects[i].get_ObjectValue().get_LockTiming();
+                } else if (type===Asc.c_oAscTypeSelectElement.Shape) {
+                    var value = animatedObjects[i].get_ObjectValue();
+                    this._state.lockEmphasis = this._state.lockEmphasis || value.get_FromGroup() || value.get_FromChart() || value.get_FromSmartArt() || value.get_FromSmartArtInternal();
+                } else if (type===Asc.c_oAscTypeSelectElement.Table) {
+                    this._state.lockEmphasis = true;
                 }
             }
             if (this._state.onactivetab)
@@ -375,14 +391,15 @@ define([
         setSettings: function () {
             this._state.noGraphic = this._state.noAnimation = this._state.noAnimationParam = this._state.noTriggerObjects = this._state.noMoveAnimationLater = this._state.noMoveAnimationEarlier = true;
             this._state.noAnimationPreview = !this.api.asc_canStartAnimationPreview();
+            var me = this,
+                view = this.view,
+                store = view.listEffects.store,
+                fieldStore = view.listEffects.fieldPicker.store;
             if (this.AnimationProperties) {
                 this._state.noGraphic = false;
                 this._state.noMoveAnimationLater = !this.api.asc_canMoveAnimationLater();
                 this._state.noMoveAnimationEarlier = !this.api.asc_canMoveAnimationEarlier();
                 var item,
-                    view = this.view,
-                    store = view.listEffects.store,
-                    fieldStore = view.listEffects.fieldPicker.store,
                     value = this.AnimationProperties.asc_getType(),
                     group = this.AnimationProperties.asc_getClass();
 
@@ -451,7 +468,9 @@ define([
                 if (this._state.EffectOption !== null && this._state.Effect !== AscFormat.ANIM_PRESET_MULTIPLE && this._state.Effect !== AscFormat.ANIM_PRESET_NONE) {
                     var rec = _.findWhere(this.EffectGroups,{value: this._state.EffectGroup});
                     view.setMenuParameters(this._state.Effect, rec ? rec.id : undefined, this._state.EffectOption);
-                    this._state.noAnimationParam = view.btnParameters.menu.items.length === 0;
+
+                    view.isColor  && view.setColor(this.AnimationProperties.asc_getColor());
+                    this._state.noAnimationParam = view.btnParameters.menu.items.length === view.startIndexParam && !view.isColor;
                 }
 
                 value = this.AnimationProperties.asc_getDuration();
@@ -494,6 +513,22 @@ define([
                 if (this.view && this.view.listEffects)
                     this.view.listEffects.fieldPicker.deselectAll();
             }
+            if (!this.arrEmphasis) {
+                this.arrEmphasis = store.filter(function(item, index){
+                    return (item.get('group') === 'menu-effect-group-emphasis') && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                                                                                    item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                                                                                    item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK);
+                });
+            }
+            this.arrEmphasis.forEach(function(item){
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
+            fieldStore.each(function(item){
+                if (item.get('group') === 'menu-effect-group-emphasis' && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                                                                            item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                                                                            item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK))
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
             this.setLocked();
         },
 
@@ -545,6 +580,21 @@ define([
             this.api && this.api.asc_onShowAnimTab(!!this._state.onactivetab);
         },
 
+        onAddEffectShow: function(picker) {
+            var me = this;
+            if (!this.arrEmphasisAddEffect) {
+                this.arrEmphasisAddEffect = picker.store.filter(function(item, index){
+                    return (item.get('group') === 'menu-effect-group-emphasis') && !(item.get('value') === AscFormat.EMPHASIS_GROW_SHRINK || item.get('value') === AscFormat.EMPHASIS_SPIN ||
+                        item.get('value') === AscFormat.EMPHASIS_TRANSPARENCY || item.get('value') === AscFormat.EMPHASIS_PULSE ||
+                        item.get('value') === AscFormat.EMPHASIS_TEETER || item.get('value') === AscFormat.EMPHASIS_BLINK);
+                });
+            }
+            this.arrEmphasisAddEffect.forEach(function(item){
+                item.set('disabled', !!me._state.lockEmphasis);
+            });
+            picker.scroller.update({alwaysVisibleY: true});
+        },
+
         lockToolbar: function (causes, lock, opts) {
             Common.Utils.lockControls(causes, lock, opts, this.view.lockedControls);
         },
@@ -570,6 +620,10 @@ define([
                 this.lockToolbar(Common.enumLock.noAnimationDuration, this._state.noAnimationDuration);
             if (this._state.timingLock != undefined)
                 this.lockToolbar(Common.enumLock.timingLock, this._state.timingLock);
+        },
+
+        updateThemeColors: function (){
+            this.view.updateColors();
         }
 
     }, PE.Controllers.Animation || {}));

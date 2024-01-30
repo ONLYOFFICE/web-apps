@@ -1,128 +1,209 @@
-import React, { Component, createContext } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { f7, Icon, Page, View, Navbar, Subnavbar, Fab } from 'framework7-react';
+import { f7, Icon, Page, View, Navbar, Subnavbar } from 'framework7-react';
 import { observer, inject } from "mobx-react";
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import AddOptions from '../view/add/Add';
 import SettingsController from '../controller/settings/Settings';
 import CollaborationView from '../../../../common/mobile/lib/view/collaboration/Collaboration.jsx'
 import { Device } from '../../../../common/mobile/utils/device'
 import { Search, SearchSettings } from '../controller/Search';
 import ContextMenu from '../controller/ContextMenu';
-import { Toolbar } from "../controller/Toolbar";
+import ToolbarController from "../controller/Toolbar";
 import NavigationController from '../controller/settings/Navigation';
 import { AddLinkController } from '../controller/add/AddLink';
 import EditHyperlink from '../controller/edit/EditHyperlink';
 import Snackbar from '../components/Snackbar/Snackbar';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
 
 export const MainContext = createContext();
 
-class MainPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            editOptionsVisible: false,
-            addOptionsVisible: false,
-            addShowOptions: null,
-            settingsVisible: false,
-            collaborationVisible: false,
-            navigationVisible: false,
-            addLinkSettingsVisible: false,
-            editLinkSettingsVisible: false,
-            snackbarVisible: false,
-            fabVisible: true,
-            isOpenModal: false
-        };
+const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeVersionHistory', 'storeToolbarSettings')(observer(props => {
+    const { t } = useTranslation();
+    const [state, setState] = useState({
+        editOptionsVisible: false,
+        addOptionsVisible: false,
+        addShowOptions: null,
+        settingsVisible: false,
+        collaborationVisible: false,
+        navigationVisible: false,
+        addLinkSettingsVisible: false,
+        editLinkSettingsVisible: false,
+        snackbarVisible: false,
+        fabVisible: true,
+        isOpenModal: false
+    });
+    const appOptions = props.storeAppOptions;
+    const storeVersionHistory = props.storeVersionHistory;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
+    const storeDocumentInfo = props.storeDocumentInfo;
+    const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
+    const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
+    const storeToolbarSettings = props.storeToolbarSettings;
+    const isDisconnected = props.users.isDisconnected;
+    const isViewer = appOptions.isViewer;
+    const isEdit = appOptions.isEdit;
+    const isMobileView = appOptions.isMobileView;
+    const disabledControls = storeToolbarSettings.disabledControls;
+    const disabledSettings = storeToolbarSettings.disabledSettings;
+    const isProtected = appOptions.isProtected;
+    const typeProtection = appOptions.typeProtection;
+    const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
+    const config = appOptions.config;
+    const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+
+    let isHideLogo = true,
+        isCustomization = true,
+        isBranding = true;
+
+    if(!appOptions.isDisconnected && config?.customization) {
+        isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
+        isBranding = appOptions.canBranding || appOptions.canBrandingExt;
+        isHideLogo = isCustomization && isBranding; 
     }
 
-    componentDidMount() {
-        if ( $$('.skl-container').length ) {
+    useEffect(() => {
+        if($$('.skl-container').length) {
             $$('.skl-container').remove();
         }
-    }
+    }, []);
 
-    handleClickToOpenOptions = (opts, showOpts) => {
+    const handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);
-    
-        let opened = false;
-        const newState = {};
 
-        if (opts === 'edit') {
-            this.state.editOptionsVisible && (opened = true);
-            newState.editOptionsVisible = true;
-            newState.isOpenModal = true;
-        } else if (opts === 'add') {
-            this.state.addOptionsVisible && (opened = true);
-            newState.addOptionsVisible = true;
-            newState.addShowOptions = showOpts;
-            newState.isOpenModal = true;
-        } else if (opts === 'settings') {
-            this.state.settingsVisible && (opened = true);
-            newState.settingsVisible = true;
-            newState.isOpenModal = true;
-        } else if (opts === 'coauth') {
-            this.state.collaborationVisible && (opened = true);
-            newState.collaborationVisible = true;
-            newState.isOpenModal = true;
-        } else if (opts === 'navigation') {
-            this.state.navigationVisible && (opened = true);
-            newState.navigationVisible = true;
-        } else if (opts === 'add-link') {
-            this.state.addLinkSettingsVisible && (opened = true);
-            newState.addLinkSettingsVisible = true;
-        } else if (opts === 'edit-link') {
-            this.state.editLinkSettingsVisible && (opened = true);
-            newState.editLinkSettingsVisible = true;
-        } else if (opts === 'snackbar') {
-            newState.snackbarVisible = true;
-        } else if (opts === 'fab') {
-            newState.fabVisible = true;
-        } else if (opts === 'history') {
-            newState.historyVisible = true;
-        }
-
-        if (!opened) {
-            this.setState(newState);
-            if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
-                f7.navbar.hide('.main-navbar');
+        setState(prevState => {
+            if(opts === 'edit') {
+                return {
+                    ...prevState,
+                    editOptionsVisible: true,
+                    isOpenModal: true
+                }
+            } else if(opts === 'add') {
+                return {
+                    ...prevState,
+                    addOptionsVisible: true,
+                    addShowOptions: showOpts,
+                    isOpenModal: true
+                }
+            } else if(opts === 'settings') {
+                return {
+                    ...prevState,
+                    settingsVisible: true,
+                    isOpenModal: true
+                }
+            } else if(opts === 'coauth') {
+                return {
+                    ...prevState,
+                    collaborationVisible: true,
+                    isOpenModal: true
+                }
+            } else if(opts === 'navigation') {
+                return {
+                    ...prevState,
+                    navigationVisible: true
+                }
+            } else if(opts === 'add-link') {
+                return {
+                    ...prevState,
+                    addLinkSettingsVisible: true
+                }
+            } else if(opts === 'edit-link') {
+                return {
+                    ...prevState,
+                    editLinkSettingsVisible: true
+                }
+            } else if(opts === 'snackbar') {
+                return {
+                    ...prevState,
+                    snackbarVisible: true
+                }
+            } else if(opts === 'fab') {
+                return {
+                    ...prevState,
+                    fabVisible: true
+                }
+            } else if(opts === 'history') {
+                return {
+                    ...prevState,
+                    historyVisible: true
+                }
             }
+        })
+           
+        if((opts === 'edit' || opts === 'coauth') && Device.phone) {
+            f7.navbar.hide('.main-navbar');
         }
     };
 
-    handleOptionsViewClosed = opts => {
-        this.setState(state => {
-            if (opts === 'edit')
-                return {editOptionsVisible: false, isOpenModal: false};
-            else if (opts === 'add')
-                return {addOptionsVisible: false, addShowOptions: null, isOpenModal: false};
-            else if (opts === 'settings')
-                return {settingsVisible: false, isOpenModal: false};
-            else if (opts === 'coauth')
-                return {collaborationVisible: false, isOpenModal: false};
-            else if (opts === 'navigation')
-                return {navigationVisible: false};
-            else if (opts === 'add-link') 
-                return {addLinkSettingsVisible: false};
-            else if (opts === 'edit-link') 
-                return {editLinkSettingsVisible: false};
-            else if (opts === 'snackbar')
-                return {snackbarVisible: false}
-            else if (opts === 'fab')
-                return {fabVisible: false}
-            else if (opts === 'history')
-                return {historyVisible: false}
+    const handleOptionsViewClosed = opts => {
+        setState(prevState => {
+            if(opts === 'edit') {
+                return {
+                    ...prevState,
+                    editOptionsVisible: false, 
+                    isOpenModal: false
+                };
+            } else if(opts === 'add') {
+                return {
+                    ...prevState,
+                    addOptionsVisible: false, 
+                    addShowOptions: null, 
+                    isOpenModal: false
+                };
+            } else if(opts === 'settings') {
+                return {
+                    ...prevState,
+                    settingsVisible: false, 
+                    isOpenModal: false
+                };
+            } else if(opts === 'coauth') {
+                return {
+                    ...prevState, 
+                    collaborationVisible: false, 
+                    isOpenModal: false
+                };
+            } else if(opts === 'navigation') {
+                return {
+                    ...prevState,
+                    navigationVisible: false
+                };
+            } else if(opts === 'add-link') {
+                return {
+                    ...prevState,
+                    addLinkSettingsVisible: false
+                };
+            } else if(opts === 'edit-link') {
+                return {
+                    ...prevState,
+                    editLinkSettingsVisible: false
+                };
+            } else if(opts === 'snackbar') {
+                return {
+                    ...prevState, 
+                    snackbarVisible: false
+                }
+            } else if(opts === 'fab') {
+                return {
+                    ...prevState, 
+                    fabVisible: false
+                }
+            } else if(opts === 'history') {
+                return {
+                    ...prevState, 
+                    historyVisible: false
+                }
+            }
         });
 
-        if ((opts === 'edit' || opts === 'coauth') && Device.phone) {
+        if((opts === 'edit' || opts === 'coauth') && Device.phone) {
             f7.navbar.show('.main-navbar');
         }
     };
 
-    turnOffViewerMode() {
+    const turnOffViewerMode = () => {
         const api = Common.EditorApi.get();
-        const appOptions = this.props.storeAppOptions;
 
         f7.popover.close('.document-menu.modal-in', false);
         f7.navbar.show('.main-navbar', false);
@@ -132,51 +213,15 @@ class MainPage extends Component {
         api.asc_addRestriction(Asc.c_oAscRestrictionType.None);
     };
 
-    render() {
-        const { t } = this.props;
-        const appOptions = this.props.storeAppOptions;
-        const storeVersionHistory = this.props.storeVersionHistory;
-        const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
-        const storeDocumentInfo = this.props.storeDocumentInfo;
-        const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
-        const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps' && docExt !== 'oform';
-        const storeToolbarSettings = this.props.storeToolbarSettings;
-        const isDisconnected = this.props.users.isDisconnected;
-        const isViewer = appOptions.isViewer;
-        const isEdit = appOptions.isEdit;
-        const isMobileView = appOptions.isMobileView;
-        const disabledControls = storeToolbarSettings.disabledControls;
-        const disabledSettings = storeToolbarSettings.disabledSettings;
-        const isProtected = appOptions.isProtected;
-        const typeProtection = appOptions.typeProtection;
-        const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
-        const config = appOptions.config;
-        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
-
-        let isHideLogo = true,
-            isCustomization = true,
-            isBranding = true;
-
-        if (!appOptions.isDisconnected && config?.customization) {
-            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
-            isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-
-            if (!Object.keys(config).length) {
-                isCustomization = !/&(?:logo)=/.test(window.location.search);
-            }
-
-            isHideLogo = isCustomization && isBranding; 
-        }
-        
-        return (
+    return (
+        <Themes>
             <MainContext.Provider value={{
-                openOptions: this.handleClickToOpenOptions.bind(this),
-                closeOptions: this.handleOptionsViewClosed.bind(this),
-                showPanels: this.state.addShowOptions,
-                // isOpenModal: this.state.isOpenModal
+                openOptions: handleClickToOpenOptions,
+                closeOptions: handleOptionsViewClosed,
+                showPanels: state.addShowOptions,
+                isBranding
             }}>
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
-                    {/* Top Navbar */}
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
                         {!isHideLogo &&
                             <div className="main-logo" onClick={() => {
@@ -186,20 +231,15 @@ class MainPage extends Component {
                             </div>
                         }
                         <Subnavbar>
-                            <Toolbar 
-                                openOptions={this.handleClickToOpenOptions} 
-                                closeOptions={this.handleOptionsViewClosed}
-                                isOpenModal={this.state.isOpenModal}
+                            <ToolbarController 
+                                openOptions={handleClickToOpenOptions} 
+                                closeOptions={handleOptionsViewClosed}
+                                isOpenModal={state.isOpenModal}
                             />
                             <Search useSuspense={false}/>
                         </Subnavbar>
                     </Navbar>
-
-                    {/* Page content */}
-
-                    <View id="editor_sdk">
-                    </View>
-
+                    <View id="editor_sdk"></View>
                     {isShowPlaceholder ?
                         <div className="doc-placeholder-container">
                             <div className="doc-placeholder">
@@ -224,61 +264,58 @@ class MainPage extends Component {
                                 <div className="line"></div>
                                 <div className="line"></div>
                             </div>
-                        </div> : null
-                    }
-
-                    {/* {
-                        Device.phone ? null : <SearchSettings />
-                    } */}
-
+                        </div> 
+                    : null}
                     <Snackbar 
-                        isShowSnackbar={this.state.snackbarVisible} 
-                        closeCallback={() => this.handleOptionsViewClosed('snackbar')}
+                        isShowSnackbar={state.snackbarVisible} 
+                        closeCallback={() => handleOptionsViewClosed('snackbar')}
                         message={isMobileView ? t("Toolbar.textSwitchedMobileView") : t("Toolbar.textSwitchedStandardView")} 
                     />
                     <SearchSettings useSuspense={false} />
-                    {!this.state.editOptionsVisible ? null : <EditView />}
-                    {!this.state.addOptionsVisible ? null : <AddOptions />}
-                    {!this.state.addLinkSettingsVisible ? null :
+                    {!state.editOptionsVisible ? null : <EditView />}
+                    {!state.addOptionsVisible ? null : <AddOptions />}
+                    {!state.addLinkSettingsVisible ? null :
                         <AddLinkController 
-                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                            closeOptions={handleOptionsViewClosed} 
                         />
                     }
-                    {!this.state.editLinkSettingsVisible ? null :
+                    {!state.editLinkSettingsVisible ? null :
                         <EditHyperlink 
-                            closeOptions={this.handleOptionsViewClosed.bind(this)}
+                            closeOptions={handleOptionsViewClosed}
                         />
                     }
-                    {!this.state.settingsVisible ? null : <SettingsController />}
-                    {!this.state.collaborationVisible ? null : 
+                    {!state.settingsVisible ? null : <SettingsController />}
+                    {!state.collaborationVisible ? null : 
                         <CollaborationView 
-                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                            closeOptions={handleOptionsViewClosed} 
                         />
                     }
-                    {!this.state.navigationVisible ? null : <NavigationController />}
-                    {!this.state.historyVisible ? null :
-                        <VersionHistoryController onclosed={this.handleOptionsViewClosed.bind(this, 'history')} />
+                    {!state.navigationVisible ? null : <NavigationController />}
+                    {!state.historyVisible ? null :
+                        <VersionHistoryController onclosed={() => handleOptionsViewClosed('history')} />
                     }
                     {(isFabShow && !isVersionHistoryMode) &&
                         <CSSTransition
-                            in={this.state.fabVisible}
+                            in={state.fabVisible}
                             timeout={500}
                             classNames="fab"
                             mountOnEnter
                             unmountOnExit
                         >
-                            <div className="fab fab-right-bottom" onClick={() => this.turnOffViewerMode()}>
-                                <a href="#"><i className="icon icon-edit-mode"></i></a>
+                            <div className="fab fab-right-bottom" onClick={() => turnOffViewerMode()}>
+                                <a href="#">
+                                    <i className="icon icon-edit-mode"></i>
+                                </a>
                             </div>
                         </CSSTransition>
                     }
                     {appOptions.isDocReady && 
-                        <ContextMenu openOptions={this.handleClickToOpenOptions.bind(this)} />
+                        <ContextMenu openOptions={handleClickToOpenOptions} />
                     }
                 </Page>
             </MainContext.Provider>
-        )
-    }
-}
+        </Themes>
+    )
+}));
 
-export default withTranslation()(inject("storeAppOptions", "storeToolbarSettings", "users", "storeDocumentInfo", "storeVersionHistory")(observer(MainPage)));
+export default MainPage;

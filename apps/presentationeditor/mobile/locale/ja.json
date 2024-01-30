@@ -43,6 +43,12 @@
       "textStandartColors": "標準の色",
       "textThemeColors": "テーマの色"
     },
+    "Themes": {
+      "dark": "ダーク",
+      "light": "ライト",
+      "system": "システム設定と同じ",
+      "textTheme": "テーマ"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "警告",
       "textAnonymous": "匿名",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "アプリケーションを終了する",
     "leaveButtonText": "このページから移動する",
     "stayButtonText": "このページから移動しない",
-    "textCloseHistory": "履歴を閉じる"
+    "textCloseHistory": "履歴を閉じる",
+    "textEnterNewFileName": "新しいファイル名を入力する",
+    "textRenameFile": "ファイル名の変更"
   },
   "View": {
     "Add": {
@@ -365,10 +373,12 @@
       "textHighlightColor": "強調表示の色",
       "textHorizontalIn": "ワイプイン (横)",
       "textHorizontalOut": "ワイプアウト (横)",
+      "textHorizontalText": "横書きテキスト",
       "textHyperlink": "ハイパーリンク",
       "textImage": "イメージ",
       "textImageURL": "イメージURL",
       "textInsertImage": "画像の挿入",
+      "textInvalidName": "ファイル名に次の文字を使うことはできません。",
       "textLastColumn": "最後の列",
       "textLastSlide": "最後のスライド",
       "textLayout": "レイアウト​​",
@@ -408,6 +418,8 @@
       "textReplaceImage": "イメージを置換する",
       "textRequired": "必須",
       "textRight": "右",
+      "textRotateTextDown": "下にテキストを回転",
+      "textRotateTextUp": "上にテキストを回転",
       "textScreenTip": "ヒント",
       "textSearch": "検索",
       "textSec": "秒",
@@ -429,6 +441,7 @@
       "textSuperscript": "上付き文字",
       "textTable": "表",
       "textText": "テキスト",
+      "textTextOrientation": "テキストの方向",
       "textTheme": "テーマ",
       "textTop": "上",
       "textTopLeft": "左上",
@@ -462,6 +475,7 @@
       "textColorSchemes": "色スキーム",
       "textComment": "コメント",
       "textCreated": "作成された",
+      "textDark": "ダーク",
       "textDarkTheme": "デークテーマ",
       "textDisableAll": "全てを無効にする",
       "textDisableAllMacrosWithNotification": "警告を表示して全てのマクロを無効にする",
@@ -481,6 +495,7 @@
       "textInch": "インチ",
       "textLastModified": "最後の変更",
       "textLastModifiedBy": "最後の変更の作成者",
+      "textLight": "ライト",
       "textLoading": "読み込み中...",
       "textLocation": "場所",
       "textMacrosSettings": "マクロの設定",
@@ -497,6 +512,7 @@
       "textReplaceAll": "全てを置換する",
       "textRestartApplication": "変更を有効にするには、アプリケーションを再起動してください",
       "textRTL": "右から左へ",
+      "textSameAsSystem": "システム設定と同じ",
       "textSearch": "検索",
       "textSettings": "設定",
       "textShowNotification": "通知を表示する",
@@ -504,6 +520,7 @@
       "textSpellcheck": "スペル チェック",
       "textSubject": "件名",
       "textTel": "電話:",
+      "textTheme": "テーマ",
       "textTitle": "名",
       "textUnitOfMeasurement": "測定単位",
       "textUploaded": "アップロードした",

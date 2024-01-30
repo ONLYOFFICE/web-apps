@@ -40,6 +40,12 @@
       "textStandartColors": "Cores padrão",
       "textThemeColors": "Cores do tema"
     },
+    "Themes": {
+      "dark": "Escuro",
+      "light": "Claro",
+      "textTheme": "Tema",
+      "system": "Same as system"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Aviso",
       "textAnonymous": "Anónimo",
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Não mostrar novamente",
     "textOk": "Aceitar",
     "txtWarnUrl": "Clicar nesta ligação pode ser prejudicial ao seu dispositivo e dados.<br>Deseja continuar?",
-    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerão na célula unida.<br>Tem a certeza de que deseja continuar? "
+    "warnMergeLostData": "Apenas os dados da célula superior esquerda permanecerão na célula unida.<br>Tem a certeza de que deseja continuar? ",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -205,7 +212,9 @@
     "errorBadImageUrl": "O URL da imagem está incorreto",
     "errorCannotUseCommandProtectedSheet": "Não se pode utilizar este comando numa folha protegida. Para utilizar este comando, desproteja a folha.<br>Pode ser solicitada uma palavra-passe.",
     "errorChangeArray": "Não pode alterar parte de uma matriz.",
+    "errorChangeFilteredRange": "Isto irá alterar um intervalo filtrado na sua folha de cálculo.<br>Para completar esta tarefa, por favor remova os filtros automáticos.",
     "errorChangeOnProtectedSheet": "A célula ou gráfico que está a tentar alterar está numa folha protegida.<br>Para a alterar tem que desbloquear a folha. Pode ser solicitada uma palavra-passe.",
+    "errorComboSeries": "Para criar um gráfico de combinação, selecione pelo menos duas séries de dados.",
     "errorConnectToServer": "Não foi possível guardar este documento. Verifique as definições de ligação ou contacte o seu administrador.<br>Se clicar no botão 'OK', será solicitado a descarregar o documento.",
     "errorCopyMultiselectArea": "Este comando não pode ser utilizado em várias seleções.<br>Selecione apenas um intervalo e tente novamente.",
     "errorCountArg": "Erro na fórmula.<br>Número de argumentos inválido.",
@@ -248,6 +257,8 @@
     "errorOpenWarning": "O comprimento de uma das fórmulas do ficheiro excedeu<br>o número de caracteres permitido e foi removido.",
     "errorOperandExpected": "A sintaxe da função introduzida não está correta. Por favor, verifique se se esqueceu de algum parênteses - '(' ou ')'.",
     "errorPasteMaxRange": "As áreas de origem e de destino não são iguais. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
+    "errorPasteMultiSelect": "Esta ação não pode ser feita com uma seleção de múltiplos intervalos.<br>Selecionar uma única gama e tentar novamente.",
+    "errorPivotOverlap": "O relatório da tabela dinâmica não se pode sobrepor a uma tabela.",
     "errorPivotWithoutUnderlying": "O relatório da tabela dinâmica foi guardado sem os dados relacionados.<br>Utilize o botão 'Recarregar' para atualizar o relatório.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas de uma vez na versão atual do programa.<br>Esta restrição será eliminada no futuro.",
     "errorProtectedRange": "Este intervalo não pode ser editado.",
@@ -270,7 +281,9 @@
     "saveErrorText": "Ocorreu um erro ao guardar o ficheiro",
     "scriptLoadError": "A ligação está demasiado lenta e não foi possível carregar alguns dos componentes. Por favor, recarregue a página. ",
     "textCancel": "Cancelar",
+    "textClose": "Fechar",
     "textErrorPasswordIsNotCorrect": "A palavra-passe que introduziu não está correta.<br>Verifique se a tecla CAPS LOCK está ativa e não se esqueça de utilizar a capitalização correta.",
+    "textInformation": "Informação",
     "textOk": "Aceitar",
     "unknownErrorText": "Erro desconhecido.",
     "uploadImageExtMessage": "Formato de imagem desconhecido.",
@@ -278,8 +291,6 @@
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
-    "errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
@@ -292,21 +303,17 @@
     "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
     "errorMoveSlicerError": "Table slicers cannot be copied from one workbook to another.<br>Try again by selecting the entire table and the slicers.",
     "errorNoDataToParse": "No data was selected to parse.",
-    "errorPasteMultiSelect": "This action cannot be done on a multiple range selection.<br>Select a single range and try again.",
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
     "errorPivotGroup": "Cannot group that selection.",
-    "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorSetPassword": "Password could not be set.",
     "errorSingleColumnOrRowError": "Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.",
     "errRemDuplicates": "Duplicate values found and deleted: {0}, unique values left: {1}.",
-    "textClose": "Close",
     "textFillOtherRows": "Fill other rows",
     "textFormulaFilledAllRows": "Formula filled {0} rows have data. Filling other empty rows may take a few minutes.",
     "textFormulaFilledAllRowsWithEmpty": "Formula filled first {0} rows. Filling other empty rows may take a few minutes.",
     "textFormulaFilledFirstRowsOtherHaveData": "Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.",
     "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
-    "textInformation": "Information",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded."
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do maior para o menor",
-      "txtSortLow2High": "Ordenar do menor para o maior"
+      "txtSortLow2High": "Ordenar do menor para o maior",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -672,6 +682,7 @@
       "textComments": "Comentários",
       "textCreated": "Criado",
       "textCustomSize": "Tamanho personalizado",
+      "textDark": "Escuro",
       "textDarkTheme": "Tema escuro",
       "textDelimeter": "Delimitador",
       "textDirection": "Direção",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Última modificação por",
       "textLeft": "Esquerda",
       "textLeftToRight": "Da esquerda para a direita",
+      "textLight": "Claro",
       "textLocation": "Localização",
       "textLookIn": "Procurar em",
       "textMacrosSettings": "Definições de macros",
@@ -738,6 +750,7 @@
       "textSpreadsheetTitle": "Título da folha de cálculo",
       "textSubject": "Assunto",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Título",
       "textTop": "Cima",
       "textUnitOfMeasurement": "Unidade de medida",
@@ -811,7 +824,8 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?"
+      "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?",
+      "textSameAsSystem": "Same As System"
     }
   }
 }

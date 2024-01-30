@@ -45,6 +45,7 @@ define([
     SSE.Views.PageMarginsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 215,
+            height: 'auto',
             header: true,
             style: 'min-width: 216px;',
             cls: 'modal-dlg',
@@ -58,8 +59,8 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 85px;">',
-                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
+                '<div class="box">',
+                    '<table cols="2" style="width: 100%;margin-bottom: 5px;">',
                         '<tr>',
                             '<td class="padding-right-10" style="padding-bottom: 8px;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
@@ -71,18 +72,32 @@ define([
                             '</td>',
                         '</tr>',
                         '<tr>',
-                            '<td class="padding-small padding-right-10">',
+                            '<td class="padding-small padding-right-10" style="padding-bottom: 16px;">',
                                 '<label class="input-label">' + this.textLeft + '</label>',
                                 '<div id="page-margins-spin-left"></div>',
                             '</td>',
-                            '<td class="padding-small">',
+                            '<td class="padding-small" style="padding-bottom: 16px;">',
                                 '<label class="input-label">' + this.textRight + '</label>',
                                 '<div id="page-margins-spin-right"></div>',
                             '</td>',
                         '</tr>',
+                        '<tr>',
+                            '<td colspan="2" class="padding-small" style="padding-bottom: 4px;">',
+                                '<label class="input-label">' + this.textCenter + '</label>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" class="padding-small" style="padding-bottom: 8px;">',
+                                '<div id="page-margins-chk-vert"></div>',
+                            '</td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td colspan="2" class="padding-small">',
+                                '<div id="page-margins-chk-hor"></div>',
+                            '</td>',
+                        '</tr>',
                     '</table>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -96,9 +111,10 @@ define([
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
+            var $window = this.getChild();
 
             this.spnTop = new Common.UI.MetricSpinner({
-                el: $('#page-margins-spin-top'),
+                el: $('#page-margins-spin-top', $window),
                 step: .1,
                 width: 86,
                 defaultUnit : "cm",
@@ -109,7 +125,7 @@ define([
             this.spinners.push(this.spnTop);
 
             this.spnBottom = new Common.UI.MetricSpinner({
-                el: $('#page-margins-spin-bottom'),
+                el: $('#page-margins-spin-bottom', $window),
                 step: .1,
                 width: 86,
                 defaultUnit : "cm",
@@ -120,7 +136,7 @@ define([
             this.spinners.push(this.spnBottom);
 
             this.spnLeft = new Common.UI.MetricSpinner({
-                el: $('#page-margins-spin-left'),
+                el: $('#page-margins-spin-left', $window),
                 step: .1,
                 width: 86,
                 defaultUnit : "cm",
@@ -131,7 +147,7 @@ define([
             this.spinners.push(this.spnLeft);
 
             this.spnRight = new Common.UI.MetricSpinner({
-                el: $('#page-margins-spin-right'),
+                el: $('#page-margins-spin-right', $window),
                 step: .1,
                 width: 86,
                 defaultUnit : "cm",
@@ -141,7 +157,16 @@ define([
             });
             this.spinners.push(this.spnRight);
 
-            var $window = this.getChild();
+            this.chVert = new Common.UI.CheckBox({
+                el: $('#page-margins-chk-vert', $window),
+                labelText: this.textVert
+            });
+
+            this.chHor = new Common.UI.CheckBox({
+                el: $('#page-margins-chk-hor', $window),
+                labelText: this.textHor
+            });
+
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             $window.find('input').on('keypress', _.bind(this.onKeyPress, this));
 
@@ -149,11 +174,16 @@ define([
         },
 
         getFocusedComponents: function() {
-            return this.spinners;
+            return this.spinners.concat([this.chVert, this.chHor]).concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
             return this.spnTop;
+        },
+
+        onPrimary: function() {
+            this._handleInput('ok');
+            return false;
         },
 
         _handleInput: function(state) {
@@ -220,6 +250,9 @@ define([
                 this.spnBottom.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getBottom()), true);
                 this.spnLeft.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getLeft()), true);
                 this.spnRight.setValue(Common.Utils.Metric.fnRecalcFromMM(margins.asc_getRight()), true);
+
+                this.chVert.setValue(!!props.asc_getVerticalCentered());
+                this.chHor.setValue(!!props.asc_getHorizontalCentered());
             }
         },
 
@@ -229,7 +262,8 @@ define([
             props.asc_setBottom(Common.Utils.Metric.fnRecalcToMM(this.spnBottom.getNumberValue()));
             props.asc_setLeft(Common.Utils.Metric.fnRecalcToMM(this.spnLeft.getNumberValue()));
             props.asc_setRight(Common.Utils.Metric.fnRecalcToMM(this.spnRight.getNumberValue()));
-            return props;
+
+            return {margins: props, vertical: this.chVert.getValue()==='checked', horizontal: this.chHor.getValue()==='checked'};
         },
 
         updateMetricUnit: function() {
@@ -247,6 +281,9 @@ define([
         textBottom: 'Bottom',
         textRight: 'Right',
         textWarning: 'Warning',
-        warnCheckMargings: 'Margins are incorrect'
+        warnCheckMargings: 'Margins are incorrect',
+        textCenter: 'Center on page',
+        textVert: 'Vertically',
+        textHor: 'Horizontally'
     }, SSE.Views.PageMarginsDialog || {}))
 });

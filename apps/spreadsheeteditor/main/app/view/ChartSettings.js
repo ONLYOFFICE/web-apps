@@ -47,7 +47,7 @@ define([
     'common/main/lib/component/ComboDataView',
     'spreadsheeteditor/main/app/view/ChartSettingsDlg',
     'spreadsheeteditor/main/app/view/ChartDataDialog',
-    'spreadsheeteditor/main/app/view/ChartTypeDialog'
+    'spreadsheeteditor/main/app/view/ChartWizardDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -145,7 +145,10 @@ define([
                 chartSettings = isChart ? this.api.asc_getChartObject(true) : null, // don't lock chart object
                 props3d = chartSettings ? chartSettings.getView3d() : null;
 
-            this.ShowHideElem(isChart, !!props3d);
+            if ( this.isChart!==isChart || this._state.is3D!==!!props3d ) {
+                this.ShowHideElem(isChart, !!props3d);
+            }
+            this._state.is3D=!!props3d;
             this.disableControls(this._locked);
 
             if (this.api && props){
@@ -1046,6 +1049,7 @@ define([
             this.SparkTypesContainer.toggleClass('settings-hidden', isChart);
             this.SparkPointsContainer.toggleClass('settings-hidden', isChart);
             this.Chart3DContainer.toggleClass('settings-hidden', !isChart || !is3D);
+            this.fireEvent('updatescroller', this);
         },
 
         ShowCombinedProps: function(type) {
@@ -1199,30 +1203,19 @@ define([
 
         onChangeType: function() {
             var me = this;
-            var props;
             if (me.api){
-                props = me.api.asc_getChartObject();
-                if (props) {
-                    me._isEditType = true;
-                    props.startEdit();
-                    var win = new SSE.Views.ChartTypeDialog({
-                        chartSettings: props,
-                        api: me.api,
-                        handler: function(result, value) {
-                            if (result == 'ok') {
-                                props.endEdit();
-                                me._isEditType = false;
-                                me._props && me.ChangeSettings(me._props);
-                            }
-                            Common.NotificationCenter.trigger('edit:complete', me);
+                (new SSE.Views.ChartWizardDialog({
+                    api: me.api,
+                    props: {recommended: me.api.asc_getRecommendedChartData()},
+                    type: me._state.ChartType,
+                    isEdit: true,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            me.api && me.api.asc_addChartSpace(value);
                         }
-                    }).on('close', function() {
-                        me._isEditType && props.cancelEdit();
-                        me._isEditType = false;
-                        me._props = null;
-                    });
-                    win.show();
-                }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
             }
         },
         

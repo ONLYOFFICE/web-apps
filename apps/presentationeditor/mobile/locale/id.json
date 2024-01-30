@@ -56,6 +56,12 @@
       "textWarningRestoreVersion": "File saat ini akan disimpan dalam riwayat versi.",
       "titleWarningRestoreVersion": "Pulihkan versi ini?",
       "txtErrorLoadHistory": "Gagal memuat riwayat"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman Ini",
     "stayButtonText": "Tetap di halaman ini",
-    "textCloseHistory": "Tutup Riwayat"
+    "textCloseHistory": "Tutup Riwayat",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "Pembesaran",
       "textZoomIn": "Perbesar",
       "textZoomOut": "Perkecil",
-      "textZoomRotate": "Zoom dan Rotasi"
+      "textZoomRotate": "Zoom dan Rotasi",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -530,7 +543,11 @@
       "txtScheme6": "Himpunan",
       "txtScheme7": "Margin Sisa",
       "txtScheme8": "Alur",
-      "txtScheme9": "Cetakan"
+      "txtScheme9": "Cetakan",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme"
     }
   }
 }

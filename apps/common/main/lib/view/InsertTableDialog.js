@@ -47,7 +47,6 @@ define([
     Common.Views.InsertTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 230,
-            height: 157,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             id: 'window-insert-table',
@@ -108,7 +107,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.udColumns, this.udRows];
+            return [this.udColumns, this.udRows].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

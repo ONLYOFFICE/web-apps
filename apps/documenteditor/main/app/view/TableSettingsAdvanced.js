@@ -53,7 +53,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
     DE.Views.TableSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 436,
+            contentHeight: 351,
             toggleGroup: 'table-adv-settings-group',
             storageName: 'de-table-settings-adv-category'
         },
@@ -891,7 +891,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 additionalAlign: this.menuAddAlign,
                 color: 'auto',
                 auto: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBorderColor.on('color:select', _.bind(me.onColorsBorderSelect, me));
@@ -902,7 +901,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-button-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnBackColor.on('color:select', _.bind(this.onColorsBackSelect, this));
@@ -912,7 +910,6 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 parentEl: $('#tableadv-button-table-back-color'),
                 additionalAlign: this.menuAddAlign,
                 transparent: true,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.btnTableBackColor.on('color:select', _.bind(this.onColorsTableBackSelect, this));
@@ -1014,15 +1011,15 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.chWidth, this.nfWidth, this.cmbUnit, this.chAutofit, this.spnTableMarginTop, this.spnTableMarginLeft, this.spnTableMarginBottom, this.spnTableMarginRight, this.chAllowSpacing, this.nfSpacing, // 0 tab
                 this.chPrefWidth, this.nfPrefWidth, this.cmbPrefWidthUnit, this.chCellMargins, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, this.chWrapText, // 1 tab
-                this.cmbBorderSize, this.btnBorderColor].concat(this._btnsBorderPosition).concat(this._btnsTableBorderPosition).concat([this.btnBackColor, this.btnTableBackColor,
+                this.cmbBorderSize, this.btnBorderColor]).concat(this._btnsBorderPosition).concat(this._btnsTableBorderPosition).concat([this.btnBackColor, this.btnTableBackColor,
                 this.radioHAlign, this.cmbHAlign , this.radioHPosition, this.cmbHRelative, this.spnX, this.cmbHPosition,
                 this.radioVAlign, this.cmbVAlign , this.radioVPosition, this.cmbVRelative, this.spnY, this.cmbVPosition, this.chMove, this.chOverlap, // 3 tab
-                this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
+                this.btnWrapNone, this.btnWrapParallel, this.btnAlignLeft, this.btnAlignCenter, this.btnAlignRight, this.spnIndentLeft, this.spnDistanceTop, this.spnDistanceLeft, this.spnDistanceBottom, this.spnDistanceRight, // 4 tab
                 this.inputAltTitle, this.textareaAltDescription  // 5 tab
-            ]);
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -1054,9 +1051,12 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                             me.spnX.focus();
                         break;
                     case 4:
-                        if (me.spnIndentLeft.isVisible())
-                            me.spnIndentLeft.focus();
-                        else
+                        if (me.spnIndentLeft.isVisible()) {
+                            if (!me.spnIndentLeft.isDisabled())
+                                me.spnIndentLeft.focus();
+                            else
+                                me.btnWrapNone.focus();
+                        } else
                             me.spnDistanceTop.focus();
                         break;
                     case 5:

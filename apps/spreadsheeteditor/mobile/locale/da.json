@@ -40,6 +40,12 @@
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -77,6 +83,7 @@
     "textDoNotShowAgain": "Vis ikke igen",
     "warnMergeLostData": "Kun data for øverste venstre celle forbliver i fusionerede celler.<br>Er du sikker på at du vil fortsætte?",
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
+    "menuAutofill": "Autofill",
     "menuUnfreezePanes": "Unfreeze Panes",
     "menuUnmerge": "Unmerge",
     "menuUnwrap": "Unwrap",
@@ -385,7 +392,9 @@
     "stayButtonText": "Bliv på siden",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -616,6 +625,7 @@
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textEnterFormat": "Enter Format",
       "textErrorMsg": "You must choose at least one value",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textOk": "Ok",
       "textReplace": "Replace",
@@ -787,18 +797,22 @@
       "warnDownloadAs": "Hvis du fortsætter med at gemme i dette format, vil alle funktioner på nær teksten blive tabt.<br> Er du sikker på at du vil fortsætte?",
       "advDRMEnterPassword": "Your password, please:",
       "strFuncLocale": "Formula Language",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textReplace": "Replace",
       "textReplaceAll": "Replace All",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
       "textSpreadsheetSettings": "Spreadsheet Settings",
       "textSpreadsheetTitle": "Spreadsheet Title",
       "textTel": "Tel",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textTop": "Top",
       "textUnitOfMeasurement": "Unit Of Measurement",

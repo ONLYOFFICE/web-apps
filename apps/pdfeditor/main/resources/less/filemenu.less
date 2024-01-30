@@ -422,6 +422,7 @@
 
   .item {
     border: none;
+    .margin-left-4;
     width: 100%;
     .box-shadow(none);
   }
@@ -448,7 +449,7 @@
         height: 100%;
         div{
           background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-          background-size: 744px 30px;
+          background-size: 1056px 30px;
           &:not(.svg-file-recent) {
             .pixel-ratio__1_25 & {
               background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -467,15 +468,18 @@
             }
           }
         }
+        .format-from-index(@index) {
+          background-position: -24px*@index 0;
+        }
         .img-format- {
           &pdf, &pdfa {
-            background-position: 408px 0px;
+            .format-from-index(14);
           }
           &xps {
-            background-position: 360px 0px;
+            .format-from-index(16);
           }
           &djvu {
-            background-position: 384px 0px;
+            .format-from-index(15);
           }
         }
         .svg-file-recent {

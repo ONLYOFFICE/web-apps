@@ -29,6 +29,8 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
+const isIE = /msie|trident/i.test(navigator.userAgent);
+
 var checkLocalStorage = (function () {
     try {
         var storage = window['localStorage'];
@@ -39,12 +41,25 @@ var checkLocalStorage = (function () {
     }
 })();
 
-if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
+if (!window.lang) {
+    window.lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    window.lang = window.lang ? window.lang[1] : '';
+}
+window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
+
+var ui_rtl = false;
+if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
+    ui_rtl = window.nativeprocvars.rtl;
+} else {
+    if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
+        ui_rtl = localStorage.getItem("ui-rtl") === '1';
+    else ui_rtl = lang === 'ar';
+}
+
+if ( ui_rtl && !isIE ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
-
-const isIE = /msie|trident/i.test(navigator.userAgent);
 
 function checkScaling() {
     var matches = {

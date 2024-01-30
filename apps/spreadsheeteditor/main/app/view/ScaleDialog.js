@@ -45,7 +45,6 @@ define([
     SSE.Views.ScaleDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 215,
-            height: 235,
             header: true,
             style: 'min-width: 215px;',
             cls: 'modal-dlg',
@@ -168,7 +167,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale];
+            return [this.radioFitTo, this.cmbScaleWidth, this.cmbScaleHeight, this.radioScaleTo, this.spnScale].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

@@ -40,6 +40,12 @@
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
     },
+    "Themes": {
+      "dark": "Sombre",
+      "light": "Clair",
+      "system": "Identique au système",
+      "textTheme": "Thème"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Attention",
       "textAnonymous": "Anonyme",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "La référence du lien n'existe pas. Veuillez corriger le lien ou le supprimer.",
     "menuAddComment": "Ajouter un commentaire",
     "menuAddLink": "Ajouter un lien",
+    "menuAutofill": "Remplissage automatique",
     "menuCancel": "Annuler",
     "menuCell": "Cellule",
     "menuDelete": "Supprimer",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
-    "textCloseHistory": "Fermer l'historique"
+    "textCloseHistory": "Fermer l'historique",
+    "textEnterNewFileName": "Entrez un nouveau nom de ficher",
+    "textRenameFile": "Renommer le fichier"
   },
   "View": {
     "Add": {
@@ -409,7 +418,7 @@
       "textChart": "Graphique",
       "textComment": "Commentaire",
       "textDataTableHint": "Renvoie les cellules de données du tableau ou des colonnes spécifiées du tableau",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDone": "Terminé",
       "textEmptyImgUrl": "Spécifiez l'URL de l'image",
       "textExternalLink": "Lien externe",
@@ -507,7 +516,7 @@
       "textDesign": "Stylique",
       "textDiagonalDownBorder": "Bordure diagonale bas",
       "textDiagonalUpBorder": "Bordure diagonale haut",
-      "textDisplay": "Afficher",
+      "textDisplay": "Affichage",
       "textDisplayUnits": "Unités d'affichage",
       "textDollar": "Dollar",
       "textDone": "Terminé",
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "Bordure intérieure verticale",
       "textInteger": "Entier",
       "textInternalDataRange": "Plage de données interne",
+      "textInvalidName": "Le nom du fichier ne peut contenir aucun des caractères suivants :",
       "textInvalidRange": "Plage de cellules non valide",
       "textJustified": "Justifié",
       "textLabelOptions": "Options d'étiquettes",
@@ -672,6 +682,7 @@
       "textComments": "Commentaires",
       "textCreated": "Créé",
       "textCustomSize": "Taille personnalisée",
+      "textDark": "Sombre",
       "textDarkTheme": "Thème sombre",
       "textDelimeter": "Délimiteur",
       "textDirection": "Direction",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Dernière modification par",
       "textLeft": "À gauche",
       "textLeftToRight": "De gauche à droite",
+      "textLight": "Clair",
       "textLocation": "Emplacement",
       "textLookIn": "Rechercher dans",
       "textMacrosSettings": "Réglages macros",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textRight": "À droite",
       "textRightToLeft": "De droite à gauche",
+      "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSearchBy": "Rechercher",
       "textSearchIn": "Rechercher dans",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Titre du classeur",
       "textSubject": "Sujet",
       "textTel": "Tél.",
+      "textTheme": "Thème",
       "textTitle": "Titre",
       "textTop": "En haut",
       "textUnitOfMeasurement": "Unité de mesure",

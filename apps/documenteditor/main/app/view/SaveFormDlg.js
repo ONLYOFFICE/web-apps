@@ -51,17 +51,19 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         options: {
             alias: 'SaveFormDlg',
             contentWidth: 320,
-            height: 280,
-            buttons: null
+            separator: false
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0;">',
+                buttons: [
+                    {value: 'ok', caption: this.saveButtonText},
+                    'cancel'
+                ],
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template([
                             '<div class="settings-panel active">',
                                 '<div class="inner-content">',
                                     '<table style="width: 100%;">',
@@ -82,14 +84,8 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
                                         '</tr>',
                                     '</table>',
                                 '</div>',
-                            '</div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                        '<button class="btn normal dlg-btn primary" result="ok" style="width: 86px;">' + this.saveButtonText + '</button>',
-                        '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.cancelButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                            '</div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -118,6 +114,16 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
             });
 
             this.afterRender();
+        },
+
+        getFocusedComponents: function() {
+            return this.getFooterButtons();
+        },
+
+        getDefaultFocusableComponent: function () {
+            return _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            });
         },
 
         afterRender: function() {
@@ -153,7 +159,7 @@ define([  'common/main/lib/view/AdvancedSettingsWindow',
         txtTitle: 'Save as Form',
         saveButtonText : 'Save',
         textEmpty: 'There are no roles associated with fields.',
-        textDescription: 'When saving to the oform, only roles with fields are added to the filling list',
+        textDescription: 'When saving to the pdf, only roles with fields are added to the filling list',
         textFill: 'Filling list',
         textAnyone: 'Anyone'
 

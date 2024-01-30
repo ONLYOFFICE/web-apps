@@ -3,10 +3,19 @@
 
     <!-- comment block -->
 
-    <div class="user-name">
-        <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getEncodedName(parsedName) %>
+    <div class="user-info">
+        <div class="color" 
+            <% if (avatar) { %>
+                style="background-image: url(<%=avatar%>); <% if (usercolor!==null) { %> border-color:<%=usercolor%>; border-style:solid;<% }%>" 
+            <% } else { %>
+                style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;" 
+            <% } %>
+        ><% if (!avatar) { %><%-initials%><% } %></div>
+        <div class="user-info-text">
+            <div class="user-name"><%= scope.getEncodedName(parsedName) %></div>
+            <div class="user-date"><%=date%></div>
+        </div>
     </div>
-    <div class="user-date"><%=date%></div>
     <% if (!editTextInPopover || (hint && !fullInfoInHint) || scope.viewmode) { %>
         <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(comment)%></div>
     <% } else { %>
@@ -31,10 +40,19 @@
                 <div class="reply-arrow img-commonctrl"></div>
             <% } %>
             <div class="reply-item-ct">
-                <div class="user-name">
-                    <div class="color" style="display: inline-block; background-color: <% if (item.get("usercolor")!==null) { %><%=item.get("usercolor")%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getEncodedName(item.get("parsedName")) %>
+                <div class="user-info">
+                    <div class="color"
+                            <% if (item.get("avatar")) { %>
+                                style="background-image: url(<%=item.get('avatar')%>); <% if (item.get('usercolor')!==null) { %> border-color:<%=item.get('usercolor')%>; border-style:solid;<% }%>" 
+                            <% } else { %>
+                                style="background-color: <% if (item.get('usercolor')!==null) { %> <%=item.get('usercolor')%> <% } else { %> #cfcfcf <% }%>;" 
+                            <% } %>
+                    ><% if (!item.get("avatar")) { %><%-item.get("initials")%><% } %></div>
+                    <div class="user-info-text">
+                        <div class="user-name"><%= scope.getEncodedName(item.get("parsedName")) %></div>
+                        <div class="user-date"><%=item.get("date")%></div>
+                    </div>
                 </div>
-                <div class="user-date"><%=item.get("date")%></div>
                 <% if (!item.get("editTextInPopover")) { %>
                     <div oo_editor_input="true" tabindex="-1" class="user-message user-select"><%=scope.pickLink(item.get("reply"))%></div>
                     <% if ((fullInfoInHint || !hint) && !scope.viewmode) { %>

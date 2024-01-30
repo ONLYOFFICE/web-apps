@@ -9,6 +9,7 @@ import ContextMenu from '../controller/ContextMenu';
 import { Toolbar } from "../controller/Toolbar";
 import { AddLinkController } from '../controller/add/AddLink';
 import { EditLinkController } from '../controller/edit/EditLink';
+import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 import SettingsController from '../controller/settings/Settings';
 import AddView from '../view/add/Add';
 import EditView from '../view/edit/Edit';
@@ -129,92 +130,90 @@ class MainPage extends Component {
             isBranding = true;
 
         if (!appOptions.isDisconnected && config?.customization) {
-            isCustomization = !!(config.customization && (config.customization.loaderName || config.customization.loaderLogo));
+            isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
             isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-
-            if (!Object.keys(config).length) {
-                isCustomization = !/&(?:logo)=/.test(window.location.search);
-            }
-
             isHideLogo = isCustomization && isBranding; 
         }
 
         return (
-            <MainContext.Provider value={{
-                openOptions: this.handleClickToOpenOptions.bind(this),
-                closeOptions: this.handleOptionsViewClosed.bind(this),
-                showPanels: this.state.addShowOptions,
-            }}>
-                {!this.state.previewVisible ? null : 
-                    <Preview closeOptions={this.handleOptionsViewClosed.bind(this)} />
-                }
-                <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
-                    {/* Top Navbar */}
-                    <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                        {!isHideLogo && 
-                            <div className="main-logo" onClick={() => {
-                                window.open(`${__PUBLISHER_URL__}`, "_blank");
-                            }}>
-                                <Icon icon="icon-logo"></Icon>
-                            </div>
-                        }
-                        <Subnavbar>
-                            <Toolbar 
-                                openOptions={this.handleClickToOpenOptions}
-                                closeOptions={this.handleOptionsViewClosed}
-                                isOpenModal={this.state.isOpenModal}
-                            />
-                            <Search useSuspense={false}/>
-                        </Subnavbar>
-                    </Navbar>
-                    {/* Page content */}
-                    <View id="editor_sdk" />
+            <Themes>
+                <MainContext.Provider value={{
+                    openOptions: this.handleClickToOpenOptions.bind(this),
+                    closeOptions: this.handleOptionsViewClosed.bind(this),
+                    showPanels: this.state.addShowOptions,
+                    isBranding
+                }}>
+                    {!this.state.previewVisible ? null : 
+                        <Preview closeOptions={this.handleOptionsViewClosed.bind(this)} />
+                    }
+                    <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
+                        {/* Top Navbar */}
+                        <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                            {!isHideLogo && 
+                                <div className="main-logo" onClick={() => {
+                                    window.open(`${__PUBLISHER_URL__}`, "_blank");
+                                }}>
+                                    <Icon icon="icon-logo"></Icon>
+                                </div>
+                            }
+                            <Subnavbar>
+                                <Toolbar 
+                                    openOptions={this.handleClickToOpenOptions}
+                                    closeOptions={this.handleOptionsViewClosed}
+                                    isOpenModal={this.state.isOpenModal}
+                                />
+                                <Search useSuspense={false}/>
+                            </Subnavbar>
+                        </Navbar>
+                        {/* Page content */}
+                        <View id="editor_sdk" />
 
-                    {isShowPlaceholder ?
-                        <div className="doc-placeholder">
-                            <div className="slide-h">
-                                <div className="slide-v">
-                                    <div className="slide-container">
-                                        <div className="line"></div>
-                                        <div className="line empty"></div>
-                                        <div className="line"></div>
+                        {isShowPlaceholder ?
+                            <div className="doc-placeholder">
+                                <div className="slide-h">
+                                    <div className="slide-v">
+                                        <div className="slide-container">
+                                            <div className="line"></div>
+                                            <div className="line empty"></div>
+                                            <div className="line"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> :
-                        null
-                    }
+                            </div> :
+                            null
+                        }
 
-                    <SearchSettings useSuspense={false} />
+                        <SearchSettings useSuspense={false} />
 
-                    {!this.state.editOptionsVisible ? null : <EditView />}
-                    {!this.state.addOptionsVisible ? null : <AddView />}
-                    {!this.state.addLinkSettingsVisible ? null :
-                        <AddLinkController 
-                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
-                        />
-                    }
-                    {!this.state.editLinkSettingsVisible ? null :
-                        <EditLinkController 
-                            closeOptions={this.handleOptionsViewClosed.bind(this)}  
-                        />
-                    }
-                    {!this.state.settingsVisible ? null : <SettingsController />}
-                    {!this.state.collaborationVisible ? null : 
-                        <CollaborationView 
-                            closeOptions={this.handleOptionsViewClosed.bind(this)} 
-                        />
-                    }
-                    {!this.state.historyVisible ? null :
-                        <VersionHistoryController onclosed={this.handleOptionsViewClosed.bind(this, 'history')} />
-                    }
-                    {appOptions.isDocReady && 
-                        <ContextMenu 
-                            openOptions={this.handleClickToOpenOptions.bind(this)} 
-                        />
-                    }   
-                </Page>
-            </MainContext.Provider>
+                        {!this.state.editOptionsVisible ? null : <EditView />}
+                        {!this.state.addOptionsVisible ? null : <AddView />}
+                        {!this.state.addLinkSettingsVisible ? null :
+                            <AddLinkController 
+                                closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                            />
+                        }
+                        {!this.state.editLinkSettingsVisible ? null :
+                            <EditLinkController 
+                                closeOptions={this.handleOptionsViewClosed.bind(this)}  
+                            />
+                        }
+                        {!this.state.settingsVisible ? null : <SettingsController />}
+                        {!this.state.collaborationVisible ? null : 
+                            <CollaborationView 
+                                closeOptions={this.handleOptionsViewClosed.bind(this)} 
+                            />
+                        }
+                        {!this.state.historyVisible ? null :
+                            <VersionHistoryController onclosed={this.handleOptionsViewClosed.bind(this, 'history')} />
+                        }
+                        {appOptions.isDocReady && 
+                            <ContextMenu 
+                                openOptions={this.handleClickToOpenOptions.bind(this)} 
+                            />
+                        }   
+                    </Page>
+                </MainContext.Provider>
+            </Themes>
         )
     }
 }

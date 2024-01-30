@@ -40,6 +40,12 @@
       "textStandartColors": "Standard Colors",
       "textThemeColors": "Theme Colors"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -65,6 +71,7 @@
     "notcriticalErrorTitle": "Увага",
     "errorCopyCutPaste": "Copy, cut, and paste actions using the context menu will be performed within the current file only.",
     "errorInvalidLink": "The link reference does not exist. Please correct the link or delete it.",
+    "menuAutofill": "Autofill",
     "menuEdit": "Edit",
     "menuEditLink": "Edit Link",
     "menuFreezePanes": "Freeze Panes",
@@ -558,6 +565,7 @@
       "textInsideVerticalBorder": "Inside Vertical Border",
       "textInteger": "Integer",
       "textInternalDataRange": "Internal Data Range",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textInvalidRange": "Invalid cells range",
       "textJustified": "Justified",
       "textLabelOptions": "Label Options",
@@ -690,6 +698,7 @@
       "textComments": "Comments",
       "textCreated": "Created",
       "textCustomSize": "Custom Size",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDirection": "Direction",
       "textDisableAll": "Disable All",
@@ -714,6 +723,7 @@
       "textLastModifiedBy": "Last Modified By",
       "textLeft": "Left",
       "textLeftToRight": "Left To Right",
+      "textLight": "Light",
       "textLocation": "Location",
       "textLookIn": "Look In",
       "textMacrosSettings": "Macros Settings",
@@ -735,12 +745,14 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
       "textSpreadsheetSettings": "Spreadsheet Settings",
       "textSpreadsheetTitle": "Spreadsheet Title",
       "textSubject": "Subject",
       "textTel": "Tel",
+      "textTheme": "Theme",
       "textTitle": "Title",
       "textTop": "Top",
       "textUnitOfMeasurement": "Unit Of Measurement",
@@ -812,6 +824,8 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

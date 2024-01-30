@@ -51,22 +51,16 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         options: {
             alias: 'ProtectedRangesManagerDlg',
             contentWidth: 490,
-            height: 365,
-            buttons: null
+            separator: false,
+            buttons: ['close']
         },
 
         initialize: function (options) {
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -114,10 +108,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                     '<div class="padding-right-5" style="width:184px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div class="padding-right-5" style="width:191px;"><%= range %></div>',
+                    '<div class="padding-right-5" style="width:191px;"><%= Common.Utils.String.htmlEncode(range) %></div>',
                     '<div style="width:70px;"><% if (canEdit) { %>', me.txtEdit, '<% } else { %>', me.txtView, '<% } %></div>',
                     '<% if (lock) { %>',
-                    '<div class="lock-user"><%=lockuser%></div>',
+                    '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                     '<% } %>',
                     '</div>'
                 ].join('')),
@@ -154,7 +148,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList];
+            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

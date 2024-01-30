@@ -297,7 +297,7 @@ class ContextMenu extends ContextMenuController {
                 });
             }
             if(!isDisconnected && !isVersionHistoryMode) {
-                if (canViewComments && this.isComments && !isEdit) {
+                if (canViewComments && this.isComments) {
                     itemsText.push({
                         caption: _t.menuViewComment,
                         event: 'viewcomment'

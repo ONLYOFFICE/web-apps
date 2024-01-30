@@ -528,8 +528,6 @@
   "Common.Views.PluginDlg.textLoading": "로드 중",
   "Common.Views.Plugins.groupCaption": "플러그인",
   "Common.Views.Plugins.strPlugins": "플러그인",
-  "Common.Views.Plugins.textClosePanel": "플러그 인 닫기",
-  "Common.Views.Plugins.textLoading": "로드 중",
   "Common.Views.Plugins.textStart": "시작",
   "Common.Views.Plugins.textStop": "정지",
   "Common.Views.Protection.hintAddPwd": "비밀번호로 암호화",

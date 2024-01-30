@@ -177,9 +177,9 @@ define([
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
@@ -188,7 +188,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputDisplay, this.inputTip];
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
         },
 
         ShowHideElem: function(value) {

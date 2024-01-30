@@ -40,6 +40,12 @@
       "textStandartColors": "Štandardné farby",
       "textThemeColors": "Farebné témy"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -81,6 +87,7 @@
     "textDoNotShowAgain": "Nezobrazovať znova",
     "txtWarnUrl": "Kliknutie na tento odkaz môže byť škodlivé pre Vaše zariadenie a Vaše dáta.<br>Ste si istý, že chcete pokračovať?",
     "warnMergeLostData": "Iba údaje z ľavej hornej bunky zostanú v zlúčenej bunke.<br>Ste si istý, že chcete pokračovať?",
+    "menuAutofill": "Autofill",
     "textOk": "Ok"
   },
   "Controller": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,6 +649,7 @@
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -807,9 +817,13 @@
       "txtVi": "Vietnamsky ",
       "txtZh": "Čínsky",
       "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
+      "textDark": "Dark",
       "textFeedback": "Feedback & Support",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtDe": "German"
     }

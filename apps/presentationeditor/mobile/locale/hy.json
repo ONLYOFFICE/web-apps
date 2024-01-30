@@ -43,6 +43,12 @@
       "textStandartColors": "Ստանդարտ գույներ",
       "textThemeColors": "Ոճի գույներ"
     },
+    "Themes": {
+      "dark": "Մուգ",
+      "light": "Լույս",
+      "system": "Նույնը, ինչ համակարգը",
+      "textTheme": "Ոճ"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Զգուշացում",
       "textAnonymous": "Անանուն",
@@ -241,7 +247,9 @@
     "dlgLeaveTitleText": "Ծրագրից դուրս եք գալիս",
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
-    "textCloseHistory": "Փակել պատմությունը"
+    "textCloseHistory": "Փակել պատմությունը",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -444,7 +452,12 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում"
+      "textZoomRotate": "Դիտափոխում և պտտում",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -462,6 +475,7 @@
       "textColorSchemes": "Գունավորումներ",
       "textComment": "Մեկնաբանություն",
       "textCreated": "Ստեղծված",
+      "textDark": "Մուգ",
       "textDarkTheme": "Մուգ ոճ",
       "textDisableAll": "Անջատել բոլորը",
       "textDisableAllMacrosWithNotification": "Անջատել բոլոր մակրոները ծանուցմամբ",
@@ -481,6 +495,7 @@
       "textInch": "Մտչ",
       "textLastModified": "Վերջին փոփոխում",
       "textLastModifiedBy": "Վերջին փոփոխման հեղինակ",
+      "textLight": "Բաց",
       "textLoading": "Բեռնում...",
       "textLocation": "Տեղ",
       "textMacrosSettings": "Մակրոների կարգավորումներ",
@@ -497,6 +512,7 @@
       "textReplaceAll": "Փոխարինել բոլորը",
       "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textRTL": "Աջից ձախ",
+      "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Որոնել",
       "textSettings": "Կարգավորումներ",
       "textShowNotification": "Ցուցադրել ծանուցումը",
@@ -504,6 +520,7 @@
       "textSpellcheck": "Ուղղագրության ստուգում",
       "textSubject": "Նյութ",
       "textTel": "հեռ.",
+      "textTheme": "Ոճ",
       "textTitle": "Վերնագիր",
       "textUnitOfMeasurement": "Չափման միավոր",
       "textUploaded": "Վերբեռնվել է",

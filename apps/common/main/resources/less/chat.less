@@ -63,14 +63,13 @@
         .color {
             display: inline-block;
             vertical-align: middle;
-            margin: 0 5px 3px 0;
-            width: 12px;
-            height: 12px;
-            border: 1px solid @border-toolbar-ie;
-            border: 1px solid @border-toolbar;
+            margin: 0 10px 3px 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 6px;
 
             .rtl & {
-                margin: 0 0 3px 5px;
+                margin: 0 0 3px 10px;
             }
         }
 
@@ -102,6 +101,7 @@
             padding: 0;
 
             li {
+                display: flex;
                 list-style: none;
 
                 padding: 5px 10px 8px 20px;
@@ -132,16 +132,32 @@
                 }
 
                 .color {
-                    width: 12px;
-                    height: 12px;
-                    border: 1px solid @border-toolbar-ie;
-                    border: 1px solid @border-toolbar;
-                    margin: 0 5px 3px 0;
+                    display: inline-block;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 20px;
+                    border-width: @scaled-two-px-value;
+                    margin-right: 8px;
                     vertical-align: middle;
-
+                    background-color: #ffffff;
+                    background-size: cover;
+                    background-position: center;
+            
+                    text-align: center;
+                    line-height: 26px;
+                    color: #ffffff;
+                    font-weight: 700;
+            
                     .rtl & {
-                        margin: 0 0 3px 5px;
+                        margin-right: 0px;
+                        margin-left: 8px;
                     }
+                }
+
+                .user-content {
+                    flex: 1;
+                    overflow: hidden;
+                    line-height: 12.65px;
                 }
 
                 .message {

@@ -1,6 +1,7 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Avviso",
   "Common.Controllers.Chat.textEnterMessage": "inserisci il tuo messaggio qui",
+  "Common.Controllers.Desktop.itemCreateFromTemplate": "Crea da un modello",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimo",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Chiudi",
   "Common.Controllers.ExternalDiagramEditor.warningText": "L'oggetto è disabilitato perché un altro utente lo sta modificando.",
@@ -470,8 +471,6 @@
   "Common.Views.PluginDlg.textLoading": "Caricamento",
   "Common.Views.Plugins.groupCaption": "Plugin",
   "Common.Views.Plugins.strPlugins": "Plugin",
-  "Common.Views.Plugins.textClosePanel": "Chiudere plugin",
-  "Common.Views.Plugins.textLoading": "Caricamento",
   "Common.Views.Plugins.textStart": "Avvio",
   "Common.Views.Plugins.textStop": "Termina",
   "Common.Views.Protection.hintAddPwd": "Crittografa con password",

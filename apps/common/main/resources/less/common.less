@@ -67,6 +67,13 @@ label {
                 border-left: @scaled-one-px-value solid @border-toolbar;
                 border-right: 0 none;
             }
+
+            .separator.horizontal {
+                position: relative;
+                width: 33px;
+                margin: 0 3px;
+                margin-bottom: 8px;
+            }
         }
     }
 
@@ -100,6 +107,17 @@ label {
 
     button {
         margin-bottom: 8px;
+    }
+}
+
+.btn-side-more.btn {
+    z-index: 0;
+}
+
+.btn-category.plugin-buttons {
+    img {
+        max-width: 20px;
+        max-height: 20px;
     }
 }
 
@@ -192,6 +210,13 @@ label {
         position: relative;
     }
 
+    .beta-hint {
+        background-color: #ffb400;
+        color: #6e4e00;
+        padding: 3px 5px;
+        border-radius: 2px;
+        .margin-left-10();
+    }
 }
 
 .settings-panel {
@@ -367,4 +392,31 @@ body {
 .color-btn-wrap {
     display: flex;
     align-items: center;
+}
+
+.menu-add-smart-art {
+    .loading-item {
+        .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
+        .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .loading-spinner {
+            display: block;
+            width: 28px;
+            height: 28px;
+            background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==)";
+            background-color: transparent;
+            opacity: 0.5;
+            animation-duration: .8s;
+            animation-name: rotation;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+
+            .theme-type-dark & {
+                opacity: 0.8;
+            }
+        }
+    }
 }

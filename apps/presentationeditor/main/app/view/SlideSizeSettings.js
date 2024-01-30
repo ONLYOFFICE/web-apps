@@ -58,7 +58,7 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 200px;">',
+                '<div class="box">',
                     '<div class="input-row">',
                         '<label class="text font-weight-bold">' + this.textSlideSize + '</label>',
                     '</div>',
@@ -82,9 +82,8 @@ define([
                     '<div class="input-row">',
                         '<label class="text font-weight-bold">' + this.txtSlideNum + '</label>',
                     '</div>',
-                    '<div id="slide-size-spin-slidenum" class="" style="margin-bottom: 10px;"></div>',
-                '</div>',
-                '<div class="separator horizontal"></div>'
+                    '<div id="slide-size-spin-slidenum" class="" style="margin-bottom: 5px;"></div>',
+                '</div>'
             ].join('');
 
             this.options.tpl = _.template(this.template)(this.options);
@@ -220,7 +219,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation, this.spnSlideNum];
+            return [this.cmbSlideSize, this.spnWidth, this.spnHeight, this.cmbSlideOrientation, this.spnSlideNum].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

@@ -56,8 +56,8 @@ define([
 
         function setScrollButtonsDisabeled(){
             var scrollLeft = $boxTabs.scrollLeft();
-            $scrollL.toggleClass('disabled', scrollLeft==0);
-            $scrollR.toggleClass('disabled', Math.round(scrollLeft) == $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
+            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
         }
 
         var onScrollTabs = function(opts, e) {
@@ -143,7 +143,8 @@ define([
 
                 this.$layout = $(options.template({
                     tabsmarkup: _.template(_template_tabs)({items: options.tabs}),
-                    isRTL: Common.UI.isRTL()
+                    isRTL: Common.UI.isRTL(),
+                    config: options.config
                 }));
 
                 config.tabs = options.tabs;
@@ -551,7 +552,7 @@ define([
                     btnsMore[tab] = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
-                        iconCls: 'toolbar__icon btn-more',
+                        iconCls: 'toolbar__icon btn-big-more',
                         enableToggle: true
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));

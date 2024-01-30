@@ -42,14 +42,15 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox'
+    'common/main/lib/component/RadioBox',
+    'common/main/lib/component/ComboBoxDataView'
 ], function (contentTemplate) {
     'use strict';
 
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
-            height: 485,
+            contentHeight: 400,
             toggleGroup: 'image-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
@@ -1009,134 +1010,89 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             _arrSize[7].type = Asc.c_oAscLineBeginSize.large_mid;
             _arrSize[8].type = Asc.c_oAscLineBeginSize.large_large;
 
-
-            this.btnBeginStyle = new Common.UI.ComboBox({
+            this.btnBeginStyle = new Common.UI.ComboBoxDataView({
                 el: $('#shape-advanced-begin-style'),
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
-                        '</div>',
-                        '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default">',
-                            '<span class="caret"></span>',
-                        '</button>',
-                    '</div>'
-                ].join(''))
-            });
-            this.btnBeginStyleMenu = (new Common.UI.Menu({
-                style: 'min-width: 105px;',
                 additionalAlign: this.menuAddAlign,
-                items: [
-                    { template: _.template('<div id="shape-advanced-menu-begin-style" style="width: 105px; margin: 0 5px;"></div>') }
-                ]
-            })).render($('#shape-advanced-begin-style'));
-
-            this.mnuBeginStylePicker = new Common.UI.DataView({
-                el: $('#shape-advanced-menu-begin-style'),
-                parentMenu: this.btnBeginStyleMenu,
+                cls: 'combo-arrow-style move-focus',
+                menuStyle: 'min-width: 105px;',
+                dataViewStyle: 'width: 105px; margin: 0 5px;',
                 store: new Common.UI.DataViewStore(_arrStyles),
+                formTemplate: _.template([
+                    '<div class="form-control" style="width: 100px;">',
+                    '<i class="img-arrows"><svg><use xlink:href="#no-arrow-5"></use></svg></i>',
+                    '</div>'
+                ].join('')),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
-                    '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>')
+                    '<svg><use xlink:href= "#<%= idsvg %>arrow-5"></use></svg></div>'),
+                takeFocusOnClose: true,
+                updateFormControl: this.updateFormControl
             });
-            this.mnuBeginStylePicker.on('item:click', _.bind(this.onSelectBeginStyle, this));
-            this._selectStyleItem(this.btnBeginStyle, null);
+            this.btnBeginStyle.on('item:click', _.bind(this.onSelectBeginStyle, this));
+            this.mnuBeginStylePicker = this.btnBeginStyle.getPicker();
+            this.btnBeginStyle.updateFormControl();
 
-            this.btnBeginSize = new Common.UI.ComboBox({
+            this.btnBeginSize = new Common.UI.ComboBoxDataView({
                 el: $('#shape-advanced-begin-size'),
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
-                        '</div>',
-                        '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default">',
-                            '<span class="caret"></span>',
-                        '</button>',
-                    '</div>'
-                ].join(''))
-            });
-            this.btnBeginSizeMenu = (new Common.UI.Menu({
-                style: 'min-width: 160px;',
                 additionalAlign: this.menuAddAlign,
-                items: [
-                    { template: _.template('<div id="shape-advanced-menu-begin-size" style="width: 160px; margin: 0 5px;"></div>') }
-                ]
-            })).render($('#shape-advanced-begin-size'));
-
-            this.mnuBeginSizePicker = new Common.UI.DataView({
-                el: $('#shape-advanced-menu-begin-size'),
-                parentMenu: this.btnBeginSizeMenu,
+                cls: 'combo-arrow-style move-focus',
+                menuStyle: 'min-width: 105px;',
+                dataViewStyle: 'width: 160px; margin: 0 5px;',
                 store: new Common.UI.DataViewStore(_arrSize),
+                formTemplate: _.template([
+                    '<div class="form-control" style="width: 100px;">',
+                    '<i class="img-arrows"><svg><use xlink:href=""></use></svg></i>',
+                    '</div>'
+                ].join('')),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
-                    '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>')
+                    '<svg><use xlink:href="#<%= typearrow %>arrow-<%= (value+1) %>"></use></svg></div>'),
+                takeFocusOnClose: true,
+                updateFormControl: this.updateFormControl
             });
-            this.mnuBeginSizePicker.on('item:click', _.bind(this.onSelectBeginSize, this));
-            this._selectStyleItem(this.btnBeginSize, null);
+            this.btnBeginSize.on('item:click', _.bind(this.onSelectBeginSize, this));
+            this.mnuBeginSizePicker = this.btnBeginSize.getPicker();
+            this.btnBeginSize.updateFormControl();
 
-            this.btnEndStyle = new Common.UI.ComboBox({
+            this.btnEndStyle = new Common.UI.ComboBoxDataView({
                 el: $('#shape-advanced-end-style'),
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
-                        '</div>',
-                        '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default">',
-                            '<span class="caret"></span>',
-                        '</button>',
-                    '</div>'
-                ].join(''))
-            });
-            this.btnEndStyleMenu = (new Common.UI.Menu({
-                style: 'min-width: 105px;',
                 additionalAlign: this.menuAddAlign,
-                items: [
-                    { template: _.template('<div id="shape-advanced-menu-end-style" style="width: 105px; margin: 0 5px;"></div>') }
-                ]
-            })).render($('#shape-advanced-end-style'));
-
-            this.mnuEndStylePicker = new Common.UI.DataView({
-                el: $('#shape-advanced-menu-end-style'),
-                parentMenu: this.btnEndStyleMenu,
+                cls: 'combo-arrow-style move-focus',
+                menuStyle: 'min-width: 105px;',
+                dataViewStyle: 'width: 105px; margin: 0 5px;',
                 store: new Common.UI.DataViewStore(_arrStyles),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
-                    '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>')
-            });
-            this.mnuEndStylePicker.on('item:click', _.bind(this.onSelectEndStyle, this));
-            this._selectStyleItem(this.btnEndStyle, null);
-
-            this.btnEndSize = new Common.UI.ComboBox({
-                el: $('#shape-advanced-end-size'),
-                template: _.template([
-                    '<div class="input-group combobox combo-dataview-menu input-group-nr dropdown-toggle combo-arrow-style"  data-toggle="dropdown">',
-                        '<div class="form-control" style="width: 100px;">',
-                            '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
-                        '</div>',
-                        '<div style="display: table-cell;"></div>',
-                        '<button type="button" class="btn btn-default">',
-                            '<span class="caret"></span>',
-                        '</button>',
+                formTemplate: _.template([
+                    '<div class="form-control" style="width: 100px;">',
+                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href="#no-arrow-5"></use></svg></i>',
                     '</div>'
-                ].join(''))
-            });
-            this.btnEndSizeMenu = (new Common.UI.Menu({
-                style: 'min-width: 160px;',
-                additionalAlign: this.menuAddAlign,
-                items: [
-                    { template: _.template('<div id="shape-advanced-menu-end-size" style="width: 160px; margin: 0 5px;"></div>') }
-                ]
-            })).render($('#shape-advanced-end-size'));
-
-            this.mnuEndSizePicker = new Common.UI.DataView({
-                el: $('#shape-advanced-menu-end-size'),
-                parentMenu: this.btnEndSizeMenu,
-                store: new Common.UI.DataViewStore(_arrSize),
+                ].join('')),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
-                    '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>')
+                    '<svg class ="svg-mirror"><use xlink:href="#<%= idsvg %>arrow-5"></use></svg></div>'),
+                takeFocusOnClose: true,
+                updateFormControl: this.updateFormControl
             });
-            this.mnuEndSizePicker.on('item:click', _.bind(this.onSelectEndSize, this));
-            this._selectStyleItem(this.btnEndSize, null);
+            this.btnEndStyle.on('item:click', _.bind(this.onSelectEndStyle, this));
+            this.mnuEndStylePicker = this.btnEndStyle.getPicker();
+            this.btnEndStyle.updateFormControl();
+
+            this.btnEndSize = new Common.UI.ComboBoxDataView({
+                el: $('#shape-advanced-end-size'),
+                additionalAlign: this.menuAddAlign,
+                cls: 'combo-arrow-style move-focus',
+                menuStyle: 'min-width: 105px;',
+                dataViewStyle: 'width: 160px; margin: 0 5px;',
+                store: new Common.UI.DataViewStore(_arrSize),
+                formTemplate: _.template([
+                    '<div class="form-control" style="width: 100px;">',
+                    '<i class="img-arrows"><svg class ="svg-mirror"><use xlink:href=""></use></svg></i>',
+                    '</div>'
+                ].join('')),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-arrow img-arrows">' +
+                    '<svg class ="svg-mirror"><use xlink:href="#<%= typearrow %>arrow-<%= (value + 1) %>"></use></svg></div>'),
+                takeFocusOnClose: true,
+                updateFormControl: this.updateFormControl
+            });
+            this.btnEndSize.on('item:click', _.bind(this.onSelectEndSize, this));
+            this.mnuEndSizePicker = this.btnEndSize.getPicker();
+            this.btnEndSize.updateFormControl();
 
             // Alt Text
 
@@ -1161,18 +1117,19 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.spnWidth, this.btnRatio, this.spnHeight, this.btnOriginalSize, // 0 tab
                 this.radioHSize, this.spnShapeWidth , this.spnShapeWidthPc, this.radioHSizePc, this.cmbWidthPc,
                 this.radioVSize, this.spnShapeHeight, this.spnShapeHeightPc, this.radioVSizePc, this.cmbHeightPc, this.chRatio, // 1 tab
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 2 tab
+                this.btnWrapInline, this.btnWrapSquare, this.btnWrapTight, this.btnWrapThrough, this.btnWrapTopBottom, this.btnWrapInFront, this.btnWrapBehind,
                 this.spnTop, this.spnLeft, this.spnBottom, this.spnRight, // 3 tab
                 this.radioHAlign, this.radioHPosition, this.radioHPositionPc, this.cmbHAlign , this.cmbHRelative, this.spnX, this.cmbHPosition, this.spnXPc, this.cmbHPositionPc,
                 this.radioVAlign, this.radioVPosition, this.radioVPositionPc, this.cmbVAlign , this.cmbVRelative, this.spnY, this.cmbVPosition, this.spnYPc, this.cmbVPositionPc, this.chMove, this.chOverlap, // 4 tab
-                this.cmbCapType, this.cmbJoinType, // 5 tab
+                this.cmbCapType, this.cmbJoinType, this.btnBeginStyle, this.btnEndStyle, this.btnBeginSize, this.btnEndSize, // 5 tab
                 this.chAutofit, this.spnMarginTop, this.spnMarginLeft, this.spnMarginBottom, this.spnMarginRight, // 6 tab
                 this.inputAltTitle, this.textareaAltDescription  // 7 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -1194,7 +1151,12 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                         me.spnAngle.focus();
                         break;
                     case 3:
-                        me.spnTop.focus();
+                        if (!me.spnTop.isDisabled())
+                            me.spnTop.focus();
+                        else if (!me.spnLeft.isDisabled())
+                            me.spnLeft.focus();
+                        else if (!me.btnWrapInline.isDisabled())
+                            me.btnWrapInline.focus();
                         break;
                     case 4:
                         if (!me.cmbHAlign.isDisabled())
@@ -1606,17 +1568,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                             this._beginSizeIdx = rec.get('value');
                         } else {
                             this._beginSizeIdx = null;
-                            this._selectStyleItem(this.btnBeginSize, null);
+                            this.btnBeginSize.updateFormControl();
                         }
 
                         value = stroke.get_linebeginstyle();
                         rec = this.mnuBeginStylePicker.store.findWhere({type: value});
-                        if (rec) {
-                            this.mnuBeginStylePicker.selectRecord(rec, true);
-                            this._updateSizeArr(this.btnBeginSize, this.mnuBeginSizePicker, rec, this._beginSizeIdx);
-                            this._selectStyleItem(this.btnBeginStyle, rec);
-                        } else
-                            this._selectStyleItem(this.btnBeginStyle, null);
+                        this.btnBeginStyle.selectRecord(rec);
+                        rec && this._updateSizeArr(this.btnBeginSize, this.mnuBeginSizePicker, rec, this._beginSizeIdx);
 
                         value = stroke.get_lineendsize();
                         rec = this.mnuEndSizePicker.store.findWhere({type: value});
@@ -1624,22 +1582,13 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                             this._endSizeIdx = rec.get('value');
                         } else {
                             this._endSizeIdx = null;
-                            this._selectStyleItem(this.btnEndSize, null);
+                            this.btnEndSize.updateFormControl();
                         }
 
                         value = stroke.get_lineendstyle();
                         rec = this.mnuEndStylePicker.store.findWhere({type: value});
-                        if (rec) {
-                            this.mnuEndStylePicker.selectRecord(rec, true);
-                            this._updateSizeArr(this.btnEndSize, this.mnuEndSizePicker, rec, this._endSizeIdx);
-                            this._selectStyleItem(this.btnEndStyle, rec);
-                        } else
-                            this._selectStyleItem(this.btnEndStyle, null);
-                    } else {
-                        this._selectStyleItem(this.btnBeginStyle);
-                        this._selectStyleItem(this.btnEndStyle);
-                        this._selectStyleItem(this.btnBeginSize);
-                        this._selectStyleItem(this.btnEndSize);
+                        this.btnEndStyle.selectRecord(rec);
+                        rec && this._updateSizeArr(this.btnEndSize, this.mnuEndSizePicker, rec, this._endSizeIdx);
                     }
                 }
             }
@@ -2077,19 +2026,15 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     rec.set({typearrow: record.get('idsvg')});
                 }, this);
                 combo.setDisabled(false);
-                if (sizeidx !== null) {
-                    picker.selectByIndex(sizeidx, true);
-                    this._selectStyleItem(combo, picker.store.at(sizeidx));
-                } else
-                    this._selectStyleItem(combo, null);
+                combo.selectRecord(sizeidx !== null ? picker.store.at(sizeidx) : null);
             } else {
-                this._selectStyleItem(combo, null);
+                combo.updateFormControl();
                 combo.setDisabled(true);
             }
         },
 
-        _selectStyleItem: function(combo, record) {
-            var formcontrol = $(combo.el).find('.form-control > .img-arrows use');
+        updateFormControl: function(record) {
+            var formcontrol = $(this.el).find('.form-control > .img-arrows use');
             if(formcontrol.length) {
                 var str = '';
                 if(record){
@@ -2100,7 +2045,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             }
         },
 
-        onSelectBeginStyle: function(picker, view, record, e){
+        onSelectBeginStyle: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2110,10 +2055,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             if (this._beginSizeIdx===null || this._beginSizeIdx===undefined)
                 this._beginSizeIdx = 4;
             this._updateSizeArr(this.btnBeginSize, this.mnuBeginSizePicker, record, this._beginSizeIdx);
-            this._selectStyleItem(this.btnBeginStyle, record);
         },
 
-        onSelectBeginSize: function(picker, view, record, e){
+        onSelectBeginSize: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2121,10 +2065,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this._changedShapeProps.get_stroke().put_linebeginsize(record.get('type'));
             }
             this._beginSizeIdx = record.get('value');
-            this._selectStyleItem(this.btnBeginSize, record);
         },
 
-        onSelectEndStyle: function(picker, view, record, e){
+        onSelectEndStyle: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2134,10 +2077,9 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             if (this._endSizeIdx===null || this._endSizeIdx===undefined)
                 this._endSizeIdx = 4;
             this._updateSizeArr(this.btnEndSize, this.mnuEndSizePicker, record, this._endSizeIdx);
-            this._selectStyleItem(this.btnEndStyle, record);
         },
 
-        onSelectEndSize: function(picker, view, record, e){
+        onSelectEndSize: function(combo, picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
                     this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
@@ -2145,7 +2087,6 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this._changedShapeProps.get_stroke().put_lineendsize(record.get('type'));
             }
             this._endSizeIdx = record.get('value');
-            this._selectStyleItem(this.btnEndSize, record);
         },
 
         textTop:        'Top',

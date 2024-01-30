@@ -40,6 +40,12 @@
       "textStandartColors": "Standardní barvy",
       "textThemeColors": "Barvy vzhledu prostředí"
     },
+    "Themes": {
+      "dark": "Tmavé",
+      "light": "Světlé",
+      "system": "Stejné jako systémové",
+      "textTheme": "Prostředí"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Varování",
       "textAnonymous": "Anonymní",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "Odkaz neexistuje. Prosím, opravte odkaz nebo jej smažte.",
     "menuAddComment": "Přidat komentář",
     "menuAddLink": "Přidat odkaz",
+    "menuAutofill": "Dynamické doplňování",
     "menuCancel": "Zrušit",
     "menuCell": "Buňka",
     "menuDelete": "Smazat",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Opouštíte aplikaci",
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
-    "textCloseHistory": "Zavřít historii"
+    "textCloseHistory": "Zavřít historii",
+    "textEnterNewFileName": "Zadejte nový název souboru",
+    "textRenameFile": "Přejmenovat soubor"
   },
   "View": {
     "Add": {
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "Vnitřní svislé ohraničení",
       "textInteger": "Celé číslo",
       "textInternalDataRange": "Vnitřní rozsah dat",
+      "textInvalidName": "Název souboru nesmí obsahovat žádný z následujících znaků:",
       "textInvalidRange": "Neplatný rozsah buněk",
       "textJustified": "Oprávněný",
       "textLabelOptions": "Možnosti štítku",
@@ -672,6 +682,7 @@
       "textComments": "Komentáře",
       "textCreated": "Vytvořeno",
       "textCustomSize": "Vlastní velikost",
+      "textDark": "Tmavá",
       "textDarkTheme": "Tmavý vzhled prostředí",
       "textDelimeter": "Oddělovač",
       "textDirection": "Směr",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "Naposledy upravil(a)",
       "textLeft": "Vlevo",
       "textLeftToRight": "Zleva doprava",
+      "textLight": "Světlé",
       "textLocation": "Umístění",
       "textLookIn": "Hledat v",
       "textMacrosSettings": "Nastavení maker",
@@ -726,6 +738,7 @@
       "textRestartApplication": "Pro provedení změn restartujete aplikaci",
       "textRight": "Vpravo",
       "textRightToLeft": "Zprava doleva",
+      "textSameAsSystem": "Stejné jako systémové",
       "textSearch": "Hledat",
       "textSearchBy": "Hledat",
       "textSearchIn": "Hledat v",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "Nadpis sešitu",
       "textSubject": "Předmět",
       "textTel": "Telefon",
+      "textTheme": "Prostředí",
       "textTitle": "Název",
       "textTop": "Nahoru",
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",

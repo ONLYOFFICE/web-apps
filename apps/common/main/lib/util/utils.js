@@ -1176,6 +1176,18 @@ Common.Utils.UserInfoParser = new(function() {
     }
 })();
 
+Common.Utils.getUserInitials = function(username) {
+    var fio = username.split(' ');
+    var initials = fio[0].substring(0, 1).toUpperCase();
+    for (var i = fio.length-1; i>0; i--) {
+        if (fio[i][0]!=='(' && fio[i][0]!==')') {
+            initials += fio[i].substring(0, 1).toUpperCase();
+            break;
+        }
+    }
+    return initials;
+};
+
 Common.Utils.getKeyByValue = function(obj, value) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop)) {
@@ -1187,9 +1199,10 @@ Common.Utils.getKeyByValue = function(obj, value) {
 
 !Common.UI && (Common.UI = {});
 Common.UI.isRTL = function () {
-    if ( window.isrtl == undefined ) {
-        window.isrtl = Common.localStorage.itemExists('ui-rtl') ?
-            Common.localStorage.getBool("ui-rtl") : Common.Locale.isCurrentLanguageRtl();
+    if ( window.isrtl === undefined ) {
+        if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined )
+            window.isrtl =  window.nativeprocvars.rtl;
+        else window.isrtl =  !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
     }
 
     return window.isrtl;

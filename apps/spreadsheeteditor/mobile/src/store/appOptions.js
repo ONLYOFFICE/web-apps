@@ -16,7 +16,7 @@ export class storeAppOptions {
             canBrandingExt: observable,
 
             isDocReady: observable,
-            changeDocReady: action
+            changeDocReady: action,
         });
     }
 
@@ -50,6 +50,7 @@ export class storeAppOptions {
             Common.Utils.String.htmlEncode(this.customization.anonymous.label) : _t.textGuest;
 
         const value = this.canRenameAnonymous ? LocalStorage.getItem("guest-username") : null;
+        this.canRename = this.config.canRename;
         this.user = Common.Utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + this.guestName + ')' ) : _t.textAnonymous, LocalStorage.getItem("guest-id") || ('uid-' + Date.now()));
         this.user.anonymous && LocalStorage.setItem("guest-id", this.user.id);
         
@@ -107,6 +108,7 @@ export class storeAppOptions {
             if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
                 this.canEditComments = this.canDeleteComments = this.isOffline;
         }
+        // this.isForm = !!window.isPDFForm;
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments && isSupportEditFeature;

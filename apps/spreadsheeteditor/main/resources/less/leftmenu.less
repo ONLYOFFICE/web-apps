@@ -488,7 +488,8 @@
 
             .item {
                 border: none;
-                width: calc(100% - 4px);
+                .margin-left-4;
+                width: 100%;
                 .box-shadow(none);
             }
 
@@ -513,7 +514,7 @@
                         height: 100%;
                         div{
                             background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
-                            background-size: 744px 30px;
+                            background-size: 1056px 30px;
                             &:not(.svg-file-recent) {
                                 .pixel-ratio__1_25 & {
                                     background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
@@ -532,30 +533,48 @@
                                 }
                             }
                         }
+                        .format-from-index(@index) {
+                            background-position: -24px*@index 0;
+                        }
                         .img-format- {
                             &xlsx {
-                                background-position: 600px 0px;
+                                .format-from-index(6);
                             }
                             &pdf, &pdfa {
-                                background-position: 408px 0px;
+                                .format-from-index(14);
                             }
                             &ods {
-                                background-position: 552px 0px;
+                                .format-from-index(8);
                             }
                             &csv {
-                                background-position: 528px 0px;
+                                .format-from-index(9);
                             }
                             &xltx {
-                                background-position: 216px 0px;
+                                .format-from-index(22);
                             }
                             &ots {
-                                background-position: 144px 0px;
+                                .format-from-index(25);
                             }
                             &xls {
-                                background-position: 576px 0px;
+                                .format-from-index(7);
                             }
                             &xps {
-                                background-position: 360px 0px;
+                                .format-from-index(16);
+                            }
+                            &xlsb {
+                                .format-from-index(31);
+                            }
+                            &xltm {
+                                .format-from-index(35);
+                            }
+                            &xlsm {
+                                .format-from-index(36);
+                            }
+                            &fods {
+                                .format-from-index(37);
+                            }
+                            &.neutral {
+                                .format-from-index(43);
                             }
                         }
                         .svg-file-recent {
@@ -920,7 +939,7 @@
                     td:not(:last-child) {
                         .padding-right-5();
                     }
-                    .btn-text-default.auto {
+                    .auto {
                         padding-left: 3px;
                         padding-right: 3px;
                         min-width: 64px;

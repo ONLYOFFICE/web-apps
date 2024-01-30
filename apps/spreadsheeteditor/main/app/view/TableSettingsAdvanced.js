@@ -46,7 +46,7 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
     SSE.Views.TableSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'table-adv-settings-group',
             properties: null,
             storageName: 'sse-table-settings-adv-category'
@@ -96,7 +96,7 @@ define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [ this.inputAltTitle, this.textareaAltDescription ];  // 0 tab
+            return this.btnsCategory.concat([ this.inputAltTitle, this.textareaAltDescription ]).concat(this.getFooterButtons());  // 0 tab
         },
 
         onCategoryClick: function(btn, index) {

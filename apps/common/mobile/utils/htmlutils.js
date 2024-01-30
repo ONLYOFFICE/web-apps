@@ -38,14 +38,13 @@ if(isLocalStorageAvailable()) {
 let obj = !isLocalStorageAvailable() ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme"));
 
 if ( !obj ) {
-    if ( window.native && window.native.theme ) {
-        if ( window.native.theme.type == 'dark' ) obj = {id: 'theme-dark', type: 'dark'};
-        else if ( window.native.theme.type == 'light' ) obj = {id: 'theme-light', type: 'light'};
-    }
+    let theme_type = window.native?.editorConfig?.theme?.type;
+    if ( !theme_type && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches )
+        theme_type = "dark";
 
-    if ( !obj )
-        obj = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?
-            {id: 'theme-dark', type: 'dark'} : {id: 'theme-light', type: 'light'};
+    obj = theme_type == 'dark' ?
+        {id: 'theme-dark', type: 'dark'} : {id: 'theme-light', type: 'light'};
+    // localStorage && localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));
 
     if(isLocalStorageAvailable()) {
         localStorage.setItem("mobile-ui-theme", JSON.stringify(obj));

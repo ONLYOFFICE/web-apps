@@ -161,7 +161,7 @@ define([
             } else {
                 moreMenu.setVisible(false);
                 spellMenu.setVisible(true);
-                spellMenu.setCaption(me.noSpellVariantsText, true);
+                spellMenu.setCaption(me.noSpellVariantsText);
             }
         },
 
@@ -810,7 +810,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption: me.addCommentText
             });
 
@@ -1838,13 +1838,13 @@ define([
 
             /** coauthoring begin **/
             me.menuAddCommentPara = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentPara.hide();
 
             me.menuAddCommentTable = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentTable.hide();
@@ -1855,7 +1855,7 @@ define([
             menuCommentSeparatorImg.hide();
 
             me.menuAddCommentImg = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentImg.hide();
@@ -2058,7 +2058,7 @@ define([
                     if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
-                        me.menuSpellPara.setCaption(me.loadSpellText, true);
+                        me.menuSpellPara.setCaption(me.loadSpellText);
                         me.clearWordVariants(true);
                         me.menuSpellMorePara.setVisible(false);
                     }
@@ -2084,7 +2084,7 @@ define([
                         me.menuParagraphEquation.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuParagraphEquation.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuParagraphEquation.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                        me.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
+                        me.menuParagraphEquation.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
                 },
                 items: [
@@ -2219,7 +2219,7 @@ define([
                     if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(false);
                     } else {
-                        me.menuSpellTable.setCaption(me.loadSpellText, true);
+                        me.menuSpellTable.setCaption(me.loadSpellText);
                         me.clearWordVariants(false);
                         me.menuSpellMoreTable.setVisible(false);
                     }
@@ -2247,7 +2247,7 @@ define([
                         me.menuTableEquationSettings.menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                         me.menuTableEquationSettings.menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                         me.menuTableEquationSettings.menu.items[8].options.isToolbarHide = isEqToolbarHide;
-                        me.menuTableEquationSettings.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar, true);
+                        me.menuTableEquationSettings.menu.items[8].setCaption(isEqToolbarHide ? me.showEqToolbar : me.hideEqToolbar);
                     }
                 },
                 items: [
@@ -2561,6 +2561,7 @@ define([
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
+                        iconImg: me.parseIcons(item.icons),
                         disabled: !!item.disabled
                     });
                 });
@@ -2578,7 +2579,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;
@@ -2604,6 +2604,7 @@ define([
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                iconImg: me.parseIcons(item.icons),
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -2631,6 +2632,14 @@ define([
                 }
             }
             this._hasCustomItems = false;
+        },
+
+        parseIcons: function(icons) {
+            var plugins = PE.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
+            if (icons && icons.length && plugins && plugins.parseIcons) {
+                icons = plugins.parseIcons(icons);
+                return icons ? icons['normal'] : undefined;
+            }
         },
 
         unitsChanged: function(m) {

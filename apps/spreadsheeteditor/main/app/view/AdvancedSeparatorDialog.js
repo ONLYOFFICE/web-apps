@@ -117,7 +117,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputDecimalSeparator, this.inputThousandsSeparator, this.cmbQualifier];
+            return [this.inputDecimalSeparator, this.inputThousandsSeparator, this.cmbQualifier].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

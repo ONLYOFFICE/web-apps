@@ -34,6 +34,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/view/About',
     /** coauthoring begin **/
@@ -50,22 +51,10 @@ define([
     var SCALE_MIN = 40;
     var MENU_SCALE_PART = 300;
 
-    SSE.Views.LeftMenu = Backbone.View.extend(_.extend({
+    SSE.Views.LeftMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#left-menu',
 
         template: _.template(menuTemplate),
-
-        // Delegated events for creating new items, and clearing completed ones.
-        events: function() {
-            return {
-                'click #left-btn-support': function() {
-                    var config = this.mode.customization;
-                    config && !!config.feedback && !!config.feedback.url ?
-                        window.open(config.feedback.url) :
-                        window.open('{{SUPPORT_URL}}');
-                }
-            }
-        },
 
         initialize: function () {
             this.minimizedMode = true;
@@ -74,6 +63,10 @@ define([
 
         render: function () {
             var $markup = $(this.template({}));
+
+            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tl-tr';
 
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
@@ -104,6 +97,12 @@ define([
                 disabled: true,
                 iconCls: 'btn-menu-support'
             });
+            this.btnSupport.on('click', _.bind(function() {
+                var config = this.mode.customization;
+                config && !!config.feedback && !!config.feedback.url ?
+                    window.open(config.feedback.url) :
+                    window.open('{{SUPPORT_URL}}');
+            }, this));
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
@@ -131,17 +130,6 @@ define([
             this.btnChat.hide();
             /** coauthoring end **/
 
-            this.btnPlugins = new Common.UI.Button({
-                el: $markup.elementById('#left-btn-plugins'),
-                hint: this.tipPlugins,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup'
-            });
-            this.btnPlugins.hide();
-            this.btnPlugins.on('click',         _.bind(this.onBtnMenuClick, this));
-
             this.btnSpellcheck = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-spellcheck'),
                 hint: this.tipSpellcheck,
@@ -155,6 +143,7 @@ define([
 
             this.menuFile = new SSE.Views.FileMenu({});
             this.btnAbout.panel = (new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor}));
+
             this.$el.html($markup);
 
             return this;
@@ -228,12 +217,6 @@ define([
                     this.panelSearch.hide();
                 }
             }
-            // if (this.mode.canPlugins && this.panelPlugins) {
-            //     if (this.btnPlugins.pressed) {
-            //         this.panelPlugins.show();
-            //     } else
-            //         this.panelPlugins['hide']();
-            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -241,9 +224,6 @@ define([
                 this.panelChat = panel.render('#left-panel-chat');
             } else if (name == 'comment') {
                 this.panelComments = panel;
-            } else
-            if (name == 'plugins' && !this.panelPlugins) {
-                this.panelPlugins = panel.render('#left-panel-plugins');
             } else
             if (name == 'spellcheck' && !this.panelSpellcheck) {
                 this.panelSpellcheck = panel.render('#left-panel-spellcheck');
@@ -285,10 +265,6 @@ define([
                 }
             }
             /** coauthoring end **/
-            if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
-                this.panelPlugins['hide']();
-                this.btnPlugins.toggle(false, true);
-            }
             if (this.panelSpellcheck) {
                 this.panelSpellcheck['hide']();
                 this.btnSpellcheck.toggle(false, true);
@@ -297,6 +273,7 @@ define([
                 this.panelSearch['hide']();
                 this.btnSearchBar.toggle(false, true);
             }
+            this.togglePluginButtons(false);
         },
 
         isOpened: function() {
@@ -315,7 +292,6 @@ define([
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
-            this.btnPlugins.setDisabled(false);
             this.btnSpellcheck.setDisabled(false);
         },
 
@@ -449,6 +425,11 @@ define([
 
         isVisible: function () {
             return this.$el && this.$el.is(':visible');
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSearchBar, this.btnComments, this.btnChat, this.btnSpellcheck, this.btnSupport, this.btnAbout];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         /** coauthoring begin **/

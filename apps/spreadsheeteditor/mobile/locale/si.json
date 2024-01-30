@@ -40,6 +40,12 @@
       "textStandartColors": "සම්මත වර්ණ",
       "textThemeColors": "තේමාවේ පාට"
     },
+    "Themes": {
+      "dark": "අඳුරු",
+      "light": "දීප්ත",
+      "system": "පද්ධතියේ ලෙසම",
+      "textTheme": "තේමාව"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "අවවාදයයි",
       "textAnonymous": "නිර්නාමික",
@@ -60,6 +66,7 @@
     "errorInvalidLink": "යොමුවේ සබැඳිය නොපවතී. සබැඳිය නිවැරදි කරන්න හෝ එය මකන්න.",
     "menuAddComment": "අදහසක් ලියන්න",
     "menuAddLink": "සබැඳිය එක්කරන්න",
+    "menuAutofill": "ස්වයං පිරවුම",
     "menuCancel": "අවලංගු",
     "menuCell": "කෝෂය",
     "menuDelete": "මකන්න",
@@ -87,7 +94,7 @@
     "Main": {
       "criticalErrorTitle": "දෝෂයකි",
       "errorAccessDeny": "ඔබට අයිතියක් නැති ක්‍රියාමාර්ගයක් ගැනීමට ඔබ උත්සාහ කරයි.<br>ඔබගේ පරිපාලක අමතන්න.",
-      "errorOpensource": "ඔබට නොමිලේ ප්‍රජා අනුවාදය භාවිතා කරමින් ලේඛන දැකීම සඳහා පමණක් විවෘත කිරීමට හැකිය. ජංගම වියමන සංස්කරක වෙත ප්‍රවේශ වීමට, වාණිජ බලපත්‍රයක් අවශ්‍ය වේ.",
+      "errorOpensource": "ඔබට නොමිලේ ප්‍රජා අනුවාදය භාවිතා කරමින් ලේඛන දැකීම සඳහා පමණක් විවෘත කිරීමට හැකිය. ජංගම වියමන සංස්කරක වෙත ප්‍රවේශ වීමට වාණිජ බලපත්‍රයක් අවශ්‍ය වේ.",
       "errorProcessSaveResult": "සුරැකීමට අසමත් විය.",
       "errorServerVersion": "සංස්කරක අනුවාදය වෙනස්ව ඇත. වෙනස්කම් යෙදීමට පිටුව යළි පූරණය වනු ඇත.",
       "errorUpdateVersion": "ගොනුවේ අනුවාදය වෙනස්ව ඇත. පිටුව යළි පූරණය වනු ඇත.",
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "ඔබ යෙදුම හැරයයි",
     "leaveButtonText": "මෙම පිටුව හැරයන්න",
     "stayButtonText": "මෙම පිටුවේ ඉන්න",
-    "textCloseHistory": "ඉතිහාසය වසන්න"
+    "textCloseHistory": "ඉතිහාසය වසන්න",
+    "textEnterNewFileName": "ගොනුවට නව නමක් යොදන්න",
+    "textRenameFile": "ගොනුව නම් කරන්න"
   },
   "View": {
     "Add": {
@@ -433,7 +442,7 @@
       "textPictureFromURL": "ඒ.ස.නි. වෙතින් ඡායාරූපය",
       "textRange": "පරාසය",
       "textRecommended": "නිර්දේශිත",
-      "textRequired": "ඇවැසිය",
+      "textRequired": "වුවමනාය",
       "textScreenTip": "තිරයේ ඉඟිය",
       "textSelectedRange": "තේරූ පරාසය",
       "textShape": "හැඩය",
@@ -441,7 +450,7 @@
       "textSortAndFilter": "තෝරා පෙරන්න",
       "textThisRowHint": "නිශ්චිත තීරුවේ මෙම පේළිය පමණක් තෝරන්න",
       "textTotalsTableHint": "වගුව හෝ නිශ්චිත වගු තීරු සඳහා මුළු පේළි ලබා දෙයි",
-      "txtExpand": "විහිදුවන්න සහ පෙළගසන්න",
+      "txtExpand": "විහිදුවා පෙළගසන්න",
       "txtExpandSort": "තේරීමට යාබද දත්ත වර්ග නොකරනු ඇත. ඔබට ආසන්න දත්ත ඇතුළත් කිරීමට තේරීම විදහන්න හෝ දැනට තෝරාගෙන ඇති කෝෂ පමණක් වර්ග කිරීම කරගෙන යාමට වුවමනාද?",
       "txtLockSort": "ඔබගේ තේරීමට යාබදව දත්ත හමු විය, නමුත් එම කෝෂ වෙනස් කිරීමට ඔබට ප්‍රමාණවත් අවසර නැත.<br>ඔබට වත්මන් තේරීම දිගටම කරගෙන යාමට වුවමනාද?",
       "txtNo": "නැහැ",
@@ -549,6 +558,7 @@
       "textInsideVerticalBorder": "සිරස් දාර ඇතුළත",
       "textInteger": "නිඛිලය",
       "textInternalDataRange": "අභ්‍යන්තර දත්ත පරාසය",
+      "textInvalidName": "ගොනු නාමයේ පහත අකුරු කිසිවක් අඩංගු නොවිය යුතුය:",
       "textInvalidRange": "කෝෂ පරාසය වලංගු නොවේ",
       "textJustified": "පෙළගැසූ",
       "textLabelOptions": "නම්පත විකල්ප",
@@ -597,7 +607,7 @@
       "textRemoveShape": "හැඩගැසීම ඉවත් කරන්න",
       "textReplace": "ප්‍රතිස්ථාපනය",
       "textReplaceImage": "අනුරුව ප්‍රතිස්ථාපනය",
-      "textRequired": "ඇවැසිය",
+      "textRequired": "වුවමනාය",
       "textRight": "දකුණ",
       "textRightBorder": "දකුණු දාරය",
       "textRightOverlay": "දකුණ වසාලීම",
@@ -672,6 +682,7 @@
       "textComments": "අදහස්",
       "textCreated": "සෑදිණි",
       "textCustomSize": "අභිරුචි ප්‍රමාණය",
+      "textDark": "අඳුරු",
       "textDarkTheme": "අඳුරු තේමාව",
       "textDelimeter": "පරිසීමකය",
       "textDirection": "දිශාව",
@@ -703,6 +714,7 @@
       "textLastModifiedBy": "අවසන් සංශෝධනය කළේ",
       "textLeft": "වම",
       "textLeftToRight": "වමේ සිට දකුණට",
+      "textLight": "දීප්ත",
       "textLocation": "ස්ථානය",
       "textLookIn": "තුළට",
       "textMacrosSettings": "සාර්ව සැකසුම්",
@@ -726,6 +738,7 @@
       "textRestartApplication": "වෙනස්කම් යෙදීමට කරුණාකර යෙදුම නැවත අරඹන්න",
       "textRight": "දකුණ",
       "textRightToLeft": "දකුණෙන් වමට",
+      "textSameAsSystem": "පද්ධතියේ ලෙසම",
       "textSearch": "සොයන්න",
       "textSearchBy": "සොයන්න",
       "textSearchIn": "හි සොයන්න",
@@ -738,6 +751,7 @@
       "textSpreadsheetTitle": "පැතුරුම්පතෙහි සිරැසිය",
       "textSubject": "මාතෘකාව",
       "textTel": "දු.ක.",
+      "textTheme": "තේමාව",
       "textTitle": "සිරැසිය",
       "textTop": "මුදුන",
       "textUnitOfMeasurement": "මිනුම් ඒකකය",

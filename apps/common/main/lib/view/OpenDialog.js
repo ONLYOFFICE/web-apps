@@ -52,54 +52,31 @@ define([
             var t = this,
                 _options = {};
 
-            var width, height;
-
-            if (options.preview) {
-                width = 414;
-                height = (options.type==Common.Utils.importTextType.Data) ? 385 : 277;
-            } else {
-                width = (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280);
-                switch (options.type) {
-                    case Common.Utils.importTextType.CSV:
-                    case Common.Utils.importTextType.Paste:
-                    case Common.Utils.importTextType.Columns:
-                        height = 190;
-                        break;
-                    case Common.Utils.importTextType.Data:
-                        height = 245;
-                        break;
-                    default:
-                        height = options.warning ? 187 : 147;
-                        break;
-                }
-            }
-
             _.extend(_options,  {
                 closable        : false, // true if save settings
                 preview         : options.preview,
                 warning         : options.warning,
                 codepages       : options.codepages,
                 warningMsg      : options.warningMsg,
-                width           : width,
-                height          : height,
+                width           : options.preview ? 414 : (options.type !== Common.Utils.importTextType.DRM) ? 340 : (options.warning ? 420 : 280),
                 header          : true,
-                cls             : 'open-dlg',
+                cls             : 'modal-dlg open-dlg',
                 contentTemplate : '',
                 toolcallback    : _.bind(t.onToolClose, t),
-                closeFile       : false
-
+                closeFile       : false,
+                buttons         : ['ok'].concat(options.closeFile ? [{value: 'cancel', caption: this.closeButtonText}] : []).concat(options.closable ? ['cancel'] : []),
             }, options);
 
             this.txtOpenFile = options.txtOpenFile || this.txtOpenFile;
 
             this.template = options.template || [
-                '<div class="box" style="height:' + (_options.height - 85) + 'px;">',
+                '<div class="box">',
                     '<div class="content-panel" >',
                     '<% if (type == Common.Utils.importTextType.DRM) { %>',
                         '<% if (warning) { %>',
                         '<div>',
                             '<div class="icon warn"></div>',
-                            '<div class="padding-left-50"><div style="font-size: 12px;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
+                            '<div class="padding-left-50"><div style="font-size: 12px;word-break:break-word;">' + (typeof _options.warningMsg=='string' ? _options.warningMsg : t.txtProtected) + '</div>',
                                 '<label class="header" style="margin-top: 15px;">' + t.txtPassword + '</label>',
                                 '<div id="id-password-txt" style="width: 290px;"></div></div>',
                         '</div>',
@@ -111,7 +88,7 @@ define([
                         '<% } %>',
                     '<% } else { %>',
                         '<% if (codepages && codepages.length>0) { %>',
-                        '<div <% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %> class="margin-right-10" style="width: 230px;display: inline-block;margin-bottom:15px;" <% } else { %> style="width: 100%;margin-bottom:15px;"<% } %> >',
+                        '<div <% if (!!preview && (type == Common.Utils.importTextType.CSV || type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns)) { %> class="margin-right-10" style="width: 230px;display: inline-block;" <% } else { %> style="width: 100%;"<% } %> >',
                             '<label class="header">' + t.txtEncoding + '</label>',
                             '<div>',
                             '<div id="id-codepages-combo" class="input-group-nr" style="width: 100%; display: inline-block; vertical-align: middle;"></div>',
@@ -119,7 +96,7 @@ define([
                         '</div>',
                         '<% } %>',
                         '<% if (type == Common.Utils.importTextType.CSV) { %>',
-                        '<div style="display: inline-block; margin-bottom:15px;">',
+                        '<div style="display: inline-block; <% if (!preview) { %> margin-top:15px;<% } %>">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
@@ -128,7 +105,7 @@ define([
                         '</div>',
                         '<% } %>',
                         '<% if (type == Common.Utils.importTextType.Paste || type == Common.Utils.importTextType.Columns || type == Common.Utils.importTextType.Data) { %>',
-                        '<div style="display: inline-block; margin-bottom:15px;width: 100%;">',
+                        '<div style="display: inline-block; <% if (codepages && codepages.length>0) { %>margin-top:15px;<% } %>width: 100%;">',
                             '<label class="header">' + t.txtDelimiter + '</label>',
                             '<div>',
                                 '<div id="id-delimiters-combo" class="input-group-nr" style="max-width: 100px;display: inline-block; vertical-align: middle;"></div>',
@@ -138,7 +115,7 @@ define([
                         '</div>',
                         '<% } %>',
                         '<% if (!!preview) { %>',
-                            '<div style="">',
+                            '<div style="margin-top:15px;">',
                                 '<label class="header">' + t.txtPreview + '</label>',
                                 '<div style="position: relative;">',
                                     '<div style="width: 100%;">',
@@ -157,15 +134,6 @@ define([
                         '<% } %>',
                     '<% } %>',
                     '</div>',
-                '</div>',
-                '<div class="footer center">',
-                    '<button class="btn normal dlg-btn primary" result="ok">' + t.okButtonText + '</button>',
-                    '<% if (closeFile) { %>',
-                    '<button class="btn normal dlg-btn custom margin-left-10" result="cancel">' + t.closeButtonText + '</button>',
-                    '<% } %>',
-                    '<% if (closable) { %>',
-                    '<button class="btn normal dlg-btn custom margin-left-10" result="cancel">' + t.cancelButtonText + '</button>',
-                    '<% } %>',
                 '</div>'
             ].join('');
 
@@ -208,7 +176,7 @@ define([
                         hideCls: (this.options.iconType==='svg' ? 'svg-icon hide-password' : 'toolbar__icon btn-hide-password'),
                         maxLength: this.options.maxPasswordLength,
                         validateOnBlur: false,
-                        showPwdOnClick: true,
+                        showPwdOnClick: false,
                         validation  : function(value) {
                             return me.txtIncorrectPwd;
                         }
@@ -250,7 +218,7 @@ define([
             this.btnAdvanced && arr.push(this.btnAdvanced);
             this.txtDestRange && arr.push(this.txtDestRange);
 
-            return arr;
+            return arr.concat(this.getFooterButtons());
         },
 
         show: function() {
@@ -600,7 +568,9 @@ define([
                         me.preview && me.updatePreview();
                     }
                 }
-            })).show();
+            })).on('close', function() {
+                me.btnAdvanced.focus();
+            }).show();
         },
 
         onSelectData: function(type) {

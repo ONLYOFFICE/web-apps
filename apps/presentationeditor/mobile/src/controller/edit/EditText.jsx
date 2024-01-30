@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
-import {observer, inject} from "mobx-react";
-
 import { EditText } from '../../view/edit/EditText';
 
 class EditTextController extends Component {
@@ -308,6 +306,14 @@ class EditTextController extends Component {
         api.put_PrLineSpacing(LINERULE_AUTO, value);
     }
 
+    setOrientationTextShape(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.asc_CShapeProperty();
+
+        properties.put_Vert(direction);
+        api.ShapeApply(properties);
+    }
+
     render () {
         return (
             <EditText
@@ -334,6 +340,7 @@ class EditTextController extends Component {
                 onImageSelect={this.onImageSelect}
                 onInsertByUrl={this.onInsertByUrl}
                 onLineSpacing={this.onLineSpacing}
+                setOrientationTextShape={this.setOrientationTextShape}
             />
         )
     }

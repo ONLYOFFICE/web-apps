@@ -14,7 +14,7 @@
             type: 'desktop or mobile or embedded',
             width: '100% by default',
             height: '100% by default',
-            documentType: 'word' | 'cell' | 'slide',// deprecate 'text' | 'spreadsheet' | 'presentation',
+            documentType: 'word' | 'cell' | 'slide' | 'pdf' ,// deprecate 'text' | 'spreadsheet' | 'presentation',
             token: <string> encrypted signature
             document: {
                 title: 'document title',
@@ -87,6 +87,7 @@
                     id: 'user id',
                     name: 'user name',
                     group: 'group name' // for customization.reviewPermissions or permissions.reviewGroups or permissions.commentGroups. Can be multiple groups separated by commas (,) : 'Group1' or 'Group1,Group2'
+                    image: 'image url'
                 },
                 recent: [
                     {
@@ -228,6 +229,7 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
+                    mobileForceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -436,11 +438,12 @@
                         'presentation': 'pptx',
                         'word': 'docx',
                         'cell': 'xlsx',
-                        'slide': 'pptx'
+                        'slide': 'pptx',
+                        'pdf': 'pdf'
                     }, app;
 
                 if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
-                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide.");
+                    console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
                     app = appMap[_config.documentType.toLowerCase()];
@@ -454,7 +457,7 @@
 
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
-                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pdf|djvu|xps|oxps))$/
+                    var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt))$/
                                     .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
@@ -462,7 +465,8 @@
                     } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
                         if (typeof type[2] === 'string') _config.documentType = 'slide'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'word';
+                        if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
+                        if (typeof type[4] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -512,6 +516,20 @@
             iframe = createIframe(_config);
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
                 window.AscEmbed && window.AscEmbed.initWorker(iframe);
+
+            if (_config.document && (_config.document.isForm!==true && _config.document.isForm!==false)) {
+                iframe.onload = function() {
+                    _sendCommand({
+                        command: 'checkParams',
+                        data: {
+                            url: _config.document.url,
+                            directUrl: _config.document.directUrl,
+                            token: _config.document.token,
+                            key: _config.document.key
+                        }
+                    })
+                };
+            }
 
             if (iframe.src) {
                 var pathArray = iframe.src.split('/');
@@ -937,35 +955,33 @@
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor'
             },
-            app = appMap['word'];
+            appType = 'word';
 
         if (typeof config.documentType === 'string') {
-            app = appMap[config.documentType.toLowerCase()];
+            appType = config.documentType.toLowerCase();
             if (config.type !== 'mobile' && config.type !== 'embedded' && !!config.document && typeof config.document.fileType === 'string') {
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
                 if (type && typeof type[1] === 'string')
-                    app = appMap['pdf'];
+                    appType = 'pdf';
             }
         } else
         if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
+            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf|djvu|xps|oxps))$/
                             .exec(config.document.fileType);
             if (type) {
-                if (typeof type[1] === 'string') app = appMap['cell']; else
-                if (typeof type[2] === 'string') app = appMap['slide'];
-            }
-            if (config.type !== 'mobile' && config.type !== 'embedded') {
-                type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
-                if (type && typeof type[1] === 'string')
-                    app = appMap['pdf'];
+                if (typeof type[1] === 'string') appType = 'cell'; else
+                if (typeof type[2] === 'string') appType = 'slide'; else
+                if (typeof type[3] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'pdf';
             }
         }
+        if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded')) {
+            appType = 'word';
+        }
 
-        path += app + "/";
+        path += appMap[appType] + "/";
         const path_type = config.type === "mobile"
                     ? "mobile" : (config.type === "embedded")
-                    ? "embed" : (config.document && typeof config.document.fileType === 'string' && config.document.fileType.toLowerCase() === 'oform')
-                    ? "forms" : "main";
+                    ? "embed" : "main";
 
         path += path_type;
         var index = "/index.html";
@@ -1018,6 +1034,11 @@
         if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
+
+        if (config.document) {
+            config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+            (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
+        }
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";

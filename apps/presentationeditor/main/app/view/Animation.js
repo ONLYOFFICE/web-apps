@@ -50,7 +50,8 @@ define([
     'presentationeditor/main/app/view/SlideSettings',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/Label',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/ThemeColorPalette'
 ], function () {
     'use strict';
 
@@ -180,7 +181,8 @@ define([
                 this.triggers= {
                     ClickSequence:  0,
                     ClickOf:        1
-                }
+                };
+                this.startIndexParam = 2;
                 this.allEffects = [{group:'none', value: AscFormat.ANIM_PRESET_NONE, iconCls: 'animation-none', displayValue: this.textNone}].concat(Common.define.effectData.getEffectFullData());
                 Common.UI.BaseView.prototype.initialize.call(this, options);
                 this.toolbar = options.toolbar;
@@ -260,7 +262,7 @@ define([
                     cls: 'btn-toolbar  x-huge icon-top',
                     caption: this.txtParameters,
                     iconCls: 'toolbar__icon icon btn-animation-parameters',
-                    menu: new Common.UI.Menu({items: []}),
+                    menu: true,
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.noAnimation, _set.noAnimationParam, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -519,11 +521,39 @@ define([
                         });
                         menu.off('show:before', onShowBefore);
                         menu.on('show:after', function () {
-                            picker.scroller.update({alwaysVisibleY: true});
+                            me.fireEvent('animation:addeffectshow', [picker]);
                         });
                         me.btnAddAnimation.menu.setInnerMenu([{menu: picker, index: 0}]);
                     };
                     me.btnAddAnimation.menu.on('show:before', onShowBefore);
+                    me.btnParameters.setMenu( new Common.UI.Menu({items: [
+                            {
+                                toggleGroup: 'themecolor',
+                                template: _.template('<div id="id-toolbar-menu-parameters-color" style="width: 164px; display: inline-block;"></div>')},
+                            {caption: '--'}
+                        ]}));
+                    var onShowBeforeParameters = function(menu) {
+                        var picker = new Common.UI.ThemeColorPalette({
+                            el: $('#id-toolbar-menu-parameters-color'),
+                            outerMenu: {menu: me.btnParameters.menu, index: 0}
+                        });
+                        menu.off('show:before', onShowBeforeParameters);
+                        me.btnParameters.menu.setInnerMenu([{menu: picker, index: 0}]);
+                        me.colorPickerParameters = picker;
+                        me.updateColors();
+                        me.setColor();
+                        menu.on('show:after', function() {
+                            (me.isColor && picker) && _.delay(function() {
+                                picker.focus();
+                            }, 10);
+                        });
+
+                        picker.on('select', function (picker, item){
+                            var color = item && item.color ? item.color : item;
+                            me.fireEvent('animation:parameterscolor',[Common.Utils.ThemeColor.getRgbColor(color)]);
+                        });
+                    };
+                    me.btnParameters.menu.on('show:before', onShowBeforeParameters);
 
                     me.btnPreview.setMenu( new Common.UI.Menu({
                         style: "min-width: auto;",
@@ -569,23 +599,24 @@ define([
                 if (effect) {
                     arrEffectOptions = Common.define.effectData.getEffectOptionsData(effect.group, effect.value);
                     updateFamilyEffect = this._familyEffect !== effect.familyEffect || !this._familyEffect; // family of effects are different or both of them = undefined (null)
+                    this.isColor = effect.color;
                 }
                 if((this._effectId != effectId && updateFamilyEffect) || (this._groupName != effectGroup)) {
-                    this.btnParameters.menu.removeAll();
+                    this.btnParameters.menu.removeItems(this.startIndexParam,this.btnParameters.menu.items.length-this.startIndexParam);
                 }
                 if (arrEffectOptions){
-                    if (this.btnParameters.menu.items.length == 0) {
+                    if (this.btnParameters.menu.items.length == this.startIndexParam) {
                         if (effectGroup==='menu-effect-group-path' && effectId===AscFormat.MOTION_CUSTOM_PATH) {
                             arrEffectOptions.forEach(function (opt, index) {
                                 this.btnParameters.menu.addItem(opt);
-                                (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
+                                (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index + this.startIndexParam]);
                             }, this);
                         } else {
                             arrEffectOptions.forEach(function (opt, index) {
                                 opt.checkable = true;
                                 opt.toggleGroup = 'animateeffects';
                                 this.btnParameters.menu.addItem(opt);
-                                (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index]);
+                                (opt.value == option || option===undefined && !!opt.defvalue) && (selectedElement = this.btnParameters.menu.items[index + this.startIndexParam]);
                             }, this);
                         }
                         (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
@@ -603,7 +634,7 @@ define([
                         var effectsArray = Common.define.effectData.getSimilarEffectsArray(effect.familyEffect);
                         effectsArray.forEach(function (opt) {
                             opt.checkable = true;
-                            opt.toggleGroup = 'animatesimilareffects'
+                            opt.toggleGroup = 'animatesimilareffects';
                             this.btnParameters.menu.addItem(opt);
                             (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked(true);
                         }, this);
@@ -616,10 +647,29 @@ define([
                     }
                 }
 
+                if(this.isColor) {
+                    this.btnParameters.menu.items[0].show();
+                    this.btnParameters.menu.items.length > this.startIndexParam && this.btnParameters.menu.items[1].show();
+                }
+                else {
+                    this.btnParameters.menu.items[0].hide();
+                    this.btnParameters.menu.items[1].hide();
+                }
+
                 this._effectId = effectId;
                 this._groupName = effectGroup;
                 this._familyEffect = effect ? effect.familyEffect : undefined;
                 return selectedElement ? selectedElement.value : undefined;
+            },
+
+            setColor: function (color){
+               this._effectColor = (color) ? Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase(): this._effectColor;
+            (!!this.colorPickerParameters && this._effectColor)  && this.colorPickerParameters.selectByRGB(this._effectColor, true);
+
+            },
+
+            updateColors: function (){
+                this.colorPickerParameters && this.colorPickerParameters.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             },
 
 

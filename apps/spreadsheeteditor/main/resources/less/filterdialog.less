@@ -64,8 +64,12 @@
   }
 
   .body {
-    height: auto;
-    top: 34px;
+    .autofilter& {
+      padding: 0;
+      .box {
+        padding: 0;
+      }
+    }
 
     & > div {
       width: 100%;
@@ -78,13 +82,8 @@
 
     .content-panel {
       vertical-align: top;
-      padding: 15px;
+      padding-bottom: 10px;
       width: 100%;
-
-      .inner-content {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
 
       label {
         .font-size-normal();
@@ -102,6 +101,7 @@
       }
 
       .autofilter& {
+        padding: 15px;
         border-right: 1px solid @border-divider-ie;
         border-right: @scaled-one-px-value solid @border-divider;
         display: flex;
@@ -147,23 +147,6 @@
         width: 22px;
         height: 22px;
       }
-    }
-  }
-
-  .footer {
-    padding-top: 15px;
-
-    &.center {
-      text-align: center;
-    }
-
-    &.right {
-      .text-align-right();
-    }
-
-    &.justify {
-      padding-left: 30px;
-      padding-right: 30px;
     }
   }
 

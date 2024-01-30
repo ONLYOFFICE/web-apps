@@ -501,6 +501,20 @@
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
 			"uf": "#UNSUPPORTED_FUNCTION!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "address",
+			"col": "col",
+			"color": "color",
+			"contents": "contents",
+			"filename": "filename",
+			"format": "format",
+			"parentheses": "parentheses",
+			"prefix": "prefix",
+			"protect": "protect",
+			"row": "row",
+			"type": "type",
+			"width": "width"
 		}
 	}
 }

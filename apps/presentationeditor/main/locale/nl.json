@@ -335,8 +335,6 @@
   "Common.Views.PluginDlg.textLoading": "Laden",
   "Common.Views.Plugins.groupCaption": "Plug-ins",
   "Common.Views.Plugins.strPlugins": "Plug-ins",
-  "Common.Views.Plugins.textClosePanel": "Plugin sluiten",
-  "Common.Views.Plugins.textLoading": "Laden",
   "Common.Views.Plugins.textStart": "Starten",
   "Common.Views.Plugins.textStop": "Stoppen",
   "Common.Views.Protection.hintAddPwd": "Versleutelen met wachtwoord",

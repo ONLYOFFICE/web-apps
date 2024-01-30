@@ -141,6 +141,27 @@ define([
                 if (/theme:changed/.test(cmd)) {
                     Common.UI.Themes.setTheme(param);
                 } else
+                if (/^uitheme:added/.test(cmd)) {
+                    if ( !nativevars.localthemes )
+                        nativevars.localthemes = [];
+
+                    let json_objs;
+                    try {
+                        json_objs = JSON.parse(param);
+                    } catch (e) {
+                        console.warn('local theme is broken');
+                    }
+
+                    if ( json_objs ) {
+                        if (json_objs instanceof Array) {
+                            nativevars.localthemes = [].concat(nativevars.localthemes, json_objs);
+                            Common.UI.Themes.addTheme({themes: json_objs});
+                        } else {
+                            nativevars.localthemes.push(json_objs);
+                            Common.UI.Themes.addTheme(json_objs);
+                        }
+                    }
+                } else
                 if (/renderervars:changed/.test(cmd)) {
                     const opts = JSON.parse(param);
 
@@ -373,13 +394,13 @@ define([
         }
 
         const _onHidePreloader = function (mode) {
-            features.viewmode = !mode.isEdit;
+            features.viewmode = !window.PDFE ? !mode.isEdit : !!mode.isXpsViewer;
             features.viewmode && (features.btnhome = false);
             features.crypted = mode.isCrypted;
             native.execCommand('webapps:features', JSON.stringify(features));
 
             titlebuttons = {};
-            if ( mode.isEdit ) {
+            if ( !features.viewmode ) {
                 var header = webapp.getController('Viewport').getView('Common.Views.Header');
 
                 {
@@ -677,6 +698,9 @@ define([
 
                 return false;
             },
+            uiRtlSupported: function () {
+                return nativevars && nativevars.rtl != undefined;
+            },
         };
     };
 
@@ -712,6 +736,7 @@ define([
         FILE_DOCUMENT_DOC_FLAT: FILE_DOCUMENT + 0x0010,
         FILE_DOCUMENT_OFORM: FILE_DOCUMENT + 0x0015,
         FILE_DOCUMENT_DOCXF: FILE_DOCUMENT + 0x0016,
+        FILE_DOCUMENT_XML: FILE_DOCUMENT + 0x0030,
 
         FILE_PRESENTATION:      FILE_PRESENTATION,
         FILE_PRESENTATION_PPTX: FILE_PRESENTATION + 0x0001,
@@ -733,8 +758,9 @@ define([
         FILE_SPREADSHEET_XLSM:  FILE_SPREADSHEET + 0x0005,
         FILE_SPREADSHEET_XLTX:  FILE_SPREADSHEET + 0x0006,
         FILE_SPREADSHEET_XLTM:  FILE_SPREADSHEET + 0x0007,
-        FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0008,
-        FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x0009,
+        FILE_SPREADSHEET_XLSB:  FILE_SPREADSHEET + 0x0008,
+        FILE_SPREADSHEET_ODS_FLAT: FILE_SPREADSHEET + 0x0009,
+        FILE_SPREADSHEET_OTS:   FILE_SPREADSHEET + 0x000a,
 
         FILE_CROSSPLATFORM:     FILE_CROSSPLATFORM,
         FILE_CROSSPLATFORM_PDF: FILE_CROSSPLATFORM + 0x0001,
@@ -751,21 +777,29 @@ define([
             case utils.defines.FileFormat.FILE_DOCUMENT_ODT:        return 'odt';
             case utils.defines.FileFormat.FILE_DOCUMENT_RTF:        return 'rtf';
             case utils.defines.FileFormat.FILE_DOCUMENT_TXT:        return 'txt';
-            case utils.defines.FileFormat.FILE_DOCUMENT_HTML:       return 'htm';
+            case utils.defines.FileFormat.FILE_DOCUMENT_HTML:       return 'html';
             case utils.defines.FileFormat.FILE_DOCUMENT_MHT:        return 'mht';
             case utils.defines.FileFormat.FILE_DOCUMENT_EPUB:       return 'epub';
             case utils.defines.FileFormat.FILE_DOCUMENT_FB2:        return 'fb2';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOCM:       return 'docm';
             case utils.defines.FileFormat.FILE_DOCUMENT_DOTX:       return 'dotx';
             case utils.defines.FileFormat.FILE_DOCUMENT_OTT:        return 'ott';
             case utils.defines.FileFormat.FILE_DOCUMENT_OFORM:      return 'oform';
             case utils.defines.FileFormat.FILE_DOCUMENT_DOCXF:      return 'docxf';
+            case utils.defines.FileFormat.FILE_DOCUMENT_ODT_FLAT:   return 'fodt';
+            case utils.defines.FileFormat.FILE_DOCUMENT_DOTM:       return 'dotm';
+            case utils.defines.FileFormat.FILE_DOCUMENT_XML:       return 'xml';
 
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLS:     return 'xls';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLTX:    return 'xltx';
             case utils.defines.FileFormat.FILE_SPREADSHEET_XLSX:    return 'xlsx';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLSB:    return 'xlsb';
             case utils.defines.FileFormat.FILE_SPREADSHEET_ODS:     return 'ods';
             case utils.defines.FileFormat.FILE_SPREADSHEET_CSV:     return 'csv';
             case utils.defines.FileFormat.FILE_SPREADSHEET_OTS:     return 'ots';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLTM:    return 'xltm';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_XLSM:    return 'xlsm';
+            case utils.defines.FileFormat.FILE_SPREADSHEET_ODS_FLAT:return 'fods';
 
             case utils.defines.FileFormat.FILE_PRESENTATION_PPT:    return 'ppt';
             case utils.defines.FileFormat.FILE_PRESENTATION_POTX:   return 'potx';
@@ -773,6 +807,10 @@ define([
             case utils.defines.FileFormat.FILE_PRESENTATION_ODP:    return 'odp';
             case utils.defines.FileFormat.FILE_PRESENTATION_PPSX:   return 'ppsx';
             case utils.defines.FileFormat.FILE_PRESENTATION_OTP:    return 'otp';
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPTM:   return 'pptm';
+            case utils.defines.FileFormat.FILE_PRESENTATION_PPSM:   return 'ppsm';
+            case utils.defines.FileFormat.FILE_PRESENTATION_POTM:   return 'potm';
+            case utils.defines.FileFormat.FILE_PRESENTATION_ODP_FLAT: return 'fodp';
 
             case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDFA:
             case utils.defines.FileFormat.FILE_CROSSPLATFORM_PDF:   return 'pdf';

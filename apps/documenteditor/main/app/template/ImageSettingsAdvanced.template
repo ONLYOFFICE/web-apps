@@ -93,8 +93,8 @@
 <div id="id-adv-image-rotate" class="settings-panel active">
     <div class="inner-content  padding-large">
         <div style="width: 100%;">
-            <label class="input-label"><%= scope.textAngle %></label>
-            <div id="image-advanced-spin-angle" class="margin-left-5" style="display: inline-block;"></div>
+            <label class="input-label vertical-align-baseline"><%= scope.textAngle %></label>
+            <div id="image-advanced-spin-angle" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
         </div>
     </div>
     <div class="separator horizontal padding-large"></div>

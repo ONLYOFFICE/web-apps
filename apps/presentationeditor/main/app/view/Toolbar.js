@@ -1573,6 +1573,7 @@ define([
                         caption: item.caption,
                         value: item.sectionId,
                         itemId: item.id,
+                        itemsLength: length,
                         iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
                         menu: new Common.UI.Menu({
                             items: [
@@ -1583,27 +1584,40 @@ define([
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
                     me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                        var items = [];
+                        for (var i=0; i<item.options.itemsLength; i++) {
+                            items.push({
+                                isLoading: true
+                            });
+                        }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
                             parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
                             itemTemplate: _.template([
-                                '<div>',
-                                '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
-                                '</div>'
+                                '<% if (isLoading) { %>',
+                                    '<div class="loading-item" style="width: 70px; height: 70px;">',
+                                        '<i class="loading-spinner"></i>',
+                                    '</div>',
+                                '<% } else { %>',
+                                    '<div>',
+                                        '<img src="<%= imageUrl %>" width="' + 70 + '" height="' + 70 + '" />',
+                                    '</div>',
+                                '<% } %>'
                             ].join('')),
-                            store: new Common.UI.DataViewStore(),
+                            store: new Common.UI.DataViewStore(items),
                             delayRenderTips: true,
                             scrollAlwaysVisible: true,
                             showLast: false
                         });
                         item.menuPicker.on('item:click', function(picker, item, record, e) {
-                            if (record) {
+                            if (record && record.get('value') !== null) {
                                 me.fireEvent('insert:smartart', [record.get('value')]);
                             }
                             Common.NotificationCenter.trigger('edit:complete', me);
                         });
+                        item.menuPicker.loaded = false;
                         item.$el.on('mouseenter', function () {
-                            if (item.menuPicker.store.length === 0) {
+                            if (!item.menuPicker.loaded) {
                                 me.fireEvent('smartart:mouseenter', [item.value]);
                             }
                         });

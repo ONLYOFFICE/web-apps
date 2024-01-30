@@ -53,6 +53,12 @@
       "txtErrorLoadHistory": "Neizdevās ielādēt vēsturi",
       "textWarningRestoreVersion": "Current file will be saved in version history.",
       "titleWarningRestoreVersion": "Restore this version?"
+    },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -81,7 +87,8 @@
     "textDoNotShowAgain": "Nerādīt vēlreiz",
     "textOk": "OK",
     "txtWarnUrl": "Noklikšķinot uz šīs saites var kaitēt jūsu ierīcei un datiem.<br>Vai tiešām vēlaties turpināt?",
-    "warnMergeLostData": "Apvienotajā šūnā paliks tikai dati no augšējās kreisās šūnas. <br>Vai tiešām vēlaties turpināt?"
+    "warnMergeLostData": "Apvienotajā šūnā paliks tikai dati no augšējās kreisās šūnas. <br>Vai tiešām vēlaties turpināt?",
+    "menuAutofill": "Autofill"
   },
   "Controller": {
     "Main": {
@@ -385,7 +392,9 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
-    "textCloseHistory": "Aizvērt vēsturi"
+    "textCloseHistory": "Aizvērt vēsturi",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -640,7 +649,8 @@
       "txtSortLow2High": "Šķirot no zemākā uz augstāko",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Izvēlēties CSV parametrus",
@@ -811,6 +821,10 @@
       "txtVi": "Vjetnamiešu",
       "txtZh": "Ķīniešu",
       "warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
+      "textDark": "Dark",
+      "textLight": "Light",
+      "textSameAsSystem": "Same As System",
+      "textTheme": "Theme",
       "txtDe": "German"
     }
   }

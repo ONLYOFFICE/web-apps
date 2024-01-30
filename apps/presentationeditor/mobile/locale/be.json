@@ -43,6 +43,12 @@
       "textStandartColors": "Стандартныя колеры",
       "textThemeColors": "Колеры тэмы"
     },
+    "Themes": {
+      "dark": "Dark",
+      "light": "Light",
+      "system": "Same as system",
+      "textTheme": "Theme"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warning",
       "textAnonymous": "Anonymous",
@@ -241,7 +247,9 @@
     "stayButtonText": "Застацца на старонцы",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -433,7 +441,9 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEmptyImgUrl": "You need to specify the image URL.",
+      "textHorizontalText": "Horizontal Text",
       "textInsertImage": "Insert Image",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textMorph": "Morph",
       "textMorphLetters": "Letters",
       "textMorphObjects": "Objects",
@@ -442,8 +452,11 @@
       "textNoStyles": "No styles for this type of chart.",
       "textRecommended": "Recommended",
       "textRequired": "Required",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
       "textSelectObjectToEdit": "Select object to edit",
       "textSplit": "Split",
+      "textTextOrientation": "Text Orientation",
       "textTransitions": "Transitions"
     },
     "Settings": {
@@ -518,17 +531,21 @@
       "txtScheme8": "Плынь",
       "txtScheme9": "Ліцейня",
       "notcriticalErrorTitle": "Warning",
+      "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
       "textDisableAllMacrosWithNotification": "Disable all macros with notification",
       "textDisableAllMacrosWithoutNotification": "Disable all macros without notification",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without notification",
       "textFeedback": "Feedback & Support",
       "textFindAndReplaceAll": "Find and Replace All",
+      "textLight": "Light",
       "textNoMatches": "No Matches",
       "textOk": "Ok",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textSameAsSystem": "Same As System",
       "textTel": "tel:",
+      "textTheme": "Theme",
       "textVersionHistory": "Version History",
       "txtScheme22": "New Office"
     }

@@ -107,6 +107,14 @@ define([
             this.spnSize.$el.find('input').focus();
         },
 
+        getFocusedComponents: function() {
+            return [this.spnSize].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.spnSize;
+        },
+
         _handleInput: function(state) {
             if (this.options.handler) {
                 this.options.handler.call(this, this, state);

@@ -526,8 +526,6 @@
   "Common.Views.PluginDlg.textLoading": "載入中",
   "Common.Views.Plugins.groupCaption": "外掛程式",
   "Common.Views.Plugins.strPlugins": "外掛程式",
-  "Common.Views.Plugins.textClosePanel": "關閉插件",
-  "Common.Views.Plugins.textLoading": "載入中",
   "Common.Views.Plugins.textStart": "開始",
   "Common.Views.Plugins.textStop": "停止",
   "Common.Views.Protection.hintAddPwd": "用密碼加密",
