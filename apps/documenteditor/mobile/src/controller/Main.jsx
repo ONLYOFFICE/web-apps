@@ -308,12 +308,12 @@ class MainController extends Component {
                 if(isOForm) {
                     f7.dialog.create({
                         title: t('Main.notcriticalErrorTitle'),
-                        text: t('Main.textConvertFormSave'),
+                        text: t('Main.textConvertForm'),
                         buttons: [
                             {
-                                text: appOptions.canRequestSaveAs || !!appOptions.saveAsUrl || appOptions.isOffline ? t('Main.textSaveAsPdf') : t('Main.textDownloadPdf'),
+                                text: t('Main.textDownloadPdf'),
                                 onClick: () => {
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, appOptions.canRequestSaveAs || !!appOptions.saveAsUrl));
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, false))
                                 }
                             },
                             {
