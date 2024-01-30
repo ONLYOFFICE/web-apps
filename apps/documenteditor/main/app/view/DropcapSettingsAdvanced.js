@@ -283,7 +283,7 @@ define([
             this.btnInText = new Common.UI.Button({
                 parentEl: $('#drop-advanced-button-intext'),
                 cls         : 'btn huge-1 btn-options',
-                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text',
+                iconCls     : 'icon-advanced-wrap options__icon options__icon-huge btn-drop-text icon-rtl',
                 enableToggle: true,
                 toggleGroup : 'dropAdvGroup',
                 allowDepress: false,
