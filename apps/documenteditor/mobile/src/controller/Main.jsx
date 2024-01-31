@@ -519,7 +519,7 @@ class MainController extends Component {
             let value = LocalStorage.getItem("de-opensource-warning");
             value = (value !== null) ? parseInt(value) : 0;
             const now = (new Date).getTime();
-            if (now - value > 86400000 && !isForm) {
+            if (now - value > 86400000) {
                 LocalStorage.setItem("de-opensource-warning", now);
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
