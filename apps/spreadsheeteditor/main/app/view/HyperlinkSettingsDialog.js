@@ -589,7 +589,7 @@ define([
                     }
                 };
 
-                me.api.asc_addImage(callback); // change sdk function
+                me.api.asc_getFilePath(callback); // change sdk function
             }
         },
 
