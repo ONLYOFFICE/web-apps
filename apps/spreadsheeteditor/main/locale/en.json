@@ -3001,6 +3001,8 @@
   "SSE.Views.HyperlinkSettingsDialog.txtEmpty": "This field is required",
   "SSE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
   "SSE.Views.HyperlinkSettingsDialog.txtSizeLimit": "This field is limited to 2083 characters",
+  "SSE.Views.HyperlinkSettingsDialog.txtUrlPlaceholder": "Enter the web address or select a file",
+  "SSE.Views.HyperlinkSettingsDialog.textSelectFile": "Select file",
   "SSE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "SSE.Views.ImageSettings.textCrop": "Crop",
   "SSE.Views.ImageSettings.textCropFill": "Fill",

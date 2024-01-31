@@ -2331,6 +2331,8 @@
   "DE.Views.HyperlinkSettingsDialog.txtHeadings": "Headings",
   "DE.Views.HyperlinkSettingsDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",
   "DE.Views.HyperlinkSettingsDialog.txtSizeLimit": "This field is limited to 2083 characters",
+  "DE.Views.HyperlinkSettingsDialog.txtUrlPlaceholder": "Enter the web address or select a file",
+  "DE.Views.HyperlinkSettingsDialog.textSelectFile": "Select file",
   "DE.Views.HyphenationDialog.textAuto": "Automatically hyphenate document",
   "DE.Views.HyphenationDialog.textCaps": "Hyphenate words in CAPS",
   "DE.Views.HyphenationDialog.textLimit": "Limit consecutive hyphens to",

@@ -581,9 +581,8 @@ define([
                 var callback = function(result) {
                     if (result) {
                         me.inputUrl.setValue(result);
-                        me.inputUrl.checkValidate();
-                        me.isInputFirstChange_url && me.inputUrl.showError();
-                        me.isInputFirstChange_url = false;
+                        if (me.inputUrl.checkValidate() !== true)
+                            me.isInputFirstChange_url = true;
                         me.isAutoUpdate && me.inputDisplay.setValue(result);
                         me.btnOk.setDisabled($.trim(result)=='');
                     }

@@ -1733,6 +1733,7 @@ define([
                 if (props) {
                     win = new PE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.appOptions,
                         handler: handlerDlg,
                         slides: _arr
                     });
