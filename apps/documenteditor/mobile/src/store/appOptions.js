@@ -198,8 +198,8 @@ export class storeAppOptions {
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
 
-        this.canFavorite = document.info && (document.info.favorite !== undefined && document.info.favorite !== null) && !this.isOffline;
-        this.isFavorite = document.info.favorite;
+        this.canFavorite = document.info && (document.info?.favorite !== undefined && document.info?.favorite !== null) && !this.isOffline;
+        this.isFavorite = document.info?.favorite;
 
         if ( this.isLightVersion ) {
             this.canUseHistory = this.canReview = this.isReviewOnly = false;
