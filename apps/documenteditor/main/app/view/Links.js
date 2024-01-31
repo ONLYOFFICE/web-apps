@@ -168,9 +168,11 @@ define([
                 var _set = Common.enumLock;
                 var me = this,
                     $host = me.toolbar.$el;
-                    this.token =Common.localStorage.getItem('token')
+                    this.token =Common.localStorage.getItem('token');
+                    this.getDocumentUrl =Common.localStorage.getItem('getDocumentUrl')
 
-                    fetch('http://localhost:3001/document/get-documents', {
+
+                    fetch(getDocumentUrl, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${this.token}`

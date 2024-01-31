@@ -472,7 +472,8 @@ define([
 
           if (type == c_oHyperlinkType.WebLink) {
             const id=await this.createLink()
-            var url = `http://localhost:3000/editor/${id}`// `${$.trim(me.inputDisplay.getValue())}/${id}`;
+            this.editorUrl= Common.localStorage.getItem('editorUrl')
+            var url = `${editorUrl}/${id}`// `${$.trim(me.inputDisplay.getValue())}/${id}`;
 
            if (
                 me.urlType !== AscCommon.c_oAscUrlType.Unsafe &&
@@ -524,7 +525,9 @@ define([
         },
         createLink: async function () {
           this.token = Common.localStorage.getItem("token");
-          return await fetch("http://localhost:3001/link", {
+          this.linkUrl =Common.localStorage.getItem('linkUrl')
+
+          return await fetch(linkUrl, {
             method: "POST",
             body: JSON.stringify({
               link_to: this.inputCombo.getValue()||"Document",

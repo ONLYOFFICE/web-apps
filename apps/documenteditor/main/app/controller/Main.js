@@ -419,8 +419,11 @@ define([
                 this.appOptions.user            = Common.Utils.fillUserInfo(this.editorConfig.user, this.editorConfig.lang, value ? (value + ' (' + this.appOptions.guestName + ')' ) : this.textAnonymous,
                                                                             Common.localStorage.getItem("guest-id") || ('uid-' + Date.now()));
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
-                Common.localStorage.setItem("token", this.editorConfig.token); // set token to the local storage
-                Common.localStorage.removeItem("this._arrLineRule");
+                Common.localStorage.setItem("token", this.editorConfig.token);// set token to the local storage
+                Common.localStorage.setItem("linkUrl", this.editorConfig.linkUrl);  
+                Common.localStorage.setItem("getDocumentUrl", this.editorConfig.getDocumentUrl);  
+                Common.localStorage.setItem("editorUrl", this.editorConfig.editorUrl);
+                Common.localStorage.removeItem("this._arrLineRule"); 
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
                 if( Common.Controllers.Desktop.isActive() ) {
