@@ -172,7 +172,7 @@ define([
                     this.getDocumentUrl =Common.localStorage.getItem('getDocumentUrl')
 
 
-                    fetch(getDocumentUrl, {
+                    fetch(this.getDocumentUrl, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${this.token}`

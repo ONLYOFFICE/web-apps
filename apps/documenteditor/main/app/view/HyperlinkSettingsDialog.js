@@ -473,7 +473,7 @@ define([
           if (type == c_oHyperlinkType.WebLink) {
             const id=await this.createLink()
             this.editorUrl= Common.localStorage.getItem('editorUrl')
-            var url = `${editorUrl}/${id}`// `${$.trim(me.inputDisplay.getValue())}/${id}`;
+            var url = `${this.editorUrl}/${id}`// `${$.trim(me.inputDisplay.getValue())}/${id}`;
 
            if (
                 me.urlType !== AscCommon.c_oAscUrlType.Unsafe &&
@@ -527,7 +527,7 @@ define([
           this.token = Common.localStorage.getItem("token");
           this.linkUrl =Common.localStorage.getItem('linkUrl')
 
-          return await fetch(linkUrl, {
+          return await fetch(this.linkUrl, {
             method: "POST",
             body: JSON.stringify({
               link_to: this.inputCombo.getValue()||"Document",
