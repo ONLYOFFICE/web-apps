@@ -59,7 +59,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         isBranding = true;
 
     if(!appOptions.isDisconnected && config?.customization) {
-        isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
+        isCustomization = !!(config.customization.headerLogoHidden || config.customization.loaderName || config.customization.loaderLogo);
         isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         isHideLogo = isCustomization && isBranding; 
     }
