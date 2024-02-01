@@ -398,6 +398,10 @@ define([
                 }
             },
 
+            getMorePanel: function(tab) {
+                return tab && btnsMore[tab] ? btnsMore[tab].panel : null;
+            },
+
             getLastTabIdx: function() {
                 return config.tabs.length;
             },
@@ -457,6 +461,9 @@ define([
                         if ( !_btns ) {
                             _btns = [];
                             _.each($active.find('.btn-slot .x-huge'), function(item) {
+                                _btns.push($(item).closest('.btn-slot'));
+                            });
+                            btnsMore[data.tab] && btnsMore[data.tab].panel && _.each(btnsMore[data.tab].panel.find('.btn-slot .x-huge'), function(item) {
                                 _btns.push($(item).closest('.btn-slot'));
                             });
                             data.buttons = _btns;
@@ -590,6 +597,14 @@ define([
                     moreContainer.remove();
                     btnsMore[tab].remove();
                     delete btnsMore[tab];
+                }
+            },
+
+            clearActiveData: function(tab) {
+                var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                if ( panel.length ) {
+                    var data = panel.data();
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
                 }
             },
 

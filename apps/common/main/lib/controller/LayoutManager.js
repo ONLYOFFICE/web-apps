@@ -207,9 +207,13 @@ Common.UI.LayoutManager = new(function() {
             }
             */
             if (plugin.tab) {
-                var $panel = _getTab(toolbar, plugin.tab.id, plugin.tab.text) || _getTab(toolbar, 'plugins');
+                var $panel = _getTab(toolbar, plugin.tab.id, plugin.tab.text) || _getTab(toolbar, 'plugins'),
+                    $morepanel = toolbar.getMorePanel(plugin.tab.id),
+                    $moresection = $panel.find('.more-box'),
+                    compactcls = '';
+                ($moresection.length<1) && ($moresection = null);
                 if ($panel) {
-                    plugin.items && plugin.items.forEach(function(item) {
+                    plugin.items && plugin.items.forEach(function(item, index) {
                         var btn = _findCustomButton(toolbar, plugin.tab.id, plugin.guid, item.id),
                             _set = Common.enumLock;
                         if (btn) { // change caption, hint, disable state, menu items
@@ -235,14 +239,27 @@ Common.UI.LayoutManager = new(function() {
                             return;
                         }
 
-                        var _groups = $panel.children().filter('.group'),
-                            _group;
-                        if (_groups.length>0 && !item.separator)
+                        var _groups, _group;
+                        if ($morepanel) {
+                            _groups = $morepanel.children().filter('.group');
+                            if (_groups.length>0) {
+                                $moresection = null;
+                                $panel = $morepanel;
+                                compactcls = 'compactwidth';
+                            }
+                        }
+                        if (!_groups || _groups.length<1)
+                            _groups = $panel.children().filter('.group');
+
+                        if (_groups.length>0 && !item.separator && index>0) // add first item to new group
                             _group = $(_groups[_groups.length-1]);
                         else {
-                            item.separator && $('<div class="separator long"></div>').appendTo($panel);
+                            if (item.separator) {
+                                var el = $('<div class="separator long"></div>');
+                                $moresection ? $moresection.before(el) : el.appendTo($panel);
+                            }
                             _group = $('<div class="group"></div>');
-                            _group.appendTo($panel);
+                            $moresection ? $moresection.before(_group) : _group.appendTo($panel);
                         }
 
                         if (item.type==='button' || item.type==='big-button') {
@@ -276,12 +293,14 @@ Common.UI.LayoutManager = new(function() {
                                     _api && _api.onPluginButtonClick && _api.onPluginButtonClick(b.options.guid, b.options.value, b.pressed);
                                 });
                             }
-                            var $slot = $('<span class="btn-slot text x-huge ' + (!caption ? 'emptycaption' : '') + '"></span>').appendTo(_group);
+                            var $slot = $('<span class="btn-slot text x-huge ' + (!caption ? 'emptycaption ' : ' ') + compactcls + '"></span>').appendTo(_group);
                             btn.render($slot);
                             btns.push(btn);
                             item.disabled && Common.Utils.lockControls(_set.customLock, item.disabled, {array: [btn]});
                         }
                     });
+                    toolbar.clearActiveData(plugin.tab.id);
+                    toolbar.processPanelVisible(null, true, true);
                     if (!toolbar.customButtonsArr)
                         toolbar.customButtonsArr = [];
                     Array.prototype.push.apply(toolbar.customButtonsArr, btns);
