@@ -150,23 +150,8 @@ Common.UI.LayoutManager = new(function() {
         return toMenu;
     }
 
-    var _createTab = function(toolbar, action, caption) {
-        if (!toolbar || !action || !caption) return;
-
-        var _tab = {action: action, caption: caption},
-            _panel = $('<section id="' + action + '" class="panel" data-tab="' + action + '"></section>'),
-            _group = $('<div class="group"></div>');
-        _group.appendTo(_panel);
-
-        toolbar.addTab(_tab, _panel, toolbar.getLastTabIdx());
-        toolbar.setVisible(action, true);
-        console.log('create ' + action);
-        return _panel;
-    };
-
     var _getTab = function (toolbar, action, caption) {
-        if (!toolbar || !action) return;
-        return toolbar.getTab(action) || _createTab(toolbar, action, caption);
+        return toolbar && action ? toolbar.getTab(action) || toolbar.createTab(action, caption, true) : null;
     };
 
     var _addCustomItems = function (toolbar, data) {

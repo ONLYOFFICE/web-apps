@@ -398,6 +398,15 @@ define([
                 }
             },
 
+            createTab: function(action, caption, visible) {
+                if (!action || !caption) return;
+
+                var _panel = $('<section id="' + action + '" class="panel" data-tab="' + action + '"></section>');
+                this.addTab({action: action, caption: caption}, _panel, this.getLastTabIdx());
+                this.setVisible(action, !!visible);
+                return _panel;
+            },
+
             getMorePanel: function(tab) {
                 return tab && btnsMore[tab] ? btnsMore[tab].panel : null;
             },
