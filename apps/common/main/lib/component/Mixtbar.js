@@ -399,12 +399,12 @@ define([
                 }
             },
 
-            createTab: function(action, caption, visible) {
-                if (!action || !caption) return;
+            createTab: function(tab, visible) {
+                if (!tab.action || !tab.caption) return;
 
-                var _panel = $('<section id="' + action + '" class="panel" data-tab="' + action + '"></section>');
-                this.addTab({action: action, caption: caption}, _panel, this.getLastTabIdx());
-                this.setVisible(action, !!visible);
+                var _panel = $('<section id="' + tab.action + '" class="panel" data-tab="' + tab.action + '"></section>');
+                this.addTab(tab, _panel, this.getLastTabIdx());
+                this.setVisible(tab.action, !!visible);
                 return _panel;
             },
 
@@ -629,6 +629,47 @@ define([
                     data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
                 }
             },
+
+            addCustomItems: function(tab, buttons) {
+                if (!tab.action) return;
+
+                var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,
+                    $morepanel = this.getMorePanel(tab.action),
+                    $moresection = $panel ? $panel.find('.more-box') : null,
+                    compactcls = '';
+                ($moresection.length<1) && ($moresection = null);
+                if ($panel) {
+                    buttons && buttons.forEach(function(button, index) {
+                        var _groups, _group;
+                        if ($morepanel) {
+                            _groups = $morepanel.children().filter('.group');
+                            if (_groups.length>0) {
+                                $moresection = null;
+                                $panel = $morepanel;
+                                compactcls = 'compactwidth';
+                            }
+                        }
+                        if (!_groups || _groups.length<1)
+                            _groups = $panel.children().filter('.group');
+
+                        if (_groups.length>0 && !button.options.separator && index>0) // add first button to new group
+                            _group = $(_groups[_groups.length-1]);
+                        else {
+                            if (button.options.separator) {
+                                var el = $('<div class="separator long"></div>');
+                                $moresection ? $moresection.before(el) : el.appendTo($panel);
+                            }
+                            _group = $('<div class="group"></div>');
+                            $moresection ? $moresection.before(_group) : _group.appendTo($panel);
+                        }
+                        var $slot = $('<span class="btn-slot text x-huge ' + (!(button.options.caption || '').trim() ? 'nocaption ' : ' ') + compactcls + '"></span>').appendTo(_group);
+                        button.render($slot);
+                    });
+                }
+                this.clearActiveData(tab.action);
+                this.processPanelVisible(null, true);
+            },
+
 
             resizeToolbar: function(reset) {
                 var $active = this.$panels.filter('.active'),

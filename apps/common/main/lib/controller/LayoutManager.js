@@ -150,10 +150,6 @@ Common.UI.LayoutManager = new(function() {
         return toMenu;
     }
 
-    var _getTab = function (toolbar, action, caption) {
-        return toolbar && action ? toolbar.getTab(action) || toolbar.createTab(action, caption, true) : null;
-    };
-
     var _addCustomItems = function (toolbar, data) {
         if (!data || data.length<1) return;
 
@@ -192,104 +188,72 @@ Common.UI.LayoutManager = new(function() {
             }
             */
             if (plugin.tab) {
-                var $panel = _getTab(toolbar, plugin.tab.id, plugin.tab.text) || _getTab(toolbar, 'plugins'),
-                    $morepanel = toolbar.getMorePanel(plugin.tab.id),
-                    $moresection = $panel.find('.more-box'),
-                    compactcls = '';
-                ($moresection.length<1) && ($moresection = null);
-                if ($panel) {
-                    plugin.items && plugin.items.forEach(function(item, index) {
-                        var btn = _findCustomButton(toolbar, plugin.tab.id, plugin.guid, item.id),
-                            _set = Common.enumLock;
-                        if (btn) { // change caption, hint, disable state, menu items
-                            if (btn instanceof Common.UI.Button) {
-                                var caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
-                                if (btn.options.caption !== (caption || ' ')) {
-                                    btn.cmpEl.closest('.btn-slot.x-huge').toggleClass('emptycaption', !caption);
-                                    btn.setCaption(caption || ' ');
-                                    btn.options.caption = caption || ' ';
-                                }
-                                btn.updateHint(((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',);
-                                (item.disabled!==undefined) && Common.Utils.lockControls(_set.customLock, !!item.disabled, {array: [btn]});
-                                if (btn.menu && item.menu && item.menu.length > 0) {// update menu items
-                                    if (typeof btn.menu !== 'object') {
-                                        btn.setMenu(new Common.UI.Menu({items: []}));
-                                        btn.menu.on('item:click', function(menu, mi, e) {
-                                            _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
-                                        });
-                                    }
-                                    _fillButtonMenu(item.menu, plugin.guid, lang, btn.menu);
-                                }
-                            }
-                            return;
-                        }
-
-                        var _groups, _group;
-                        if ($morepanel) {
-                            _groups = $morepanel.children().filter('.group');
-                            if (_groups.length>0) {
-                                $moresection = null;
-                                $panel = $morepanel;
-                                compactcls = 'compactwidth';
-                            }
-                        }
-                        if (!_groups || _groups.length<1)
-                            _groups = $panel.children().filter('.group');
-
-                        if (_groups.length>0 && !item.separator && index>0) // add first item to new group
-                            _group = $(_groups[_groups.length-1]);
-                        else {
-                            if (item.separator) {
-                                var el = $('<div class="separator long"></div>');
-                                $moresection ? $moresection.before(el) : el.appendTo($panel);
-                            }
-                            _group = $('<div class="group"></div>');
-                            $moresection ? $moresection.before(_group) : _group.appendTo($panel);
-                        }
-
-                        if (item.type==='button' || item.type==='big-button') {
+                plugin.items && plugin.items.forEach(function(item, index) {
+                    var btn = _findCustomButton(toolbar, plugin.tab.id, plugin.guid, item.id),
+                        _set = Common.enumLock;
+                    if (btn) { // change caption, hint, disable state, menu items
+                        if (btn instanceof Common.UI.Button) {
                             var caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
-                            btn = new Common.UI.ButtonCustom({
-                                cls: 'btn-toolbar x-huge icon-top',
-                                iconsSet: item.icons,
-                                caption: caption || ' ',
-                                menu: item.menu,
-                                split: item.menu && !!item.split,
-                                enableToggle: item.enableToggle && (!item.menu || !!item.split),
-                                value: item.id,
-                                guid: plugin.guid,
-                                tabid: plugin.tab.id,
-                                hint: ((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',
-                                lock: item.lockInViewMode ? [_set.customLock, _set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ] : [_set.customLock],
-                                dataHint: '1',
-                                dataHintDirection: 'bottom',
-                                dataHintOffset: 'small'
-                            });
-
-                            if (item.menu && typeof item.menu === 'object') {
-                                btn.setMenu(new Common.UI.Menu({items: []}));
-                                btn.menu.on('item:click', function(menu, mi, e) {
-                                    _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
-                                });
+                            if (btn.options.caption !== (caption || ' ')) {
+                                btn.cmpEl.closest('.btn-slot.x-huge').toggleClass('nocaption', !caption);
+                                btn.setCaption(caption || ' ');
+                                btn.options.caption = caption || ' ';
+                            }
+                            btn.updateHint(((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',);
+                            (item.disabled!==undefined) && Common.Utils.lockControls(_set.customLock, !!item.disabled, {array: [btn]});
+                            if (btn.menu && item.menu && item.menu.length > 0) {// update menu items
+                                if (typeof btn.menu !== 'object') {
+                                    btn.setMenu(new Common.UI.Menu({items: []}));
+                                    btn.menu.on('item:click', function(menu, mi, e) {
+                                        _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
+                                    });
+                                }
                                 _fillButtonMenu(item.menu, plugin.guid, lang, btn.menu);
                             }
-                            if ( !btn.menu || btn.split) {
-                                btn.on('click', function(b, e) {
-                                    _api && _api.onPluginButtonClick && _api.onPluginButtonClick(b.options.guid, b.options.value, b.pressed);
-                                });
-                            }
-                            var $slot = $('<span class="btn-slot text x-huge ' + (!caption ? 'emptycaption ' : ' ') + compactcls + '"></span>').appendTo(_group);
-                            btn.render($slot);
-                            btns.push(btn);
-                            item.disabled && Common.Utils.lockControls(_set.customLock, item.disabled, {array: [btn]});
                         }
-                    });
-                    toolbar.clearActiveData(plugin.tab.id);
-                    toolbar.processPanelVisible(null, true);
-                    if (!toolbar.customButtonsArr)
-                        toolbar.customButtonsArr = [];
-                    Array.prototype.push.apply(toolbar.customButtonsArr, btns);
-                }
+                        return;
+                    }
+
+                    if (item.type==='button' || item.type==='big-button') {
+                        btn = new Common.UI.ButtonCustom({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconsSet: item.icons,
+                            caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || ' ',
+                            menu: item.menu,
+                            split: item.menu && !!item.split,
+                            enableToggle: item.enableToggle && (!item.menu || !!item.split),
+                            value: item.id,
+                            guid: plugin.guid,
+                            tabid: plugin.tab.id,
+                            separator: item.separator,
+                            hint: ((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',
+                            lock: item.lockInViewMode ? [_set.customLock, _set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ] : [_set.customLock],
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+
+                        if (item.menu && typeof item.menu === 'object') {
+                            btn.setMenu(new Common.UI.Menu({items: []}));
+                            btn.menu.on('item:click', function(menu, mi, e) {
+                                _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
+                            });
+                            _fillButtonMenu(item.menu, plugin.guid, lang, btn.menu);
+                        }
+                        if ( !btn.menu || btn.split) {
+                            btn.on('click', function(b, e) {
+                                _api && _api.onPluginButtonClick && _api.onPluginButtonClick(b.options.guid, b.options.value, b.pressed);
+                            });
+                        }
+                        btns.push(btn);
+                        item.disabled && Common.Utils.lockControls(_set.customLock, item.disabled, {array: [btn]});
+                    }
+                });
+
+                toolbar.addCustomItems({action: plugin.tab.id, caption: ((typeof plugin.tab.text == 'object') ? plugin.tab.text[lang] || plugin.tab.text['en'] : plugin.tab.text) || ''}, btns);
+                if (!toolbar.customButtonsArr)
+                    toolbar.customButtonsArr = [];
+                Array.prototype.push.apply(toolbar.customButtonsArr, btns);
             }
         });
         return btns;
@@ -301,7 +265,6 @@ Common.UI.LayoutManager = new(function() {
         isElementVisible: _isElementVisible,
         getInitValue: _getInitValue,
         lastTabIdx: _lastInternalTabIdx,
-        getTab: _getTab,
         addCustomItems: _addCustomItems
     }
 })();
