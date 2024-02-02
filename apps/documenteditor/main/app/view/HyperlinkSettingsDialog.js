@@ -133,7 +133,7 @@ define([
                 blankError  : me.txtEmpty,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
-                iconCls: 'toolbar__icon btn-goback',
+                iconCls: 'toolbar__icon btn-browse',
                 placeHolder: me.appOptions.isDesktopApp ? me.txtUrlPlaceholder : '',
                 btnHint: me.textSelectFile,
                 validation  : function(value) {
