@@ -2061,6 +2061,8 @@
   "PE.Views.HyperlinkSettingsDialog.txtPrev": "Previous slide",
   "PE.Views.HyperlinkSettingsDialog.txtSizeLimit": "This field is limited to 2083 characters",
   "PE.Views.HyperlinkSettingsDialog.txtSlide": "Slide",
+  "PE.Views.HyperlinkSettingsDialog.txtUrlPlaceholder": "Enter the web address or select a file",
+  "PE.Views.HyperlinkSettingsDialog.textSelectFile": "Select file",
   "PE.Views.ImageSettings.textAdvanced": "Show advanced settings",
   "PE.Views.ImageSettings.textCrop": "Crop",
   "PE.Views.ImageSettings.textCropFill": "Fill",

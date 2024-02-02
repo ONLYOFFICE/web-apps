@@ -899,6 +899,7 @@ define([
                 if (text !== false) {
                     win = new DE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.mode,
                         handler: handlerDlg
                     });
 
@@ -918,6 +919,7 @@ define([
                     if (props) {
                         win = new DE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.mode,
                             handler: handlerDlg
                         });
                         win.show();
@@ -1759,6 +1761,7 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
@@ -1779,6 +1782,7 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());
