@@ -285,7 +285,7 @@ Common.UI.LayoutManager = new(function() {
                         }
                     });
                     toolbar.clearActiveData(plugin.tab.id);
-                    toolbar.processPanelVisible(null, true, true);
+                    toolbar.processPanelVisible(null, true);
                     if (!toolbar.customButtonsArr)
                         toolbar.customButtonsArr = [];
                     Array.prototype.push.apply(toolbar.customButtonsArr, btns);
