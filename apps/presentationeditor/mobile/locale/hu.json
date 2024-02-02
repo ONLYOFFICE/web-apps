@@ -547,7 +547,9 @@
       "txtScheme6": "Előcsarnok",
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
-      "txtScheme9": "Öntöde"
+      "txtScheme9": "Öntöde",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

@@ -547,7 +547,9 @@
       "txtScheme6": "Konkurs",
       "txtScheme7": "Ravnopravnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Foundry"
+      "txtScheme9": "Foundry",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

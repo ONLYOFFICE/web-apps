@@ -247,7 +247,7 @@
   "Common.Views.Protection.txtAddPwd": "Προσθήκη συνθηματικού",
   "Common.Views.Protection.txtChangePwd": "Αλλαγή συνθηματικού",
   "Common.Views.Protection.txtDeletePwd": "Διαγραφή συνθηματικού",
-  "Common.Views.Protection.txtEncrypt": "Κρυπτογράφηση",
+  "Common.Views.Protection.txtEncrypt": "κρυπτογράφηση",
   "Common.Views.Protection.txtInvisibleSignature": "Προσθήκη ψηφιακής υπογραφής",
   "Common.Views.Protection.txtSignature": "Υπογραφή",
   "Common.Views.Protection.txtSignatureLine": "Προσθήκη γραμμής υπογραφής",
