@@ -825,7 +825,9 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
+      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }
