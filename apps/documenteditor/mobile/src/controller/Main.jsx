@@ -337,7 +337,7 @@ class MainController extends Component {
             };
 
             _process_array(dep_scripts, promise_get_script)
-                .then (_ => {
+                .then (() => {
                     window["flat_desine"] = true;
                     const { t } = this.props;
 
