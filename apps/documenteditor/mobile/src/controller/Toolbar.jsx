@@ -46,8 +46,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
       	return 0;
     }, []);
 
-    const navbarHeight = useMemo(() => getNavbarTotalHeight(), []);
-
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
@@ -69,6 +67,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     useEffect(() => {
         const api = Common.EditorApi.get();
+        const navbarHeight = getNavbarTotalHeight();
 
         const onEngineCreated = api => {
             if(api && isViewer && navbarHeight) {
@@ -99,6 +98,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const scrollHandler = offset => {
         const api = Common.EditorApi.get();
+        const navbarHeight = getNavbarTotalHeight();
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
         if(!isSearchbarEnabled && navbarHeight) {

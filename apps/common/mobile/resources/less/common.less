@@ -117,7 +117,7 @@
     --menu-list-offset: 0px;
 
     ul {
-        width: 100%;
+        max-width: 100%;
         background: var(--f7-list-bg-color);
     }
 
@@ -1157,6 +1157,12 @@ input[type="number"]::-webkit-inner-spin-button {
             position: absolute;
             right: 4px;
             top: calc(50% - 12.5px);
+        }
+
+        .item-input-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     }
 }
