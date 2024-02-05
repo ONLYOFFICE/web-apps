@@ -417,7 +417,7 @@ class MainController extends Component {
                             Common.Gateway.internalMessage('listenHardBack');
                         }
                     } catch (error) {
-                        console.error('Ошибка при получении переводов:', error);
+                        console.error('Error with receiving translations:', error);
                     }
                 }, error => {
                     console.log('promise failed ' + error);
