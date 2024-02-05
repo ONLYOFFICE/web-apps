@@ -119,7 +119,7 @@ export class storeAppOptions {
         this.templates = config.templates;
         this.recent = config.recent;
         this.createUrl = config.createUrl;
-        this.lang = config.lang;
+        this.lang = config.lang ?? 'en';
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
