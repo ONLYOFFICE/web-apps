@@ -419,6 +419,11 @@ define([
                         me.backgroundPlugins.push(model);
                         return;
                     }
+                    if (model.get('tab')) {
+                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        return;
+                    }
+
                     //if (new_rank === 1 || new_rank === 2) return; // for test
                     if ((new_rank === 0 || new_rank === 2) && !isBackground) {
                         _group = me.addBackgroundPluginsButton(_group);
@@ -872,7 +877,8 @@ define([
                             original: item,
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
-                            isSystem: isSystem
+                            isSystem: isSystem,
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
