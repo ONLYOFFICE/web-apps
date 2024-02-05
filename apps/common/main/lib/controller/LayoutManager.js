@@ -151,7 +151,7 @@ Common.UI.LayoutManager = new(function() {
     }
 
     var _addCustomItems = function (toolbar, data) {
-        if (!data || data.length<1) return;
+        if (!_licensed || !data || data.length<1) return;
 
         var lang = Common.Locale.getCurrentLanguage(),
             btns = [];
