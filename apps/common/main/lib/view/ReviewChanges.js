@@ -112,6 +112,10 @@ define([
                 '<div class="group no-group-mask review form-view">' +
                     '<span id="slot-btn-history" class="btn-slot text x-huge"></span>' +
                 '</div>' +
+                '<div class="separator long history"></div>' +
+                '<div class="group">' +
+                    '<span id="slot-btn-mailrecepients" class="btn-slot text x-huge" data-layout-name="toolbar-collaboration-mailmerge"></span>' +
+                '</div>' +
             '</section>';
 
         function setEvents() {
@@ -247,6 +251,11 @@ define([
                     me.fireEvent('comment:resolveComments', [item.value]);
                 });
             }
+
+            this.mnuMailRecepients && this.mnuMailRecepients.on('item:click', function(menu, item, e) {
+                    me.fireEvent('collaboration:mailmerge', [item.value]);
+                });
+
             Common.NotificationCenter.on('protect:doclock', function (e) {
                 me.fireEvent('protect:update');
             });
@@ -494,6 +503,28 @@ define([
                     });
                     this.lockedControls.push(this.btnCommentResolve);
                 }
+
+                if (this.appConfig.isEdit && this.appConfig.canCoAuthoring && this.appConfig.canUseMailMerge) {
+                    this.btnMailRecepients = new Common.UI.Button({
+                        id: 'id-toolbar-btn-mailrecepients',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-mailmerge',
+                        lock: [_set.mmergeLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: this.txtMailMerge,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small',
+                        menu: new Common.UI.Menu({
+                            items: [
+                                {caption: this.mniMMFromFile, value: 'file'},
+                                {caption: this.mniMMFromUrl, value: 'url'},
+                                {caption: this.mniMMFromStorage, value: 'storage'}
+                            ]
+                        })
+                    });
+                    this.mnuMailRecepients = this.btnMailRecepients.menu;
+                    this.lockedControls.push(this.btnMailRecepients);
+                }
             },
 
             render: function (el) {
@@ -621,6 +652,7 @@ define([
                     me.btnSharing && me.btnSharing.updateHint(me.tipSharing);
                     me.btnHistory && me.btnHistory.updateHint(me.tipHistory);
                     me.btnChat && me.btnChat.updateHint(me.txtChat + Common.Utils.String.platformKey('Alt+Q', ' (' + (Common.Utils.isMac ? Common.Utils.String.textCtrl + '+' : '') + '{0})'));
+                    me.btnMailRecepients && me.btnMailRecepients.updateHint(me.tipMailRecepients);
                     if (me.btnCoAuthMode) {
                         me.btnCoAuthMode.setMenu(
                             new Common.UI.Menu({
@@ -700,6 +732,7 @@ define([
                         separator_review = !(config.canReview || config.canViewReview) ? me.$el.find('.separator.review') : '.separator.review',
                         separator_compare = !(config.canReview && config.canFeatureComparison) ? me.$el.find('.separator.compare') : '.separator.compare',
                         separator_chat = !me.btnChat ? me.$el.find('.separator.chat') : '.separator.chat',
+                        separator_history = !me.btnHistory ? me.$el.find('.separator.history') : '.separator.history',
                         separator_last;
 
                     if (typeof separator_sharing == 'object')
@@ -727,7 +760,12 @@ define([
                     else
                         separator_last = separator_chat;
 
-                    if (!me.btnHistory && separator_last)
+                    if (typeof separator_history == 'object')
+                        separator_history.hide().prev('.group').hide();
+                    else
+                        separator_last = separator_history;
+
+                    if ((!me.btnMailRecepients || !Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) && separator_last)
                         me.$el.find(separator_last).hide();
 
                     Common.NotificationCenter.trigger('tab:visible', 'review', (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
@@ -755,6 +793,7 @@ define([
                 this.btnChat && this.btnChat.render(this.$el.find('#slot-btn-chat'));
                 this.btnCommentRemove && this.btnCommentRemove.render(this.$el.find('#slot-comment-remove'));
                 this.btnCommentResolve && this.btnCommentResolve.render(this.$el.find('#slot-comment-resolve'));
+                this.btnMailRecepients && this.btnMailRecepients.render(this.$el.find('#slot-btn-mailrecepients'));
 
                 return this.$el;
             },
@@ -981,7 +1020,12 @@ define([
             txtMarkupSimpleCap: 'Simple Markup',
             txtMarkupSimple: 'All changes {0}<br>Turn off balloons',
             txtEditing: 'Editing',
-            txtPreview: 'Preview'
+            txtPreview: 'Preview',
+            txtMailMerge: 'Mail Merge',
+            mniMMFromFile: 'From File',
+            mniMMFromUrl: 'From URL',
+            mniMMFromStorage: 'From Storage',
+            tipMailRecepients: 'Mail Merge',
         }
     }()), Common.Views.ReviewChanges || {}));
 

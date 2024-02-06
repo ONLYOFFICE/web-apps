@@ -79,11 +79,9 @@
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-clearstyle"></span>
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-copystyle"></span>
-                        <span class="btn-slot split" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
                     </div>
                 </div>
                 <div class="separator long invisible"></div>
@@ -155,6 +153,10 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
                 </div>
             </section>
             <section class="panel" data-tab="links">

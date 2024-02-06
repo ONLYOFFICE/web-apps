@@ -1000,6 +1000,11 @@ define([
                 Common.Utils.InternalSettings.set(me.appPrefix + "settings-review-hover-mode", val);
                 me.appConfig.reviewHoverMode = val;
 
+                if (me.view && me.view.btnMailRecepients) {
+                    Common.Utils.lockControls(Common.enumLock.mmergeLock, !!me._state.mmdisable, {array: [me.view.btnMailRecepients]});
+                    me.view.mnuMailRecepients.items[2].setVisible(me.appConfig.fileChoiceUrl || me.appConfig.canRequestSelectSpreadsheet || me.appConfig.canRequestMailMergeRecipients);
+                }
+
                 me.view && me.view.onAppReady(config);
             });
         },
@@ -1153,6 +1158,11 @@ define([
                 }
                 this.updatePreviewMode();
             }
+        },
+
+        DisableMailMerge: function() {
+            this._state.mmdisable = true;
+            this.view && this.view.btnMailRecepients && Common.Utils.lockControls(Common.enumLock.mmergeLock, true, {array: [this.view.btnMailRecepients]});
         },
 
         textInserted: '<b>Inserted:</b>',
