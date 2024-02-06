@@ -380,11 +380,14 @@ body {
     font-family: @font-family-base;
 }
 
-.rtl .ps-scrollbar-y-rail {
-    right: unset !important;
-    left: 1px !important;
-    .ps-scrollbar-y {
-        left: 0 !important;
+.rtl .ps-container.oo {
+    .ps-scrollbar-y-rail {
+        right: unset !important;
+        left: 1px;
+
+        .ps-scrollbar-y {
+            left: 0;
+        }
     }
 }
 
