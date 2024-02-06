@@ -324,101 +324,98 @@ class MainController extends Component {
                 }
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
+            const _process_array = async (array, fn) => {
+                const results = [];
+
+                for (const item of array) {
+                    try {
+                        const data = await fn(item);
+                        results.push(data);
+                    } catch (error) {
+                        console.log(`Error with processing element ${item}:`, error);
+                        continue;
+                    }
+                }
+
+                return results;
             };
 
             _process_array(dep_scripts, promise_get_script)
-                .then (() => {
+                .then(() => {
                     window["flat_desine"] = true;
                     const { t } = this.props;
+                    const _translate = t('Main.SDK', { returnObjects: true });
 
-                    try {
-                        const _translate = t('Main.SDK', { returnObjects: true });
-
-                        if (_translate) {
-                            Object.entries(_translate).forEach(([key, value]) => {
-                                if (key.endsWith(' ') && !value.endsWith(' ')) {
-                                    _translate[key] = value + ' ';
-                                }
-                            });
-
-                            const errorMessages = [
-                                "Error! Bookmark not defined",
-                                "No table of contents entries found",
-                                "No table of figures entries found",
-                                "Error! Main Document Only",
-                                "Error! Not a valid bookmark self-reference",
-                                "Error! No text of specified style in document"
-                            ];
-                            
-                            for (const item of errorMessages) {
-                                const newItem = item + '.';
-
-                                if (_translate[item]) {
-                                    _translate[newItem] = _translate[item];
-                                    delete _translate[item];
-                                }
-                            }
-
-                            let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
-                                isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
-
-                            const config = {
-                                'id-view'  : 'editor_sdk',
-                                'mobile'   : true,
-                                'translate': _translate
-                            };
-                            this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
-
-                            Common.Notifications.trigger('engineCreated', this.api);
-                            // Common.EditorApi = {get: () => this.api};
-
-                            // Set font rendering mode
-                            let value = LocalStorage.getItem("de-settings-fontrender");
-                            if (value === null) {
-                                value = window.devicePixelRatio > 1 ? '1' : '0';
-                            }
-                            switch (value) {
-                                case '0': this.api.SetFontRenderingMode(3); break;
-                                case '1': this.api.SetFontRenderingMode(1); break;
-                                case '2': this.api.SetFontRenderingMode(2); break;
-                            }
-
-                            Common.Utils.Metric.setCurrentMetric(1); //pt
-
-                            this.appOptions   = {};
-                            this.bindEvents();
-
-                            Common.Gateway.on('init',           loadConfig);
-                            Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
-                            Common.Gateway.on('opendocument',   loadDocument);
-                            Common.Gateway.appReady();
-
-                            Common.Gateway.on('internalcommand', function(data) {
-                                if (data.command === 'hardBack') {
-                                    if ($$('.modal-in').length > 0) {
-                                        if ( !($$('.error-dialog.modal-in').length > 0) ) {
-                                            f7.dialog.close();
-                                        }
-                                        Common.Gateway.internalMessage('hardBack', false);
-                                    } else
-                                        Common.Gateway.internalMessage('hardBack', true);
-                                }
-                            });
-                            Common.Gateway.internalMessage('listenHardBack');
+                    Object.entries(_translate).forEach(([key, value]) => {
+                        if (key.endsWith(' ') && !value.endsWith(' ')) {
+                            _translate[key] = value + ' ';
                         }
-                    } catch (error) {
-                        console.error('Error with receiving translations:', error);
+                    });
+
+                    const errorMessages = [
+                        "Error! Bookmark not defined",
+                        "No table of contents entries found",
+                        "No table of figures entries found",
+                        "Error! Main Document Only",
+                        "Error! Not a valid bookmark self-reference",
+                        "Error! No text of specified style in document"
+                    ];
+                    
+                    for (const item of errorMessages) {
+                        const newItem = item + '.';
+
+                        if (_translate[item]) {
+                            _translate[newItem] = _translate[item];
+                            delete _translate[item];
+                        }
                     }
+
+                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                        isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
+
+                    const config = {
+                        'id-view'  : 'editor_sdk',
+                        'mobile'   : true,
+                        'translate': _translate
+                    };
+                    this.api = isPDF ? new Asc.PDFEditorApi(config) : new Asc.asc_docs_api(config);
+
+                    Common.Notifications.trigger('engineCreated', this.api);
+                    // Common.EditorApi = {get: () => this.api};
+
+                    // Set font rendering mode
+                    let value = LocalStorage.getItem("de-settings-fontrender");
+                    if (value === null) {
+                        value = window.devicePixelRatio > 1 ? '1' : '0';
+                    }
+                    switch (value) {
+                        case '0': this.api.SetFontRenderingMode(3); break;
+                        case '1': this.api.SetFontRenderingMode(1); break;
+                        case '2': this.api.SetFontRenderingMode(2); break;
+                    }
+
+                    Common.Utils.Metric.setCurrentMetric(1); //pt
+
+                    this.appOptions   = {};
+                    this.bindEvents();
+
+                    Common.Gateway.on('init',           loadConfig);
+                    Common.Gateway.on('showmessage',    this.onExternalMessage.bind(this));
+                    Common.Gateway.on('opendocument',   loadDocument);
+                    Common.Gateway.appReady();
+
+                    Common.Gateway.on('internalcommand', function(data) {
+                        if (data.command === 'hardBack') {
+                            if ($$('.modal-in').length > 0) {
+                                if ( !($$('.error-dialog.modal-in').length > 0) ) {
+                                    f7.dialog.close();
+                                }
+                                Common.Gateway.internalMessage('hardBack', false);
+                            } else
+                                Common.Gateway.internalMessage('hardBack', true);
+                        }
+                    });
+                    Common.Gateway.internalMessage('listenHardBack');
                 }, error => {
                     console.log('promise failed ' + error);
                 }
