@@ -1202,7 +1202,7 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this.SetSlideDisabled(this._locked.background, this._locked.header);
+            this.SetSlideDisabled(this._locked.background, this._locked.header, props);
 
             if (props)
             {
@@ -1480,9 +1480,6 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground());
-                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll());
-
                 this.chBackgroundGraphics.setValue(!!props.get_ShowMasterSp(), true);
 
                 value = this.api.asc_getHeaderFooterProperties();
@@ -1502,12 +1499,17 @@ define([
             };
         },
 
-        SetSlideDisabled: function(background, header) {
+        SetSlideDisabled: function(background, header, props) {
             this._locked = {
                 background: background, header: header
             };
             if (this._initSettings) return;
             
+            if(props) {
+                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background);
+                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll());
+            }
+
             if (background !== this._stateDisabled.background) {
                 this.cmbFillSrc.setDisabled(background);
                 for (var i=0; i<this.FillItems.length; i++) {
