@@ -308,12 +308,12 @@ class MainController extends Component {
                 if(isOForm) {
                     f7.dialog.create({
                         title: t('Main.notcriticalErrorTitle'),
-                        text: t('Main.textConvertFormSave'),
+                        text: t('Main.textConvertForm'),
                         buttons: [
                             {
-                                text: appOptions.canRequestSaveAs || !!appOptions.saveAsUrl || appOptions.isOffline ? t('Main.textSaveAsPdf') : t('Main.textDownloadPdf'),
+                                text: t('Main.textDownloadPdf'),
                                 onClick: () => {
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, appOptions.canRequestSaveAs || !!appOptions.saveAsUrl));
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, false))
                                 }
                             },
                             {
@@ -324,41 +324,53 @@ class MainController extends Component {
                 }
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
+            const _process_array = async (array, fn) => {
+                const results = [];
+
+                for (const item of array) {
+                    try {
+                        const data = await fn(item);
+                        results.push(data);
+                    } catch (error) {
+                        console.log(`Error with processing element ${item}:`, error);
+                        continue;
+                    }
+                }
+
+                return results;
             };
 
             _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
+                .then(() => {
                     window["flat_desine"] = true;
-                    const {t} = this.props;
-                    let _translate = t('Main.SDK', {returnObjects:true});
-                    for (let item in _translate) {
-                        if (_translate.hasOwnProperty(item)) {
-                            const str = _translate[item];
-                            if (item[item.length-1]===' ' && str[str.length-1]!==' ')
-                                _translate[item] += ' ';
+                    const { t } = this.props;
+                    const _translate = t('Main.SDK', { returnObjects: true });
+
+                    Object.entries(_translate).forEach(([key, value]) => {
+                        if (key.endsWith(' ') && !value.endsWith(' ')) {
+                            _translate[key] = value + ' ';
                         }
-                    }
-                    ["Error! Bookmark not defined",
-                     "No table of contents entries found",
-                     "No table of figures entries found",
-                     "Error! Main Document Only",
-                     "Error! Not a valid bookmark self-reference",
-                     "Error! No text of specified style in document"].forEach(item => {
-                        _translate[item + '.'] = _translate[item];
-                        delete _translate[item];
                     });
 
-                    var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                    const errorMessages = [
+                        "Error! Bookmark not defined",
+                        "No table of contents entries found",
+                        "No table of figures entries found",
+                        "Error! Main Document Only",
+                        "Error! Not a valid bookmark self-reference",
+                        "Error! No text of specified style in document"
+                    ];
+                    
+                    for (const item of errorMessages) {
+                        const newItem = item + '.';
+
+                        if (_translate[item]) {
+                            _translate[newItem] = _translate[item];
+                            delete _translate[item];
+                        }
+                    }
+
+                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
                         isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
                     const config = {
@@ -406,7 +418,8 @@ class MainController extends Component {
                     Common.Gateway.internalMessage('listenHardBack');
                 }, error => {
                     console.log('promise failed ' + error);
-                });
+                }
+            );
         };
 
         if ( About.developVersion() ) {
@@ -519,7 +532,7 @@ class MainController extends Component {
             let value = LocalStorage.getItem("de-opensource-warning");
             value = (value !== null) ? parseInt(value) : 0;
             const now = (new Date).getTime();
-            if (now - value > 86400000 && !isForm) {
+            if (now - value > 86400000) {
                 LocalStorage.setItem("de-opensource-warning", now);
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,

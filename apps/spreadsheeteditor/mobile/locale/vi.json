@@ -835,7 +835,9 @@
       "textDark": "Dark",
       "textLight": "Light",
       "textTheme": "Theme",
-      "textSameAsSystem": "Same As System"
+      "textSameAsSystem": "Same As System",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }
