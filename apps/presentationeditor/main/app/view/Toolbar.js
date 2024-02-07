@@ -495,7 +495,7 @@ define([
                         iconCls: 'toolbar__icon btn-clearstyle',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnClearStyle);
 

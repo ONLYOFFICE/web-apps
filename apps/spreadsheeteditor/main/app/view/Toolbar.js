@@ -1640,7 +1640,7 @@ define([
                     }),
                     dataHint: '1',
                     dataHintDirection: 'top',
-                    dataHintOffset: '0, -16'
+                    dataHintOffset: '0, -6'
                 });
 
                 me.btnClearStyle = new Common.UI.Button({
@@ -1679,7 +1679,7 @@ define([
                         ]
                     }),
                     dataHint: '1',
-                    dataHintDirection: 'top',
+                    dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
                 });
 
