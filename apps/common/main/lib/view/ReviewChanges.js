@@ -1025,7 +1025,7 @@ define([
             mniMMFromFile: 'From File',
             mniMMFromUrl: 'From URL',
             mniMMFromStorage: 'From Storage',
-            tipMailRecepients: 'Mail Merge',
+            tipMailRecepients: 'Mail Merge'
         }
     }()), Common.Views.ReviewChanges || {}));
 
