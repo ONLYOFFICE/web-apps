@@ -283,6 +283,16 @@ define([
                     });
                     this.toolbarControls.push(this.btnSelectAll);
 
+                    this.btnReplace = new Common.UI.Button({
+                        id: 'id-toolbar-btn-replace',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-replace',
+                        lock: [_set.viewFormMode, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
+                    });
+                    this.toolbarControls.push(this.btnReplace);
+
                     this.btnIncFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-incfont',
                         cls: 'btn-toolbar',
@@ -1716,6 +1726,7 @@ define([
                 _injectComponent('#slot-btn-paste', this.btnPaste);
                 _injectComponent('#slot-btn-cut', this.btnCut);
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
+                _injectComponent('#slot-btn-replace', this.btnReplace);
                 _injectComponent('#slot-btn-incfont', this.btnIncFontSize);
                 _injectComponent('#slot-btn-decfont', this.btnDecFontSize);
                 _injectComponent('#slot-btn-bold', this.btnBold);
@@ -2108,6 +2119,7 @@ define([
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
                 this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
+                this.btnReplace.updateHint(this.tipReplace + ' (' + Common.Utils.String.textCtrl + '+H)');
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -3387,7 +3399,7 @@ define([
             textCustomHyphen: 'Hyphenation options',
             tipHyphenation: 'Change hyphenation',
             capColorScheme: 'Color Scheme',
-
+            tipReplace: 'Replace'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -384,6 +384,7 @@ define([
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
                 toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
                 toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+                toolbar.btnReplace.on('click',                              _.bind(this.onReplace, this));
                 toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
                 toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
                 toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
@@ -644,6 +645,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
+        },
+
+        onReplace: function(e) {
+            this.getApplication().getController('LeftMenu').onShortcut('replace');
         },
 
         onIncreaseFontSize: function(e) {

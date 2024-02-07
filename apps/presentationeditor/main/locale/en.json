@@ -2689,6 +2689,7 @@
   "PE.Views.Toolbar.tipSave": "Save",
   "PE.Views.Toolbar.tipSaveCoauth": "Save your changes for the other users to see them.",
   "PE.Views.Toolbar.tipSelectAll": "Select all",
+  "PE.Views.Toolbar.tipReplace": "Replace",
   "PE.Views.Toolbar.tipShapeAlign": "Align shape",
   "PE.Views.Toolbar.tipShapeArrange": "Arrange shape",
   "PE.Views.Toolbar.tipSlideNum": "Insert slide number",
