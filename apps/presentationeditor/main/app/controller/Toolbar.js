@@ -111,7 +111,8 @@ define([
                 no_columns: false,
                 clrhighlight: undefined,
                 can_copycut: undefined,
-                needCallApiBullets: undefined
+                needCallApiBullets: undefined,
+                isLockedSlideHeaderAppyToAll: false
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -434,6 +435,9 @@ define([
                 this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+
+                this.api.asc_registerCallback('asc_onLockSlideHdrFtrApplyToAll', _.bind(this.onApiLockSlideHdrFtrApplyToAll, this, true));
+                this.api.asc_registerCallback('asc_onUnLockSlideHdrFtrApplyToAll', _.bind(this.onApiLockSlideHdrFtrApplyToAll, this, false));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -1968,6 +1972,7 @@ define([
                     api: this.api,
                     lang: this.api.asc_getDefaultLanguage(),
                     props: this.api.asc_getHeaderFooterProperties(),
+                    isLockedApplyToAll: this._state.isLockedSlideHeaderAppyToAll,
                     handler: function(result, value) {
                         if (result == 'ok' || result == 'all') {
                             if (me.api) {
@@ -2882,6 +2887,10 @@ define([
                 this.delayedSmartArt = undefined;
                 this.generateSmartArt(delayedSmartArt, this.delayedSmartArtMenu);
             }
+        },
+
+        onApiLockSlideHdrFtrApplyToAll: function(isLocked) {
+            this._state.isLockedSlideHeaderAppyToAll = isLocked;
         },
 
         onInsertSmartArt: function (value) {
