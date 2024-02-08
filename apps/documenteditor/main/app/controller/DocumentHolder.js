@@ -856,10 +856,12 @@ define([
         },
 
         onHyperlinkClick: function(url) {
-            if (url) {
+            //TODO: check url
+
+             if (url) {
                 var type = this.api.asc_getUrlType(url);
                 if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
-                    window.open(url);
+                window.parent.postMessage(url,"*")
                 else
                     Common.UI.warning({
                         msg: this.documentHolder.txtWarnUrl,
