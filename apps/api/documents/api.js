@@ -131,7 +131,11 @@
                         url: 'http://...',
                         text: 'Go to London',
                         blank: true,
-                        requestClose: false // if true - goback send onRequestClose event instead opening url
+                        requestClose: false // if true - goback send onRequestClose event instead opening url, deprecated, use customization.close instead
+                    },
+                    close: {
+                        visible: false,
+                        text: 'Close file'
                     },
                     reviewPermissions: {
                         "Group1": ["Group2"], // users from Group1 can accept/reject review changes made by users from Group2
