@@ -73,7 +73,7 @@ const ToolbarView = props => {
                     })
                 }
             </NavLeft>
-            {((!Device.phone || isViewer) && !isVersionHistoryMode && !isEditableForms) && 
+            {((!Device.phone || (isViewer && !isEditableForms)) && !isVersionHistoryMode) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>

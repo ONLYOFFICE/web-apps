@@ -242,6 +242,10 @@ define([
             }).on('changed:after', function() {
                 me.isStepChanged = true;
             });
+            this.inputStep._input.on('input', function (e) {
+                me.isInputStepFirstChange && me.inputStep.showError();
+                me.isInputStepFirstChange = false;
+            });
 
             this.inputStop = new Common.UI.InputField({
                 el               : $window.find('#fill-input-stop-value'),
@@ -250,6 +254,10 @@ define([
                 validateOnBlur   : false
             }).on('changed:after', function() {
                 me.isStopChanged = true;
+            });
+            this.inputStop._input.on('input', function (e) {
+                me.isInputStopFirstChange && me.inputStop.showError();
+                me.isInputStopFirstChange = false;
             });
 
             this.afterRender();
@@ -297,16 +305,6 @@ define([
         },
 
         getSettings: function () {
-            if (this.isStepChanged) {
-                var value = this.inputStep.getValue();
-                (typeof value === 'string') && (value = value.replace(',','.'));
-                this._changedProps.asc_setStepValue(value!=='' ? parseFloat(value) : null);
-            }
-            if (this.isStopChanged) {
-                var value = this.inputStop.getValue();
-                (typeof value === 'string') && (value = value.replace(',','.'));
-                this._changedProps.asc_setStopValue(value!=='' ? parseFloat(value) : null);
-            }
             return this._changedProps;
         },
 
@@ -331,22 +329,24 @@ define([
 
         isValid: function() {
             if (this.isStepChanged) {
-                var value = this.inputStep.getValue();
-                (typeof value === 'string') && (value = value.replace(',','.'));
-                if (value!=='' && isNaN(parseFloat(value))) {
+                var res = this._changedProps.asc_isValidStepValue(this.inputStep.getValue());
+                if (res[0]!==Asc.c_oAscError.ID.No) {
                     this.inputStep.showError([this.txtErrorNumber]);
                     this.inputStep.focus();
+                    this.isInputStepFirstChange = true;
                     return false;
-                }
+                } else
+                    this._changedProps.asc_setStepValue(res[1]);
             }
             if (this.isStopChanged) {
-                var value = this.inputStop.getValue();
-                (typeof value === 'string') && (value = value.replace(',','.'));
-                if (value!=='' && isNaN(parseFloat(value))) {
+                var res = this._changedProps.asc_isValidStopValue(this.inputStop.getValue());
+                if (res[0]!==Asc.c_oAscError.ID.No) {
                     this.inputStop.showError([this.txtErrorNumber]);
                     this.inputStop.focus();
+                    this.isInputStopFirstChange = true;
                     return false;
-                }
+                } else
+                    this._changedProps.asc_setStopValue(res[1]);
             }
             return true;
         },

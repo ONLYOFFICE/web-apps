@@ -1893,6 +1893,8 @@ define([
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
                 }
+                if (!this.appOptions.isEdit)
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg, options) {
@@ -2347,6 +2349,11 @@ define([
 
             onUnload: function() {
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
+            },
+
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
             },
 
             hidePreloader: function() {
@@ -2810,7 +2817,8 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            // me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            window.open(url, "_blank"); // download by url, don't convert file again (+ fix print selection)
                         }
                     };
                 }

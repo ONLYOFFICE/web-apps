@@ -48,8 +48,8 @@ if (!window.lang) {
 window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
 
 var ui_rtl = false;
-if ( window.native && window.native.rtl !== undefined ) {
-    ui_rtl = window.native.rtl;
+if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
+    ui_rtl = window.nativeprocvars.rtl;
 } else {
     if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
         ui_rtl = localStorage.getItem("ui-rtl") === '1';
@@ -59,6 +59,14 @@ if ( window.native && window.native.rtl !== undefined ) {
 if ( ui_rtl && !isIE ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
+}
+
+var isLangRtl = function (lang) {
+    return lang.lastIndexOf('ar', 0) === 0;
+}
+
+if ( isLangRtl(window.lang || lang) ) {
+    document.body.classList.add('rtl-font');
 }
 
 function checkScaling() {

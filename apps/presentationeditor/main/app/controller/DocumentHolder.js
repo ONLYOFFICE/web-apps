@@ -834,7 +834,11 @@ define([
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
-                            (btn == 'yes') && window.open(url);
+                            try {
+                                (btn == 'yes') && window.open(url);
+                            } catch (err) {
+                                err && console.log(err.stack);
+                            }
                         }
                     });
             }
@@ -1135,6 +1139,7 @@ define([
                 if (text !== false) {
                     win = new PE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.mode,
                         handler: handlerDlg,
                         slides: _arr
                     });
@@ -1155,6 +1160,7 @@ define([
                     if (props) {
                         win = new PE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.mode,
                             handler: handlerDlg,
                             slides: _arr
                         });
@@ -1490,6 +1496,7 @@ define([
                 }
                 win = new PE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
@@ -1518,6 +1525,7 @@ define([
                 }
                 win = new PE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());

@@ -119,7 +119,7 @@ export class storeAppOptions {
         this.templates = config.templates;
         this.recent = config.recent;
         this.createUrl = config.createUrl;
-        this.lang = config.lang;
+        this.lang = config.lang ?? 'en';
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
@@ -177,10 +177,9 @@ export class storeAppOptions {
         this.canPrint = (permissions.print !== false);
         this.fileKey = document.key;
         this.isXpsViewer = /^(?:(djvu|xps|oxps))$/.exec(document.fileType);
-        this.typeForm = /^(?:(pdf))$/.exec(document.fileType); // can fill forms only in pdf format
-        this.typeOForm = /^(?:(oform))$/.exec(document.fileType);
-        this.isOForm = !!(this.typeOForm && typeof this.typeOForm[1] === 'string');
-        this.canFillForms = this.canLicense && !!(this.typeForm && typeof this.typeForm[1] === 'string') && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
+        this.typeForm = document.fileType === 'pdf'; // can fill forms only in pdf format
+        this.isOForm = document.fileType === 'oform';
+        this.canFillForms = this.canLicense && this.typeForm && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
         this.isForm = !this.isXpsViewer && !!window.isPDFForm;
         this.canProtect = permissions.protect !== false;
         this.canSubmitForms = this.canLicense && (typeof (this.customization) == 'object') && !!this.customization.submitForm && !this.isOffline;
@@ -199,8 +198,8 @@ export class storeAppOptions {
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
 
-        this.canFavorite = document.info && (document.info.favorite !== undefined && document.info.favorite !== null) && !this.isOffline;
-        this.isFavorite = document.info.favorite;
+        this.canFavorite = document.info && (document.info?.favorite !== undefined && document.info?.favorite !== null) && !this.isOffline;
+        this.isFavorite = document.info?.favorite;
 
         if ( this.isLightVersion ) {
             this.canUseHistory = this.canReview = this.isReviewOnly = false;

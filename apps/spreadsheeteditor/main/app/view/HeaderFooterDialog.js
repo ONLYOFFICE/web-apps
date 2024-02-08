@@ -274,7 +274,7 @@ define([
                 parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 115px;',
+                style: 'width: 122px;',
                 menu: true
             });
 
@@ -282,7 +282,7 @@ define([
                 parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 115px;',
+                style: 'width: 122px;',
                 menu: true
             });
 
@@ -300,9 +300,9 @@ define([
                 parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 115px;',
+                style: 'width: 120px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 115px;',
+                    style: 'min-width: 120px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -315,9 +315,9 @@ define([
                 parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 115px;',
+                style: 'width: 120px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 115px;',
+                    style: 'min-width: 120px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -330,7 +330,7 @@ define([
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-h-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 130px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -344,7 +344,7 @@ define([
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-f-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 130px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),

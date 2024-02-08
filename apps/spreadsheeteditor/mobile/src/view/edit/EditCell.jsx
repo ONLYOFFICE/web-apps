@@ -152,7 +152,7 @@ const PageCellStyle = props => {
                         let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
                         
                         return (
-                            <SwiperSlide>
+                            <SwiperSlide key={indexSlide}>
                                 <List className="cell-styles-list">
                                     {stylesSlide.map((elem, index) => (
                                         <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>

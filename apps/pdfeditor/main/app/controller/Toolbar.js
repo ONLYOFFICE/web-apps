@@ -76,7 +76,8 @@ define([
             this.addListeners({
                 'Toolbar': {
                     'change:compact'    : this.onClickChangeCompact,
-                    'home:open'         : this.onHomeOpen
+                    'home:open'         : this.onHomeOpen,
+                    'tab:active'        : this.onActiveTab
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -215,34 +216,6 @@ define([
                 toolbar.btnNextForm.on('click', _.bind(this.onGoToForm, this, 'next'));
                 toolbar.btnSubmit && toolbar.btnSubmit.on('click', _.bind(this.onSubmitClick, this));
                 toolbar.btnSaveForm && toolbar.btnSaveForm.on('click', _.bind(this.onSaveFormClick, this));
-                if (toolbar.btnSubmit && !this.api.asc_IsAllRequiredFormsFilled()) {
-                    toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [toolbar.btnSubmit]});
-                    if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
-                        var requiredTooltip = new Common.UI.SynchronizeTip({
-                            extCls: 'colored',
-                            placement: 'bottom-right',
-                            target: toolbar.btnSubmit.$el,
-                            text: this.textRequired,
-                            showLink: false,
-                            closable: false,
-                            showButton: true,
-                            textButton: this.textGotIt
-                        });
-                        var onclose = function () {
-                            requiredTooltip.hide();
-                            me.api && me.api.asc_MoveToFillingForm(true, true, true);
-                            toolbar.btnSubmit.updateHint(me.textRequired);
-                        };
-                        requiredTooltip.on('buttonclick', function () {
-                            onclose();
-                            Common.localStorage.setItem("pdfe-embed-hide-submittip", 1);
-                        });
-                        requiredTooltip.on('closeclick', onclose);
-                        requiredTooltip.show();
-                    } else {
-                        toolbar.btnSubmit.updateHint(me.textRequired);
-                    }
-                }
             }
         },
 
@@ -941,6 +914,34 @@ define([
             })).then(function () {
                 (config.isEdit || config.isRestrictedEdit) && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType('hand');
+                if (config.isRestrictedEdit && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
+                    me.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [me.toolbar.btnSubmit]});
+                    if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
+                        me.requiredTooltip = new Common.UI.SynchronizeTip({
+                            extCls: 'colored',
+                            placement: 'bottom-right',
+                            target: me.toolbar.btnSubmit.$el,
+                            text: me.textRequired,
+                            showLink: false,
+                            closable: false,
+                            showButton: true,
+                            textButton: me.textGotIt
+                        });
+                        var onclose = function () {
+                            me.requiredTooltip.hide();
+                            me.api.asc_MoveToFillingForm(true, true, true);
+                            me.toolbar.btnSubmit.updateHint(me.textRequired);
+                        };
+                        me.requiredTooltip.on('buttonclick', function () {
+                            onclose();
+                            Common.localStorage.setItem("pdfe-embed-hide-submittip", 1);
+                        });
+                        me.requiredTooltip.on('closeclick', onclose);
+                        me.requiredTooltip.show();
+                    } else {
+                        me.toolbar.btnSubmit.updateHint(me.textRequired);
+                    }
+                }
             });
         },
 
@@ -955,6 +956,13 @@ define([
             } else {
                 if ( this.toolbar.isTabActive('file') )
                     this.toolbar.setTab();
+            }
+        },
+
+        onActiveTab: function(tab) {
+            if (tab !== 'file' && tab !== 'home' && this.requiredTooltip) {
+                this.requiredTooltip.close();
+                this.requiredTooltip = undefined;
             }
         },
 

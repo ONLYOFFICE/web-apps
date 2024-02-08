@@ -43,8 +43,8 @@
     "Themes": {
       "dark": "Tmavé",
       "light": "Světlé",
-      "system": "Same as system",
-      "textTheme": "Theme"
+      "system": "Stejné jako systémové",
+      "textTheme": "Prostředí"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Varování",
@@ -66,6 +66,7 @@
     "errorInvalidLink": "Odkaz neexistuje. Prosím, opravte odkaz nebo jej smažte.",
     "menuAddComment": "Přidat komentář",
     "menuAddLink": "Přidat odkaz",
+    "menuAutofill": "Dynamické doplňování",
     "menuCancel": "Zrušit",
     "menuCell": "Buňka",
     "menuDelete": "Smazat",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Nezobrazovat znovu",
     "textOk": "OK",
     "txtWarnUrl": "Kliknutí na tento odkaz může být škodlivé pro Vaše zařízení a Vaše data.<br>Jste si jistí, že chcete pokračovat?",
-    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Ve sloučené buňce budou zachována pouze data z původní levé horní buňky.<br>Opravdu chcete pokračovat?"
   },
   "Controller": {
     "Main": {
@@ -393,8 +393,8 @@
     "leaveButtonText": "Opustit tuto stránku",
     "stayButtonText": "Zůstat na této stránce",
     "textCloseHistory": "Zavřít historii",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Zadejte nový název souboru",
+    "textRenameFile": "Přejmenovat soubor"
   },
   "View": {
     "Add": {
@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Vnitřní svislé ohraničení",
       "textInteger": "Celé číslo",
       "textInternalDataRange": "Vnitřní rozsah dat",
+      "textInvalidName": "Název souboru nesmí obsahovat žádný z následujících znaků:",
       "textInvalidRange": "Neplatný rozsah buněk",
       "textJustified": "Oprávněný",
       "textLabelOptions": "Možnosti štítku",
@@ -649,8 +650,7 @@
       "textYen": "Jen",
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSortHigh2Low": "Seřadit od nejvyššího po nejnižší",
-      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Seřadit od nejnižšího po nejvyšší"
     },
     "Settings": {
       "advCSVOptions": "Vyberte možnosti CSV",
@@ -682,7 +682,7 @@
       "textComments": "Komentáře",
       "textCreated": "Vytvořeno",
       "textCustomSize": "Vlastní velikost",
-      "textDark": "Tmavé",
+      "textDark": "Tmavá",
       "textDarkTheme": "Tmavý vzhled prostředí",
       "textDelimeter": "Oddělovač",
       "textDirection": "Směr",
@@ -738,6 +738,7 @@
       "textRestartApplication": "Pro provedení změn restartujete aplikaci",
       "textRight": "Vpravo",
       "textRightToLeft": "Zprava doleva",
+      "textSameAsSystem": "Stejné jako systémové",
       "textSearch": "Hledat",
       "textSearchBy": "Hledat",
       "textSearchIn": "Hledat v",
@@ -750,6 +751,7 @@
       "textSpreadsheetTitle": "Nadpis sešitu",
       "textSubject": "Předmět",
       "textTel": "Telefon",
+      "textTheme": "Prostředí",
       "textTitle": "Název",
       "textTop": "Nahoru",
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",
@@ -824,8 +826,8 @@
       "txtVi": "vietnamština",
       "txtZh": "čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

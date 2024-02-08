@@ -617,6 +617,7 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
         updatePluginButtonsIcons: function (icons) {

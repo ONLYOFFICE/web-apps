@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Bordure intérieure verticale",
       "textInteger": "Entier",
       "textInternalDataRange": "Plage de données interne",
+      "textInvalidName": "Le nom du fichier ne peut contenir aucun des caractères suivants :",
       "textInvalidRange": "Plage de cellules non valide",
       "textJustified": "Justifié",
       "textLabelOptions": "Options d'étiquettes",
@@ -649,8 +650,7 @@
       "textYen": "Yen",
       "txtNotUrl": "Ce champ doit contenir une URL au format \"http://www.example.com\"",
       "txtSortHigh2Low": "Trier du plus élevé au plus bas",
-      "txtSortLow2High": "Trier le plus bas au plus élevé",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Trier le plus bas au plus élevé"
     },
     "Settings": {
       "advCSVOptions": "Choisir les options CSV",
@@ -697,6 +697,7 @@
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
       "textEncoding": "Encodage",
       "textExample": "Exemple",
+      "textExplanationChangeDirection": "L'application sera redémarrée pour activer l'interface RTL",
       "textFeedback": "Commentaires & assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
@@ -738,6 +739,7 @@
       "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textRight": "À droite",
       "textRightToLeft": "De droite à gauche",
+      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSearchBy": "Rechercher",

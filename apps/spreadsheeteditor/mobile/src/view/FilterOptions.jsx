@@ -92,7 +92,7 @@ const FilterView = (props) => {
             <Popover id="picker-popover" className="popover__titled popover-filter">
                 <FilterOptions style={{height: '410px'}} {...props}></FilterOptions>
             </Popover> :
-            <Sheet className="picker__sheet sheet-filter" push>
+            <Sheet className="picker__sheet sheet-filter">
                 <FilterOptions  {...props}></FilterOptions>
             </Sheet>
     )

@@ -543,9 +543,11 @@
       "txtScheme9": "Emalatxana",
       "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRTL": "RTL",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

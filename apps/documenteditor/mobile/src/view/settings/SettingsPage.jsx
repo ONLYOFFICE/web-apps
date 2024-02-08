@@ -147,11 +147,9 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-doc-setup"></Icon>
                     </ListItem>
                 }
-                {!isEditableForms &&
-                    <ListItem title={_t.textApplicationSettings} link="/application-settings/">
-                        <Icon slot="media" icon="icon-app-settings"></Icon>
-                    </ListItem>
-                }
+                <ListItem title={_t.textApplicationSettings} link="/application-settings/">
+                    <Icon slot="media" icon="icon-app-settings"></Icon>
+                </ListItem>
                 {_canDownload &&
                     <ListItem title={isEditableForms ? t('Settings.textExport') : _t.textDownload} link="/download/">
                         <Icon slot="media" icon={isEditableForms ? "icon-export" : "icon-download"}></Icon>
@@ -177,7 +175,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                 }
-                {(_canAbout && !isEditableForms) &&
+                {_canAbout &&
                     <ListItem title={_t.textAbout} link="/about/">
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>

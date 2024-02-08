@@ -1686,7 +1686,7 @@ define([
                     delayRenderTips: true,
                     scrollAlwaysVisible: true,
                     store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
-                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                    itemTemplate: _.template('<div class="item-symbol" dir="ltr" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
                 });
                 this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
                 this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {

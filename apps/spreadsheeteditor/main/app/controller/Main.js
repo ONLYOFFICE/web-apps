@@ -1630,6 +1630,8 @@ define([
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
                 }
+                if (!this.appOptions.isEdit)
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg, options) {
@@ -2297,6 +2299,11 @@ define([
 
             onUnload: function() {
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
+            },
+
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
             },
 
             hidePreloader: function() {
