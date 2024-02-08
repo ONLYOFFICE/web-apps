@@ -44,6 +44,68 @@ class MainController extends Component {
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
         this.boxSdk = $$('#editor_sdk');
+        this.fallbackSdkTranslations = {
+            " -Section ": " -Section ",
+            "above": "above",
+            "below": "below",
+            "Caption": "Caption",
+            "Choose an item": "Choose an item",
+            "Click to load image": "Click to load image",
+            "Current Document": "Current Document",
+            "Diagram Title": "Chart Title",
+            "endnote text": "Endnote Text",
+            "Enter a date": "Enter a date",
+            "Error! Bookmark not defined": "Error! Bookmark not defined.",
+            "Error! Main Document Only": "Error! Main Document Only.",
+            "Error! No text of specified style in document": "Error! No text of specified style in document.",
+            "Error! Not a valid bookmark self-reference": "Error! Not a valid bookmark self-reference.",
+            "Even Page ": "Even Page ",
+            "First Page ": "First Page ",
+            "Footer": "Footer",
+            "footnote text": "Footnote Text",
+            "Header": "Header",
+            "Heading 1": "Heading 1",
+            "Heading 2": "Heading 2",
+            "Heading 3": "Heading 3",
+            "Heading 4": "Heading 4",
+            "Heading 5": "Heading 5",
+            "Heading 6": "Heading 6",
+            "Heading 7": "Heading 7",
+            "Heading 8": "Heading 8",
+            "Heading 9": "Heading 9",
+            "Hyperlink": "Hyperlink",
+            "Index Too Large": "Index Too Large",
+            "Intense Quote": "Intense Quote",
+            "Is Not In Table": "Is Not In Table",
+            "List Paragraph": "List Paragraph",
+            "Missing Argument": "Missing Argument",
+            "Missing Operator": "Missing Operator",
+            "No Spacing": "No Spacing",
+            "No table of contents entries found": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
+            "No table of figures entries found": "No table of figures entries found.",
+            "None": "None",
+            "Normal": "Normal",
+            "Number Too Large To Format": "Number Too Large To Format",
+            "Odd Page ": "Odd Page ",
+            "Quote": "Quote",
+            "Same as Previous": "Same as Previous",
+            "Series": "Series",
+            "Subtitle": "Subtitle",
+            "Syntax Error": "Syntax Error",
+            "Table Index Cannot be Zero": "Table Index Cannot be Zero",
+            "Table of Contents": "Table of Contents",
+            "table of figures": "Table of figures",
+            "The Formula Not In Table": "The Formula Not In Table",
+            "Title": "Title",
+            "TOC Heading": "TOC Heading",
+            "Type equation here": "Type equation here",
+            "Undefined Bookmark": "Undefined Bookmark",
+            "Unexpected End of Formula": "Unexpected End of Formula",
+            "X Axis": "X Axis XAS",
+            "Y Axis": "Y Axis",
+            "Your text here": "Your text here",
+            "Zero Divide": "Zero Divide"
+        }
 
         this._state = {
             licenseType: false,
@@ -344,30 +406,34 @@ class MainController extends Component {
                 .then(() => {
                     window["flat_desine"] = true;
                     const { t } = this.props;
-                    const _translate = t('Main.SDK', { returnObjects: true });
+                    let _translate = t('Main.SDK', { returnObjects: true });
 
-                    Object.entries(_translate).forEach(([key, value]) => {
-                        if (key.endsWith(' ') && !value.endsWith(' ')) {
-                            _translate[key] = value + ' ';
+                    if (typeof _translate === 'object') {
+                        Object.entries(_translate).forEach(([key, value]) => {
+                            if (key.endsWith(' ') && !value.endsWith(' ')) {
+                                _translate[key] = value + ' ';
+                            }
+                        });
+
+                        const errorMessages = [
+                            "Error! Bookmark not defined",
+                            "No table of contents entries found",
+                            "No table of figures entries found",
+                            "Error! Main Document Only",
+                            "Error! Not a valid bookmark self-reference",
+                            "Error! No text of specified style in document"
+                        ];
+                        
+                        for (const item of errorMessages) {
+                            const newItem = item + '.';
+
+                            if (_translate[item]) {
+                                _translate[newItem] = _translate[item];
+                                delete _translate[item];
+                            }
                         }
-                    });
-
-                    const errorMessages = [
-                        "Error! Bookmark not defined",
-                        "No table of contents entries found",
-                        "No table of figures entries found",
-                        "Error! Main Document Only",
-                        "Error! Not a valid bookmark self-reference",
-                        "Error! No text of specified style in document"
-                    ];
-                    
-                    for (const item of errorMessages) {
-                        const newItem = item + '.';
-
-                        if (_translate[item]) {
-                            _translate[newItem] = _translate[item];
-                            delete _translate[item];
-                        }
+                    } else {
+                        _translate = this.fallbackSdkTranslations
                     }
 
                     let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
