@@ -158,11 +158,13 @@
                                 save: false/true // save button
                             } / false / true,
                             home:  {
-                                mailmerge: false/true // mail merge button
+                                mailmerge: false/true // mail merge button // deprecated, button is moved to collaboration tab. use toolbar->collaboration->mailmerge instead
                             },
                             layout:  false / true, // layout tab
                             references:  false / true, // de references tab
-                            collaboration:  false / true // collaboration tab
+                            collaboration:  {
+                                mailmerge: false/true // mail merge button in de
+                            } / false / true, // collaboration tab
                             draw:  false / true // draw tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab

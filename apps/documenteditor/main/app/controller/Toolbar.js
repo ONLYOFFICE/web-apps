@@ -186,6 +186,9 @@ define([
                 },
                 'DocumentHolder': {
                     'list:settings': this.onMarkerSettingsClick.bind(this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:mailmerge':  _.bind(this.onSelectRecepientsClick, this)
                 }
             });
 
@@ -285,6 +288,7 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+            toolbar.btnReplace.on('click',                              _.bind(this.onReplace, this));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
@@ -367,7 +371,6 @@ define([
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
-            toolbar.mnuMailRecepients.on('item:click',                  _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
@@ -1135,6 +1138,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
+        },
+
+        onReplace: function(e) {
+            this.getApplication().getController('LeftMenu').onShortcut('replace');
         },
 
         onIncrease: function(e) {
@@ -3103,19 +3110,10 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
-            this.toolbar.lockToolbar(Common.enumLock.mmergeLock, !!this._state.mmdisable, {array: [this.toolbar.btnMailRecepients]});
-            if (!this._state.mmdisable) {
-                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestSelectSpreadsheet || this.toolbar.mode.canRequestMailMergeRecipients);
-            }
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
             this.onApiPageSize(props.get_W(), props.get_H());
-        },
-
-        DisableMailMerge: function() {
-            this._state.mmdisable = true;
-            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.lockToolbar(Common.enumLock.mmergeLock, true, {array: [this.toolbar.btnMailRecepients]});
         },
 
         updateThemeColors: function() {
@@ -3311,13 +3309,13 @@ define([
             disable ? Common.util.Shortcuts.suspendEvents(hkComments) : Common.util.Shortcuts.resumeEvents(hkComments);
         },
 
-        onSelectRecepientsClick: function(menu, item, e) {
+        onSelectRecepientsClick: function(type) {
             if (this._mailMergeDlg) return;
 
             var me = this;
-            if (item.value === 'file') {
+            if (type === 'file') {
                 this.api && this.api.asc_StartMailMerge();
-            } else if (item.value === 'url') {
+            } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     title: me.dataUrl,
                     handler: function(result, value) {
@@ -3337,7 +3335,7 @@ define([
                         }
                     }
                 })).show();
-            } else if (item.value === 'storage') {
+            } else if (type === 'storage') {
                 Common.NotificationCenter.trigger('storage:spreadsheet-load', 'mailmerge');
             }
         },
@@ -3428,7 +3426,7 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
-                    me.toolbar.processPanelVisible(null, true, true);
+                    me.toolbar.processPanelVisible(null, true);
                 }
 
                 // if ( config.isDesktopApp ) {

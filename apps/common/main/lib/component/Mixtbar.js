@@ -305,7 +305,7 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
-                        // me.processPanelVisible(null, true);
+                        // me.processPanelVisible();
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
                             me.dblclick_timer = setTimeout(function () {
@@ -337,7 +337,7 @@ define([
                         this.lastPanel = tab;
                         panel.addClass('active');
                         me.setMoreButton(tab, panel);
-                        me.processPanelVisible(null, true, true);
+                        me.processPanelVisible(null, true);
                     }
 
                     if ( panel.length ) {
@@ -353,6 +353,7 @@ define([
                     }
 
                     this.fireEvent('tab:active', [tab]);
+                    Common.NotificationCenter.trigger('tab:active',[tab]);
                 }
             },
 
@@ -422,10 +423,8 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel, now, force) {
+            processPanelVisible: function(panel, force) {
                 var me = this;
-                if ( me._timer_id ) clearTimeout(me._timer_id);
-
                 function _fc() {
                     var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
@@ -502,8 +501,13 @@ define([
                                 data.rightedge = _rightedge;
                                 if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
                                     for (var i=0; i<_flex.length; i++) {
-                                        var item = _flex[i];
-                                        item.el.css('width', item.width);
+                                        var item = _flex[i],
+                                            checkedwidth;
+                                        if (item.el.find('.combo-dataview').hasClass('auto-width')) {
+                                            checkedwidth = Common.UI.ComboDataView.prototype.checkAutoWidth(item.el,
+                                                me.$boxpanels.width() - $active.outerWidth() + item.el.width());
+                                        }
+                                        item.el.css('width', checkedwidth ? (checkedwidth + parseFloat(item.el.css('padding-left')) + parseFloat(item.el.css('padding-right'))) + 'px' : item.width);
                                         data.rightedge = $active.get(0).getBoundingClientRect().right;
                                     }
                                 }
@@ -512,11 +516,20 @@ define([
                     }
                 };
 
-                if ( now === true ) _fc(); else
-                me._timer_id =  setTimeout(function() {
-                    delete me._timer_id;
+                if (!me._timer_id) {
                     _fc();
-                }, 100);
+                    me._needProcessPanel = false;
+                    me._timer_id =  setInterval(function() {
+                        if (me._needProcessPanel) {
+                            _fc();
+                            me._needProcessPanel = false;
+                        } else {
+                            clearInterval(me._timer_id);
+                            delete me._timer_id;
+                        }
+                    }, 100);
+                } else
+                    me._needProcessPanel = true;
             },
             /**/
 

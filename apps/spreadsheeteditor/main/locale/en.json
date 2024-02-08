@@ -4187,6 +4187,7 @@
   "SSE.Views.Toolbar.tipSaveCoauth": "Save your changes for the other users to see them.",
   "SSE.Views.Toolbar.tipScale": "Scale to fit",
   "SSE.Views.Toolbar.tipSelectAll": "Select all",
+  "SSE.Views.Toolbar.tipReplace": "Replace",
   "SSE.Views.Toolbar.tipSendBackward": "Send backward",
   "SSE.Views.Toolbar.tipSendForward": "Bring forward",
   "SSE.Views.Toolbar.tipSynchronize": "The document has been changed by another user. Please click to save your changes and reload the updates.",
