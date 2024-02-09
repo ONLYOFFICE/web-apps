@@ -216,10 +216,11 @@ define([
                 win, props, text;
 
             if (me.api){
+    
+                var handlerDlg = function(dlg, result,props) {
 
-                var handlerDlg = function(dlg, result) {
                     if (result == 'ok') {
-                        props = dlg.getSettings();
+                        props = props;
                         (text!==false)
                             ? me.api.add_Hyperlink(props)
                             : me.api.change_Hyperlink(props);
@@ -240,6 +241,7 @@ define([
                     props.put_Text(text);
 
                     win.show();
+                   
                     win.setSettings(props);
                 } else {
                     var selectedElements = me.api.getSelectedElements();
@@ -258,6 +260,7 @@ define([
                         win.setSettings(props);
                     }
                 }
+       
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Add Hyperlink');

@@ -155,6 +155,8 @@ define([
             options: {},
 
             initialize: function (options) {
+
+
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
 
@@ -166,6 +168,29 @@ define([
                 var _set = Common.enumLock;
                 var me = this,
                     $host = me.toolbar.$el;
+                    this.token =Common.localStorage.getItem('token');
+                    this.getDocumentUrl =Common.localStorage.getItem('getDocumentUrl')
+
+
+                    fetch(this.getDocumentUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                      })
+                        .then(response => response.json())
+                        .then(data => {
+                         const finaldata= data.map(item => ({
+                                displayValue: item.title,  
+                                defaultValue:item.title, 
+                                value:item.id,                  
+                            }));
+                            Common.localStorage.setItem('this._arrLineRule',JSON.stringify(finaldata) )  
+                       
+                         })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
 
                 this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-big-contents', me.capBtnInsContents,
                     [_set.inHeader, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
@@ -279,6 +304,10 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function(){
+
+
+
+
                     var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div id="<%= options.previewId %>"></div></a>');
                     me.btnsContents.forEach( function(btn) {
                         btn.updateHint( me.tipContents );
