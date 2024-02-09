@@ -63,6 +63,7 @@ Require os is 64-bit Ubuntu 16.04
     npm install
     grunt
     ```
+    After the process, you notice that some files are changed and some new files are created. Don't commit those files to repo.
 
 4. Once the process is completed, `deploy` folder generated on root. Now we are ready to move the documenteditor to production server
     ```
