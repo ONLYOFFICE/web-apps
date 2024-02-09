@@ -43,6 +43,12 @@
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
     },
+    "Themes": {
+      "dark": "Fosc",
+      "light": "Clar",
+      "system": "Igual que el sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertiment",
       "textAnonymous": "Anònim",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega del historial"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -248,8 +248,8 @@
     "leaveButtonText": "Sortir d'aquesta Pàgina",
     "stayButtonText": "Queda't en aquesta Pàgina",
     "textCloseHistory": "Tanca l'historial",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Introduïu un nom de fitxer nou",
+    "textRenameFile": "Canvia el nom del fitxer"
   },
   "View": {
     "Add": {
@@ -373,10 +373,12 @@
       "textHighlightColor": "Color de ressaltat",
       "textHorizontalIn": "Horitzontal entrant",
       "textHorizontalOut": "Horitzontal sortint",
+      "textHorizontalText": "Text horitzontal",
       "textHyperlink": "Enllaç",
       "textImage": "Imatge",
       "textImageURL": "URL de la imatge ",
       "textInsertImage": "Inserir una imatge",
+      "textInvalidName": "El nom del fitxer no pot contenir cap dels caràcters següents:",
       "textLastColumn": "Última columna",
       "textLastSlide": "Última diapositiva",
       "textLayout": "Disposició",
@@ -416,6 +418,8 @@
       "textReplaceImage": "Substituir la imatge",
       "textRequired": "Obligatori",
       "textRight": "Dreta",
+      "textRotateTextDown": "Gira el text cap avall",
+      "textRotateTextUp": "Gira el text cap amunt",
       "textScreenTip": "Consell de pantalla",
       "textSearch": "Cercar",
       "textSec": "S",
@@ -437,6 +441,7 @@
       "textSuperscript": "Superíndex",
       "textTable": "Taula",
       "textText": "Text",
+      "textTextOrientation": "Orientació del text",
       "textTheme": "Tema",
       "textTop": "Superior",
       "textTopLeft": "Superior-esquerra",
@@ -452,18 +457,13 @@
       "textZoom": "Zoom",
       "textZoomIn": "Ampliar",
       "textZoomOut": "Reduir",
-      "textZoomRotate": "Ampliar i girar",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textZoomRotate": "Ampliar i girar"
     },
     "Settings": {
       "mniSlideStandard": "Estàndard (4:3)",
       "mniSlideWide": "Pantalla panoràmica (16:9)",
       "notcriticalErrorTitle": "Advertiment",
-      "textAbout": "Quant a",
+      "textAbout": "Quant a...",
       "textAddress": "adreça:",
       "textApplication": "Aplicació",
       "textApplicationSettings": "Configuració de l'aplicació",
@@ -475,6 +475,7 @@
       "textColorSchemes": "Esquema de color",
       "textComment": "Comentari",
       "textCreated": "S'ha creat",
+      "textDark": "Fosc",
       "textDarkTheme": "Tema fosc",
       "textDisableAll": "Inhabilitar-ho tot",
       "textDisableAllMacrosWithNotification": "Inhabilitar totes les macros amb notificació",
@@ -485,6 +486,7 @@
       "textEmail": "correu electrònic:",
       "textEnableAll": "Habilitar-ho tot",
       "textEnableAllMacrosWithoutNotification": "Habilitar totes les macros sense notificació",
+      "textExplanationChangeDirection": "L'aplicació es reiniciarà per a l'activació de la interfície RTL",
       "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cercar",
       "textFindAndReplace": "Cercar i substituir",
@@ -494,6 +496,7 @@
       "textInch": "Polzada",
       "textLastModified": "Última modificació",
       "textLastModifiedBy": "Última modificació feta per",
+      "textLight": "Clar",
       "textLoading": "S'està carregant...",
       "textLocation": "Ubicació",
       "textMacrosSettings": "Configuració de les macros",
@@ -510,6 +513,8 @@
       "textReplaceAll": "Substituir-ho tot ",
       "textRestartApplication": "Reiniciar l'aplicació perquè els canvis tinguin efecte.",
       "textRTL": "De dreta a esquerra",
+      "textRtlInterface": "Interfície RTL",
+      "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Cercar",
       "textSettings": "Configuració",
       "textShowNotification": "Mostrar la notificació",
@@ -517,6 +522,7 @@
       "textSpellcheck": "Revisió ortogràfica",
       "textSubject": "Assumpte",
       "textTel": "tel:",
+      "textTheme": "Tema",
       "textTitle": "Títol",
       "textUnitOfMeasurement": "Unitat de mesura",
       "textUploaded": "S'ha carregat",
@@ -543,13 +549,7 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria",
-      "textDark": "Dark",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "txtScheme9": "Foneria"
     }
   }
 }
