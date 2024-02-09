@@ -70,6 +70,7 @@ define([
                     allowBlank: true,
                     validateOnBlur: false,
                     style: 'width: 100%;',
+                    type: 'search',
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
