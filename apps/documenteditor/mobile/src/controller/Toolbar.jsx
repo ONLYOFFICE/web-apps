@@ -51,6 +51,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
+        Common.Notifications.on('close', onClose);
 
         if (isDisconnected) {
             f7.popover.close();
@@ -62,6 +63,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
+            Common.Notifications.off('close', onClose);
         }
     }, []);
 
@@ -118,10 +120,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
-            data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
-        {
-            setShowBack(true);
+            data.config.customization && data.config.customization.goback) {
+            var _canback = data.config.customization.close===undefined ?
+                data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
+                data.config.customization.goback.url && !data.config.customization.goback.requestClose;
+            _canback && setShowBack(true);
         }
     };
 
@@ -170,6 +173,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
                 parent.location.href = href;
             }
         }
+    }
+
+    const onClose = () => {
+        onRequestClose();
     }
 
     const onUndo = () => {
