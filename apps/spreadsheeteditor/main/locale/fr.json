@@ -3404,7 +3404,7 @@
   "SSE.Views.PrintWithPreview.txtPrintRange": "Zone d'impression",
   "SSE.Views.PrintWithPreview.txtPrintSides": "Impression sur les deux côtés",
   "SSE.Views.PrintWithPreview.txtPrintTitles": "Titres à imprimer",
-  "SSE.Views.PrintWithPreview.txtPrintToPDF": "Imprimer au PDF",
+  "SSE.Views.PrintWithPreview.txtPrintToPDF": "Imprimer en PDF",
   "SSE.Views.PrintWithPreview.txtRepeat": "Répéter...",
   "SSE.Views.PrintWithPreview.txtRepeatColumnsAtLeft": "Répéter les colonnes à gauche",
   "SSE.Views.PrintWithPreview.txtRepeatRowsAtTop": "Répéter les lignes en haut",
