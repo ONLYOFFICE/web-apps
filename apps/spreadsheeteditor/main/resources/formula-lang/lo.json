@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "ການຈັດຮອບວຽນເປັນຂໍ້ຄວາມ",
 	"SORT": "ຈັດຮຽງ",
 	"SORTBY": "SORTBY",
+	"GETPIVOTDATA": "GETPIVOTDATA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

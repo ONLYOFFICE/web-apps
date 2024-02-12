@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(matriz, por_matriz, [sequência_ordenação], ...)",
 		"d": "Ordena um intervalo ou matriz com base nos valores num intervalo ou matriz correspondente"
+	},
+	"GETPIVOTDATA": {
+		"a": "(campo_dados; tabela_dinâmica; [campo]; [item]; ...)",
+		"d": "Extrai os dados guardados numa Tabela Dinâmica."
 	}
 }

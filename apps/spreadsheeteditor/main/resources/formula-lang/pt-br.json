@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "MATRIZPARATEXTO",
 	"SORT": "CLASSIFICAR",
 	"SORTBY": "CLASSIFICARPOR",
+	"GETPIVOTDATA": "INFODADOSTABELADINÂMICA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
