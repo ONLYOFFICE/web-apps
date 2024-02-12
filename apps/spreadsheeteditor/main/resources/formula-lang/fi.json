@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "MATRIISI.TEKSTIKSI",
 	"SORT": "LAJITTELE",
 	"SORTBY": "LAJITTELE.ARVOJEN.PERUSTEELLA",
+	"GETPIVOTDATA": "NOUDA.PIVOT.TIEDOT",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

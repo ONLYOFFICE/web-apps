@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "TÖMB.SZÖVEGGÉ",
 	"SORT": "SORBA.RENDEZ",
 	"SORTBY": "RENDEZÉS.ALAP.SZERINT",
+	"GETPIVOTDATA": "KIMUTATÁSADATOT.VESZ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(array, by_array, [sort_order], ...)",
 		"d": "根据相应范围或数组中的值对范围或数组排序"
+	},
+	"GETPIVOTDATA": {
+		"a": "(data_field; pivot_table; [field]; [item]; ...)",
+		"d": "提取存储在数据透视表中的数据"
 	}
 }

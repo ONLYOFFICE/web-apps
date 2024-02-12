@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(matriisi, matriisin_mukaan, [lajittelujärjestys], ...)",
 		"d": "Lajittelee alueen tai matriisin vastaavan alueen tai matriisin arvojen perusteella"
+	},
+	"GETPIVOTDATA": {
+		"a": "(tietokenttä; pivot_taulukko; [kenttä]; [osa]; ...)",
+		"d": "Poimii Pivot-taulukkoon tallennettuja tietoja."
 	}
 }
