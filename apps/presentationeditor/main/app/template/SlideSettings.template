@@ -112,24 +112,24 @@
             </div>
         </td>
     </tr>
-        <tr>
+    <tr>
+        <td class="padding-small">
+            <div id="slide-checkbox-background-graphics"></div>
+        </td>
+    </tr>
+    <tr>
         <td class="padding-small">
             <div id="slide-btn-background-reset"></div>
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-small">
             <div id="slide-btn-apply-all-slides"></div>
         </td>
     </tr>
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
-        </td>
-    </tr>
-    <tr>
-        <td class="padding-small">
-            <div id="slide-checkbox-background-graphics"></div>
         </td>
     </tr>
     <tr>
