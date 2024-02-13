@@ -1445,7 +1445,11 @@ define([
                             h = parseFloat((h/7200.).toFixed(2));
                             break;
                     }
-                    this.lblPageSize.text(w + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' + h + ' ' + Common.Utils.Metric.getCurrentMetricName());
+                    var pageSizeTemplate = !Common.UI.isRTL() ?
+                        w + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' + h + ' ' + Common.Utils.Metric.getCurrentMetricName() :
+                        '<span dir="ltr"><span dir="ltr">' + Common.Utils.Metric.getCurrentMetricName() + ' </span><span dir="ltr">' + h + ' x </span>' +
+                        '<span dir="ltr">' + Common.Utils.Metric.getCurrentMetricName() + ' </span><span dir="ltr">' + w + '</span></span>';
+                    this.lblPageSize.html(pageSizeTemplate);
                     this._ShowHideInfoItem(this.lblPageSize, true);
                 } else
                     this._ShowHideInfoItem(this.lblPageSize, false);
