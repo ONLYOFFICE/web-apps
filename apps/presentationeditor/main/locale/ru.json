@@ -2006,6 +2006,7 @@
   "PE.Views.FileMenuPanels.Settings.txtQuickPrintTip": "Документ будет напечатан на последнем выбранном принтере или на принтере по умолчанию",
   "PE.Views.FileMenuPanels.Settings.txtRunMacros": "Включить все",
   "PE.Views.FileMenuPanels.Settings.txtRunMacrosDesc": "Включить все макросы без уведомления",
+  "PE.Views.FileMenuPanels.Settings.txtScreenReader": "Включить поддержку средства чтения с экрана",
   "PE.Views.FileMenuPanels.Settings.txtSpellCheck": "Проверка орфографии",
   "PE.Views.FileMenuPanels.Settings.txtStopMacros": "Отключить все",
   "PE.Views.FileMenuPanels.Settings.txtStopMacrosDesc": "Отключить все макросы без уведомления",

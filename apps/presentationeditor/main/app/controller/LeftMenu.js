@@ -71,9 +71,10 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
-                    'plugins:open': _.bind(this.openPlugin, this),
-                    'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'pluginsleft:open': _.bind(this.openPlugin, this),
+                    'pluginsleft:close': _.bind(this.closePlugin, this),
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
@@ -183,16 +184,6 @@ define([
             this.mode = mode;
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
-
-            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
-                Common.util.Shortcuts.removeShortcuts({
-                    shortcuts: {
-                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file'),
-                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
-                    }
-                });
-
             return this;
         },
 
@@ -399,6 +390,9 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-showsnaplines", value);
                 this.api.asc_setShowSmartGuides(value);
             }
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
 
             menu.hide();
         },
@@ -478,6 +472,11 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
         },
 
         onShowTumbnails: function(obj, show) {
@@ -634,7 +633,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
 
                     if (!previewPanel || !previewPanel.isVisible()){
                         Common.UI.Menu.Manager.hideAll();
@@ -675,7 +674,7 @@ define([
                         }
                     }
 
-                    if ( this.leftMenu.btnAbout.pressed || $(e.target).parents('#left-menu').length ) {
+                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -714,6 +713,10 @@ define([
                 } else if (this.leftMenu.btnSearchBar.isActive()) {
                     this.leftMenu.btnSearchBar.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
+                }
+                else if (this.leftMenu.btnChat.isActive()) {
+                    this.leftMenu.btnChat.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
         },

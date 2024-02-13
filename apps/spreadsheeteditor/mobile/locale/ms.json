@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Anda meninggalkan aplikasi",
     "leaveButtonText": "Tinggalkan Halaman ini",
     "stayButtonText": "Kekal pada Halaman ini",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -646,6 +648,7 @@
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textRecommended": "Recommended",
       "textSave": "Save"
     },
@@ -786,8 +789,10 @@
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",

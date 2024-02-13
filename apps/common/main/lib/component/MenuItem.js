@@ -116,6 +116,8 @@ define([
             '<a id="<%= id %>" class="menu-item" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
+                '<% } else if (!_.isEmpty(iconImg)) { %>',
+                    '<img src="<%= iconImg %>" class="menu-item-icon">',
                 '<% } %>',
                 '<%- caption %>',
             '</a>'
@@ -169,6 +171,7 @@ define([
                         id      : me.id,
                         caption : me.caption,
                         iconCls : me.iconCls,
+                        iconImg : me.options.iconImg,
                         style   : me.style,
                         options : me.options
                     }));
@@ -444,7 +447,8 @@ define([
                         var iconCls = me.iconCls,
                             re_icon_name = /btn-[^\s]+/.exec(iconCls),
                             icon_name = re_icon_name ? re_icon_name[0] : "null",
-                            svg_icon = '<svg class="menu-item-icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                            rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '',
+                            svg_icon = '<svg class="menu-item-icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
 
                         firstChild.find('span.menu-item-icon').after(svg_icon);
                     }

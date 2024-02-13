@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
@@ -6,7 +5,6 @@ import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-// import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
 @inject(stores => ({
@@ -17,7 +15,7 @@ import EditorUIController from '../lib/patch';
     isRestrictedEdit: stores.storeAppOptions.isRestrictedEdit,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
-    storeSheets: stores.sheets,
+    storeWorksheets: stores.storeWorksheets,
     wsProps: stores.storeWorksheets.wsProps,
     wsLock: stores.storeWorksheets.wsLock,
     objects: stores.storeFocusObjects.objects,
@@ -106,6 +104,7 @@ class ContextMenu extends ContextMenuController {
 
         const api = Common.EditorApi.get();
         const info = api.asc_getCellInfo();
+
         switch (action) {
             case 'cut':
                 if (!LocalStorage.getBool("sse-hide-copy-cut-paste-warning")) {
@@ -127,17 +126,19 @@ class ContextMenu extends ContextMenuController {
                 break;
             case 'openlink':
                 const linkinfo = info.asc_getHyperlink();
+
                 if ( linkinfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink ) {
+                    const { storeWorksheets } = this.props;
                     const nameSheet = linkinfo.asc_getSheet();
                     const curActiveSheet = api.asc_getActiveWorksheetIndex();
+                    const tab = storeWorksheets.sheets.find((sheet) => sheet.name === nameSheet);
                     api.asc_setWorksheetRange(linkinfo);
-                    const {storeSheets} = this.props;
-                    const tab = storeSheets.sheets.find((sheet) => sheet.name === nameSheet);
+
                     if (tab) {
                         const sdkIndex = tab.index;
                         if (sdkIndex !== curActiveSheet) {
-                            const index = storeSheets.sheets.indexOf(tab);
-                            storeSheets.setActiveWorksheet(index);
+                            const index = storeWorksheets.sheets.indexOf(tab);
+                            storeWorksheets.setActiveWorksheet(index);
                             Common.Notifications.trigger('sheet:active', sdkIndex);
                         }
                     }

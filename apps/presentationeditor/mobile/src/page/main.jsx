@@ -141,6 +141,7 @@ class MainPage extends Component {
                     openOptions: this.handleClickToOpenOptions.bind(this),
                     closeOptions: this.handleOptionsViewClosed.bind(this),
                     showPanels: this.state.addShowOptions,
+                    isBranding
                 }}>
                     {!this.state.previewVisible ? null : 
                         <Preview closeOptions={this.handleOptionsViewClosed.bind(this)} />

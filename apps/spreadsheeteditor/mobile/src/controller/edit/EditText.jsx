@@ -89,6 +89,14 @@ class EditTextController extends Component {
         api.asc_setCellTextColor(Common.Utils.ThemeColor.getRgbColor(color));
     }
 
+    setOrientationTextShape(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.asc_CImgProperty();
+
+        properties.asc_putVert(direction);
+        api.asc_setGraphicObjectProps(properties);
+    }
+
     render () {
         return (
             <EditText 
@@ -100,6 +108,7 @@ class EditTextController extends Component {
                 changeFontSize={this.changeFontSize}
                 changeFontFamily={this.changeFontFamily}
                 onTextColor={this.onTextColor}
+                setOrientationTextShape={this.setOrientationTextShape}
             />
         )
     }

@@ -133,25 +133,26 @@ define([
             this.btnDateTime && this.btnDateTime.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['datetime']);
             });
-            this.btnViewFormRoles && this.btnViewFormRoles.on('click', function (b, e) {
-                var item = b.menu.getChecked();
-                if (item) {
-                    item = item.caption;
-                } else if (me._state.roles && me._state.roles.length>0) {
-                    item = me._state.roles[0].asc_getSettings().asc_getName();
-                }
-                me.fireEvent('forms:mode', [b.pressed, item]);
-            });
-            this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
-                if (!!item.checked) {
-                    me.btnViewFormRoles.toggle(true, true);
-                    me.fireEvent('forms:mode', [true, item.caption]);
-                }
-            }, me));
-            this.btnViewFormRoles.menu.on('show:after',  function (menu) {
-                me.fillRolesMenu();
-            });
-
+            if (this.btnViewFormRoles) {
+                this.btnViewFormRoles.on('click', function (b, e) {
+                    var item = b.menu.getChecked();
+                    if (item) {
+                        item = item.caption;
+                    } else if (me._state.roles && me._state.roles.length>0) {
+                        item = me._state.roles[0].asc_getSettings().asc_getName();
+                    }
+                    me.fireEvent('forms:mode', [b.pressed, item]);
+                });
+                this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                    if (!!item.checked) {
+                        me.btnViewFormRoles.toggle(true, true);
+                        me.fireEvent('forms:mode', [true, item.caption]);
+                    }
+                }, me));
+                this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                    me.fillRolesMenu();
+                });
+            }
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
             });
@@ -202,7 +203,7 @@ define([
                     this.btnTextField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon ' + (isfixed ? 'btn-text-fixed-field' : 'btn-text-field'),
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnText,
                         fieldType: isfixed ? 'fixed' : 'inline',
                         split: true,
@@ -216,7 +217,7 @@ define([
                     this.btnComboBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-combo-box',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnComboBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -227,7 +228,7 @@ define([
                     this.btnDropDown = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-dropdown',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnDropDown,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -238,7 +239,7 @@ define([
                     this.btnCheckBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-checkbox',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnCheckBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -249,7 +250,7 @@ define([
                     this.btnRadioBox = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-radio-button',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnRadioBox,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -260,7 +261,7 @@ define([
                     this.btnImageField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-insertimage',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnImage,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -271,7 +272,7 @@ define([
                     this.btnManager = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ic-sharing',
-                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnManager,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -282,7 +283,7 @@ define([
                     this.btnEmailField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-email',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnEmail,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -293,7 +294,7 @@ define([
                     this.btnPhoneField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-phone',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnPhone,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -304,7 +305,7 @@ define([
                     this.btnZipCode = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-zip-code',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capZipCode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -315,7 +316,7 @@ define([
                     this.btnCreditCard = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-credit-card',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capCreditCard,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -326,7 +327,7 @@ define([
                     this.btnDateTime = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-datetime',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capDateTime,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -337,7 +338,7 @@ define([
                     this.btnComplexField = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-complex-field',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
                         caption: this.capBtnComplex,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -348,7 +349,7 @@ define([
                     this.btnViewFormRoles = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-sheet-view',
-                        lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments],
+                        lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnView,
                         split: true,
                         menu: new Common.UI.Menu({
@@ -401,7 +402,7 @@ define([
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-previous-field',
-                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnPrev,
                     visible: false,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
@@ -414,7 +415,7 @@ define([
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-next-field',
-                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                    lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnNext,
                     visible: false,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
@@ -660,15 +661,15 @@ define([
             tipSubmit: 'Submit form',
             textSubmited: 'Form submitted successfully',
             textRequired: 'Fill all required fields to send form.',
-            capBtnSaveForm: 'Save as oform',
-            tipSaveForm: 'Save a file as a fillable OFORM document',
+            capBtnSaveForm: 'Save as pdf',
+            tipSaveForm: 'Save a file as a fillable PDF',
             txtUntitled: 'Untitled',
-            textCreateForm: 'Add fields and create a fillable OFORM document',
+            textCreateForm: 'Add fields and create a fillable PDF',
             textGotIt: 'Got it',
             capBtnManager: 'Manage Roles',
             tipManager: 'Manage Roles',
-            capBtnDownloadForm: 'Download as oform',
-            tipDownloadForm: 'Download a file as a fillable OFORM document',
+            capBtnDownloadForm: 'Download as pdf',
+            tipDownloadForm: 'Download a file as a fillable PDF',
             capBtnEmail: 'Email Address',
             capBtnPhone: 'Phone Number',
             capBtnComplex: 'Complex Field',
@@ -693,7 +694,7 @@ define([
             tipFormGroupKey: 'Group radio buttons to make the filling process faster. Choices with the same names will be synchronized. Users can only tick one radio button from the group.',
             tipFieldSettings: 'You can configure selected fields on the right sidebar. Click this icon to open the field settings.',
             tipHelpRoles: 'Use the Manage Roles feature to group fields by purpose and assign the responsible team members.',
-            tipSaveFile: 'Click “Save as oform” to save the form in the format ready for filling.',
+            tipSaveFile: 'Click “Save as pdf” to save the form in the format ready for filling.',
             tipRolesLink: 'Learn more about roles',
             tipFieldsLink: 'Learn more about field parameters'
 

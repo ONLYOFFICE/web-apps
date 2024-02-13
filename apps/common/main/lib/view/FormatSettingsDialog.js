@@ -245,7 +245,7 @@ define([
                 el: $('#format-settings-list-code'),
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.codesList.on('item:select', _.bind(this.onCodeSelect, this));
             this.codesList.on('entervalue', _.bind(this.onPrimary, this));

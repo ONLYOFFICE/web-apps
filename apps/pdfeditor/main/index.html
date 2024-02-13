@@ -256,7 +256,8 @@
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            isForm = params["isForm"];
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
@@ -314,7 +315,6 @@
         document.querySelectorAll('.compact').forEach(function(item){
             item.style.display = 'inline-block';
         });
-        document.querySelector('.fat').style.left = '655px';
     }
 
     visible && (document.querySelector('.brendpanel').style.display = 'block');
@@ -369,7 +369,23 @@
         return reqerr;
     };
 </script>
-<!-- application -->
-<script data-main="app_dev" src="../../../vendor/requirejs/require.js"></script>
+<script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
+<script>
+    function startApp() {
+        var script = document.createElement("script");
+        script.setAttribute("data-main", "app_dev");
+        script.src = "../../../vendor/requirejs/require.js";
+        document.body.appendChild(script);
+    }
+    if (isForm===undefined) {
+        listenApiMsg(function (isform) {
+            window.isPDFForm = !!isform;
+            startApp();
+        });
+    } else {
+        window.isPDFForm = isForm==='true';
+        startApp();
+    }
+</script>
 </body>
 </html>

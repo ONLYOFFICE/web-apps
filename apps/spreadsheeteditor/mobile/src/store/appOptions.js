@@ -108,6 +108,7 @@ export class storeAppOptions {
             if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
                 this.canEditComments = this.canDeleteComments = this.isOffline;
         }
+        // this.isForm = !!window.isPDFForm;
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments && isSupportEditFeature;

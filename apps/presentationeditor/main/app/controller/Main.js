@@ -184,6 +184,10 @@ define([
                     Common.Utils.InternalSettings.set("pe-settings-fontrender", value);
                     this.api.SetFontRenderingMode(parseInt(value));
 
+                    value = Common.localStorage.getBool("app-settings-screen-reader");
+                    Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+                    this.api.setSpeechEnabled(value);
+
                     if ( !Common.Utils.isIE ) {
                         if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_PE}}') ) {
                             const _url_obj = new URL('{{HELP_CENTER_WEB_PE}}');
@@ -410,7 +414,7 @@ define([
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -697,7 +701,7 @@ define([
                 if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
                                                                              id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
                     (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
-                    this.onEditComplete(this.loadMask);
+                    // this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -1008,6 +1012,7 @@ define([
                     }, 50);
                 } else {
                     documentHolderController.getView().createDelayedElementsViewer();
+                    Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }
@@ -1481,7 +1486,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                }
+                } else
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg) {
@@ -1883,6 +1889,11 @@ define([
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
             },
 
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
+            },
+
             hidePreloader: function() {
                 var promise;
                 if (!this._state.customizationDone) {
@@ -2213,7 +2224,7 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                if (!window.localStorage.getBool("pe-hide-try-undoredo"))
+                if (!Common.localStorage.getBool("pe-hide-try-undoredo"))
                     Common.UI.info({
                         width: 500,
                         msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
@@ -2222,7 +2233,7 @@ define([
                         primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
-                            if (dontshow) window.localStorage.setItem("pe-hide-try-undoredo", 1);
+                            if (dontshow) Common.localStorage.setItem("pe-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("pe-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
@@ -2327,7 +2338,8 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            // me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            window.open(url, "_blank"); // download by url, don't convert file again (+ fix print selection)
                         }
                     };
                 }

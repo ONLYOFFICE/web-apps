@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "您離開應用程式。",
     "leaveButtonText": "離開此頁面",
     "stayButtonText": "留在此頁面",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,6 +649,7 @@
       "textCustomFormat": "Custom Format",
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -819,7 +822,9 @@
       "txtZh": "中文",
       "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"

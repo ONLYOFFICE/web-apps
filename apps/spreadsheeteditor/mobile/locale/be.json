@@ -512,7 +512,7 @@
       "textAxisTitle": "Axis Title",
       "textBottom": "Bottom",
       "textBottomBorder": "Bottom Border",
-      "textBringToForeground": "Bring to Foreground",
+      "textBringToForeground": "Bring to foreground",
       "textClearFilter": "Clear Filter",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
@@ -565,6 +565,7 @@
       "textInsideVerticalBorder": "Inside Vertical Border",
       "textInteger": "Integer",
       "textInternalDataRange": "Internal Data Range",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textInvalidRange": "Invalid cells range",
       "textJustified": "Justified",
       "textLabelOptions": "Label Options",
@@ -707,6 +708,7 @@
       "textEmail": "Email",
       "textEnableAll": "Enable All",
       "textEnableAllMacrosWithoutNotification": "Enable all macros without a notification",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textFindAndReplaceAll": "Find and Replace All",
       "textFormat": "Format",
@@ -744,6 +746,7 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",
@@ -823,6 +826,8 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this Page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   }
 }

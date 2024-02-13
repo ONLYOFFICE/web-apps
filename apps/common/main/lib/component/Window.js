@@ -574,9 +574,6 @@ define([
                     });
                     autoSize(obj);
                 },
-                show: function(obj) {
-                    obj.getChild('.footer .dlg-btn.primary').focus();
-                },
                 close: function() {
                     options.callback && options.callback.call(win, 'close');
                 }

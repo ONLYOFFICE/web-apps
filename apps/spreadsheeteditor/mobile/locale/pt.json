@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Digite um novo nome para o arquivo",
+    "textRenameFile": "Renomear arquivo"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Limite vertical interior",
       "textInteger": "Inteiro",
       "textInternalDataRange": "Intervalo de dados interno",
+      "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
       "textInvalidRange": "Intervalo de células inválido",
       "textJustified": "Justificado",
       "textLabelOptions": "Opções de rótulos",
@@ -822,7 +825,9 @@
       "txtUk": "Ucraniano",
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
-      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?"
+      "warnDownloadAs": "Se você continuar salvando neste formato, todos os recursos com exceção do texto serão perdidos.<Br>Você tem certeza que quer continuar?",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

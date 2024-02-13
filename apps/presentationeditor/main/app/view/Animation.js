@@ -206,6 +206,7 @@ define([
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     style: 'min-width:200px;',
+                    autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
@@ -663,10 +664,9 @@ define([
             },
 
             setColor: function (color){
-                if(color) {
-                    this._effectColor = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase();
-                    (!!this.colorPickerParameters)  && this.colorPickerParameters.selectByRGB(this._effectColor, true);
-                }
+               this._effectColor = (color) ? Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()).toUpperCase(): this._effectColor;
+            (!!this.colorPickerParameters && this._effectColor)  && this.colorPickerParameters.selectByRGB(this._effectColor, true);
+
             },
 
             updateColors: function (){

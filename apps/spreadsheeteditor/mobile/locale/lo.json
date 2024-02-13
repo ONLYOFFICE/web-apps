@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "ເຈົ້າອອກຈາກລະບົບ",
     "leaveButtonText": "ອອກຈາກໜ້ານີ້",
     "stayButtonText": "ຢູ່ໃນໜ້ານີ້",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,6 +649,7 @@
       "textDeleteImage": "Delete Image",
       "textDeleteLink": "Delete Link",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -815,10 +818,12 @@
       "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",

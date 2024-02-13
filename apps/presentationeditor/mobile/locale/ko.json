@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "응용 프로그램을 종료합니다",
     "leaveButtonText": "이 페이지에서 나가기",
     "stayButtonText": "이 페이지에 보관",
-    "textCloseHistory": "닫기 역사"
+    "textCloseHistory": "닫기 역사",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -450,7 +452,12 @@
       "textZoom": "확대/축소",
       "textZoomIn": "확대",
       "textZoomOut": "축소",
-      "textZoomRotate": "확대 / 축소 및 회전"
+      "textZoomRotate": "확대 / 축소 및 회전",
+      "textHorizontalText": "Horizontal Text",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "표준 (4 : 3)",
@@ -538,7 +545,9 @@
       "txtScheme8": "플로우",
       "txtScheme9": "발견",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

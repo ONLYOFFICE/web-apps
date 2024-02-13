@@ -1615,7 +1615,7 @@ define([
             });
 
             me.menuDropCapAdvanced = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-dropcap-intext',
+                iconCls: 'menu__icon btn-dropcap-intext icon-rtl',
                 caption     : me.advancedDropCapText
             });
 
@@ -2019,7 +2019,7 @@ define([
                     me.menuFrameAdvanced.setVisible(frame_pr !== undefined);
                     me.menuDropCapAdvanced.setVisible(frame_pr !== undefined);
                     if (frame_pr)
-                        me.menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin');
+                        me.menuDropCapAdvanced.setIconCls((frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin') + ' icon-rtl');
 
                     var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
                     menuStyleSeparator.setVisible(edit_style);
@@ -3010,6 +3010,7 @@ define([
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
+                        iconImg: me.parseIcons(item.icons),
                         disabled: !!item.disabled
                     });
                 });
@@ -3027,7 +3028,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;
@@ -3053,6 +3053,7 @@ define([
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                iconImg: me.parseIcons(item.icons),
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -3080,6 +3081,14 @@ define([
                 }
             }
             this._hasCustomItems = false;
+        },
+
+        parseIcons: function(icons) {
+            var plugins = DE.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
+            if (icons && icons.length && plugins && plugins.parseIcons) {
+                icons = plugins.parseIcons(icons);
+                return icons ? icons['normal'] : undefined;
+            }
         },
 
         focus: function() {

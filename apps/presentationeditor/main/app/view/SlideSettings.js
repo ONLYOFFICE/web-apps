@@ -189,6 +189,40 @@ define([
             this.FillGradientContainer = $('#slide-panel-gradient-fill');
             this.TransparencyContainer = $('#slide-panel-transparent-fill');
 
+            this.btnBackgroundReset = new Common.UI.Button({
+                parentEl: $('#slide-btn-background-reset'),
+                cls: 'btn-toolbar align-left',
+                caption: this.strBackgroundReset,
+                iconCls: 'toolbar__icon btn-reset',
+                style: "width:100%;",
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.btnBackgroundReset.on('click', _.bind(this.onClickBackgroundReset, this));
+
+            this.btnApplyAllSlides = new Common.UI.Button({
+                parentEl: $('#slide-btn-apply-all-slides'),
+                cls: 'btn-toolbar align-left',
+                caption: this.strApplyAllSlides,
+                iconCls: 'toolbar__icon btn-transition-apply-all',
+                style: "width:100%;",
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.btnApplyAllSlides.on('click', _.bind(this.onClickApplyAllSlides, this));
+
+            this.chBackgroundGraphics = new Common.UI.CheckBox({
+                el: $('#slide-checkbox-background-graphics'),
+                labelText: this.strBackgroundGraphics,
+                disabled: true,
+                dataHint: '1',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+            this.chBackgroundGraphics.on('change', _.bind(this.onBackgroundGraphicsChange, this));
+            
             this.chSlideNum = new Common.UI.CheckBox({
                 el: $('#slide-checkbox-slidenum'),
                 labelText: this.strSlideNum,
@@ -1066,6 +1100,30 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onClickBackgroundReset: function() {
+            if (this.api) {
+                var props = new Asc.CAscSlideProps();
+                props.put_ResetBackground(true);
+                this.api.SetSlideProps(props);
+            }
+        },
+
+        onClickApplyAllSlides: function() {
+            if (this.api) {
+                var props = new Asc.CAscSlideProps();
+                props.put_ApplyBackgroundToAll(true);
+                this.api.SetSlideProps(props);
+            }
+        },
+
+        onBackgroundGraphicsChange: function(field) {
+            if (this.api) {
+                var props = new Asc.CAscSlideProps();
+                props.put_ShowMasterSp(field.getValue() == 'checked');
+                this.api.SetSlideProps(props);
+            }
+        },
+
         onHeaderChange: function(type, field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
                 var props = this.api.asc_getHeaderFooterProperties();
@@ -1144,7 +1202,7 @@ define([
         ChangeSettings: function(props) {
             if (this._initSettings)
                 this.createDelayedElements();
-            this.SetSlideDisabled(this._locked.background, this._locked.header);
+            this.SetSlideDisabled(this._locked.background, this._locked.header, props);
 
             if (props)
             {
@@ -1422,6 +1480,7 @@ define([
                     this._state.GradColor = color;
                 }
 
+                this.chBackgroundGraphics.setValue(!!props.get_ShowMasterSp(), true);
 
                 value = this.api.asc_getHeaderFooterProperties();
                 if (value) {
@@ -1440,12 +1499,17 @@ define([
             };
         },
 
-        SetSlideDisabled: function(background, header) {
+        SetSlideDisabled: function(background, header, props) {
             this._locked = {
                 background: background, header: header
             };
             if (this._initSettings) return;
             
+            if(props) {
+                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background);
+                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll());
+            }
+
             if (background !== this._stateDisabled.background) {
                 this.cmbFillSrc.setDisabled(background);
                 for (var i=0; i<this.FillItems.length; i++) {
@@ -1454,6 +1518,7 @@ define([
                 this.lblTransparencyStart.toggleClass('disabled', background);
                 this.lblTransparencyEnd.toggleClass('disabled', background);
                 this.numGradientAngle.setDisabled(background || this.GradFillType !== Asc.c_oAscFillGradType.GRAD_LINEAR);
+                this.chBackgroundGraphics.setDisabled(!!background);
                 this._stateDisabled.background = background;
             }
             if (header !== this._stateDisabled.header) {
@@ -1580,6 +1645,9 @@ define([
         textDirection: 'Direction',
         textStyle: 'Style',
         textGradient: 'Gradient Points',
+        strBackgroundReset: 'Reset Background',
+        strApplyAllSlides: 'Apply to All Slides',
+        strBackgroundGraphics: 'Show Background graphics',
         strSlideNum: 'Show Slide Number',
         strDateTime: 'Show Date and Time',
         textFromStorage: 'From Storage',

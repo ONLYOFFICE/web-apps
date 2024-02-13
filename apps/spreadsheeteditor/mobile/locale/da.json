@@ -392,7 +392,9 @@
     "stayButtonText": "Bliv på siden",
     "dlgLeaveMsgText": "You have unsaved changes in this document. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
     "dlgLeaveTitleText": "You leave the application",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -623,6 +625,7 @@
       "textEmptyImgUrl": "You need to specify the image URL.",
       "textEnterFormat": "Enter Format",
       "textErrorMsg": "You must choose at least one value",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "textOk": "Ok",
       "textReplace": "Replace",
@@ -795,6 +798,7 @@
       "advDRMEnterPassword": "Your password, please:",
       "strFuncLocale": "Formula Language",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textLight": "Light",
       "textNoMatches": "No Matches",
@@ -803,6 +807,7 @@
       "textRestartApplication": "Please restart the application for the changes to take effect",
       "textRight": "Right",
       "textRightToLeft": "Right To Left",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textSpreadsheetFormats": "Spreadsheet Formats",
       "textSpreadsheetInfo": "Spreadsheet Info",

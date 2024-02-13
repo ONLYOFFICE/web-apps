@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Stai lasciando l'applicazione",
     "leaveButtonText": "Lasciare questa pagina",
     "stayButtonText": "Rimanere su questa pagina",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,6 +649,7 @@
       "textCustomFormatWarning": "Please enter the custom number format carefully. Spreadsheet Editor does not check custom formats for errors that may affect the xlsx file.",
       "textDeleteImage": "Delete Image",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -817,8 +820,10 @@
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",

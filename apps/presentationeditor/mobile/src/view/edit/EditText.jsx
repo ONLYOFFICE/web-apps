@@ -15,6 +15,7 @@ const EditText = props => {
     const metricText = Common.Utils.Metric.getCurrentMetricName();
     const storeTextSettings = props.storeTextSettings;
     const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
     const fontName = storeTextSettings.fontName || _t.textFonts;
     const fontSize = storeTextSettings.fontSize;
     const fontColor = storeTextSettings.textColor;
@@ -141,6 +142,14 @@ const EditText = props => {
                                 </a>
                             </div>
                         </ListItem>
+                        {shapeObject &&
+                            <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                                setOrientationTextShape: props.setOrientationTextShape,
+                                shapeObject
+                            }}>
+                                {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
+                            </ListItem>
+                        }
                         <ListItem title={_t.textBulletsAndNumbers} link='/edit-bullets-and-numbers/' routeProps={{
                             onBullet: props.onBullet,
                             onNumber: props.onNumber,
@@ -194,6 +203,56 @@ const EditText = props => {
         </Fragment>
     );
 };
+
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const shapeObject = props.shapeObject;
+    const [directionTextShape, setDirectionTextShape] = useState(shapeObject.get_Vert());
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('View.Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon>
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -754,5 +813,6 @@ export {
     PageTextAddFormatting,
     PageTextBulletsAndNumbers,
     PageTextLineSpacing,
-    PageTextBulletsLinkSettings
+    PageTextBulletsLinkSettings,
+    PageOrientationTextShape
 };

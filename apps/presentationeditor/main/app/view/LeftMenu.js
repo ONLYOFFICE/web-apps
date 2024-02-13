@@ -289,6 +289,7 @@ define([
                 this.btnSearchBar.toggle(false, true);
             }
             this.fireEvent('panel:show', [this, '', false]);
+            this.toggleActivePluginButton(false);
         },
 
         isOpened: function() {

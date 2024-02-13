@@ -43,6 +43,12 @@
       "textStandartColors": "Alapértelmezett színek",
       "textThemeColors": "Téma színek"
     },
+    "Themes": {
+      "dark": "Sötét",
+      "light": "Világos",
+      "system": "A rendszerrel megegyező",
+      "textTheme": "Téma"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Figyelmeztetés",
       "textAnonymous": "Ismeretlen",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "A jelenlegi fájl elmentésre kerül a verzió előzményekben.",
       "titleWarningRestoreVersion": "Aktuális változat visszaállítása?",
       "txtErrorLoadHistory": "Az előzmények betöltése sikertelen"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
-    "textCloseHistory": "Napló bezárása"
+    "textCloseHistory": "Napló bezárása",
+    "textEnterNewFileName": "Írjon be egy új fájlnevet",
+    "textRenameFile": "Fájl Átnevezése"
   },
   "View": {
     "Add": {
@@ -371,10 +373,12 @@
       "textHighlightColor": "Kiemelő szín",
       "textHorizontalIn": "Vízszintes be",
       "textHorizontalOut": "Vízszintes ki",
+      "textHorizontalText": "Vízszintes szöveg",
       "textHyperlink": "Hiperhivatkozás",
       "textImage": "Kép",
       "textImageURL": "Kép URL",
       "textInsertImage": "Kép beillesztése",
+      "textInvalidName": "A fájlnév nem tartalmazhatja a következő karaktereket:",
       "textLastColumn": "Utolsó oszlop",
       "textLastSlide": "Utolsó dia",
       "textLayout": "Elrendezés",
@@ -414,6 +418,8 @@
       "textReplaceImage": "Kép cseréje",
       "textRequired": "Kötelező",
       "textRight": "Jobb",
+      "textRotateTextDown": "Szöveg elforgatása lefelé",
+      "textRotateTextUp": "Szöveg elforgatása felfelé",
       "textScreenTip": "Képernyőtipp",
       "textSearch": "Keresés",
       "textSec": "s",
@@ -435,6 +441,7 @@
       "textSuperscript": "Felső index",
       "textTable": "Táblázat",
       "textText": "Szöveg",
+      "textTextOrientation": "Szövegirány",
       "textTheme": "Téma",
       "textTop": "Felső",
       "textTopLeft": "Bal felső",
@@ -468,6 +475,7 @@
       "textColorSchemes": "Szín sémák",
       "textComment": "Megjegyzés",
       "textCreated": "Létrehozva",
+      "textDark": "Sötét",
       "textDarkTheme": "Sötét téma",
       "textDisableAll": "Összes letiltása",
       "textDisableAllMacrosWithNotification": "Tiltsa le az összes makrót értesítéssel",
@@ -487,6 +495,7 @@
       "textInch": "Hüvelyk",
       "textLastModified": "Utoljára módosított",
       "textLastModifiedBy": "Utoljára módosította",
+      "textLight": "Világos",
       "textLoading": "Betöltés...",
       "textLocation": "Hely",
       "textMacrosSettings": "Makró beállítások",
@@ -503,6 +512,7 @@
       "textReplaceAll": "Mindent cserél",
       "textRestartApplication": "Kérjük, indítsa újra az alkalmazást, hogy a módosítások hatályba lépjenek.",
       "textRTL": "RTL",
+      "textSameAsSystem": "A rendszerrel megegyező",
       "textSearch": "Keresés",
       "textSettings": "Beállítások",
       "textShowNotification": "Értesítés megjelenítése",
@@ -510,6 +520,7 @@
       "textSpellcheck": "Helyesírás-ellenőrzés",
       "textSubject": "Tárgy",
       "textTel": "tel.:",
+      "textTheme": "Téma",
       "textTitle": "Cím",
       "textUnitOfMeasurement": "Mértékegység",
       "textUploaded": "Feltöltve",
@@ -537,10 +548,8 @@
       "txtScheme7": "Saját tőke",
       "txtScheme8": "Folyam",
       "txtScheme9": "Öntöde",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

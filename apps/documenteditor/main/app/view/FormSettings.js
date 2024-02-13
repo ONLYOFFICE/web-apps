@@ -144,6 +144,7 @@ define([
 
             var showtip = function() {
                 Common.NotificationCenter.trigger('forms:close-help', 'key', true);
+                Common.NotificationCenter.trigger('forms:close-help', 'settings', true);
                 me.cmbKey.off('show:before', showtip);
                 me.cmbKey.off('combo:focusin', showtip);
             };
@@ -385,6 +386,7 @@ define([
 
             var showGrouptip = function() {
                 Common.NotificationCenter.trigger('forms:close-help', 'group-key', true);
+                Common.NotificationCenter.trigger('forms:close-help', 'settings', true);
                 me.cmbGroupKey.off('show:before', showGrouptip);
                 me.cmbGroupKey.off('combo:focusin', showGrouptip);
             };
@@ -648,6 +650,12 @@ define([
             this.onRefreshRolesList(this.roles);
             this.lockedControls.push(this.cmbRoles);
             this.cmbRoles.on('selected', this.onRolesChanged.bind(this));
+
+            var showRolesTip = function() {
+                Common.NotificationCenter.trigger('forms:show-help', 'roles');
+                me.cmbRoles.off('show:before', showRolesTip);
+            };
+            me.cmbRoles.on('show:before', showRolesTip);
 
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $markup.findById('#form-combo-format'),

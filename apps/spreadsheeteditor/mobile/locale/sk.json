@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Opúšťate aplikáciu",
     "leaveButtonText": "Opustiť túto stránku",
     "stayButtonText": "Zostať na tejto stránke",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,6 +649,7 @@
       "textDeleteLink": "Delete Link",
       "textDone": "Done",
       "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
       "textSave": "Save"
     },
     "Settings": {
@@ -815,10 +818,12 @@
       "txtZh": "Čínsky",
       "warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",
       "textLight": "Light",
       "textNoMatches": "No Matches",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",

@@ -247,7 +247,9 @@
     "dlgLeaveTitleText": "Você saiu do aplicativo",
     "leaveButtonText": "Sair desta página",
     "stayButtonText": "Ficar nesta página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Digite um novo nome para o arquivo",
+    "textRenameFile": "Renomear arquivo"
   },
   "View": {
     "Add": {
@@ -371,10 +373,12 @@
       "textHighlightColor": "Cor de realce",
       "textHorizontalIn": "Horizontal para dentro",
       "textHorizontalOut": "Horizontal para fora",
+      "textHorizontalText": "Texto horizontal",
       "textHyperlink": "Hiperlink",
       "textImage": "Imagem",
       "textImageURL": "URL da imagem",
       "textInsertImage": "Inserir imagem",
+      "textInvalidName": "Nome de arquivo não pode conter os seguintes caracteres:",
       "textLastColumn": "Última coluna",
       "textLastSlide": "Último slide",
       "textLayout": "Layout",
@@ -403,7 +407,7 @@
       "textPictureFromLibrary": "Imagem da biblioteca",
       "textPictureFromURL": "Imagem da URL",
       "textPreviousSlide": "Slide anterior",
-      "textPt": "Pt",
+      "textPt": "pt",
       "textPush": "Empurrar",
       "textRecommended": "Recomendado",
       "textRemoveChart": "Remover gráfico",
@@ -414,9 +418,11 @@
       "textReplaceImage": "Substituir imagem",
       "textRequired": "Necessário",
       "textRight": "Direita",
+      "textRotateTextDown": "Girar o texto para baixo",
+      "textRotateTextUp": "Girar o texto para cima",
       "textScreenTip": "Dica de tela",
       "textSearch": "Pesquisar",
-      "textSec": "S",
+      "textSec": "s",
       "textSelectObjectToEdit": "Selecione o objeto para editar",
       "textSendToBackground": "Enviar para plano de fundo",
       "textShape": "Forma",
@@ -435,6 +441,7 @@
       "textSuperscript": "Sobrescrito",
       "textTable": "Tabela",
       "textText": "Тexto",
+      "textTextOrientation": "Orientação do texto",
       "textTheme": "Tema",
       "textTop": "Parte superior",
       "textTopLeft": "Parte superior esquerda",
@@ -540,7 +547,9 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

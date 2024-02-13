@@ -557,7 +557,7 @@ DE.ApplicationController = new(function(){
 
         // TODO: add asc_hasRequiredFields to sdk
 
-        if (appOptions.canSubmitForms && !api.asc_IsAllRequiredFormsFilled()) {
+        if (appOptions.canSubmitForms && appOptions.canFillForms && !api.asc_IsAllRequiredFormsFilled()) {
             var sgroup = $('#id-submit-group');
             btnSubmit.attr({disabled: true});
             btnSubmit.css("pointer-events", "none");
@@ -701,6 +701,9 @@ DE.ApplicationController = new(function(){
                 $('#loading-mask').removeClass("end-animation");
                 $('#loading-mask').addClass("none-animation");
             }
+            onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
+        } else if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+            api && api.asc_setAdvancedOptions(Asc.c_oAscAdvancedOptionsID.TXT, advOptions.asc_getRecommendedSettings() || new Asc.asc_CTextOptions());
             onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         }
     }
@@ -948,8 +951,8 @@ DE.ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        var result = /[\?\&]fileType=\b(pdf|djvu|xps|oxps)\b&?/i.exec(window.location.search),
-            isPDF = (!!result && result.length && typeof result[1] === 'string');
+        var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+            isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
         api = isPDF ? new Asc.PDFEditorApi({
             'id-view'  : 'editor_sdk',

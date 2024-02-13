@@ -175,7 +175,7 @@ define([
                             Asc.c_oAscFileType.DOCM
                         ];
                         if (_main.appOptions.canFeatureForms) {
-                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF, Asc.c_oAscFileType.OFORM]);
+                            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF]);
                         }
 
                         if ( !_format || _supported.indexOf(_format) < 0 )
@@ -192,6 +192,9 @@ define([
                 },
                 'DocumentHolder': {
                     'list:settings': this.onMarkerSettingsClick.bind(this)
+                },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:mailmerge':  _.bind(this.onSelectRecepientsClick, this)
                 }
             });
 
@@ -291,6 +294,7 @@ define([
             toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
             toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+            toolbar.btnReplace.on('click',                              _.bind(this.onReplace, this));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
@@ -373,7 +377,6 @@ define([
             toolbar.mnuPageSize.on('item:click',                        _.bind(this.onPageSizeClick, this));
             toolbar.mnuColorSchema.on('item:click',                     _.bind(this.onColorSchemaClick, this));
             toolbar.mnuColorSchema.on('show:after',                     _.bind(this.onColorSchemaShow, this));
-            toolbar.mnuMailRecepients.on('item:click',                  _.bind(this.onSelectRecepientsClick, this));
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
@@ -465,6 +468,7 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             }
+            this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
 
@@ -1140,6 +1144,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
+        },
+
+        onReplace: function(e) {
+            this.getApplication().getController('LeftMenu').onShortcut('replace');
         },
 
         onIncrease: function(e) {
@@ -3098,19 +3106,10 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.undoLock, this._state.can_undo!==true, {array: [this.toolbar.btnUndo]});
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copycut!==true, {array: [this.toolbar.btnCopy, this.toolbar.btnCut]});
-            this.toolbar.lockToolbar(Common.enumLock.mmergeLock, !!this._state.mmdisable, {array: [this.toolbar.btnMailRecepients]});
-            if (!this._state.mmdisable) {
-                this.toolbar.mnuMailRecepients.items[2].setVisible(this.toolbar.mode.fileChoiceUrl || this.toolbar.mode.canRequestSelectSpreadsheet || this.toolbar.mode.canRequestMailMergeRecipients);
-            }
             this._state.activated = true;
 
             var props = this.api.asc_GetSectionProps();
             this.onApiPageSize(props.get_W(), props.get_H());
-        },
-
-        DisableMailMerge: function() {
-            this._state.mmdisable = true;
-            this.toolbar && this.toolbar.btnMailRecepients && this.toolbar.lockToolbar(Common.enumLock.mmergeLock, true, {array: [this.toolbar.btnMailRecepients]});
         },
 
         updateThemeColors: function() {
@@ -3260,13 +3259,13 @@ define([
             this.DisableToolbar(true, true);
         },
 
-        DisableToolbar: function(disable, viewMode, reviewmode, fillformmode) {
+        DisableToolbar: function(disable, viewMode, reviewmode, fillformmode, viewDocMode) {
             if (viewMode!==undefined) this.editMode = !viewMode;
             disable = disable || !this.editMode;
 
             var toolbar_mask = $('.toolbar-mask'),
                 group_mask = $('.toolbar-group-mask'),
-                mask = (reviewmode || fillformmode) ? group_mask : toolbar_mask;
+                mask = (reviewmode || fillformmode || viewDocMode) ? group_mask : toolbar_mask;
             if (disable && mask.length>0 || !disable && mask.length==0) return;
 
             var toolbar = this.toolbar;
@@ -3275,9 +3274,13 @@ define([
                 toolbar.lockToolbar(Common.enumLock.previewReviewMode, disable);
             else if (fillformmode)
                 toolbar.lockToolbar(Common.enumLock.viewFormMode, disable);
+            else if (viewDocMode)
+                toolbar.lockToolbar(Common.enumLock.viewMode, disable);
+
+            !viewDocMode && toolbar.fireEvent('docmode:disabled', [disable]);
 
             if(disable) {
-                if (reviewmode || fillformmode)
+                if (reviewmode || fillformmode || viewDocMode)
                     mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
                 else
                     mask = $("<div class='toolbar-mask'>").appendTo(toolbar.$el.find('.toolbar'));
@@ -3285,12 +3288,12 @@ define([
                 mask.remove();
             }
             toolbar.$el.find('.toolbar').toggleClass('masked', $('.toolbar-mask').length>0);
-            disable = disable || ((reviewmode || fillformmode) ? toolbar_mask.length>0 : group_mask.length>0);
+            disable = disable || ((reviewmode || fillformmode || viewDocMode) ? toolbar_mask.length>0 : group_mask.length>0);
             if ( toolbar.synchTooltip )
                 toolbar.synchTooltip.hide();
 
-            toolbar._state.previewmode = reviewmode && disable;
-            if (reviewmode) {
+            toolbar._state.previewmode = (reviewmode || viewDocMode) && disable;
+            if (reviewmode || viewDocMode) {
                 toolbar._state.previewmode && toolbar.btnSave && toolbar.btnSave.setDisabled(true);
 
                 if (toolbar.needShowSynchTip) {
@@ -3302,13 +3305,13 @@ define([
             disable ? Common.util.Shortcuts.suspendEvents(hkComments) : Common.util.Shortcuts.resumeEvents(hkComments);
         },
 
-        onSelectRecepientsClick: function(menu, item, e) {
+        onSelectRecepientsClick: function(type) {
             if (this._mailMergeDlg) return;
 
             var me = this;
-            if (item.value === 'file') {
+            if (type === 'file') {
                 this.api && this.api.asc_StartMailMerge();
-            } else if (item.value === 'url') {
+            } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
                     title: me.dataUrl,
                     handler: function(result, value) {
@@ -3328,7 +3331,7 @@ define([
                         }
                     }
                 })).show();
-            } else if (item.value === 'storage') {
+            } else if (type === 'storage') {
                 Common.NotificationCenter.trigger('storage:spreadsheet-load', 'mailmerge');
             }
         },
@@ -3382,7 +3385,8 @@ define([
         },
 
         onAppShowed: function (config) {
-            var me = this;
+            var me = this,
+                application = this.getApplication();
 
             var compactview = !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator);
             if ( config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) {
@@ -3418,18 +3422,18 @@ define([
                     me.toolbar.btnPaste.$el.detach().appendTo($box);
                     me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                     me.toolbar.btnCopy.$el.removeClass('split');
-                    me.toolbar.processPanelVisible(null, true, true);
+                    me.toolbar.processPanelVisible(null, true);
                 }
 
                 // if ( config.isDesktopApp ) {
                 //     if ( config.canProtect ) {
                 //         tab = {action: 'protect', caption: me.toolbar.textTabProtect, dataHintTitle: 'T', layoutname: 'toolbar-protect'};
-                //         $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                //         $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                 //
                 //         if ($panel) me.toolbar.addTab(tab, $panel, 6);
                 //     }
                 // }
-                var drawtab = me.getApplication().getController('Common.Controllers.Draw');
+                var drawtab = application.getController('Common.Controllers.Draw');
                 drawtab.setApi(me.api).setMode(config);
                 $panel = drawtab.createToolbarPanel();
                 if ($panel) {
@@ -3442,10 +3446,10 @@ define([
 
                 if ( config.canProtect ) {
                     tab = {action: 'protect', caption: me.toolbar.textTabProtect, layoutname: 'toolbar-protect', dataHintTitle: 'T'};
-                    $panel = me.getApplication().getController('Common.Controllers.Protection').createToolbarPanel();
+                    $panel = application.getController('Common.Controllers.Protection').createToolbarPanel();
                     if ($panel) {
                         (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
-                        var doctab = me.getApplication().getController('DocProtection');
+                        var doctab = application.getController('DocProtection');
                         $panel.append(doctab.createToolbarPanel());
                         me.toolbar.addTab(tab, $panel, 7);
                         me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
@@ -3453,17 +3457,18 @@ define([
                     }
                 }
 
-                var links = me.getApplication().getController('Links');
+                var links = application.getController('Links');
                 links.setApi(me.api).setConfig({toolbar: me});
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
 
                 me.getApplication().getController('Common.Controllers.ExternalLinks').setConfig({toolbar: me}).setApi(me.api);
+                me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
             }
 
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
                     tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
-                    var forms = me.getApplication().getController('FormsTab');
+                    var forms = application.getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();
                     if ($panel) {
@@ -3477,7 +3482,7 @@ define([
             config.isEdit && config.canFeatureContentControl && me.onChangeSdtGlobalSettings();
 
             tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
-            var viewtab = me.getApplication().getController('ViewTab');
+            var viewtab = application.getController('ViewTab');
             viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
             $panel = viewtab.createToolbarPanel();
             if ($panel) {
@@ -3501,7 +3506,7 @@ define([
                 this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-add-comment', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
-                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ],
+                                    Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.viewMode ],
                                  undefined, undefined, undefined, '1', 'bottom');
                 if ( this.btnsComment.length ) {
                     var _comments = DE.getController('Common.Controllers.Comments').getView();
@@ -3516,7 +3521,7 @@ define([
                     if (_comments.buttonAddNew) {
                         _comments.buttonAddNew.options.lock = [ Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                                                 Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
-                                                                Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ];
+                                                                Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.viewMode ];
                         this.btnsComment.add(_comments.buttonAddNew);
                     }
                 }
@@ -3537,7 +3542,54 @@ define([
                         .setApi(me.api)
                         .onAppReady(config);
                 }
+
+                config.isOForm && config.canDownloadForms && Common.UI.warning({
+                    msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
+                    buttons: [{value: 'ok', caption: config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textSavePdf : me.textDownloadPdf}, 'cancel'],
+                    callback: function(btn){
+                        if (btn==='ok') {
+                            me.isFromFormSaveAs = config.canRequestSaveAs || !!config.saveAsUrl;
+                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs));
+                        }
+                        Common.NotificationCenter.trigger('edit:complete');
+                    }
+                });
             });
+        },
+
+        onDownloadUrl: function(url, fileType) {
+            if (this.isFromFormSaveAs) {
+                var me = this,
+                    defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+                !defFileName && (defFileName = me.txtUntitled);
+
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + '.pdf';
+
+                if (me.mode.canRequestSaveAs) {
+                    Common.Gateway.requestSaveAs(url, defFileName, fileType);
+                } else {
+                    me._saveCopyDlg = new Common.Views.SaveAsDlg({
+                        saveFolderUrl: me.mode.saveAsUrl,
+                        saveFileUrl: url,
+                        defFileName: defFileName
+                    });
+                    me._saveCopyDlg.on('saveaserror', function(obj, err){
+                        Common.UI.warning({
+                            closable: false,
+                            msg: err,
+                            callback: function(btn){
+                                Common.NotificationCenter.trigger('edit:complete', me);
+                            }
+                        });
+                    }).on('close', function(obj){
+                        me._saveCopyDlg = undefined;
+                    });
+                    me._saveCopyDlg.show();
+                }
+            }
+            this.isFromFormSaveAs = false;
         },
 
         getView: function (name) {
@@ -3649,6 +3701,7 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockForms, props.isFormsOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
+                Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
             }
         },
 
@@ -4005,7 +4058,12 @@ define([
         textGroup: 'Group',
         textEmptyMMergeUrl: 'You need to specify URL.',
         textRecentlyUsed: 'Recently Used',
-        dataUrl: 'Paste a data URL'
+        dataUrl: 'Paste a data URL',
+        textConvertFormSave: 'Save file as a fillable PDF form to be able to fill it out.',
+        textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
+        txtUntitled: 'Untitled',
+        textSavePdf: 'Save as pdf',
+        textDownloadPdf: 'Download pdf'
 
     }, DE.Controllers.Toolbar || {}));
 });

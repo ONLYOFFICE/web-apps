@@ -408,7 +408,11 @@
     "textEnterYourOption": "Enter your option",
     "textSave": "Save",
     "textYourOption": "Your option",
-    "textPlaceholder": "Placeholder"
+    "textPlaceholder": "Placeholder",
+    "textHorizontalText": "Horizontal Text",
+    "textRotateTextDown": "Rotate Text Down",
+    "textRotateTextUp": "Rotate Text Up",
+    "textTextOrientation": "Text Orientation"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

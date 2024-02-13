@@ -40,6 +40,12 @@
       "textStandartColors": "Couleurs standard",
       "textThemeColors": "Couleurs de thème"
     },
+    "Themes": {
+      "dark": "Sombre",
+      "light": "Clair",
+      "system": "Identique au système",
+      "textTheme": "Thème"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Attention",
       "textAnonymous": "Anonyme",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "Le fichier actuel est enregistré dans l'historique des versions.",
       "titleWarningRestoreVersion": "Restaurer cette version?",
       "txtErrorLoadHistory": "Échec du chargement de l'historique"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -66,6 +66,7 @@
     "errorInvalidLink": "La référence du lien n'existe pas. Veuillez corriger le lien ou le supprimer.",
     "menuAddComment": "Ajouter un commentaire",
     "menuAddLink": "Ajouter un lien",
+    "menuAutofill": "Remplissage automatique",
     "menuCancel": "Annuler",
     "menuCell": "Cellule",
     "menuDelete": "Supprimer",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textOk": "OK",
     "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?",
-    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Seulement les données de la cellule supérieure gauche seront conservées dans la cellule fusionnée.<br>Êtes-vous sûr de vouloir continuer ?"
   },
   "Controller": {
     "Main": {
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Vous quittez l'application",
     "leaveButtonText": "Quitter cette page",
     "stayButtonText": "Rester sur cette page",
-    "textCloseHistory": "Fermer l'historique"
+    "textCloseHistory": "Fermer l'historique",
+    "textEnterNewFileName": "Entrez un nouveau nom de ficher",
+    "textRenameFile": "Renommer le fichier"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Bordure intérieure verticale",
       "textInteger": "Entier",
       "textInternalDataRange": "Plage de données interne",
+      "textInvalidName": "Le nom du fichier ne peut contenir aucun des caractères suivants :",
       "textInvalidRange": "Plage de cellules non valide",
       "textJustified": "Justifié",
       "textLabelOptions": "Options d'étiquettes",
@@ -679,6 +682,7 @@
       "textComments": "Commentaires",
       "textCreated": "Créé",
       "textCustomSize": "Taille personnalisée",
+      "textDark": "Sombre",
       "textDarkTheme": "Thème sombre",
       "textDelimeter": "Délimiteur",
       "textDirection": "Direction",
@@ -693,6 +697,7 @@
       "textEnableAllMacrosWithoutNotification": "Activer toutes les macros sans notification",
       "textEncoding": "Encodage",
       "textExample": "Exemple",
+      "textExplanationChangeDirection": "L'application sera redémarrée pour activer l'interface RTL",
       "textFeedback": "Commentaires & assistance",
       "textFind": "Recherche",
       "textFindAndReplace": "Rechercher et remplacer",
@@ -710,6 +715,7 @@
       "textLastModifiedBy": "Dernière modification par",
       "textLeft": "À gauche",
       "textLeftToRight": "De gauche à droite",
+      "textLight": "Clair",
       "textLocation": "Emplacement",
       "textLookIn": "Rechercher dans",
       "textMacrosSettings": "Réglages macros",
@@ -733,6 +739,8 @@
       "textRestartApplication": "Veuillez redémarrer l'application pour que les modifications soient prises en compte",
       "textRight": "À droite",
       "textRightToLeft": "De droite à gauche",
+      "textRtlInterface": "Interface RTL",
+      "textSameAsSystem": "Identique au système",
       "textSearch": "Rechercher",
       "textSearchBy": "Rechercher",
       "textSearchIn": "Rechercher dans",
@@ -745,6 +753,7 @@
       "textSpreadsheetTitle": "Titre du classeur",
       "textSubject": "Sujet",
       "textTel": "Tél.",
+      "textTheme": "Thème",
       "textTitle": "Titre",
       "textTop": "En haut",
       "textUnitOfMeasurement": "Unité de mesure",
@@ -818,11 +827,7 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }

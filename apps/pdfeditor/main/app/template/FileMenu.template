@@ -9,6 +9,7 @@
     <li id="fm-btn-print" class="fm-btn"></li>
     <li id="fm-btn-print-with-preview" class="fm-btn"></li>
     <li id="fm-btn-rename" class="fm-btn"></li>
+    <li id="fm-btn-protect" class="fm-btn"></li>
     <li class="devider"></li>
     <li id="fm-btn-recent" class="fm-btn"></li>
     <li id="fm-btn-create" class="fm-btn"></li>
@@ -31,5 +32,6 @@
     <div id="panel-rights" class="content-box"></div>
     <div id="panel-settings" class="content-box"></div>
     <div id="panel-help" class="content-box"></div>
+    <div id="panel-protect" class="content-box"></div>
     <div id="panel-print" class="content-box"></div>
 </div>

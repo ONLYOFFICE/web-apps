@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Jūs pametat lietotni",
     "leaveButtonText": "Pamest lapu",
     "stayButtonText": "Palikt šajā lapā",
-    "textCloseHistory": "Aizvērt vēsturi"
+    "textCloseHistory": "Aizvērt vēsturi",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "txtSortLow2High": "Šķirot no zemākā uz augstāko",
       "textCreateCustomFormat": "Create Custom Format",
       "textCreateFormat": "Create Format",
-      "textEnterFormat": "Enter Format"
+      "textEnterFormat": "Enter Format",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Izvēlēties CSV parametrus",
@@ -819,7 +822,9 @@
       "txtZh": "Ķīniešu",
       "warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "txtDe": "German"

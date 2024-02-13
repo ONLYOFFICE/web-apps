@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Bezárja az alkalmazást",
     "leaveButtonText": "Oldal elhagyása",
     "stayButtonText": "Maradjon ezen az oldalon",
-    "textCloseHistory": "Előzmények bezárása"
+    "textCloseHistory": "Előzmények bezárása",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "Jen",
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSortHigh2Low": "A legnagyobbtól a legkisebbig rendez",
-      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez"
+      "txtSortLow2High": "Legkisebbtől legnagyobbig rendez",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Válasszon a CSV beállítások közül",
@@ -820,7 +823,9 @@
       "txtZh": "Kínai",
       "warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

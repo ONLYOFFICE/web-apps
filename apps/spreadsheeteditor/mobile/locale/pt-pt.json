@@ -258,6 +258,7 @@
     "errorOperandExpected": "A sintaxe da função introduzida não está correta. Por favor, verifique se se esqueceu de algum parênteses - '(' ou ')'.",
     "errorPasteMaxRange": "As áreas de origem e de destino não são iguais. Por favor, selecione uma área do mesmo tamanho ou clique na primeira célula de uma linha para colar as células copiadas.",
     "errorPasteMultiSelect": "Esta ação não pode ser feita com uma seleção de múltiplos intervalos.<br>Selecionar uma única gama e tentar novamente.",
+    "errorPivotOverlap": "O relatório da tabela dinâmica não se pode sobrepor a uma tabela.",
     "errorPivotWithoutUnderlying": "O relatório da tabela dinâmica foi guardado sem os dados relacionados.<br>Utilize o botão 'Recarregar' para atualizar o relatório.",
     "errorPrintMaxPagesCount": "Infelizmente, não é possível imprimir mais de 1500 páginas de uma vez na versão atual do programa.<br>Esta restrição será eliminada no futuro.",
     "errorProtectedRange": "Este intervalo não pode ser editado.",
@@ -304,7 +305,6 @@
     "errorNoDataToParse": "No data was selected to parse.",
     "errorPasteSlicerError": "Table slicers cannot be copied from one workbook to another.",
     "errorPivotGroup": "Cannot group that selection.",
-    "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorSetPassword": "Password could not be set.",
     "errorSingleColumnOrRowError": "Location reference is not valid because the cells are not all in the same column or row.<br>Select cells that are all in a single column or row.",
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Saiu da aplicação",
     "leaveButtonText": "Sair da página",
     "stayButtonText": "Ficar na página",
-    "textCloseHistory": "Fechar histórico"
+    "textCloseHistory": "Fechar histórico",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -647,7 +649,8 @@
       "textYen": "Iene",
       "txtNotUrl": "Este campo deve ser um URL no formato \"http://www.exemplo.com\"",
       "txtSortHigh2Low": "Ordenar do maior para o menor",
-      "txtSortLow2High": "Ordenar do menor para o maior"
+      "txtSortLow2High": "Ordenar do menor para o maior",
+      "textInvalidName": "The file name cannot contain any of the following characters: "
     },
     "Settings": {
       "advCSVOptions": "Escolher opções CSV",
@@ -822,6 +825,8 @@
       "txtVi": "Vietnamita",
       "txtZh": "Chinês",
       "warnDownloadAs": "Se guardar o documento neste formato, perderá todos os atributos com exceção do texto.<br>Tem a certeza de que deseja continuar?",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System"
     }
   }

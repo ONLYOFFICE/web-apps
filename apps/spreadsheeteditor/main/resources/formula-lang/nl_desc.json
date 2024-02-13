@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(matrix, op_matrix, [sorteervolgorde], ...)",
 		"d": "Sorteert een bereik of matrix op basis van de waarden in een bijbehorend bereik of een bijbehorende matrix"
+	},
+	"GETPIVOTDATA": {
+		"a": "(gegevensveld; draaitabel; [veld]; [item]; ...)",
+		"d": "Haalt gegevens op uit een draaitabel"
 	}
 }

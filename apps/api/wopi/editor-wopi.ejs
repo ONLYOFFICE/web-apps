@@ -266,6 +266,8 @@ div {
                 type = "desktop"
             }
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
+			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
+			fileType = fileType.toLowerCase();
 			var config = {
 				"width": "100%",
 				"height": "100%",
@@ -275,7 +277,7 @@ div {
 				"document": {
 					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
 					"url": userAuth.wopiSrc,
-					"fileType": fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType,
+					"fileType": fileType,
 					"key": key,
                     "info": {
                         "folder": fileInfo.BreadcrumbFolderName
@@ -285,6 +287,9 @@ div {
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption
+					},
+					"options": {
+						"WOPISrc": userAuth.wopiSrc
 					}
 				},
 				"editorConfig": {

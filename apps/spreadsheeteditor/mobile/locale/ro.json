@@ -66,6 +66,7 @@
     "errorInvalidLink": "Legătură de referință nu există. Corectați sau eliminați legătura.",
     "menuAddComment": "Adaugă comentariu",
     "menuAddLink": "Adăugare link",
+    "menuAutofill": "Completare automată",
     "menuCancel": "Revocare",
     "menuCell": "Celula",
     "menuDelete": "Ștergere",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Nu mai afișa",
     "textOk": "OK",
     "txtWarnUrl": "Un clic pe acest link ar putea căuza daune dispozitivului și datelor dvs.<br>Sunteți sigur că doriți să continuați?",
-    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "În celula îmbinată se afișează numai conținutul celulei din stânga sus.<br>Sunteți sigur că doriți să continuați?"
   },
   "Controller": {
     "Main": {
@@ -392,7 +392,9 @@
     "dlgLeaveTitleText": "Dumneavoastră părăsiți aplicația",
     "leaveButtonText": "Părăsește această pagina",
     "stayButtonText": "Rămâi în pagină",
-    "textCloseHistory": "Închide istoricul"
+    "textCloseHistory": "Închide istoricul",
+    "textEnterNewFileName": "Introduceți un nume nou pentru fișierul",
+    "textRenameFile": "Redenumire fișier"
   },
   "View": {
     "Add": {
@@ -556,6 +558,7 @@
       "textInsideVerticalBorder": "Bordură verticală în interiorul ",
       "textInteger": "Număr întreg",
       "textInternalDataRange": "Zonă de date internă",
+      "textInvalidName": "Numele fișierului nu poate conține caracterele următoare:",
       "textInvalidRange": "Zona de celule nu este validă",
       "textJustified": "Aliniat stânga-dreapta",
       "textLabelOptions": "Opțiuni etichetă",
@@ -694,6 +697,7 @@
       "textEnableAllMacrosWithoutNotification": "Se activează toate macrocomenzile, fără notificare",
       "textEncoding": "Codificare",
       "textExample": "Exemplu",
+      "textExplanationChangeDirection": "Aplicația va fi repornită pentru a activa interfața care acceptă limbile cu scriere de la dreapta la stânga",
       "textFeedback": "Feedback și asistența",
       "textFind": "Găsire",
       "textFindAndReplace": "Găsire și înlocuire",
@@ -735,6 +739,7 @@
       "textRestartApplication": "Vă rugăm să reporniți aplicația pentru ca modificările să intre în vigoare",
       "textRight": "Dreapta",
       "textRightToLeft": "De la dreapta la stânga",
+      "textRtlInterface": "Interfața care acceptă limbile cu scriere de la dreapta la stânga",
       "textSameAsSystem": "La fel ca sistemul",
       "textSearch": "Căutare",
       "textSearchBy": "Căutare",

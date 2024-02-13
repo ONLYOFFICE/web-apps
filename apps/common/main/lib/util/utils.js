@@ -391,8 +391,8 @@ var themecolor = new(function() {
                         schemeName = this.getTranslation(colors[idx].asc_getNameInColorScheme()),
                         effectName = this.getEffectTranslation(colors[idx].asc_getEffectValue());
                     if (colorName) {
-                        schemeName && (colorName += ', ' + schemeName);
-                        effectName && (colorName += ', ' + effectName);
+                        schemeName && (colorName += Common.Utils.String.textComma + ' ' + schemeName);
+                        effectName && (colorName += Common.Utils.String.textComma + ' ' + effectName);
                     }
                     item = {
                         color: this.getHexColor(colors[idx].get_r(), colors[idx].get_g(), colors[idx].get_b()),
@@ -701,6 +701,7 @@ var utilsString = new (function() {
         textCtrl: 'Ctrl',
         textShift: 'Shift',
         textAlt: 'Alt',
+        textComma: ',',
 
         format: function(format) {
             var args = _.toArray(arguments).slice(1);
@@ -1200,7 +1201,9 @@ Common.Utils.getKeyByValue = function(obj, value) {
 !Common.UI && (Common.UI = {});
 Common.UI.isRTL = function () {
     if ( window.isrtl === undefined ) {
-        window.isrtl = Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+        if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined )
+            window.isrtl =  window.nativeprocvars.rtl;
+        else window.isrtl =  !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
     }
 
     return window.isrtl;

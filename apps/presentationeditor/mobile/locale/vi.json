@@ -249,7 +249,9 @@
     "dlgLeaveTitleText": "You leave the application",
     "leaveButtonText": "Leave this page",
     "stayButtonText": "Stay on this Page",
-    "textCloseHistory": "Close History"
+    "textCloseHistory": "Close History",
+    "textEnterNewFileName": "Enter a new file name",
+    "textRenameFile": "Rename File"
   },
   "View": {
     "Add": {
@@ -458,7 +460,12 @@
       "textMorph": "Morph",
       "textMorphObjects": "Objects",
       "textMorphWords": "Words",
-      "textMorphLetters": "Letters"
+      "textMorphLetters": "Letters",
+      "textInvalidName": "The file name cannot contain any of the following characters: ",
+      "textHorizontalText": "Horizontal Text",
+      "textRotateTextDown": "Rotate Text Down",
+      "textRotateTextUp": "Rotate Text Up",
+      "textTextOrientation": "Text Orientation"
     },
     "Settings": {
       "mniSlideStandard": "Standard (4:3)",
@@ -550,7 +557,9 @@
       "textDark": "Dark",
       "textLight": "Light",
       "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textTheme": "Theme",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

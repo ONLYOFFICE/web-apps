@@ -298,6 +298,9 @@ define([
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
                 '<tr>',
+                    '<td colspan="2"><div id="fms-chb-scrn-reader"></div></td>',
+                '</tr>',
+                '<tr>',
                     //'<td class="left"><label><%= scope.textRefStyle %></label></td>',
                     '<td colspan="2"><div id="fms-chb-r1c1-style"></div></td>',
                 '</tr>',
@@ -305,7 +308,7 @@ define([
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
                 '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
                 '<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -448,6 +451,14 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chScreenReader = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-scrn-reader'),
+                labelText: this.txtScreenReader,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.rbCoAuthModeFast = new Common.UI.RadioBox({
                 el          : $markup.findById('#fms-rb-coauth-mode-fast'),
@@ -604,25 +615,7 @@ define([
                 menuCls     : 'menu-aligned',
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : Common.util.LanguageInfo.regionalData,
-                template: _.template([
-                    '<span class="input-group combobox <%= cls %> combo-langs" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':25px !important;" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
-                    '<span class="icon input-icon lang-flag"></span>',
-                        '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
-                            '<span class="caret" />',
-                        '</button>',
-                        '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
-                            '<% _.each(items, function(item) { %>',
-                                '<li id="<%= item.id %>" data-value="<%= item.value %>">',
-                                    '<a tabindex="-1" type="menuitem" style="' + (Common.UI.isRTL() ? 'padding-right' : 'padding-left') + ':26px !important;">',
-                                        '<i class="icon lang-flag <%= item.langName %>" style="position: absolute;"></i>',
-                                        '<%= scope.getDisplayValue(item) %>',
-                                    '</a>',
-                                '</li>',
-                            '<% }); %>',
-                        '</ul>',
-                    '</span>'].join(''))
+                data        : Common.util.LanguageInfo.regionalData
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
                 var isBaseSettings = me.chSeparator.getValue();
@@ -882,6 +875,7 @@ define([
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("sse-settings-show-alt-hints"));
+            this.chScreenReader.setValue(Common.Utils.InternalSettings.get("app-settings-screen-reader"));
 
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("sse-settings-livecomment"));
@@ -1022,6 +1016,7 @@ define([
             Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", Common.localStorage.getBool("sse-settings-show-alt-hints"));
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
+            Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
             Common.localStorage.setItem("sse-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
@@ -1126,11 +1121,6 @@ define([
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
-            var icon    = this.cmbRegSettings.$el.find('.input-icon'),
-                plang   = icon.attr('lang'),
-                langName = Common.util.LanguageInfo.getLocalLanguageName(landId)[0];
-            if (plang) icon.removeClass(plang);
-            icon.addClass(langName).attr('lang',langName);
         },
         
         updateFuncExample: function(text) {
@@ -1278,7 +1268,8 @@ define([
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
-        txtLastUsed: 'Last used'
+        txtLastUsed: 'Last used',
+        txtScreenReader: 'Turn on screen reader support'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -2548,30 +2539,77 @@ define([
                 dataHintOffset: 'big'
             });
 
-            this.cmbPaperSize = new Common.UI.ComboBox({
+            var paperSizeItemsTemplate = !Common.UI.isRTL() ?
+                    _.template([
+                        '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<%= item.displayValue[0] %>',
+                        ' (<%= item.displayValue[1] %> <%= item.displayValue[3] %> x',
+                        ' <%= item.displayValue[2] %> <%= item.displayValue[3] %>)',
+                        '</a></li>',
+                        '<% }); %>'
+                    ].join('')) :
+                    _.template([
+                        '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" dir="ltr">',
+                        '(<span dir="rtl"><%= item.displayValue[2] %> <%= item.displayValue[3] %></span>',
+                        '<span> x </span>',
+                        '<span dir="rtl"><%= item.displayValue[1] %> <%= item.displayValue[3] %></span>)',
+                        '<span> <%= item.displayValue[0] %></span>',
+                        '</a></li>',
+                        '<% }); %>'
+                    ].join(''));
+
+            var paperSizeTemplate = _.template([
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; width: 248px; <%= style %>"',
+                (Common.UI.isRTL() ? 'dir="rtl"' : ''), '></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(paperSizeItemsTemplate).concat([
+                '</ul>',
+                '</div>'
+            ]).join(''));
+
+            this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
-                cls: 'input-group-nr',
+                template: paperSizeTemplate,
+                itemsTemplate: paperSizeItemsTemplate,
                 data: [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal'},
-                    {value:'210|297',        displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4'},
-                    {value:'148|210',        displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5'},
-                    {value:'176|250',        displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10'},
-                    {value:'110|220',        displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL'},
-                    {value:'279.4|431.8',    displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid'},
-                    {value:'297|420',        displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48 cm x 45,71 cm)', caption: 'Tabloid Oversize'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02 cm x 48,25 cm)', caption: 'Super B/A3'}
+                    {value:'215.9|279.4',    displayValue:['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal'},
+                    {value:'210|297',        displayValue:['A4', '21', '29,7', 'cm'], caption: 'A4'},
+                    {value:'148|210',        displayValue:['A5', '14,8', '21', 'cm'], caption: 'A5'},
+                    {value:'176|250',        displayValue:['B5', '17,6', '25', 'cm'], caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10'},
+                    {value:'110|220',        displayValue:['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL'},
+                    {value:'279.4|431.8',    displayValue:['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid'},
+                    {value:'297|420',        displayValue:['A3', '29,7', '42', 'cm'], caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3'}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                updateFormControl: function (record){
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record) {
+                        if (!Common.UI.isRTL()) {
+                            formcontrol[0].innerHTML = record.get('displayValue')[0] + ' (' + record.get('displayValue')[1] + ' ' + record.get('displayValue')[3] + ' x ' +
+                                record.get('displayValue')[2] + ' ' + record.get('displayValue')[3] + ')';
+                        } else {
+                            formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + record.get("displayValue")[2] + ' ' + record.get('displayValue')[3] + '</span>' +
+                                '<span> x </span>' + '<span dir="rtl">' + record.get('displayValue')[1] + ' ' + record.get('displayValue')[3] + '</span>)' +
+                                '<span> ' + record.get('displayValue')[0] + '</span></span>';
+                        }
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
@@ -2743,9 +2781,9 @@ define([
                     var table =
                         ['<table>',
                             '<tr>',
-                                '<td><button id="print-btn-print-<%= index %>" class="btn normal dlg-btn primary btn-text-default auto" result="print" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button></td>',
-                                '<td><button id="print-btn-print-pdf-<%= index %>" class="btn normal dlg-btn btn-text-default auto" result="save-pdf" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintToPDF %></button></td>',
-                                '<td><button id="print-btn-save-<%= index %>" class="btn normal dlg-btn btn-text-default auto" result="save" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button></td>',
+                                '<td><button id="print-btn-print-<%= index %>" class="btn normal dlg-btn primary auto" result="print" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrint %></button></td>',
+                                '<td><button id="print-btn-print-pdf-<%= index %>" class="btn normal dlg-btn auto" result="save-pdf" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtPrintToPDF %></button></td>',
+                                '<td><button id="print-btn-save-<%= index %>" class="btn normal dlg-btn auto" result="save" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.txtSave %></button></td>',
                             '</tr>', '</table>',
                         ].join('');
                     var tableTemplate = _.template(table)({scope: this, index: i});
@@ -2881,8 +2919,10 @@ define([
                     pagewidth = /^\d{3}\.?\d*/.exec(value),
                     pageheight = /\d{3}\.?\d*$/.exec(value);
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', [item.get('caption'),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)),
+                    Common.Utils.Metric.getCurrentMetricName()]);
             }
             this.cmbPaperSize.onResetItems();
             this.cmbPaperMargins.onResetItems();

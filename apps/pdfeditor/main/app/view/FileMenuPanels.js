@@ -105,7 +105,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                !(this.mode && this.mode.isForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
                 this.formats[1].splice(1, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
@@ -223,7 +223,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                !(this.mode && this.mode.isForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
                 this.formats[1].splice(1, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
@@ -341,10 +341,13 @@ define([
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
                 '<tr>',
+                    '<td colspan="2"><div id="fms-chb-scrn-reader"></div></td>',
+                '</tr>',
+                '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
                 '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
                 '<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -402,6 +405,14 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chScreenReader = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-scrn-reader'),
+                labelText: this.txtScreenReader,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
@@ -648,7 +659,7 @@ define([
             this.mode = mode;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = mode.isPDFAnnotate || mode.isPDFEdit;
+                canPDFSave = (mode.isPDFAnnotate || mode.isPDFEdit) && !mode.isOffline;
 
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
@@ -658,10 +669,10 @@ define([
                 this.chAutosave.setCaption(this.textAutoRecover);
             }
             /** coauthoring begin **/
-            $('tr.collaboration', this.el)[mode.canCoAuthoring || mode.canViewReview ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring && !mode.isForm || mode.canViewReview ? 'show' : 'hide']();
             $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring && canPDFSave ? 'show' : 'hide']();
             $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && canPDFSave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && !mode.isForm ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 
@@ -678,6 +689,7 @@ define([
 
         updateSettings: function() {
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pdfe-settings-show-alt-hints"));
+            this.chScreenReader.setValue(Common.Utils.InternalSettings.get("app-settings-screen-reader"));
 
             var value = Common.Utils.InternalSettings.get("pdfe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
@@ -741,10 +753,11 @@ define([
             Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", Common.localStorage.getBool("pdfe-settings-show-alt-hints"));
             Common.localStorage.setItem("pdfe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
+            Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/
-            Common.localStorage.setItem("pdfe-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
-            Common.localStorage.setItem("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.chLiveComment.isChecked());
+            Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked());
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
                 this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
                 Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
@@ -841,7 +854,8 @@ define([
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
-        txtLastUsed: 'Last used'
+        txtLastUsed: 'Last used',
+        txtScreenReader: 'Turn on screen reader support'
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 
     PDFE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
@@ -1971,6 +1985,191 @@ define([
         }
     });
 
+    PDFE.Views.FileMenuPanels.ProtectDoc = Common.UI.BaseView.extend(_.extend({
+        el: '#panel-protect',
+        menu: undefined,
+
+        template: _.template([
+            '<label id="id-fms-lbl-protect-header"><%= scope.strProtect %></label>',
+            '<div id="id-fms-password">',
+            '<label class="header"><%= scope.strEncrypt %></label>',
+            '<div class="encrypt-block">',
+            '<div class="description"><%= scope.txtProtectDocument %></div>',
+            '<div id="fms-btn-add-pwd"></div>',
+            '</div>',
+            '<div class="encrypted-block">',
+            '<div class="description"><%= scope.txtEncrypted %></div>',
+            '<div class="buttons">',
+            '<div id="fms-btn-change-pwd"></div>',
+            '<div id="fms-btn-delete-pwd" class="margin-left-16"></div>',
+            '</div>',
+            '</div>',
+            '</div>',
+            '<div id="id-fms-signature">',
+            '<label class="header"><%= scope.strSignature %></label>',
+            '<div class="add-signature-block">',
+            '<div class="description"><%= scope.txtAddSignature %></div>',
+            '<div id="fms-btn-invisible-sign"></div>',
+            '</div>',
+            '<div class="added-signature-block">',
+            '<div class="description"><%= scope.txtAddedSignature %></div>',
+            '</div>',
+            '<div id="id-fms-signature-view"></div>',
+            '</div>'
+        ].join('')),
+
+        initialize: function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this,arguments);
+
+            this.menu = options.menu;
+
+            var me = this;
+            this.templateSignature = _.template([
+                '<div class="<% if (!hasSigned) { %>hidden<% } %>"">',
+                '<div class="signature-tip"><%= tipText %></div>',
+                '<div class="buttons">',
+                '<label class="link signature-view-link margin-right-20" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtView + '</label>',
+                '<label class="link signature-edit-link <% if (!hasSigned) { %>hidden<% } %>" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium">' + me.txtEdit + '</label>',
+                '</div>',
+                '</div>'
+            ].join(''));
+        },
+
+        render: function() {
+            this.$el.html(this.template({scope: this}));
+
+            var protection = PDFE.getController('Common.Controllers.Protection').getView();
+
+            this.btnAddPwd = protection.getButton('add-password');
+            this.btnAddPwd.render(this.$el.find('#fms-btn-add-pwd'));
+            this.btnAddPwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnChangePwd = protection.getButton('change-password');
+            this.btnChangePwd.render(this.$el.find('#fms-btn-change-pwd'));
+            this.btnChangePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.btnDeletePwd = protection.getButton('del-password');
+            this.btnDeletePwd.render(this.$el.find('#fms-btn-delete-pwd'));
+            this.btnDeletePwd.on('click', _.bind(this.closeMenu, this));
+
+            this.cntPassword = $('#id-fms-password');
+            this.cntEncryptBlock = this.$el.find('.encrypt-block');
+            this.cntEncryptedBlock = this.$el.find('.encrypted-block');
+
+            this.btnAddInvisibleSign = protection.getButton('signature');
+            this.btnAddInvisibleSign.render(this.$el.find('#fms-btn-invisible-sign'));
+            this.btnAddInvisibleSign.on('click', _.bind(this.closeMenu, this));
+
+            this.cntSignature = $('#id-fms-signature');
+            this.cntSignatureView = $('#id-fms-signature-view');
+
+            this.cntAddSignature = this.$el.find('.add-signature-block');
+            this.cntAddedSignature = this.$el.find('.added-signature-block');
+
+            if (_.isUndefined(this.scroller)) {
+                this.scroller = new Common.UI.Scroller({
+                    el: this.$el,
+                    suppressScrollX: true,
+                    alwaysVisibleY: true
+                });
+            }
+
+            this.$el.on('click', '.signature-edit-link', _.bind(this.onEdit, this));
+            this.$el.on('click', '.signature-view-link', _.bind(this.onView, this));
+
+            return this;
+        },
+
+        show: function() {
+            Common.UI.BaseView.prototype.show.call(this,arguments);
+            this.updateSignatures();
+            this.updateEncrypt();
+            this.scroller && this.scroller.update();
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
+            this.cntSignature.toggleClass('hidden', !this.mode.isSignatureSupport);
+            this.cntPassword.toggleClass('hidden', !this.mode.isPasswordSupport);
+        },
+
+        setApi: function(o) {
+            this.api = o;
+            return this;
+        },
+
+        closeMenu: function() {
+            this.menu && this.menu.hide();
+        },
+
+        onEdit: function() {
+            this.menu && this.menu.hide();
+
+            var me = this;
+            Common.UI.warning({
+                title: this.notcriticalErrorTitle,
+                msg: this.txtEditWarning,
+                buttons: ['ok', 'cancel'],
+                primary: 'ok',
+                callback: function(btn) {
+                    if (btn == 'ok') {
+                        me.api.asc_RemoveAllSignatures();
+                    }
+                }
+            });
+
+        },
+
+        onView: function() {
+            this.menu && this.menu.hide();
+            // PDFE.getController('RightMenu').rightmenu.SetActivePane(Common.Utils.documentSettingsType.Signature, true);
+        },
+
+        updateSignatures: function(){
+            var valid = this.api.asc_getSignatures(),
+                hasValid = false,
+                hasInvalid = false;
+
+            _.each(valid, function(item, index){
+                if (item.asc_getValid()==0)
+                    hasValid = true;
+                else
+                    hasInvalid = true;
+            });
+
+            // hasValid = true;
+            // hasInvalid = true;
+
+            var tipText = (hasInvalid) ? this.txtSignedInvalid : (hasValid ? this.txtSigned : "");
+            this.cntSignatureView.html(this.templateSignature({tipText: tipText, hasSigned: (hasValid || hasInvalid)}));
+
+            var isAddedSignature = this.btnAddInvisibleSign.$el.find('button').hasClass('hidden');
+            this.cntAddSignature.toggleClass('hidden', isAddedSignature);
+            this.cntAddedSignature.toggleClass('hidden', !isAddedSignature);
+        },
+
+        updateEncrypt: function() {
+            var isProtected = this.btnAddPwd.$el.find('button').hasClass('hidden');
+            this.cntEncryptBlock.toggleClass('hidden', isProtected);
+            this.cntEncryptedBlock.toggleClass('hidden', !isProtected);
+        },
+
+        strProtect: 'Protect Document',
+        strSignature: 'With Signature',
+        txtView: 'View signatures',
+        txtEdit: 'Edit document',
+        txtSigned: 'Valid signatures has been added to the document. The document is protected from editing.',
+        txtSignedInvalid: 'Some of the digital signatures in document are invalid or could not be verified. The document is protected from editing.',
+        notcriticalErrorTitle: 'Warning',
+        txtEditWarning: 'Editing will remove the signatures from the document.<br>Are you sure you want to continue?',
+        strEncrypt: 'With Password',
+        txtProtectDocument: 'Encrypt this document with a password',
+        txtEncrypted: 'A password is required to open this document',
+        txtAddSignature: 'Ensure the integrity of the document by adding an<br>invisible digital signature',
+        txtAddedSignature: 'Valid signatures have been added to the document.<br>The document is protected from editing.'
+
+    }, PDFE.Views.FileMenuPanels.ProtectDoc || {}));
+
     PDFE.Views.PrintWithPreview = Common.UI.BaseView.extend(_.extend({
         el: '#panel-print',
         menu: undefined,
@@ -2109,35 +2308,95 @@ define([
             });
             this.cmbSides.setValue('one');
 
-            this.cmbPaperSize = new Common.UI.ComboBox({
+            var paperSizeItemsTemplate = !Common.UI.isRTL() ?
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                    '<% if (typeof item.displayValue === "string") { %>',
+                    '<%= item.displayValue %>',
+                    '<% } else { %>',
+                    '<%= item.displayValue[0] %>',
+                    ' (<%= item.displayValue[1] %> <%= item.displayValue[3] %> x',
+                    ' <%= item.displayValue[2] %> <%= item.displayValue[3] %>)',
+                    '<% } %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join('')) :
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" dir="ltr">',
+                    '<% if (typeof item.displayValue === "string") { %>',
+                    '<%= item.displayValue %>',
+                    '<% } else { %>',
+                    '(<span dir="rtl"><%= item.displayValue[2] %> <%= item.displayValue[3] %></span>',
+                    '<span> x </span>',
+                    '<span dir="rtl"><%= item.displayValue[1] %> <%= item.displayValue[3] %></span>)',
+                    '<span> <%= item.displayValue[0] %></span>',
+                    '<% } %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
+
+            var paperSizeTemplate = _.template([
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; width: 248px; <%= style %>"',
+                (Common.UI.isRTL() ? 'dir="rtl"' : ''), '></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(paperSizeItemsTemplate).concat([
+                '</ul>',
+                '</div>'
+            ]).join(''));
+
+            this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
-                cls: 'input-group-nr',
+                template: paperSizeTemplate,
+                itemsTemplate: paperSizeItemsTemplate,
                 data: [
-                    { value: 0, displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter', size: [215.9, 279.4]},
-                    { value: 1, displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal', size: [215.9, 355.6]},
-                    { value: 2, displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4', size: [210, 297]},
-                    { value: 3, displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5', size: [148, 210]},
-                    { value: 4, displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5', size: [176, 250]},
-                    { value: 5, displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10', size: [104.8, 241.3]},
-                    { value: 6, displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL', size: [110, 220]},
-                    { value: 7, displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid', size: [279.4, 431.8]},
-                    { value: 8, displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3', size: [297, 420]},
-                    { value: 9, displayValue:'Tabloid Oversize (30,48 cm x 45,71 cm)', caption: 'Tabloid Oversize', size: [304.8, 457.1]},
-                    { value: 10, displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
-                    { value: 12, displayValue:'Super B/A3 (33,02 cm x 48,25 cm)', caption: 'Super B/A3', size: [330.2, 482.5]},
-                    { value: 13, displayValue:'A4 (84,1 cm x 118,9 cm)', caption: 'A0', size: [841, 1189]},
-                    { value: 14, displayValue:'A4 (59,4 cm x 84,1 cm)', caption: 'A1', size: [594, 841]},
-                    { value: 16, displayValue:'A4 (42 cm x 59,4 cm)', caption: 'A2', size: [420, 594]},
-                    { value: 17, displayValue:'A4 (10,5 cm x 14,8 cm)', caption: 'A6', size: [105, 148]},
+                    { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
+                    { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
+                    { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
+                    { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
+                    { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
+                    { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
+                    { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
+                    { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
+                    { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
+                    { value: 9, displayValue: ['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
+                    { value: 11, displayValue: ['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
+                    { value: 12, displayValue: ['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
+                    { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
+                    { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
+                    { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]},
                     { value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                updateFormControl: function (record, customValue){
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record || customValue) {
+                        var displayValue = customValue ? customValue : record.get('displayValue');
+                        if (typeof displayValue === 'string') {
+                            formcontrol[0].innerHTML = displayValue;
+                        } else {
+                            if (!Common.UI.isRTL()) {
+                                formcontrol[0].innerHTML = displayValue[0] + ' (' + displayValue[1] + ' ' + displayValue[3] + ' x ' +
+                                    displayValue[2] + ' ' + displayValue[3] + ')';
+                            } else {
+                                formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + displayValue[2] + ' ' + displayValue[3] + '</span>' +
+                                    '<span> x </span>' + '<span dir="rtl">' + displayValue[1] + ' ' + displayValue[3] + '</span>)' +
+                                    '<span> ' + displayValue[0] + '</span></span>';
+                            }
+                        }
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
@@ -2295,8 +2554,10 @@ define([
                     pagewidth = size[0],
                     pageheight = size[1];
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', [item.get('caption'),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)),
+                    Common.Utils.Metric.getCurrentMetricName()]);
             }
             this.cmbPaperSize.onResetItems();
             this.cmbPaperMargins.onResetItems();

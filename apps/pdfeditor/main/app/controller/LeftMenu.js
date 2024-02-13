@@ -73,9 +73,10 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
-                    'plugins:open': _.bind(this.openPlugin, this),
-                    'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this)
+                    'pluginsleft:open': _.bind(this.openPlugin, this),
+                    'pluginsleft:close': _.bind(this.closePlugin, this),
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -171,16 +172,6 @@ define([
             this.mode = mode;
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
-
-            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
-                Common.util.Shortcuts.removeShortcuts({
-                    shortcuts: {
-                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file'),
-                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
-                    }
-                });
-
             return this;
         },
 
@@ -200,7 +191,11 @@ define([
             }
             /** coauthoring end **/
 
-            this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            if (this.mode.canUseViwerNavigation) {
+                this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
+            } else {
+                this.leftMenu.btnNavigation.hide();
+            }
 
             if (this.mode.canUseThumbnails) {
                 this.leftMenu.setOptionsPanel('thumbnails', this.getApplication().getController('PageThumbnails').getView('PageThumbnails'));
@@ -406,7 +401,7 @@ define([
             var value;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = this.mode.isPDFAnnotate || this.mode.isPDFEdit;
+                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && !this.mode.isOffline;
             /** coauthoring begin **/
             if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave ) {
                 if (this.mode.canChangeCoAuthoring) {
@@ -426,10 +421,8 @@ define([
                 this.api.SetCollaborativeMarksShowType(value);
             }
 
-            value = Common.localStorage.getBool("pdfe-settings-livecomment", true);
-            Common.Utils.InternalSettings.set("pdfe-settings-livecomment", value);
-            var resolved = Common.localStorage.getBool("pdfe-settings-resolvedcomment");
-            Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", resolved);
+            value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment");
+            var resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
             // if (this.mode.canViewComments && this.leftMenu.panelComments && this.leftMenu.panelComments.isVisible())
             //     value = resolved = true;
             (value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments();
@@ -456,6 +449,10 @@ define([
             }
 
             this.api.put_ShowSnapLines(Common.Utils.InternalSettings.get("pdfe-settings-showsnaplines"));
+
+            value = Common.localStorage.getBool("app-settings-screen-reader");
+            Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+            this.api.setSpeechEnabled(value);
 
             menu.hide();
         },
@@ -543,6 +540,11 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.leftMenu.updatePluginButtonsIcons(icons);
         },
 
         onApiServerDisconnect: function(enableDownload) {
@@ -634,13 +636,6 @@ define([
         },
 
         commentsShowHide: function(mode) {
-            var value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment"),
-                resolved = Common.Utils.InternalSettings.get("pdfe-settings-resolvedcomment");
-
-            if (!value || !resolved) {
-                // (mode === 'show') ? this.api.asc_showComments(true) : ((value) ? this.api.asc_showComments(resolved) : this.api.asc_hideComments());
-            }
-
             if (mode === 'show') {
                 this.getApplication().getController('Common.Controllers.Comments').onAfterShow();
             }
@@ -685,6 +680,10 @@ define([
                         this.leftMenu.btnNavigation.toggle(false);
                         this.leftMenu.panelNavigation.hide();
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
+                    }
+                    else if (this.leftMenu.btnChat.isActive()) {
+                        this.leftMenu.btnChat.toggle(false);
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                     }
                 }
             }
@@ -736,7 +735,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
+                    if ( this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('file:help');
                     }
@@ -769,8 +768,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                                $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

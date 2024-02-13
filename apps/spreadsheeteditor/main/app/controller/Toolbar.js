@@ -63,7 +63,10 @@ define([
     'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
-    'spreadsheeteditor/main/app/view/CreateSparklineDialog'
+    'spreadsheeteditor/main/app/view/CreateSparklineDialog',
+    'spreadsheeteditor/main/app/view/ChartTypeDialog',
+    'spreadsheeteditor/main/app/view/ChartWizardDialog',
+    'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -379,6 +382,7 @@ define([
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
                 toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
                 toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+                toolbar.btnReplace.on('click',                              _.bind(this.onReplace, this));
                 toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
                 toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
                 toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
@@ -485,9 +489,14 @@ define([
                 if (toolbar.btnCondFormat.rendered) {
                     toolbar.btnCondFormat.menu.on('show:before',            _.bind(this.onShowBeforeCondFormat, this, this.toolbar, 'toolbar'));
                 }
-                Common.Gateway.on('insertimage',                            _.bind(this.insertImage, this));
+                toolbar.btnInsertChartRecommend.on('click',                 _.bind(this.onChartRecommendedClick, this));
+                toolbar.btnFillNumbers.menu.on('item:click',                _.bind(this.onFillNumMenu, this));
+                toolbar.btnFillNumbers.menu.on('show:before',               _.bind(this.onShowBeforeFillNumMenu, this));
+                Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
+                this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
+                this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
             }
         },
 
@@ -636,6 +645,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
+        },
+
+        onReplace: function(e) {
+            this.getApplication().getController('LeftMenu').onShortcut('replace');
         },
 
         onIncreaseFontSize: function(e) {
@@ -1307,7 +1320,7 @@ define([
                                 title: this.txtSorting,
                                 msg: this.txtExpandSort,
                                 buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
-                                    {caption: this.txtSortSelected, primary: true, value: 'sort'},
+                                    {caption: this.txtSortSelected, value: 'sort'},
                                     'cancel'],
                                 callback: function(btn){
                                     if (btn == 'expand' || btn == 'sort') {
@@ -4262,7 +4275,7 @@ define([
                     });
 
                 toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked);
-                toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart] } );
+                toolbar.lockToolbar(Common.enumLock.coAuthText, is_objLocked && (seltype==Asc.c_oAscSelectionType.RangeChart || seltype==Asc.c_oAscSelectionType.RangeChartText), { array: [toolbar.btnInsertChart, toolbar.btnInsertChartRecommend] } );
                 toolbar.lockToolbar(Common.enumLock.inSmartartInternal, is_smartart_internal);
             }
 
@@ -4547,7 +4560,7 @@ define([
                         me.toolbar.btnPaste.$el.detach().appendTo($box);
                         me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                         me.toolbar.btnCopy.$el.removeClass('split');
-                        me.toolbar.processPanelVisible(null, true, true);
+                        me.toolbar.processPanelVisible(null, true);
                     }
 
                     if ( config.canProtect ) {
@@ -5077,6 +5090,64 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.externalChartProtected, value, {array: [this.toolbar.btnPaste, this.toolbar.btnInsertFormula, this.toolbar.btnDecDecimal,this.toolbar.btnIncDecimal,this.toolbar.cmbNumberFormat]});
         },
 
+        onChartRecommendedClick: function() {
+            var me = this,
+                recommended = me.api.asc_getRecommendedChartData();
+            if (!recommended) {
+                Common.UI.warning({
+                    msg: me.warnNoRecommended,
+                    maxwidth: 600,
+                    callback: function(btn) {
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                });
+                return;
+            }
+
+            var seltype = me.api.asc_getCellInfo().asc_getSelectionType();
+            (new SSE.Views.ChartWizardDialog({
+                api: me.api,
+                props: {recommended: recommended},
+                isEdit: (seltype == Asc.c_oAscSelectionType.RangeChart || seltype == Asc.c_oAscSelectionType.RangeChartText),
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        me.api && me.api.asc_addChartSpace(value);
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onFillNumMenu: function(menu, item, e) {
+            if (this.api) {
+                var me = this;
+                if (item.value === Asc.c_oAscFillType.series) {
+                    (new SSE.Views.FillSeriesDialog({
+                        handler: function(result, settings) {
+                            if (result == 'ok' && settings) {
+                                me.api.asc_FillCells(Asc.c_oAscFillType.series, settings);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        },
+                        props: me.api.asc_GetSeriesSettings()
+                    })).show();
+                } else {
+                    me.api.asc_FillCells(item.value);
+                }
+            }
+        },
+
+        onShowBeforeFillNumMenu: function() {
+            if (this.api) {
+                var items = this.toolbar.btnFillNumbers.menu.items,
+                    props = this.api.asc_GetSeriesSettings().asc_getToolbarMenuAllowedProps();
+
+                for (var i = 0; i < items.length; i++) {
+                    items[i].setDisabled(!props[items[i].value]);
+                }
+            }
+        },
+
         textEmptyImgUrl     : 'You need to specify image URL.',
         warnMergeLostData   : 'Operation can destroy data in the selected cells.<br>Continue?',
         textWarning         : 'Warning',
@@ -5457,7 +5528,8 @@ define([
         textRating: 'Ratings',
         txtLockSort: 'Data is found next to your selection, but you do not have sufficient permissions to change those cells.<br>Do you wish to continue with the current selection?',
         textRecentlyUsed: 'Recently Used',
-        errorMaxPoints: 'The maximum number of points in series per chart is 4096.'
+        errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
+        warnNoRecommended: 'To create a chart, select the cells that contain the data you\'d like to use.<br>If you have names for the rows and columns and you\'d like use them as labels, include them in your selection.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

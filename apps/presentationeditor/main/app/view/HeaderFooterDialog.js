@@ -57,7 +57,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             _.extend(this.options, {
                 title: this.textHFTitle,
                 buttons: [
-                    {value: 'all', caption: this.applyAllText},
+                    {value: 'all', caption: this.applyAllText, id: 'hf-dlg-btn-apply-to-all'},
                     {value: 'ok', caption: this.applyText, id: 'hf-dlg-btn-apply'},
                     'cancel'
                 ],
@@ -93,6 +93,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
             this.hfProps    = options.props;
             this.api        = options.api;
             this.type       = options.type || 0;// 0 - slide, 1 - notes
+            this.isLockedApplyToAll = options.isLockedApplyToAll || false;
             this.dateControls = [];
             this.inited = [];
 
@@ -118,6 +119,7 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 toggleGroup: 'list-type',
                 allowDepress: false
             });
+            this.btnNotes.setDisabled(this.isLockedApplyToAll);
             this.btnNotes.on('click', _.bind(this.onHFTypeClick, this, 1));
 
             this.chDateTime = new Common.UI.CheckBox({
@@ -209,6 +211,11 @@ define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
                 labelText: this.textNotTitle
             });
             this.chNotTitle.on('change', _.bind(this.setNotTitle, this));
+
+            this.btnApplyToAll = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('#hf-dlg-btn-apply-to-all').addBack().filter('#hf-dlg-btn-apply-to-all').length>0);
+            }) || new Common.UI.Button({ el: $('#hf-dlg-btn-apply-to-all') });
+            this.btnApplyToAll.setDisabled(this.isLockedApplyToAll);
 
             this.btnApply = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('#hf-dlg-btn-apply').addBack().filter('#hf-dlg-btn-apply').length>0);

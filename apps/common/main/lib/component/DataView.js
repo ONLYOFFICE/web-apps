@@ -823,6 +823,10 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
+            if (data.isDefaultPrevented())
+                return;
+
+            if (!this.enableKeyEvents) return;
 
             if(this.multiSelect) {
                 if (data.keyCode == Common.UI.Keys.CTRL) {
@@ -850,6 +854,7 @@ define([
                 } else {
                     this.pressedCtrl=false;
                     function getFirstItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
                         var first = 0;
                         while(!this.dataViewItems[first] || !this.dataViewItems[first].$el || this.dataViewItems[first].$el.hasClass('disabled')) {
                             first++;
@@ -857,6 +862,7 @@ define([
                         return first;
                     }
                     function getLastItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
                         var last = this.dataViewItems.length-1;
                         while(!this.dataViewItems[last] || !this.dataViewItems[last].$el || this.dataViewItems[last].$el.hasClass('disabled')) {
                             last--;
@@ -961,6 +967,8 @@ define([
         },
 
         onKeyUp: function(e){
+            if (!this.enableKeyEvents) return;
+
             if(e.keyCode == Common.UI.Keys.SHIFT)
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
@@ -1389,6 +1397,7 @@ define([
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         function getFirstItemIndex() {
+                            if (this.dataViewItems.length===0) return 0;
                             var first = 0;
                             while(!this.dataViewItems[first].el.is(':visible')) {
                                 first++;

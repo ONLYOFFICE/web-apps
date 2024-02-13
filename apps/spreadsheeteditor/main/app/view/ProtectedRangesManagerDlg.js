@@ -108,10 +108,10 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                     '<div class="padding-right-5" style="width:184px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                    '<div class="padding-right-5" style="width:191px;"><%= range %></div>',
+                    '<div class="padding-right-5" style="width:191px;"><%= Common.Utils.String.htmlEncode(range) %></div>',
                     '<div style="width:70px;"><% if (canEdit) { %>', me.txtEdit, '<% } else { %>', me.txtView, '<% } %></div>',
                     '<% if (lock) { %>',
-                    '<div class="lock-user"><%=lockuser%></div>',
+                    '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                     '<% } %>',
                     '</div>'
                 ].join('')),
