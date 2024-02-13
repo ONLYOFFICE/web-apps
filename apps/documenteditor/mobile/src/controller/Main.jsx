@@ -414,24 +414,6 @@ class MainController extends Component {
                                 _translate[key] = value + ' ';
                             }
                         });
-
-                        const errorMessages = [
-                            "Error! Bookmark not defined",
-                            "No table of contents entries found",
-                            "No table of figures entries found",
-                            "Error! Main Document Only",
-                            "Error! Not a valid bookmark self-reference",
-                            "Error! No text of specified style in document"
-                        ];
-                        
-                        for (const item of errorMessages) {
-                            const newItem = item + '.';
-
-                            if (_translate[item]) {
-                                _translate[newItem] = _translate[item];
-                                delete _translate[item];
-                            }
-                        }
                     } else {
                         _translate = this.fallbackSdkTranslations
                     }
