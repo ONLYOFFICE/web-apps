@@ -14,7 +14,7 @@ const ToolbarView = props => {
     return (
         <Fragment>
             <NavLeft>
-                {(props.isShowBack && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
+                {(props.isShowBack && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-return' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {isVersionHistoryMode ? <a href="#" className='btn-close-history' onClick={(e) => {
                     e.preventDefault();
                     props.closeHistory();
