@@ -181,15 +181,15 @@
 
             </div>
             <div>
-                <div class="padding-large margin-right-8" style="display: inline-block;">
+                <div class="padding-large margin-right-8 vertical-align-middle" style="display: inline-block;">
                     <label class="input-label"><%= scope.textTabPosition %></label>
                     <div id="paraadv-spin-tab"></div>
                 </div>
-                <div class="padding-large margin-right-9" style=" display: inline-block;">
+                <div class="padding-large margin-right-9 vertical-align-middle" style=" display: inline-block;">
                     <label class="input-label"><%= scope.textAlign %></label>
                     <div id="paraadv-cmb-align"></div>
                 </div>
-                <div class="padding-large text-only" style="display: inline-block;">
+                <div class="padding-large text-only vertical-align-middle" style="display: inline-block;">
                     <label class="input-label"><%= scope.textLeader %></label>
                     <div id="paraadv-cmb-leader"></div>
                 </div>
