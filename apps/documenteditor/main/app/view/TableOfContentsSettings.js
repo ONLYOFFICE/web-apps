@@ -131,7 +131,7 @@ define([
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
                                             '<label class="input-label margin-left-10 vertical-align-baseline">' + me.textStyles + '</label>',
-                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10 vertical-align-baseline" style="display: inline-block; width:95px;"></div>',
+                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10 vertical-align-baseline" style="display: inline-block; width:129px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -411,7 +411,7 @@ define([
             this.cmbStyles = new Common.UI.ComboBox({
                 el: $('#tableofcontents-combo-styles'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 95px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 takeFocusOnClose: true,
                 data: arr
