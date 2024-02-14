@@ -595,6 +595,14 @@ define([
                 }
             },
 
+            clearActiveData: function(tab) {
+                var panel = tab ? this.$panels.filter('[data-tab=' + tab + ']') : this.$panels.filter('.active');
+                if ( panel.length ) {
+                    var data = panel.data();
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
+                }
+            },
+
             resizeToolbar: function(reset) {
                 var $active = this.$panels.filter('.active'),
                     more_section = $active.find('.more-box');

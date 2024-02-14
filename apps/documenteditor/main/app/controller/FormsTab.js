@@ -291,6 +291,8 @@ define([
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
                 state && (this._state.lastViewRole = lastViewRole);
+                this.toolbar.toolbar.clearActiveData();
+                this.toolbar.toolbar.processPanelVisible(null, true);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
