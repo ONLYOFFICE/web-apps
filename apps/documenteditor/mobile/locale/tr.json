@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Daha fazla bilgi edinmek için yöneticinizle iletişime geçin.",
     "warnNoLicense": "%1 düzenleyiciye eşzamanlı bağlantı sınırına ulaştınız. Bu belge yalnızca görüntüleme için açılacaktır. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
     "warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
-    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok."
+    "warnProcessRightsChange": "Bu dosyayı düzenleme izniniz yok.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Korumalı dosya",
@@ -779,7 +784,9 @@
     "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
     "textSubmit": "Submit",
-    "textTheme": "Theme"
+    "textTheme": "Theme",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "您已達到％1個編輯器的用戶限制。請與您的管理員聯繫以了解更多信息。",
     "warnNoLicense": "您已達到同時連接到 %1 編輯器的限制。此文件將只提供檢視。有關個人升級條款，請聯繫 %1 業務團隊。",
     "warnNoLicenseUsers": "您已達到％1個編輯器的用戶限制。與％1銷售團隊聯繫以了解個人升級條款。",
-    "warnProcessRightsChange": "您沒有編輯這個文件的權限。"
+    "warnProcessRightsChange": "您沒有編輯這個文件的權限。",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "受保護的檔案",
@@ -779,7 +784,9 @@
     "textSubmit": "Submit",
     "textTheme": "Theme",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "textVersionHistory": "Version History"
+    "textVersionHistory": "Version History",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未儲存的變更。點擊“留在此頁面”以等待自動儲存。點擊“離開此頁面”以放棄所有未儲存的變更。",

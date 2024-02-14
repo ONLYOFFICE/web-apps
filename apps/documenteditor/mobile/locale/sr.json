@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
     "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
     "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
-    "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl."
+    "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Zaštićen Fajl",
@@ -779,7 +784,9 @@
     "txtScheme6": "Konkurs",
     "txtScheme7": "Ravnopravnost",
     "txtScheme8": "Tok",
-    "txtScheme9": "Foundry"
+    "txtScheme9": "Foundry",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Imate nesačuvane promene. Kliknite \"Ostani na ovoj Stranici\" da sačekate auto-čuvanje. Kliknite \"Izađi iz ove Stranice\" da odbacite sve nesačuvane promene.",

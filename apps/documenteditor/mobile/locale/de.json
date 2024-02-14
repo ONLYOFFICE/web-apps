@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
+    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",
@@ -779,7 +784,9 @@
     "textExport": "Export",
     "textExportAs": "Export As",
     "textLight": "Light",
-    "textSameAsSystem": "Same as system"
+    "textSameAsSystem": "Same as system",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "Ați atins numărul maxim de utilizatori ai %1 editoare. Pentru detalii, contactați administratorul dvs.",
     "warnNoLicense": "Ați atins numărul maxim de conexiuni simultane la %1 de editoare. Documentul este disponibil numai pentru vizualizare. Contactați %1 Departamentul de Vânzări pentru acordarea condițiilor personale de actualizare.",
     "warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
-    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier."
+    "warnProcessRightsChange": "Nu aveți permisiunea de editare pentru fișier.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Fișierul protejat",
@@ -779,7 +784,9 @@
     "txtScheme6": "Concurență",
     "txtScheme7": "Echilibru",
     "txtScheme8": "Flux",
-    "txtScheme9": "Forjă"
+    "txtScheme9": "Forjă",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

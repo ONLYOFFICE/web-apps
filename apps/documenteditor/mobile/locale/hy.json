@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
     "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
     "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:"
+    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Պաշտպանված նիշք",
@@ -779,7 +784,9 @@
     "txtScheme6": "Համագումար ",
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
-    "txtScheme9": "Հրատարակիչ"
+    "txtScheme9": "Հրատարակիչ",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",
