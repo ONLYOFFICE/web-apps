@@ -623,7 +623,7 @@ define([
             },
 
             clearActiveData: function(tab) {
-                var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                var panel = tab ? this.$panels.filter('[data-tab=' + tab + ']') : this.$panels.filter('.active');
                 if ( panel.length ) {
                     var data = panel.data();
                     data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
