@@ -394,8 +394,6 @@ define([
 
                 if (key == Common.UI.Keys.ESC) {
                     Common.UI.Menu.Manager.hideAll();
-                    if (!Common.UI.HintManager.isHintVisible())
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                 }
             }
         },

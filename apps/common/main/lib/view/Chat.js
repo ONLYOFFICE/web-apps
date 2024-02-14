@@ -172,9 +172,6 @@ define([
                 if ((event.ctrlKey || event.metaKey) && !event.altKey) {
                     this._onBtnAddMessage(event);
                 }
-            } else
-            if (event.keyCode == Common.UI.Keys.ESC && !Common.UI.HintManager.isHintVisible()) {
-                this.hide();
             }
         },
 
