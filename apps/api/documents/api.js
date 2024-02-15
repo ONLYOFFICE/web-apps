@@ -207,7 +207,7 @@
                     compactToolbar: false,
                     leftMenu: true, // must be deprecated. use layout.leftMenu instead
                     rightMenu: true, // must be deprecated. use layout.rightMenu instead
-                    hideRightMenu: false, // hide or show right panel on first loading
+                    hideRightMenu: true, // hide or show right panel on first loading !! default value changed in 8.1
                     toolbar: true, // must be deprecated. use layout.toolbar instead
                     statusBar: true, // must be deprecated. use layout.statusBar instead
                     autosave: true,
