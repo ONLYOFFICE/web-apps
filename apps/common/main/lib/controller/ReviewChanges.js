@@ -106,13 +106,15 @@ define([
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             this._state = { posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: [],
+                            displayMode: Asc.c_oAscDisplayModeInReview.Edit,
                             disableEditing: false, // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
                             docProtection: {
                                 isReadOnly: false,
                                 isReviewOnly: false,
                                 isFormsOnly: false,
                                 isCommentsOnly: false
-                            }
+                            },
+                            sdkchange: null
                           };
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
@@ -237,6 +239,7 @@ define([
         onApiShowChange: function (sdkchange, isShow) {
             var btnlock = true,
                 changes;
+            this._state.sdkchange = sdkchange;
             if (this.appConfig.canReview && !(this.appConfig.isReviewOnly || this._state.docProtection.isReviewOnly)) {
                 if (sdkchange && sdkchange.length>0) {
                     changes = this.readSDKChange(sdkchange);
@@ -251,7 +254,7 @@ define([
             }
 
             if (this.getPopover()) {
-                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
+                if (!this.appConfig.reviewHoverMode && (this._state.displayMode !== Asc.c_oAscDisplayModeInReview.Simple) && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
                     var i = 0,
                         posX = sdkchange[0].get_X(),
                         posY = sdkchange[0].get_Y(),
@@ -833,6 +836,7 @@ define([
                         type = Asc.c_oAscDisplayModeInReview.Simple;
                         break;
                 }
+                this._state.displayMode = type;
                 this.api.asc_SetDisplayModeInReview(type);
             }
             this.disableEditing(mode == 'final' || mode == 'original');
@@ -841,6 +845,7 @@ define([
 
         onChangeDisplayModeInReview: function(type) {
             this.disableEditing(type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
+            this._state.displayMode = type;
             var mode = 'markup';
             switch (type) {
                 case Asc.c_oAscDisplayModeInReview.Final:
@@ -1006,6 +1011,7 @@ define([
                 }
 
                 me.view && me.view.onAppReady(config);
+                me._state.sdkchange && me.onApiShowChange(me._state.sdkchange, true);
             });
         },
 
