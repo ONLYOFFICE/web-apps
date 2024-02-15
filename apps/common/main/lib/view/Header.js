@@ -513,41 +513,42 @@ define([
             },100);
         }
 
+        function onDocNameChanged(editcomplete) {
+            var me = this,
+                name = $labelDocName.val();
+            name = name.trim();
+            if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                me.isSaveDocName =true;
+                if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                    _.defer(function() {
+                        Common.UI.error({
+                            msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                            , callback: function() {
+                                _.delay(function() {
+                                    $labelDocName.focus();
+                                }, 50);
+                            }
+                        });
+                    })
+                } else if (me.withoutExt) {
+                    name = me.cutDocName(name);
+                    me.fireEvent('rename', [name]);
+                    name += me.fileExtention;
+                    me.withoutExt = false;
+                    me.setDocTitle(name);
+                    editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            } else {
+                editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
-
-            var name = $labelDocName.val();
-            if ( e.keyCode == Common.UI.Keys.RETURN ) {
-                name = name.trim();
-                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
-                    me.isSaveDocName =true;
-                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
-                        _.defer(function() {
-                            Common.UI.error({
-                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
-                                , callback: function() {
-                                    _.delay(function() {
-                                        $labelDocName.focus();
-                                        me.isSaveDocName =true;
-                                    }, 50);
-                                }
-                            });
-                        })
-                    } else
-                    if(me.withoutExt) {
-                        name = me.cutDocName(name);
-                        me.fireEvent('rename', [name]);
-                        name += me.fileExtention;
-                        me.withoutExt = false;
-                        me.setDocTitle(name);
-                        Common.NotificationCenter.trigger('edit:complete', me);
-                    }
-
-                } else {
-                    Common.NotificationCenter.trigger('edit:complete', me);
-                }
-            } else
-            if ( e.keyCode == Common.UI.Keys.ESC ) {
+            if ( e.keyCode === Common.UI.Keys.RETURN ) {
+                onDocNameChanged.call(me, true);
+            } else if ( e.keyCode === Common.UI.Keys.ESC ) {
+                me.setDocTitle(me.cutDocName(me.documentCaption));
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 _.delay(function(){
@@ -925,6 +926,7 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
+                                !me.isSaveDocName && onDocNameChanged.call(me);
                                 me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
                                 Common.Utils.isGecko && (label[0].selectionStart = label[0].selectionEnd = 0);
                                 if(!me.isSaveDocName) {
