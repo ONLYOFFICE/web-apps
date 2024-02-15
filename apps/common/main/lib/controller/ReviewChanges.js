@@ -113,7 +113,8 @@ define([
                                 isReviewOnly: false,
                                 isFormsOnly: false,
                                 isCommentsOnly: false
-                            }
+                            },
+                            sdkchange: null
                           };
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
@@ -238,6 +239,7 @@ define([
         onApiShowChange: function (sdkchange, isShow) {
             var btnlock = true,
                 changes;
+            this._state.sdkchange = sdkchange;
             if (this.appConfig.canReview && !(this.appConfig.isReviewOnly || this._state.docProtection.isReviewOnly)) {
                 if (sdkchange && sdkchange.length>0) {
                     changes = this.readSDKChange(sdkchange);
@@ -1003,6 +1005,7 @@ define([
                 me.appConfig.reviewHoverMode = val;
 
                 me.view && me.view.onAppReady(config);
+                me._state.sdkchange && me.onApiShowChange(me._state.sdkchange, true);
             });
         },
 
