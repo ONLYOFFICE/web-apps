@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "Došlo dosažení limitu %1 editorů v režimu spolupráce na úpravách. Ohledně podrobností se obraťte na svého správce.",
     "warnNoLicense": "Došlo k dosažení limitu souběžného připojení %1 editorů. Tento dokument bude otevřen pouze pro náhled. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
     "warnNoLicenseUsers": "Došlo k dosažení limitu %1 editorů. Pro rozšíření funkcí kontaktujte %1 obchodní oddělení.",
-    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu."
+    "warnProcessRightsChange": "Nemáte oprávnění pro úpravu tohoto dokumentu.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Zabezpečený soubor",
@@ -779,7 +784,9 @@
     "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
     "textSubmit": "Submit",
-    "textTheme": "Theme"
+    "textTheme": "Theme",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

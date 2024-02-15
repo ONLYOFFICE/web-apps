@@ -616,7 +616,12 @@
     "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරකවල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnNoLicense": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරකවල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත."
+    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "රක්‍ෂිත ගොනුවකි",
@@ -779,7 +784,9 @@
     "textSameAsSystem": "Same as system",
     "textSaveAsPdf": "Save as PDF",
     "textSubmit": "Submit",
-    "textTheme": "Theme"
+    "textTheme": "Theme",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ස්වයං සුරැකීම සඳහා රැඳෙන්න 'මෙම පිටුවෙහි රැඳී සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවත දැමීමට 'මෙම පිටුවෙන් ඉවත් වන්න' ඔබන්න.",

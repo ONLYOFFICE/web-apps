@@ -3,7 +3,7 @@ import { f7, Popup, Popover, View } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 
-import {PageLink, PageTypeLink, PageLinkTo} from '../../view/add/AddLink';
+import {PageTypeLink, PageLinkTo, ObservablePageLink} from '../../view/add/AddLink';
 
 const routes = [
     {
@@ -140,17 +140,17 @@ class AddLinkController extends Component {
                 Device.phone ?
                     <Popup id="add-link-popup" onPopupClosed={() => this.props.closeOptions('add-link')}>
                         <View routes={routes} style={{height: '100%'}}>
-                            <PageLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getTextDisplay={this.getTextDisplay} isNavigate={this.props.isNavigate} />
+                            <ObservablePageLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getTextDisplay={this.getTextDisplay} isNavigate={this.props.isNavigate} />
                         </View>
                     </Popup>
                 :
                     <Popover id="add-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('add-link')}>
                         <View routes={routes} style={{height: '410px'}}>
-                            <PageLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getTextDisplay={this.getTextDisplay} isNavigate={this.props.isNavigate}/>
+                            <ObservablePageLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getTextDisplay={this.getTextDisplay} isNavigate={this.props.isNavigate}/>
                         </View>
                     </Popover>
             :
-                <PageLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getTextDisplay={this.getTextDisplay} isNavigate={this.props.isNavigate} />
+                <ObservablePageLink closeModal={this.closeModal} onInsertLink={this.onInsertLink} getTextDisplay={this.getTextDisplay} isNavigate={this.props.isNavigate} />
         )
     }
 }

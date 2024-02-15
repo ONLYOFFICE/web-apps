@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {observer, inject} from "mobx-react";
 import {f7, List, ListItem, Page, Navbar, Icon, ListButton, ListInput, Segmented, Button, NavRight, Link, NavLeft, NavTitle} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ const PageEditTypeLink = props => {
     const [typeLink, setTypeLink] = useState(props.curType);
 
     const settings = props.storeFocusObjects.settings;
+    
     if (settings.indexOf('hyperlink') === -1) {
         $$('.sheet-modal.modal-in').length > 0 && f7.sheet.close();
         return null;
@@ -36,7 +37,7 @@ const PageEditLinkTo = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
-    const slidesCount = props.slidesCount;
+    const countPages = props.storeToolbarSettings?.countPages;
     const [stateTypeTo, setTypeTo] = useState(props.curTo);
 
     const changeTypeTo = (type) => {
@@ -47,17 +48,13 @@ const PageEditLinkTo = props => {
     const [stateNumberTo, setNumberTo] = useState(props.numberTo);
 
     const changeNumber = (curNumber, isDecrement) => {
-        setTypeTo(4);
-        let value;
+        let value = isDecrement ? Math.max(curNumber - 1, 1) : Math.min(curNumber + 1, countPages);
 
-        if (isDecrement) {
-            value = Math.max(0, --curNumber);
-        } else {
-            value = Math.min(slidesCount - 1, ++curNumber);
+        if (value !== curNumber) {
+            setTypeTo(4);
+            setNumberTo(value);
+            props.changeTo(4, value);
         }
-
-        setNumberTo(value);
-        props.changeTo(4, value);
     };
 
     const settings = props.storeFocusObjects.settings;
@@ -81,13 +78,13 @@ const PageEditLinkTo = props => {
                 <ListItem title={_t.textFirstSlide} radio checked={stateTypeTo === 2} onClick={() => {changeTypeTo(2)}}></ListItem>
                 <ListItem title={_t.textLastSlide} radio checked={stateTypeTo === 3} onClick={() => {changeTypeTo(3)}}></ListItem>
                 <ListItem title={_t.textSlideNumber}>
-                    {!isAndroid && <div slot='after-start'>{stateNumberTo + 1}</div>}
+                    {!isAndroid && <div slot='after-start'>{stateNumberTo}</div>}
                     <div slot='after'>
                         <Segmented>
                             <Button outline className='decrement item-link' onClick={() => {changeNumber(stateNumberTo, true);}}>
                                 {isAndroid ? <Icon icon="icon-expand-down"></Icon> : ' - '}
                             </Button>
-                            {isAndroid && <label>{stateNumberTo + 1}</label>}
+                            {isAndroid && <label>{stateNumberTo}</label>}
                             <Button outline className='increment item-link' onClick={() => {changeNumber(stateNumberTo, false);}}>
                                 {isAndroid ? <Icon icon="icon-expand-up"></Icon> : ' + '}
                             </Button>
@@ -114,7 +111,7 @@ const PageLink = props => {
         1: `${_t.textPreviousSlide}`,
         2: `${_t.textFirstSlide}`,
         3: `${_t.textLastSlide}`,
-        4: `${_t.textSlide} ${slideNum + 1}`
+        4: `${_t.textSlide} ${slideNum}`
     };
 
     const [typeLink, setTypeLink] = useState(valueTypeLink);
@@ -136,7 +133,7 @@ const PageLink = props => {
             case 1 : setDisplayTo(_t.textPreviousSlide); break;
             case 2 : setDisplayTo(_t.textFirstSlide); break;
             case 3 : setDisplayTo(_t.textLastSlide); break;
-            case 4 : setDisplayTo(`${_t.textSlide} ${number + 1}`); setNumberTo(number); break;
+            case 4 : setDisplayTo(`${_t.textSlide} ${number}`); setNumberTo(number); break;
         }
     };
 
@@ -182,8 +179,7 @@ const PageLink = props => {
                         changeTo: changeTo,
                         curTo: linkTo,
                         numberTo: numberTo,
-                        initLink: props.initLink,
-                        slidesCount: props.slidesCount
+                        initLink: props.initLink
                     }}/>
                 }
                 <ListInput label={_t.textDisplay}
@@ -213,9 +209,11 @@ const PageLink = props => {
     )
 };
 
-const _PageEditLinkTo = inject("storeFocusObjects")(observer(PageEditLinkTo));
-const _PageEditTypeLink = inject("storeFocusObjects")(observer(PageEditTypeLink));
+const ObservablePageEditLinkTo = inject("storeFocusObjects", "storeToolbarSettings")(observer(PageEditLinkTo));
+const ObservablePageEditTypeLink = inject("storeFocusObjects")(observer(PageEditTypeLink));
 
-export {PageLink as EditLink,
-        _PageEditLinkTo as PageEditLinkTo,
-        _PageEditTypeLink as PageEditTypeLink}
+export {
+    PageLink as EditLink,
+    ObservablePageEditLinkTo,
+    ObservablePageEditTypeLink
+}

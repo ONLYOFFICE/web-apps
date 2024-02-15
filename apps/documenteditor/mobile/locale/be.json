@@ -616,7 +616,12 @@
     "warnLicenseLimitedNoAccess": "License expired. You have no access to document editing functionality. Please, contact your admin.",
     "warnLicenseLimitedRenewed": "License needs to be renewed. You have limited access to document editing functionality.<br>Please contact your administrator to get full access",
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
-    "warnProcessRightsChange": "You don't have permission to edit this file."
+    "warnProcessRightsChange": "You don't have permission to edit this file.",
+    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
+    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
+    "textCancel": "Cancel",
+    "textSaveAsPdf": "Save as PDF",
+    "textDownloadPdf": "Download PDF"
   },
   "Settings": {
     "advDRMOptions": "Абаронены файл",
@@ -779,7 +784,9 @@
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset"
+    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
+    "textRtlInterface": "RTL Interface",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

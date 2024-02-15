@@ -70,20 +70,20 @@
     }
 
     .navbar, .navbar-bg, .subnavbar {
+        background-color: var(--f7-navbar-bg-color);
+
         a.btn-doc-back {
             width: 22px;
         }
-        background-color: var(--f7-navbar-bg-color);
+
         .title {
-            font-weight: 600;
             color: @text-normal;
-            //line-height: 17px;
-            //max-height: 34px;
-            //overflow: hidden;
         }
+
         .navbar-inner, .subnavbar-inner {
             z-index: auto;
         }
+        
         .sheet-close {
             width: 44px;
             height: 44px;
@@ -95,6 +95,11 @@
     .subnavbar {
         .icon-back {
             color: @brandColor;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: normal;
         }
     }
 
@@ -181,10 +186,6 @@
                 }
             }
         }
-    }
-
-    .popover-arrow:after {
-        background: rgba(0, 0, 0, 0.9);
     }
 
     .list {
