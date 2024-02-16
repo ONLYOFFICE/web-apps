@@ -110,7 +110,8 @@
                         image: url,
                         imageDark: url, // logo for dark theme
                         imageEmbedded: url, // deprecated, use image instead
-                        url: http://...
+                        url: http://...,
+                        visible: true // hide logo if visible=false
                     },
                     customer: {
                         name: 'SuperPuper',
@@ -1016,7 +1017,9 @@
                     params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
                 }
                 if ( config.editorConfig.customization.logo ) {
-                    if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
+                    if (config.editorConfig.customization.logo.visible===false) {
+                        params += "&headerlogo=";
+                    } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
                         params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
                     else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
