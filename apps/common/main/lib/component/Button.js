@@ -659,12 +659,17 @@ define([
                     });
                 }
 
+                var $btn = $('button', el).length>0 ? $('button', el) : me.cmpEl;
                 if (me.enableToggle && !me.menu) {
-                    $('button', el).attr('aria-pressed', !!me.pressed)
+                    $btn.attr('aria-pressed', !!me.pressed)
                 }
 
                 if (me.menu) {
                     $('[data-toggle^=dropdown]', el).attr('aria-haspopup', 'menu');
+                }
+
+                if (!me.caption && me.options.hint) {
+                    $btn.attr('aria-label', (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
                 }
             }
 
@@ -885,6 +890,11 @@ define([
                         !Common.Utils.isGecko && (tip.enabled = !this.disabled);
                     }
                 }
+            }
+
+            if (!this.caption) {
+                var $btn = $('button', cmpEl).length>0 ? $('button', cmpEl) : cmpEl;
+                $btn.attr('aria-label', (typeof hint == 'string') ? hint : hint[0]);
             }
         },
 

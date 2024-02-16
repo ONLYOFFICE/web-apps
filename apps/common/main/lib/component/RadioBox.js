@@ -159,7 +159,11 @@ define([
 
         setRawValue: function(value) {
             var value = (value === true || value === 'true' || value === '1' || value === 1 );
-            value && $('input[type=radio][name=' + this.name + ']').removeClass('checked');
+            if (value) {
+                var input = $('input[type=radio][name=' + this.name + ']');
+                input.removeClass('checked');
+                input.parent().attr('aria-checked', false);
+            }
             this.$radio.toggleClass('checked', value);
             this.$radio.prop('checked', value);
 

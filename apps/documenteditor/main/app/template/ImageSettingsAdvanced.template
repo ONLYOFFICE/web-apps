@@ -171,7 +171,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="image-radio-hposition image-radio-hpositionpc">
                     <div id="image-radio-halign"></div>
                 </td>
                 <td class="padding-small">
@@ -215,7 +215,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="image-radio-vposition image-radio-vpositionpc">
                     <div id="image-radio-valign"></div>
                 </td>
                 <td class="padding-small">
