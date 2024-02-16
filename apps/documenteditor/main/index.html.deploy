@@ -121,6 +121,10 @@
             width: inherit;
             height: 44px;
         }
+        .rtl .loadmask > .sktoolbar li.fat {
+            right: 522px;
+            left: 0;
+        }
 
         .loadmask > .placeholder {
             background: #fff;

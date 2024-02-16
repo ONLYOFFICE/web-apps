@@ -112,6 +112,10 @@
             width: 670px;
             height: 44px;
         }
+        .rtl .loadmask > .sktoolbar li.fat {
+            right: 854px;
+            left: 0;
+        }
 
         .loadmask>.skformula {
             height: 24px;
