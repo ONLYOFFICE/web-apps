@@ -620,12 +620,7 @@
     "warnLicenseUsersExceeded": "Вы достигли лимита на количество пользователей редакторов %1. Свяжитесь с администратором, чтобы узнать больше.",
     "warnNoLicense": "Вы достигли лимита на одновременные подключения к редакторам %1. Этот документ будет открыт на просмотр. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
     "warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
-    "warnProcessRightsChange": "У вас нет прав на редактирование этого файла.",
-    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
-    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
-    "textCancel": "Cancel",
-    "textSaveAsPdf": "Save as PDF",
-    "textDownloadPdf": "Download PDF"
+    "warnProcessRightsChange": "У вас нет прав на редактирование этого файла."
   },
   "Settings": {
     "advDRMOptions": "Защищенный файл",
@@ -789,9 +784,7 @@
     "txtScheme6": "Открытая",
     "txtScheme7": "Справедливость",
     "txtScheme8": "Поток",
-    "txtScheme9": "Литейная",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "txtScheme9": "Литейная"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

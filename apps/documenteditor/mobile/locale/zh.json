@@ -784,9 +784,7 @@
     "txtScheme6": "大厅",
     "txtScheme7": "产权",
     "txtScheme8": "流程",
-    "txtScheme9": "铸造厂",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "txtScheme9": "铸造厂"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",

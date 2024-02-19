@@ -784,9 +784,7 @@
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSubmit": "Submit",
-    "textTheme": "Theme",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

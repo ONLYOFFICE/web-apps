@@ -620,12 +620,7 @@
     "warnLicenseUsersExceeded": "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
     "warnNoLicense": "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only. Contact %1 sales team for personal upgrade terms.",
     "warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-    "warnProcessRightsChange": "You don't have permission to edit this file.",
-    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
-    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
-    "textCancel": "Cancel",
-    "textSaveAsPdf": "Save as PDF",
-    "textDownloadPdf": "Download PDF"
+    "warnProcessRightsChange": "You don't have permission to edit this file."
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -789,9 +784,7 @@
     "txtScheme6": "Concourse",
     "txtScheme7": "Equity",
     "txtScheme8": "Flow",
-    "txtScheme9": "Foundry",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

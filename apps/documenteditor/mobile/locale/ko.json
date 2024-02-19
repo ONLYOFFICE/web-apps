@@ -784,9 +784,7 @@
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSubmit": "Submit",
-    "textTheme": "Theme",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "저장하지 않은 변경 사항이 있습니다. 자동 저장이 완료될 때까지 기다리려면 \"이 페이지에 머물기\"를 클릭하십시오. \"이 페이지에서 나가기\"를 클릭하면 저장되지 않은 모든 변경 사항이 삭제됩니다.",

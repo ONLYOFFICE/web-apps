@@ -620,12 +620,7 @@
     "titleLicenseNotActive": "License not active",
     "warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
-    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
-    "textCancel": "Cancel",
-    "textSaveAsPdf": "Save as PDF",
-    "textDownloadPdf": "Download PDF"
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Qorunan Fayl",
@@ -789,9 +784,7 @@
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",

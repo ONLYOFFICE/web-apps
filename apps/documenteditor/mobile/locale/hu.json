@@ -784,9 +784,7 @@
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSubmit": "Submit",
-    "textTheme": "Theme",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "textTheme": "Theme"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vannak el nem mentett módosításai. Kattintson a 'Maradjon ezen az oldalon' gombra az automatikus mentéshez. Kattintson a 'Hagyja el ezt az oldalt' gombra a mentetlen módosítások elvetéséhez.",

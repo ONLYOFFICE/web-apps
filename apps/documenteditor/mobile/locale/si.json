@@ -584,6 +584,7 @@
     "textCancel": "අවලංගු",
     "textClose": "වසන්න",
     "textContactUs": "අලෙවිය අමතන්න",
+    "textConvertForm": "පිරවීමට සුදුසු ආකෘතියෙන් ආකෘතිපත්‍රය සුරැකීමට ගොනුව පීඩීඑෆ් ලෙස බාගන්න.",
     "textCustomLoader": "සමාවන්න, පූරකය වෙනස් කිරීමට ඔබට සුදුසුකමක් නැත. මිල කැඳවීමක් ලබා ගැනීමට අපගේ අලෙවි ක්‍රියාංශය අමතන්න.",
     "textDialogProtectedChangesTracked": "ඔබට මෙම ලේඛනය සංස්කරණය කිරීමට හැකිය, නමුත් සියළු වෙනස්කම් නිරීක්‍ෂණය වේ",
     "textDialogProtectedEditComments": "ඔබට මෙම ලේඛනයට අදහස් පමණක් යෙදීමට හැකිය",
@@ -619,8 +620,7 @@
     "warnLicenseUsersExceeded": "ඔබ %1 සංස්කරකවල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. තව දැන ගැනීමට ඔබගේ පරිපාලක අමතන්න.",
     "warnNoLicense": "%1 සංස්කරක සමකාල සම්බන්ධතා සීමාවට ළඟා වී ඇත. මෙම ලේඛනය දැකීමට පමණක් විවෘත වේ. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
     "warnNoLicenseUsers": "ඔබ %1 සංස්කරකවල පරිශ්‍රීලක සීමාවට ළඟා වී ඇත. පුද්ගලික උත්ශ්‍රේණි නියම සඳහා %1 අලෙවි කණ්ඩායම අමතන්න.",
-    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත.",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling."
+    "warnProcessRightsChange": "ඔබට මෙම ගොනුව සංස්කරණයට අවසර නැත."
   },
   "Settings": {
     "advDRMOptions": "රක්‍ෂිත ගොනුවකි",

@@ -620,12 +620,7 @@
     "titleDialogProtectedDocument": "The document is protected",
     "titleLicenseNotActive": "License not active",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
-    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
-    "textCancel": "Cancel",
-    "textSaveAsPdf": "Save as PDF",
-    "textDownloadPdf": "Download PDF"
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protexido",
@@ -789,9 +784,7 @@
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "textVerify": "Verify",
-    "titleDialogUnprotect": "Unprotect Document",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Ten cambios sen gardar. Prema en \"Permanecer nesta páxina\" para esperar a que se garde automaticamente. Prema en \"Saír desta páxina\" para descartar todos os cambios non gardados.",

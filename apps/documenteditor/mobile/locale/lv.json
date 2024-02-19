@@ -620,12 +620,7 @@
     "textSaveAsPdf": "Save as PDF",
     "titleLicenseNotActive": "License not active",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-    "warnLicenseBefore": "License not active.<br>Please contact your administrator.",
-    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
-    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
-    "textCancel": "Cancel",
-    "textSaveAsPdf": "Save as PDF",
-    "textDownloadPdf": "Download PDF"
+    "warnLicenseBefore": "License not active.<br>Please contact your administrator."
   },
   "Settings": {
     "advDRMOptions": "Aizsargāts fails",
@@ -789,9 +784,7 @@
     "textSameAsSystem": "Same as system",
     "textSubmit": "Submit",
     "textTheme": "Theme",
-    "textTypeEditing": "Type Of Editing",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "textTypeEditing": "Type Of Editing"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",

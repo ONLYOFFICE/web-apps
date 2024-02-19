@@ -51,7 +51,7 @@
     "textPictureFromLibrary": "Image depuis la bibliothèque",
     "textPictureFromURL": "Image à partir d'une URL",
     "textPosition": "Position",
-    "textRecommended": "Recommandés",
+    "textRecommended": "Recommandations",
     "textRequired": "Obligatoire",
     "textRightBottom": "À droite en bas",
     "textRightTop": "À droite en haut",
@@ -351,7 +351,7 @@
     "textPictureFromURL": "Image à partir d'une URL",
     "textPlaceholder": "Espace réservé",
     "textPt": "pt",
-    "textRecommended": "Recommandés",
+    "textRecommended": "Recommandations",
     "textRefresh": "Actualiser",
     "textRefreshEntireTable": "Actualiser le tableau entier",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
@@ -784,9 +784,7 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "txtScheme9": "Fonderie"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",
