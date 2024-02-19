@@ -303,7 +303,6 @@ class MainController extends Component {
 
                 const { t } = this.props;
                 const appOptions = this.props.storeAppOptions;
-                const isForm = appOptions.isForm;
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
 
@@ -338,7 +337,7 @@ class MainController extends Component {
 
                 value = LocalStorage.getBool('mobile-view', true);
 
-                if(value && !isForm) {
+                if(value) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();

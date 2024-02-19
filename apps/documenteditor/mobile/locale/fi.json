@@ -623,11 +623,10 @@
     "del_textNoTextFound": "Text not found",
     "textNoMatches": "No Matches",
     "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
-    "textConvertForm": "Download file as pdf to save the form in the format ready for filling.",
-    "del_textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
     "textCancel": "Cancel",
-    "textSaveAsPdf": "Save as PDF",
-    "textDownloadPdf": "Download PDF"
+    "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
+    "textDownloadPdf": "Download PDF",
+    "textSaveAsPdf": "Save as PDF"
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -793,8 +792,8 @@
     "textSubmit": "Submit",
     "textSaveAsPdf": "Save as PDF",
     "textExportAs": "Export As",
-    "textRtlInterface": "RTL Interface",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation"
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",
