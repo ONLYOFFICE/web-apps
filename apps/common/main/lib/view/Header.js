@@ -859,8 +859,7 @@ define([
 
                 this.documentCaption = value;
                 var idx = this.documentCaption.lastIndexOf('.');
-                if (idx>0)
-                    this.fileExtention = this.documentCaption.substring(idx);
+                this.fileExtention = idx>0 ? this.documentCaption.substring(idx) : '';
                 this.isModified && (value += '*');
                 this.readOnly && (value += ' (' + this.textReadOnly + ')');
                 if ( $labelDocName ) {
