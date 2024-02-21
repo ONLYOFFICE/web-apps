@@ -315,9 +315,10 @@ define([
 
         _saveAsFormat: function(menu, format, ext, textParams) {
             var needDownload = !!ext;
+            var options = new Asc.asc_CDownloadOptions(format, needDownload);
+            options.asc_setIsSaveAs(needDownload);
 
             if (menu) {
-                var options = new Asc.asc_CDownloadOptions(format, needDownload);
                 options.asc_setTextParams(textParams);
                 if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
@@ -367,7 +368,7 @@ define([
                 }
             } else {
                 this.isFromFileDownloadAs = needDownload;
-                this.api.asc_DownloadOrigin(needDownload);
+                this.api.asc_DownloadOrigin(options);
             }
         },
 

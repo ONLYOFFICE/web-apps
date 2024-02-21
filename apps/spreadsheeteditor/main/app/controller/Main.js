@@ -642,8 +642,11 @@ define([
                     _format = Asc.c_oAscFileType.XLSX;
                 if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                     Common.NotificationCenter.trigger('download:settings', this, _format, true);
-                else
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
+                else {
+                    var options = new Asc.asc_CDownloadOptions(_format, true);
+                    options.asc_setIsSaveAs(true);
+                    this.api.asc_DownloadAs(options);
+                }
             },
 
             onProcessMouse: function(data) {

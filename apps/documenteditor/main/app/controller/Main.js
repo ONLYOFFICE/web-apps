@@ -629,7 +629,10 @@ define([
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 if (type && typeof type[1] === 'string') {
                     if (!(format && (typeof format == 'string')) || type[1]===format.toLowerCase()) {
-                        this.api.asc_DownloadOrigin(true);
+                        var options = new Asc.asc_CDownloadOptions();
+                        options.asc_setIsDownloadEvent(true);
+                        options.asc_setIsSaveAs(true);
+                        this.api.asc_DownloadOrigin(options);
                         return;
                     }
                     if (/^xps|oxps$/.test(this.document.fileType))
@@ -647,12 +650,13 @@ define([
                 }
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = _defaultFormat;
+                var options = new Asc.asc_CDownloadOptions(_format, true);
+                options.asc_setIsSaveAs(true);
                 if (_format) {
-                    var options = new Asc.asc_CDownloadOptions(_format, true);
                     textParams && options.asc_setTextParams(textParams);
                     this.api.asc_DownloadAs(options);
                 } else {
-                    this.api.asc_DownloadOrigin(true);
+                    this.api.asc_DownloadOrigin(options);
                 }
             },
 

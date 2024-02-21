@@ -424,7 +424,10 @@ define([
                             me.api.asc_DownloadAs();
                         else if (btn==='copy' || btn==='download') {
                             me._state.isFromToolbarDownloadAs = (btn==='copy');
-                            me.api.asc_DownloadOrigin(btn==='copy');
+                            var options = new Asc.asc_CDownloadOptions();
+                            options.asc_setIsDownloadEvent(me._state.isFromToolbarDownloadAs);
+                            options.asc_setIsSaveAs(me._state.isFromToolbarDownloadAs);
+                            me.api.asc_DownloadOrigin(options);
                         }
                         Common.NotificationCenter.trigger('edit:complete', toolbar);
                     }
@@ -741,7 +744,9 @@ define([
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                 else {
                     this._state.isFromToolbarDownloadAs = this.mode.canRequestSaveAs || !!this.mode.saveAsUrl;
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this._state.isFromToolbarDownloadAs));
+                    var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this._state.isFromToolbarDownloadAs);
+                    options.asc_setIsSaveAs(this._state.isFromToolbarDownloadAs);
+                    this.api.asc_DownloadAs(options);
                 }
             }
         },
