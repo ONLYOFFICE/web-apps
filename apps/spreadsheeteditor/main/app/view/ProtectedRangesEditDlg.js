@@ -461,16 +461,14 @@ define([
             if (rec && !rec.get('isCurrent')) {
                 this.listUser.store.remove(rec);
             }
+            var me = this;
+            setTimeout(function() {
+                me.listUser.focus();
+            }, 1);
         },
 
         onListUserClick: function(list, item, record, e) {
-            if (e) {
-                var btn = $(e.target);
-                if (btn && btn.hasClass('listitem-icon')) {
-                    this.onDeleteUser(record);
-                    return;
-                }
-            }
+
         },
 
         addControls: function(listView, itemView, item) {
@@ -527,6 +525,10 @@ define([
 
         onHideMenu: function() {
             this.listUser.enableKeyEvents = true;
+            var me = this;
+            setTimeout(function() {
+                me.listUser.focus();
+            }, 1);
         },
 
         txtProtect: 'Protect',
