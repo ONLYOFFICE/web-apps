@@ -77,12 +77,6 @@
             background-color: @highlight-button-pressed-ie;
             background-color: @highlight-button-pressed;
 
-            .user-name,
-            .user-date {
-                color: @text-normal-pressed-ie;
-                color: @text-normal-pressed;
-            }
-
             .revision-expand {
                 border-color: @icon-normal-pressed-ie;
                 border-color: @icon-normal-pressed;
@@ -100,19 +94,36 @@
             padding: 10px 20px 15px 2px;
         }
 
+        .item-internal {
+            display: flex;
+        }
+
+        .item-content {
+            flex: 1;
+            line-height: 12.65px;
+            overflow: hidden;
+        }
+
+        .item-title {
+            display: flex;
+            align-items: center;
+        }
+
         .user-date {
             display: inline-block;
+            color: @text-normal-ie;
+            color: @text-normal;
             .font-size-medium();
             .font-weight-bold();
-            .margin-right(12px);
-            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .user-version {
             display: inline-block;
             max-width: 60px;
-            height: 18px;
+            line-height: 12px;
             color: @highlight-button-pressed-ie;
             color: @highlight-button-pressed;
             font-size: 10px;
@@ -123,11 +134,14 @@
             background-color: @background-normal-ie;
             background-color: @background-normal;
             text-align: center;
-            padding: 1px 5px;
+            padding: 3px 5px;
             border-radius: 2px;
+            .margin-left-8();
         }
 
         .user-name {
+            color: @text-secondary-ie;
+            color: @text-secondary;
             width: 100%;
             white-space: nowrap;
             overflow: hidden;
@@ -135,7 +149,6 @@
             .font-weight-bold();
             cursor: pointer;
             text-overflow: ellipsis;
-            .padding-right(35px);
         }
 
         .color {
