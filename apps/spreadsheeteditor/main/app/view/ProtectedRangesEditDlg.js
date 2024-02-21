@@ -97,7 +97,7 @@ define([
                             '<label>' + t.txtWhoCanEdit + '</label>',
                         '</div>',
                         '<div id="id-protected-range-cmb-user" class="input-row input-group-nr" style="margin-bottom: 8px;"></div>',
-                        '<div id="id-protected-range-list-user" class="input-group-nr no-borders" style="height: 155px;"></div>',
+                        '<div id="id-protected-range-list-user" class="input-group-nr no-borders" style="height: 143px;"></div>',
                         '<% } else { %>',
                         '<div class="input-row" style="margin-bottom: 8px;">',
                             '<label>' + t.txtYouCanEdit + '</label>',
@@ -205,7 +205,6 @@ define([
                 });
             };
             this.listUser.on('item:keydown', _.bind(this.onKeyDown, this))
-            this.listUser.on('item:click', _.bind(this.onListUserClick, this))
             this.listUser.on('item:add', _.bind(this.addControls, this));
             this.listUser.on('item:change', _.bind(this.addControls, this));
 
@@ -277,6 +276,16 @@ define([
                     email: '',
                     type: Asc.c_oSerUserProtectedRangeType.edit,
                     isCurrent: true});
+                this.listUser.store.add({
+                    value: null,
+                    name: this.textAnyone,
+                    displayName: this.textAnyone,
+                    initials: Common.Utils.getUserInitials(this.textAnyone),
+                    avatar: '',
+                    usercolor: null,
+                    email: '',
+                    type: props.asc_getType() || Asc.c_oSerUserProtectedRangeType.notView,
+                    isAnyone: true});
                 var me = this,
                     rangeUsers = this.props.asc_getUsers();
                 if (rangeUsers && rangeUsers.length>0) {
@@ -306,11 +315,15 @@ define([
             props.asc_setRef(this.txtDataRange.getValue());
             var arr = [];
             this.listUser.store.each(function(item){
-                var user = new Asc.CUserProtectedRangeUserInfo();
-                user.asc_setId(item.get('value'));
-                user.asc_setName(item.get('name'));
-                user.asc_setType(item.get('type'));
-                arr.push(user);
+                if (item.get('isAnyone')) {
+                    props.asc_setType(item.get('type'));
+                } else {
+                    var user = new Asc.CUserProtectedRangeUserInfo();
+                    user.asc_setId(item.get('value'));
+                    user.asc_setName(item.get('name'));
+                    user.asc_setType(item.get('type'));
+                    arr.push(user);
+                }
             });
 
             props.asc_setUsers(arr);
@@ -458,17 +471,13 @@ define([
 
         onDeleteUser: function(rec) {
             !rec && (rec = this.listUser.getSelectedRec());
-            if (rec && !rec.get('isCurrent')) {
+            if (rec && !rec.get('isCurrent') && !rec.get('isAnyone')) {
                 this.listUser.store.remove(rec);
             }
             var me = this;
             setTimeout(function() {
                 me.listUser.focus();
             }, 1);
-        },
-
-        onListUserClick: function(list, item, record, e) {
-
         },
 
         addControls: function(listView, itemView, item) {
@@ -484,7 +493,18 @@ define([
                 menu: item.get('isCurrent') ? false : new Common.UI.Menu({
                     style: 'min-width: auto;',
                     cls: 'menu-absolute',
-                    items: [
+                    items: item.get('isAnyone') ? [
+                        {
+                            caption: this.textCanView,
+                            value: 'view',
+                            iconCls: 'menu__icon btn-sheet-view',
+                        },
+                        {
+                            caption: this.textCantView,
+                            value: 'notview',
+                            iconCls: 'menu__icon btn-hide-password'
+                        }
+                    ] : [
                         {
                             caption: this.textCanEdit,
                             value: 'edit',
@@ -547,7 +567,9 @@ define([
         textAnonymous: 'Anonymous',
         textCanEdit: 'Can edit',
         textCanView: 'Can view',
-        textRemove: 'Remove'
+        textRemove: 'Remove',
+        textCantView: 'Can\'t view',
+        textAnyone: 'Anyone'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });
