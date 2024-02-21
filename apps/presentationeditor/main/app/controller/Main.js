@@ -555,7 +555,9 @@ define([
 
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = Asc.c_oAscFileType.PPTX;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
+                var options = new Asc.asc_CDownloadOptions(_format, true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadAs(options);
             },
 
             onProcessMouse: function(data) {

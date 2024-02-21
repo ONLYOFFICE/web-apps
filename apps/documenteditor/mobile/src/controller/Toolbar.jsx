@@ -367,7 +367,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
         } else {
             const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
-            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+            let options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload);
+            options.asc_setIsSaveAs(isFromBtnDownload);
+            api.asc_DownloadAs(options);
         }
     }
 

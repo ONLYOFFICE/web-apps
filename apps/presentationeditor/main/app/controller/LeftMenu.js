@@ -292,7 +292,10 @@ define([
 
         clickSaveCopyAsFormat: function(menu, format, ext) {
             this.isFromFileDownloadAs = ext;
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+            var options = new Asc.asc_CDownloadOptions(format, true);
+            options.asc_setIsSaveAs(true);
+            this.api.asc_DownloadAs(options);
+
             menu.hide();
         },
 

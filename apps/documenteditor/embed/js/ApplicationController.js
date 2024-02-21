@@ -869,7 +869,11 @@ DE.ApplicationController = new(function(){
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+        if (api) {
+            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+            options.asc_setIsSaveAs(true);
+            api.asc_DownloadAs(options);
+        }
     }
 
     function onRunAutostartMacroses() {

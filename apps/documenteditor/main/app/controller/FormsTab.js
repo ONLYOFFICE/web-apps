@@ -354,7 +354,9 @@ define([
             this.closeHelpTip('save', true);
             this.showRolesList(function() {
                 this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs);
+                options.asc_setIsSaveAs(this.isFromFormSaveAs);
+                this.api.asc_DownloadAs(options);
             });
         },
 
