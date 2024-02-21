@@ -779,10 +779,11 @@ define([
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
                 svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
-            } else if (svgIcon.length) {
-                var icon = /btn-[^\s]+/.exec(this.iconCls);
-                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
+                if (svgIcon.length) {
+                    var icon = /btn-[^\s]+/.exec(this.iconCls);
+                    svgIcon.attr('href', icon ? '#' + icon[0]: '');
+                }
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
                 if (this.options.scaling === false) {
