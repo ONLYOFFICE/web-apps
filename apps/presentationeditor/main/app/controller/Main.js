@@ -1299,8 +1299,7 @@ define([
                 this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
-                this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
-                Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
+                this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
 
                 // change = true by default in editor
                 this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view'); // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
