@@ -625,72 +625,82 @@ define([
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
-                    var me = this,
-                        isCustomWindow = variation.get_CustomWindow(),
-                        arrBtns = variation.get_Buttons(),
-                        newBtns = [],
-                        size = variation.get_Size(),
-                        isModal = variation.get_Modal();
+                    var me = this;
+                    var createPluginDlg = function () {
+                        var isCustomWindow = variation.get_CustomWindow(),
+                            arrBtns = variation.get_Buttons(),
+                            newBtns = [],
+                            size = variation.get_Size(),
+                            isModal = variation.get_Modal();
                         if (!size || size.length<2) size = [800, 600];
 
-                    if (_.isArray(arrBtns)) {
-                        _.each(arrBtns, function(b, index){
-                            if (b.visible)
-                                newBtns[index] = {caption: b.text, value: index, primary: b.primary};
+                        if (_.isArray(arrBtns)) {
+                            _.each(arrBtns, function(b, index){
+                                if (b.visible)
+                                    newBtns[index] = {caption: b.text, value: index, primary: b.primary};
+                            });
+                        }
+
+                        var help = variation.get_Help();
+                        me.pluginDlg = new Common.Views.PluginDlg({
+                            guid: plugin.get_Guid(),
+                            cls: isCustomWindow ? 'plain' : '',
+                            header: !isCustomWindow,
+                            title: plugin.get_Name(lang),
+                            width: size[0], // inner width
+                            height: size[1], // inner height
+                            url: url,
+                            frameId : frameId,
+                            buttons: isCustomWindow ? undefined : newBtns,
+                            toolcallback: function(event) {
+                                me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                            },
+                            help: !!help,
+                            loader: plugin.get_Loader(),
+                            modal: isModal!==undefined ? isModal : true
                         });
+                        me.pluginDlg.on({
+                            'render:after': function(obj){
+                                obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                                    me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                                });
+                                me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                            },
+                            'close': function(obj){
+                                me.pluginDlg = undefined;
+                            },
+                            'drag': function(args){
+                                me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                            },
+                            'resize': function(args){
+                                me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                            },
+                            'help': function(){
+                                help && window.open(help, '_blank');
+                            },
+                            'header:click': function(type){
+                                me.api.asc_pluginButtonClick(type, plugin.get_Guid());
+                            }
+                        });
+
+                        me.pluginDlg.show();
+                    };
+                    if (this.pluginDlg) {
+                        this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
+                        setTimeout(createPluginDlg, 10);
+                    } else {
+                        createPluginDlg();
                     }
 
-                    var help = variation.get_Help();
-                    me.pluginDlg = new Common.Views.PluginDlg({
-                        cls: isCustomWindow ? 'plain' : '',
-                        header: !isCustomWindow,
-                        title: plugin.get_Name(lang),
-                        width: size[0], // inner width
-                        height: size[1], // inner height
-                        url: url,
-                        frameId : frameId,
-                        buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: function(event) {
-                            me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
-                        },
-                        help: !!help,
-                        loader: plugin.get_Loader(),
-                        modal: isModal!==undefined ? isModal : true
-                    });
-                    me.pluginDlg.on({
-                        'render:after': function(obj){
-                            obj.getChild('.footer .dlg-btn').on('click', function(event) {
-                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
-                            });
-                            me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                        },
-                        'close': function(obj){
-                            me.pluginDlg = undefined;
-                        },
-                        'drag': function(args){
-                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                        },
-                        'resize': function(args){
-                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                        },
-                        'help': function(){
-                            help && window.open(help, '_blank');
-                        },
-                        'header:click': function(type){
-                            me.api.asc_pluginButtonClick(type, plugin.get_Guid());
-                        }
-                    });
-
-                    me.pluginDlg.show();
                 }
             }
             !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
         },
 
-        onPluginClose: function(plugin) {            
+        onPluginClose: function(plugin) {
             var isIframePlugin = false,
                 guid = plugin.get_Guid();
-            if (this.pluginDlg)
+            if (this.pluginDlg && this.pluginDlg.guid === guid)
                 this.pluginDlg.close();
             else {
                 var panel = this.viewPlugins.pluginPanels[guid];
