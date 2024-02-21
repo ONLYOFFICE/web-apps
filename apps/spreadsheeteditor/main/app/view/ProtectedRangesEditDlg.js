@@ -465,8 +465,13 @@ define([
         },
 
         onKeyDown: function (lisvView, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE)
+            if (e.keyCode===Common.UI.Keys.DELETE)
                 this.onDeleteUser();
+            else if (e.keyCode===Common.UI.Keys.SPACE) {
+                var rec = this.listUser.getSelectedRec(),
+                    btn = rec && !rec.get('isCurrent') ? rec.get('btnEdit') : null;
+                btn && $('button', btn.cmpEl).click();
+            }
         },
 
         onDeleteUser: function(rec) {
