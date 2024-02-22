@@ -1272,7 +1272,7 @@ define([
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
                 this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-                Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
+                Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
                 this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 
                 if (this.appOptions.canComments)
@@ -1320,10 +1320,8 @@ define([
                         }
                     }
                     fastCoauth = (value===null || parseInt(value) == 1);
-
-                    value = Common.localStorage.getItem((fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
-                    if (value == null) value = fastCoauth ? 'none' : 'last';
-                    Common.Utils.InternalSettings.set((fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict", value);
+                    Common.Utils.InternalSettings.set("pdfe-settings-showchanges-fast", Common.localStorage.getItem("pdfe-settings-showchanges-fast") || 'none');
+                    Common.Utils.InternalSettings.set("pdfe-settings-showchanges-strict", Common.localStorage.getItem("pdfe-settings-showchanges-strict") || 'last');
                 } else {
                     fastCoauth = false;
                     autosave = 0;

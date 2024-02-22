@@ -611,9 +611,11 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.rbCoAuthModeFast.on('change', function(){
-                me.chAutosave.setValue(1);
-                me.onChangeCoAuthMode(1);
+            this.rbCoAuthModeFast.on('change', function(field, newValue, eOpts){
+                if (newValue) {
+                    me.chAutosave.setValue(1);
+                    me.onChangeCoAuthMode(1);
+                }
             });
             this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
@@ -624,7 +626,9 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.rbCoAuthModeStrict.on('change', _.bind(this.onChangeCoAuthMode, this,0));
+            this.rbCoAuthModeStrict.on('change', function(field, newValue, eOpts){
+                newValue && me.onChangeCoAuthMode(0);
+            });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 
             this.rbChangesBallons = new Common.UI.RadioBox({

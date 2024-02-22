@@ -466,8 +466,8 @@ define([
                 dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('change', function () {
-                me.chAutosave.setValue(1);
+            }).on('change', function (field, newValue, eOpts) {
+                newValue && me.chAutosave.setValue(1);
             });
             this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
