@@ -501,6 +501,19 @@ define([
                         dataHintDirection: 'left-top',
                         dataHintOffset: [2, 14]
                     }));
+            } else if (this.mode.canCloseEditor) {
+                $('<li class="devider" />' +
+                    '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-close', this.$el),
+                        action  : 'close-editor',
+                        caption : this.mode.customization.close.text || this.btnCloseEditor,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
             }
         },
 
@@ -638,6 +651,7 @@ define([
         btnHistoryCaption       : 'Versions History',
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...',
-        btnExportToPDFCaption   : 'Export to PDF'
+        btnExportToPDFCaption   : 'Export to PDF',
+        btnCloseEditor          : 'Close File'
     }, SSE.Views.FileMenu || {}));
 });

@@ -38,8 +38,10 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const canFillForms = appOptions.canFillForms;
     const isEditableForms = isForm && canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
+    const canCloseEditor = appOptions.canCloseEditor;
+    const closeButtonText = canCloseEditor && appOptions.customization.close.text;
     const canUseHistory = appOptions.canUseHistory;
-  
+
     let _isEdit = false,
         _canDownload = false,
         _canDownloadOrigin = false,
@@ -185,6 +187,9 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                     <ListItem title={t('Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
                         <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
+                }
+                {canCloseEditor &&
+                    <ListItem title={closeButtonText ?? t('Settings.textClose')} link="#" className='close-editor-btn no-indicator' onClick={() => Common.Notifications.trigger('close')}></ListItem>
                 }
             </List>
         </Page>

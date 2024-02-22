@@ -318,6 +318,7 @@ define([
                 }
                 break;
             case 'external-help': close_menu = true; break;
+            case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             default: close_menu = false;
             }
 
