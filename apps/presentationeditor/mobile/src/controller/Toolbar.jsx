@@ -35,7 +35,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
-        Common.Notifications.on('close', onClose);
+        Common.Notifications.on('close', onRequestClose);
 
         if (isDisconnected) {
             f7.popover.close();
@@ -47,7 +47,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
-            Common.Notifications.off('close', onClose);
+            Common.Notifications.off('close', onRequestClose);
         }
     });
 
@@ -56,10 +56,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback) {
-            var _canback = data.config.customization.close===undefined ?
+            const canback = data.config.customization.close === undefined ?
                 data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
                 data.config.customization.goback.url && !data.config.customization.goback.requestClose;
-            _canback && setShowBack(true);
+            canback && setShowBack(true);
         }
     };
 
@@ -108,10 +108,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeFocusObjects'
                 parent.location.href = href;
             }
         }
-    }
-
-    const onClose = () => {
-        onRequestClose();
     }
 
     const onUndo = () => {

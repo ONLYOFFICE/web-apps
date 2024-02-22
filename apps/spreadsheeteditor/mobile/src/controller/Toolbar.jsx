@@ -66,10 +66,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
             data.config.customization && data.config.customization.goback) {
-            var _canback = data.config.customization.close===undefined ?
+            const canback = data.config.customization.close === undefined ?
                 data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
                 data.config.customization.goback.url && !data.config.customization.goback.requestClose;
-            _canback && setShowBack(true);
+            canback && setShowBack(true);
         }
     };
 

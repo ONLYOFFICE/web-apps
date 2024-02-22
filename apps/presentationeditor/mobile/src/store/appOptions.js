@@ -63,20 +63,29 @@ export class storeAppOptions {
         this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
         this.canCloseEditor = false;
-        var _canback = false;
-        if (typeof config.customization === 'object') {
-            if (typeof config.customization.goback == 'object' && config.canBackToFolder!==false) {
-                _canback = config.customization.close===undefined ?
-                    !!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose :
-                    !!(config.customization.goback.url) && !config.customization.goback.requestClose;
+        
+        let canback = false;
 
-                if (config.customization.goback.requestClose)
+        if (typeof config.customization === 'object' && config.customization !== null) {
+            const { goback, close } = config.customization;
+
+            if (typeof goback === 'object' && config.canBackToFolder !== false) {
+                const hasUrl = !!goback.url;
+                const requestClose = goback.requestClose && this.canRequestClose;
+
+                canBack = close === undefined ? hasUrl || requestClose : hasUrl && !goback.requestClose;
+
+                if (goback.requestClose) {
                     console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                }
             }
-            if (typeof config.customization.close === 'object')
-                this.canCloseEditor  = !!config.customization.close.visible && this.canRequestClose && !this.isDesktopApp;
+
+            if (typeof close === 'object' && close !== null) {
+                this.canCloseEditor = !!close.visible && this.canRequestClose && !this.isDesktopApp;
+            }
         }
-        this.canBack = this.canBackToFolder = !!_canback;
+        
+        this.canBack = this.canBackToFolder = canback;
         this.canPlugins = false;
 
         AscCommon.UserInfoParser.setParser(true);

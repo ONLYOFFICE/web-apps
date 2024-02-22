@@ -16,6 +16,8 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
     const disabledPreview = storeToolbarSettings.countPages <= 0;
     const storePresentationInfo = props.storePresentationInfo;
     const docTitle = storePresentationInfo.dataDoc ? storePresentationInfo.dataDoc.title : '';
+    const canCloseEditor = appOptions.canCloseEditor;
+    const closeButtonText = canCloseEditor && appOptions.customization.close.text;
     const navbar =
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -120,8 +122,11 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
                 }
                 {_canFeedback &&
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
-                            <Icon slot="media" icon="icon-feedback"></Icon>
+                        <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
+                }
+                {canCloseEditor &&
+                    <ListItem title={closeButtonText ?? t('View.Settings.textClose')} link="#" className='close-editor-btn no-indicator' onClick={() => Common.Notifications.trigger('close')}></ListItem>
                 }
             </List>
         </Page>
