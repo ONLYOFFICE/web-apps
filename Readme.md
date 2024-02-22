@@ -38,7 +38,8 @@ Require os is 64-bit Ubuntu 16.04
 
     - Check the current version of the document editor to follow the below link.
         ```
-        // url: <document-server-url>/web-apps/apps/documenteditor/main/app.js
+        // current: <document-server-url>/web-apps/apps/documenteditor/main/app.js
+        // live: https://asc.docs.onlyoffice.com/web-apps/apps/documenteditor/main/app.js
 
         * Copyright (c) Ascensio System SIA 2023. All rights reserved
         *
@@ -83,7 +84,7 @@ sudo docker run -i -t -d -p <PORT>:80 --restart=always \
     -v /app/onlyoffice/DocumentServer/lib:/var/lib/onlyoffice \
     -v /app/onlyoffice/DocumentServer/db:/var/lib/postgresql \
     -v <SERVER_PATH>/repos/OnlyOffice/deploy/web-apps/apps/documenteditor/:/var/www/onlyoffice/documentserver/web-apps/apps/documenteditor/ \
-    -e JWT_SECRET=<JWT_SECRET> onlyoffice/documentserver
+    -e JWT_SECRET=<JWT_SECRET> onlyoffice/documentserver:7.5.1
 ```
 
 
