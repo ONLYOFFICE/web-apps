@@ -130,7 +130,7 @@ export class storeAppOptions {
         this.canRequestClose = config.canRequestClose;
         this.canCloseEditor = false;
 
-        let canback = false;
+        let canBack = false;
 
         if (typeof config.customization === 'object' && config.customization !== null) {
             const { goback, close } = config.customization;
@@ -151,7 +151,7 @@ export class storeAppOptions {
             }
         }
 
-        this.canBack = this.canBackToFolder = canback;
+        this.canBack = this.canBackToFolder = canBack;
         this.canRequestSaveAs = config.canRequestSaveAs;
         this.canPlugins = false;
         this.canFeatureForms = !!Common.EditorApi.get().asc_isSupportFeature("forms");
