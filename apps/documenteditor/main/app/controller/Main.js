@@ -1714,10 +1714,8 @@ define([
                         }
                     }
                     fastCoauth = (value===null || parseInt(value) == 1);
-
-                    value = Common.localStorage.getItem((fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict");
-                    if (value == null) value = fastCoauth ? 'none' : 'last';
-                    Common.Utils.InternalSettings.set((fastCoauth) ? "de-settings-showchanges-fast" : "de-settings-showchanges-strict", value);
+                    Common.Utils.InternalSettings.set("de-settings-showchanges-fast", Common.localStorage.getItem("de-settings-showchanges-fast") || 'none');
+                    Common.Utils.InternalSettings.set("de-settings-showchanges-strict", Common.localStorage.getItem("de-settings-showchanges-strict") || 'last');
                 } else if (!this.appOptions.isEdit && this.appOptions.isRestrictedEdit) {
                     fastCoauth = true;
                 }  else if (this.appOptions.canLiveView && !this.appOptions.isOffline) { // viewer
