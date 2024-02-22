@@ -316,9 +316,10 @@ define([
 
         _saveAsFormat: function(menu, format, ext, textParams) {
             var needDownload = !!ext;
+            var options = new Asc.asc_CDownloadOptions(format, needDownload);
+            options.asc_setIsSaveAs(needDownload);
 
             if (menu) {
-                var options = new Asc.asc_CDownloadOptions(format, needDownload);
                 options.asc_setTextParams(textParams);
                 if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
@@ -368,7 +369,7 @@ define([
                 }
             } else {
                 this.isFromFileDownloadAs = needDownload;
-                this.api.asc_DownloadOrigin(needDownload);
+                this.api.asc_DownloadOrigin(options);
             }
         },
 
@@ -784,7 +785,7 @@ define([
                     if (this.isSearchPanelVisible()) {
                         selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                         this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                        this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText ? selectedText : undefined);
+                        this.leftMenu.fireEvent('search:aftershow', selectedText ? [selectedText] : undefined);
                         return false;
                     } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                         var viewport = this.getApplication().getController('Viewport');
@@ -852,7 +853,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -918,7 +919,7 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
-                this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
+                this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);

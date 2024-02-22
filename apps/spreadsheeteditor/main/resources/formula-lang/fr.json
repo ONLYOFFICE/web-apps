@@ -478,6 +478,7 @@
 	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
 	"SORT": "TRIER",
 	"SORTBY": "TRIERPAR",
+	"GETPIVOTDATA": "LIREDONNEESTABCROISDYNAMIQUE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

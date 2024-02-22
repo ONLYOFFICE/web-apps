@@ -291,6 +291,8 @@ define([
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
                 state && (this._state.lastViewRole = lastViewRole);
+                this.toolbar.toolbar.clearActiveData();
+                this.toolbar.toolbar.processPanelVisible(null, true);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -352,7 +354,9 @@ define([
             this.closeHelpTip('save', true);
             this.showRolesList(function() {
                 this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs);
+                options.asc_setIsSaveAs(this.isFromFormSaveAs);
+                this.api.asc_DownloadAs(options);
             });
         },
 

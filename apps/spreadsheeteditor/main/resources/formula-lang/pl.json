@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "TABLICA.NA.TEKST",
 	"SORT": "SORTUJ",
 	"SORTBY": "SORTUJ.WEDŁUG",
+	"GETPIVOTDATA": "WEŹDANETABELI",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

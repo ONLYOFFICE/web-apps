@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "MATRISETILTEKST",
 	"SORT": "SORTER",
 	"SORTBY": "SORTER.ETTER",
+	"GETPIVOTDATA": "HENTPIVOTDATA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

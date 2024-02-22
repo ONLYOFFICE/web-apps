@@ -12,6 +12,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
     const {openOptions, isBranding} = useContext(MainContext);
     const settingsContext = useContext(SettingsContext);
     const appOptions = props.storeAppOptions;
+    const canUseHistory = appOptions.canUseHistory;
     const storeToolbarSettings = props.storeToolbarSettings;
     const disabledPreview = storeToolbarSettings.countPages <= 0;
     const storePresentationInfo = props.storePresentationInfo;
@@ -81,7 +82,7 @@ const SettingsPage = inject('storeAppOptions', 'storeToolbarSettings', 'storePre
                 <ListItem title={_t.textApplicationSettings} link="/application-settings/">
                     <Icon slot="media" icon="icon-app-settings"></Icon>
                 </ListItem>
-                {_isEdit && 
+                {_isEdit && canUseHistory && 
                     <ListItem title={t('View.Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('history');

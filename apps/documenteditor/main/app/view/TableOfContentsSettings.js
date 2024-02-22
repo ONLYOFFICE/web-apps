@@ -131,7 +131,7 @@ define([
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
                                             '<label class="input-label margin-left-10 vertical-align-baseline">' + me.textStyles + '</label>',
-                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10 vertical-align-baseline" style="display: inline-block; width:95px;"></div>',
+                                            '<div id="tableofcontents-combo-styles" class="input-group-nr margin-left-10 vertical-align-baseline" style="display: inline-block; width:129px;"></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
@@ -197,7 +197,7 @@ define([
                 }
             }, this));
 
-            this.cmbLeader = new Common.UI.ComboBox({
+            this.cmbLeader = new Common.UI.ComboBoxCustom({
                 el          : $('#tableofcontents-combo-leader'),
                 style       : 'width: 85px;',
                 menuStyle   : 'min-width: 85px;',
@@ -205,11 +205,19 @@ define([
                 takeFocusOnClose: true,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: Asc.c_oAscTabLeader.None,      displayValue: this.textNone },
-                    { value: Asc.c_oAscTabLeader.Dot,       displayValue: '....................' },
-                    { value: Asc.c_oAscTabLeader.Hyphen,    displayValue: '-----------------' },
-                    { value: Asc.c_oAscTabLeader.Underscore,displayValue: '__________' }
-                ]
+                    { value: Asc.c_oAscTabLeader.None,      cls: '', displayValue: this.textNone },
+                    { value: Asc.c_oAscTabLeader.Dot,       cls: 'font-sans-serif', displayValue: '....................' },
+                    { value: Asc.c_oAscTabLeader.Hyphen,    cls: 'font-sans-serif', displayValue: '-----------------' },
+                    { value: Asc.c_oAscTabLeader.Underscore,cls: 'font-sans-serif', displayValue: '__________' }
+                ],
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>" class="<%= item.cls %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                    '<% }); %>',
+                ].join('')),
+                updateFormControl: function(record) {
+                    this._input && this._input.toggleClass('font-sans-serif', record.get('value')!==Asc.c_oAscTabLeader.None);
+                }
             });
             this.cmbLeader.setValue(Asc.c_oAscTabLeader.Dot);
             this.cmbLeader.on('selected', _.bind(function(combo, record) {
@@ -411,7 +419,7 @@ define([
             this.cmbStyles = new Common.UI.ComboBox({
                 el: $('#tableofcontents-combo-styles'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 95px;',
+                menuStyle: 'min-width: 100%;',
                 editable: false,
                 takeFocusOnClose: true,
                 data: arr

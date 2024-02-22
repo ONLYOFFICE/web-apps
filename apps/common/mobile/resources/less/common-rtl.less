@@ -1,9 +1,16 @@
 [dir="rtl"].device-android {
     .app-layout {
-        .searchbar input {
-            padding-right: 24px;
-            padding-left: 36px;
-            background-position: right;
+        .searchbar {
+            input {
+                padding-right: 24px;
+                padding-left: 36px;
+                background-position: right;
+            }
+
+            .number-search-results {
+                right: auto;
+                left: 26px;
+            }
         }
     }
 
@@ -45,6 +52,11 @@
         .tab-link:last-child {
             border-radius: 5px 0px 0px 5px;
         }
+    }
+
+    .searchbar .number-search-results {
+        right: auto;
+        left: 26px;
     }
 
     .popover {

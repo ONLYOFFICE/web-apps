@@ -657,8 +657,11 @@ define([
                     _format = Asc.c_oAscFileType.XLSX;
                 if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                     Common.NotificationCenter.trigger('download:settings', this, _format, true);
-                else
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
+                else {
+                    var options = new Asc.asc_CDownloadOptions(_format, true);
+                    options.asc_setIsSaveAs(true);
+                    this.api.asc_DownloadAs(options);
+                }
             },
 
             onProcessMouse: function(data) {
@@ -1433,9 +1436,8 @@ define([
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-                    Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
-                    this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
-                    Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
+                    Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
+                    this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -3314,11 +3316,12 @@ define([
                                 docIdPrev = (ver>0 && versions[ver-1]) ? versions[ver-1].key : version.key + '0';
                                 user = usersStore.findUser(version.user.id);
                                 if (!user) {
+                                    var color = Common.UI.ExternalUsers.getColor(version.user.id || version.user.name || this.textAnonymous, true);
                                     user = new Common.Models.User({
                                         id          : version.user.id,
                                         username    : version.user.name,
-                                        colorval    : Asc.c_oAscArrUserColors[usersCnt],
-                                        color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                        colorval    : color,
+                                        color       : this.generateUserColor(color)
                                     });
                                     usersStore.add(user);
                                 }
@@ -3366,11 +3369,12 @@ define([
 
                                             user = usersStore.findUser(change.user.id);
                                             if (!user) {
+                                                var color = Common.UI.ExternalUsers.getColor(change.user.id || change.user.name || this.textAnonymous, true);
                                                 user = new Common.Models.User({
                                                     id          : change.user.id,
                                                     username    : change.user.name,
-                                                    colorval    : Asc.c_oAscArrUserColors[usersCnt],
-                                                    color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                                    colorval    : color,
+                                                    color       : this.generateUserColor(color)
                                                 });
                                                 usersStore.add(user);
                                             }

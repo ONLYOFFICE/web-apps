@@ -689,9 +689,9 @@ DE.ApplicationController = new(function(){
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
-            $parent.css('padding-left', _right_width - _left_width);
+            $parent.css('padding-left', parseFloat($parent.css('padding-left')) + _right_width - _left_width);
         else
-            $parent.css('padding-right', _left_width - _right_width);
+            $parent.css('padding-right', parseFloat($parent.css('padding-right')) + _left_width - _right_width);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
@@ -890,7 +890,11 @@ DE.ApplicationController = new(function(){
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+        if (api) {
+            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+            options.asc_setIsSaveAs(true);
+            api.asc_DownloadAs(options);
+        }
     }
 
     function onRunAutostartMacroses() {
@@ -905,6 +909,11 @@ DE.ApplicationController = new(function(){
     function setBranding(value) {
         if ( value && value.logo) {
             var logo = $('#header-logo');
+            if (value.logo.visible===false) {
+                logo.addClass('hidden');
+                return;
+            }
+
             if (value.logo.image || value.logo.imageEmbedded) {
                 logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});

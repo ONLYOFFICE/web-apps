@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "MATRIXZUTEXT",
 	"SORT": "SORTIEREN",
 	"SORTBY": "SORTIERENNACH",
+	"GETPIVOTDATA": "PIVOTDATENZUORDNEN",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Kopfzeilen",
