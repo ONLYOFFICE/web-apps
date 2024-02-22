@@ -120,7 +120,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strLineHeight
             });
             this.cmbLineRule.setValue('');
             this.lockedControls.push(this.cmbLineRule);
@@ -242,7 +243,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsSpecial
             });
             this.cmbSpecial.setValue('');
             this.lockedControls.push(this.cmbSpecial);
