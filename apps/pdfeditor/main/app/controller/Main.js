@@ -318,7 +318,7 @@ define([
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
-
+                    this.initNames();
                     Common.util.Shortcuts.delegateShortcuts({
                         shortcuts: {
                             'command+s,ctrl+s,command+p,ctrl+p,command+k,ctrl+k,command+d,ctrl+d': _.bind(function (e) {
@@ -1047,6 +1047,13 @@ define([
                         toolbarController.activateControls();
                         if (me.needToUpdateVersion)
                             toolbarController.onApiCoAuthoringDisconnect();
+
+                        if (me.appOptions.isEdit) {
+                            var shapes = me.api.asc_getPropertyEditorShapes();
+                            if (shapes)
+                                me.fillAutoShapes(shapes[0], shapes[1]);
+                        }
+
                         me.api.UpdateInterfaceState();
 
                         Common.NotificationCenter.trigger('document:ready', 'main');
@@ -2447,6 +2454,62 @@ define([
                 }
             },
 
+            initNames: function() {
+                this.shapeGroupNames = [
+                    this.txtBasicShapes,
+                    this.txtFiguredArrows,
+                    this.txtMath,
+                    this.txtCharts,
+                    this.txtStarsRibbons,
+                    this.txtCallouts,
+                    this.txtButtons,
+                    this.txtRectangles,
+                    this.txtLines
+                ];
+            },
+
+            fillAutoShapes: function(groupNames, shapes){
+                if (_.isEmpty(shapes) || _.isEmpty(groupNames) || shapes.length != groupNames.length)
+                    return;
+
+                var me = this,
+                    shapegrouparray = [],
+                    name_arr = {};
+
+                _.each(groupNames, function(groupName, index){
+                    var store = new Backbone.Collection([], {
+                            model: PDFE.Models.ShapeModel
+                        }),
+                        arr = [];
+
+                    var cols = (shapes[index].length) > 18 ? 7 : 6,
+                        height = Math.ceil(shapes[index].length/cols) * 35 + 3,
+                        width = 30 * cols;
+
+                    _.each(shapes[index], function(shape, idx){
+                        var name = me['txtShape_' + shape.Type];
+                        arr.push({
+                            data     : {shapeType: shape.Type},
+                            tip      : name || (me.textShape + ' ' + (idx+1)),
+                            allowSelected : true,
+                            selected: false
+                        });
+                        if (name)
+                            name_arr[shape.Type] = name;
+                    });
+                    store.add(arr);
+                    shapegrouparray.push({
+                        groupName   : me.shapeGroupNames[index],
+                        groupStore  : store,
+                        groupWidth  : width,
+                        groupHeight : height
+                    });
+                });
+
+                this.getCollection('ShapeGroups').reset(shapegrouparray);
+                this.api.asc_setShapeNames(name_arr);
+            },
+
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
             criticalErrorTitle: 'Error',
             notcriticalErrorTitle: 'Warning',
@@ -2584,6 +2647,16 @@ define([
             errorEmailClient: 'No email client could be found',
             errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
             txtArt: 'Your text here',
+            txtBasicShapes: 'Basic Shapes',
+            txtFiguredArrows: 'Figured Arrows',
+            txtMath: 'Math',
+            txtCharts: 'Charts',
+            txtStarsRibbons: 'Stars & Ribbons',
+            txtCallouts: 'Callouts',
+            txtButtons: 'Buttons',
+            txtRectangles: 'Rectangles',
+            txtLines: 'Lines',
+
         }
     })(), PDFE.Controllers.Main || {}))
 });

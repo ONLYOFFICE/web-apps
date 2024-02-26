@@ -144,6 +144,56 @@ define([
                 this.toolbar.collapse();
             }, this));
             Common.NotificationCenter.on('comments:tryshowcomments', _.bind(this.turnOnShowComments, this));
+
+            var checkInsertAutoshape =  function(e) {
+                var cmp = $(e.target),
+                    cmp_sdk = cmp.closest('#editor_sdk'),
+                    btn_id = cmp.closest('button').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.btn-group').attr('id');
+                if (btn_id===undefined)
+                    btn_id = cmp.closest('.combo-dataview').attr('id');
+
+                if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
+                    if ( me.toolbar.btnInsertText.pressed && btn_id !== me.toolbar.btnInsertText.id ||
+                        me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
+                    {
+                        me._isAddingShape         = false;
+
+                        me._addAutoshape(false);
+                        me.toolbar.btnInsertText.toggle(false, true);
+                        me.toolbar.cmbInsertShape.deactivateRecords();
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                }
+            };
+
+            this.onApiEndAddShape = function() {
+                this.toolbar.fireEvent('insertshape', this.toolbar);
+
+                if ( this.toolbar.btnInsertText.pressed ) {
+                    this.toolbar.btnInsertText.toggle(false, true);
+                    this.toolbar.btnInsertText.menu.clearAll();
+                }
+
+                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
+                    this.toolbar.cmbInsertShape.deactivateRecords();
+
+                $(document.body).off('mouseup', checkInsertAutoshape);
+            };
+
+            this._addAutoshape =  function(isstart, type) {
+                if (this.api) {
+                    if (isstart) {
+                        this.api.StartAddShape(type, true);
+                        $(document.body).on('mouseup', checkInsertAutoshape);
+                    } else {
+                        this.api.StartAddShape('', false);
+                        $(document.body).off('mouseup', checkInsertAutoshape);
+                    }
+                }
+            };
+
         },
 
         onLaunch: function() {
@@ -154,6 +204,11 @@ define([
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
+
+            var me = this;
+            PDFE.getCollection('ShapeGroups').bind({
+                reset: me.onResetAutoshapes.bind(this)
+            });
         },
 
         setMode: function(mode) {
@@ -209,6 +264,52 @@ define([
                 // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
                 Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
                 Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
+
+                toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
+                toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
+                toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
+                toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
+                toolbar.btnTextUnderline.on('click',                        _.bind(this.onTextUnderline, this));
+                toolbar.btnTextStrikeout.on('click',                        _.bind(this.onTextStrikeout, this));
+                toolbar.btnSuperscript.on('click',                          _.bind(this.onSuperscript, this));
+                toolbar.btnSubscript.on('click',                            _.bind(this.onSubscript, this));
+                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onMenuHorizontalAlignSelect, this));
+                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onMenuVerticalAlignSelect, this));
+                toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
+                toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
+                toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
+                toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
+                toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
+                toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
+                toolbar.mnuNumberSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 1));
+                toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
+                toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
+                toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
+                toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
+                toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+                toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
+                toolbar.cmbFontSize.on('changed:before',                    _.bind(this.onFontSizeChanged, this, true));
+                toolbar.cmbFontSize.on('changed:after',                     _.bind(this.onFontSizeChanged, this, false));
+                toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
+                toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
+                toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
+                toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+                toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
+                toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
+                toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
+                toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
+                toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
+                toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
+                toolbar.btnTextHighlightColor.on('click',                   _.bind(this.onBtnTextHighlightColor, this));
+                toolbar.mnuTextHighlightColorPicker.on('select',            _.bind(this.onSelectTextHighlightColor, this));
+                toolbar.mnuTextHighlightTransparent.on('click',             _.bind(this.onTextHighlightTransparentClick, this));
+                toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
+                toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
+                toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
+                toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
+                toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
+                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
+
             }
             if (this.mode && this.mode.isRestrictedEdit) {
                 toolbar.btnClear.on('click', _.bind(this.onClearClick, this));
@@ -236,6 +337,25 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
                 this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+
+                this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
+                this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
+                this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
+                this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
+                this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
+                this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+
+                this.api.asc_registerCallback('asc_onListType',             _.bind(this.onApiBullets, this));
+                this.api.asc_registerCallback('asc_canIncreaseIndent',      _.bind(this.onApiCanIncreaseIndent, this));
+                this.api.asc_registerCallback('asc_canDecreaseIndent',      _.bind(this.onApiCanDecreaseIndent, this));
+                this.api.asc_registerCallback('asc_onLineSpacing',          _.bind(this.onApiLineSpacing, this));
+                this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
+                this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
+                this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartTextHighlight, this)); // ??? different highlight or not
+                this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
+
             }
             if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
@@ -973,6 +1093,914 @@ define([
 
         applySettings: function() {
             this.toolbar && this.toolbar.chShowComments && this.toolbar.chShowComments.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"), true);
+        },
+
+        onApiChangeFont: function(font) {
+            !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
+        },
+
+        onApiFontSize: function(size) {
+            if (this._state.fontsize !== size) {
+                this.toolbar.cmbFontSize.setValue(size);
+                this._state.fontsize = size;
+            }
+        },
+
+        onApiBold: function(on) {
+            if (this._state.bold !== on) {
+                this.toolbar.btnBold.toggle(on === true, true);
+                this._state.bold = on;
+            }
+        },
+
+        onApiItalic: function(on) {
+            if (this._state.italic !== on) {
+                this.toolbar.btnItalic.toggle(on === true, true);
+                this._state.italic = on;
+            }
+        },
+
+        onApiUnderline: function(on) {
+            if (this._state.underline !== on) {
+                this.toolbar.btnTextUnderline.toggle(on === true, true);
+                this._state.underline = on;
+            }
+        },
+
+        onApiStrikeout: function(on) {
+            if (this._state.strike !== on) {
+                this.toolbar.btnTextStrikeout.toggle(on === true, true);
+                this._state.strike = on;
+            }
+        },
+
+        onApiVerticalAlign: function(typeBaseline) {
+            if (this._state.valign !== typeBaseline) {
+                this.toolbar.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
+                this.toolbar.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
+                this._state.valign = typeBaseline;
+            }
+        },
+
+        onApiCanIncreaseIndent: function(value) {
+            if (this._state.can_increase !== value) {
+                this.toolbar.lockToolbar(Common.enumLock.incIndentLock, !value, {array: [this.toolbar.btnIncLeftOffset]});
+                if (this._state.activated) this._state.can_increase = value;
+            }
+        },
+
+        onApiCanDecreaseIndent: function(value) {
+            if (this._state.can_decrease !== value) {
+                this.toolbar.lockToolbar(Common.enumLock.decIndentLock, !value, {array: [this.toolbar.btnDecLeftOffset]});
+                if (this._state.activated) this._state.can_decrease = value;
+            }
+        },
+
+        updateBulletTip: function(view, title) {
+            if (view) {
+                var tip = $(view.el).data('bs.tooltip');
+                if (tip) {
+                    tip.options.title = title;
+                    tip.$tip.find('.tooltip-inner').text(title);
+                }
+            }
+        },
+
+        onApiBullets: function(v) {
+            if (!(this.toolbar.mnuMarkersPicker && this.toolbar.mnuMarkersPicker.store)) {
+                this._state.needCallApiBullets = v;
+                return;
+            }
+            this._state.needCallApiBullets = undefined;
+
+            if (this._state.bullets.type !== v.get_ListType() || this._state.bullets.subtype !== v.get_ListSubType() || v.get_ListType()===0 && v.get_ListSubType()===0x1000) {
+                this._state.bullets.type    = v.get_ListType();
+                this._state.bullets.subtype = v.get_ListSubType();
+
+                var rec = this.toolbar.mnuMarkersPicker.store.at(8),
+                    drawDefBullet = (rec.get('data').subtype===0x1000) && (this._state.bullets.type===1 || this._state.bullets.subtype!==0x1000);
+
+                this._clearBullets();
+
+                switch(this._state.bullets.type) {
+                    case 0:
+                        var idx;
+                        if (this._state.bullets.subtype!==0x1000)
+                            idx = this._state.bullets.subtype;
+                        else { // custom
+                            var bullet = v.asc_getListCustom();
+                            if (bullet) {
+                                var type = bullet.asc_getType();
+                                if (type == Asc.asc_PreviewBulletType.char) {
+                                    var symbol = bullet.asc_getChar();
+                                    if (symbol) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_putSymbol(symbol);
+                                        custombullet.asc_putFont(bullet.asc_getSpecialFont());
+
+                                        rec.get('data').subtype = 0x1000;
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
+                                        rec.set('tip', '');
+                                        this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
+                                        drawDefBullet = false;
+                                        idx = 8;
+                                    }
+                                } else if (type == Asc.asc_PreviewBulletType.image) {
+                                    var id = bullet.asc_getImageId();
+                                    if (id) {
+                                        var custombullet = new Asc.asc_CBullet();
+                                        custombullet.asc_fillBulletImage(id);
+
+                                        rec.get('data').subtype = 0x1000;
+                                        rec.set('customBullet', custombullet);
+                                        rec.set('numberingInfo', JSON.stringify(custombullet.asc_getJsonBullet()));
+                                        rec.set('tip', '');
+                                        this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], '');
+                                        drawDefBullet = false;
+                                        idx = 8;
+                                    }
+                                }
+                            }
+                        }
+                        (idx!==undefined) ? this.toolbar.mnuMarkersPicker.selectByIndex(idx, true) :
+                            this.toolbar.mnuMarkersPicker.deselectAll(true);
+
+                        this.toolbar.btnMarkers.toggle(true, true);
+                        this.toolbar.mnuNumbersPicker.deselectAll(true);
+                        break;
+                    case 1:
+                        var idx = 0;
+                        switch(this._state.bullets.subtype) {
+                            case 1:
+                                idx = 4;
+                                break;
+                            case 2:
+                                idx = 5;
+                                break;
+                            case 3:
+                                idx = 6;
+                                break;
+                            case 4:
+                                idx = 1;
+                                break;
+                            case 5:
+                                idx = 2;
+                                break;
+                            case 6:
+                                idx = 3;
+                                break;
+                            case 7:
+                                idx = 7;
+                                break;
+                        }
+                        this.toolbar.btnNumbers.toggle(true, true);
+                        this.toolbar.mnuNumbersPicker.selectByIndex(idx, true);
+                        this.toolbar.mnuMarkersPicker.deselectAll(true);
+                        break;
+                }
+                if (drawDefBullet) {
+                    rec.get('data').subtype = 8;
+                    rec.set('numberingInfo', this.toolbar._markersArr[8]);
+                    rec.set('tip', this.toolbar.tipMarkersDash);
+                    this.toolbar.mnuMarkersPicker.dataViewItems && this.updateBulletTip(this.toolbar.mnuMarkersPicker.dataViewItems[8], this.toolbar.tipMarkersDash);
+                }
+            }
+        },
+
+        onApiParagraphAlign: function(v) {
+            if (this._state.pralign !== v) {
+                this._state.pralign = v;
+
+                var index = -1,
+                    align,
+                    btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
+
+                switch (v) {
+                    case 0: index = 2; align = 'btn-align-right'; break;
+                    case 1: index = 0; align = 'btn-align-left'; break;
+                    case 2: index = 1; align = 'btn-align-center'; break;
+                    case 3: index = 3; align = 'btn-align-just'; break;
+                    default:  index = -255; align = 'btn-align-left'; break;
+                }
+                if (!(index < 0)) {
+                    btnHorizontalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    btnHorizontalAlign.menu.clearAll();
+                }
+
+                if ( btnHorizontalAlign.rendered && btnHorizontalAlign.$icon ) {
+                    btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls).addClass(align);
+                    btnHorizontalAlign.options.icls = align;
+                }
+            }
+        },
+
+        onApiVerticalTextAlign: function(v) {
+            if (this._state.vtextalign !== v) {
+                this._state.vtextalign = v;
+
+                var index = -1,
+                    align = '',
+                    btnVerticalAlign = this.toolbar.btnVerticalAlign;
+
+                switch (v) {
+                    case Asc.c_oAscVAlign.Top:    index = 0; align = 'btn-align-top';    break;
+                    case Asc.c_oAscVAlign.Center:    index = 1; align = 'btn-align-middle'; break;
+                    case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-align-bottom'; break;
+                    default:  index = -255; align = 'btn-align-middle'; break;
+                }
+
+                if (!(index < 0)) {
+                    btnVerticalAlign.menu.items[index].setChecked(true);
+                } else if (index == -255) {
+                    btnVerticalAlign.menu.clearAll();
+                }
+
+                if ( btnVerticalAlign.rendered && btnVerticalAlign.$icon ) {
+                    btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls).addClass(align);
+                    btnVerticalAlign.options.icls = align;
+                }
+            }
+        },
+
+        onApiLineSpacing: function(vc) {
+            var line = (vc.get_Line() === null || vc.get_LineRule() === null || vc.get_LineRule() != 1) ? -1 : vc.get_Line();
+
+            if (this._state.linespace !== line) {
+                this._state.linespace = line;
+
+                var mnuLineSpace = this.toolbar.btnLineSpace.menu;
+                _.each(mnuLineSpace.items, function(item){
+                    item.setChecked(false, true);
+                });
+                if (line<0) return;
+
+                if ( Math.abs(line-1.)<0.0001 )
+                    mnuLineSpace.items[0].setChecked(true, true);
+                else if ( Math.abs(line-1.15)<0.0001 )
+                    mnuLineSpace.items[1].setChecked(true, true);
+                else if ( Math.abs(line-1.5)<0.0001 )
+                    mnuLineSpace.items[2].setChecked(true, true);
+                else if ( Math.abs(line-2)<0.0001 )
+                    mnuLineSpace.items[3].setChecked(true, true);
+                else if ( Math.abs(line-2.5)<0.0001 )
+                    mnuLineSpace.items[4].setChecked(true, true);
+                else if ( Math.abs(line-3)<0.0001 )
+                    mnuLineSpace.items[5].setChecked(true, true);
+            }
+        },
+
+        onIncrease: function(e) {
+            if (this.api)
+                this.api.FontSizeIn();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
+        onDecrease: function(e) {
+            if (this.api)
+                this.api.FontSizeOut();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
+        onBold: function(btn, e) {
+            this._state.bold = undefined;
+            if (this.api)
+                this.api.put_TextPrBold(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Bold');
+        },
+
+        onItalic: function(btn, e) {
+            this._state.italic = undefined;
+            if (this.api)
+                this.api.put_TextPrItalic(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Italic');
+        },
+
+        onTextUnderline: function(btn, e) {
+            this._state.underline = undefined;
+            if (this.api)
+                this.api.put_TextPrUnderline(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Underline');
+        },
+
+        onTextStrikeout: function(btn, e) {
+            this._state.strike = undefined;
+            if (this.api)
+                this.api.put_TextPrStrikeout(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Strikeout');
+        },
+
+        onSuperscript: function(btn, e) {
+            if (!this.toolbar.btnSubscript.pressed) {
+                this._state.valign = undefined;
+                if (this.api)
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Superscript');
+            }
+        },
+
+        onSubscript: function(btn, e) {
+            if (!this.toolbar.btnSuperscript.pressed) {
+                this._state.valign = undefined;
+                if (this.api)
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Subscript');
+            }
+        },
+
+        onDecOffset: function(btn, e) {
+            if (this.api)
+                this.api.DecreaseIndent();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Indent');
+        },
+
+        onIncOffset: function(btn, e) {
+            if (this.api)
+                this.api.IncreaseIndent();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Indent');
+        },
+
+        onChangeCase: function(menu, item, e) {
+            if (this.api)
+                this.api.asc_ChangeTextCase(item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onMenuHorizontalAlignSelect: function(menu, item) {
+            this._state.pralign = undefined;
+            var btnHorizontalAlign = this.toolbar.btnHorizontalAlign;
+
+            btnHorizontalAlign.$icon.removeClass(btnHorizontalAlign.options.icls);
+            btnHorizontalAlign.options.icls = !item.checked ? 'btn-align-left' : item.options.icls;
+            btnHorizontalAlign.$icon.addClass(btnHorizontalAlign.options.icls);
+
+            if (this.api && item.checked)
+                this.api.put_PrAlign(item.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
+        },
+
+        onMenuVerticalAlignSelect: function(menu, item) {
+            var btnVerticalAlign = this.toolbar.btnVerticalAlign;
+
+            btnVerticalAlign.$icon.removeClass(btnVerticalAlign.options.icls);
+            btnVerticalAlign.options.icls = !item.checked ? 'btn-align-middle' : item.options.icls;
+            btnVerticalAlign.$icon.addClass(btnVerticalAlign.options.icls);
+
+            this._state.vtextalign = undefined;
+            if (this.api && item.checked)
+                this.api.setVerticalAlign(item.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
+        },
+
+        onMarkers: function(btn, e) {
+            var record = {
+                data: {
+                    type: 0,
+                    subtype: btn.pressed ? 0: -1
+                }
+            };
+
+            this.onSelectBullets(null, null, null, record);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onNumbers: function(btn, e) {
+            var record = {
+                data: {
+                    type: 1,
+                    subtype: btn.pressed ? 0: -1
+                }
+            };
+            this.onSelectBullets(null, null, null, record);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onMarkerSettingsClick: function(type) {
+            var me      = this,
+                props;
+
+            var selectedElements = me.api.getSelectedElements();
+            if (selectedElements && _.isArray(selectedElements)) {
+                for (var i = 0; i< selectedElements.length; i++) {
+                    if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                        props = selectedElements[i].get_ObjectValue();
+                        break;
+                    }
+                }
+            }
+            if (props) {
+                (new Common.Views.ListSettingsDialog({
+                    api: me.api,
+                    props: props,
+                    type: type,
+                    storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                    interfaceLang: me.toolbar.mode.lang,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                props.asc_putBullet(value);
+                                me.api.paraApply(props);
+                            }
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                    }
+                })).show();
+            }
+        },
+
+        onComboBlur: function() {
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onFontNameSelect: function(combo, record) {
+            if (this.api) {
+                if (record.isNewFont) {
+                    !Common.Utils.ModalWindow.isVisible() &&
+                    Common.UI.warning({
+                        width: 500,
+                        msg: this.confirmAddFontName,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function(btn) {
+                            if (btn == 'yes') {
+                                this.api.put_TextPrFontName(record.name);
+                                Common.component.Analytics.trackEvent('ToolBar', 'Font Name');
+                            } else {
+                                this.toolbar.cmbFontName.setValue(this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name());
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                        }, this)
+                    });
+                } else {
+                    this.api.put_TextPrFontName(record.name);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Font Name');
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
+            _.delay(function() {
+                var input = $('input', combo.cmpEl).select();
+                if (needfocus) input.focus();
+                else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+            }, 10);
+        },
+
+        onFontSizeSelect: function(combo, record) {
+            this._state.fontsize = undefined;
+            if (this.api)
+                this.api.put_TextPrFontSize(record.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Font Size');
+        },
+
+        onFontSizeChanged: function(before, combo, record, e) {
+            var value,
+                me = this;
+
+            if (before) {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                    if (!value) {
+                        value = this._getApiTextSize();
+                        setTimeout(function(){
+                            Common.UI.warning({
+                                msg: me.textFontSizeErr,
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        $('input', combo.cmpEl).focus();
+                                    })
+                                }
+                            });
+                        }, 1);
+                        combo.setRawValue(value);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            } else {
+                value = Common.Utils.String.parseFloat(record.value);
+                value = value > 300 ? 300 :
+                    value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
+
+                combo.setRawValue(value);
+
+                this._state.fontsize = undefined;
+                if (this.api) {
+                    this.api.put_TextPrFontSize(value);
+                }
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onListShowAfter: function(type, picker) {
+            var store = picker.store;
+            var arr = [];
+            store.each(function(item){
+                arr.push({
+                    numberingInfo: {bullet: item.get('numberingInfo')==='undefined' ? undefined : JSON.parse(item.get('numberingInfo'))},
+                    divId: item.get('id')
+                });
+            });
+            if (this.api && this.api.SetDrawImagePreviewBulletForMenu) {
+                this.api.SetDrawImagePreviewBulletForMenu(arr, type);
+            }
+        },
+
+        onSelectBullets: function(btn, picker, itemView, record) {
+            var rawData = {},
+                isPickerSelect = _.isFunction(record.toJSON);
+
+            if (isPickerSelect){
+                if (record.get('selected')) {
+                    rawData = record.toJSON();
+                } else {
+                    // record deselected
+                    return;
+                }
+            } else {
+                rawData = record;
+            }
+
+            if (btn) {
+                btn.toggle(rawData.data.subtype !== -1, true);
+            }
+
+            if (this.api){
+                if (rawData.data.type===0 && rawData.data.subtype===0x1000) {// custom bullet
+                    var bullet = rawData.customBullet;
+                    if (bullet) {
+                        var selectedElements = this.api.getSelectedElements();
+                        if (selectedElements && _.isArray(selectedElements)) {
+                            for (var i = 0; i< selectedElements.length; i++) {
+                                if (Asc.c_oAscTypeSelectElement.Paragraph == selectedElements[i].get_ObjectType()) {
+                                    var props = selectedElements[i].get_ObjectValue();
+                                    props.asc_putBullet(bullet);
+                                    this.api.paraApply(props);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else
+                    this.api.put_ListType(rawData.data.type, rawData.data.subtype);
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'List Type');
+        },
+
+        onLineSpaceToggle: function(menu, item, state, e) {
+            if (!!state) {
+                this._state.linespace = undefined;
+                if (this.api)
+                    this.api.put_PrLineSpacing(c_paragraphLinerule.LINERULE_AUTO, item.value);
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Line Spacing');
+            }
+        },
+
+        onColumnsSelect: function(menu, item) {
+            if (_.isUndefined(item.value))
+                return;
+
+            this._state.columns = undefined;
+
+            if (this.api) {
+                if (item.value == 'advanced') {
+                    var win,
+                        me = this;
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && selectedElements.length>0){
+                        var elType, elValue;
+                        for (var i = selectedElements.length - 1; i >= 0; i--) {
+                            elType = selectedElements[i].get_ObjectType();
+                            elValue = selectedElements[i].get_ObjectValue();
+                            if (Asc.c_oAscTypeSelectElement.Shape == elType) {
+                                var win = new PE.Views.ShapeSettingsAdvanced(
+                                    {
+                                        shapeProps: elValue,
+                                        slideSize: PE.getController('Toolbar').currentPageSize,
+                                        handler: function(result, value) {
+                                            if (result == 'ok') {
+                                                if (me.api) {
+                                                    me.api.ShapeApply(value.shapeProps);
+                                                }
+                                            }
+                                            me.fireEvent('editcomplete', me);
+                                        }
+                                    });
+                                win.show();
+                                win.setActiveCategory(4);
+                                break;
+                            }
+                        }
+                    }
+                } else if (item.checked) {
+                    var props = new Asc.asc_CShapeProperty(),
+                        cols = item.value;
+                    props.asc_putColumnNumber(cols+1);
+                    this.api.ShapeApply(props);
+                }
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Insert Columns');
+        },
+
+        onBeforeColumns: function() {
+            var index = -1;
+            var selectedElements = this.api.getSelectedElements();
+            if (selectedElements && selectedElements.length>0){
+                var elType, elValue;
+                for (var i = selectedElements.length - 1; i >= 0; i--) {
+                    if (Asc.c_oAscTypeSelectElement.Shape == selectedElements[i].get_ObjectType()) {
+                        var value = selectedElements[i].get_ObjectValue().asc_getColumnNumber();
+                        if (value<4)
+                            index = value-1;
+                        break;
+                    }
+                }
+            }
+            if (this._state.columns === index)
+                return;
+
+            if (index < 0)
+                this.toolbar.btnColumns.menu.clearAll();
+            else
+                this.toolbar.btnColumns.menu.items[index].setChecked(true);
+            this._state.columns = index;
+        },
+
+        onBtnInsertTextClick: function(btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.textboxType)
+                    item.setChecked(true);
+            });
+            if(!this.toolbar.btnInsertText.pressed) {
+                this.toolbar.btnInsertText.menu.clearAll();
+            }
+            this.onInsertText(btn.options.textboxType, btn, e);
+        },
+
+        onMenuInsertTextClick: function(btn, e) {
+            var oldType = this.toolbar.btnInsertText.options.textboxType;
+            var newType = e.value;
+            this.toolbar.btnInsertText.toggle(true);
+
+            if(newType != oldType){
+                this.toolbar.btnInsertText.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
+                this.toolbar.btnInsertText.options.textboxType = newType;
+            }
+            this.onInsertText(newType, btn, e);
+        },
+
+        onInsertText: function(type, btn, e) {
+            if (this.api)
+                this._addAutoshape(this.toolbar.btnInsertText.pressed, type);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
+        },
+
+        onClearStyleClick: function(btn, e) {
+            if (this.api)
+                this.api.ClearFormating();
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        _clearBullets: function() {
+            this.toolbar.btnMarkers.toggle(false, true);
+            this.toolbar.btnNumbers.toggle(false, true);
+
+            this.toolbar.mnuMarkersPicker.selectByIndex(0, true);
+            this.toolbar.mnuNumbersPicker.selectByIndex(0, true);
+        },
+
+        _getApiTextSize: function () {
+            var out_value   = 12,
+                textPr      = this.api.get_TextProps();
+
+            if (textPr && textPr.get_TextPr) {
+                out_value = textPr.get_TextPr().get_FontSize();
+            }
+
+            return out_value;
+        },
+
+        onSelectFontColor: function(btn, color) {
+            this._state.clrtext = this._state.clrtext_asccolor  = undefined;
+
+            this.toolbar.btnFontColor.currentColor = color;
+            this.toolbar.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
+
+            this.toolbar.mnuFontColorPicker.currentColor = color;
+            if (this.api)
+                this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Text Color');
+        },
+
+        onBtnFontColor: function() {
+            this.toolbar.mnuFontColorPicker.trigger('select', this.toolbar.mnuFontColorPicker, this.toolbar.mnuFontColorPicker.currentColor);
+        },
+
+        onApiTextColor: function(color) {
+            var clr;
+            var picker = this.toolbar.mnuFontColorPicker;
+
+            if (color) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                } else
+                    clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+            }
+
+            var type1 = typeof(clr),
+                type2 = typeof(this._state.clrtext);
+
+            if ((type1 !== type2) || (type1 == 'object' &&
+                    (clr.effectValue !== this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color) < 0)) ||
+                (type1 != 'object' && this._state.clrtext.indexOf(clr) < 0)) {
+
+                if (typeof(clr) == 'object') {
+                    var isselected = false;
+                    for ( var i = 0; i < 10; i++) {
+                        if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                            picker.select(clr, true);
+                            isselected = true;
+                            break;
+                        }
+                    }
+                    if (!isselected) picker.clearSelection();
+                } else {
+                    picker.select(clr,true);
+                }
+                this._state.clrtext = clr;
+            }
+            this._state.clrtext_asccolor = color;
+        },
+
+        onApiStartTextHighlight: function(pressed) {
+            this.toolbar.btnTextHighlightColor.toggle(pressed, true);
+        },
+
+        onApiTextHighlightColor: function(c) {
+            if (c) {
+                if (c == -1) {
+                    if (this._state.clrhighlight != -1) {
+                        this.toolbar.mnuTextHighlightTransparent.setChecked(true, true);
+
+                        if (this.toolbar.mnuTextHighlightColorPicker) {
+                            this._state.clrhighlight = -1;
+                            this.toolbar.mnuTextHighlightColorPicker.clearSelection();
+                        }
+                    }
+                } else if (c !== null) {
+                    if (this._state.clrhighlight != c.get_hex().toUpperCase()) {
+                        this.toolbar.mnuTextHighlightTransparent.setChecked(false);
+                        this._state.clrhighlight = c.get_hex().toUpperCase();
+
+                        if ( this.toolbar.mnuTextHighlightColorPicker && _.contains(this.toolbar.mnuTextHighlightColorPicker.colors, this._state.clrhighlight) )
+                            this.toolbar.mnuTextHighlightColorPicker.selectByRGB(this._state.clrhighlight, true);
+                    }
+                }  else {
+                    if ( this._state.clrhighlight !== c) {
+                        this.toolbar.mnuTextHighlightTransparent.setChecked(false, true);
+                        this.toolbar.mnuTextHighlightColorPicker && this.toolbar.mnuTextHighlightColorPicker.clearSelection();
+                        this._state.clrhighlight = c;
+                    }
+                }
+            }
+        },
+
+        _setMarkerColor: function(strcolor, h) {
+            var me = this;
+
+            if (h === 'menu') {
+                me._state.clrhighlight = undefined;
+                me.onApiTextHighlightColor();
+
+                me.toolbar.btnTextHighlightColor.currentColor = strcolor;
+                me.toolbar.btnTextHighlightColor.setColor(me.toolbar.btnTextHighlightColor.currentColor);
+                me.toolbar.btnTextHighlightColor.toggle(true, true);
+            }
+
+            strcolor = strcolor || 'transparent';
+
+            if (strcolor == 'transparent') {
+                me.api.SetMarkerFormat(true, false);
+            } else {
+                var r = strcolor[0] + strcolor[1],
+                    g = strcolor[2] + strcolor[3],
+                    b = strcolor[4] + strcolor[5];
+                me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+            }
+
+            Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnTextHighlightColor);
+            Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+        },
+
+        onBtnTextHighlightColor: function(btn) {
+            if (btn.pressed) {
+                this._setMarkerColor(btn.currentColor);
+                Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
+            }
+            else {
+                this.api.SetMarkerFormat(false);
+            }
+        },
+
+        onSelectTextHighlightColor: function(picker, color) {
+            this._setMarkerColor(color, 'menu');
+        },
+
+        onTextHighlightTransparentClick: function(item, e) {
+            this._setMarkerColor('transparent', 'menu');
+        },
+
+        onResetAutoshapes: function () {
+            var me = this,
+                collection = PDFE.getCollection('ShapeGroups');
+            var onShowBefore = function(menu) {
+                me.toolbar.updateAutoshapeMenu(menu, collection);
+                menu.off('show:before', onShowBefore);
+            };
+            var onComboShowBefore = function (menu) {
+                me.toolbar.updateComboAutoshapeMenu(collection);
+                menu.off('show:before', onComboShowBefore);
+            }
+            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
+            me.toolbar.cmbInsertShape.fillComboView(collection);
+            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
+                if (cancel) {
+                    me._addAutoshape(false);
+                    return;
+                }
+                if (record) {
+                    me.toolbar.cmbInsertShape.updateComboView(record);
+                    me.onInsertShape(record.get('data').shapeType);
+                }
+            });
+        },
+
+        onInsertShape: function (type) {
+            var me = this;
+            if ( type == 'menu:hide' ) {
+                me._isAddingShape = false;
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+            } else {
+                me._addAutoshape(true, type);
+                me._isAddingShape = true;
+
+                if ( me.toolbar.btnInsertText.pressed )
+                    me.toolbar.btnInsertText.toggle(false, true);
+
+                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
+            }
         },
 
         textWarning: 'Warning',
