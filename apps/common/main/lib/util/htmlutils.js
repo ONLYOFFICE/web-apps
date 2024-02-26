@@ -61,6 +61,14 @@ if ( ui_rtl && !isIE ) {
     document.body.classList.add('rtl');
 }
 
+var isLangRtl = function (lang) {
+    return lang.lastIndexOf('ar', 0) === 0;
+}
+
+if ( isLangRtl(window.lang || lang) ) {
+    document.body.classList.add('rtl-font');
+}
+
 function checkScaling() {
     var matches = {
         'pixel-ratio__1_25': "screen and (-webkit-min-device-pixel-ratio: 1.25) and (-webkit-max-device-pixel-ratio: 1.49), " +

@@ -822,8 +822,10 @@
       "warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizdən əminsiniz?",
       "textDark": "Dark",
       "textDarkTheme": "Dark Theme",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textRestartApplication": "Please restart the application for the changes to take effect",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

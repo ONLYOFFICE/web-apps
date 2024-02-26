@@ -119,7 +119,7 @@ export class storeAppOptions {
         this.templates = config.templates;
         this.recent = config.recent;
         this.createUrl = config.createUrl;
-        this.lang = config.lang;
+        this.lang = config.lang ?? 'en';
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
@@ -198,8 +198,8 @@ export class storeAppOptions {
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
 
-        this.canFavorite = document.info && (document.info.favorite !== undefined && document.info.favorite !== null) && !this.isOffline;
-        this.isFavorite = document.info.favorite;
+        this.canFavorite = document.info && (document.info?.favorite !== undefined && document.info?.favorite !== null) && !this.isOffline;
+        this.isFavorite = document.info?.favorite;
 
         if ( this.isLightVersion ) {
             this.canUseHistory = this.canReview = this.isReviewOnly = false;
