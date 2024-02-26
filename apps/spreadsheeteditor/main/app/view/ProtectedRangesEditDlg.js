@@ -272,7 +272,7 @@ define([
                     displayName: this.currentUser.name + ' (' + this.textYou + ')',
                     initials: Common.Utils.getUserInitials(this.currentUser.name),
                     avatar: '',
-                    usercolor: null,
+                    usercolor: Common.UI.ExternalUsers.getColor(this.currentUser.id),
                     email: '',
                     type: Asc.c_oSerUserProtectedRangeType.edit,
                     isCurrent: true});
@@ -299,7 +299,7 @@ define([
                             displayName: name + ' ' + count++,
                             initials: Common.Utils.getUserInitials(name),
                             avatar: '',
-                            usercolor: null,
+                            usercolor: Common.UI.ExternalUsers.getColor(item.asc_getId()),
                             email: '',
                             type: item.asc_getType()
                         });
@@ -374,7 +374,7 @@ define([
                         displayName: record.displayValue,
                         initials: Common.Utils.getUserInitials(record.displayValue),
                         avatar: '',
-                        usercolor: null,
+                        usercolor: Common.UI.ExternalUsers.getColor(value),
                         email: record.value,
                         type: Asc.c_oSerUserProtectedRangeType.edit
                     });
