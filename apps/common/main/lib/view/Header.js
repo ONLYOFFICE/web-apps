@@ -127,6 +127,7 @@ define([
                                             '<div class="color-user-name"></div>' +
                                         '</div>' +
                                     '</div>' +
+                                    '<div class="btn-slot" id="slot-btn-close"></div>' +
                                 '</div>' +
                             '</section>' +
                         '</section>';
@@ -158,6 +159,7 @@ define([
                                             '<div class="color-user-name"></div>' +
                                         '</div>' +
                                     '</div>' +
+                                    '<div class="btn-slot" id="slot-btn-close"></div>' +
                                 '</div>' +
                             '</section>';
 
@@ -312,6 +314,13 @@ define([
                 Common.NotificationCenter.trigger('goback');
             });
 
+            if (me.btnClose) {
+                me.btnClose.on('click', function (e) {
+                    Common.NotificationCenter.trigger('close');
+                });
+                me.btnClose.updateHint(appConfig.customization.close.text || me.textClose);
+            }
+
             me.btnFavorite.on('click', function (e) {
                 // wait for setFavorite method
                 // me.options.favorite = !me.options.favorite;
@@ -423,7 +432,7 @@ define([
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
-            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
+            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item"><div>' +
                                             '<% if (!_.isEmpty(iconCls)) { %>' +
                                                 '<span class="menu-item-icon <%= iconCls %>"></span>' +
                                             '<% } %>' +
@@ -729,6 +738,9 @@ define([
                         }
                         $btnUserName = $html.find('.color-user-name');
                         me.setUserName(me.options.userName);
+
+                        if ( config.canCloseEditor )
+                            me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'bottom', 'big');
                     }
 
                     if (!_readonlyRights && config && (config.sharingSettingsUrl && config.sharingSettingsUrl.length || config.canRequestSharingSettings)) {
@@ -807,6 +819,9 @@ define([
                     }
                     $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
+
+                    if ( config.canCloseEditor )
+                        me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'left', '10, 10');
 
                     if ( config.canPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
@@ -1113,7 +1128,8 @@ define([
             tipDocEdit: 'Editing',
             textReview: 'Reviewing',
             textReviewDesc: 'Suggest changes',
-            tipReview: 'Reviewing'
+            tipReview: 'Reviewing',
+            textClose: 'Close file'
         }
     }(), Common.Views.Header || {}))
 });

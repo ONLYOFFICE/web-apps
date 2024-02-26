@@ -86,8 +86,22 @@ SSE.ApplicationController = new(function(){
             $('.viewer').addClass('top');
         }
 
-        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
+        config.canCloseEditor = false;
+        var _canback = false;
+        if (typeof config.customization === 'object') {
+            if (typeof config.customization.goback == 'object' && config.canBackToFolder!==false) {
+                _canback = config.customization.close===undefined ?
+                    config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose :
+                    config.customization.goback.url && !config.customization.goback.requestClose;
+
+                if (config.customization.goback.requestClose)
+                    console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+            }
+            if (typeof config.customization.close === 'object')
+                config.canCloseEditor  = !!config.customization.close.visible && config.canRequestClose && !config.isDesktopApp;
+        }
+        config.canBackToFolder = !!_canback;
+
         var reg = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         reg = Common.util.LanguageInfo.getLanguages().hasOwnProperty(reg) ? reg : Common.util.LanguageInfo.getLocalLanguageCode(reg);
         if (reg!==null)
@@ -239,6 +253,10 @@ SSE.ApplicationController = new(function(){
             text && (typeof text == 'string') && $('#idt-close .caption').text(text);
         }
 
+        if (config.canCloseEditor) {
+            $('#id-btn-close-editor').removeClass('hidden');
+        }
+
         if (itemsCount < 7) {
             $(dividers[0]).hide();
             $(dividers[1]).hide();
@@ -309,6 +327,10 @@ SSE.ApplicationController = new(function(){
                     }
                 }
             });
+
+        $('#id-btn-close-editor').on('click', function(){
+            config.canRequestClose && Common.Gateway.requestClose();
+        });
 
         SSE.ApplicationView.tools.get('#idt-search')
             .on('click', function(){
@@ -636,7 +658,11 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
+        if (api) {
+            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true);
+            options.asc_setIsSaveAs(true);
+            api.asc_DownloadAs(options);
+        }
     }
 
     function onApiMouseMove(array) {

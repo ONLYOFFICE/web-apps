@@ -961,7 +961,9 @@ class MainController extends Component {
             return;
         }
         this._state.isFromGatewayDownloadAs = true;
-        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
+        var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true);
+        options.asc_setIsSaveAs(true);
+        this.api.asc_DownloadAs(options);
     }
 
     onRequestClose () {

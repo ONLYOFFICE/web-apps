@@ -3552,7 +3552,9 @@ define([
                     callback: function(btn){
                         if (btn==='ok') {
                             me.isFromFormSaveAs = config.canRequestSaveAs || !!config.saveAsUrl;
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs));
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs);
+                            options.asc_setIsSaveAs(me.isFromFormSaveAs);
+                            me.api.asc_DownloadAs(options);
                         }
                         Common.NotificationCenter.trigger('edit:complete');
                     }
