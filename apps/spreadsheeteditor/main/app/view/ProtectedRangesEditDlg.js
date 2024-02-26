@@ -375,7 +375,7 @@ define([
                         initials: Common.Utils.getUserInitials(record.displayValue),
                         avatar: '',
                         usercolor: null,
-                        email: record.value || 'a@asdlfkja;sldfkj',
+                        email: record.value,
                         type: Asc.c_oSerUserProtectedRangeType.edit
                     });
                 }
