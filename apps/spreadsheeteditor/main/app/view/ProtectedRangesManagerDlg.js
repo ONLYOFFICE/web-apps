@@ -451,7 +451,6 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         lockText: 'Locked',
         textFilter: 'Filter',
         textFilterAll: 'All',
-        textYouCan: 'You can',
         txtDenied: 'Denied',
         txtAccess: 'Access'
 
