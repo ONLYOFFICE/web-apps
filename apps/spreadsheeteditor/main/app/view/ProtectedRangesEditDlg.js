@@ -92,17 +92,11 @@ define([
                             '<label>' + t.txtRange + '</label>',
                         '</div>',
                         '<div id="id-protected-range-txt" class="input-row" style="margin-bottom: 8px;"></div>',
-                        '<% if (canRequestUsers) { %>',
                         '<div class="input-row">',
-                            '<label>' + t.txtWhoCanEdit + '</label>',
+                            '<label class="font-weight-bold">' + t.txtAccess + '</label>',
                         '</div>',
                         '<div id="id-protected-range-cmb-user" class="input-row input-group-nr" style="margin-bottom: 8px;"></div>',
                         '<div id="id-protected-range-list-user" class="input-group-nr no-borders" style="height: 143px;"></div>',
-                        '<% } else { %>',
-                        '<div class="input-row" style="margin-bottom: 8px;">',
-                            '<label>' + t.txtYouCanEdit + '</label>',
-                        '</div>',
-                        '<% } %>',
                     '</div>'
                 ].join('');
 
@@ -574,7 +568,8 @@ define([
         textCanView: 'Can view',
         textRemove: 'Remove',
         textCantView: 'Can\'t view',
-        textAnyone: 'Anyone'
+        textAnyone: 'Anyone',
+        txtAccess: 'Access to range'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });
