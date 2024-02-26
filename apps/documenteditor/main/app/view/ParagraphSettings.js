@@ -137,7 +137,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strLineHeight
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -154,7 +155,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strParagraphSpacing + ' ' + this.strSpacingBefore
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -172,7 +174,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strParagraphSpacing + ' ' + this.strSpacingAfter
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);
@@ -211,7 +214,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsLeftText
             });
             this.spinners.push(this.numIndentsLeft);
             this.lockedControls.push(this.numIndentsLeft);
@@ -228,7 +232,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsRightText
             });
             this.spinners.push(this.numIndentsRight);
             this.lockedControls.push(this.numIndentsRight);
@@ -261,7 +266,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsSpecial
             });
             this.spinners.push(this.numSpecialBy);
             this.lockedControls.push(this.numSpecialBy);
