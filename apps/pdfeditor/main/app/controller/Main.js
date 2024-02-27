@@ -1490,8 +1490,8 @@ define([
                 toolbarController   && toolbarController.setApi(me.api);
 
                 if (this.appOptions.isEdit) {
-                    // var fontsControllers    = application.getController('Common.Controllers.Fonts');
-                    // fontsControllers    && fontsControllers.setApi(me.api);
+                    var fontsControllers    = application.getController('Common.Controllers.Fonts');
+                    fontsControllers    && fontsControllers.setApi(me.api);
 
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);

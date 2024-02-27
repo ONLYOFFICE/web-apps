@@ -43,6 +43,7 @@ define([
     'core',
     'common/main/lib/component/Window',
     'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/ListSettingsDialog',
     'common/main/lib/util/define',
     'pdfeditor/main/app/view/Toolbar'
 ], function () {
@@ -68,7 +69,20 @@ define([
                 clrstrike: undefined,
                 clrunderline: undefined,
                 clrhighlight: undefined,
-                pageCount: 1
+                pageCount: 1,
+                bullets: {type:undefined, subtype:undefined},
+                linespace: undefined,
+                pralign: undefined,
+                valign: undefined,
+                vtextalign: undefined,
+                bold: undefined,
+                italic: undefined,
+                strike: undefined,
+                underline: undefined,
+                can_increase: undefined,
+                can_decrease: undefined,
+                fontsize: undefined,
+                textclrhighlight: undefined,
             };
             this.editMode = true;
             this.binding = {};
@@ -1890,27 +1904,27 @@ define([
         onApiTextHighlightColor: function(c) {
             if (c) {
                 if (c == -1) {
-                    if (this._state.clrhighlight != -1) {
+                    if (this._state.textclrhighlight != -1) {
                         this.toolbar.mnuTextHighlightTransparent.setChecked(true, true);
 
                         if (this.toolbar.mnuTextHighlightColorPicker) {
-                            this._state.clrhighlight = -1;
+                            this._state.textclrhighlight = -1;
                             this.toolbar.mnuTextHighlightColorPicker.clearSelection();
                         }
                     }
                 } else if (c !== null) {
-                    if (this._state.clrhighlight != c.get_hex().toUpperCase()) {
+                    if (this._state.textclrhighlight != c.get_hex().toUpperCase()) {
                         this.toolbar.mnuTextHighlightTransparent.setChecked(false);
-                        this._state.clrhighlight = c.get_hex().toUpperCase();
+                        this._state.textclrhighlight = c.get_hex().toUpperCase();
 
-                        if ( this.toolbar.mnuTextHighlightColorPicker && _.contains(this.toolbar.mnuTextHighlightColorPicker.colors, this._state.clrhighlight) )
-                            this.toolbar.mnuTextHighlightColorPicker.selectByRGB(this._state.clrhighlight, true);
+                        if ( this.toolbar.mnuTextHighlightColorPicker && _.contains(this.toolbar.mnuTextHighlightColorPicker.colors, this._state.textclrhighlight) )
+                            this.toolbar.mnuTextHighlightColorPicker.selectByRGB(this._state.textclrhighlight, true);
                     }
                 }  else {
-                    if ( this._state.clrhighlight !== c) {
+                    if ( this._state.textclrhighlight !== c) {
                         this.toolbar.mnuTextHighlightTransparent.setChecked(false, true);
                         this.toolbar.mnuTextHighlightColorPicker && this.toolbar.mnuTextHighlightColorPicker.clearSelection();
-                        this._state.clrhighlight = c;
+                        this._state.textclrhighlight = c;
                     }
                 }
             }
@@ -1920,7 +1934,7 @@ define([
             var me = this;
 
             if (h === 'menu') {
-                me._state.clrhighlight = undefined;
+                me._state.textclrhighlight = undefined;
                 me.onApiTextHighlightColor();
 
                 me.toolbar.btnTextHighlightColor.currentColor = strcolor;

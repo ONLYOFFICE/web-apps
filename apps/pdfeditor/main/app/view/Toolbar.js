@@ -1616,6 +1616,7 @@ define([
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
             textRecentlyUsed: 'Recently Used',
+            textListSettings: 'List Settings',
         }
     })(), PDFE.Views.Toolbar || {}));
 });
