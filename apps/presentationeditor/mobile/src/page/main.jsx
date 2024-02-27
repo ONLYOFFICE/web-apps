@@ -122,17 +122,32 @@ class MainPage extends Component {
 
     render() {
         const appOptions = this.props.storeAppOptions;
+        const storeThemes = this.props.storeThemes;
+        const colorTheme = storeThemes.colorTheme;
         const config = appOptions.config;
-        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+        const { customization = {} } = config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!customization || !(customization.loaderName || customization.loaderLogo));
+       
+        let isBranding = true,
+            isHideCustomLogo = false,
+            customLogoImage = '',
+            customLogoUrl = '',
+            isWithLogo = true;
 
-        let isHideLogo = true,
-            isCustomization = true,
-            isBranding = true;
-
-        if (!appOptions.isDisconnected && config?.customization) {
-            isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
+        if(!appOptions.isDisconnected) {
+            const { logo } = customization;
             isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-            isHideLogo = isCustomization && isBranding; 
+            
+            if(logo && isBranding) {
+                isHideCustomLogo = logo.visible === false;
+
+                if(logo.image || logo.imageDark) {
+                    customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
+                    customLogoUrl = logo.url;
+                }
+            }
+
+            isWithLogo = customLogoImage && !isHideCustomLogo || !customLogoImage
         }
 
         return (
@@ -146,16 +161,18 @@ class MainPage extends Component {
                     {!this.state.previewVisible ? null : 
                         <Preview closeOptions={this.handleOptionsViewClosed.bind(this)} />
                     }
-                    <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
+                    <Page name="home" className={`editor${isWithLogo ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}
-                        <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                            {!isHideLogo && 
-                                <div className="main-logo" onClick={() => {
-                                    window.open(`${__PUBLISHER_URL__}`, "_blank");
-                                }}>
+                        <Navbar id='editor-navbar' className={`main-navbar${isWithLogo ? ' navbar-with-logo' : ''}`}>
+                            <div className="main-logo" onClick={() => {
+                                window.open(`${customLogoImage && customLogoUrl && !isHideCustomLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
+                            }}>
+                                {customLogoImage && !isHideCustomLogo ? 
+                                    <img className='custom-logo-image' src={customLogoImage} />
+                                : isWithLogo ? 
                                     <Icon icon="icon-logo"></Icon>
-                                </div>
-                            }
+                                : null}
+                            </div>
                             <Subnavbar>
                                 <Toolbar 
                                     openOptions={this.handleClickToOpenOptions}
@@ -218,4 +235,4 @@ class MainPage extends Component {
     }
 }
 
-export default inject("storeAppOptions")(observer(MainPage));
+export default inject('storeAppOptions', 'storeThemes')(observer(MainPage));
