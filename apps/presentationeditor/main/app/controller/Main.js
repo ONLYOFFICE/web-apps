@@ -209,6 +209,8 @@ define([
                     this.api.asc_registerCallback('asc_onMeta',                     _.bind(this.onMeta, this));
                     this.api.asc_registerCallback('asc_onAdvancedOptions',          _.bind(this.onAdvancedOptions, this));
                     this.api.asc_registerCallback('asc_onSpellCheckInit',           _.bind(this.loadLanguages, this));
+                    Common.NotificationCenter.on('preview:start',                   _.bind(this.onPreviewStart, this));
+                    this.api.asc_registerCallback('asc_onEndDemonstration',         _.bind(this.onEndDemonstration, this));
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
                     Common.NotificationCenter.on('close',                           _.bind(this.closeEditor, this));
@@ -2609,6 +2611,7 @@ define([
                     me._renameDialog = undefined;
                 });
                 this._renameDialog.show(Common.Utils.innerWidth() - this._renameDialog.options.width - 15, 30);
+                this._state.previewStarted && this._renameDialog.hide();
             },
 
             onLanguageLoaded: function() {
@@ -2831,6 +2834,18 @@ define([
                         }, this)
                     });
                 }
+            },
+
+            onPreviewStart: function() {
+                this._state.previewStarted = true;
+                if (this._renameDialog && this._renameDialog.isVisible())
+                    this._renameDialog.hide();
+            },
+
+            onEndDemonstration: function() {
+                this._state.previewStarted = false;
+                if (this._renameDialog && !this._renameDialog.isVisible())
+                    this._renameDialog.show();
             },
 
             // Translation
