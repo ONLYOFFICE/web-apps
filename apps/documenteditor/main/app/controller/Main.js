@@ -479,7 +479,7 @@ define([
                             console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
                     }
                     if (typeof this.appOptions.customization.close === 'object')
-                        this.appOptions.canCloseEditor  = !!this.appOptions.customization.close.visible && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+                        this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
                 }
                 this.appOptions.canBack = this.appOptions.canBackToFolder = !!_canback;
 

@@ -98,7 +98,7 @@ PE.ApplicationController = new(function(){
                     console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
             }
             if (typeof config.customization.close === 'object')
-                config.canCloseEditor  = !!config.customization.close.visible && config.canRequestClose && !config.isDesktopApp;
+                config.canCloseEditor  = (config.customization.close.visible!==false) && config.canRequestClose && !config.isDesktopApp;
         }
         config.canBackToFolder = !!_canback;
     }

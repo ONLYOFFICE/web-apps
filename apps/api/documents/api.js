@@ -135,7 +135,7 @@
                         requestClose: false // if true - goback send onRequestClose event instead opening url, deprecated, use customization.close instead
                     },
                     close: {
-                        visible: false,
+                        visible: true,
                         text: 'Close file'
                     },
                     reviewPermissions: {
