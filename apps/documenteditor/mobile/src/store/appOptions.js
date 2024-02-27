@@ -147,7 +147,7 @@ export class storeAppOptions {
             }
 
             if (typeof close === 'object' && close !== null) {
-                this.canCloseEditor = !!close.visible && this.canRequestClose && !this.isDesktopApp;
+                this.canCloseEditor = (close.visible!==false) && this.canRequestClose && !this.isDesktopApp;
             }
         }
 
