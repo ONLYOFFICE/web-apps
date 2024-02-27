@@ -756,6 +756,11 @@ define([
                             this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
                         toolbarView.btnHighlight.toggle(false, false);
                     }
+
+                    if (toolbarView.btnTextHighlightColor.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-text-highlight')) {
+                        this.api.SetMarkerFormat(null, false);
+                        toolbarView.btnTextHighlightColor.toggle(false, false);
+                    }
                 }
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {

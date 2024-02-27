@@ -369,21 +369,27 @@ define([
                     this.paragraphControls.push(this.btnSubscript);
 
                     this.btnTextHighlightColor = new Common.UI.ButtonColored({
-                        id: 'id-toolbar-btn-highlight',
+                        id: 'id-toolbar-btn-text-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
-                        menu: true,
                         lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: 'FFFC54', colors: [
-                                'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
-                                '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
-                            ]}
+                        menu: new Common.UI.Menu({
+                            style: 'min-width: 100px;',
+                            items: [
+                                {template: _.template('<div id="id-toolbar-menu-text-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
+                                {caption: '--'},
+                                me.mnuTextHighlightTransparent = new Common.UI.MenuItem({
+                                    caption: me.strMenuNoFill,
+                                    checkable: true
+                                })
+                            ]
+                        })
                     });
                     this.paragraphControls.push(this.btnTextHighlightColor);
 
@@ -1169,10 +1175,30 @@ define([
                         me.mnuHighlightColorPicker = arr[0];
                         me.mnuHighlightTransparent = arr[1];
                     }
-                    if (me.btnTextHighlightColor && me.btnTextHighlightColor.menu) {
-                        var arr = me.createPen(me.btnTextHighlightColor, 'text-highlight', true);
-                        me.mnuTextHighlightColorPicker = arr[0];
-                        me.mnuTextHighlightTransparent = arr[1];
+                    if (me.btnTextHighlightColor && me.btnTextHighlightColor.cmpEl) {
+                        me.btnTextHighlightColor.currentColor = 'FFFF00';
+                        me.btnTextHighlightColor.setColor(me.btnTextHighlightColor.currentColor);
+                        me.mnuTextHighlightColorPicker = new Common.UI.ThemeColorPalette({
+                            el: $('#id-toolbar-menu-text-highlight'),
+                            colors: [
+                                'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                                '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+                            ],
+                            colorHints: [
+                                Common.Utils.ThemeColor.txtYellow, Common.Utils.ThemeColor.txtBrightGreen, Common.Utils.ThemeColor.txtTurquosie, Common.Utils.ThemeColor.txtPink,
+                                Common.Utils.ThemeColor.txtBlue, Common.Utils.ThemeColor.txtRed, Common.Utils.ThemeColor.txtDarkBlue, Common.Utils.ThemeColor.txtTeal,
+                                Common.Utils.ThemeColor.txtGreen, Common.Utils.ThemeColor.txtViolet, Common.Utils.ThemeColor.txtDarkRed, Common.Utils.ThemeColor.txtDarkYellow,
+                                Common.Utils.ThemeColor.txtWhite, Common.Utils.ThemeColor.txtGray + '-25%', Common.Utils.ThemeColor.txtGray + '-50%', Common.Utils.ThemeColor.txtBlack
+                            ],
+                            value: 'FFFF00',
+                            dynamiccolors: 0,
+                            themecolors: 0,
+                            effects: 0,
+                            columns: 4,
+                            outerMenu: {menu: me.btnTextHighlightColor.menu, index: 0, focusOnShow: true}
+                        });
+                        me.btnTextHighlightColor.setPicker(me.mnuTextHighlightColorPicker);
+                        me.btnTextHighlightColor.menu.setInnerMenu([{menu: me.mnuTextHighlightColorPicker, index: 0}]);
                     }
                     if (me.btnFontColor && me.btnFontColor.menu) {
                         var arr = me.createPen(me.btnFontColor, 'font');

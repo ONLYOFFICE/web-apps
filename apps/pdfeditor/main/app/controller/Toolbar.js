@@ -1945,12 +1945,12 @@ define([
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
-                me.api.SetMarkerFormat(true, false);
+                me.api.SetMarkerFormat(undefined, true, false);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
-                me.api.SetMarkerFormat(true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
+                me.api.SetMarkerFormat(undefined, true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
 
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnTextHighlightColor);
@@ -1963,7 +1963,7 @@ define([
                 Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
             }
             else {
-                this.api.SetMarkerFormat(false);
+                this.api.SetMarkerFormat(undefined, false);
             }
         },
 
