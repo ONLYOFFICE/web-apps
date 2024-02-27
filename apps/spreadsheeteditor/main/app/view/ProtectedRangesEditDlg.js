@@ -367,7 +367,7 @@ define([
                         name: record.displayValue,
                         displayName: record.displayValue,
                         initials: Common.Utils.getUserInitials(record.displayValue),
-                        avatar: Common.UI.ExternalUsers.getImage(value),
+                        avatar: Common.UI.ExternalUsers.getImage(value) || record.image || '',
                         usercolor: Common.UI.ExternalUsers.getColor(value),
                         email: record.value,
                         type: Asc.c_oSerUserProtectedRangeType.edit
@@ -419,6 +419,7 @@ define([
                         rec.name && item.set('name', rec.name);
                         rec.name && item.set('displayName', rec.name);
                         rec.email && item.set('email', rec.email);
+                        rec.image && item.set('avatar', rec.image);
                     }
                 });
                 this._initSettings = false;
@@ -441,8 +442,12 @@ define([
                         value: item.email || '',
                         displayValue: item.name || '',
                         userId: item.id,
+                        image: item.image,
                         hasDivider: !item.hasAccess && !divider && (index>0)
                     });
+                    if (item.image && !Common.UI.ExternalUsers.getImage(item.id)) {
+                        Common.UI.ExternalUsers.setImage(item.id, item.image);
+                    }
                     if (!item.hasAccess)
                         divider = true;
                 });
