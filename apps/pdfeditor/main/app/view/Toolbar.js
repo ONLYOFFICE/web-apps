@@ -664,7 +664,7 @@ define([
                         itemWidth: 20,
                         itemHeight: 20,
                         menuMaxHeight: 652,
-                        menuWidth: 362,
+                        menuWidth: 330,
                         style: 'width: 140px;',
                         enableKeyEvents: true,
                         lock: [_set.lostConnect, _set.disableOnStart],
@@ -1479,7 +1479,7 @@ define([
                 });
                 menuShape.addItem(menuitem);
 
-                var recents = Common.localStorage.getItem('pe-recent-shapes');
+                var recents = Common.localStorage.getItem('pdfe-recent-shapes');
                 recents = recents ? JSON.parse(recents) : null;
 
                 var shapePicker = new Common.UI.DataViewShape({
@@ -1614,7 +1614,8 @@ define([
             tipMarkersCheckmark: 'Checkmark bullets',
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
-            tipNone: 'None'
+            tipNone: 'None',
+            textRecentlyUsed: 'Recently Used',
         }
     })(), PDFE.Views.Toolbar || {}));
 });
