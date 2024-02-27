@@ -3486,7 +3486,7 @@
   "SSE.Views.ProtectedRangesManagerDlg.textNew": "New",
   "SSE.Views.ProtectedRangesManagerDlg.textProtect": "Protect sheet",
   "SSE.Views.ProtectedRangesManagerDlg.textRange": "Range",
-  "SSE.Views.ProtectedRangesManagerDlg.textRangesDesc": "You can restrict editing ranges to selected people.",
+  "SSE.Views.ProtectedRangesManagerDlg.textRangesDesc": "You can restrict editing or viewing ranges to selected people.",
   "SSE.Views.ProtectedRangesManagerDlg.textTitle": "Title",
   "del_SSE.Views.ProtectedRangesManagerDlg.textYouCan": "You can",
   "SSE.Views.ProtectedRangesManagerDlg.tipIsLocked": "This element is being edited by another user.",

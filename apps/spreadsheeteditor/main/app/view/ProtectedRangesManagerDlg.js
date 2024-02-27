@@ -432,7 +432,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         txtTitle: 'Protected Ranges',
-        textRangesDesc: 'You can restrict editing ranges to selected people.',
+        textRangesDesc: 'You can restrict editing or viewing ranges to selected people.',
         textTitle: 'Title',
         textRange: 'Range',
         textNew: 'New',
