@@ -42,6 +42,7 @@
   "SSE.ApplicationController.waitText": "Please, wait...",
   "SSE.ApplicationController.warnLicenseBefore": "License not active. Please contact your administrator.",
   "SSE.ApplicationController.warnLicenseExp": "Your license has expired. Please update your license and refresh the page.",
+  "SSE.ApplicationController.errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download as' option to save the file backup copy to a drive.",
   "SSE.ApplicationView.txtDownload": "Download",
   "SSE.ApplicationView.txtEmbed": "Embed",
   "SSE.ApplicationView.txtFileLocation": "Open file location",
