@@ -549,13 +549,13 @@ define([
 //                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
-                    var coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
+                    var coEditMode = (type && typeof type[1] === 'string' && !window.isPDFForm) ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
                                     !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
                                     this.editorConfig.coEditing.mode || 'fast';
                     docInfo.put_CoEditingMode(coEditMode);
 
-                    if (type && typeof type[1] === 'string') {
+                    if (type && typeof type[1] === 'string' && !window.isPDFForm) {
                         this.permissions.edit = this.permissions.review = false;
                     }
                 }
@@ -568,8 +568,8 @@ define([
                         $('#editor-container').find('.doc-placeholder').css('margin-top', 19);
                 }
 
-                var type = data.doc ? /^(?:(docxf|oform))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isFormCreator = !!(type && typeof type[1] === 'string') && this.appOptions.canFeatureForms; // show forms only for docxf or oform
+                var type = data.doc ? /^(?:(docxf|oform)|(pdf))$/.exec(data.doc.fileType) : false;
+                this.appOptions.isFormCreator = !!(type && (typeof type[1] === 'string' || typeof type[2] === 'string' && window.isPDFForm)) && this.appOptions.canFeatureForms; // show forms only for docxf or oform
 
                 type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
                 this.appOptions.isOForm = !!(type && typeof type[1] === 'string');
@@ -642,7 +642,7 @@ define([
                         Asc.c_oAscFileType.PNG
                     ];
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
-                if (type && typeof type[1] === 'string') {
+                if (type && typeof type[1] === 'string' && !window.isPDFForm) {
                     if (!(format && (typeof format == 'string')) || type[1]===format.toLowerCase()) {
                         var options = new Asc.asc_CDownloadOptions();
                         options.asc_setIsDownloadEvent(true);
@@ -1564,7 +1564,7 @@ define([
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded()) return;
 
-                var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType);
+                var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType) && !window.isPDFForm;
 
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
 

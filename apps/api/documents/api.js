@@ -477,7 +477,7 @@
                     }
                 }
 
-                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(_config.document.fileType);
+                var type = /^(?:(djvu|xps|oxps))$/.exec(_config.document.fileType);
                 if (type && typeof type[1] === 'string') {
                     _config.editorConfig.canUseHistory = false;
                 }
@@ -960,25 +960,29 @@
                 'word': 'documenteditor',
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
-                'pdf': 'pdfeditor'
+                'pdf': 'pdfeditor',
+                'checker': config.document && config.document.isForm ? 'documenteditor' :
+                           config.document && config.document.isForm===false ? 'pdfeditor' : 'common'
             },
             appType = 'word';
 
         if (typeof config.documentType === 'string') {
             appType = config.documentType.toLowerCase();
             if (config.type !== 'mobile' && config.type !== 'embedded' && !!config.document && typeof config.document.fileType === 'string') {
-                var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(config.document.fileType);
-                if (type && typeof type[1] === 'string')
+                var type = /^(?:(pdf)|(djvu|xps|oxps))$/.exec(config.document.fileType);
+                if (type && typeof type[2] === 'string')
                     appType = 'pdf';
+                if (type && typeof type[1] === 'string')
+                    appType = 'checker';
             }
-        } else
-        if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf|djvu|xps|oxps))$/
+        } else if (!!config.document && typeof config.document.fileType === 'string') {
+            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf)|(djvu|xps|oxps))$/
                             .exec(config.document.fileType);
             if (type) {
                 if (typeof type[1] === 'string') appType = 'cell'; else
                 if (typeof type[2] === 'string') appType = 'slide'; else
-                if (typeof type[3] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'pdf';
+                if (typeof type[4] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'pdf'; else
+                if (typeof type[3] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'checker';
             }
         }
         if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded')) {
@@ -994,7 +998,7 @@
         var index = "/index.html";
         if (config.editorConfig && path_type!=="forms") {
             var customization = config.editorConfig.customization;
-            if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
+            if ( appType!=='checker' && typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
                                                         (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
             } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
@@ -1064,6 +1068,12 @@
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
+        if (config.editorConfig) {
+            var customization = config.editorConfig.customization;
+            if ( customization && typeof(customization) == 'object' && ( customization.toolbarNoTabs || (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
+                params += "&indexPostfix=_loader";
+            }
+        }
         return params;
     }
 
