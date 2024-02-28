@@ -1433,7 +1433,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtTitle
             }).on('keydown:before', keyDownBefore);
             this.inputTags = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-tags'),
@@ -1442,7 +1443,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtTags
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
@@ -1451,7 +1453,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtSubject
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
@@ -1460,7 +1463,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtComment
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -1492,7 +1496,8 @@ define([
                 placeHolder: this.txtAddAuthor,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtAuthor
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 
