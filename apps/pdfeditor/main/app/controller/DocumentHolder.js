@@ -39,6 +39,12 @@
  *
  */
 
+var c_paragraphLinerule = {
+    LINERULE_LEAST: 0,
+    LINERULE_AUTO: 1,
+    LINERULE_EXACT: 2
+};
+
 define([
     'core',
     'pdfeditor/main/app/view/DocumentHolder',
