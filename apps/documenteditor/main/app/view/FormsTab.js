@@ -393,7 +393,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
-                    visible: false,
+                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && window.isPDFForm,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -404,7 +404,7 @@ define([
                     iconCls: 'toolbar__icon btn-previous-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnPrev,
-                    visible: false,
+                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && window.isPDFForm,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -417,7 +417,7 @@ define([
                     iconCls: 'toolbar__icon btn-next-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnNext,
-                    visible: false,
+                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && window.isPDFForm,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
