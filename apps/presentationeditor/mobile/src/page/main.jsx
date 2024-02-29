@@ -129,25 +129,22 @@ class MainPage extends Component {
         const isShowPlaceholder = !appOptions.isDocReady && (!customization || !(customization.loaderName || customization.loaderLogo));
        
         let isBranding = true,
-            isHideCustomLogo = false,
+            isHideLogo = true,
             customLogoImage = '',
-            customLogoUrl = '',
-            isWithLogo = true;
+            customLogoUrl = '';
 
         if(!appOptions.isDisconnected) {
             const { logo } = customization;
             isBranding = appOptions.canBranding || appOptions.canBrandingExt;
             
             if(logo && isBranding) {
-                isHideCustomLogo = logo.visible === false;
+                isHideLogo = logo.visible === false;
 
                 if(logo.image || logo.imageDark) {
                     customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
                     customLogoUrl = logo.url;
                 }
             }
-
-            isWithLogo = customLogoImage && !isHideCustomLogo || !customLogoImage
         }
 
         return (
@@ -161,15 +158,15 @@ class MainPage extends Component {
                     {!this.state.previewVisible ? null : 
                         <Preview closeOptions={this.handleOptionsViewClosed.bind(this)} />
                     }
-                    <Page name="home" className={`editor${isWithLogo ? ' page-with-logo' : ''}`}>
+                    <Page name="home" className={`editor${!isHideLogo || !isBranding ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}
-                        <Navbar id='editor-navbar' className={`main-navbar${isWithLogo ? ' navbar-with-logo' : ''}`}>
+                        <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo || !isBranding ? ' navbar-with-logo' : ''}`}>
                             <div className="main-logo" onClick={() => {
-                                window.open(`${customLogoImage && customLogoUrl && !isHideCustomLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
+                                window.open(`${customLogoImage && customLogoUrl && !isHideLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
                             }}>
-                                {customLogoImage && !isHideCustomLogo ? 
+                                {customLogoImage && !isHideLogo ? 
                                     <img className='custom-logo-image' src={customLogoImage} />
-                                : isWithLogo ? 
+                                : !customLogoImage ?
                                     <Icon icon="icon-logo"></Icon>
                                 : null}
                             </div>
