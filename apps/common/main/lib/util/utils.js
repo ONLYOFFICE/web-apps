@@ -1183,7 +1183,7 @@ Common.Utils.getUserInitials = function(username) {
     for (var i = fio.length-1; i>0; i--) {
         if (fio[i][0]!=='(' && fio[i][0]!==')') {
             if (/[\u0600-\u06FF]/.test(initials))
-                initials += ' ';
+                initials += '\u2009';
             initials += fio[i].substring(0, 1).toUpperCase();
             break;
         }
