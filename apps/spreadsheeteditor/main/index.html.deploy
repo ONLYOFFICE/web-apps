@@ -88,6 +88,10 @@
             position: relative;
         }
 
+        .loadmask > .sktoolbar ul {
+            height: 25px;
+        }
+
         .loadmask > .sktoolbar li {
             background: #d8dadc;
             background: var(--highlight-button-hover, #d8dadc);
