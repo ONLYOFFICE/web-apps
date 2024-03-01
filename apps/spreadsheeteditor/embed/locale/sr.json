@@ -4,7 +4,7 @@
   "common.view.modals.txtHeight": "Visina",
   "common.view.modals.txtIncorrectPwd": "Lozinka je netačna",
   "common.view.modals.txtOpenFile": "Unesi lozinku da otvoriš fajl",
-  "common.view.modals.txtShare": "Podeli Link",
+  "common.view.modals.txtShare": "Podeli link",
   "common.view.modals.txtTitleProtected": "Zaštićen fajl",
   "common.view.modals.txtWidth": "Širina ",
   "common.view.SearchBar.textFind": "Pronađi",
@@ -45,7 +45,7 @@
   "SSE.ApplicationView.txtDownload": "Preuzmi",
   "SSE.ApplicationView.txtEmbed": "Ugradi",
   "SSE.ApplicationView.txtFileLocation": "Otvori fajl lokaciju",
-  "SSE.ApplicationView.txtFullScreen": "Prikaz Celog Ekrana",
+  "SSE.ApplicationView.txtFullScreen": "Prikaz celog ekrana",
   "SSE.ApplicationView.txtPrint": "Štampaj",
   "SSE.ApplicationView.txtSearch": "Pretraži",
   "SSE.ApplicationView.txtShare": "Podeli"
