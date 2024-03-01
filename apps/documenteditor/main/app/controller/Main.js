@@ -252,6 +252,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('opendocumentfrombinary',   _.bind(this.loadBinary, this));
                     Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
@@ -462,6 +463,7 @@ define([
                 this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+                this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -1900,6 +1902,7 @@ define([
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
                     me.api.asc_registerCallback('asc_onConvertEquationToMath',_.bind(me.onConvertEquationToMath, me));
+                    me.appOptions.canSaveDocumentToBinary && me.api.asc_registerCallback('asc_onSaveDocument',_.bind(me.onSaveDocumentBinary, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -3152,6 +3155,15 @@ define([
                         }, this)
                     });
                 }
+            },
+
+            onSaveDocumentBinary: function(data) {
+                Common.Gateway.saveDocument(data);
+            },
+
+            loadBinary: function(data) {
+                console.log('loadBinary');
+                data && data.doc && this.api.asc_openDocumentFromBytes(data.doc);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

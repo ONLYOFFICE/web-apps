@@ -47,6 +47,10 @@ if (window.Common === undefined) {
                 $me.trigger('opendocument', data);
             },
 
+            'openDocumentFromBinary': function(data) {
+                $me.trigger('opendocumentfrombinary', data);
+            },
+
             'showMessage': function(data) {
                 $me.trigger('showmessage', data);
             },
@@ -384,6 +388,15 @@ if (window.Common === undefined) {
 
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
+            },
+
+            saveDocument: function(data) {
+                _postMessage({
+                    event: 'onSaveDocument',
+                    data: {
+                        data: data
+                    }
+                });
             },
 
             on: function(event, handler){

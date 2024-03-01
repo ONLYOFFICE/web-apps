@@ -286,7 +286,8 @@
                 'onRequestOpen': <try to open external link>,
                 'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
                 'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
-                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method
+                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
+                'onSaveDocument': 'save document from binary'
             }
         }
 
@@ -355,6 +356,7 @@
         _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
         _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
+        _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -581,6 +583,15 @@
         var _openDocument = function(doc) {
             _sendCommand({
                 command: 'openDocument',
+                data: {
+                    doc: doc
+                }
+            });
+        };
+
+        var _openDocumentFromBinary = function(doc) {
+            _sendCommand({
+                command: 'openDocumentFromBinary',
                 data: {
                     doc: doc
                 }
@@ -846,7 +857,8 @@
             setReferenceData    : _setReferenceData,
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
-            setReferenceSource: _setReferenceSource
+            setReferenceSource: _setReferenceSource,
+            openDocument: _openDocumentFromBinary
         }
     };
 
