@@ -788,6 +788,7 @@
       "warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
       "strFuncLocale": "Formula Language",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textClose": "Close",
       "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",

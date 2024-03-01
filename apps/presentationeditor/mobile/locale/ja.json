@@ -549,7 +549,8 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ"
+      "txtScheme9": "ファウンドリ",
+      "textClose": "Close"
     }
   }
 }
