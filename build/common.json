@@ -103,6 +103,13 @@
                     "!**/src/**"
                 ],
                 "dest": "../deploy/web-apps/apps/common/main/resources/help/"
+            },
+            "indexhtml": {
+                "expand": true,
+                "cwd": "../apps/common/main",
+                "src": "*.html.deploy",
+                "ext": ".html",
+                "dest": "../deploy/web-apps/apps/common/main"
             }
         },
         "imagemin": {
