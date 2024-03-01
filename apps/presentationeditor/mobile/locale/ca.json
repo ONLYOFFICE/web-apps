@@ -549,7 +549,8 @@
       "txtScheme6": "Esplanada",
       "txtScheme7": "Equitat",
       "txtScheme8": "Flux",
-      "txtScheme9": "Foneria"
+      "txtScheme9": "Foneria",
+      "textClose": "Close"
     }
   }
 }

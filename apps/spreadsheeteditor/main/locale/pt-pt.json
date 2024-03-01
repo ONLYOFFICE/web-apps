@@ -3036,7 +3036,6 @@
   "SSE.Views.ProtectDialog.txtWBDescription": "Para impedir que outros utilizadores vejam folhas de cálculo ocultas, adicionar, mover, apagar, ou esconder folhas de trabalho e renomear folhas de cálculo, pode proteger a estrutura da sua folha de cálculo com uma palavra-passe.",
   "SSE.Views.ProtectDialog.txtWBTitle": "Proteger a Estrutura do Livro",
   "SSE.Views.ProtectedRangesEditDlg.textSelectData": "Selecionar dados",
-  "SSE.Views.ProtectedRangesEditDlg.textTipDelete": "Eliminar utilizador",
   "SSE.Views.ProtectedRangesManagerDlg.textDelete": "Eliminar",
   "SSE.Views.ProtectRangesDlg.guestText": "Visitante",
   "SSE.Views.ProtectRangesDlg.lockText": "Bloqueada",

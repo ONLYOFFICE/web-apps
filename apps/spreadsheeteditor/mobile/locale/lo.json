@@ -817,6 +817,7 @@
       "txtZh": "ພາສາຈີນ",
       "warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
       "strFuncLocaleEx": "Example: SUM; MIN; MAX; COUNT",
+      "textClose": "Close",
       "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",

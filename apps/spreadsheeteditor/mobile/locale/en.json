@@ -675,6 +675,7 @@
       "textChooseCsvOptions": "Choose CSV Options",
       "textChooseDelimeter": "Choose Delimeter",
       "textChooseEncoding": "Choose Encoding",
+      "textClose": "Close",
       "textCollaboration": "Collaboration",
       "textColorSchemes": "Color Schemes",
       "textComment": "Comment",
@@ -827,8 +828,7 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "textClose": "Close"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     }
   }
 }

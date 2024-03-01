@@ -826,6 +826,7 @@
       "txtVi": "Vietnamera",
       "txtZh": "Txinera",
       "warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
+      "textClose": "Close",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textRtlInterface": "RTL Interface"
     }
