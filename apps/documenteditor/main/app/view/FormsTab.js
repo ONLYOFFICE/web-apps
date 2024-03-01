@@ -88,6 +88,9 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-next"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-clear"></span>' +
+            '</div>' +
+            '<div class="separator long save-separator" style="display: none;"></div>' +
+            '<div class="group no-group-mask" style="">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-submit"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-save"></span>' +
             '</div>' +
@@ -550,9 +553,6 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
-                this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
-                this.btnSaveForm && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
-
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
@@ -576,6 +576,10 @@ define([
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
+
+                this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
+                this.btnSaveForm && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
+                (this.btnSubmit || this.btnSaveForm) && $host.find('.save-separator').show();
 
                 return this.$el;
             },
