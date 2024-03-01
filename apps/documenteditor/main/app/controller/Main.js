@@ -462,6 +462,7 @@ define([
                 this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
+                this.appOptions.isPDFForm = !!window.isPDFForm;
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -549,13 +550,13 @@ define([
 //                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
-                    var coEditMode = (type && typeof type[1] === 'string' && !window.isPDFForm) ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
+                    var coEditMode = (type && typeof type[1] === 'string' && !this.appOptions.isPDFForm) ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
                                     !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
                                     this.editorConfig.coEditing.mode || 'fast';
                     docInfo.put_CoEditingMode(coEditMode);
 
-                    if (type && typeof type[1] === 'string' && !window.isPDFForm) {
+                    if (type && typeof type[1] === 'string' && !this.appOptions.isPDFForm) {
                         this.permissions.edit = this.permissions.review = false;
                     }
                 }
@@ -569,7 +570,7 @@ define([
                 }
 
                 var type = data.doc ? /^(?:(docxf|oform)|(pdf))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isFormCreator = !!(type && (typeof type[1] === 'string' || typeof type[2] === 'string' && window.isPDFForm)) && this.appOptions.canFeatureForms; // show forms only for docxf or oform
+                this.appOptions.isFormCreator = !!(type && (typeof type[1] === 'string' || typeof type[2] === 'string' && this.appOptions.isPDFForm)) && this.appOptions.canFeatureForms; // show forms only for docxf or oform
 
                 type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
                 this.appOptions.isOForm = !!(type && typeof type[1] === 'string');
@@ -642,7 +643,7 @@ define([
                         Asc.c_oAscFileType.PNG
                     ];
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
-                if (type && typeof type[1] === 'string' && !window.isPDFForm) {
+                if (type && typeof type[1] === 'string' && !this.appOptions.isPDFForm) {
                     if (!(format && (typeof format == 'string')) || type[1]===format.toLowerCase()) {
                         var options = new Asc.asc_CDownloadOptions();
                         options.asc_setIsDownloadEvent(true);
@@ -1418,7 +1419,9 @@ define([
                         }
                     }, 50);
                 } else {
+                    me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_SetHighlightRequiredFields(true);
                     documentHolderController.getView().createDelayedElementsViewer();
+                    toolbarController.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
@@ -1564,7 +1567,7 @@ define([
 
                 if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded()) return;
 
-                var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType) && !window.isPDFForm;
+                var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType) && !this.appOptions.isPDFForm;
 
                 this.permissions.review = (this.permissions.review === undefined) ? (this.permissions.edit !== false) : this.permissions.review;
 
@@ -1633,12 +1636,12 @@ define([
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canEditContentControl = (this.permissions.modifyContentControl!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
-                this.appOptions.canSubmitForms = false; // this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm;
                 this.appOptions.canFillForms   = this.appOptions.canLicense && (this.appOptions.isEdit ? true : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
                     this.appOptions.canComments = false;
                 this.appOptions.canSwitchMode  = this.appOptions.isEdit;
+                this.appOptions.canSubmitForms = this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1654,7 +1657,7 @@ define([
                 this.appOptions.canDownloadOrigin = false;
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.canUseSelectHandTools = this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = isPDFViewer;
-                this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload;
+                this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload && this.appOptions.isRestrictedEdit && this.appOptions.canFillForms; // don't show download form button in edit mode
 
                 this.appOptions.fileKey = this.document.key;
 
@@ -1710,7 +1713,6 @@ define([
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
                 this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
-                this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
                 this.api.asc_LoadDocument();
             },
 

@@ -45,6 +45,19 @@ define([
 ], function () {
     'use strict';
 
+    if (!Common.enumLock)
+        Common.enumLock = {};
+
+    var enumLock = {
+        requiredNotFilled: 'required-not-filled',
+        submit: 'submit'
+    };
+    for (var key in enumLock) {
+        if (enumLock.hasOwnProperty(key)) {
+            Common.enumLock[key] = enumLock[key];
+        }
+    }
+
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
         '<section class="panel" data-tab="forms">' +
@@ -393,7 +406,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
-                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && window.isPDFForm,
+                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -404,7 +417,7 @@ define([
                     iconCls: 'toolbar__icon btn-previous-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnPrev,
-                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && window.isPDFForm,
+                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -417,7 +430,7 @@ define([
                     iconCls: 'toolbar__icon btn-next-field',
                     lock: [ _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments, _set.viewMode],
                     caption: this.capBtnNext,
-                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && window.isPDFForm,
+                    visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -429,7 +442,7 @@ define([
                     this.btnSubmit = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-submit-form',
-                        lock: [_set.lostConnect, _set.disableOnStart],
+                        lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
                         caption: this.capBtnSubmit,
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
@@ -437,13 +450,12 @@ define([
                         dataHintOffset: 'small'
                     });
                     !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnSubmit);
-                }
-                if (this.appConfig.canDownloadForms) {
+                } else if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
                         lock: [_set.lostConnect, _set.disableOnStart],
                         iconCls: 'toolbar__icon btn-save-form',
-                        caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl || this.appConfig.isOffline ? this.capBtnSaveForm : this.capBtnDownloadForm,
+                        caption: this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl ? this.capBtnSaveForm : (this.appConfig.isOffline ? this.capBtnSaveFormDesktop : this.capBtnDownloadForm),
                         // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -538,8 +550,8 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
-                this.appConfig.canSubmitForms && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
-                this.appConfig.canDownloadForms && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
+                this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
+                this.btnSaveForm && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                 } else {
@@ -696,8 +708,8 @@ define([
             tipHelpRoles: 'Use the Manage Roles feature to group fields by purpose and assign the responsible team members.',
             tipSaveFile: 'Click “Save as pdf” to save the form in the format ready for filling.',
             tipRolesLink: 'Learn more about roles',
-            tipFieldsLink: 'Learn more about field parameters'
-
+            tipFieldsLink: 'Learn more about field parameters',
+            capBtnSaveFormDesktop: 'Save as...'
         }
     }()), DE.Views.FormsTab || {}));
 });

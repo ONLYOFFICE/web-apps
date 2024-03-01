@@ -225,7 +225,7 @@ define([
         function updateDocNamePosition(config) {
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
-                if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
+                if (!(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit)) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
@@ -245,7 +245,7 @@ define([
                     }
                 }
 
-                if (!(config.customization && config.customization.toolbarHideFileName) && (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && config.customization.compactHeader)) {
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) || config.customization && config.customization.compactHeader)) {
                     var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt($labelDocName.css('min-width') || 50); // 2px - box-shadow
                     config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
@@ -285,7 +285,7 @@ define([
         }
 
         function onResize() {
-            if (appConfig && (appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader)) {
+            if (appConfig && (appConfig.isEdit || (isPDFEditor || appConfig.isPDFForm && appConfig.canFillForms) && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader)) {
                 updateDocNamePosition(appConfig);
             }
         }
@@ -413,7 +413,7 @@ define([
                 });
             }
 
-            if ( !(mode.isEdit || isPDFEditor && mode.isRestrictedEdit) ) {
+            if ( !(mode.isEdit || (isPDFEditor || mode.isPDFForm && mode.canFillForms) && mode.isRestrictedEdit) ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
@@ -505,7 +505,7 @@ define([
                     Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
                 });
             }
-            if ((appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader))
+            if ((appConfig.isEdit || (isPDFEditor || appConfig.isPDFForm && appConfig.canFillForms) && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader))
                 Common.NotificationCenter.on('window:resize', onResize);
         }
 
@@ -706,7 +706,7 @@ define([
                         $html.find('#slot-btn-favorite').hide();
                     }
 
-                    if ( !(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
+                    if ( !(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit)) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
@@ -721,7 +721,7 @@ define([
                     }
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
-                    if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && !!config.customization.compactHeader) {
+                    if (!(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous) {
                             me.btnUserName = new Common.UI.Button({
                                 el: $html.findById('.slot-btn-user-name'),
@@ -823,13 +823,13 @@ define([
                     if ( config.canCloseEditor )
                         me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'left', '10, 10');
 
-                    if ( config.canPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) ) {
+                    if ( config.canPrint && (config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
-                    if ( config.canQuickPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) )
+                    if ( config.canQuickPrint && (config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
-                    if (!isPDFEditor || !config.isForm)
+                    if (!isPDFEditor && !(config.isPDFForm && config.canFillForms && config.isRestrictedEdit) || isPDFEditor && !config.isForm)
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
