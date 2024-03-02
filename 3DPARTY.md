@@ -1,7 +1,6 @@
 ﻿## Third-party
 
 * Backbone 1.1.0 ([MIT License](https://github.com/jashkenas/backbone/blob/master/LICENSE))
-* Bootstrap 3.4.1 ([MIT License](https://github.com/twbs/bootstrap/blob/main/LICENSE))
 * es6-promise 4.2.8 ([MIT License](https://github.com/stefanpenner/es6-promise/blob/master/LICENSE))
 * i18next 23.4.1 ([MIT License](https://github.com/i18next/i18next/blob/master/LICENSE))
 * jQuery 3.5.1 ([MIT License](https://github.com/jquery/jquery/blob/master/LICENSE.txt))
