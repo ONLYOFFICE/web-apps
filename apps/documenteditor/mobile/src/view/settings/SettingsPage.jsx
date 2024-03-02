@@ -38,6 +38,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
     const canFillForms = appOptions.canFillForms;
     const isEditableForms = isForm && canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
+    const canUseHistory = appOptions.canUseHistory;
   
     let _isEdit = false,
         _canDownload = false,
@@ -68,7 +69,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
             _canDisplayInfo = appOptions.customization.info !== false;
         }
     }
-
+    
     return (
         <Page>
             {navbar}
@@ -103,7 +104,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-protection" />
                     </ListItem>
                 }
-                {_isEdit && !isHistoryDisabled &&
+                {_isEdit && !isHistoryDisabled && canUseHistory &&
                     <ListItem title={t('Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('history');
@@ -175,7 +176,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-help"></Icon>
                     </ListItem>
                 }
-                {(_canAbout && !isEditableForms) &&
+                {_canAbout &&
                     <ListItem title={_t.textAbout} link="/about/">
                         <Icon slot="media" icon="icon-about"></Icon>
                     </ListItem>

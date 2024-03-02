@@ -783,7 +783,7 @@ define([
                     if (this.isSearchPanelVisible()) {
                         selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                         this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                        this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText ? selectedText : undefined);
+                        this.leftMenu.fireEvent('search:aftershow', selectedText ? [selectedText] : undefined);
                         return false;
                     } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                         var viewport = this.getApplication().getController('Viewport');
@@ -851,7 +851,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -917,7 +917,7 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
-                this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
+                this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);

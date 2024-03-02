@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(matris, efter_matris, [sorteringsordning], ...)",
 		"d": "Sorterar ett intervall eller en matris utifrån värdena i ett motsvarande intervall eller en motsvarande matris"
+	},
+	"GETPIVOTDATA": {
+		"a": "(datafält; pivottabell; [fält]; [objekt]; ...)",
+		"d": "Extraherar data som sparats i en pivottabell."
 	}
 }

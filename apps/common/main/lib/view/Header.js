@@ -513,41 +513,42 @@ define([
             },100);
         }
 
+        function onDocNameChanged(editcomplete) {
+            var me = this,
+                name = $labelDocName.val();
+            name = name.trim();
+            if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                me.isSaveDocName =true;
+                if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                    _.defer(function() {
+                        Common.UI.error({
+                            msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                            , callback: function() {
+                                _.delay(function() {
+                                    $labelDocName.focus();
+                                }, 50);
+                            }
+                        });
+                    })
+                } else if (me.withoutExt) {
+                    name = me.cutDocName(name);
+                    me.fireEvent('rename', [name]);
+                    name += me.fileExtention;
+                    me.withoutExt = false;
+                    me.setDocTitle(name);
+                    editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            } else {
+                editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
-
-            var name = $labelDocName.val();
-            if ( e.keyCode == Common.UI.Keys.RETURN ) {
-                name = name.trim();
-                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
-                    me.isSaveDocName =true;
-                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
-                        _.defer(function() {
-                            Common.UI.error({
-                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
-                                , callback: function() {
-                                    _.delay(function() {
-                                        $labelDocName.focus();
-                                        me.isSaveDocName =true;
-                                    }, 50);
-                                }
-                            });
-                        })
-                    } else
-                    if(me.withoutExt) {
-                        name = me.cutDocName(name);
-                        me.fireEvent('rename', [name]);
-                        name += me.fileExtention;
-                        me.withoutExt = false;
-                        me.setDocTitle(name);
-                        Common.NotificationCenter.trigger('edit:complete', me);
-                    }
-
-                } else {
-                    Common.NotificationCenter.trigger('edit:complete', me);
-                }
-            } else
-            if ( e.keyCode == Common.UI.Keys.ESC ) {
+            if ( e.keyCode === Common.UI.Keys.RETURN ) {
+                onDocNameChanged.call(me, true);
+            } else if ( e.keyCode === Common.UI.Keys.ESC ) {
+                me.setDocTitle(me.cutDocName(me.documentCaption));
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 _.delay(function(){
@@ -652,11 +653,15 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
-                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
-                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        this.logo.css({'background-image': 'none', width: 'auto'});
-                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                    if (this.branding && this.branding.logo && this.logo) {
+                        if (this.branding.logo.visible===false) {
+                            this.logo.addClass('hidden');
+                        } else if (this.branding.logo.image || this.branding.logo.imageDark) {
+                            var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                            this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            this.logo.css({'background-image': 'none', width: 'auto'});
+                            (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                        }
                     }
 
                     return $html;
@@ -827,26 +832,23 @@ define([
             },
 
             setBranding: function (value) {
-                var element;
-
                 this.branding = value;
-
-                if ( value ) {
-                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                var element = $('#header-logo');
+                if ( value && value.logo && element) {
+                    if (value.logo.visible===false) {
+                        element.addClass('hidden');
+                    } else if (value.logo.image || value.logo.imageDark) {
                         var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                        element = $('#header-logo');
-                        if (element) {
-                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                            element.css({'background-image': 'none', width: 'auto'});
-                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
-                        }
+                        element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        element.css({'background-image': 'none', width: 'auto'});
+                        (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                     }
                 }
             },
 
             changeLogo: function () {
                 var value = this.branding;
-                if ( value && value.logo && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
+                if ( value && value.logo && (value.logo.visible!==false) && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
                     var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                     $('#header-logo img').attr('src', image);
                 }
@@ -857,8 +859,7 @@ define([
 
                 this.documentCaption = value;
                 var idx = this.documentCaption.lastIndexOf('.');
-                if (idx>0)
-                    this.fileExtention = this.documentCaption.substring(idx);
+                this.fileExtention = idx>0 ? this.documentCaption.substring(idx) : '';
                 this.isModified && (value += '*');
                 this.readOnly && (value += ' (' + this.textReadOnly + ')');
                 if ( $labelDocName ) {
@@ -925,6 +926,7 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
+                                !me.isSaveDocName && onDocNameChanged.call(me);
                                 me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
                                 Common.Utils.isGecko && (label[0].selectionStart = label[0].selectionEnd = 0);
                                 if(!me.isSaveDocName) {

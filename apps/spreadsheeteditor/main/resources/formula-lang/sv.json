@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "MATRISTILLTEXT",
 	"SORT": "SORTERA",
 	"SORTBY": "SORTERAEFTER",
+	"GETPIVOTDATA": "HÄMTA.PIVOTDATA",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

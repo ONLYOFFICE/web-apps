@@ -38,6 +38,15 @@
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
     cursor: default;
+    .rtl & {
+        right: 0;
+        left: auto;
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -webkit-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
 }
 
 #search-results {

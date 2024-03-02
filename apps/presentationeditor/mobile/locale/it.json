@@ -543,8 +543,10 @@
       "txtScheme8": "Flusso",
       "txtScheme9": "Fonderia",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"

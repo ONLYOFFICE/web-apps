@@ -2195,7 +2195,11 @@ define([
                     buttons: ['yes', 'no'],
                     primary: 'yes',
                     callback: function(btn) {
-                        (btn == 'yes') && window.open(url, '_blank');
+                        try {
+                            (btn == 'yes') && window.open(url, '_blank');
+                        } catch (err) {
+                            err && console.log(err.stack);
+                        }
                     }
                 });
         },

@@ -159,7 +159,6 @@ define([
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
                     /*this._settings[settingsType].lockedEffects = value.get_LockTransition();
                     this._settings[settingsType].lockedTransition = value.get_LockTransition();*/
-                    this._settings[settingsType].lockedHeader = !!value.get_LockHeader && value.get_LockHeader();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
                     if (settingsType == Common.Utils.documentSettingsType.Shape) {

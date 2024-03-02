@@ -2369,6 +2369,16 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        if (this.appOptions.customization && this.appOptions.customization.layout && this.appOptions.customization.layout.toolbar && (typeof this.appOptions.customization.layout.toolbar === 'object') &&
+                            this.appOptions.customization.layout.toolbar.home && (typeof this.appOptions.customization.layout.toolbar.home === 'object') && this.appOptions.customization.layout.toolbar.home.mailmerge===false) {
+                            console.log("Obsolete: The 'mailmerge' parameter of the 'customization.layout.toolbar.home' section is deprecated. Please use 'mailmerge' parameter in the 'customization.layout.toolbar.collaboration' section instead.");
+                            if (this.appOptions.customization.layout.toolbar.collaboration!==false) {
+                                if (typeof this.appOptions.customization.layout.toolbar.collaboration !== 'object')
+                                    this.appOptions.customization.layout.toolbar.collaboration = {};
+                                if (this.appOptions.customization.layout.toolbar.collaboration.mailmerge===undefined)
+                                    this.appOptions.customization.layout.toolbar.collaboration.mailmerge = this.appOptions.customization.layout.toolbar.home.mailmerge;
+                            }
+                        }
                         Common.UI.LayoutManager.applyCustomization();
                         if (this.appOptions.customization && (typeof (this.appOptions.customization) == 'object')) {
                             if (this.appOptions.customization.leftMenu!==undefined)
@@ -2817,7 +2827,8 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            // me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            window.open(url, "_blank"); // download by url, don't convert file again (+ fix print selection)
                         }
                     };
                 }
@@ -2867,8 +2878,8 @@ define([
 
             DisableMailMerge: function() {
                 this.appOptions.mergeFolderUrl = "";
-                var toolbarController   = this.getApplication().getController('Toolbar');
-                toolbarController && toolbarController.DisableMailMerge();
+                var reivewController   = this.getApplication().getController('Common.Controllers.ReviewChanges');
+                reivewController && reivewController.DisableMailMerge();
             },
 
             DisableVersionHistory: function() {

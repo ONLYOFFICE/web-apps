@@ -1766,7 +1766,7 @@ define([
                         }, this)
                     };
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -1787,7 +1787,7 @@ define([
                         }, this)
                 };
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -1810,7 +1810,7 @@ define([
                     config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["api"]["name"], oInfo["less"]);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -1827,7 +1827,7 @@ define([
                 if (oInfo["format"])
                     config.msg += '<br>' + Common.Utils.String.format(this.txtValidPdfFormat, oInfo["format"]);
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -2096,7 +2096,31 @@ define([
                 if (this._state.openDlg) return;
 
                 var me = this;
-                if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+                    me._state.openDlg = new Common.Views.OpenDialog({
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'TXT'),
+                        closable: (mode==2), // if save settings
+                        type: Common.Utils.importTextType.TXT,
+                        preview: advOptions.asc_getData(),
+                        codepages: advOptions.asc_getCodePages(),
+                        settings: advOptions.asc_getRecommendedSettings(),
+                        api: me.api,
+                        handler: function (result, settings) {
+                            me.isShowOpenDialog = false;
+                            if (result == 'ok') {
+                                if (me && me.api) {
+                                    if (mode==2) {
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(settings.textOptions);
+                                        me.api.asc_DownloadAs(formatOptions);
+                                    } else
+                                        me.api.asc_setAdvancedOptions(type, settings.textOptions);
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,

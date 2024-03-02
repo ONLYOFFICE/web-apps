@@ -616,7 +616,11 @@
     "warnLicenseUsersExceeded": "Atingiu o limite de %1 editores. Contacte o seu administrador para obter detalhes.",
     "warnNoLicense": "Atingiu o limite de ligações simultâneas a %1 editores. Este documento será aberto apenas para visualização. Contacte a %1 equipa de vendas para consultar os termos de atualização para si.",
     "warnNoLicenseUsers": "Atingiu o limite de %1 editores. Contacte a equipa comercial %1 para obter mais informações.",
-    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro."
+    "warnProcessRightsChange": "Não tem autorização para editar este ficheiro.",
+    "textCancel": "Cancel",
+    "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
+    "textDownloadPdf": "Download PDF",
+    "textSaveAsPdf": "Save as PDF"
   },
   "Settings": {
     "advDRMOptions": "Ficheiro protegido",
@@ -729,7 +733,6 @@
     "textRightToLeft": "Da direita para a esquerda",
     "textSameAsSystem": "O mesmo que o sistema",
     "textSave": "Guardar",
-    "textSaveAsPdf": "Guardar como PDF",
     "textSearch": "Pesquisar",
     "textSetPassword": "Definir palavra-passe",
     "textSettings": "Definições",
@@ -779,7 +782,9 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Equidade",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição"
+    "txtScheme9": "Fundição",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Existem alterações não guardadas. Clique 'Ficar na página' para guardar automaticamente. Clique 'Sair da página' para rejeitar todas as alterações.",

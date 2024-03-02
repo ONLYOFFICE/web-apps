@@ -394,8 +394,6 @@ define([
 
                 if (key == Common.UI.Keys.ESC) {
                     Common.UI.Menu.Manager.hideAll();
-                    if (!Common.UI.HintManager.isHintVisible())
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                 }
             }
         },
@@ -532,7 +530,11 @@ define([
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
-                            (btn == 'yes') && window.open(url);
+                            try {
+                                (btn == 'yes') && window.open(url);
+                            } catch (err) {
+                                err && console.log(err.stack);
+                            }
                         }
                     });
             }

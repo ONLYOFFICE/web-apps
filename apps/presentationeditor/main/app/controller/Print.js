@@ -44,7 +44,9 @@ define([
         initialize: function() {
             this.adjPrintParams = new Asc.asc_CAdjustPrint();
 
-            this._state = {};
+            this._state = {
+                isLockedSlideHeaderAppyToAll: false
+            };
             this._paperSize = undefined;
             this._navigationPreview = {
                 pageCount: false,
@@ -141,6 +143,8 @@ define([
             this.api = o;
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
+            this.api.asc_registerCallback('asc_onLockSlideHdrFtrApplyToAll', _.bind(this.onLockSlideHdrFtrApplyToAll, this, true));
+            this.api.asc_registerCallback('asc_onUnLockSlideHdrFtrApplyToAll', _.bind(this.onLockSlideHdrFtrApplyToAll, this, false));
 
             return this;
         },
@@ -180,6 +184,10 @@ define([
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPreviewPage, this._paperSize);
                 this.updateNavigationButtons(this._navigationPreview.currentPreviewPage, this._navigationPreview.pageCount);
             }
+        },
+
+        onLockSlideHdrFtrApplyToAll: function(isLocked) {
+            this._state.isLockedSlideHeaderAppyToAll = isLocked;
         },
 
         onShowMainSettingsPrint: function() {
@@ -344,7 +352,8 @@ define([
                 api: this.api,
                 lang: this.api.asc_getDefaultLanguage(),
                 props: this.api.asc_getHeaderFooterProperties(),
-                type: 1,
+                type: this._state.isLockedSlideHeaderAppyToAll ? 0 : 1,
+                isLockedApplyToAll: this._state.isLockedSlideHeaderAppyToAll, 
                 handler: function(result, value) {
                     if (result == 'ok' || result == 'all') {
                         if (me.api) {
