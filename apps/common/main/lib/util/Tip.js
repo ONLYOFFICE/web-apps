@@ -76,7 +76,7 @@
 *
 */
 
-(function ($) {
+const tip = function ($) {
     var _superclass = $.fn.tooltip;
     _superclass.prototype = $.fn.tooltip.Constructor.prototype;
 
@@ -309,4 +309,8 @@
     return this;
   };
 
-})(window.jQuery);
+}
+
+require(['common/main/lib/mods/tooltip'], function () {
+    tip(window.jQuery)
+});

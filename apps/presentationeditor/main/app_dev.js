@@ -47,7 +47,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -74,11 +73,6 @@ require.config({
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -112,7 +106,6 @@ require.config({
 
 require([
     'backbone',
-    'bootstrap',
     'core',
     'analytics',
     'gateway',
@@ -120,7 +113,7 @@ require([
     'socketio',
     'xregexp',
     'underscore'
-], function (Backbone, Bootstrap, Core) {
+], function (Backbone, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
