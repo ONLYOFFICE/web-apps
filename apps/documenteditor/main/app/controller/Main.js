@@ -56,7 +56,8 @@ define([
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    'common/main/lib/controller/LaunchController',
 ], function () {
     'use strict';
 
@@ -190,9 +191,9 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
-                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.Controllers.LaunchController.init(this.api);
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
