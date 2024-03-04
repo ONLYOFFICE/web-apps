@@ -47,7 +47,6 @@ define([
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'documenteditor/main/app/view/ParagraphSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

@@ -202,14 +202,11 @@ require([
                 ,'common/main/lib/controller/Draw'
             ], function() {
                 app.postLaunchScripts = [
-                    'documenteditor/main/app/view/ParagraphSettings',
-                    'documenteditor/main/app/view/HeaderFooterSettings',
-                    'documenteditor/main/app/view/ImageSettings',
-                    'documenteditor/main/app/view/TableSettings',
-                    'documenteditor/main/app/view/ShapeSettings',
-                    'documenteditor/main/app/view/TextArtSettings',
-                    'documenteditor/main/app/view/SignatureSettings',
-                    'documenteditor/main/app/view/ChartSettings',
+                    'common/main/lib/controller/ScreenReaderFocus',
+                    'documenteditor/main/app/view/ParagraphSettingsAdvanced',
+                    'documenteditor/main/app/view/ImageSettingsAdvanced',
+                    'documenteditor/main/app/view/TableSettingsAdvanced',
+                    'documenteditor/main/app/view/DropcapSettingsAdvanced',
                 ];
 
                 window.compareVersions = true;

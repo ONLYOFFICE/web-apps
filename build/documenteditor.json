@@ -101,15 +101,11 @@
             },
             "postload": {
                 "src": [
-                    "../apps/documenteditor/main/app/view/HeaderFooterSettings.js",
-                    "../apps/documenteditor/main/app/view/ImageSettings.js",
-                    "../apps/documenteditor/main/app/view/ChartSettings.js",
-                    "../apps/documenteditor/main/app/view/TableSettings.js",
-                    "../apps/documenteditor/main/app/view/ShapeSettings.js",
-                    "../apps/documenteditor/main/app/view/MailMergeSettings.js",
-                    "../apps/documenteditor/main/app/view/TextArtSettings.js",
-                    "../apps/documenteditor/main/app/view/SignatureSettings.js",
-                    "../apps/documenteditor/main/app/view/FormSettings.js"
+                    "../apps/common/main/lib/controller/ScreenReaderFocus.js",
+                    "../apps/documenteditor/main/app/view/ParagraphSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/ImageSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/TableSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/DropcapSettingsAdvanced.js"
                 ],
                 "dest": "../deploy/web-apps/apps/documenteditor/main/code.js"
             }

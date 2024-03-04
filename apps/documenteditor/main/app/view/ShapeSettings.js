@@ -51,7 +51,6 @@ define([
     'common/main/lib/component/Slider',
     'common/main/lib/component/MultiSliderGradient',
     'common/main/lib/view/ImageFromUrlDialog',
-    'documenteditor/main/app/view/ImageSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
