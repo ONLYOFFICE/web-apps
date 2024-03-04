@@ -311,6 +311,6 @@ const tip = function ($) {
 
 }
 
-require(['common/main/lib/mods/tooltip'], function () {
-    tip(window.jQuery)
-});
+// require(['common/main/lib/mods/tooltip'], function (t) {
+    tip(window.jQuery);
+// });
