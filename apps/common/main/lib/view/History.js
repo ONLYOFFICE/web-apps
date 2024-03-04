@@ -131,22 +131,6 @@ define([
                 me.btnExpand.setCaption(me.storeHistory.hasCollapsed() ? me.textShowAll : me.textHideAll);
             });
    
-            //TODO: Разобраться с тултипом
-            var changetooltip = function (dataview, view, record) {
-                if (!record.get('hasParent')) {
-                    if (view.btnTip) {
-                        view.btnTip.dontShow = true;
-                        view.btnTip.tip().remove();
-                        view.btnTip = null;
-                    }
-                    var btns = $(view.el).find('.revision-expand').tooltip({title: (record.get('isExpanded')) ? me.textHide : me.textShow, placement: 'cursor'});
-                    if (btns.length>0)
-                        view.btnTip = btns.data('bs.tooltip');
-                }
-            };
-            this.viewHistoryList.on('item:add', changetooltip);
-            this.viewHistoryList.on('item:change', changetooltip);
-
             this.btnBackToDocument = new Common.UI.Button({
                 parentEl: $('#history-btn-back', this.$el),
                 cls: 'btn-toolbar',
@@ -179,8 +163,6 @@ define([
         },
 
         textRestore: 'Restore',
-        textShow: 'Expand',
-        textHide: 'Collapse',
         textVersionHistory: 'Version History',
         textHighlightDeleted: 'Highlight deleted',
         textHideAll: 'Hide detailed changes',
