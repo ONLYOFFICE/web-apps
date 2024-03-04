@@ -247,6 +247,19 @@ div {
                 innerAlert(event.data);
         };
 
+        var getWopiFileUrl = function(fileInfo, userAuth) {
+           let url;
+           if (fileInfo.FileUrl) {
+              //Requests to the FileUrl can not be signed using proof keys. The FileUrl is used exactly as provided by the host, so it does not necessarily include the access token, which is required to construct the expected proof.
+              url = fileInfo.FileUrl;
+           } else if (fileInfo.TemplateSource) {
+              url = fileInfo.TemplateSource;
+           } else if (userAuth) {
+              url = userAuth.wopiSrc + "/contents?access_token=" + userAuth.access_token;
+           }
+           return url;
+        }
+
         var connectEditor = function () {
 
             fileInfo = <%- JSON.stringify(fileInfo) %>;
@@ -280,7 +293,7 @@ div {
 				"token": token,
 				"document": {
 					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
-					"url": userAuth.wopiSrc,
+					"url": getWopiFileUrl(fileInfo, userAuth),
 					"fileType": fileType,
 					"key": key,
                     "info": {
