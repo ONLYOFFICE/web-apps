@@ -525,7 +525,8 @@ define([
         },
         createLink: async function () {
           this.token = Common.localStorage.getItem("token");
-          this.linkUrl =Common.localStorage.getItem('linkUrl')
+          this.linkUrl =Common.localStorage.getItem('linkUrl');
+          this.documentId = Common.localStorage.getItem('documentId');
 
           return await fetch(this.linkUrl, {
             method: "POST",
@@ -533,6 +534,7 @@ define([
               link_to: this.inputCombo.getValue()||"Document",
               id_of_to: Number(this.inputUrl.getValue()),
               action: this.inputAction.getValue()||'New Tab',
+              document_id:Number(this.documentId)
             }),
             headers: {
               Accept: "application/json",
@@ -542,7 +544,7 @@ define([
           })
             .then((res) => res.json())
             .then(async (data) => {
-              return await data.id;
+              return await data.link_no;
             })
             .catch((err) => {
               console.log(err, "err");
