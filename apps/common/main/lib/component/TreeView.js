@@ -58,6 +58,7 @@ define([
                 selected: false,
                 allowSelected: true,
                 disabled: false,
+                getTipFromName: true,
                 level: 0,
                 index: 0
             }
@@ -368,29 +369,16 @@ define([
                     name = record.get('name'),
                     me = this;
 
-                if (name.length > 37 - record.get('level')*2)
-                    record.set('tip', name);
-                else
-                    record.set('tip', '');
+                record.get('getTipFromName') && record.set('tip', name.length > 37 - record.get('level')*2 ? name : '');
 
-                var el = item.$el || $(item.el);
-                var tip = el.data('bs.tooltip');
-                if (tip) {
-                    if (tip.dontShow===undefined)
-                        tip.dontShow = true;
-                    el.removeData('bs.tooltip');
-                    (tip.tip()).remove();
-                }
-                if (record.get('tip')) {
+                var el = item.$el || $(item.el),
+                    tip = el.data('bs.tooltip');
+                if (tip)
+                    tip.updateTitle(record.get('tip'));
+                else if (record.get('tip') && el.attr('data-toggle')!=='tooltip') { // init tooltip
                     el.attr('data-toggle', 'tooltip');
-                    el.tooltip({
-                        title       : record.get('tip'),
-                        placement   : 'cursor',
-                        zIndex : this.tipZIndex
-                    });
                     if (this.delayRenderTips)
                         el.one('mouseenter', function(){
-                            el.attr('data-toggle', 'tooltip');
                             el.tooltip({
                                 title       : record.get('tip'),
                                 placement   : 'cursor',
@@ -399,7 +387,6 @@ define([
                             el.mouseenter();
                         });
                     else {
-                        el.attr('data-toggle', 'tooltip');
                         el.tooltip({
                             title       : record.get('tip'),
                             placement   : 'cursor',
