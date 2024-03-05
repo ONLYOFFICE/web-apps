@@ -47,7 +47,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -56,6 +55,8 @@ require.config({
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
+        dropdown        : 'common/main/lib/mods/dropdown',
+        tooltip         : 'common/main/lib/mods/tooltip',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
         keymaster       : 'common/main/lib/core/keymaster',
@@ -77,11 +78,6 @@ require.config({
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -124,12 +120,11 @@ require.config({
 require([
     'sdk',
     'backbone',
-    'bootstrap',
     'core',
     'analytics',
     'gateway',
     'locale'
-], function (Sdk, Backbone, Bootstrap, Core) {
+], function (Sdk, Backbone, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
@@ -164,6 +159,8 @@ require([
     Common.Locale.apply(
         function() {
             require([
+                'tooltip',
+                'dropdown',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
