@@ -135,13 +135,14 @@ define([
                 parentEl: $('#history-btn-back', this.$el),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-close',
+                hint: this.textCloseHistory
             });
 
             this.buttonMenu = new Common.UI.Button({
                 parentEl: $('#history-btn-menu', this.$el),
                 cls: 'btn-toolbar no-caret',
                 iconCls: 'toolbar__icon btn-more',
-                hint: this.textSort,
+                hint: this.textMore,
                 menu: new Common.UI.Menu({
                     style: 'min-width: auto;',
                     items: [
@@ -151,11 +152,20 @@ define([
                         }),
                         {
                             caption: this.textHighlightDeleted,
+                            value: 'highlight',
                             checkable: true,
                             checked: true,
                         },                        
                     ]
                 })
+            });
+            this.buttonMenu.menu.on('show:before', function(e) {
+                //TODO: Call get method from SDK
+            });
+            this.buttonMenu.menu.on('item:toggle', function(menu, item, state) {
+                if(item.value == 'highlight') {
+                    //TODO: Call set method from SDK
+                }
             });
 
             this.trigger('render:after', this);
@@ -167,7 +177,9 @@ define([
         textHighlightDeleted: 'Highlight deleted',
         textHideAll: 'Hide detailed changes',
         textShowAll: 'Show detailed changes',
-        textVer: 'ver.'
+        textVer: 'ver.',
+        textMore: 'More',
+        textCloseHistory: 'Close history',
 
     }, Common.Views.History || {}))
 });
