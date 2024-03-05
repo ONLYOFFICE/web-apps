@@ -261,6 +261,7 @@ define([
         options : {
             id              : null,
             hint            : false,
+            delayRenderHint : true,
             enableToggle    : false,
             allowDepress    : true,
             toggleGroup     : null,
@@ -352,6 +353,7 @@ define([
             me.style        = me.options.style;
             me.rendered     = false;
             me.stopPropagation = me.options.stopPropagation;
+            me.delayRenderHint = me.options.delayRenderHint;
 
             // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
             //     me.options.scaling = false;
@@ -802,7 +804,50 @@ define([
                     this.btnMenuEl = $(btnEl[1]);
                 } else {
                     this.btnEl = cmpEl;
-                    this.btnEl.attr('data-toggle', 'tooltip');
+                }
+            }
+
+            var tip = this.btnEl.data('bs.tooltip');
+            tip && tip.updateTitle(typeof hint === 'string' ? hint : hint[0]);
+            if (this.btnMenuEl) {
+                tip = this.btnMenuEl.data('bs.tooltip');
+                tip && tip.updateTitle(hint[1]);
+            }
+            if (!this._isTooltipInited) {
+                if (this.delayRenderHint) {
+                    this.btnEl.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        me.btnEl.tooltip({
+                            html: !!isHtml,
+                            title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
+                            placement   : me.options.hintAnchor||'cursor',
+                            zIndex : tipZIndex
+                        });
+                        !Common.Utils.isGecko && (me.btnEl.data('bs.tooltip').enabled = !me.disabled);
+                        me.btnEl.mouseenter();
+                    });
+                    this.btnMenuEl && this.btnMenuEl.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        me.btnMenuEl.tooltip({
+                            html: !!isHtml,
+                            title       : me.options.hint[1],
+                            placement   : me.options.hintAnchor||'cursor',
+                            zIndex : tipZIndex
+                        });
+                        !Common.Utils.isGecko && (me.btnMenuEl.data('bs.tooltip').enabled = !me.disabled);
+                        me.btnMenuEl.mouseenter();
+                    });
+                } else {
+                    this.btnEl.tooltip({
+                        html: !!isHtml,
+                        title       : (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
+                        placement   : this.options.hintAnchor||'cursor',
+                        zIndex      : tipZIndex
+                    });
+                    this.btnMenuEl && this.btnMenuEl.tooltip({
+                        html: !!isHtml,
+                        title       : this.options.hint[1],
+                        placement   : this.options.hintAnchor||'cursor',
+                        zIndex      : tipZIndex
+                    });
                 }
                 if (modalParents.length > 0) {
                     var onModalClose = function(dlg) {
@@ -811,37 +856,27 @@ define([
                         if (tip) {
                             if (tip.dontShow===undefined)
                                 tip.dontShow = true;
-
                             tip.hide();
+                        }
+                        if (me.btnMenuEl) {
+                            tip = me.btnMenuEl.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+                                tip.hide();
+                            }
                         }
                         Common.NotificationCenter.off({'modal:close': onModalClose});
                     };
                     Common.NotificationCenter.on({'modal:close': onModalClose});
                 }
+                this._isTooltipInited = true;
             }
-
-            this.btnEl.tooltip({
-                html: !!isHtml,
-                title       : (typeof hint == 'string') ? hint : hint[0],
-                placement   : this.options.hintAnchor||'cursor',
-                zIndex      : tipZIndex
-            });
-            this.btnMenuEl && this.btnMenuEl.tooltip({
-                html: !!isHtml,
-                title       : hint[1],
-                placement   : this.options.hintAnchor||'cursor',
-                zIndex      : tipZIndex
-            });
         },
 
         updateHint: function(hint, isHtml) {
             this.options.hint = hint;
             if (!this.rendered) return;
-
-            if (this.btnEl && this.btnEl.data('bs.tooltip'))
-                this.btnEl.removeData('bs.tooltip');
-            if (this.btnMenuEl && this.btnMenuEl.data('bs.tooltip'))
-                this.btnMenuEl.removeData('bs.tooltip');
 
             this.createHint(hint, isHtml);
 
