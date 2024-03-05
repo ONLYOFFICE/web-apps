@@ -421,6 +421,7 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
                 Common.localStorage.setItem("token", this.editorConfig.token);// set token to the local storage
                 Common.localStorage.setItem("linkUrl", this.editorConfig.linkUrl);  
+                Common.localStorage.setItem("documentId", this.editorConfig.documentId);
                 Common.localStorage.setItem("getDocumentUrl", this.editorConfig.getDocumentUrl);  
                 Common.localStorage.setItem("editorUrl", this.editorConfig.editorUrl);
                 Common.localStorage.removeItem("this._arrLineRule"); 

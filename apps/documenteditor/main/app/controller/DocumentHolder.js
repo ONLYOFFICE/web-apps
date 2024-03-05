@@ -879,9 +879,10 @@ define([
             var win, props, text;
             var docProtection = me.documentHolder._docProtection;
             if (me.api && me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly) && !me.getApplication().getController('LeftMenu').leftMenu.menuFile.isVisible()){
-                var handlerDlg = function(dlg, result) {
+                var handlerDlg = function(dlg, result,props) {
+
                     if (result == 'ok') {
-                        props = dlg.getSettings();
+                         props = props;
                         (text!==false)
                             ? me.api.add_Hyperlink(props)
                             : me.api.change_Hyperlink(props);
@@ -1754,9 +1755,10 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
-                    handler: function(dlg, result) {
+                    handler: function(dlg, result,props) {
+                          props = props;
                         if (result == 'ok') {
-                            me.api.add_Hyperlink(dlg.getSettings());
+                            me.api.add_Hyperlink(props);
                         }
                         me.editComplete();
                     }
@@ -1770,13 +1772,15 @@ define([
         },
 
         editHyperlink: function(item, e, eOpt){
+            
             var win, me = this;
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
-                    handler: function(dlg, result) {
+                    handler: function(dlg, result,props) {
                         if (result == 'ok') {
-                            me.api.change_Hyperlink(win.getSettings());
+                       
+                            me.api.change_Hyperlink(props);//While click on edit hyperlink
                         }
                         me.editComplete();
                     }
