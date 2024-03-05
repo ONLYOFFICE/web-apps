@@ -475,44 +475,6 @@ define([
                     isGroup = el.hasClass('btn-group'),
                     isSplit = el.hasClass('split');
 
-                if (me.options.hint) {
-                    var modalParents = me.cmpEl.closest('.asc-window');
-
-                    if (typeof me.options.hint == 'object' && me.options.hint.length>1 && $('button', el).length>0) {
-                        var btnEl = $('button', el);
-                        me.btnEl = $(btnEl[0]);
-                        me.btnMenuEl = $(btnEl[1]);
-                    } else {
-                        me.btnEl = me.cmpEl;
-                        me.btnEl.attr('data-toggle', 'tooltip');
-                    }
-                    me.btnEl.tooltip({
-                        title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
-                        placement   : me.options.hintAnchor||'cursor'
-                    });
-                    me.btnMenuEl && me.btnMenuEl.tooltip({
-                        title       : me.options.hint[1],
-                        placement   : me.options.hintAnchor||'cursor'
-                    });
-
-                    if (modalParents.length > 0) {
-                        me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                        me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                        var onModalClose = function(dlg) {
-                            if (modalParents[0] !== dlg.$window[0]) return;
-                            var tip = me.btnEl.data('bs.tooltip');
-                            if (tip) {
-                                if (tip.dontShow===undefined)
-                                    tip.dontShow = true;
-
-                                tip.hide();
-                            }
-                            Common.NotificationCenter.off({'modal:close': onModalClose});
-                        };
-                        Common.NotificationCenter.on({'modal:close': onModalClose});
-                    }
-                }
-
                 if (_.isString(me.toggleGroup)) {
                     me.enableToggle = true;
                 }
@@ -661,6 +623,8 @@ define([
             }
 
             me.rendered = true;
+
+            me.options.hint && me.createHint(me.options.hint);
 
             if (me.pressed) {
                 me.toggle(me.pressed, true);
@@ -822,14 +786,14 @@ define([
             return (this.cmpEl) ? this.cmpEl.is(":visible") : $(this.el).is(":visible");
         },
 
-        updateHint: function(hint, isHtml) {
+        createHint: function(hint, isHtml) {
             this.options.hint = hint;
-
             if (!this.rendered) return;
-            
-            var cmpEl = this.cmpEl,
-                modalParents = cmpEl.closest('.asc-window');
 
+            var me = this,
+                cmpEl = this.cmpEl,
+                modalParents = cmpEl.closest('.asc-window'),
+                tipZIndex = modalParents.length > 0 ? parseInt(modalParents.css('z-index')) + 10 : undefined;
 
             if (!this.btnEl) {
                 if (typeof this.options.hint == 'object' && this.options.hint.length>1 && $('button', cmpEl).length>0) {
@@ -840,28 +804,46 @@ define([
                     this.btnEl = cmpEl;
                     this.btnEl.attr('data-toggle', 'tooltip');
                 }
-            }
+                if (modalParents.length > 0) {
+                    var onModalClose = function(dlg) {
+                        if (modalParents[0] !== dlg.$window[0]) return;
+                        var tip = me.btnEl.data('bs.tooltip');
+                        if (tip) {
+                            if (tip.dontShow===undefined)
+                                tip.dontShow = true;
 
-            if (this.btnEl.data('bs.tooltip'))
-                this.btnEl.removeData('bs.tooltip');
-            if (this.btnMenuEl && this.btnMenuEl.data('bs.tooltip'))
-                this.btnMenuEl.removeData('bs.tooltip');
+                            tip.hide();
+                        }
+                        Common.NotificationCenter.off({'modal:close': onModalClose});
+                    };
+                    Common.NotificationCenter.on({'modal:close': onModalClose});
+                }
+            }
 
             this.btnEl.tooltip({
                 html: !!isHtml,
                 title       : (typeof hint == 'string') ? hint : hint[0],
-                placement   : this.options.hintAnchor||'cursor'
+                placement   : this.options.hintAnchor||'cursor',
+                zIndex      : tipZIndex
             });
             this.btnMenuEl && this.btnMenuEl.tooltip({
                 html: !!isHtml,
                 title       : hint[1],
-                placement   : this.options.hintAnchor||'cursor'
+                placement   : this.options.hintAnchor||'cursor',
+                zIndex      : tipZIndex
             });
+        },
 
-            if (modalParents.length > 0) {
-                this.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                this.btnMenuEl && this.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-            }
+        updateHint: function(hint, isHtml) {
+            this.options.hint = hint;
+            if (!this.rendered) return;
+
+            if (this.btnEl && this.btnEl.data('bs.tooltip'))
+                this.btnEl.removeData('bs.tooltip');
+            if (this.btnMenuEl && this.btnMenuEl.data('bs.tooltip'))
+                this.btnMenuEl.removeData('bs.tooltip');
+
+            this.createHint(hint, isHtml);
 
             if (this.disabled || !Common.Utils.isGecko) {
                 var tip = this.btnEl.data('bs.tooltip');
