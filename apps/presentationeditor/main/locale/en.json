@@ -642,6 +642,8 @@
   "Common.Views.History.textRestore": "Restore",
   "Common.Views.History.textShowAll": "Show detailed changes",
   "Common.Views.History.textVer": "ver.",
+  "Common.Views.History.textMore": "More",
+  "Common.Views.History.textCloseHistory": "Close history",
   "Common.Views.ImageFromUrlDialog.textUrl": "Paste an image URL:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "This field is required",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "This field should be a URL in the \"http://www.example.com\" format",

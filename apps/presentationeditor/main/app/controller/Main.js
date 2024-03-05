@@ -2674,7 +2674,7 @@ define([
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
                                     fileType: 'pptx',
-                                    index: index,
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
