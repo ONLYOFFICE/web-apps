@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "MATRIUATEXT",
 	"SORT": "ORDENA",
 	"SORTBY": "ORDENAPER",
+	"GETPIVOTDATA": "OBTEN.DADES.DINAMIQUES",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

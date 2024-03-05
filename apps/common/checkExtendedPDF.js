@@ -57,7 +57,7 @@ function isExtendedPDFFile(text) {
 
     let pFirst = text.substring(indexFirst + 6);
 
-    if (!pFirst.startsWith('1 0 obj\x0A<<\x0A')) {
+    if (!(pFirst.lastIndexOf('1 0 obj\x0A<<\x0A', 0) === 0)) {
         return false;
     }
 
@@ -92,8 +92,8 @@ function downloadPartialy(url, limit, postData, callback) {
     var callbackCalled = false;
     var xhr = new XMLHttpRequest();
     //value of responseText always has the current content received from the server, even if it's incomplete
-    xhr.responseType = "text";
-    xhr.overrideMimeType('text/xml; charset=iso-8859-1');
+    // xhr.responseType = "json"; it raises an IE error. bug 66160
+    xhr.overrideMimeType('text/plain; charset=iso-8859-1');
     xhr.onreadystatechange = function () {
         if (callbackCalled) {
             return;

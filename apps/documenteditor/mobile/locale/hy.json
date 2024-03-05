@@ -616,7 +616,11 @@
     "warnLicenseUsersExceeded": "Դուք հասել եք %1 խմբագրիչներին միաժամանակ միանալու սահմանափակմանը։Կապվեք Ձեր ադմինիստրատորի հետ՝ ավելին իմանալու համար:",
     "warnNoLicense": "Դուք հասել եք %1 խմբագիրների հետ միաժամանակյա միացումների սահմանաչափին:Այս փաստաթուղթը կբացվի միայն դիտելու համար:նձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
     "warnNoLicenseUsers": "Դուք հասել եք %1 խմբագիրների օգտվողի սահմանաչափին:Անձնական թարմացման պայմանների համար կապվեք %1 վաճառքի թիմի հետ:",
-    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:"
+    "warnProcessRightsChange": "Դուք այս ֆայլը խմբագրելու թույլտվություն չունեք:",
+    "textCancel": "Cancel",
+    "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
+    "textDownloadPdf": "Download PDF",
+    "textSaveAsPdf": "Save as PDF"
   },
   "Settings": {
     "advDRMOptions": "Պաշտպանված նիշք",
@@ -729,7 +733,6 @@
     "textRightToLeft": "Աջից ձախ",
     "textSameAsSystem": "Նույնը, ինչ համակարգը",
     "textSave": "Պահպանել",
-    "textSaveAsPdf": "Պահպանել որպես PDF",
     "textSearch": "Որոնել",
     "textSetPassword": "Սահմանել գաղտնաբառ",
     "textSettings": "Կարգավորումներ",
@@ -779,7 +782,10 @@
     "txtScheme6": "Համագումար ",
     "txtScheme7": "Սեփական կապիտալ",
     "txtScheme8": "Հոսք",
-    "txtScheme9": "Հրատարակիչ"
+    "txtScheme9": "Հրատարակիչ",
+    "textClose": "Close",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",

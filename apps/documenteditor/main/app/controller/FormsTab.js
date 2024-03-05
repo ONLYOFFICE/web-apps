@@ -97,13 +97,15 @@ define([
                 toolbar: this.toolbar.toolbar,
                 config: config.config
             });
+            var dirRight = Common.UI.isRTL() ? 'left' : 'right',
+                dirLeft = Common.UI.isRTL() ? 'right' : 'left';
             this._helpTips = {
-                'create': {name: 'de-form-tip-create', placement: 'bottom-right', text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
-                'key': {name: 'de-form-tip-settings-key', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
-                'group-key': {name: 'de-form-tip-settings-group', placement: 'left-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
-                'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
-                'roles': {name: 'de-form-tip-roles', placement: 'bottom-left', text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
-                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-left', text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
+                'create': {name: 'de-form-tip-create', placement: 'bottom-' + dirRight, text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
+                'key': {name: 'de-form-tip-settings-key', placement: dirLeft + '-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
+                'group-key': {name: 'de-form-tip-settings-group', placement: dirLeft + '-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
+                'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
+                'roles': {name: 'de-form-tip-roles', placement: 'bottom-' + dirLeft, text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
+                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
             };
             !Common.localStorage.getItem(this._helpTips['key'].name) && this.addListeners({'RightMenu': {'rightmenuclick': this.onRightMenuClick}});
             this.addListeners({
@@ -289,6 +291,8 @@ define([
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
                 state && (this._state.lastViewRole = lastViewRole);
+                this.toolbar.toolbar.clearActiveData();
+                this.toolbar.toolbar.processPanelVisible(null, true);
             }
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
@@ -350,7 +354,9 @@ define([
             this.closeHelpTip('save', true);
             this.showRolesList(function() {
                 this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs);
+                options.asc_setIsSaveAs(this.isFromFormSaveAs);
+                this.api.asc_DownloadAs(options);
             });
         },
 

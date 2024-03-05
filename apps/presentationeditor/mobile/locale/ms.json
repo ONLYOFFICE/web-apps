@@ -542,9 +542,12 @@
       "txtScheme7": "Ekuiti",
       "txtScheme8": "Aliran",
       "txtScheme9": "Faundri",
+      "textClose": "Close",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
       "textNoMatches": "No Matches",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History"

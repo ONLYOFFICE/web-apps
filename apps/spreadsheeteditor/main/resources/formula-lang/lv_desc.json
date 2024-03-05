@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(masīvs, pēc_masīva, [kārtošanas_secība], ...)",
 		"d": "Kārto diapazonu vai masīvu pēc vērtībām atbilstošā diapazonā vai masīvā"
+	},
+	"GETPIVOTDATA": {
+		"a": "(datu_lauks; rakurstabula; [lauks]; [objekts]; ...)",
+		"d": "Izgūst datus, kas tiek glabāti rakurstabulā."
 	}
 }

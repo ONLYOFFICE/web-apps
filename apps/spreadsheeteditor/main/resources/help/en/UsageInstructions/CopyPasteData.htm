@@ -135,6 +135,27 @@
             <p><img alt="Select from drop-down list" src="../images/selectfromlist.png" /></p>
             <p>Select one of the available text values to replace the current one or fill an empty cell.</p>
             
+            <h3 id="series">Fill cells using the Series tool</h3>
+            <ol>
+                <li>Select a cell/cell range containing the initial data and some empty cells in the necessary direction. Click the <b>Fill</b> icon on the <b>Home</b> tab of the top toolbar and choose the <b>Series</b> option.
+                <p>You can also use the <b>Down</b>, <b>Right</b>, <b>Up</b>, <b>Left</b> options to fill the selected empty cells.</p>
+                    <p><img alt="Series - menu" src="../images/series_menu.png" /></p>         
+                <p>There is another way to access the <b>Series</b> window. You can select the initial data, move the mouse cursor over the fill handle in the right lower corner of the cell, click and hold the <b>right mouse button</b> on the fill handle, then drag down, up, right, or left and release the right mouse button - the context menu appears with the <b>Series</b> option.</p>
+                <p>You can also use the following options to fill the selected empty cells: <b>Copy cells</b> is used to fill cells with the same values, <b>Fill series</b> is used to fill cells with a series using the default step value, <b>Fill days</b> is used to fill cells with a series of dates, <b>Linear trend</b> is available if more than one starting value is selected, is used to add the default step value to the starting value and then to each subsequent value, <b>Growth trend</b> is available if more than one starting value is selected, is used to multiply the starting value by the default step value.</p>
+                <p><img alt="Series - context menu" src="../images/series_context_menu.png" /></p>
+                </li>
+                <li>In the <b>Series</b> dialog window, select the necessary options and click <b>OK</b>:
+                    <p><img alt="Series - window" src="../images/series_window.png" /></p>
+                <ul>
+                    <li><b>Series in</b>: <em>Rows</em>, <em>Columns</em> - select the direction to fill cells.</li>
+                    <li><b>Type</b>: <em>Linear</em> is used to add the step value to the starting value and then to each subsequent value, <em>Growth</em> is used to multiply the starting value by the step value, <em>Date</em> is used to fill cells with a series of dates, <em>AutoFill</em> is used to fill cells with data based on other cells.</li>
+                    <li><b>Date unit</b>: <em>Day</em>, <em>Weekday</em>, <em>Month</em>, <em>Year</em> - select the date unit you want to increase the series by.</li>
+                    <li><b>Trend</b> - check this box if there is more than one starting value in the series.</li>
+                    <li><b>Step value</b> - select the numerical value you want to increase the series by. By default, it is set to 1.</li>
+                    <li><b>Stop value</b> - specify the last value in the series.</li>
+                </ul>
+                </li>
+            </ol>
         </div>
 	</body>
 </html>

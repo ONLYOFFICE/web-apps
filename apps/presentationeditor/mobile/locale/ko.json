@@ -544,8 +544,11 @@
       "txtScheme7": "같음",
       "txtScheme8": "플로우",
       "txtScheme9": "발견",
+      "textClose": "Close",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

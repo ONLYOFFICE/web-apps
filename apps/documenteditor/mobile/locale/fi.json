@@ -622,7 +622,11 @@
     "textDialogProtectedEditComments": "You may only insert comments to this document",
     "del_textNoTextFound": "Text not found",
     "textNoMatches": "No Matches",
-    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only."
+    "warnLicenseAnonymous": "Access denied for anonymous users.<br>This document will be opened for viewing only.",
+    "textCancel": "Cancel",
+    "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
+    "textDownloadPdf": "Download PDF",
+    "textSaveAsPdf": "Save as PDF"
   },
   "Settings": {
     "advDRMOptions": "Protected File",
@@ -787,7 +791,10 @@
     "textRemoveFromFavorites": "Remove from Favorites",
     "textSubmit": "Submit",
     "textSaveAsPdf": "Save as PDF",
-    "textExportAs": "Export As"
+    "textExportAs": "Export As",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "textRtlInterface": "RTL Interface",
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

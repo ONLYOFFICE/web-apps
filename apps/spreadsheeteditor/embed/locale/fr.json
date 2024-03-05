@@ -4,7 +4,7 @@
   "common.view.modals.txtHeight": "Hauteur",
   "common.view.modals.txtIncorrectPwd": "Mot de passe incorrect",
   "common.view.modals.txtOpenFile": "Entrez le mot de passe pour ouvrir le fichier",
-  "common.view.modals.txtShare": "Partager un lien",
+  "common.view.modals.txtShare": "Partager le lien",
   "common.view.modals.txtTitleProtected": "Fichier protégé",
   "common.view.modals.txtWidth": "Largeur",
   "common.view.SearchBar.textFind": "Rechercher",
@@ -47,6 +47,6 @@
   "SSE.ApplicationView.txtFileLocation": "Ouvrir l'emplacement du fichier",
   "SSE.ApplicationView.txtFullScreen": "Plein écran",
   "SSE.ApplicationView.txtPrint": "Imprimer",
-  "SSE.ApplicationView.txtSearch": "Recherche",
+  "SSE.ApplicationView.txtSearch": "Rechercher",
   "SSE.ApplicationView.txtShare": "Partager"
 }

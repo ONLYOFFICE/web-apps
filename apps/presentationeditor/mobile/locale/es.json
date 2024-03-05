@@ -486,6 +486,7 @@
       "textEmail": "correo: ",
       "textEnableAll": "Habilitar todo",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas las macros sin notificación",
+      "textExplanationChangeDirection": "La aplicación se reiniciará para que se active la interfaz RTL",
       "textFeedback": "Comentarios y asistencia",
       "textFind": "Buscar",
       "textFindAndReplace": "Buscar y reemplazar",
@@ -512,6 +513,7 @@
       "textReplaceAll": "Reemplazar todo",
       "textRestartApplication": "Reinicie la aplicación para que los cambios surtan efecto",
       "textRTL": "De derecha a izquierda",
+      "textRtlInterface": "Interfaz RTL",
       "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Buscar",
       "textSettings": "Ajustes",
@@ -547,7 +549,8 @@
       "txtScheme6": "Concurrencia",
       "txtScheme7": "Equidad ",
       "txtScheme8": "Flujo",
-      "txtScheme9": "Fundición"
+      "txtScheme9": "Fundición",
+      "textClose": "Close"
     }
   }
 }

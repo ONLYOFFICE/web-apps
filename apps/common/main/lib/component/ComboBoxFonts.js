@@ -308,7 +308,7 @@ define([
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>"> ',
+                    '<input dir="ltr" type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>"> ',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
                     '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',

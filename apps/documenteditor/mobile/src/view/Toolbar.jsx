@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLeft, NavRight, Link } from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
@@ -17,34 +17,7 @@ const ToolbarView = props => {
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
     const docTitle = props.docTitle;
-    const docTitleLength = docTitle.length;
     const isOpenModal = props.isOpenModal;
-
-    const correctOverflowedText = el => {
-        if(el) {
-            el.innerText = docTitle;
-
-            if(el.scrollWidth > el.clientWidth) {
-                const arrDocTitle = docTitle.split('.');
-                const ext = arrDocTitle[1];
-                const name = arrDocTitle[0];
-                const diff = Math.floor(docTitleLength * el.clientWidth / el.scrollWidth - ext.length - 6);
-                const shortName = name.substring(0, diff).trim();
-
-                return `${shortName}...${ext}`;
-            }
-
-           return docTitle;
-        }
-    };
-
-    useEffect(() => {
-        const elemTitle = document.querySelector('.subnavbar .title');
-
-        if (elemTitle) {
-            elemTitle.innerText = correctOverflowedText(elemTitle);
-        }
-    }, [docTitle, isViewer]);
     
     return (
         <Fragment>
@@ -73,7 +46,7 @@ const ToolbarView = props => {
                     })
                 }
             </NavLeft>
-            {((!Device.phone || isViewer) && !isVersionHistoryMode && !isEditableForms) && 
+            {((!Device.phone || (isViewer && !isEditableForms)) && !isVersionHistoryMode) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>

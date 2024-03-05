@@ -110,7 +110,8 @@
                         image: url,
                         imageDark: url, // logo for dark theme
                         imageEmbedded: url, // deprecated, use image instead
-                        url: http://...
+                        url: http://...,
+                        visible: true // hide logo if visible=false
                     },
                     customer: {
                         name: 'SuperPuper',
@@ -131,7 +132,11 @@
                         url: 'http://...',
                         text: 'Go to London',
                         blank: true,
-                        requestClose: false // if true - goback send onRequestClose event instead opening url
+                        requestClose: false // if true - goback send onRequestClose event instead opening url, deprecated, use customization.close instead
+                    },
+                    close: {
+                        visible: true,
+                        text: 'Close file'
                     },
                     reviewPermissions: {
                         "Group1": ["Group2"], // users from Group1 can accept/reject review changes made by users from Group2
@@ -158,11 +163,13 @@
                                 save: false/true // save button
                             } / false / true,
                             home:  {
-                                mailmerge: false/true // mail merge button
+                                mailmerge: false/true // mail merge button // deprecated, button is moved to collaboration tab. use toolbar->collaboration->mailmerge instead
                             },
                             layout:  false / true, // layout tab
                             references:  false / true, // de references tab
-                            collaboration:  false / true // collaboration tab
+                            collaboration:  {
+                                mailmerge: false/true // mail merge button in de
+                            } / false / true, // collaboration tab
                             draw:  false / true // draw tab
                             protect:  false / true, // protect tab
                             plugins:  false / true // plugins tab
@@ -205,7 +212,7 @@
                     compactToolbar: false,
                     leftMenu: true, // must be deprecated. use layout.leftMenu instead
                     rightMenu: true, // must be deprecated. use layout.rightMenu instead
-                    hideRightMenu: false, // hide or show right panel on first loading
+                    hideRightMenu: true, // hide or show right panel on first loading !! default value changed in 8.1
                     toolbar: true, // must be deprecated. use layout.toolbar instead
                     statusBar: true, // must be deprecated. use layout.statusBar instead
                     autosave: true,
@@ -1014,7 +1021,9 @@
                     params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
                 }
                 if ( config.editorConfig.customization.logo ) {
-                    if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
+                    if (config.editorConfig.customization.logo.visible===false) {
+                        params += "&headerlogo=";
+                    } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
                         params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
                     else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));

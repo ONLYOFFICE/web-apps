@@ -547,7 +547,10 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textClose": "Close",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

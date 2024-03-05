@@ -616,7 +616,11 @@
     "warnLicenseUsersExceeded": "편집자 사용자 한도인 %1명에 도달했습니다. 자세한 내용은 관리자에게 문의하십시오.",
     "warnNoLicense": "% 1 편집 연결 수 제한에 도달했습니다. 이 문서는 보기 모드로 열립니다. 개인적인 업그레이드 사항은 % 1 영업팀에 연락하십시오.",
     "warnNoLicenseUsers": "ONLYOFFICE 편집자의이 버전은 동시 사용자에게 일정한 제한이 있습니다. <br> 더 필요한 것이 있으면 현재 라이센스를 업그레이드하거나 상용 라이센스를 구입하십시오.",
-    "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다."
+    "warnProcessRightsChange": "파일을 편집 할 권한이 없습니다.",
+    "textCancel": "Cancel",
+    "textConvertForm": "Download file as PDF to save the form in the format ready for filling.",
+    "textDownloadPdf": "Download PDF",
+    "textSaveAsPdf": "Save as PDF"
   },
   "Settings": {
     "advDRMOptions": "보호 된 파일",
@@ -770,14 +774,16 @@
     "txtScheme9": "발견",
     "textAddToFavorites": "Add to Favorites",
     "textClearAllFields": "Clear All Fields",
+    "textClose": "Close",
     "textDark": "Dark",
     "textDarkTheme": "Dark Theme",
+    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textExport": "Export",
     "textExportAs": "Export As",
     "textLight": "Light",
     "textRemoveFromFavorites": "Remove from Favorites",
+    "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
-    "textSaveAsPdf": "Save as PDF",
     "textSubmit": "Submit",
     "textTheme": "Theme"
   },

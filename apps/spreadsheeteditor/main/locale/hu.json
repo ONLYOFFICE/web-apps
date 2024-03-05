@@ -2906,7 +2906,6 @@
   "SSE.Views.ProtectDialog.txtWarning": "Figyelem: ha elveszti vagy elfelejti a jelszót, annak visszaállítására nincs mód. Tárolja biztonságos helyen.",
   "SSE.Views.ProtectDialog.txtWBDescription": "Ha meg szeretné akadályozni, hogy más felhasználók megtekintsék a rejtett munkalapokat, továbbá hozzáadjanak, áthelyezzenek, töröljenek, elrejtsenek, illetve átnevezzenek munkalapokat, jelszóval védheti a munkafüzet szerkezetét.",
   "SSE.Views.ProtectDialog.txtWBTitle": "Munkafüzet struktúrájának védelme",
-  "SSE.Views.ProtectedRangesEditDlg.textTipAdd": "Felhasználó hozzáadása",
   "SSE.Views.ProtectedRangesManagerDlg.textFilterAll": "Minden",
   "SSE.Views.ProtectedRangesManagerDlg.warnDelete": "Biztosan szeretné törölni a védett tartományt {0}<br>Bárki akinek van táblázatkezelői jogosultsága szerkesztheti a tartalmat a tartományon belül.",
   "SSE.Views.ProtectRangesDlg.guestText": "Vendég",

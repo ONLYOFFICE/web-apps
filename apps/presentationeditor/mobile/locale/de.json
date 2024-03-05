@@ -44,10 +44,10 @@
       "textThemeColors": "Farben des Themas"
     },
     "Themes": {
-      "textTheme": "Thema",
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system"
+      "dark": "Dunkel",
+      "light": "Hell",
+      "system": "Wie im System",
+      "textTheme": "Thema"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -475,6 +475,7 @@
       "textColorSchemes": "Farbschemata",
       "textComment": "Kommentar",
       "textCreated": "Erstellt",
+      "textDark": "Dunkel",
       "textDarkTheme": "Dunkelmodus",
       "textDisableAll": "Alles deaktivieren",
       "textDisableAllMacrosWithNotification": "Alle Makros mit Benachrichtigung deaktivieren",
@@ -485,6 +486,7 @@
       "textEmail": "E-Mail: ",
       "textEnableAll": "Alle aktivieren",
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
+      "textExplanationChangeDirection": "Die Anwendung wird für die Aktivierung der RTL-Schnittstelle neu gestartet",
       "textFeedback": "Feedback und Support",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
@@ -494,6 +496,7 @@
       "textInch": "Zoll",
       "textLastModified": "Zuletzt geändert",
       "textLastModifiedBy": "Zuletzt geändert von",
+      "textLight": "Hell",
       "textLoading": "Lädt...",
       "textLocation": "Standort",
       "textMacrosSettings": "Einstellungen von Makros",
@@ -510,6 +513,8 @@
       "textReplaceAll": "Alle ersetzen",
       "textRestartApplication": "Bitte starten Sie die Anwendung neu, damit die Änderungen wirksam werden",
       "textRTL": "RTL",
+      "textRtlInterface": "RTL-Schnittstelle",
+      "textSameAsSystem": "Wie im System",
       "textSearch": "Suche",
       "textSettings": "Einstellungen",
       "textShowNotification": "Benachrichtigung anzeigen",
@@ -545,9 +550,7 @@
       "txtScheme7": "Eigenkapital",
       "txtScheme8": "Flow",
       "txtScheme9": "Foundry",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System"
+      "textClose": "Close"
     }
   }
 }

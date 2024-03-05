@@ -52,13 +52,14 @@
 .subnavbar {
     .subnavbar-inner {
         padding: 0;
+        
         .title {
-            //white-space: nowrap;
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: initial;
             margin: 0;
             padding: 0;
             flex-shrink: initial;
+            text-overflow: ellipsis;
         }
     }
     .icon-back {
@@ -117,7 +118,7 @@
     --menu-list-offset: 0px;
 
     ul {
-        width: 100%;
+        max-width: 100%;
         background: var(--f7-list-bg-color);
     }
 
@@ -1158,6 +1159,12 @@ input[type="number"]::-webkit-inner-spin-button {
             right: 4px;
             top: calc(50% - 12.5px);
         }
+
+        .item-input-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
 }
 
@@ -1191,6 +1198,17 @@ input[type="number"]::-webkit-inner-spin-button {
     color: @fill-white;
     padding: 2px 4px;
     border-radius: 4px;
+}
+
+// Close editor button
+.close-editor-btn {
+    .item-inner {
+        padding-left: 36px;
+    }
+
+    .item-title {
+        color: @text-error;
+    }
 }
 
 

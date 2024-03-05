@@ -544,8 +544,11 @@
       "txtScheme7": "Kapitāls",
       "txtScheme8": "Plūsma",
       "txtScheme9": "Lietuve",
+      "textClose": "Close",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

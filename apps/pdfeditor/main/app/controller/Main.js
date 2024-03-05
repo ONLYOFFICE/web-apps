@@ -186,6 +186,7 @@ define([
 
                     Common.NotificationCenter.on('api:disconnect',                  _.bind(this.onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('goback',                          _.bind(this.goBack, this));
+                    Common.NotificationCenter.on('close',                           _.bind(this.closeEditor, this));
                     Common.NotificationCenter.on('markfavorite',                    _.bind(this.markFavorite, this));
                     Common.NotificationCenter.on('download:advanced',               _.bind(this.onAdvancedOptions, this));
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
@@ -389,10 +390,6 @@ define([
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.canAnalytics    = false;
-                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
-                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
-                                                  && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
-                this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
@@ -407,8 +404,26 @@ define([
 
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
+                this.appOptions.canCloseEditor = false;
+
+                var _canback = false;
+                if (typeof this.appOptions.customization === 'object') {
+                    if (typeof this.appOptions.customization.goback == 'object' && this.editorConfig.canBackToFolder!==false) {
+                        _canback = this.appOptions.customization.close===undefined ?
+                            !_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose :
+                            !_.isEmpty(this.editorConfig.customization.goback.url) && !this.editorConfig.customization.goback.requestClose;
+
+                        if (this.appOptions.customization.goback.requestClose)
+                            console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                    }
+                    if (typeof this.appOptions.customization.close === 'object')
+                        this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+                }
+                this.appOptions.canBack = this.appOptions.canBackToFolder = !!_canback;
+
                 appHeader = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                appHeader.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
+                appHeader.setCanBack(this.appOptions.canBack, this.appOptions.canBack ? this.editorConfig.customization.goback.text : '');
 
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
@@ -553,7 +568,10 @@ define([
                     ];
                 var type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
                 if (!(format && (typeof format == 'string')) || type[1]===format.toLowerCase()) {
-                    this.api.asc_DownloadOrigin(true);
+                    var options = new Asc.asc_CDownloadOptions();
+                    options.asc_setIsDownloadEvent(true);
+                    options.asc_setIsSaveAs(true);
+                    this.api.asc_DownloadOrigin(options);
                     return;
                 }
                 if (/^xps|oxps$/.test(this.document.fileType))
@@ -563,12 +581,13 @@ define([
                 }
                 if ( !_format || _supported.indexOf(_format) < 0 )
                     _format = _defaultFormat;
+                var options = new Asc.asc_CDownloadOptions(_format, true);
+                options.asc_setIsSaveAs(true);
                 if (_format) {
-                    var options = new Asc.asc_CDownloadOptions(_format, true);
                     textParams && options.asc_setTextParams(textParams);
                     this.api.asc_DownloadAs(options);
                 } else {
-                    this.api.asc_DownloadOrigin(true);
+                    this.api.asc_DownloadOrigin(options);
                 }
             },
 
@@ -692,6 +711,10 @@ define([
                         }
                     }
                 }
+            },
+
+            closeEditor: function() {
+                this.appOptions.canRequestClose && this.onRequestClose();
             },
 
             markFavorite: function(favorite) {
@@ -1268,9 +1291,8 @@ define([
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
                 this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-                Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
-                this.appOptions.user.image && Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image);
-                Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
+                Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
+                this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 
                 if (this.appOptions.canComments)
                     Common.NotificationCenter.on('comments:cleardummy', _.bind(this.onClearDummyComment, this));
@@ -1317,10 +1339,8 @@ define([
                         }
                     }
                     fastCoauth = (value===null || parseInt(value) == 1);
-
-                    value = Common.localStorage.getItem((fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
-                    if (value == null) value = fastCoauth ? 'none' : 'last';
-                    Common.Utils.InternalSettings.set((fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict", value);
+                    Common.Utils.InternalSettings.set("pdfe-settings-showchanges-fast", Common.localStorage.getItem("pdfe-settings-showchanges-fast") || 'none');
+                    Common.Utils.InternalSettings.set("pdfe-settings-showchanges-strict", Common.localStorage.getItem("pdfe-settings-showchanges-strict") || 'last');
                 } else {
                     fastCoauth = false;
                     autosave = 0;
@@ -1766,7 +1786,7 @@ define([
                         }, this)
                     };
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -1787,7 +1807,7 @@ define([
                         }, this)
                 };
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -1810,7 +1830,7 @@ define([
                     config.msg = Common.Utils.String.format(this.txtInvalidLess, oInfo["target"]["api"]["name"], oInfo["less"]);
                 }
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -1827,7 +1847,7 @@ define([
                 if (oInfo["format"])
                     config.msg += '<br>' + Common.Utils.String.format(this.txtValidPdfFormat, oInfo["format"]);
 
-                if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
+                // if (!Common.Utils.ModalWindow.isVisible() || $('.asc-window.modal.alert[data-value=' + id + ']').length<1)
                     Common.UI.alert(config).$window.attr('data-value', id);
             },
 
@@ -2096,7 +2116,31 @@ define([
                 if (this._state.openDlg) return;
 
                 var me = this;
-                if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
+                if (type == Asc.c_oAscAdvancedOptionsID.TXT) {
+                    me._state.openDlg = new Common.Views.OpenDialog({
+                        title: Common.Views.OpenDialog.prototype.txtTitle.replace('%1', 'TXT'),
+                        closable: (mode==2), // if save settings
+                        type: Common.Utils.importTextType.TXT,
+                        preview: advOptions.asc_getData(),
+                        codepages: advOptions.asc_getCodePages(),
+                        settings: advOptions.asc_getRecommendedSettings(),
+                        api: me.api,
+                        handler: function (result, settings) {
+                            me.isShowOpenDialog = false;
+                            if (result == 'ok') {
+                                if (me && me.api) {
+                                    if (mode==2) {
+                                        formatOptions && formatOptions.asc_setAdvancedOptions(settings.textOptions);
+                                        me.api.asc_DownloadAs(formatOptions);
+                                    } else
+                                        me.api.asc_setAdvancedOptions(type, settings.textOptions);
+                                    me.loadMask && me.loadMask.show();
+                                }
+                            }
+                            me._state.openDlg = null;
+                        }
+                    });
+                } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
                     me._state.openDlg = new Common.Views.OpenDialog({
                         title: Common.Views.OpenDialog.prototype.txtTitleProtected,
                         closeFile: me.appOptions.canRequestClose,

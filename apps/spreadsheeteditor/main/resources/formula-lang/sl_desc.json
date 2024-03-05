@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(array, by_array, [sort_order], ...)",
 		"d": "Razvrsti obseh ali polje glede na vrednosti v pripadajočem obsegu ali polju"
+	},
+	"GETPIVOTDATA": {
+		"a": "(podatkovno_polje; vrtilna_tabela; [polje]; [element]; ...)",
+		"d": "Ekstrahira podatke, ki so shranjeni v vrtilni tabeli."
 	}
 }

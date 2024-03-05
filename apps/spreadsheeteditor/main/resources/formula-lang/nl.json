@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"SORT": "SORTEREN",
 	"SORTBY": "SORTEREN.OP",
+	"GETPIVOTDATA": "DRAAITABEL.OPHALEN",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

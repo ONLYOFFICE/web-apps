@@ -825,7 +825,10 @@
       "txtUk": "Ukrajinski",
       "txtVi": "Vijetnamski",
       "txtZh": "Kineski",
-      "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?"
+      "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
+      "textClose": "Close",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

@@ -138,7 +138,7 @@
       "textRemember": "Lembrar minha escolha",
       "textReplaceSkipped": "A substituição foi realizada. {0} ocorrências foram ignoradas.",
       "textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
-      "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir a solicitação para %1?",
+      "textRequestMacros": "Uma macro faz uma solicitação para URL. Deseja permitir o pedido para %1?",
       "textYes": "Sim",
       "titleLicenseExp": "A licença expirou",
       "titleLicenseNotActive": "Licença inativa",
@@ -486,6 +486,7 @@
       "textEmail": "e-mail:",
       "textEnableAll": "Habilitar todos",
       "textEnableAllMacrosWithoutNotification": "Habilitar todas as macros sem notificação",
+      "textExplanationChangeDirection": "O aplicativo será reiniciado para ativação da interface RTL",
       "textFeedback": "Feedback e Suporte",
       "textFind": "Localizar",
       "textFindAndReplace": "Localizar e substituir",
@@ -512,6 +513,7 @@
       "textReplaceAll": "Substituir tudo",
       "textRestartApplication": "Reinicie o aplicativo para que as alterações entrem em vigor",
       "textRTL": "Da direita para esquerda",
+      "textRtlInterface": "Interface RTL",
       "textSameAsSystem": "O mesmo que sistema",
       "textSearch": "Pesquisar",
       "textSettings": "Configurações",
@@ -547,7 +549,8 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textClose": "Close"
     }
   }
 }

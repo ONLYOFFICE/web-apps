@@ -11,22 +11,18 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
         iframe;
 
     useEffect(() => {
-        const onDocumentReady = () => {
-            Common.Notifications.on('engineCreated', api => {
-                api.asc_registerCallback("asc_onPluginShow", showPluginModal);
-                api.asc_registerCallback("asc_onPluginClose", pluginClose);
-                api.asc_registerCallback("asc_onPluginResize", pluginResize);
-                api.asc_registerCallback('asc_onPluginsInit', onPluginsInit);
+        Common.Notifications.on('engineCreated', api => {
+            api.asc_registerCallback("asc_onPluginShow", showPluginModal);
+            api.asc_registerCallback("asc_onPluginClose", pluginClose);
+            api.asc_registerCallback("asc_onPluginResize", pluginResize);
+            api.asc_registerCallback('asc_onPluginsInit', onPluginsInit);
 
-                if(!storeAppOptions.customization || storeAppOptions.plugins !== false) {
-                    loadPlugins();
-                }
-            });
-    
-            Common.Gateway.on('init', loadConfig);
-        };
+            if(!storeAppOptions.customization || storeAppOptions.plugins !== false) {
+                loadPlugins();
+            }
+        });
 
-        onDocumentReady();
+        Common.Gateway.on('init', loadConfig);
 
         return () => {
             const api = Common.EditorApi.get();
@@ -190,8 +186,8 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
     const parsePlugins = pluginsdata => {
         let isEdit = storeAppOptions.isEdit;
         
-        if ( pluginsdata instanceof Array ) { 
-            let lang = storeAppOptions.lang.split(/[\-_]/)[0];
+        if (pluginsdata instanceof Array) { 
+            let lang = storeAppOptions.lang ? storeAppOptions.lang.split(/[\-_]/)[0] : 'en';
             pluginsdata.forEach((item) => {
                 item.variations.forEach( (itemVar) => { 
                     let description = itemVar.description;

@@ -127,6 +127,7 @@ define([
                                             '<div class="color-user-name"></div>' +
                                         '</div>' +
                                     '</div>' +
+                                    '<div class="btn-slot" id="slot-btn-close"></div>' +
                                 '</div>' +
                             '</section>' +
                         '</section>';
@@ -158,6 +159,7 @@ define([
                                             '<div class="color-user-name"></div>' +
                                         '</div>' +
                                     '</div>' +
+                                    '<div class="btn-slot" id="slot-btn-close"></div>' +
                                 '</div>' +
                             '</section>';
 
@@ -312,6 +314,13 @@ define([
                 Common.NotificationCenter.trigger('goback');
             });
 
+            if (me.btnClose) {
+                me.btnClose.on('click', function (e) {
+                    Common.NotificationCenter.trigger('close');
+                });
+                me.btnClose.updateHint(appConfig.customization.close.text || me.textClose);
+            }
+
             me.btnFavorite.on('click', function (e) {
                 // wait for setFavorite method
                 // me.options.favorite = !me.options.favorite;
@@ -423,7 +432,7 @@ define([
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
-            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
+            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item"><div>' +
                                             '<% if (!_.isEmpty(iconCls)) { %>' +
                                                 '<span class="menu-item-icon <%= iconCls %>"></span>' +
                                             '<% } %>' +
@@ -513,41 +522,42 @@ define([
             },100);
         }
 
+        function onDocNameChanged(editcomplete) {
+            var me = this,
+                name = $labelDocName.val();
+            name = name.trim();
+            if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                me.isSaveDocName =true;
+                if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                    _.defer(function() {
+                        Common.UI.error({
+                            msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                            , callback: function() {
+                                _.delay(function() {
+                                    $labelDocName.focus();
+                                }, 50);
+                            }
+                        });
+                    })
+                } else if (me.withoutExt) {
+                    name = me.cutDocName(name);
+                    me.fireEvent('rename', [name]);
+                    name += me.fileExtention;
+                    me.withoutExt = false;
+                    me.setDocTitle(name);
+                    editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            } else {
+                editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
-
-            var name = $labelDocName.val();
-            if ( e.keyCode == Common.UI.Keys.RETURN ) {
-                name = name.trim();
-                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
-                    me.isSaveDocName =true;
-                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
-                        _.defer(function() {
-                            Common.UI.error({
-                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
-                                , callback: function() {
-                                    _.delay(function() {
-                                        $labelDocName.focus();
-                                        me.isSaveDocName =true;
-                                    }, 50);
-                                }
-                            });
-                        })
-                    } else
-                    if(me.withoutExt) {
-                        name = me.cutDocName(name);
-                        me.fireEvent('rename', [name]);
-                        name += me.fileExtention;
-                        me.withoutExt = false;
-                        me.setDocTitle(name);
-                        Common.NotificationCenter.trigger('edit:complete', me);
-                    }
-
-                } else {
-                    Common.NotificationCenter.trigger('edit:complete', me);
-                }
-            } else
-            if ( e.keyCode == Common.UI.Keys.ESC ) {
+            if ( e.keyCode === Common.UI.Keys.RETURN ) {
+                onDocNameChanged.call(me, true);
+            } else if ( e.keyCode === Common.UI.Keys.ESC ) {
+                me.setDocTitle(me.cutDocName(me.documentCaption));
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 _.delay(function(){
@@ -652,11 +662,15 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
-                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
-                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        this.logo.css({'background-image': 'none', width: 'auto'});
-                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                    if (this.branding && this.branding.logo && this.logo) {
+                        if (this.branding.logo.visible===false) {
+                            this.logo.addClass('hidden');
+                        } else if (this.branding.logo.image || this.branding.logo.imageDark) {
+                            var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                            this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            this.logo.css({'background-image': 'none', width: 'auto'});
+                            (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                        }
                     }
 
                     return $html;
@@ -724,6 +738,9 @@ define([
                         }
                         $btnUserName = $html.find('.color-user-name');
                         me.setUserName(me.options.userName);
+
+                        if ( config.canCloseEditor )
+                            me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'bottom', 'big');
                     }
 
                     if (!_readonlyRights && config && (config.sharingSettingsUrl && config.sharingSettingsUrl.length || config.canRequestSharingSettings)) {
@@ -803,6 +820,9 @@ define([
                     $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
 
+                    if ( config.canCloseEditor )
+                        me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'left', '10, 10');
+
                     if ( config.canPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
@@ -827,26 +847,23 @@ define([
             },
 
             setBranding: function (value) {
-                var element;
-
                 this.branding = value;
-
-                if ( value ) {
-                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                var element = $('#header-logo');
+                if ( value && value.logo && element) {
+                    if (value.logo.visible===false) {
+                        element.addClass('hidden');
+                    } else if (value.logo.image || value.logo.imageDark) {
                         var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                        element = $('#header-logo');
-                        if (element) {
-                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                            element.css({'background-image': 'none', width: 'auto'});
-                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
-                        }
+                        element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        element.css({'background-image': 'none', width: 'auto'});
+                        (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                     }
                 }
             },
 
             changeLogo: function () {
                 var value = this.branding;
-                if ( value && value.logo && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
+                if ( value && value.logo && (value.logo.visible!==false) && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
                     var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                     $('#header-logo img').attr('src', image);
                 }
@@ -857,8 +874,7 @@ define([
 
                 this.documentCaption = value;
                 var idx = this.documentCaption.lastIndexOf('.');
-                if (idx>0)
-                    this.fileExtention = this.documentCaption.substring(idx);
+                this.fileExtention = idx>0 ? this.documentCaption.substring(idx) : '';
                 this.isModified && (value += '*');
                 this.readOnly && (value += ' (' + this.textReadOnly + ')');
                 if ( $labelDocName ) {
@@ -925,6 +941,7 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
+                                !me.isSaveDocName && onDocNameChanged.call(me);
                                 me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
                                 Common.Utils.isGecko && (label[0].selectionStart = label[0].selectionEnd = 0);
                                 if(!me.isSaveDocName) {
@@ -1111,7 +1128,8 @@ define([
             tipDocEdit: 'Editing',
             textReview: 'Reviewing',
             textReviewDesc: 'Suggest changes',
-            tipReview: 'Reviewing'
+            tipReview: 'Reviewing',
+            textClose: 'Close file'
         }
     }(), Common.Views.Header || {}))
 });

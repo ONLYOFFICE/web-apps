@@ -400,7 +400,7 @@ define([
             native.execCommand('webapps:features', JSON.stringify(features));
 
             titlebuttons = {};
-            if ( mode.isEdit ) {
+            if ( !features.viewmode ) {
                 var header = webapp.getController('Viewport').getView('Common.Views.Header');
 
                 {

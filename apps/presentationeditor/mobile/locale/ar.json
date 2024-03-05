@@ -307,7 +307,7 @@
       "textAlignCenter": "توسيط",
       "textAlignLeft": "محاذاة إلى اليسار",
       "textAlignMiddle": "محاذاة للمنتصف",
-      "textAlignRight": "محاذاة إلى اليمين",
+      "textAlignRight": "محاذاة لليمين",
       "textAlignTop": "محاذاة للأعلى",
       "textAllCaps": "كل الاحرف الاستهلالية",
       "textApplyAll": "تطبيق لكل الشريحات",
@@ -486,6 +486,7 @@
       "textEmail": "البريد الإلكتروني:",
       "textEnableAll": "تفعيل الكل",
       "textEnableAllMacrosWithoutNotification": "تفعيل كل وحدات الماكرو بدون اشعارات",
+      "textExplanationChangeDirection": "سيقوم البرنامج بإعادة التشغيل",
       "textFeedback": "الملاحظات و الدعم",
       "textFind": "بحث",
       "textFindAndReplace": "بحث و استبدال",
@@ -512,6 +513,7 @@
       "textReplaceAll": "استبدال الكل",
       "textRestartApplication": "الرجاء إعادة تشغيل التطبيق حتى يتم تطبيق التغييرات",
       "textRTL": "من اليمين إلى اليسار",
+      "textRtlInterface": "الواجهة بالاتجاه من اليمين لليسار",
       "textSameAsSystem": "نفس النظام",
       "textSearch": "بحث",
       "textSettings": "الإعدادات",
@@ -547,7 +549,8 @@
       "txtScheme6": "توافق",
       "txtScheme7": "تكافؤ",
       "txtScheme8": "الانسياب",
-      "txtScheme9": "فونيريا"
+      "txtScheme9": "فونيريا",
+      "textClose": "Close"
     }
   }
 }

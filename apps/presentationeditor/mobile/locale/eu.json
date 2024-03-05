@@ -547,7 +547,10 @@
       "txtScheme6": "Zabaldegia",
       "txtScheme7": "Berdintza",
       "txtScheme8": "Fluxua",
-      "txtScheme9": "Sortzailea"
+      "txtScheme9": "Sortzailea",
+      "textClose": "Close",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

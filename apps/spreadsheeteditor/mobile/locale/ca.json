@@ -40,6 +40,12 @@
       "textStandartColors": "Colors estàndard",
       "textThemeColors": "Colors del tema"
     },
+    "Themes": {
+      "dark": "Fosc",
+      "light": "Clar",
+      "system": "Igual que el sistema",
+      "textTheme": "Tema"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "Advertiment",
       "textAnonymous": "Anònim",
@@ -53,12 +59,6 @@
       "textWarningRestoreVersion": "El fitxer actual es desarà a l'historial de versions.",
       "titleWarningRestoreVersion": "Voleu restaurar aquesta versió?",
       "txtErrorLoadHistory": "Ha fallat la càrrega de l'historial"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -66,6 +66,7 @@
     "errorInvalidLink": "Enllaç trencat. Corregeix l'enllaç o suprimeix-lo.",
     "menuAddComment": "Afegir un comentari",
     "menuAddLink": "Afegir un enllaç",
+    "menuAutofill": "Emplenament automàtic",
     "menuCancel": "Cancel·lar",
     "menuCell": "Cel·la",
     "menuDelete": "Suprimir",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "No ho mostris més",
     "textOk": "D'acord",
     "txtWarnUrl": "Si fas clic en aquest enllaç, pots perjudicar el dispositiu i les dades. <br>Segur que vols continuar?",
-    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Vols continuar?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Només les dades de la cel·la superior esquerra romandran a la cel·la combinada. <br>Vols continuar?"
   },
   "Controller": {
     "Main": {
@@ -393,8 +393,8 @@
     "leaveButtonText": "Sortir d'aquesta Pàgina",
     "stayButtonText": "Queda't en aquesta Pàgina",
     "textCloseHistory": "Tanca l'historial",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Introduïu un nom de fitxer nou",
+    "textRenameFile": "Canvia el nom del fitxer"
   },
   "View": {
     "Add": {
@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Vora vertical interna",
       "textInteger": "Enter",
       "textInternalDataRange": "Interval de dades intern",
+      "textInvalidName": "El nom del fitxer no pot contenir cap dels caràcters següents:",
       "textInvalidRange": "L'interval de cel·les no és vàlid",
       "textJustified": "Justificat",
       "textLabelOptions": "Opcions de l'etiqueta",
@@ -649,8 +650,7 @@
       "textYen": "Ien",
       "txtNotUrl": "Aquest camp hauria de ser un URL amb el format \"http://www.exemple.com\"",
       "txtSortHigh2Low": "Ordenar de major a menor",
-      "txtSortLow2High": "Ordenar de menor a major",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Ordenar de menor a major"
     },
     "Settings": {
       "advCSVOptions": "Triar les opcions CSV",
@@ -682,6 +682,7 @@
       "textComments": "Comentaris",
       "textCreated": "S'ha creat",
       "textCustomSize": "Mida personalitzada",
+      "textDark": "Fosc",
       "textDarkTheme": "Tema fosc",
       "textDelimeter": "Delimitador",
       "textDirection": "Direcció",
@@ -696,6 +697,7 @@
       "textEnableAllMacrosWithoutNotification": "Habilitar totes les macros sense una notificació",
       "textEncoding": "Codificació",
       "textExample": "Exemple",
+      "textExplanationChangeDirection": "L'aplicació es reiniciarà per a l'activació de la interfície RTL",
       "textFeedback": "Comentaris i servei d'atenció al client",
       "textFind": "Cercar",
       "textFindAndReplace": "Cercar i substituir",
@@ -713,6 +715,7 @@
       "textLastModifiedBy": "Última modificació feta per",
       "textLeft": "Esquerra",
       "textLeftToRight": "D'esquerra a dreta",
+      "textLight": "Clar",
       "textLocation": "Ubicació",
       "textLookIn": "Cercar a",
       "textMacrosSettings": "Configuració de les macros",
@@ -736,6 +739,8 @@
       "textRestartApplication": "Reiniciar l'aplicació perquè els canvis tinguin efecte.",
       "textRight": "Dreta",
       "textRightToLeft": "De dreta a esquerra",
+      "textRtlInterface": "Interfície RTL",
+      "textSameAsSystem": "Igual que el sistema",
       "textSearch": "Cercar",
       "textSearchBy": "Cercar",
       "textSearchIn": "Cerca a",
@@ -748,6 +753,7 @@
       "textSpreadsheetTitle": "Títol del full de càlcul",
       "textSubject": "Assumpte",
       "textTel": "Tel",
+      "textTheme": "Tema",
       "textTitle": "Títol",
       "textTop": "Superior",
       "textUnitOfMeasurement": "Unitat de mesura",
@@ -822,10 +828,7 @@
       "txtVi": "Vietnamita",
       "txtZh": "Xinès",
       "warnDownloadAs": "Si continues i deses en aquest format, es perdran totes les característiques, excepte el text. <br>Vols continuar?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textClose": "Close"
     }
   }
 }

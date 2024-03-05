@@ -779,10 +779,11 @@ define([
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
                 svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
-            } else if (svgIcon.length) {
-                var icon = /btn-[^\s]+/.exec(this.iconCls);
-                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
+                if (svgIcon.length) {
+                    var icon = /btn-[^\s]+/.exec(this.iconCls);
+                    svgIcon.attr('href', icon ? '#' + icon[0]: '');
+                }
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
                 if (this.options.scaling === false) {
@@ -938,7 +939,8 @@ define([
                         const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
                         const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                        const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                        const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
+                        const svg_icon = '<svg class="icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
 
                         me.$el.find('i.icon').after(svg_icon);
                     }
