@@ -203,13 +203,13 @@ define([
             } else {
                 $panelUsers['hide']();
             }
-            updateDocNamePosition(appConfig);
+            updateDocNamePosition();
         }
 
         function onLostEditRights() {
             _readonlyRights = true;
             this.btnShare && this.btnShare.setVisible(false);
-            updateDocNamePosition(appConfig);
+            updateDocNamePosition();
         }
 
         function onUsersClick(e) {
@@ -223,14 +223,15 @@ define([
         }
 
         function updateDocNamePosition(config) {
+            config = config || appConfig;
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
-                if (!(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit)) {
+                if (!config.twoLevelHeader) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
                     $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, _left_width - _right_width));
-                } else if (!(config.customization && config.customization.compactHeader)) {
+                } else if (!config.compactHeader) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth(),
                         outerWidth = $labelDocName.outerWidth(),
@@ -245,7 +246,7 @@ define([
                     }
                 }
 
-                if (!(config.customization && config.customization.toolbarHideFileName) && (!(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) || config.customization && config.customization.compactHeader)) {
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!config.twoLevelHeader || config.compactHeader)) {
                     var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt($labelDocName.css('min-width') || 50); // 2px - box-shadow
                     config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
@@ -285,9 +286,8 @@ define([
         }
 
         function onResize() {
-            if (appConfig && (appConfig.isEdit || (isPDFEditor || appConfig.isPDFForm && appConfig.canFillForms) && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader)) {
-                updateDocNamePosition(appConfig);
-            }
+            if (appConfig && appConfig.twoLevelHeader && !appConfig.compactHeader)
+                updateDocNamePosition();
         }
 
         function onAppShowed(config) {
@@ -336,7 +336,7 @@ define([
                 });
                 me.btnShare.updateHint(me.tipAccessRights);
                 me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
             }
 
             if ( me.logo )
@@ -367,7 +367,7 @@ define([
                 });
                 $btnUsers.on('click', onUsersClick.bind(me));
                 $panelUsers[(appConfig && (editingUsers > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || editingUsers > 0 && appConfig.canLiveView)) ? 'show' : 'hide']();
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
             }
 
             if (appConfig.user.guest && appConfig.canRenameAnonymous) {
@@ -413,7 +413,7 @@ define([
                 });
             }
 
-            if ( !(mode.isEdit || (isPDFEditor || mode.isPDFForm && mode.canFillForms) && mode.isRestrictedEdit) ) {
+            if ( !appConfig.twoLevelHeader ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
@@ -505,7 +505,7 @@ define([
                     Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
                 });
             }
-            if ((appConfig.isEdit || (isPDFEditor || appConfig.isPDFForm && appConfig.canFillForms) && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader))
+            if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
         }
 
@@ -629,7 +629,7 @@ define([
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
-                    'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me, appConfig);},
+                    'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me);},
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
@@ -706,7 +706,7 @@ define([
                         $html.find('#slot-btn-favorite').hide();
                     }
 
-                    if ( !(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit)) {
+                    if ( !config.twoLevelHeader) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
@@ -721,7 +721,7 @@ define([
                     }
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
-                    if (!(config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) || config.customization && !!config.customization.compactHeader) {
+                    if (!config.twoLevelHeader || config.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous) {
                             me.btnUserName = new Common.UI.Button({
                                 el: $html.findById('.slot-btn-user-name'),
@@ -823,10 +823,10 @@ define([
                     if ( config.canCloseEditor )
                         me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'left', '10, 10');
 
-                    if ( config.canPrint && (config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) ) {
+                    if ( config.canPrint && config.twoLevelHeader ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
-                    if ( config.canQuickPrint && (config.isEdit || (isPDFEditor || config.isPDFForm && config.canFillForms) && config.isRestrictedEdit) )
+                    if ( config.canQuickPrint && config.twoLevelHeader )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
                     if (!isPDFEditor && !(config.isPDFForm && config.canFillForms && config.isRestrictedEdit) || isPDFEditor && !config.isForm)
@@ -901,7 +901,7 @@ define([
                 this.btnGoBack[value ? 'show' : 'hide']();
                 if (value)
                     this.btnGoBack.updateHint((text && typeof text == 'string') ? text : this.textBack);
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
                 return this;
             },
 
@@ -914,7 +914,7 @@ define([
                 this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
                 this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                 this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
                 return this;
             },
 
