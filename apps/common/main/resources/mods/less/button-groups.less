@@ -11,8 +11,8 @@
 // --------------------------------------------------
 
 // Make the div behave like a button
-.btn-group,
-.btn-group-vertical {
+.btn-group/*,
+  .btn-group-vertical*/ {
   position: relative;
   display: inline-block;
   vertical-align: middle; // match .btn alignment given font-size hack above
@@ -101,9 +101,9 @@
 //
 // Remix the default button sizing classes into new ones for easier manipulation.
 
-.btn-group-xs > .btn { &:extend(.btn-xs); }
+/*.btn-group-xs > .btn { &:extend(.btn-xs); }
 .btn-group-sm > .btn { &:extend(.btn-sm); }
-.btn-group-lg > .btn { &:extend(.btn-lg); }
+.btn-group-lg > .btn { &:extend(.btn-lg); }*/
 
 
 // Split button dropdowns
@@ -114,10 +114,10 @@
   padding-right: 8px;
   padding-left: 8px;
 }
-.btn-group > .btn-lg + .dropdown-toggle {
+/*.btn-group > .btn-lg + .dropdown-toggle {
   padding-right: 12px;
   padding-left: 12px;
-}
+}*/
 
 // The clickable button for toggling the menu
 // Remove the gradient and set the same inset shadow as the :active state
@@ -125,9 +125,9 @@
   .box-shadow(inset 0 3px 5px rgba(0, 0, 0, .125));
 
   // Show no shadow for `.btn-link` since it has no other button styles.
-  &.btn-link {
+  /*&.btn-link {
     .box-shadow(none);
-  }
+  }*/
 }
 
 
@@ -136,20 +136,20 @@
   margin-left: 0;
 }
 // Carets in other button sizes
-.btn-lg .caret {
+/*.btn-lg .caret {
   border-width: @caret-width-large @caret-width-large 0;
   border-bottom-width: 0;
-}
+}*/
 // Upside down carets for .dropup
-.dropup .btn-lg .caret {
+/*.dropup .btn-lg .caret {
   border-width: 0 @caret-width-large @caret-width-large;
-}
+}*/
 
 
 // Vertical button groups
 // ----------------------
 
-.btn-group-vertical {
+/*.btn-group-vertical {
   > .btn,
   > .btn-group,
   > .btn-group > .btn {
@@ -200,13 +200,13 @@
 }
 .btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {
   .border-top-radius(0);
-}
+}*/
 
 
 // Justified button groups
 // ----------------------
 
-.btn-group-justified {
+/*.btn-group-justified {
   display: table;
   width: 100%;
   table-layout: fixed;
@@ -224,7 +224,7 @@
   > .btn-group .dropdown-menu {
     left: auto;
   }
-}
+}*/
 
 
 // Checkbox and radio options

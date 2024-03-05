@@ -26,14 +26,14 @@
 // Source: https://timkadlec.com/2013/01/windows-phone-8-and-device-width/
 // Source: https://timkadlec.com/2012/10/ie10-snap-mode-and-responsive-design/
 
-@-ms-viewport {
+/*@-ms-viewport {
   width: device-width;
-}
+}*/
 
 
 // Visibility utilities
 // Note: Deprecated .visible-xs, .visible-sm, .visible-md, and .visible-lg as of v3.2.0
-.visible-xs,
+/*.visible-xs,
 .visible-sm,
 .visible-md,
 .visible-lg {
@@ -137,9 +137,9 @@
   @media (min-width: @screen-lg-min) {
     display: inline-block !important;
   }
-}
+}*/
 
-.hidden-xs {
+/*.hidden-xs {
   @media (max-width: @screen-xs-max) {
     .responsive-invisibility();
   }
@@ -158,7 +158,7 @@
   @media (min-width: @screen-lg-min) {
     .responsive-invisibility();
   }
-}
+}*/
 
 
 // Print utilities
@@ -166,7 +166,7 @@
 // Media queries are placed on the inside to be mixin-friendly.
 
 // Note: Deprecated .visible-print as of v3.2.0
-.visible-print {
+/*.visible-print {
   .responsive-invisibility();
 
   @media print {
@@ -199,4 +199,4 @@
   @media print {
     .responsive-invisibility();
   }
-}
+}*/

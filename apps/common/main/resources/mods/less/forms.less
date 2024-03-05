@@ -234,7 +234,7 @@ output {
 //
 // Indent the labels to position radios/checkboxes as hanging controls.
 
-.radio,
+/*.radio,
 .checkbox {
   position: relative;
   display: block;
@@ -292,7 +292,7 @@ output {
 .checkbox-inline + .checkbox-inline {
   margin-top: 0;
   margin-left: 10px; // space out consecutive inline controls
-}
+}*/
 
 
 // Static form control text
@@ -300,7 +300,7 @@ output {
 // Apply class to a `p` element to make any string of text align with labels in
 // a horizontal form layout.
 
-.form-control-static {
+/*.form-control-static {
   min-height: (@line-height-computed + @font-size-base);
   // Size it appropriately next to real form controls
   padding-top: (@padding-base-vertical + 1);
@@ -313,7 +313,7 @@ output {
     padding-right: 0;
     padding-left: 0;
   }
-}
+}*/
 
 
 // Form control sizing
@@ -327,7 +327,7 @@ output {
 .input-sm {
   .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @input-border-radius-small);
 }
-.form-group-sm {
+/*.form-group-sm {
   .form-control {
     height: @input-height-small;
     padding: @padding-small-vertical @padding-small-horizontal;
@@ -350,12 +350,12 @@ output {
     font-size: @font-size-small;
     line-height: @line-height-small;
   }
-}
+}*/
 
 .input-lg {
   .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @input-border-radius-large);
 }
-.form-group-lg {
+/*.form-group-lg {
   .form-control {
     height: @input-height-large;
     padding: @padding-large-vertical @padding-large-horizontal;
@@ -378,14 +378,14 @@ output {
     font-size: @font-size-large;
     line-height: @line-height-large;
   }
-}
+}*/
 
 
 // Form control feedback states
 //
 // Apply contextual and semantic states to individual form controls.
 
-.has-feedback {
+/*.has-feedback {
   // Enable absolute positioning
   position: relative;
 
@@ -442,7 +442,7 @@ output {
   &.sr-only ~ .form-control-feedback {
     top: 0;
   }
-}
+}*/
 
 
 // Help text
@@ -450,12 +450,12 @@ output {
 // Apply to any element you wish to create light text for placement immediately
 // below a form control. Use for general help, formatting, or instructional text.
 
-.help-block {
+/*.help-block {
   display: block; // account for any element using help-block
   margin-top: 5px;
   margin-bottom: 10px;
   color: lighten(@text-color, 25%); // lighten the text some for contrast
-}
+}*/
 
 
 // Inline forms
@@ -469,7 +469,7 @@ output {
 //
 // Heads up! This is mixin-ed into `.navbar-form` in navbars.less.
 
-.form-inline {
+/*.form-inline {
 
   // Kick in the inline
   @media (min-width: @screen-sm-min) {
@@ -537,7 +537,7 @@ output {
       top: 0;
     }
   }
-}
+}*/
 
 
 // Horizontal forms
@@ -545,7 +545,7 @@ output {
 // Horizontal forms are built on grid classes and allow you to create forms with
 // labels on the left and inputs on the right.
 
-.form-horizontal {
+/*.form-horizontal {
 
   // Consistent vertical alignment of radios and checkboxes
   //
@@ -608,4 +608,4 @@ output {
       }
     }
   }
-}
+}*/
