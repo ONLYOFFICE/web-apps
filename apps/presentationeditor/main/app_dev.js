@@ -65,9 +65,6 @@ require.config({
         irregularstack  : 'common/IrregularStack'
     },
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
@@ -110,6 +107,10 @@ require.config({
     }
 });
 
+require(['underscore'], function(_) {
+    window._ = _
+})
+
 require([
     'backbone',
     'bootstrap',
@@ -119,7 +120,6 @@ require([
     'locale',
     'socketio',
     'xregexp',
-    'underscore'
 ], function (Backbone, Bootstrap, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
