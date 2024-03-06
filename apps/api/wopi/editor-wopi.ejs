@@ -390,9 +390,11 @@ div {
         if (window.addEventListener) {
             window.addEventListener("load", connectEditor);
             window.addEventListener("resize", fixSize);
+            window.addEventListener("orientationchange", fixSize);
         } else if (window.attachEvent) {
             window.attachEvent("onload", connectEditor);
             window.attachEvent("onresize", fixSize);
+            window.attachEvent("orientationchange", fixSize);
         }
     </script>
 </body>
