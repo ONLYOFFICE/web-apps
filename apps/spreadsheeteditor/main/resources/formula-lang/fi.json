@@ -480,6 +480,7 @@
 	"SORT": "LAJITTELE",
 	"SORTBY": "LAJITTELE.ARVOJEN.PERUSTEELLA",
 	"GETPIVOTDATA": "NOUDA.PIVOT.TIEDOT",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

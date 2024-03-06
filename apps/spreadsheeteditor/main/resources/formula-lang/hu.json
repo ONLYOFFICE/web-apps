@@ -480,6 +480,7 @@
 	"SORT": "SORBA.RENDEZ",
 	"SORTBY": "RENDEZÉS.ALAP.SZERINT",
 	"GETPIVOTDATA": "KIMUTATÁSADATOT.VESZ",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
