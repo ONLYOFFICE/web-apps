@@ -480,6 +480,7 @@
 	"SORT": "ຈັດຮຽງ",
 	"SORTBY": "SORTBY",
 	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

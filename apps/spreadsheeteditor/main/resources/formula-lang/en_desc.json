@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(data_field; pivot_table; [field]; [item]; ...)",
 		"d": "Extracts data stored in a PivotTable."
+	},
+	"IMPORTRANGE": {
+		"a": "(spreadsheet_url, range_string)",
+		"d": "Imports a range of cells from a specified spreadsheet."
 	}
 }

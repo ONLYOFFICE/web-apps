@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(veri_alanı; pivot_table; [alan]; [öğe]; ...)",
 		"d": "PivotTable'da depolanmış verileri verir"
+	},
+	"IMPORTRANGE": {
+		"a": "(e-tablo_url'si; aralık_dizesi)",
+		"d": "Belirtilen bir e-tablodan bir hücre aralığını içe aktarır."
 	}
 }

@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(câmp_date; tabel_pivot; [câmp]; [element]; ...)",
 		"d": "Extrage date stocate într-un PivotTable"
+	},
+	"IMPORTRANGE": {
+		"a": "(adresă url_foaie de calcul)",
+		"d": "Importă o zonă de celule dintr-o foaie de calcul specificată."
 	}
 }
