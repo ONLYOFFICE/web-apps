@@ -1912,7 +1912,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
         fillIconsLabels: function() {
             var arr = this.iconsControls,
                 len = this.iconsProps.iconsLength,
-                regstr = new RegExp('^\s*[0-9]+[,.]?[0-9]*\s*$');
+                regstr = new RegExp('^\s*[-]?[0-9]+[,.]?[0-9]*\s*$');
             var val = arr[1].value.getValue();
             arr[0].label.text(Common.Utils.String.format(this.textIconLabelFirst, arr[1].cmbOperator.getSelectedRecord().prevOp, regstr.test(val) ? parseFloat(val) : this.textFormula));
             for (var i=1; i<len-1; i++) {
