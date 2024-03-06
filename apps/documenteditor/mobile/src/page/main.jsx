@@ -237,7 +237,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
             }}>
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                        {!isHideLogo ?
+                        {!isHideLogo &&
                             <div className="main-logo" onClick={() => {
                                 window.open(`${customLogoImage && customLogoUrl ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
                             }}>
@@ -247,7 +247,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                                     <Icon icon="icon-logo"></Icon>
                                 }
                             </div>
-                        : null}
+                        }
                         <Subnavbar>
                             <ToolbarController 
                                 openOptions={handleClickToOpenOptions} 

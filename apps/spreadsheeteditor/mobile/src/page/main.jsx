@@ -158,7 +158,7 @@ class MainPage extends Component {
                     <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}
                         <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                            {!isHideLogo ?
+                            {!isHideLogo &&
                                 <div className="main-logo" onClick={() => {
                                     window.open(`${customLogoImage && customLogoUrl ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
                                 }}>
@@ -168,7 +168,7 @@ class MainPage extends Component {
                                         <Icon icon="icon-logo"></Icon>
                                     }
                                 </div>
-                            : null}
+                            }
                             <Subnavbar>
                                 <Toolbar 
                                     openOptions={this.handleClickToOpenOptions}
