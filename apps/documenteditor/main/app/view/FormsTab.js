@@ -47,7 +47,7 @@ define([
 
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="forms">' +
+        '<section class="panel" data-tab="forms" role="tabpanel" aria-labelledby="forms">' +
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +

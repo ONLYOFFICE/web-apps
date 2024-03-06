@@ -45,7 +45,7 @@ define([
     'use strict';
 
     SSE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
-        var template = '<section class="panel" data-tab="view">' +
+        var template = '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group sheet-views">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-sheet-view"></span>' +
             '</div>' +

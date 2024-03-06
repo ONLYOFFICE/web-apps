@@ -50,7 +50,7 @@ define([
 
     SSE.Views.PivotTable = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="pivot-table-panel" class="panel" data-tab="pivot">' +
+            '<section id="pivot-table-panel" class="panel" data-tab="pivot" role="tabpanel" aria-labelledby="pivot">' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-add-pivot"></span>' +
                 '</div>' +
