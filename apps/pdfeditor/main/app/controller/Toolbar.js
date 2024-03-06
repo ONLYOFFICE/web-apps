@@ -369,7 +369,7 @@ define([
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
                 this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartTextHighlight, this)); // ??? different highlight or not
                 this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
-
+                this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
             }
             if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
