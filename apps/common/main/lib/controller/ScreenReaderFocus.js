@@ -265,20 +265,15 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko) // turn off hints on IE and FireFox (shortcut F6 selects link in address bar)
             return;
         _api = api;
-
         _app = window.DE || window.PE || window.SSE || window.PDFE;
+        _isDocReady = true;
 
-        Common.NotificationCenter.on({
-            'app:ready': function (mode) {
-                _isDocReady = true;
+        if ( !Common.Utils.ScreeenReaderHelper ) {
+            require(['common/main/lib/util/ScreenReaderHelper'], function () {
+                Common.Utils.ScreeenReaderHelper.setEnabled(true);
+            });
+        }
 
-                if ( !Common.Utils.ScreeenReaderHelper ) {
-                    require(['common/main/lib/util/ScreenReaderHelper'], function () {
-                        Common.Utils.ScreeenReaderHelper.setEnabled(true);
-                    });
-                }
-            }
-        });
         $('#editor_sdk').on('click', function () {
             _exitFocusMode();
         });
