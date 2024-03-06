@@ -176,11 +176,11 @@ define([
                                 '</div>' +
                             '<% } %>' +
                             '<div class="body"><%= tpl %>' +
-                                '<% if (typeof (buttons) !== "undefined" && _.size(buttons) > 0) { %>' +
+                                '<% if (typeof (buttonsParsed) !== "undefined" && _.size(buttonsParsed) > 0) { %>' +
                                 '<div class="footer">' +
-                                    '<% for(var bt in buttons) { %>' +
-                                        '<button class="btn normal dlg-btn <%= buttons[bt].cls %>" result="<%= bt %>"><%= buttons[bt].text %></button>'+
-                                    '<% } %>' +
+                                    '<% _.each(buttonsParsed, function (item) { %>' +
+                                        '<button class="btn normal dlg-btn <%= item.cls %>" result="<%= item.value %>" <% if (item.id) { %>id="<%=item.id%>" <% } %> ><%= item.text %></button>'+
+                                    '<% }); %>' +
                                 '</div>' +
                                 '<% } %>' +
                             '</div>' +
@@ -201,6 +201,9 @@ define([
         function _keydown(event) {
             if (!this.isLocked() && this.isVisible()
                         && this.initConfig.enableKeyEvents && this.pauseKeyEvents !== false) {
+                if (this.initConfig.keydowncallback && this.initConfig.keydowncallback.call(this, event))
+                    return false;
+
                 switch (event.keyCode) {
                     case Common.UI.Keys.ESC:
                         if ( $('.asc-loadmask').length<1 ) {
@@ -216,6 +219,9 @@ define([
                         }
                         break;
                     case Common.UI.Keys.RETURN:
+                        var target = $(event.target);
+                        if (target.hasClass('dlg-btn') && !target.hasClass('primary')) return;
+
                         if (this.$window.find('.btn.primary').length && $('.asc-loadmask').length<1) {
                             if ((this.initConfig.onprimary || this.onPrimary).call(this)===false) {
                                 event.preventDefault();
@@ -475,7 +481,7 @@ define([
             
             var template =  '<div class="info-box">' +
                                 '<% if (typeof iconCls !== "undefined") { %><div class="icon <%= iconCls %>"></div><% } %>' +
-                                '<div class="text" dir="ltr" <% if (typeof iconCls == "undefined") { %> style="padding-left:10px;" <% } %>><span><%= msg %></span>' +
+                                '<div class="text" <% if (typeof iconCls == "undefined") { %> style="padding-' + (Common.UI.isRTL() ? 'right' : 'left') + ':10px;"<% } %>><span><%= msg %></span>' +
                                     '<% if (dontshow) { %><div class="dont-show-checkbox"></div><% } %>' +
                                 '</div>' +
                             '</div>' +
@@ -484,11 +490,15 @@ define([
             _.extend(options, {
                 cls: 'alert',
                 onprimary: onKeyDown,
+                getFocusedComponents: getFocusedComponents,
+                getDefaultFocusableComponent: getDefaultFocusableComponent,
                 tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
                chDontShow = null;
+            win.getFocusedComponents = getFocusedComponents;
+            win.getDefaultFocusableComponent = getDefaultFocusableComponent;
 
             function autoSize(window) {
                 var text_cnt    = window.getChild('.info-box');
@@ -497,22 +507,27 @@ define([
                 var header      = window.getChild('.header');
                 var body        = window.getChild('.body');
                 var icon        = window.getChild('.icon'),
-                    icon_height = (icon.length>0) ? icon.height() : 0;
+                    icon_height = (icon.length>0) ? icon.height() : 0,
+                    icon_width = (icon.length>0) ? $(icon).outerWidth(true) : 0;
                 var check       = window.getChild('.info-box .dont-show-checkbox');
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
 
                 if (options.maxwidth && options.width=='auto') {
-                    if ((text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) > options.maxwidth)
+                    var width = !Common.UI.isRTL() ? (text.position().left + text.width() + parseInt(text_cnt.css('padding-right'))) :
+                        (parseInt(text_cnt.css('padding-right')) + icon_width + text.width() + parseInt(text_cnt.css('padding-left')));
+                    if (width > options.maxwidth)
                         options.width = options.maxwidth;
                 }
                 if (options.width=='auto') {
                     text_cnt.height(Math.max(text.height(), icon_height) + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     var span_el = check.find('span');
-                    window.setSize(Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right')) +
-                        (Common.UI.isRTL() && icon.length > 0 ? icon.width() + parseInt(icon.css('margin-right')) + parseInt(icon.css('margin-left')) : 0),
-                        parseInt(body.css('height')) + parseInt(header.css('height')));
+                    var width = !Common.UI.isRTL() ?
+                        (Math.max(text.width(), span_el.length>0 ? span_el.position().left + span_el.width() : 0) + text.position().left + parseInt(text_cnt.css('padding-right'))) :
+                        (parseInt(text_cnt.css('padding-right')) + icon_width + parseInt(text_cnt.css('padding-left')) +
+                            (Math.max(text.width(), check.length>0 ? $(check).find('.checkbox-indeterminate').outerWidth(true) : 0)));
+                    window.setSize(width, parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');
                     window.setWidth(options.width);
@@ -537,6 +552,16 @@ define([
                 return false;
             }
 
+            function getFocusedComponents(event) {
+                return win.getFooterButtons();
+           }
+
+            function getDefaultFocusableComponent() {
+                return _.find(win.getFooterButtons(), function (item) {
+                    return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+                });
+            }
+
             win.on({
                 'render:after': function(obj){
                     var footer = obj.getChild('.footer');
@@ -547,9 +572,6 @@ define([
                         labelText: options.textDontShow || win.textDontShow
                     });
                     autoSize(obj);
-                },
-                show: function(obj) {
-                    obj.getChild('.footer .dlg-btn').focus();
                 },
                 close: function() {
                     options.callback && options.callback.call(win, 'close');
@@ -621,19 +643,20 @@ define([
                 if (options.buttons && _.isArray(options.buttons)) {
                     if (options.primary==undefined)
                         options.primary = 'ok';
-                    var newBtns = {};
+                    var newBtns = [];
                     _.each(options.buttons, function(b){
                         if (typeof(b) == 'object') {
-                            if (b.value !== undefined)
-                                newBtns[b.value] = {text: b.caption, cls: 'custom' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
-                        } else {
-                            newBtns[b] = {text: (b=='custom') ? options.customButtonText : arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''};
-                            if (b=='custom')
-                                newBtns[b].cls += ' custom';
+                            if (b.value !== undefined) {
+                                var item = {value: b.value, text: b.caption, cls: 'auto' + ((b.primary || options.primary==b.value) ? ' primary' : '')};
+                                b.id && (item.id = b.id);
+                                newBtns.push(item);
+                            }
+                        } else if (b!==undefined) {
+                            newBtns.push({value: b, text: arrBtns[b], cls: (options.primary==b || _.indexOf(options.primary, b)>-1) ? 'primary' : ''});
                         }
                     });
 
-                    options.buttons = newBtns;
+                    options.buttonsParsed = newBtns;
                     options.footerCls = options.footerCls || 'center';
                 }
 
@@ -1026,6 +1049,19 @@ define([
             },
 
             getDefaultFocusableComponent: function() {
+            },
+
+            getFooterButtons: function() {
+                if (!this.footerButtons) {
+                    var arr = [];
+                    this.$window.find('.dlg-btn').each(function(index, item) {
+                        arr.push(new Common.UI.Button({
+                            el: $(item)
+                        }));
+                    });
+                    this.footerButtons = arr;
+                }
+                return this.footerButtons;
             },
 
             cancelButtonText: 'Cancel',

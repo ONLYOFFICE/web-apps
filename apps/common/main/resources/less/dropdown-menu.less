@@ -38,6 +38,7 @@
             color: @text-normal-ie;
             color: @text-normal;
             .font-size-normal();
+            .text-align-left();
 
             &:focus, &.focus {
                 outline: 0;
@@ -52,10 +53,6 @@
                 color: @text-normal;
                 background-color: @highlight-button-hover-ie;
                 background-color: @highlight-button-hover;
-            }
-
-            .rtl & {
-                text-align: right;
             }
         }
 
@@ -78,26 +75,29 @@
                 width: 16px;
                 height: 16px;
                 display: inline-block;
-                float: left;
-                margin-left: -18px;
+                .float-left();
+                .margin-left(-18px);
                 background-position: @menu-check-offset-x @menu-check-offset-y;
-
-                .rtl & {
-                    float: right;
-                    margin-left: 0;
-                    margin-right: -18px;
-                }
             }
+        }
+
+        label.description {
+            display: block;
+            white-space: normal;
+            cursor: pointer;
         }
 
         &.disabled {
             .menu-item-icon {
             }
+            label.description {
+                cursor: default;
+            }
         }
 
         .menu-item-icon {
             display: inline-block;
-            float: left;
+            .float-left();
             width: 20px;
             height: 20px;
             margin: -2px 5px 0 -15px;
@@ -105,7 +105,6 @@
             opacity: @component-normal-icon-opacity;
 
             .rtl & {
-                float: right;
                 margin: -2px -15px 0 5px;
             }
         }
@@ -149,11 +148,7 @@
     &.shifted-right {
         li {
             & > a {
-                padding-left: 28px;
-                .rtl & {
-                    padding-left: 20px;
-                    padding-right: 28px;
-                }
+                .padding-x(28px, 20px);
             }
             .menu-item-icon {
                 margin: -2px 0 0 -24px;

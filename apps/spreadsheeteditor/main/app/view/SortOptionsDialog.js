@@ -47,7 +47,7 @@ define([
     SSE.Views.SortOptionsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 230,
-            height: 200
+            separator: false
         },
 
         initialize : function(options) {
@@ -55,10 +55,9 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td class="padding-large">',
@@ -86,10 +85,8 @@ define([
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.props      = options.props;
@@ -130,7 +127,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.chHeaders, this.radioTop, this.radioLeft];
+            return [this.chHeaders, this.radioTop, this.radioLeft].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

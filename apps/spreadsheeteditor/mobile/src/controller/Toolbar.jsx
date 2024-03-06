@@ -3,10 +3,14 @@ import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import ToolbarView from "../view/Toolbar";
+import { Device } from '../../../../common/mobile/utils/device';
 
-const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets')(observer(props => {
+const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetInfo', 'storeFocusObjects', 'storeToolbarSettings', 'storeWorksheets', 'storeVersionHistory')(observer(props => {
     const {t} = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
+    const storeVersionHistory = props.storeVersionHistory;
+    const storeSpreadsheetInfo = props.storeSpreadsheetInfo;
+    const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
 
     const storeWorksheets = props.storeWorksheets;
     const wsProps = storeWorksheets.wsProps;
@@ -22,8 +26,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const editFormulaMode = storeFocusObjects.editFormulaMode;
 
     const displayCollaboration = props.users.hasEditUsers || appOptions.canViewComments;
-    const docTitle = props.storeSpreadsheetInfo.dataDoc ? props.storeSpreadsheetInfo.dataDoc.title : '';
-
+    const docTitle = storeSpreadsheetInfo.dataDoc?.title ?? '';
+    const docExt = storeSpreadsheetInfo.dataDoc?.fileType ?? '';
+   
     const showEditDocument = !appOptions.isEdit && appOptions.canEdit && appOptions.canRequestEditRights;
 
     const storeToolbarSettings = props.storeToolbarSettings;
@@ -147,27 +152,146 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         Common.Gateway.requestEditRights();
     };
 
+    const closeHistory = () => {
+        Common.Gateway.requestHistoryClose();
+    }
+
+    const changeTitleHandler = () => {
+        if(!appOptions.canRename) return;
+
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
+
+        f7.dialog.create({
+            title: t('Toolbar.textRenameFile'),
+            text : t('Toolbar.textEnterNewFileName'),
+            content: Device.ios ?
+                `<div class="input-field">
+                    <input type="text" class="modal-text-input" name="modal-title" id="modal-title">
+                </div>` : 
+                `<div class="input-field modal-title">
+                    <div class="inputs-list list inline-labels">
+                        <ul>
+                            <li>
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                        <div class="item-input-wrap">
+                                            <input type="text" name="modal-title" id="modal-title">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>`,
+            cssClass: 'dlg-adv-options',
+            buttons: [
+                {
+                    text: t('View.Edit.textCancel')
+                },
+                {
+                    text: t('View.Edit.textOk'),
+                    cssClass: 'btn-change-title',
+                    bold: true,
+                    close: false,
+                    onClick: () => {
+                        const titleFieldValue = document.querySelector('#modal-title').value;
+
+                        if(titleFieldValue.trim().length) {
+                            changeTitle(titleFieldValue);
+                            f7.dialog.close();
+                        }
+                    }
+                }
+            ],
+            on: {
+                opened: () => {
+                    const nameDoc = docTitle.split('.')[0];
+                    const titleField = document.querySelector('#modal-title');
+                    const btnChangeTitle = document.querySelector('.btn-change-title');
+
+                    titleField.value = nameDoc;
+                    titleField.focus();
+                    titleField.select();
+
+                    titleField.addEventListener('input', () => {
+                        if(titleField.value.trim().length) {
+                            btnChangeTitle.classList.remove('disabled');
+                        } else {
+                            btnChangeTitle.classList.add('disabled');
+                        }
+                    });
+                }
+            }
+        }).open();
+    }
+
+    const cutDocName = name => {
+        if(name.length <= docExt.length) return name;
+        const idx = name.length - docExt.length;
+
+        return name.substring(idx) == docExt ? name.substring(0, idx) : name;
+    };
+
+    const changeTitle = (name) => {
+        const api = Common.EditorApi.get();
+        const currentTitle = `${name}.${docExt}`;
+        let formatName = name.trim();
+
+        if(formatName.length > 0 && cutDocName(currentTitle) !== formatName) {
+            if(/[\t*\+:\"<>?|\\\\/]/gim.test(formatName)) {
+                f7.dialog.create({
+                    title: t('View.Edit.notcriticalErrorTitle'),
+                    text: t('View.Edit.textInvalidName') + '*+:\"<>?|\/',
+                    buttons: [
+                        {
+                            text: t('View.Edit.textOk'),
+                            close: true
+                        }
+                    ]
+                }).open();
+            } else {
+                const wopi = appOptions.wopi;
+                formatName = cutDocName(formatName);
+
+                if(wopi) {
+                    api.asc_wopi_renameFile(formatName);
+                } else {
+                    Common.Gateway.requestRename(formatName);
+                }
+
+                const newTitle = `${formatName}.${docExt}`;
+                storeSpreadsheetInfo.changeTitle(newTitle);
+            }
+        }
+    }
+
     return (
-        <ToolbarView openOptions={props.openOptions}
-                     isEdit={appOptions.isEdit}
-                     docTitle={docTitle}
-                     isShowBack={isShowBack}
-                     isCanUndo={isCanUndo}
-                     isCanRedo={isCanRedo}
-                     onUndo={onUndo}
-                     onRedo={onRedo}
-                     disabledControls={disabledControls}
-                     disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
-                     disabledSearch={editFormulaMode || isEditCell}
-                     disabledSettings={disabledSettings || editFormulaMode || isEditCell}
-                     displayCollaboration={displayCollaboration}
-                     disabledCollaboration={editFormulaMode || isEditCell}
-                     showEditDocument={showEditDocument}
-                     onEditDocument={onEditDocument}
-                     isDisconnected={isDisconnected}
-                     wsProps={wsProps}
-                     focusOn={focusOn}
-                     isShapeLocked={isShapeLocked}
+        <ToolbarView 
+            openOptions={props.openOptions}
+            isEdit={appOptions.isEdit}
+            docTitle={docTitle}
+            isShowBack={isShowBack}
+            isCanUndo={isCanUndo}
+            isCanRedo={isCanRedo}
+            onUndo={onUndo}
+            onRedo={onRedo}
+            disabledControls={disabledControls}
+            disabledEditControls={disabledEditControls || isObjectLocked || editFormulaMode || isEditCell}
+            disabledSearch={editFormulaMode || isEditCell}
+            disabledSettings={disabledSettings || editFormulaMode || isEditCell}
+            displayCollaboration={displayCollaboration}
+            disabledCollaboration={editFormulaMode || isEditCell}
+            showEditDocument={showEditDocument}
+            onEditDocument={onEditDocument}
+            isDisconnected={isDisconnected}
+            wsProps={wsProps}
+            focusOn={focusOn}
+            isShapeLocked={isShapeLocked}
+            isVersionHistoryMode={isVersionHistoryMode}
+            closeHistory={closeHistory}
+            isOpenModal={props.isOpenModal}
+            changeTitleHandler={changeTitleHandler}
         />
     )
 }));

@@ -62,7 +62,7 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div style="margin-bottom: 10px;">',
-                        '<div id="table-combo-row-col" class="input-group-nr" style="display: inline-block; margin-right: 5px;"></div>',
+                        '<div id="table-combo-row-col" class="input-group-nr margin-right-5" style="display: inline-block;"></div>',
                         '<div id="table-spin-row-col" style="display: inline-block;"></div>',
                     '</div>',
                     '<div id="table-radio-before" style="padding-bottom: 8px;"></div>',
@@ -129,7 +129,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbRowCol, this.spnCount, this.radioBefore, this.radioAfter];
+            return [this.cmbRowCol, this.spnCount, this.radioBefore, this.radioAfter].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

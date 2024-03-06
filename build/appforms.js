@@ -55,6 +55,9 @@ module.exports = (grunt) => {
             },
 
             requirejs: {
+                options: {
+                    optimize: "none",
+                },
                 compile: {
                     options: packageFile.forms.js.requirejs.options
                 }
@@ -111,12 +114,24 @@ module.exports = (grunt) => {
                 dist: {
                     src: packageFile.forms.inline.src
                 }
-            }
+            },
 
+            terser: {
+                options: {
+                    format: {
+                        comments: false,
+                        preamble: "/* minified by terser */",
+                    },
+                },
+                build: {
+                    src: [packageFile.forms.js.requirejs.options.out],
+                    dest: packageFile.forms.js.requirejs.options.out
+                },
+            },
         });
     });
-    
+
     grunt.registerTask('deploy-app-forms', ['forms-app-init', 'clean:prebuild', /*'imagemin',*/ 'less',
-                                                            'requirejs', 'concat', 'copy', 'inline', /*'json-minify',*/
+                                                            'requirejs', 'terser', 'concat', 'copy', 'inline', /*'json-minify',*/
                                                             'replace:varsEnviroment', /*'replace:prepareHelp',*/ 'clean:postbuild']);
 }

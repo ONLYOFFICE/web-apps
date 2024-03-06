@@ -49,7 +49,6 @@ define([
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
-            height: 490,
             id: 'window-chart-data'
         },
 
@@ -58,10 +57,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                        '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td>',
@@ -81,18 +80,18 @@ define([
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-add">', me.textAdd, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
-                                        '<div class="up-down-btns">',
-                                        '<div id="chart-dlg-btn-up"></div>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-add">', me.textAdd, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-edit">', me.textEdit, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-delete">', me.textDelete, '</button>',
+                                        '<div class="up-down-btns float-right">',
+                                        '<div id="chart-dlg-btn-up" class="margin-right-2"></div>',
                                         '<div id="chart-dlg-btn-down"></div>',
                                         '</div>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
                                     '<td class="padding-large">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-switch" style="min-width: 70px;margin-right:5px;">', me.textSwitch, '</button>',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-switch" style="min-width: 70px;">', me.textSwitch, '</button>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
@@ -102,16 +101,13 @@ define([
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
-                                    '<td class="padding-small">',
-                                        '<button type="button" class="btn btn-text-default auto" id="chart-dlg-btn-category-edit" style="min-width: 70px;margin-right:5px;">', me.textEdit, '</button>',
+                                    '<td class="padding-large">',
+                                        '<button type="button" class="btn btn-text-default auto margin-right-5" id="chart-dlg-btn-category-edit" style="min-width: 70px;">', me.textEdit, '</button>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
-                        '</div></div>',
-                    '</div>',
-                    '</div>',
-                    '<div class="separator horizontal"></div>'
-                ].join('')
+                        '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.handler    = options.handler;
@@ -154,7 +150,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
             this.seriesList.onKeyDown = _.bind(this.onListKeyDown, this, 'series');
@@ -206,7 +202,7 @@ define([
                 store: new Common.UI.DataViewStore(),
                 emptyText: '',
                 scrollAlwaysVisible: true,
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="min-height: 15px;"><%= Common.Utils.String.htmlEncode(value) %></div>'),
                 tabindex:1
             });
 
@@ -219,7 +215,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtDataRange, this.seriesList, this.btnAdd, this.btnEdit, this.btnDelete, this.btnUp, this.btnDown, this.btnSwitch, this.categoryList, this.btnEditCategory];
+            return [this.txtDataRange, this.seriesList, this.btnAdd, this.btnEdit, this.btnDelete, this.btnUp, this.btnDown, this.btnSwitch, this.categoryList, this.btnEditCategory].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

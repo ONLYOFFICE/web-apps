@@ -55,26 +55,24 @@ define([
             value = Common.localStorage.getItem(this.storageName + '-height');
             value && (height = parseInt(value));
 
-            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
             _.extend(_options,  {
                 width: width,
-                height: (_inner_height - height)<0 ? _inner_height : height,
                 cls: 'advanced-settings-dlg',
                 header: true,
                 toolclose: 'hide',
                 toolcallback: _.bind(this.onToolClose, this),
                 resizable: true
             }, options);
-
-            this._headerFooterHeight = 85;
+            // (!_options.buttons || _.size(_options.buttons)<1) && (_options.cls += ' no-footer');
+            _options.contentHeight = height;
 
             this.template = [
-                '<div id="id-editor-container" class="box" style="height:' + (_options.height-this._headerFooterHeight) + 'px; padding: 0 5px;">',
+                '<div id="id-editor-container" class="box" style="height:' + _options.contentHeight + 'px; padding: 0 5px;">',
                     '<div id="' + (_options.sdkplaceholder || '') + '" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<div class="separator horizontal"></div>',
                 '<div class="footer" style="text-align: center;">',
-                    '<button id="id-btn-editor-apply" class="btn normal dlg-btn primary custom" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
+                    '<button id="id-btn-editor-apply" class="btn normal dlg-btn primary auto" result="ok" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textSave + '</button>',
                     '<button id="id-btn-editor-cancel" class="btn normal dlg-btn" result="cancel" data-hint="1" data-hint-direction="bottom" data-hint-offset="big">' + this.textClose + '</button>',
                 '</div>'
             ].join('');
@@ -90,6 +88,16 @@ define([
         render: function() {
             Common.UI.Window.prototype.render.call(this);
             this.boxEl = this.$window.find('.body > .box');
+            var bodyEl = this.$window.find('> .body');
+            this._headerFooterHeight = this.initConfig.header ? parseInt(this.$window.find('.header').css('height')) : 0;
+            this._headerFooterHeight += parseInt(this.$window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
+            this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
+            var _inner_height = Common.Utils.innerHeight() - Common.Utils.InternalSettings.get('window-inactive-area-top');
+            if (_inner_height < this.initConfig.contentHeight + this._headerFooterHeight) {
+                this.initConfig.contentHeight = _inner_height - this._headerFooterHeight;
+                this.boxEl.css('height', this.initConfig.contentHeight);
+            }
 
             this.btnSave = new Common.UI.Button({
                 el: this.$window.find('#id-btn-editor-apply'),

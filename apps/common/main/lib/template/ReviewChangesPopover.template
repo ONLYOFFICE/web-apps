@@ -1,8 +1,18 @@
 <div id="<%=id%>" class="user-comment-item">
-    <div class="user-name">
-        <div class="color" style="display: inline-block; background-color: <% if (usercolor!==null) { %><%=usercolor%><% } else { %> #cfcfcf <% } %>; " ></div><%= scope.getUserName(username) %>
+
+    <div class="user-info">
+        <div class="color"
+            <% if (avatar) { %>
+                style="background-image: url(<%=avatar%>); <% if (usercolor!==null) { %> border-color:<%=usercolor%>; border-style:solid;<% }%>" 
+            <% } else { %>
+                style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;" 
+            <% } %>
+        ><% if (!avatar) { %><%-initials%><% } %></div>
+        <div class="user-info-text">
+            <div class="user-name"><%= scope.getUserName(username) %></div>
+            <div class="user-date"><%=date%></div>
+        </div>
     </div>
-    <div class="user-date"><%=date%></div>
     <div class="user-message limit-height"><%=changetext%></div>
     <div class="edit-ct">
         <% if (goto) { %>
@@ -21,6 +31,6 @@
     </div>
     <% if (!hint && lock) { %>
     <div class="lock-area" style="cursor: default;"></div>
-    <div class="lock-author" style="cursor: default;"><%=lockuser%></div>
+    <div class="lock-author" style="cursor: default;"><%-lockuser%></div>
     <% } %>
 </div>

@@ -74,6 +74,7 @@ define([
             this.panelHistory.storeHistory.on('reset', _.bind(this.onResetStore, this));
             this.panelHistory.on('render:after', _.bind(this.onAfterRender, this));
             Common.Gateway.on('sethistorydata', _.bind(this.onSetHistoryData, this));
+            Common.NotificationCenter.on('mentions:setusers', _.bind(this.avatarsUpdate, this));
         },
 
         setApi: function(api) {
@@ -279,6 +280,21 @@ define([
             });
             this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: this.panelHistory.viewHistoryList.minScrollbarLength});
             this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
+        },
+
+        avatarsUpdate: function(type, users) {
+            if (type!=='info') return;
+
+            if (users && users.length>0 ){
+                this.panelHistory.storeHistory.each(function(item){
+                    var user = _.findWhere(users, {id: item.get('userid')});
+                    if (user && (user.image!==undefined)) {
+                        if (user.image !== item.get('avatar')) {
+                            item.set('avatar', user.image);
+                        }
+                    }
+                });
+            }
         },
 
         notcriticalErrorTitle: 'Warning'

@@ -19,6 +19,8 @@ import { storeLinkSettings } from "./linkSettings";
 import {storeReview} from '../../../../common/mobile/lib/store/review';
 import {storeComments} from "../../../../common/mobile/lib/store/comments";
 import {storeToolbarSettings} from "./toolbar";
+import { storeThemes } from '../../../../common/mobile/lib/store/themes';
+import { storeVersionHistory } from '../../../../common/mobile/lib/store/versionHistory';
 
 export const stores = {
     storeAppOptions: new storeAppOptions(),
@@ -41,6 +43,8 @@ export const stores = {
     // storeShapeSettings: new storeShapeSettings(),
     // storeChartSettings: new storeChartSettings(),
     storeComments: new storeComments(),
-    storeToolbarSettings: new storeToolbarSettings()
+    storeToolbarSettings: new storeToolbarSettings(),
+    storeThemes: new storeThemes(),
+    storeVersionHistory: new storeVersionHistory()
 };
 

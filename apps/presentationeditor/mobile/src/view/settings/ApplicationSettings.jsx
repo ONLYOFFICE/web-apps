@@ -1,27 +1,32 @@
-import React, {Fragment, useState} from "react";
+import React, { Fragment } from "react";
 import { observer, inject } from "mobx-react";
-import {f7, Page, Navbar, List, ListItem, BlockTitle, Toggle } from "framework7-react";
+import { Page, Navbar, List, ListItem, BlockTitle, Toggle, Block } from "framework7-react";
 import { useTranslation } from "react-i18next";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
-import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
 const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const unitMeasurement = store.unitMeasurement;
-    const isSpellChecking = store.isSpellChecking;
-    const [isThemeDark, setIsThemeDark] = useState(Themes.isCurrentDark);
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const unitMeasurement = storeApplicationSettings.unitMeasurement;
+    const isSpellChecking = storeApplicationSettings.isSpellChecking;
+    const directionMode = storeApplicationSettings.directionMode;
+    const newDirectionMode = directionMode !== 'ltr' ? 'ltr' : 'rtl';
 
     const changeMeasureSettings = value => {
-        store.changeUnitMeasurement(value);
+        storeApplicationSettings.changeUnitMeasurement(value);
         props.setUnitMeasurement(value);
     };
 
     // set mode
     const appOptions = props.storeAppOptions;
+    const storeThemes = props.storeThemes;
+    const colorTheme = storeThemes.colorTheme;
+    const themes = storeThemes.themes;
+    const typeTheme = colorTheme.type;
+    const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const _isEdit = appOptions.isEdit;
     // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
+
 
     return (
         <Page>
@@ -41,73 +46,77 @@ const PageApplicationSettings = props => {
                         <ListItem title={_t.textSpellcheck}>
                             <Toggle checked={isSpellChecking}
                                     onToggleChange={() => {
-                                        store.changeSpellCheck(!isSpellChecking);
+                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
                                         props.switchSpellCheck(!isSpellChecking);
                                     }}
                             />
                         </ListItem>
                     </List>
-                    {/*<RTLSetting />*/}
                 </Fragment>
             }
-            <List>
-                <ListItem title={t('View.Settings.textDarkTheme')}>
-                    <Toggle checked={isThemeDark}
-                            onToggleChange={() => {Themes.switchDarkTheme(!isThemeDark), setIsThemeDark(!isThemeDark)}}>
-                    </Toggle>
-                </ListItem>
-            </List>
-            {/* {_isShowMacros && */}
+            {!!isConfigSelectTheme &&
+                <List mediaList>
+                    <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
+                        changeTheme: props.changeTheme,
+                    }}></ListItem>
+                </List>
+            }
             <List mediaList>
                 <ListItem title={_t.textMacrosSettings} link="/macros-settings/" routeProps={{
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>
             </List>
-            {/* } */}
+            <List>
+                <ListItem>
+                    <div>
+                        <span>{t("View.Settings.textRtlInterface")}</span>
+                        <span className="beta-badge">Beta</span>
+                    </div>
+                    <Toggle checked={directionMode !== 'ltr'}
+                            onToggleChange={() => {
+                                storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                props.changeDirectionMode(newDirectionMode);
+                            }}
+                    />
+                </ListItem>
+            </List>
+            <Block>
+                <p>{t('View.Settings.textExplanationChangeDirection')}</p>
+            </Block>
         </Page>
     );
 };
 
-const RTLSetting = () => {
+const PageThemeSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-
-    let direction = LocalStorage.getItem('mode-direction');
-    const [isRTLMode, setRTLMode] = useState(direction === 'rtl' ? true : false);
-
-    const switchRTLMode = rtl => {
-        LocalStorage.setItem("mode-direction", rtl ? 'rtl' : 'ltr');
-
-        f7.dialog.create({
-            title: t('View.Settings.notcriticalErrorTitle'),
-            text: t('View.Settings.textRestartApplication'),
-            buttons: [
-                {
-                    text: t('View.Settings.textOk')
-                }
-            ]
-        }).open();
-    }
+    const storeThemes = props.storeThemes;
+    const colorTheme = storeThemes.colorTheme;
+    const typeTheme = colorTheme.type;
+    const themes = storeThemes.themes;
 
     return (
-        <List>
-            <ListItem title={t('View.Settings.textRTL')}>
-                <Toggle checked={isRTLMode}
-                    onToggleChange={toggle => {switchRTLMode(!toggle), setRTLMode(!toggle)}}>
-                </Toggle>
-            </ListItem>            
-        </List>
+        <Page>
+            <Navbar title={t('Common.Themes.textTheme')} backLink={_t.textBack} />
+            <List>
+                {Object.keys(themes).map((key, index) => {
+                    return (
+                        <ListItem key={index} radio checked={typeTheme === themes[key].type} onChange={() => props.changeTheme(key)} name={themes[key].id} title={themes[key].text}></ListItem>
+                    )
+                })}
+            </List>
+        </Page>
     )
 }
 
 const PageMacrosSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
-    const store = props.storeApplicationSettings;
-    const macrosMode = store.macrosMode;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const macrosMode = storeApplicationSettings.macrosMode;
 
     const changeMacros = value => {
-        store.changeMacrosSettings(value);
+        storeApplicationSettings.changeMacrosSettings(value);
         props.setMacrosSettings(value);
     };
 
@@ -126,7 +135,8 @@ const PageMacrosSettings = props => {
     );
 };
 
-const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions")(observer(PageApplicationSettings));
+const ApplicationSettings = inject("storeApplicationSettings", "storeAppOptions", "storeThemes")(observer(PageApplicationSettings));
+const ThemeSettings = inject("storeThemes")(observer(PageThemeSettings));
 const MacrosSettings = inject("storeApplicationSettings")(observer(PageMacrosSettings));
 
-export {ApplicationSettings, MacrosSettings};
+export {ApplicationSettings, MacrosSettings, ThemeSettings};

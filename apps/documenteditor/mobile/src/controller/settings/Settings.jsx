@@ -1,32 +1,24 @@
-import React, {useEffect} from 'react';
+import React, { createContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import {f7} from 'framework7-react';
+import { f7 } from 'framework7-react';
 import { observer, inject } from "mobx-react";
-import {Device} from '../../../../../common/mobile/utils/device';
+import { Device } from '../../../../../common/mobile/utils/device';
 import SettingsView from "../../view/settings/Settings";
-import {LocalStorage} from "../../../../../common/mobile/utils/LocalStorage.mjs";
+import { LocalStorage } from "../../../../../common/mobile/utils/LocalStorage.mjs";
 
-const Settings = props => {
+export const SettingsContext = createContext();
+
+const SettingsController = props => {
     const storeDocumentInfo = props.storeDocumentInfo;
+    const appOptions = props.storeAppOptions;
+    const docExt = storeDocumentInfo.dataDoc.fileType;
     const { t } = useTranslation();
 
-    useEffect(() => {
-        if ( Device.phone ) {
-            f7.popup.open('.settings-popup');
-        } else {
-            f7.popover.open('#settings-popover', '#btn-settings');
-        }
-
-        return () => {
-            // component will unmount
-        }
-    });
-
     const closeModal = () => {
-        if (Device.phone) {
-            f7.sheet.close('.settings-popup');
+        if(Device.phone) {
+            f7.sheet.close('.settings-popup', false);
         } else {
-            f7.popover.close('#settings-popover');
+            f7.popover.close('#settings-popover', false);
         }
     };
 
@@ -60,7 +52,7 @@ const Settings = props => {
     };
 
     const showFeedback = () => {
-        let config = props.storeAppOptions.config;
+        let config = appOptions.config;
 
         closeModal();
         setTimeout(() => {
@@ -86,7 +78,6 @@ const Settings = props => {
 
     const onChangeMobileView = () => {
         const api = Common.EditorApi.get();
-        const appOptions = props.storeAppOptions;
         const isMobileView = appOptions.isMobileView;
 
         LocalStorage.setBool('mobile-view', !isMobileView);
@@ -95,7 +86,11 @@ const Settings = props => {
     };
 
     const changeTitleHandler = () => {
+        if(!appOptions.canRename) return;
+
         const docTitle = storeDocumentInfo.dataDoc.title;
+        const api = Common.EditorApi.get();
+        api.asc_enableKeyEvents(true);
 
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),
@@ -114,6 +109,7 @@ const Settings = props => {
                     close: false,
                     onClick: () => {
                         const titleFieldValue = document.querySelector('#modal-title').value;
+                        
                         if(titleFieldValue.trim().length) {
                             changeTitle(titleFieldValue);
                             f7.dialog.close();
@@ -143,33 +139,92 @@ const Settings = props => {
         }).open();
     };
 
-    const changeTitle = name => {
-        const api = Common.EditorApi.get();
-        const docInfo = storeDocumentInfo.docInfo;
-        const docExt = storeDocumentInfo.dataDoc.fileType;
-        const title = `${name}.${docExt}`;
+    const cutDocName = name => {
+        if(name.length <= docExt.length) return name;
+        const idx = name.length - docExt.length;
 
-        storeDocumentInfo.changeTitle(title);
-        docInfo.put_Title(title);
-        storeDocumentInfo.setDocInfo(docInfo);
-        api.asc_setDocInfo(docInfo);
+        return name.substring(idx) == docExt ? name.substring(0, idx) : name;
     };
 
+    const changeTitle = (name) => {
+        const api = Common.EditorApi.get();
+        const currentTitle = `${name}.${docExt}`;
+        let formatName = name.trim();
+
+        if(formatName.length > 0 && cutDocName(currentTitle) !== formatName) {
+            if(/[\t*\+:\"<>?|\\\\/]/gim.test(formatName)) {
+                f7.dialog.create({
+                    title: t('Edit.notcriticalErrorTitle'),
+                    text: t('Edit.textInvalidName') + '*+:\"<>?|\/',
+                    buttons: [
+                        {
+                            text: t('Edit.textOk'),
+                            close: true
+                        }
+                    ]
+                }).open();
+            } else {
+                const wopi = appOptions.wopi;
+                formatName = cutDocName(formatName);
+
+                if(wopi) {
+                    api.asc_wopi_renameFile(formatName);
+                } else {
+                    Common.Gateway.requestRename(formatName);
+                }
+
+                const newTitle = `${formatName}.${docExt}`;
+                storeDocumentInfo.changeTitle(newTitle);
+            }
+        }
+    }
+
+    const clearAllFields = () => {
+        const api = Common.EditorApi.get();
+
+        api.asc_ClearAllSpecialForms();
+        closeModal();
+    };
+
+    const toggleFavorite = () => {
+        const isFavorite = appOptions.isFavorite;
+        Common.Notifications.trigger('markfavorite', !isFavorite);
+    };
+
+    const saveAsPdf = () => {
+        const api = Common.EditorApi.get();
+
+        if (appOptions.isOffline) {
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+        } else {
+            const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
+            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+        }
+    }
+
+    const submitForm = () => {
+        const api = Common.EditorApi.get();
+        api.asc_SendForm();
+    }
+
     return (
-        <SettingsView 
-            usePopover={!Device.phone}
-            openOptions={props.openOptions}
-            closeOptions={props.closeOptions}
-            // onclosed={props.onclosed}
-            onPrint={onPrint}
-            showHelp={showHelp}
-            showFeedback={showFeedback}
-            onOrthographyCheck={onOrthographyCheck}
-            onDownloadOrigin={onDownloadOrigin}
-            onChangeMobileView={onChangeMobileView}
-            changeTitleHandler={changeTitleHandler}
-        />
+        <SettingsContext.Provider value={{
+            onPrint,
+            showHelp,
+            showFeedback,
+            onOrthographyCheck,
+            onDownloadOrigin,
+            onChangeMobileView,
+            changeTitleHandler,
+            closeModal,
+            clearAllFields,
+            toggleFavorite,
+            saveAsPdf,
+            submitForm
+        }}>
+            <SettingsView />
+        </SettingsContext.Provider>
     );
 };
 
-export default inject("storeAppOptions", "storeDocumentInfo")(observer(Settings));
+export default inject("storeAppOptions", "storeDocumentInfo")(observer(SettingsController));

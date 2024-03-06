@@ -49,15 +49,30 @@ define([
     Common.UI.Mixtbar = Common.UI.BaseView.extend((function () {
         var $boxTabs;
         var $scrollL;
+        var $scrollR;
         var optsFold = {timeout: 2000};
         var config = {};
         var btnsMore = [];
 
+        function setScrollButtonsDisabeled(){
+            var scrollLeft = $boxTabs.scrollLeft();
+            $scrollL.toggleClass('disabled', Math.floor(scrollLeft) == 0);
+            $scrollR.toggleClass('disabled', Math.ceil(scrollLeft) >= $boxTabs[0].scrollWidth - $boxTabs[0].clientWidth);
+        }
+
         var onScrollTabs = function(opts, e) {
+            if($(e.target).hasClass('disabled')) return;
             var sv = $boxTabs.scrollLeft();
             if (sv || opts == 'right' || Common.UI.isRTL() && opts == 'left') {
-                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200);
+                $boxTabs.animate({scrollLeft: opts == 'left' ? sv - 100 : sv + 100}, 200, setScrollButtonsDisabeled);
             }
+        };
+
+        var onWheelTabs = function(e) {
+            e.preventDefault();
+            var deltaX = e.deltaX || e.detail || e.deltaY;
+            $boxTabs.scrollLeft($boxTabs.scrollLeft() + (deltaX * 60));
+            setScrollButtonsDisabeled();
         };
 
         function onTabDblclick(e) {
@@ -128,7 +143,8 @@ define([
 
                 this.$layout = $(options.template({
                     tabsmarkup: _.template(_template_tabs)({items: options.tabs}),
-                    isRTL: Common.UI.isRTL()
+                    isRTL: Common.UI.isRTL(),
+                    config: options.config
                 }));
 
                 config.tabs = options.tabs;
@@ -149,7 +165,7 @@ define([
                 me.$panels = me.$boxpanels.find('> .panel');
 
                 optsFold.$bar = me.$('.toolbar');
-                var $scrollR = me.$('.tabs .scroll.right');
+                $scrollR = me.$('.tabs .scroll.right');
                 $scrollL = me.$('.tabs .scroll.left');
 
                 $scrollL.on('click', onScrollTabs.bind(this, 'left'));
@@ -157,6 +173,7 @@ define([
 
                 $boxTabs.on('dblclick', '> .ribtab', onTabDblclick.bind(this));
                 $boxTabs.on('click', '> .ribtab', me.onTabClick.bind(this));
+                $boxTabs.on('mousewheel', onWheelTabs);
             },
 
             isTabActive: function(tag) {
@@ -249,8 +266,10 @@ define([
 
             onResizeTabs: function(e) {
                 if ( this.hasTabInvisible() ) {
-                    if ( !$boxTabs.parent().hasClass('short') )
+                    if ( !$boxTabs.parent().hasClass('short') ) {
                         $boxTabs.parent().addClass('short');
+                        setScrollButtonsDisabeled();
+                    }
                 } else
                 if ( $boxTabs.parent().hasClass('short') ) {
                     $boxTabs.parent().removeClass('short');
@@ -286,7 +305,7 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
-                        // me.processPanelVisible(null, true);
+                        // me.processPanelVisible();
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);
                             me.dblclick_timer = setTimeout(function () {
@@ -318,7 +337,7 @@ define([
                         this.lastPanel = tab;
                         panel.addClass('active');
                         me.setMoreButton(tab, panel);
-                        me.processPanelVisible(null, true, true);
+                        me.processPanelVisible(null, true);
                     }
 
                     if ( panel.length ) {
@@ -334,6 +353,7 @@ define([
                     }
 
                     this.fireEvent('tab:active', [tab]);
+                    Common.NotificationCenter.trigger('tab:active',[tab]);
                 }
             },
 
@@ -403,10 +423,8 @@ define([
              * hide button's caption to decrease panel width
              * ##adopt-panel-width
             **/
-            processPanelVisible: function(panel, now, force) {
+            processPanelVisible: function(panel, force) {
                 var me = this;
-                if ( me._timer_id ) clearTimeout(me._timer_id);
-
                 function _fc() {
                     var $active = panel || me.$panels.filter('.active');
                     if ( $active && $active.length ) {
@@ -483,8 +501,13 @@ define([
                                 data.rightedge = _rightedge;
                                 if (_flex.length>0 && $active.find('.btn-slot.compactwidth').length<1) {
                                     for (var i=0; i<_flex.length; i++) {
-                                        var item = _flex[i];
-                                        item.el.css('width', item.width);
+                                        var item = _flex[i],
+                                            checkedwidth;
+                                        if (item.el.find('.combo-dataview').hasClass('auto-width')) {
+                                            checkedwidth = Common.UI.ComboDataView.prototype.checkAutoWidth(item.el,
+                                                me.$boxpanels.width() - $active.outerWidth() + item.el.width());
+                                        }
+                                        item.el.css('width', checkedwidth ? (checkedwidth + parseFloat(item.el.css('padding-left')) + parseFloat(item.el.css('padding-right'))) + 'px' : item.width);
                                         data.rightedge = $active.get(0).getBoundingClientRect().right;
                                     }
                                 }
@@ -493,11 +516,20 @@ define([
                     }
                 };
 
-                if ( now === true ) _fc(); else
-                me._timer_id =  setTimeout(function() {
-                    delete me._timer_id;
+                if (!me._timer_id) {
                     _fc();
-                }, 100);
+                    me._needProcessPanel = false;
+                    me._timer_id =  setInterval(function() {
+                        if (me._needProcessPanel) {
+                            _fc();
+                            me._needProcessPanel = false;
+                        } else {
+                            clearInterval(me._timer_id);
+                            delete me._timer_id;
+                        }
+                    }, 100);
+                } else
+                    me._needProcessPanel = true;
             },
             /**/
 
@@ -533,7 +565,7 @@ define([
                     btnsMore[tab] = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top dropdown-manual',
                         caption: Common.Locale.get("textMoreButton",{name:"Common.Translation", default: "More"}),
-                        iconCls: 'toolbar__icon btn-more',
+                        iconCls: 'toolbar__icon btn-big-more',
                         enableToggle: true
                     });
                     btnsMore[tab].render(box.find('.slot-btn-more'));
@@ -560,6 +592,14 @@ define([
                     moreContainer.remove();
                     btnsMore[tab].remove();
                     delete btnsMore[tab];
+                }
+            },
+
+            clearActiveData: function(tab) {
+                var panel = tab ? this.$panels.filter('[data-tab=' + tab + ']') : this.$panels.filter('.active');
+                if ( panel.length ) {
+                    var data = panel.data();
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
                 }
             },
 

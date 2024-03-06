@@ -634,6 +634,8 @@
 
 #dlg-share, #dlg-embed {
     .modal-dialog {
+        margin-left: auto;
+        margin-right: auto;
         width: 330px;
     }
 
@@ -643,6 +645,43 @@
         cursor: auto;
         font-size: 1em;
         border-radius: 0;
+    }
+}
+
+#dlg-password {
+    .password-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-dialog {
+        margin-left: auto;
+        margin-right: auto;
+        width: 300px;
+    }
+    
+    label {
+        font-weight: 500;
+    }
+
+    #password-input.error {
+        border-color: red;
+    }
+
+    #password-label-error {
+        visibility: hidden;
+        margin-bottom: 0px;
+        color: red;
+    }
+
+    #password-label-error.error {
+        visibility: visible;
+    }
+
+    #password-btn {
+        padding: 6px 40px;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 

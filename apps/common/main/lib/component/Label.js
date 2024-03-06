@@ -104,6 +104,17 @@ define([
             if (this.disabled)
                 this.setDisabled(this.disabled);
 
+            if (this.options.scaling !== false && this.iconCls) {
+                this.$label.attr('ratio', 'ratio');
+                this.applyScaling(Common.UI.Scaling.currentRatio());
+
+                this.$label.on('app:scaling', function (e, info) {
+                    if (me.options.scaling != info.ratio) {
+                        me.applyScaling(info.ratio);
+                    }
+                });
+            }
+
             return this;
         },
 
@@ -121,6 +132,23 @@ define([
 
         isDisabled: function() {
             return this.disabled;
+        },
+
+        applyScaling: function (ratio) {
+            if (this.options.scaling != ratio) {
+                this.options.scaling = ratio;
+
+                if (ratio > 2) {
+                    if (!this.$label.find('svg.icon').length) {
+                        var iconCls = this.iconCls,
+                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null",
+                            svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+
+                        this.$label.find('i.icon').after(svg_icon);
+                    }
+                }
+            }
         }
     });
 });

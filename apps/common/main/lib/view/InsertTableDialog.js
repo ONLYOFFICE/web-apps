@@ -47,7 +47,6 @@ define([
     Common.Views.InsertTableDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 230,
-            height: 157,
             style: 'min-width: 230px;',
             cls: 'modal-dlg',
             id: 'window-insert-table',
@@ -63,10 +62,10 @@ define([
             this.template = [
                 '<div class="box">',
                     '<div class="input-row">',
-                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val"></div>',
+                        '<label class="text columns-text" style="width: 130px;">' + this.txtColumns + '</label><div class="columns-val float-right"></div>',
                     '</div>',
                     '<div class="input-row" style="margin-top: 10px;">',
-                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val"></div>',
+                        '<label class="text rows-text" style="width: 130px;">' + this.txtRows + '</label><div class="rows-val float-right"></div>',
                     '</div>',
                 '</div>'
             ].join('');
@@ -108,7 +107,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.udColumns, this.udRows];
+            return [this.udColumns, this.udRows].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

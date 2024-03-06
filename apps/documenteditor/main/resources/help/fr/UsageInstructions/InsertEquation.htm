@@ -3,11 +3,11 @@
 	<head>
 		<title>Insérer des équations</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="Ajouter des équations et symboles mathématiques." />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<meta name="description" content="Insérer des équations et des symboles mathématiques." />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
@@ -15,27 +15,29 @@
             <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
         </div>
 			<h1>Insérer des équations</h1>
-            <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>Document Editor</b></a> vous permet de créer des équations à l'aide des modèles intégrés, de les modifier, d'insérer des caractères spéciaux (à savoir des opérateurs mathématiques, des lettres grecques, des accents, etc.).</p>
+            <p><a href="https://www.onlyoffice.com/fr/document-editor.aspx" target="_blank" onclick="onhyperlinkclick(this)"><b>L'éditeur de documents</b></a> vous permet de créer des équations à l'aide des modèles intégrés, de les modifier, d'insérer des caractères spéciaux (à savoir des opérateurs mathématiques, des lettres grecques, des accents, etc.).</p>
             <h3>Ajouter une nouvelle équation</h3>
             <p>Pour insérer une équation depuis la galerie,</p>
 			<ol>
 				<li>placez le curseur sur la ligne nécessaire,</li>
                 <li>passez à l'onglet <b>Insertion</b> de la barre d'outils supérieure,</li>
 				<li>cliquez sur la flèche à côté de <div class = "icon icon-insertequationicon"></div> l'icône <b>Équation</b> de la barre d'outils supérieure,</li>
-                <li>sélectionnez la catégorie de l'équation sur la barre d'outils supérieure au-dessus de l'équation ajoutée,
+                <li>
+                    sélectionnez la catégorie de l'équation sur la barre d'outils supérieure au-dessus de l'équation ajoutée,
                     <p>ou</p>
                     <p>sélectionnez la catégorie d'équation nécessaire dans la liste déroulante.</p>
                     <p>Les catégories suivantes sont actuellement disponibles: <em>Symboles, Fractions, Scripts, Radicaux, Intégrales, Grands opérateurs, Crochets, Fonctions, Accentuations, Limites et logarithmes, Opérateurs, Matrices,</em></p>
                 </li>
-                <li>Cliquez sur <b>Paramètres d'équations</b> dans la barre d'outils au-dessus de l'équation ajoutée pour accéder à d'autres paramètres, tels que <em>Unicode</em> ou <em>LaTeX</em>, <em>Professionnel</em> ou <em>Linéaire</em> et<em> passer à mode en ligne</em>,</li>
-                <li>cliquez sur le symbole/l'équation voulu(e) dans l'ensemble de modèles correspondant.</li>
+                <li>Cliquez sur Paramètres d'équations dans la barre d'outils au-dessus de l'équation ajoutée pour accéder à d'autres paramètres, tels que <em>Unicode</em> ou <em>LaTeX</em>, <em>Professionnel</em> ou <em>Linéaire</em> et<em> passer à mode en ligne</em>,</li>
+                <li>cliquez sur le symbole/l'équation voulu(e) dans l'ensemble de modèles correspondant,</li>
+                <li>pour masquer la barre d'outils, cliquez sur <b>Masquer la barre d'outils d'équation</b> dans <b>Paramètres d'équations</b>.</li>
 			</ol>
-            <p><img alt="equation toolbar" src="../images/equationtoolbar.png" /></p>
+            <p><img alt="barre d'outils d'équation" src="../images/equationtoolbar.png" /></p>
             <p>La zone de symbole/équation sélectionnée sera inséré à la position actuelle du curseur. Si la ligne sélectionnée est vide, l'équation sera centré. Pour aligner une telle équation à gauche ou à droite, cliquez sur la zone de l'équation et utilisez les icônes <span class = "icon icon-alignleft"></span> ou <span class = "icon icon-alignright"></span> sous l'onglet <b>Accueil</b> de la barre d'outils supérieure.</p>
             <div class = "icon icon-insertedequation"></div>
             <p>Chaque modèle d'équation comporte un ensemble d'emplacements. Un emplacement est une position pour chaque élément qui compose l'équation. Un emplacement vide (également appelé un espace réservé) a un contour en pointillé <span class = "icon icon-equationplaceholder"></span>. Vous devez remplir tous les espaces réservés en spécifiant les valeurs nécessaires.</p>
             <p class="note">Remarque: pour commencer une équation, utilisez le raccourci <b>Alt + =</b>.</p>
-            <p>On peut aussi ajouter une légende à l'équation. Veuillez consulter <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">cet article</a> pour en savoir plus sur utilisation des légendes avec une équation.</p>
+            <p>On peut aussi ajouter une légende à l'équation. Veuillez consulter <a href="../UsageInstructions/AddCaption.htm" onclick="onhyperlinkclick(this)">cet article</a>pour en savoir plus sur utilisation des légendes avec une équation.</p>
             <h3>Entrer des valeurs</h3>
             <p>Le <b>point d'insertion</b> spécifie où le prochain caractère que vous entrez apparaîtra. Pour positionner le point d'insertion avec précision, cliquez dans un espace réservé et utilisez les flèches du clavier pour déplacer le point d'insertion d'un caractère vers la gauche/la droite ou le haut/le bas.</p>
             <p>S'il vous faut créer un nouveau espace réservé en dessous de l'emplacement du point d'insertion dans le modèle sélectionné, appuyez sur <b>Entrée</b>.</p>
@@ -43,7 +45,7 @@
             <p>Une fois le point d'insertion positionné, vous pouvez remplir l'espace réservé:
             <ul>
                 <li>entrez la valeur numérique/littérale souhaitée à l'aide du clavier,</li>
-                <li>insérez un caractère spécial de la palette des symboles du <div class = "icon icon-insertequationicon"></div> menu <b>Équation</b> sous l'onglet <b>Insertion</b> de la barre d'outils supérieure ou saisissez avec le clavier (consultez le guide <a href="../UsageInstructions/MathAutoCorrect.htm" onclick="onhyperlinkclick(this)"><b>AutoMaths</b></a>),</li>
+                <li>insérez un caractère spécial de la palette des symboles du <div class = "icon icon-insertequationicon"></div> menu <b>Équation</b> sous l'onglet <b>Insertion</b> de la barre d'outils supérieure ou saisissez avec le clavier (consultez le guide <a href="../UsageInstructions/MathAutoCorrect.htm" onclick="onhyperlinkclick(this)"><b>Correction automatique</b></a>),</li>
                 <li>ajoutez un autre modèle d'équation à partir de la palette pour créer une équation imbriquée complexe. La taille de l'équation primaire sera automatiquement ajustée pour s'adapter à son contenu. La taille des éléments de l'équation imbriquée dépend de la taille de l'espace réservé de l'équation primaire, mais elle ne peut pas être inférieure à la taille de sous-indice.</li>                
             </ul>
             </p>

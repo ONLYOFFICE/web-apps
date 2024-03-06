@@ -64,7 +64,7 @@ const PageAllList = observer((props) => {
             <Page>
                 <List>
                     {allSheets.map((model, sheetIndex) =>
-                        <ListItem className='item-list' key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
+                        <ListItem className={`item-list ${model.active ? 'active' : null}`} key={model.name} title={model.name} checkbox checked={model.active} onClick={() => onTabListClick(sheetIndex)}>
                             <div slot='after'>
                                 {model.hidden ? 
                                     t('Statusbar.textHidden')
@@ -194,25 +194,47 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
     const isDisconnected = users.isDisconnected;
     const isDisabledEditSheet = storeWorksheets.isDisabledEditSheet;
 
+    const setSheetColor = sheet => {
+        if(sheet) {
+            let color;
+
+            if (sheet.color) {
+                color = '#' + Common.Utils.ThemeColor.getHexColor(sheet.color.get_r(), sheet.color.get_g(), sheet.color.get_b());
+            } else {
+                color = '';
+            }
+
+            if(color) {
+                if(!sheet.active) {
+                    color = '0px 3px 0 ' + Common.Utils.RGBColor(color).toRGBA(0.7) + ' inset';
+                } else {
+                    color = '0px 3px 0 ' + color + ' inset';
+                }
+            }
+
+            return color;
+        }
+    };
+
     return (
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
                 {isEdit &&
-                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled box-tab' : 'box-tab'}`}>
+                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                             <Icon className={`icon icon-plus ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
-                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
+                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
                             <Icon className={`icon icon-list ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
                     </div>
                 }
                 <div className="statusbar--box-tabs">
                     <ul className="sheet-tabs bottom">
-                        {allSheets.map((model,i) => 
+                        {allSheets.map((model, i) => 
                             model.hidden ? null : 
                                 <li className={`tab${model.active ? ' active' : ''} ${model.locked ? 'locked' : ''}`} key={i} onClick={(e) => props.onTabClick(i, e.target)}>
-                                    <a className={`tab-color-${model.index}`}>{model.name}</a>
+                                    <a style={{boxShadow: setSheetColor(model)}} className={`tab-color-${model.index}`}>{model.name}</a>
                                 </li>
                             
                         )}

@@ -127,9 +127,11 @@ define([
             me.dataHint = me.options.dataHint || '';
             me.dataHintDirection = me.options.dataHintDirection || '';
             me.dataHintOffset = me.options.dataHintOffset || '';
+            me.scaling = me.options.scaling;
 
             me.listenTo(me.model, 'change', this.model.get('skipRenderOnChange') ? me.onChange : me.render);
             me.listenTo(me.model, 'change:selected',    me.onSelectChange);
+            me.listenTo(me.model, 'change:tip',         me.onTipChange);
             me.listenTo(me.model, 'remove',             me.remove);
         },
 
@@ -166,6 +168,17 @@ define([
                     tip.dontShow = true;
             }
 
+            if (this.scaling !== false && el.find('.options__icon').length) {
+                el.attr('ratio', 'ratio');
+                this.applyScaling(Common.UI.Scaling.currentRatio());
+
+                el.on('app:scaling', _.bind(function (e, info) {
+                    if ( this.scaling != info.ratio ) {
+                        this.applyScaling(info.ratio);
+                    }
+                }, this));
+            }
+
             this.trigger('change', this, this.model);
 
             return this;
@@ -198,6 +211,10 @@ define([
             this.trigger('select', this, model, selected);
         },
 
+        onTipChange: function (model, tip) {
+            this.trigger('tipchange', this, model);
+        },
+
         onChange: function () {
             if (_.isUndefined(this.model.id))
                 return this;
@@ -208,6 +225,24 @@ define([
             this.trigger('change', this, this.model);
 
             return this;
+        },
+
+        applyScaling: function (ratio) {
+            this.scaling = ratio;
+
+            if (ratio > 2) {
+                var el = this.$el || $(this.el),
+                    icon = el.find('.options__icon');
+                if (icon.length > 0) {
+                    if (!el.find('svg.icon').length) {
+                        var iconCls = icon.attr('class'),
+                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null",
+                            svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                        icon.after(svg_icon);
+                    }
+                }
+            }
         }
     });
 
@@ -289,6 +324,10 @@ define([
             else
                 me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN, Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
 
+            if ( me.options.scaling === false) {
+                me.cls = me.options.cls + ' scaling-off';
+            }
+
             if (me.options.el)
                 me.render();
         },
@@ -347,7 +386,8 @@ define([
                         this.parentMenu.on('show:before', function(menu) { me.deselectAll(); });
                     this.parentMenu.on('show:after', function(menu, e) {
                         if (e && (menu.el !== e.target)) return;
-                        if (me.showLast) me.showLastSelected(); 
+                        if (me.showLast) me.showLastSelected();
+                        if (me.outerMenu && (me.outerMenu.focusOnShow===false)) return;
                         Common.NotificationCenter.trigger('dataview:focus');
                         _.delay(function() {
                             menu.cmpEl.find('.dataview').focus();
@@ -371,8 +411,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
@@ -448,6 +488,7 @@ define([
             _.each(this.store.where({selected: true}), function(record){
                 record.set({selected: false});
             });
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -461,6 +502,7 @@ define([
             var view = new Common.UI.DataViewItem({
                 template: this.itemTemplate,
                 model: record,
+                scaling: this.options.scaling,
                 dataHint: this.itemDataHint,
                 dataHintDirection: this.itemDataHintDirection,
                 dataHintOffset: this.itemDataHintOffset
@@ -527,6 +569,8 @@ define([
                     this.listenTo(view, 'dblclick',    this.onDblClickItem);
                     this.listenTo(view, 'select',      this.onSelectItem);
                     this.listenTo(view, 'contextmenu', this.onContextMenuItem);
+                    if (tip === null || tip === undefined)
+                        this.listenTo(view, 'tipchange', this.onInitItemTip);
 
                     if (!this.isSuspendEvents)
                         this.trigger('item:add', this, view, record);
@@ -636,6 +680,32 @@ define([
             }
         },
 
+        onInitItemTip: function (view, record) {
+            var me = this,
+                view_el = $(view.el),
+                tip = view_el.data('bs.tooltip');
+            if (!(tip === null || tip === undefined))
+                view_el.removeData('bs.tooltip');
+            if (this.delayRenderTips) {
+                view_el.one('mouseenter', function () {
+                    view_el.attr('data-toggle', 'tooltip');
+                    view_el.tooltip({
+                        title: record.get('tip'),
+                        placement: 'cursor',
+                        zIndex: me.tipZIndex
+                    });
+                    view_el.mouseenter();
+                });
+            } else {
+                view_el.attr('data-toggle', 'tooltip');
+                view_el.tooltip({
+                    title: record.get('tip'),
+                    placement: 'cursor',
+                    zIndex: me.tipZIndex
+                });
+            }
+        },
+
         onRemoveItem: function(view, record) {
             var tip = view.$el.data('bs.tooltip');
             if (tip) {
@@ -669,6 +739,14 @@ define([
             if ( this.disabled ) return;
 
             window._event = e;  //  for FireFox only
+
+            if(this.multiSelect) {
+                if (e && e.ctrlKey) {
+                    this.pressedCtrl = true;
+                } else if (e && e.shiftKey) {
+                    this.pressedShift = true;
+                }
+            }
 
             if (this.showLast) {
                 if (!this.delaySelect) {
@@ -745,6 +823,10 @@ define([
         onKeyDown: function (e, data) {
             if ( this.disabled ) return;
             if (data===undefined) data = e;
+            if (data.isDefaultPrevented())
+                return;
+
+            if (!this.enableKeyEvents) return;
 
             if(this.multiSelect) {
                 if (data.keyCode == Common.UI.Keys.CTRL) {
@@ -754,7 +836,7 @@ define([
                 }
             }
 
-                if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
+            if (_.indexOf(this.moveKeys, data.keyCode)>-1 || data.keyCode==Common.UI.Keys.RETURN) {
                 data.preventDefault();
                 data.stopPropagation();
                 var rec =(this.multiSelect) ? this.extremeSeletedRec : this.getSelectedRec();
@@ -771,6 +853,22 @@ define([
                         this.parentMenu.hide();
                 } else {
                     this.pressedCtrl=false;
+                    function getFirstItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
+                        var first = 0;
+                        while(!this.dataViewItems[first] || !this.dataViewItems[first].$el || this.dataViewItems[first].$el.hasClass('disabled')) {
+                            first++;
+                        }
+                        return first;
+                    }
+                    function getLastItemIndex() {
+                        if (this.dataViewItems.length===0) return 0;
+                        var last = this.dataViewItems.length-1;
+                        while(!this.dataViewItems[last] || !this.dataViewItems[last].$el || this.dataViewItems[last].$el.hasClass('disabled')) {
+                            last--;
+                        }
+                        return last;
+                    }
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -779,14 +877,19 @@ define([
                                 target.removeClass('over');
                                 target.find('> a').focus();
                             } else
-                                idx = 0;
+                                idx = getFirstItemIndex.call(this);
                         } else
-                            idx = 0;
+                            idx = getFirstItemIndex.call(this);
                     } else if (this.options.keyMoveDirection == 'both') {
                         if (this._layoutParams === undefined)
                             this.fillIndexesArray();
                         var topIdx = this.dataViewItems[idx].topIdx,
                             leftIdx = this.dataViewItems[idx].leftIdx;
+                        function checkEl() {
+                            var item = this.dataViewItems[this._layoutParams.itemsIndexes[topIdx][leftIdx]];
+                            if (item && item.$el && !item.$el.hasClass('disabled'))
+                                return this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                        }
 
                         idx = undefined;
                         if (data.keyCode==Common.UI.Keys.LEFT) {
@@ -801,13 +904,13 @@ define([
                                     } else
                                         leftIdx = this._layoutParams.columns-1;
                                 }
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                idx = checkEl.call(this);
                             }
                         } else if (data.keyCode==Common.UI.Keys.RIGHT) {
                             while (idx===undefined) {
                                 leftIdx++;
                                 if (leftIdx>this._layoutParams.columns-1) leftIdx = 0;
-                                idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                idx = checkEl.call(this);
                             }
                         } else if (data.keyCode==Common.UI.Keys.UP) {
                             if (topIdx==0 && this.outerMenu && this.outerMenu.menu) {
@@ -818,7 +921,7 @@ define([
                                 while (idx===undefined) {
                                     topIdx--;
                                     if (topIdx<0) topIdx = this._layoutParams.rows-1;
-                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                    idx = checkEl.call(this);
                                 }
                         } else {
                             if (topIdx==this._layoutParams.rows-1 && this.outerMenu && this.outerMenu.menu) {
@@ -829,13 +932,25 @@ define([
                                 while (idx===undefined) {
                                     topIdx++;
                                     if (topIdx>this._layoutParams.rows-1) topIdx = 0;
-                                    idx = this._layoutParams.itemsIndexes[topIdx][leftIdx];
+                                    idx = checkEl.call(this);
                                 }
                         }
                     } else {
-                        idx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
-                        ? Math.max(0, idx-1)
-                        : Math.min(this.store.length - 1, idx + 1) ;
+                        var topIdx = idx,
+                            firstIdx = getFirstItemIndex.call(this),
+                            lastIdx = getLastItemIndex.call(this);
+                        idx = undefined;
+                        function checkEl() {
+                            var item = this.dataViewItems[topIdx];
+                            if (item && item.$el && !item.$el.hasClass('disabled'))
+                                return topIdx;
+                        }
+                        while (idx===undefined) {
+                            topIdx = (data.keyCode==Common.UI.Keys.UP || data.keyCode==Common.UI.Keys.LEFT)
+                                    ? Math.max(firstIdx, topIdx-1)
+                                    : Math.min(lastIdx, topIdx + 1);
+                            idx = checkEl.call(this);
+                        }
                     }
 
                     if (idx !== undefined && idx>=0) rec = this.store.at(idx);
@@ -852,6 +967,8 @@ define([
         },
 
         onKeyUp: function(e){
+            if (!this.enableKeyEvents) return;
+
             if(e.keyCode == Common.UI.Keys.SHIFT)
                 this.pressedShift = false;
             if(e.keyCode == Common.UI.Keys.CTRL)
@@ -958,6 +1075,10 @@ define([
             }
             this._layoutParams.rows = this._layoutParams.itemsIndexes.length;
             this._layoutParams.columns++;
+        },
+
+        setMultiselectMode: function (multiselect) {
+            this.pressedCtrl = !!multiselect;
         },
 
         onResize: function() {
@@ -1096,8 +1217,8 @@ define([
 
             this.rendered = true;
 
-            this.cmpEl.on('click', function(e){
-                if (/dataview/.test(e.target.className)) return false;
+            (this.$el || $(this.el)).on('click', function(e){
+                if (/dataview|grouped-data|group-items-container/.test(e.target.className) || $(e.target).closest('.group-description').length>0) return false;
             });
 
             this.trigger('render:after', this);
@@ -1140,6 +1261,7 @@ define([
                 record.set({selected: false});
             });
             this.cmpEl.find('.item.selected').removeClass('selected');
+            this.lastSelectedRec = null;
 
             if (suspendEvents)
                 this.resumeEvents();
@@ -1275,6 +1397,7 @@ define([
                     var idx = _.indexOf(this.store.models, rec);
                     if (idx<0) {
                         function getFirstItemIndex() {
+                            if (this.dataViewItems.length===0) return 0;
                             var first = 0;
                             while(!this.dataViewItems[first].el.is(':visible')) {
                                 first++;
@@ -1845,7 +1968,7 @@ define([
         hideTextRect: function (hide) {
             var me = this;
             this.store.each(function(item, index){
-                if (item.get('data').shapeType === 'textRect') {
+                if (item.get('data').shapeType === 'textRect' && me.dataViewItems[index] && me.dataViewItems[index].el) {
                     me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
                 }
             }, this);
@@ -1859,7 +1982,7 @@ define([
             this.store.each(function(item, index){
                 if (item.get('groupName') === 'Lines') {
                     var el = me.dataViewItems[index].el;
-                    if (el.is(':visible')) {
+                    if (el && el.is(':visible')) {
                         el.addClass('hidden');
                     }
                 }

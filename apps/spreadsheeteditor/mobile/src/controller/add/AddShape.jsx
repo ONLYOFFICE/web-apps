@@ -26,8 +26,7 @@ class AddShapeController extends Component {
 
     render () {
         return (
-            <AddShape onShapeClick={this.onShapeClick}
-            />
+            <AddShape onShapeClick={this.onShapeClick} />
         )
     }
 }

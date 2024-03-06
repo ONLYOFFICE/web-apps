@@ -479,6 +479,7 @@
 	"ARRAYTOTEXT": "МАССИВВТЕКСТ",
 	"SORT": "СОРТ",
 	"SORTBY": "СОРТПО",
+	"GETPIVOTDATA": "ПОЛУЧИТЬ.ДАННЫЕ.СВОДНОЙ.ТАБЛИЦЫ",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",
@@ -500,7 +501,22 @@
 			"num": "#ЧИСЛО!",
 			"na": "#Н/Д",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#ВЫЧИСЛ!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "адрес",
+			"col": "столбец",
+			"color": "цвет",
+			"contents": "содержимое",
+			"filename": "имяфайла",
+			"format": "формат",
+			"parentheses": "скобки",
+			"prefix": "префикс",
+			"protect": "защита",
+			"row": "строка",
+			"type": "тип",
+			"width": "ширина"
 		}
 	}
 }

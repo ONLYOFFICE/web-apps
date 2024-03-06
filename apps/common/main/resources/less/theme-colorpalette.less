@@ -26,15 +26,11 @@
         margin: calc(1px - 1px / @pixel-ratio-factor);
         border: @scaled-one-px-value-ie solid @background-normal-ie;
         border: @scaled-one-px-value solid @background-normal;
-        float: left;
+        .float-left();
         text-decoration: none;
         -moz-outline: 0 none;
         outline: 0 none;
         cursor: pointer;
-
-        .rtl & {
-            float: right;
-        }
 
         em span {
             border: @scaled-one-px-value-ie solid @border-color-shading-ie;
@@ -79,21 +75,15 @@
 
     .palette-color-caption {
         width:100%;
-        float:left;
+        .float-left();
+        .text-align-left();
         .font-size-normal();
-        .rtl & {
-            float: right;
-            text-align: right;
-        }
     }
 
     .palette-color-spacer {
         width: 100%;
         height: 8px;
-        float: left;
-        .rtl & {
-            float: right;
-        }
+        .float-left();
     }
 
     .palette-color-dynamiccolors {

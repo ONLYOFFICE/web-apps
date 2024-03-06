@@ -4,10 +4,10 @@
 		<title>Sort and filter data</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Sort your data in ascending or descending order in a spreadsheet and use filters" />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
@@ -184,37 +184,45 @@
             <p>To sort data by several columns/rows you can create several sorting levels using the <b>Custom Sort</b> function.</p>
             <ol>
                 <li>select a cell range you wish to sort (you can select a single cell to sort the entire range),</li>
-                <li>click the <b>Custom Sort</b> <div class = "icon icon-customsort"></div> icon situated on the <b>Data</b> tab of the top toolbar,</li>
+                <li>click the <b>Custom Sort</b> <span class="icon icon-customsort"></span> icon situated on the <b>Data</b> tab of the top toolbar,</li>
                 <li>
                     the <b>Sort</b> window will appear. Sorting by columns is selected by default.
                     <p><img alt="Custom Sort window" src="../images/customsortwindow.png" /></p>
-                    <p>To change the sorting orientation (i.e. sorting data by rows instead of columns), click the <b>Options</b> button on the top. The <b>Sort Options</b> window will open:</p>
-                    <p><img alt="Sort Options window" src="../images/sortoptionswindow.png" /></p>
-                    <ol>
-                        <li>check the <b>My data has headers</b> box, if necessary,</li>
-                        <li>choose the necessary <b>Orientation</b>: <b>Sort top to bottom</b> to sort data by columns or <b>Sort left to right</b> to sort data by rows,</li>
-                        <li>click <b>OK</b> to apply the changes and close the window.</li>
-                    </ol>
-                </li>
                 <li>
-                    set the first sorting level in the <b>Sort by</b> field:
-                    <p><img alt="Custom Sort window" src="../images/customsortwindow2.png" /></p>
-                    <ul>
-                        <li>in the <b>Column</b> / <b>Row</b> section, select the first column / row you want to sort,</li>
-                        <li>in the <b>Sort on</b> list choose one of the following options: <b>Values</b>, <b>Cell color</b>, or <b>Font color</b>,</li>
-                        <li>
-                            in the <b>Order</b> list, specify the necessary sorting order. The available options differ depending on the option chosen in the <b>Sort on</b> list:
+                    use the <b>Levels</b> sections to add new levels and to manage the added levels.
                             <ul>
-                                <li>if the <b>Values</b> option is selected, choose the <b>Ascending</b> / <b>Descending</b> option if the cell range contains numbers or <b>A to Z</b> / <b>Z to A</b> option if the cell range contains text values,</li>
-                                <li>if the <b>Cell color</b> option is selected, choose the necessary cell color and select the <b>Top</b> / <b>Below</b> option for columns or <b>Left</b> / <b>Right</b> option for rows,</li>
-                                <li>if the <b>Font color</b> option is selected, choose the necessary font color and select the <b>Top</b> / <b>Below</b> option for columns or <b>Left</b> / <b>Right</b> option for rows.</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>add the next sorting level by clicking the <b>Add level</b> button, select the second column / row you want to sort and specify other sorting parameters in the <b>Then by</b> field as described above. If necessary, add more levels in the same way.</li>
-                <li>manage the added levels using the buttons at the top of the window: <b>Delete level</b>, <b>Copy level</b> or change the level order by using the arrow buttons <b>Move the level up</b> / <b>Move the level down</b>,</li>
-                <li>click <b>OK</b> to apply the changes and close the window.</li>
+                                <li><b>New</b> button to add a new level, select the second column / row you want to sort and specify other sorting parameters in the <b>Then by</b> field as described above. If necessary, add more levels in the same way,
+                                <li><b>Copy</b> button to copy the selected level and to duplicate all the existing settings,</li>
+                                <li>
+                                    <b>Options</b> button to change the sorting orientation (i.e. sorting data by rows instead of columns). Click the button to open the <b>Sort Options</b> window:
+                                    <p><img alt="Sort Options window" src="../images/sortoptionswindow.png" /></p>
+                                    <ul>
+                                        <li>check the <b>My data has headers</b> box, if necessary</li>
+                                        <li>choose the necessary <b>Orientation</b>: <b>Sort top to bottom</b> to sort data by columns or <b>Sort left to right</b> to sort data by rows,</li>
+                                        <li>click <b>OK</b> to apply the changes and close the window.</li>
+                                    </ul>
+
+                                <li><b>Delete</b> button to delete the selected level,
+                                <li>Arrow buttons <b>Move the level up</b> / <b>Move the level down</b> to change the order of levels.</li>
+                                </ul>
+
+                                    <li>
+                                        set the first sorting level in the <b>Sort by</b> field:
+                                        <p><img alt="Custom Sort window" src="../images/customsortwindow2.png" /></p>
+                                        <ul>
+                                            <li>in the <b>Column</b> / <b>Row</b> section, select the first column / row you want to sort,</li>
+                                            <li>in the <b>Sort on</b> list choose one of the following options: <b>Values</b>, <b>Cell color</b>, or <b>Font color</b>,</li>
+                                            <li>
+                                                in the <b>Order</b> list, specify the necessary sorting order. The available options differ depending on the option chosen in the <b>Sort on</b> list:
+                                                <ul>
+                                                    <li>if the <b>Values</b> option is selected, choose the <b>Ascending</b> / <b>Descending</b> option if the cell range contains numbers or <b>A to Z</b> / <b>Z to A</b> option if the cell range contains text values,</li>
+                                                    <li>if the <b>Cell color</b> option is selected, choose the necessary cell color and select the <b>Top</b> / <b>Below</b> option for columns or <b>Left</b> / <b>Right</b> option for rows,</li>
+                                                    <li>if the <b>Font color</b> option is selected, choose the necessary font color and select the <b>Top</b> / <b>Below</b> option for columns or <b>Left</b> / <b>Right</b> option for rows.</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>click <b>OK</b> to apply the changes and close the window.</li>
             </ol>
             <p>The data will be sorted according to the specified sorting levels.</p>
 		</div>

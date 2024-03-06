@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
     SSE.Views.PivotSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 440,
+            contentHeight: 355,
             toggleGroup: 'pivot-adv-settings-group',
             storageName: 'sse-pivot-adv-settings-category'
         },
@@ -186,11 +186,11 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.inputName, this.chRows, this.chCols, this.radioDown, this.radioOver, this.numWrap, this.chHeaders, this.chAutofitColWidth, // 0 tab
                 this.txtDataRange,  // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -227,7 +227,7 @@ define([    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.temp
         _setDefaults: function (props) {
             if (props) {
                 var me = this;
-                this.inputName.setValue(Common.Utils.String.htmlEncode(props.asc_getName()));
+                this.inputName.setValue(props.asc_getName());
 
                 this.chCols.setValue(props.asc_getRowGrandTotals(), true);
                 this.chRows.setValue(props.asc_getColGrandTotals(), true);

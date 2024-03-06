@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { f7 } from 'framework7-react';
 import { inject, observer } from "mobx-react";
 import { withTranslation} from 'react-i18next';
@@ -6,10 +5,9 @@ import { LocalStorage } from '../../../../common/mobile/utils/LocalStorage.mjs';
 
 import ContextMenuController from '../../../../common/mobile/lib/controller/ContextMenu';
 import { idContextMenuElement } from '../../../../common/mobile/lib/view/ContextMenu';
-// import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch';
 
-@inject (stores => ({
+@inject(stores => ({
     isEdit: stores.storeAppOptions.isEdit,
     canComments: stores.storeAppOptions.canComments,
     canViewComments: stores.storeAppOptions.canViewComments,
@@ -17,12 +15,13 @@ import EditorUIController from '../lib/patch';
     isRestrictedEdit: stores.storeAppOptions.isRestrictedEdit,
     users: stores.users,
     isDisconnected: stores.users.isDisconnected,
-    storeSheets: stores.sheets,
+    storeWorksheets: stores.storeWorksheets,
     wsProps: stores.storeWorksheets.wsProps,
     wsLock: stores.storeWorksheets.wsLock,
     objects: stores.storeFocusObjects.objects,
     focusOn: stores.storeFocusObjects.focusOn,
-    isResolvedComments: stores.storeApplicationSettings.isResolvedComments
+    isResolvedComments: stores.storeApplicationSettings.isResolvedComments,
+    isVersionHistoryMode: stores.storeVersionHistory.isVersionHistoryMode
 }))
 class ContextMenu extends ContextMenuController {
     constructor(props) {
@@ -105,6 +104,7 @@ class ContextMenu extends ContextMenuController {
 
         const api = Common.EditorApi.get();
         const info = api.asc_getCellInfo();
+
         switch (action) {
             case 'cut':
                 if (!LocalStorage.getBool("sse-hide-copy-cut-paste-warning")) {
@@ -126,17 +126,19 @@ class ContextMenu extends ContextMenuController {
                 break;
             case 'openlink':
                 const linkinfo = info.asc_getHyperlink();
+
                 if ( linkinfo.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink ) {
+                    const { storeWorksheets } = this.props;
                     const nameSheet = linkinfo.asc_getSheet();
                     const curActiveSheet = api.asc_getActiveWorksheetIndex();
+                    const tab = storeWorksheets.sheets.find((sheet) => sheet.name === nameSheet);
                     api.asc_setWorksheetRange(linkinfo);
-                    const {storeSheets} = this.props;
-                    const tab = storeSheets.sheets.find((sheet) => sheet.name === nameSheet);
+
                     if (tab) {
                         const sdkIndex = tab.index;
                         if (sdkIndex !== curActiveSheet) {
-                            const index = storeSheets.sheets.indexOf(tab);
-                            storeSheets.setActiveWorksheet(index);
+                            const index = storeWorksheets.sheets.indexOf(tab);
+                            storeWorksheets.setActiveWorksheet(index);
                             Common.Notifications.trigger('sheet:active', sdkIndex);
                         }
                     }
@@ -144,6 +146,9 @@ class ContextMenu extends ContextMenuController {
                     const url = linkinfo.asc_getHyperlinkUrl().replace(/\s/g, "%20");
                     this.openLink(url);
                 }
+                break;
+            case 'autofillCells':
+                api.asc_fillHandleDone();
                 break;
         }
     }
@@ -244,7 +249,7 @@ class ContextMenu extends ContextMenuController {
         const { t } = this.props;
         const _t = t("ContextMenu", { returnObjects: true });
 
-        const { isEdit, isRestrictedEdit, isDisconnected } = this.props;
+        const { isEdit, isRestrictedEdit, isDisconnected, isVersionHistoryMode } = this.props;
 
         if (isEdit && EditorUIController.ContextMenu) {
             return EditorUIController.ContextMenu.mapMenuItems(this);
@@ -253,6 +258,7 @@ class ContextMenu extends ContextMenuController {
 
             const api = Common.EditorApi.get();
             const cellinfo = api.asc_getCellInfo();
+            const isCanFillHandle = api.asc_canFillHandle();
 
             const itemsIcon = [];
             const itemsText = [];
@@ -284,12 +290,16 @@ class ContextMenu extends ContextMenuController {
                         caption: _t.menuOpenLink,
                         event: 'openlink'
                     });
-                    itemsText.push({
-                        caption: t("ContextMenu.menuEditLink"),
-                        event: 'editlink'
-                    });
-                }``
-                if(!isDisconnected) {
+                    
+                    if(!isVersionHistoryMode) {
+                        itemsText.push({
+                            caption: t("ContextMenu.menuEditLink"),
+                            event: 'editlink'
+                        });
+                    }
+                }
+
+                if(!isDisconnected && !isVersionHistoryMode) {
                     if (canViewComments && comments && comments.length && ((!isSolvedComment && !isResolvedComments) || isResolvedComments)) {
                         itemsText.push({
                             caption: _t.menuViewComment,
@@ -303,6 +313,13 @@ class ContextMenu extends ContextMenuController {
                             event: 'addcomment'
                         });
                     }
+                }
+
+                if(isCanFillHandle) {
+                    itemsText.push({
+                        caption: t('ContextMenu.menuAutofill'),
+                        event: 'autofillCells'
+                    });
                 }
 
             return itemsIcon.concat(itemsText);

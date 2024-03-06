@@ -125,7 +125,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputName, this.inputValue];
+            return [this.inputName, this.inputValue].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

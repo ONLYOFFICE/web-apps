@@ -354,10 +354,17 @@
                     "dest": "../deploy/web-apps/apps/presentationeditor/embed/locale/"
                 }
             ],
-            "index-page": {
-                "../deploy/web-apps/apps/presentationeditor/embed/index.html": "../apps/presentationeditor/embed/index.html.deploy",
-                "../deploy/web-apps/apps/presentationeditor/embed/index_loader.html": "../apps/presentationeditor/embed/index_loader.html.deploy"
-            },
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/presentationeditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/presentationeditor/embed"
+                }
+            ],
             "images-app": [
                 {
                     "expand": true,

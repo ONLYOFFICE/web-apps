@@ -85,6 +85,14 @@ define([
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
         },
 
+        getFocusedComponents: function() {
+            return [this.inputUrl].concat(this.getFooterButtons());
+        },
+
+        getDefaultFocusableComponent: function () {
+            return this.inputUrl;
+        },
+
         show: function() {
             Common.UI.Window.prototype.show.apply(this, arguments);
 

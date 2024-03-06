@@ -28,11 +28,8 @@
   }
 
   .grouped-data .group-items-container {
-    float: left;
+    .float-left();
     position: relative;
-    .rtl & {
-      float: right;
-    }
     .item {
         box-shadow: none;
         margin: @scaled-two-px-value;
@@ -40,12 +37,12 @@
           margin-bottom: @scaled-two-px-value;
         }
 
-        &:hover {
+        &:hover:not(.disabled) {
           .box-shadow(0 0 0 2px @border-preview-hover-ie);
           .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
         }
 
-        &.selected {
+        &.selected:not(.disabled) {
           .box-shadow(0 0 0 2px @border-preview-select-ie);
           .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
         }

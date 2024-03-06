@@ -63,7 +63,6 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
         }
 
         storeWorksheets.resetSheets(items);
-        setTimeout(() => updateTabsColors());
     };
 
     const onApiActiveSheetChanged = (index) => {
@@ -77,19 +76,13 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
         f7.popover.close('.document-menu.modal-in', false);
     }
 
-
-    const loadTabColor = sheetindex => {
+    const onApiUpdateTabColor = sheetindex => {
         const api = Common.EditorApi.get();
         let tab = storeWorksheets.sheets.find(sheet => sheet.index === sheetindex);
 
         if (tab) {
             setTabLineColor(tab, api.asc_getWorksheetTabColor(sheetindex));
         }
-        
-    };
-
-    const onApiUpdateTabColor = index => {
-        loadTabColor(index);
     };
 
     const setTabLineColor = (tab, color) => {
@@ -111,14 +104,6 @@ const StatusbarController = inject('storeWorksheets', 'storeFocusObjects', 'user
                 $$(`.sheet-tabs .tab a.tab-color-${tab.index}`).css('box-shadow', '');
             }
         }
-    };
-
-    const updateTabsColors = () => {
-        const api = Common.EditorApi.get();
-
-        storeWorksheets.sheets.forEach(model => {
-            setTabLineColor(model, api.asc_getWorksheetTabColor(model.index));
-        });
     };
 
     return null;
@@ -278,7 +263,13 @@ const Statusbar = inject('storeWorksheets', 'storeAppOptions', 'users')(observer
                     {
                         text: _t.textCancel
                     }
-                ]
+                ],
+                on: {
+                    opened: () => {
+                        const nameField = document.querySelector('input[name="modal-sheet-name"]');
+                        nameField.select();
+                    },
+                }
             }).open();
         }
     };

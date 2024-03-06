@@ -46,7 +46,7 @@ define([
     SSE.Views.CreateSparklineDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 195
+            separator: false
         },
 
         initialize : function(options) {
@@ -54,10 +54,10 @@ define([
 
             _.extend(this.options, {
                 title: this.textTitle,
-                template: [
-                    '<div class="box" style="height:' + (me.options.height - 85) + 'px;">',
-                        '<div class="content-panel" style="padding: 0 10px;"><div class="inner-content">',
-                            '<div class="settings-panel active">',
+                contentStyle: 'padding: 0 10px;',
+                contentTemplate: _.template([
+                    '<div class="settings-panel active">',
+                        '<div class="inner-content">',
                                 '<table cols="1" style="width: 100%;">',
                                     '<tr>',
                                         '<td style="padding-bottom: 2px;">',
@@ -75,15 +75,13 @@ define([
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
-                                        '<td>',
+                                        '<td class="padding-small">',
                                             '<div id="create-spark-input-dest" class="input-row" style=""></div>',
                                         '</td>',
                                     '</tr>',
                                 '</table>',
-                            '</div></div>',
-                        '</div>',
-                    '</div>'
-                ].join('')
+                            '</div></div>'
+                ].join(''))({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -133,7 +131,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.txtSourceRange, this.txtDestRange];
+            return [this.txtSourceRange, this.txtDestRange].concat(this.getFooterButtons());
         },
 
         afterRender: function() {

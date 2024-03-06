@@ -1,0 +1,115 @@
+.statusbar {
+    display: table;
+    padding: 2px;
+
+    .status-label {
+        position: relative;
+    }
+
+    #label-pages {
+        .margin-left(40px);
+    }
+
+    #btn-zoom-up {
+        .margin-right(40px);
+    }
+
+    #label-pages, #label-zoom {
+        cursor: pointer;
+    }
+
+    #label-zoom {
+        text-align: center;
+    }
+
+    #btn-zoom-topage, #btn-zoom-towidth {
+        .margin-right-8();
+    }
+
+    #slot-status-btn-prev, #slot-status-btn-next {
+        .margin-left-4();
+    }
+
+    .status-group {
+        display: table-cell;
+        white-space: nowrap;
+        vertical-align: top;
+        &.dropup {
+            position: static;
+        }
+
+        .status-label.margin-top-large {
+            margin-top: 6px;
+        }
+
+        button.margin-top-small,
+        .margin-top-small > button,
+        .margin-top-small > .btn-group {
+            margin-top: 3px;
+        }
+    }
+
+    .separator {
+        margin: 0px 6px;
+
+        &.short {
+            height: 25px;
+        }
+
+        &.space {
+            margin: 0px 2px;
+            border: none;
+        }
+    }
+
+    .cnt-zoom {
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: 4px;
+        .dropdown-menu {
+            min-width: 80px;
+            .margin-left(-4px);
+
+            li {
+                > a {
+                    text-align: center;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        margin-bottom: 6px;
+
+        li {
+            text-align: left;
+            .rtl & {
+                text-align: right;
+            }
+        }
+    }
+
+    #status-goto-box {
+        padding: 10px;
+        .margin-left(40px);
+        margin-bottom: 2px;
+        min-width: 130px;
+
+        > label {
+            display: inline-block;
+            .margin-right-10();
+            line-height:22px;
+        }
+
+        > input[type=text] {
+            width: 50px;
+            display: inline-block;
+        }
+    }
+
+    .hide-select-tools {
+        display: none;
+    }
+}

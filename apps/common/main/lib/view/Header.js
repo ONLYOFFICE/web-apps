@@ -53,13 +53,21 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
+        var isPDFEditor = !!window.PDFE,
+            isDocEditor = !!window.DE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
                     '<div class="user-name">' +
-                        '<div class="color" style="background-color: <%= user.get("color") %>;"></div>'+
+                        '<div class="color"' + 
+                            '<% if (user.get("avatar")) { %>' +
+                                'style="background-image: url(<%=user.get("avatar")%>); <% if (user.get("color")!==null) { %> border-color:<%=user.get("color")%>; border-style: solid;<% }%>"' +
+                            '<% } else { %>' +
+                                'style="background-color: <% if (user.get("color")!==null) { %> <%=user.get("color")%> <% } else { %> #cfcfcf <% }%>;"' +
+                            '<% } %>' +
+                        '><% if (!user.get("avatar")) { %><%-user.get("initials")%><% } %></div>' +
                         '<label><%= fnEncode(user.get("username")) %></label>' +
-                        '<% if (len>1) { %><label style="margin-left:3px;">(<%=len%>)</label><% } %>' +
+                        '<% if (len>1) { %><label class="margin-left-3">(<%=len%>)</label><% } %>' +
                     '</div>'+
                 '</li>';
 
@@ -82,6 +90,9 @@ define([
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
+                                    '<div class="btn-slot" id="slot-btn-edit-mode"></div>' +
                                 '</div>' +
                                 '<div class="hedset" data-layout-name="header-users">' +
                                     // '<span class="btn-slot text" id="slot-btn-users"></span>' +
@@ -212,7 +223,7 @@ define([
         function updateDocNamePosition(config) {
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
-                if (!config.isEdit) {
+                if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
@@ -232,7 +243,7 @@ define([
                     }
                 }
 
-                if (!(config.customization && config.customization.toolbarHideFileName) && (!config.isEdit || config.customization && config.customization.compactHeader)) {
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && config.customization.compactHeader)) {
                     var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt($labelDocName.css('min-width') || 50); // 2px - box-shadow
                     config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
@@ -242,8 +253,37 @@ define([
             }
         }
 
+        function changePDFMode(config) {
+            var me = this;
+            config = config || appConfig;
+            if (!me.btnPDFMode || !config) return;
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')));
+            me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView));
+            me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate ? me.tipComment : me.tipView));
+        }
+
+        function changeDocMode(type, lockEditing) {
+            if (!this.btnDocMode || !appConfig) return;
+
+            if (lockEditing!==undefined) { //lock only menu item
+                this.btnDocMode.menu && this.btnDocMode.menu.items && (this.btnDocMode.menu.items[0].value==='edit') && this.btnDocMode.menu.items[0].setDisabled(lockEditing);
+                return;
+            }
+
+            var show = type!==undefined;
+            if (type===undefined)
+                type = appConfig.isReviewOnly ? 'review' : 'edit';
+
+            var isEdit = type==='edit',
+                isReview = type==='review';
+            this.btnDocMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isReview ? 'btn-ic-review' : 'btn-sheet-view')));
+            this.btnDocMode.setCaption(isEdit ? this.textEdit : (isReview ? this.textReview : this.textView));
+            this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : (isReview ? this.tipReview : this.tipDocView));
+            show && !this.btnDocMode.isVisible() && this.btnDocMode.setVisible(true);
+        }
+
         function onResize() {
-            if (appConfig && appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader)) {
+            if (appConfig && (appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader)) {
                 updateDocNamePosition(appConfig);
             }
         }
@@ -275,6 +315,7 @@ define([
             me.btnFavorite.on('click', function (e) {
                 // wait for setFavorite method
                 // me.options.favorite = !me.options.favorite;
+                // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                 // me.btnFavorite.changeIcon(me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
                 // me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
                 Common.NotificationCenter.trigger('markfavorite', !me.options.favorite);
@@ -343,7 +384,7 @@ define([
             }
 
             if ( me.btnSave ) {
-                me.btnSave.updateHint(me.tipSave + Common.Utils.String.platformKey('Ctrl+S'));
+                me.btnSave.updateHint(me.tipSave + (isPDFEditor ? '' : Common.Utils.String.platformKey('Ctrl+S')));
                 me.btnSave.on('click', function (e) {
                     me.fireEvent('save', me);
                 });
@@ -363,7 +404,7 @@ define([
                 });
             }
 
-            if ( !mode.isEdit ) {
+            if ( !(mode.isEdit || isPDFEditor && mode.isRestrictedEdit) ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
@@ -382,7 +423,80 @@ define([
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
-            if (appConfig.isEdit && !(appConfig.customization && appConfig.customization.compactHeader))
+            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
+                                            '<% if (!_.isEmpty(iconCls)) { %>' +
+                                                '<span class="menu-item-icon <%= iconCls %>"></span>' +
+                                            '<% } %>' +
+                                            '<b><%= caption %></b></div>' +
+                                            '<% if (options.description !== null) { %><label class="margin-left-10 description"><%= options.description %></label>' +
+                                            '<% } %></a>');
+            if (me.btnPDFMode) {
+                var arr = [];
+                appConfig.canPDFEdit && arr.push({
+                    caption: me.textEdit,
+                    iconCls : 'menu__icon btn-edit',
+                    template: menuTemplate,
+                    description: me.textEditDesc,
+                    value: 'edit'
+                });
+                arr.push({
+                    caption: me.textComment,
+                    iconCls : 'menu__icon btn-menu-comments',
+                    template: menuTemplate,
+                    description: me.textCommentDesc,
+                    value: 'comment',
+                    disabled: !appConfig.canPDFAnnotate
+                });
+                arr.push({
+                    caption: me.textView,
+                    iconCls : 'menu__icon btn-sheet-view',
+                    template: menuTemplate,
+                    description: me.textViewDesc,
+                    value: 'view'
+                });
+                me.btnPDFMode.setMenu(new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    style: 'width: 220px;',
+                    menuAlign: 'tr-br',
+                    items: arr
+                }));
+                me.btnPDFMode.menu.on('item:click', function (menu, item) {
+                    Common.NotificationCenter.trigger('pdf:mode', item.value, _.bind(changePDFMode, me));
+                });
+            } else if (me.btnDocMode) {
+                var arr = [];
+                !appConfig.isReviewOnly && arr.push({
+                    caption: me.textEdit,
+                    iconCls : 'menu__icon btn-edit',
+                    template: menuTemplate,
+                    description: me.textDocEditDesc,
+                    value: 'edit'
+                });
+                appConfig.canReview && arr.push({
+                    caption: me.textReview,
+                    iconCls : 'menu__icon btn-ic-review',
+                    template: menuTemplate,
+                    description: me.textReviewDesc,
+                    value: 'review'
+                });
+                arr.push({
+                    caption: me.textView,
+                    iconCls : 'menu__icon btn-sheet-view',
+                    template: menuTemplate,
+                    description: me.textDocViewDesc,
+                    value: 'view'
+                });
+                me.btnDocMode.setMenu(new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    style: 'width: 220px;',
+                    menuAlign: 'tr-br',
+                    items: arr
+                }));
+                me.btnDocMode.menu.on('item:click', function (menu, item) {
+                    Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
+                });
+            }
+            if ((appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader))
                 Common.NotificationCenter.on('window:resize', onResize);
         }
 
@@ -399,41 +513,42 @@ define([
             },100);
         }
 
+        function onDocNameChanged(editcomplete) {
+            var me = this,
+                name = $labelDocName.val();
+            name = name.trim();
+            if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                me.isSaveDocName =true;
+                if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                    _.defer(function() {
+                        Common.UI.error({
+                            msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                            , callback: function() {
+                                _.delay(function() {
+                                    $labelDocName.focus();
+                                }, 50);
+                            }
+                        });
+                    })
+                } else if (me.withoutExt) {
+                    name = me.cutDocName(name);
+                    me.fireEvent('rename', [name]);
+                    name += me.fileExtention;
+                    me.withoutExt = false;
+                    me.setDocTitle(name);
+                    editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            } else {
+                editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
-
-            var name = $labelDocName.val();
-            if ( e.keyCode == Common.UI.Keys.RETURN ) {
-                name = name.trim();
-                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
-                    me.isSaveDocName =true;
-                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
-                        _.defer(function() {
-                            Common.UI.error({
-                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
-                                , callback: function() {
-                                    _.delay(function() {
-                                        $labelDocName.focus();
-                                        me.isSaveDocName =true;
-                                    }, 50);
-                                }
-                            });
-                        })
-                    } else
-                    if(me.withoutExt) {
-                        name = me.cutDocName(name);
-                        me.options.wopi ? me.api.asc_wopi_renameFile(name) : Common.Gateway.requestRename(name);
-                        name += me.fileExtention;
-                        me.withoutExt = false;
-                        me.setDocTitle(name);
-                        Common.NotificationCenter.trigger('edit:complete', me);
-                    }
-
-                } else {
-                    Common.NotificationCenter.trigger('edit:complete', me);
-                }
-            } else
-            if ( e.keyCode == Common.UI.Keys.ESC ) {
+            if ( e.keyCode === Common.UI.Keys.RETURN ) {
+                onDocNameChanged.call(me, true);
+            } else if ( e.keyCode === Common.UI.Keys.ESC ) {
+                me.setDocTitle(me.cutDocName(me.documentCaption));
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 _.delay(function(){
@@ -446,7 +561,8 @@ define([
             options: {
                 branding: {},
                 documentCaption: '',
-                canBack: false
+                canBack: false,
+                wopi: false
             },
 
             el: '#header',
@@ -493,7 +609,7 @@ define([
                 });
 
                 me.btnFavorite = new Common.UI.Button({
-                    id: 'btn-favorite',
+                    id: 'id-btn-favorite',
                     cls: 'btn-header',
                     iconCls: 'toolbar__icon icon--inverse btn-favorite',
                     dataHint: '0',
@@ -508,6 +624,7 @@ define([
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
             },
 
             render: function (el, role) {
@@ -519,11 +636,12 @@ define([
             getPanel: function (role, config) {
                 var me = this;
 
-                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle) {
+                function createTitleButton(iconid, slot, disabled, hintDirection, hintOffset, hintTitle, lock) {
                     return (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: iconid,
                         disabled: disabled === true,
+                        lock: lock,
                         dataHint:'0',
                         dataHintDirection: hintDirection ? hintDirection : (config.isDesktopApp ? 'right' : 'left'),
                         dataHintOffset: hintOffset ? hintOffset : (config.isDesktopApp ? '10, -18' : '10, 10'),
@@ -535,11 +653,15 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
-                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
-                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        this.logo.css({'background-image': 'none', width: 'auto'});
-                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                    if (this.branding && this.branding.logo && this.logo) {
+                        if (this.branding.logo.visible===false) {
+                            this.logo.addClass('hidden');
+                        } else if (this.branding.logo.image || this.branding.logo.imageDark) {
+                            var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                            this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            this.logo.css({'background-image': 'none', width: 'auto'});
+                            (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                        }
                     }
 
                     return $html;
@@ -569,13 +691,13 @@ define([
 
                     if ( this.options.favorite !== undefined && this.options.favorite!==null) {
                         me.btnFavorite.render($html.find('#slot-btn-favorite'));
-                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                        me.btnFavorite.changeIcon(!!me.options.favorite ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                         me.btnFavorite.updateHint(!me.options.favorite ? me.textAddFavorite : me.textRemoveFavorite);
                     } else {
                         $html.find('#slot-btn-favorite').hide();
                     }
 
-                    if ( !config.isEdit ) {
+                    if ( !(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
@@ -585,12 +707,12 @@ define([
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
 
-                        if ( config.canEdit && config.canRequestEditRights )
+                        if ( config.canEdit && config.canRequestEditRights && !isPDFEditor)
                             this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
-                    if (!config.isEdit || config.customization && !!config.customization.compactHeader) {
+                    if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && !!config.customization.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous) {
                             me.btnUserName = new Common.UI.Button({
                                 el: $html.findById('.slot-btn-user-name'),
@@ -622,6 +744,36 @@ define([
                     } else {
                         $html.find('#slot-btn-share').hide();
                     }
+
+                    if (isPDFEditor && config.isEdit && !config.isOffline && config.canSwitchMode) {
+                        me.btnPDFMode = new Common.UI.Button({
+                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
+                            caption: me.textView,
+                            menu: true,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnPDFMode.render($html.find('#slot-btn-edit-mode'));
+                        changePDFMode.call(me, config);
+                    } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
+                        me.btnDocMode = new Common.UI.Button({
+                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            iconCls: 'toolbar__icon icon--inverse ' + (config.isReviewOnly ? 'btn-ic-review' : 'btn-edit'),
+                            caption: config.isReviewOnly ? me.textReview : me.textEdit,
+                            menu: true,
+                            visible: config.isReviewOnly || !config.canReview,
+                            lock: [Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockView, Common.enumLock.docLockComments, Common.enumLock.docLockForms, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnDocMode.render($html.find('#slot-btn-edit-mode'));
+                        changeDocMode.call(me);
+                        Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
+                    } else
+                        $html.find('#slot-btn-edit-mode').hide();
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -656,15 +808,18 @@ define([
                     $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
 
-                    if ( config.canPrint && config.isEdit ) {
+                    if ( config.canPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
-                    if ( config.canQuickPrint && config.isEdit )
+                    if ( config.canQuickPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
-                    me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
-                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z');
-                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y');
+                    if (!isPDFEditor || !config.isForm)
+                        me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                    me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
+                                                    [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
+                    me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
+                                                    [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened]);
 
                     return $html;
                 }
@@ -677,26 +832,23 @@ define([
             },
 
             setBranding: function (value) {
-                var element;
-
                 this.branding = value;
-
-                if ( value ) {
-                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                var element = $('#header-logo');
+                if ( value && value.logo && element) {
+                    if (value.logo.visible===false) {
+                        element.addClass('hidden');
+                    } else if (value.logo.image || value.logo.imageDark) {
                         var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                        element = $('#header-logo');
-                        if (element) {
-                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                            element.css({'background-image': 'none', width: 'auto'});
-                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
-                        }
+                        element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        element.css({'background-image': 'none', width: 'auto'});
+                        (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                     }
                 }
             },
 
             changeLogo: function () {
                 var value = this.branding;
-                if ( value && value.logo && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
+                if ( value && value.logo && (value.logo.visible!==false) && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
                     var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                     $('#header-logo img').attr('src', image);
                 }
@@ -707,8 +859,7 @@ define([
 
                 this.documentCaption = value;
                 var idx = this.documentCaption.lastIndexOf('.');
-                if (idx>0)
-                    this.fileExtention = this.documentCaption.substring(idx);
+                this.fileExtention = idx>0 ? this.documentCaption.substring(idx) : '';
                 this.isModified && (value += '*');
                 this.readOnly && (value += ' (' + this.textReadOnly + ')');
                 if ( $labelDocName ) {
@@ -746,7 +897,7 @@ define([
             setFavorite: function (value) {
                 this.options.favorite = value;
                 this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
-                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite'} : {curr: 'btn-in-favorite'});
+                this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                 this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
                 updateDocNamePosition(appConfig);
                 return this;
@@ -754,6 +905,10 @@ define([
 
             getFavorite: function () {
                 return this.options.favorite;
+            },
+
+            setWopi: function(value) {
+                this.options.wopi = value;
             },
 
             setCanRename: function (rename) {
@@ -771,6 +926,7 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
+                                !me.isSaveDocName && onDocNameChanged.call(me);
                                 me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
                                 Common.Utils.isGecko && (label[0].selectionStart = label[0].selectionEnd = 0);
                                 if(!me.isSaveDocName) {
@@ -844,8 +1000,32 @@ define([
                         html: true
                     });
                 }
-                $btnUserName && $btnUserName.text(this.getInitials(name));
+                $btnUserName && this.updateAvatarEl();
+
                 return this;
+            },
+
+            setUserAvatar: function(avatar) {
+                this.options.userAvatar = avatar;
+                $btnUserName && this.updateAvatarEl();
+            },
+
+            setUserId: function(id) {
+                this.options.currentUserId = id;
+            },
+
+            updateAvatarEl: function(){
+                if(this.options.userAvatar){
+                    $btnUserName.css({'background-image': 'url('+ this.options.userAvatar +')'});
+                    $btnUserName.text('');
+                } else {
+                    $btnUserName.text(Common.Utils.getUserInitials(this.options.userName));
+                }
+            },
+
+            avatarsUpdate: function(type, users) {
+                if (type!=='info') return;
+                this.setUserAvatar(Common.UI.ExternalUsers.getImage(this.options.currentUserId));
             },
 
             getButton: function(type) {
@@ -855,9 +1035,11 @@ define([
                     return $panelUsers;
                 else if (type == 'share')
                     return this.btnShare;
+                else if (type == 'mode')
+                    return this.btnDocMode;
             },
 
-            lockHeaderBtns: function (alias, lock) {
+            lockHeaderBtns: function (alias, lock, cause) {
                 var me = this;
                 if ( alias == 'users' ) {
                     if ( lock ) {
@@ -874,37 +1056,15 @@ define([
                     }
                 } else {
                     var _lockButton = function (btn) {
-                        if ( btn ) {
-                            if ( lock ) {
-                                btn.keepState = {
-                                    disabled: btn.isDisabled()
-                                };
-                                btn.setDisabled( true );
-                            } else {
-                                btn.setDisabled( btn.keepState && btn.keepState.disabled || lock);
-                                delete btn.keepState;
-                            }
-                        }
+                        btn && Common.Utils.lockControls(cause, lock, {array: [btn]});
                     };
-
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
+                    case 'mode': _lockButton(me.btnDocMode); break;
                     default: break;
                     }
                 }
-            },
-
-            getInitials: function(name) {
-                var fio = name.split(' ');
-                var initials = fio[0].substring(0, 1).toUpperCase();
-                for (var i = fio.length-1; i>0; i--) {
-                    if (fio[i][0]!=='(' && fio[i][0]!==')') {
-                        initials += fio[i].substring(0, 1).toUpperCase();
-                        break;
-                    }
-                }
-                return initials;
             },
 
             setDocumentReadOnly: function (readonly) {
@@ -937,7 +1097,23 @@ define([
             tipSearch: 'Search',
             textShare: 'Share',
             tipPrintQuick: 'Quick print',
-            textReadOnly: 'Read only'
+            textReadOnly: 'Read only',
+            textView: 'Viewing',
+            textComment: 'Commenting',
+            textEdit: 'Editing',
+            textViewDesc: 'All changes will be saved locally',
+            textCommentDesc: 'All changes will be saved to the file. Real time collaboration',
+            textEditDesc: 'All changes will be saved to the file. Real time collaboration',
+            tipView: 'Viewing',
+            tipComment: 'Commenting',
+            tipEdit: 'Editing',
+            textDocViewDesc: 'View the file, but make no changes',
+            textDocEditDesc: 'Make any changes',
+            tipDocView: 'Viewing',
+            tipDocEdit: 'Editing',
+            textReview: 'Reviewing',
+            textReviewDesc: 'Suggest changes',
+            tipReview: 'Reviewing'
         }
     }(), Common.Views.Header || {}))
 });

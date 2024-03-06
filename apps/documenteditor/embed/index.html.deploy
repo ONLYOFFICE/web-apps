@@ -21,7 +21,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 10000;
+            z-index: 1000;
         }
 
         .loadmask > .brendpanel {
@@ -79,32 +79,65 @@
             overflow: hidden;
             position: relative;
 
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
+            -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
+            -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
+            -o-animation: startFlickerAnimation 2s infinite ease-in-out;
+            animation: startFlickerAnimation 2s infinite ease-in-out;
         }
 
-        @keyframes flickerAnimation {
+        @keyframes startFlickerAnimation {
             0%   { opacity:0.1; }
             50%  { opacity:1; }
             100% { opacity:0.1; }
         }
-        @-o-keyframes flickerAnimation{
+        @-o-keyframes startFlickerAnimation{
             0%   { opacity:0.1; }
             50%  { opacity:1; }
             100% { opacity:0.1; }
         }
-        @-moz-keyframes flickerAnimation{
+        @-moz-keyframes startFlickerAnimation{
             0%   { opacity:0.1; }
             50%  { opacity:1; }
             100% { opacity:0.1; }
         }
-        @-webkit-keyframes flickerAnimation{
+        @-webkit-keyframes startFlickerAnimation{
             0%   { opacity:0.1; }
             50%  { opacity:1; }
             100% { opacity:0.1; }
         }
+
+        .loadmask.none-animation > .placeholder > .line {
+            animation: none;
+        }
+
+        .loadmask.end-animation > .placeholder > .line {
+            -webkit-animation: endFlickerAnimation 2s infinite ease-in-out;
+            -moz-animation: endFlickerAnimation 2s infinite ease-in-out;
+            -o-animation: endFlickerAnimation 2s infinite ease-in-out;
+            animation: endFlickerAnimation 2s infinite ease-in-out;
+        }
+
+        @keyframes endFlickerAnimation {
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+
     </style>
 
     <!--[if lt IE 9]>
@@ -155,19 +188,25 @@
 
             var params = getUrlParams(),
                            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-                           logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+                           hideLogo = params["headerlogo"]==='',
+                           logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+                           isForm = params["isForm"];
 
             window.frameEditorId = params["frameEditorId"];
             window.parentOrigin = params["parentOrigin"];
             var elem = document.querySelector('.loading-logo');
-            if (elem && logo) {
-                elem.style.backgroundImage= 'none';
-                elem.style.width = 'auto';
-                elem.style.height = 'auto';
-                var img = document.querySelector('.loading-logo img');
-                img && img.setAttribute('src', logo);
-                img.style.opacity = 1;
-            }
+            if (elem) {
+               if (hideLogo) {
+                   elem.style.display = 'none';
+               } else if (logo) {
+                   elem.style.backgroundImage= 'none';
+                   elem.style.width = 'auto';
+                   elem.style.height = 'auto';
+                   var img = document.querySelector('.loading-logo img');
+                   img && img.setAttribute('src', logo);
+                   img.style.opacity = 1;
+               }
+           }
         </script>
 
       <div id="editor_sdk" class="viewer" style="overflow: hidden;" tabindex="-1"></div>
@@ -193,7 +232,7 @@
               <div id="id-pages" class="item margin-right-small" style="vertical-align: middle;"><input id="page-number" class="form-control input-xs masked" type="text" value="0"><span class="text" id="pages" tabindex="-1">of 0</span></div>
               <div id="id-submit-group" style="display: inline-block;"><button id="id-btn-submit" class="control-btn has-caption margin-right-small margin-left-small colored"><span class="caption"></span></button></div>
               <div id="box-tools" class="dropdown">
-                  <button class="control-btn svg-icon btn-more-vertical"></button>
+                  <button class="control-btn svg-icon more-vertical"></button>
               </div>
           </div>
       </div>
@@ -234,13 +273,31 @@
       <script type="text/javascript" src="../../../../sdkjs/word/sdk-all-min.js"></script>
 
       <!--application-->
-      <script type="text/javascript" src="../../../apps/documenteditor/embed/app-all.js"></script>
+      <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+      <script>
+          function startApp() {
+              var script = document.createElement("script");
+              script.type  = "text/javascript";
+              script.src = "../../../apps/documenteditor/embed/app-all.js";
+              document.body.appendChild(script);
+          }
+          if (isForm===undefined) {
+              listenApiMsg(function (isform) {
+                  window.isPDFForm = !!isform;
+                  startApp();
+              });
+          } else {
+              window.isPDFForm = isForm==='true';
+              startApp();
+          }
+      </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

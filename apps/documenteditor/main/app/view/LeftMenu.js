@@ -42,6 +42,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/view/About',
     /** coauthoring begin **/
@@ -60,22 +61,10 @@ define([
     var SCALE_MIN = 40;
     var MENU_SCALE_PART = 300;
 
-    DE.Views.LeftMenu = Backbone.View.extend(_.extend({
+    DE.Views.LeftMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#left-menu',
 
         template: _.template(menuTemplate),
-
-        // Delegated events for creating new items, and clearing completed ones.
-        events: function() {
-            return {
-                'click #left-btn-support': function() {
-                    var config = this.mode.customization;
-                    config && !!config.feedback && !!config.feedback.url ?
-                        window.open(config.feedback.url) :
-                        window.open('{{SUPPORT_URL}}');
-                }
-            }
-        },
 
         initialize: function () {
             this.minimizedMode = true;
@@ -84,6 +73,10 @@ define([
 
         render: function () {
             var $markup = $(this.template({}));
+
+            this.btnMoreContainer = $markup.find('#slot-left-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tl-tr';
 
             this.btnSearchBar = new Common.UI.Button({
                 action: 'advancedsearch',
@@ -94,7 +87,11 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
+            this.btnSearchBar.on('click', _.bind(function () {
+                this.onBtnMenuClick(this.btnSearchBar);
+                if (this.btnSearchBar.pressed)
+                    this.fireEvent('search:aftershow');
+            }, this));
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
@@ -114,6 +111,12 @@ define([
                 iconCls: 'btn-menu-support',
                 disabled: true
             });
+            this.btnSupport.on('click', _.bind(function() {
+                var config = this.mode.customization;
+                config && !!config.feedback && !!config.feedback.url ?
+                    window.open(config.feedback.url) :
+                    window.open('{{SUPPORT_URL}}');
+            }, this));
 
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
@@ -141,17 +144,6 @@ define([
             this.btnChat.hide();
 
             /** coauthoring end **/
-
-            this.btnPlugins = new Common.UI.Button({
-                el: $markup.elementById('#left-btn-plugins'),
-                hint: this.tipPlugins,
-                enableToggle: true,
-                disabled: true,
-                iconCls: 'btn-menu-plugin',
-                toggleGroup: 'leftMenuGroup'
-            });
-            this.btnPlugins.hide();
-            this.btnPlugins.on('click',         this.onBtnMenuClick.bind(this));
 
             this.btnNavigation = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-navigation'),
@@ -217,7 +209,6 @@ define([
             this.supressEvents = false;
 
             this.onCoauthOptions();
-            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -263,12 +254,6 @@ define([
                 }
             }
             /** coauthoring end **/
-            // if (this.mode.canPlugins && this.panelPlugins) {
-            //     if (this.btnPlugins.pressed) {
-            //         this.panelPlugins.show();
-            //     } else
-            //         this.panelPlugins['hide']();
-            // }
         },
 
         setOptionsPanel: function(name, panel) {
@@ -280,9 +265,6 @@ define([
             } else /** coauthoring end **/
             if (name == 'history') {
                 this.panelHistory = panel.render('#left-panel-history');
-            } else
-            if (name == 'plugins' && !this.panelPlugins) {
-                this.panelPlugins = panel.render(/*'#left-panel-plugins'*/);
             } else
             if (name == 'navigation' && !this.panelNavigation) {
                 this.panelNavigation = panel.render('#left-panel-navigation');
@@ -329,10 +311,6 @@ define([
                     }
                 }
                 /** coauthoring end **/
-                if (this.mode.canPlugins && this.panelPlugins && !this._state.pluginIsRunning) {
-                    this.panelPlugins['hide']();
-                    this.btnPlugins.toggle(false, true);
-                }
                 if (this.panelNavigation) {
                     this.panelNavigation['hide']();
                     this.btnNavigation.toggle(false);
@@ -345,6 +323,7 @@ define([
                     this.panelThumbnails['hide']();
                     this.btnThumbnails.toggle(false, true);
                 }
+                this.toggleActivePluginButton(false);
             }
         },
 
@@ -364,9 +343,9 @@ define([
             this.btnComments.setDisabled(false);
             this.btnChat.setDisabled(false);
             /** coauthoring end **/
-            this.btnPlugins.setDisabled(false);
             this.btnNavigation.setDisabled(false);
             this.btnThumbnails.setDisabled(false);
+            this.setDisabledAllMoreMenuItems(false);
         },
 
         showMenu: function(menu, opts, suspendAfter) {
@@ -404,7 +383,7 @@ define([
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
                         this.panelSearch.focus();
-                        !suspendAfter && this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow');
                     }
                 }
                 /** coauthoring end **/
@@ -509,6 +488,11 @@ define([
 
         isVisible: function () {
             return this.$el && this.$el.is(':visible');
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnSearchBar, this.btnComments, this.btnChat, this.btnNavigation, this.btnThumbnails, this.btnSupport, this.btnAbout];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         /** coauthoring begin **/

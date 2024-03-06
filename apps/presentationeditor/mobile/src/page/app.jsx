@@ -13,7 +13,6 @@ import routes from '../router/routes.js';
 import Notifications from '../../../../common/mobile/utils/notifications.js'
 import {MainController} from '../controller/Main';
 import {Device} from '../../../../common/mobile/utils/device'
-import {Themes} from '../../../../common/mobile/lib/controller/Themes'
 
     // Framework7 Parameters
 const f7params = {
@@ -28,7 +27,6 @@ export default class extends React.Component {
         super();
 
         Common.Notifications = new Notifications();
-        Themes.init();
     }
 
     render() {

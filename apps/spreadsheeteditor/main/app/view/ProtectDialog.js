@@ -92,11 +92,11 @@ define([
                         '<% if (type=="sheet") { %>',
                         '<table cols="2" style="width: 100%;">',
                             '<tr>',
-                                '<td class="padding-right" style="width:50%;">',
+                                '<td class="padding-right-5" style="width:50%;">',
                                     '<label class="input-label">' + t.txtPassword + ' (' + t.txtOptional + ')' + '</label>',
                                     '<div id="' + t.winId + '-id-password-txt" class="input-row" style="width: 100%;margin-bottom: 10px;"></div>',
                                 '</td>',
-                                '<td class="padding-left" style="width:50%;">',
+                                '<td class="padding-left-5" style="width:50%;">',
                                     '<label class="input-label">' + t.txtRepeat + '</label>',
                                     '<div id="' + t.winId + '-id-repeat-txt" class="input-row" style="width: 100%;margin-bottom: 10px;"></div>',
                                 '</td>',
@@ -155,7 +155,7 @@ define([
                 maxLength: 255,
                 validateOnBlur: false,
                 repeatInput: this.repeatPwd,
-                showPwdOnClick: true
+                showPwdOnClick: false
             });
 
             if (this.type == 'sheet') {
@@ -171,7 +171,7 @@ define([
                         '<input id="pdcheckbox-<%= id %>" type="checkbox" class="button__checkbox">',
                         '<label for="pdcheckbox-<%= id %>" class="checkbox__shape" ></label>',
                         '</label>',
-                        '<div id="<%= id %>" class="list-item">',
+                        '<div id="<%= id %>" class="list-item margin-left-20">',
                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                         '</div>'
@@ -242,7 +242,7 @@ define([
             (this.type == 'range') && (arr = arr.concat([this.inputRangeName, this.txtDataRange]));
             arr = arr.concat([this.inputPwd, this.repeatPwd]);
             (this.type == 'sheet') && (arr = [this.btnAllowRanges].concat(arr).concat([this.optionsList]));
-            return arr;
+            return arr.concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

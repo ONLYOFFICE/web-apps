@@ -38,7 +38,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/TreeView'
+    'common/main/lib/component/TreeView',
+    'common/main/lib/component/Slider'
 ], function (template) {
     'use strict';
 
@@ -50,8 +51,8 @@ define([
             '<div id="thumbnails-box" class="layout-ct vbox">',
                 '<div id="thumbnails-header">',
                     '<label><%= scope.textPageThumbnails %></label>',
-                    '<div id="thumbnails-btn-close"></div>',
-                    '<div id="thumbnails-btn-settings"></div>',
+                    '<div id="thumbnails-btn-close" class="float-right margin-left-4"></div>',
+                    '<div id="thumbnails-btn-settings" class="float-right"></div>',
                 '</div>',
                 '<div id="thumbnails-list">',
                 '</div>',

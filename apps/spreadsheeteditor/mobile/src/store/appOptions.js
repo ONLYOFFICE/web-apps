@@ -16,7 +16,7 @@ export class storeAppOptions {
             canBrandingExt: observable,
 
             isDocReady: observable,
-            changeDocReady: action
+            changeDocReady: action,
         });
     }
 
@@ -50,6 +50,7 @@ export class storeAppOptions {
             Common.Utils.String.htmlEncode(this.customization.anonymous.label) : _t.textGuest;
 
         const value = this.canRenameAnonymous ? LocalStorage.getItem("guest-username") : null;
+        this.canRename = this.config.canRename;
         this.user = Common.Utils.fillUserInfo(config.user, config.lang, value ? (value + ' (' + this.guestName + ')' ) : _t.textAnonymous, LocalStorage.getItem("guest-id") || ('uid-' + Date.now()));
         this.user.anonymous && LocalStorage.setItem("guest-id", this.user.id);
         
@@ -89,6 +90,7 @@ export class storeAppOptions {
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
         this.canLicense = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
         this.isLightVersion = params.asc_getIsLight();
+        this.buildVersion = params.asc_getBuildVersion();
         this.canCoAuthoring = !this.isLightVersion;
         this.isOffline = Common.EditorApi.get().asc_isOffline();
         this.canRequestEditRights = this.config.canRequestEditRights;
@@ -106,6 +108,7 @@ export class storeAppOptions {
             if (permissions.editCommentAuthorOnly===undefined && permissions.deleteCommentAuthorOnly===undefined)
                 this.canEditComments = this.canDeleteComments = this.isOffline;
         }
+        // this.isForm = !!window.isPDFForm;
         this.canChat = this.canLicense && !this.isOffline && (permissions.chat !== false);
         this.canPrint = (permissions.print !== false);
         this.isRestrictedEdit = !this.isEdit && this.canComments && isSupportEditFeature;
@@ -122,6 +125,11 @@ export class storeAppOptions {
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);  
         this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
 
+        this.canUseHistory = this.canLicense && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp && !this.isOffline;
+        this.canHistoryClose = this.config.canHistoryClose;
+        this.canHistoryRestore= this.config.canHistoryRestore;
+
         this.canLiveView = !!params.asc_getLiveViewerSupport() && (this.config.mode === 'view') && isSupportEditFeature;
+        this.isAnonymousSupport = !!Common.EditorApi.get().asc_isAnonymousSupport();
     }
 }

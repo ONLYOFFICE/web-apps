@@ -8,16 +8,11 @@
     background-color: @background-toolbar;
 
     .ce-group-name {
-        float: left;
         height: 20px;
         //border-bottom: @scaled-one-px-value-ie solid @border-toolbar-ie;
         //border-bottom: @scaled-one-px-value solid @border-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
-
-        .rtl & {
-            float: right;
-        }
 
         #ce-cell-name {
             width: 100px;
@@ -39,6 +34,7 @@
                 border: 0 none;
                 border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
                 border-left: @scaled-one-px-value solid @border-toolbar;
+                direction: rtl;
             }
 
             &[disabled] {
@@ -86,13 +82,8 @@
 
         #ce-func-label {
             height: 20px;
-            margin-left: -3px;
+            .margin-left(-3px);
             .border-radius(0);
-
-            .rtl & {
-                margin-left: 0;
-                margin-right: -3px;
-            }
 
             &.disabled {
                 opacity: 0.4;
@@ -108,28 +99,29 @@
     }
 
     .ce-group-expand {
-        float: right;
         //height: 20px;
+        position: absolute;
+        top:0;
+        right: 0;
+        .rtl & {
+            right: auto;
+            left: 0;
+        }
         height: 100%;
         background-color: @background-normal-ie;
         background-color: @background-normal;
-
-        .rtl & {
-            float: left;
-        }
     }
 
     .ce-group-content {
-        margin: 0 16px 0 120px;
+        margin: 0 0px 0 120px;
         height: 100%;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
-
         .rtl & {
             border-left: none;
             border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-right: @scaled-one-px-value solid @border-toolbar;
-            margin: 0 120px 0 16px;
+            margin: 0 120px 0 0px;
         }
 
         #ce-cell-content {
@@ -137,6 +129,7 @@
             resize: none;
             min-height: 19px;
             border: 0 none;
+            .padding-x(3px, 19px);
             .font-size-medium();
             line-height: 18px;
             padding-bottom: 0;

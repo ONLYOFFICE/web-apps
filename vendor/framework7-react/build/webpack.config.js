@@ -50,7 +50,7 @@ const config = {
       jquery: 'jQuery'
   },
 
-  devtool: env === 'production' ? false/*'source-map'*/ : 'source-map', // TODO: turn off debugger source map before release
+  devtool: env === 'production' ? 'source-map' : 'source-map', // TODO: turn off debugger source map before release
   optimization: {
     minimizer: [new TerserPlugin({
     })],
@@ -63,7 +63,7 @@ const config = {
         use: {
             loader: 'babel-loader',
             options: {
-                
+
             }
         },
         include: [
@@ -179,7 +179,7 @@ const config = {
       __APP_TITLE_TEXT__: JSON.stringify(process.env.APP_TITLE_TEXT ? process.env.APP_TITLE_TEXT : 'ONLYOFFICE'),
       __COMPANY_NAME__: JSON.stringify(process.env.COMPANY_NAME ? process.env.COMPANY_NAME : 'ONLYOFFICE'),
       __HELP_URL__: JSON.stringify(process.env.HELP_URL || 'https://helpcenter.onlyoffice.com'),
-      __SALES_EMAIL__: JSON.stringify(process.env.__SALES_EMAIL__ || 'sales@onlyoffice.com'),
+      __SALES_EMAIL__: JSON.stringify(process.env.SALES_EMAIL || 'sales@onlyoffice.com'),
     }),
     new webpack.BannerPlugin(`\n* Version: ${process.env.PRODUCT_VERSION} (build: ${process.env.BUILD_NUMBER})\n`),
 
@@ -221,6 +221,7 @@ const config = {
       skeleton: {
           stylesheet: env === 'development' ? undefined : fs.readFileSync(`../../apps/common/mobile/resources/css/skeleton.css`),
           htmlscript: fs.readFileSync(`../../apps/common/mobile/utils/htmlutils.js`),
+          checkerscript: fs.readFileSync(`../../apps/common/checkExtendedPDF.js`),
       },
       system: {
           env: {

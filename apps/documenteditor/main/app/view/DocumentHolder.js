@@ -137,7 +137,7 @@ define([
             });
 
             me.menuViewAddComment = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption: me.addCommentText
             });
 
@@ -386,7 +386,7 @@ define([
             });
 
             me.menuImageWrap = new Common.UI.MenuItem({
-                iconCls: 'menu__icon wrap-inline',
+                iconCls: 'menu__icon btn-small-wrap-inline',
                 caption : me.textWrap,
                 menu    : new Common.UI.Menu({
                     cls: 'ppm-toolbar shifted-right',
@@ -394,7 +394,7 @@ define([
                     items: [
                         new Common.UI.MenuItem({
                             caption     : me.txtInline,
-                            iconCls     : 'menu__icon wrap-inline',
+                            iconCls     : 'menu__icon btn-small-wrap-inline',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Inline,
                             checkmark   : false,
@@ -403,7 +403,7 @@ define([
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             caption     : me.txtSquare,
-                            iconCls     : 'menu__icon wrap-square',
+                            iconCls     : 'menu__icon btn-small-wrap-square',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Square,
                             checkmark   : false,
@@ -411,7 +411,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtTight,
-                            iconCls     : 'menu__icon wrap-tight',
+                            iconCls     : 'menu__icon btn-small-wrap-tight',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Tight,
                             checkmark   : false,
@@ -419,7 +419,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtThrough,
-                            iconCls     : 'menu__icon wrap-through',
+                            iconCls     : 'menu__icon btn-small-wrap-through',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Through,
                             checkmark   : false,
@@ -427,7 +427,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtTopAndBottom,
-                            iconCls     : 'menu__icon wrap-topandbottom',
+                            iconCls     : 'menu__icon btn-small-wrap-topandbottom',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.TopAndBottom,
                             checkmark   : false,
@@ -436,7 +436,7 @@ define([
                         { caption: '--' },
                         new Common.UI.MenuItem({
                             caption     : me.txtInFront,
-                            iconCls     : 'menu__icon wrap-infront',
+                            iconCls     : 'menu__icon btn-small-wrap-infront',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.InFront,
                             checkmark   : false,
@@ -444,7 +444,7 @@ define([
                         }),
                         new Common.UI.MenuItem({
                             caption     : me.txtBehind,
-                            iconCls     : 'menu__icon wrap-behind',
+                            iconCls     : 'menu__icon btn-small-wrap-behind',
                             toggleGroup : 'popuppicturewrapping',
                             wrapType    : Asc.c_oAscWrapStyle2.Behind,
                             checkmark   : false,
@@ -615,42 +615,42 @@ define([
                         for (var i = 0; i < 8; i++) {
                             me.menuImageWrap.menu.items[i].setChecked(false);
                         }
-                        cls += 'wrap-inline';
+                        cls += 'btn-small-wrap-inline';
                     } else {
                         switch (wrapping) {
                             case Asc.c_oAscWrapStyle2.Inline:
                                 me.menuImageWrap.menu.items[0].setChecked(true);
-                                cls += 'wrap-inline';
+                                cls += 'btn-small-wrap-inline';
                                 break;
                             case Asc.c_oAscWrapStyle2.Square:
                                 me.menuImageWrap.menu.items[2].setChecked(true);
-                                cls += 'wrap-square';
+                                cls += 'btn-small-wrap-square';
                                 break;
                             case Asc.c_oAscWrapStyle2.Tight:
                                 me.menuImageWrap.menu.items[3].setChecked(true);
-                                cls += 'wrap-tight';
+                                cls += 'btn-small-wrap-tight';
                                 break;
                             case Asc.c_oAscWrapStyle2.Through:
                                 me.menuImageWrap.menu.items[4].setChecked(true);
-                                cls += 'wrap-through';
+                                cls += 'btn-small-wrap-through';
                                 break;
                             case Asc.c_oAscWrapStyle2.TopAndBottom:
                                 me.menuImageWrap.menu.items[5].setChecked(true);
-                                cls += 'wrap-topandbottom';
+                                cls += 'btn-small-wrap-topandbottom';
                                 break;
                             case Asc.c_oAscWrapStyle2.Behind:
                                 me.menuImageWrap.menu.items[8].setChecked(true);
-                                cls += 'wrap-behind';
+                                cls += 'btn-small-wrap-behind';
                                 break;
                             case Asc.c_oAscWrapStyle2.InFront:
                                 me.menuImageWrap.menu.items[7].setChecked(true);
-                                cls += 'wrap-infront';
+                                cls += 'btn-small-wrap-infront';
                                 break;
                             default:
                                 for (var i = 0; i < 8; i++) {
                                     me.menuImageWrap.menu.items[i].setChecked(false);
                                 }
-                                cls += 'wrap-infront';
+                                cls += 'btn-small-wrap-infront';
                                 break;
                         }
                     }
@@ -662,10 +662,10 @@ define([
                     var onlyCommonProps = ( value.imgProps.isImg && value.imgProps.isChart || value.imgProps.isImg && value.imgProps.isShape ||
                                             value.imgProps.isShape && value.imgProps.isChart);
                     if (onlyCommonProps) {
-                        me.menuImageAdvanced.setCaption(me.advancedText, true);
+                        me.menuImageAdvanced.setCaption(me.advancedText);
                         me.menuImageAdvanced.setIconCls('menu__icon btn-menu-image');
                     } else {
-                        me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText), true);
+                        me.menuImageAdvanced.setCaption((value.imgProps.isImg) ? me.imageText : ((value.imgProps.isChart) ? me.chartText : me.shapeText));
                         me.menuImageAdvanced.setIconCls('menu__icon ' + (value.imgProps.isImg ? 'btn-menu-image' : (value.imgProps.isChart ? 'btn-menu-chart' : 'btn-menu-shape')));
                     }
 
@@ -936,7 +936,7 @@ define([
 
             /** coauthoring begin **/
             me.menuAddCommentTable = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             /** coauthoring end **/
@@ -967,7 +967,7 @@ define([
             });
 
             var langTemplate = _.template([
-                '<a id="<%= id %>" tabindex="-1" type="menuitem" style="padding-left: 28px !important;" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
                 '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
                 '<%= caption %>',
                 '</a>'
@@ -1391,7 +1391,7 @@ define([
                     if (value.spellProps!==undefined && value.spellProps.value.get_Checked()===false && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(false);
                     } else {
-                        me.menuSpellTable.setCaption(me.loadSpellText, true);
+                        me.menuSpellTable.setCaption(me.loadSpellText);
                         me.clearWordVariants(false);
                         me.menuSpellMoreTable.setVisible(false);
                     }
@@ -1615,7 +1615,7 @@ define([
             });
 
             me.menuDropCapAdvanced = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-dropcap-intext',
+                iconCls: 'menu__icon btn-dropcap-intext icon-rtl',
                 caption     : me.advancedDropCapText
             });
 
@@ -1630,7 +1630,7 @@ define([
             });
 
             me.menuAddCommentPara = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-menu-comments',
+                iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             /** coauthoring end **/
@@ -1981,7 +1981,7 @@ define([
                     if (spell && value.spellProps.value.get_Variants() !== null && value.spellProps.value.get_Variants() !== undefined) {
                         me.addWordVariants(true);
                     } else {
-                        me.menuSpellPara.setCaption(me.loadSpellText, true);
+                        me.menuSpellPara.setCaption(me.loadSpellText);
                         me.clearWordVariants(true);
                         me.menuSpellMorePara.setVisible(false);
                     }
@@ -2019,7 +2019,7 @@ define([
                     me.menuFrameAdvanced.setVisible(frame_pr !== undefined);
                     me.menuDropCapAdvanced.setVisible(frame_pr !== undefined);
                     if (frame_pr)
-                        me.menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin');
+                        me.menuDropCapAdvanced.setIconCls((frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin') + ' icon-rtl');
 
                     var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
                     menuStyleSeparator.setVisible(edit_style);
@@ -2155,7 +2155,7 @@ define([
             this.hdrMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function(value){
-                    menuEditHeaderFooter.setCaption(value.Header ? me.editHeaderText : me.editFooterText, true);
+                    menuEditHeaderFooter.setCaption(value.Header ? me.editHeaderText : me.editFooterText);
                     menuEditHeaderFooter.off('click').on('click', function(item) {
                         if (me.api){
                             if (value.Header) {
@@ -2825,7 +2825,7 @@ define([
             } else {
                 moreMenu.setVisible(false);
                 spellMenu.setVisible(true);
-                spellMenu.setCaption(me.noSpellVariantsText, true);
+                spellMenu.setCaption(me.noSpellVariantsText);
             }
         },
 
@@ -3010,6 +3010,7 @@ define([
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
+                        iconImg: me.parseIcons(item.icons),
                         disabled: !!item.disabled
                     });
                 });
@@ -3027,7 +3028,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;
@@ -3053,6 +3053,7 @@ define([
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
+                                iconImg: me.parseIcons(item.icons),
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -3080,6 +3081,14 @@ define([
                 }
             }
             this._hasCustomItems = false;
+        },
+
+        parseIcons: function(icons) {
+            var plugins = DE.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
+            if (icons && icons.length && plugins && plugins.parseIcons) {
+                icons = plugins.parseIcons(icons);
+                return icons ? icons['normal'] : undefined;
+            }
         },
 
         focus: function() {
@@ -3338,7 +3347,9 @@ define([
         eqToDisplayText: 'Change to Display',
         hideEqToolbar: 'Hide Equation Toolbar',
         showEqToolbar: 'Show Equation Toolbar',
-        textIndents: 'Adjust list indents'
+        textIndents: 'Adjust list indents',
+        txtInsImage: 'Insert image from File',
+        txtInsImageUrl: 'Insert image from URL'
 
 }, DE.Views.DocumentHolder || {}));
 });

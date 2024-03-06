@@ -106,17 +106,20 @@ define([
             dataHint    : '',
             dataHintDirection: '',
             dataHintOffset: '',
-            dataHintTitle: ''
+            dataHintTitle: '',
+            scaling: true
         },
 
         tagName : 'li',
 
         template: _.template([
-            '<a id="<%= id %>" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
+            '<a id="<%= id %>" class="menu-item" style="<%= style %>" <% if(options.canFocused) { %> tabindex="-1" type="menuitem" <% }; if(!_.isUndefined(options.stopPropagation)) { %> data-stopPropagation="true" <% }; if(!_.isUndefined(options.dataHint)) { %> data-hint="<%= options.dataHint %>" <% }; if(!_.isUndefined(options.dataHintDirection)) { %> data-hint-direction="<%= options.dataHintDirection %>" <% }; if(!_.isUndefined(options.dataHintOffset)) { %> data-hint-offset="<%= options.dataHintOffset %>" <% }; if(options.dataHintTitle) { %> data-hint-title="<%= options.dataHintTitle %>" <% }; %> >',
                 '<% if (!_.isEmpty(iconCls)) { %>',
                     '<span class="menu-item-icon <%= iconCls %>"></span>',
+                '<% } else if (!_.isEmpty(iconImg)) { %>',
+                    '<img src="<%= iconImg %>" class="menu-item-icon">',
                 '<% } %>',
-                '<%= caption %>',
+                '<%- caption %>',
             '</a>'
         ].join('')),
 
@@ -154,6 +157,7 @@ define([
             var me = this,
                 el = me.$el || $(this.el);
 
+            me.cmpEl = el;
             me.trigger('render:before', me);
 
             if (me.caption === '--') {
@@ -167,6 +171,7 @@ define([
                         id      : me.id,
                         caption : me.caption,
                         iconCls : me.iconCls,
+                        iconImg : me.options.iconImg,
                         style   : me.style,
                         options : me.options
                     }));
@@ -228,12 +233,22 @@ define([
                     el.on('mousedown',  _.bind(this.onItemMouseDown, this));
 
                     Common.UI.ToggleManager.register(me);
+
+                    if (me.options.scaling !== false && me.iconCls) {
+                        el.attr('ratio', 'ratio');
+                        me.applyScaling(Common.UI.Scaling.currentRatio());
+
+                        el.on('app:scaling', function (e, info) {
+                            if ( me.options.scaling != info.ratio ) {
+                                me.applyScaling(info.ratio);
+                            }
+                        });
+                    }
                 }
             }
             if (!this.visible)
                 this.setVisible(this.visible);
 
-            me.cmpEl = el;
             me.rendered = true;
 
             me.trigger('render:after', me);
@@ -241,11 +256,11 @@ define([
             return this;
         },
 
-        setCaption: function(caption, noencoding) {
+        setCaption: function(caption) {
             this.caption = caption;
 
             if (this.rendered)
-                this.cmpEl.find('> a').contents().last()[0].textContent = (noencoding) ? caption : Common.Utils.String.htmlEncode(caption);
+                this.cmpEl.find('> a').contents().last()[0].textContent = caption;
         },
 
         setIconCls: function(iconCls) {
@@ -253,6 +268,12 @@ define([
                 var firstChild = this.cmpEl.children(':first');
                 if (firstChild) {
                     firstChild.find('.menu-item-icon').removeClass(this.iconCls).addClass(iconCls);
+                    var svgIcon = firstChild.find('use.zoom-int');
+                    if (svgIcon.length) {
+                        var re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null";
+                        svgIcon.attr('href', '#' + icon_name);
+                    }
                 }
             }
             this.iconCls = iconCls;
@@ -412,6 +433,26 @@ define([
                     );
                 } else
                     this.menu = m;
+            }
+        },
+
+        applyScaling: function (ratio) {
+            var me = this;
+            if (me.options.scaling != ratio) {
+                me.options.scaling = ratio;
+                var firstChild = this.cmpEl.children(':first');
+
+                if (ratio > 2) {
+                    if (!firstChild.find('svg.menu-item-icon').length) {
+                        var iconCls = me.iconCls,
+                            re_icon_name = /btn-[^\s]+/.exec(iconCls),
+                            icon_name = re_icon_name ? re_icon_name[0] : "null",
+                            rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '',
+                            svg_icon = '<svg class="menu-item-icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
+
+                        firstChild.find('span.menu-item-icon').after(svg_icon);
+                    }
+                }
             }
         }
     });

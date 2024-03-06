@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { EditSlide } from '../../view/edit/EditSlide';
+import {observer, inject} from "mobx-react";
 
 class EditSlideController extends Component {
     constructor (props) {
         super(props);
         this.onDuplicateSlide = this.onDuplicateSlide.bind(this);
         this.onRemoveSlide = this.onRemoveSlide.bind(this);
+        this.slideObject = this.props.storeFocusObjects.slideObject;
+        this.props.storeSlideSettings.getFillColor(this.slideObject);
     }
 
     onThemeClick(index) {
@@ -157,4 +160,4 @@ class EditSlideController extends Component {
     }
 }
 
-export default EditSlideController;
+export default inject('storeFocusObjects', 'storeSlideSettings')(observer(EditSlideController));

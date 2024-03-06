@@ -99,7 +99,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbRole];
+            return [this.cmbRole].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

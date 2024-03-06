@@ -230,12 +230,14 @@ class EditTextController extends Component {
         const storeTextSettings = this.props.storeTextSettings;
         let subtype = undefined;
         let arrayElements = (type===0) ? storeTextSettings.getBulletsList() : (type===1) ? storeTextSettings.getNumbersList() : storeTextSettings.getMultiLevelList();
+
         for (let i=0; i<arrayElements.length; i++) {
-            if (api.asc_IsCurrentNumberingPreset(arrayElements[i].numberingInfo, type!==2)) {
+            if (arrayElements[i].type > 0 && api.asc_IsCurrentNumberingPreset(arrayElements[i].numberingInfo, type!==2)) {
                 subtype = arrayElements[i].subtype;
                 break;
             }
         }
+
         switch (type) {
             case 0:
                 storeTextSettings.resetBullets(subtype);
@@ -264,6 +266,14 @@ class EditTextController extends Component {
         this.updateBulletsNumbers(2);
     }
 
+    setOrientationTextShape(direction) {
+        const api = Common.EditorApi.get();
+        const properties = new Asc.asc_CImgProperty();
+
+        properties.put_Vert(direction);
+        api.ImgApply(properties);
+    }
+
     render() {
         return (
             <EditText 
@@ -289,6 +299,7 @@ class EditTextController extends Component {
                 updateListType={this.updateListType}
                 onMultiLevelList={this.onMultiLevelList}
                 onLineSpacing={this.onLineSpacing}
+                setOrientationTextShape={this.setOrientationTextShape}
             />
         )
     }
