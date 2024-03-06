@@ -396,6 +396,13 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         });
         $(document).on('keydown', function(e) {
             _needShow = e.keyCode == Common.UI.Keys.ALT && !e.shiftKey && !Common.Utils.ModalWindow.isVisible() && _isDocReady && !(window.PE && $('#pe-preview').is(':visible'));
+
+            // Add outline style for focus elements for test
+            if (Common.localStorage.getBool('screen-reader-focus-mode', false)) {
+                !$(document.body).hasClass('focus-mode') && $(document.body).addClass('focus-mode');
+            } else {
+                $(document.body).hasClass('focus-mode') && $(document.body).removeClass('focus-mode');
+            }
         });
     };
 
