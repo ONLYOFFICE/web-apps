@@ -62,7 +62,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         customLogoImage = '',
         customLogoUrl = '';
 
-    if(!appOptions.isDisconnected) {
+    if(!appOptions.isDisconnected && appOptions.isDocReady) {
         const { logo } = customization;
         isBranding = appOptions.canBranding || appOptions.canBrandingExt;
         
@@ -73,6 +73,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                 customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
                 customLogoUrl = logo.url;
             }
+        } else {
+            isHideLogo = false;
         }
     }
 
@@ -235,15 +237,17 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
             }}>
                 <Page name="home" className={`editor${!isHideLogo || !isBranding ? ' page-with-logo' : ''}`}>
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo || !isBranding ? ' navbar-with-logo' : ''}`}>
-                        <div className="main-logo" onClick={() => {
-                            window.open(`${customLogoImage && customLogoUrl && !isHideLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
-                        }}>
-                            {customLogoImage && !isHideLogo ? 
-                                <img className='custom-logo-image' src={customLogoImage} />
-                            : !customLogoImage ? 
-                                <Icon icon="icon-logo"></Icon>
-                            : null}
-                        </div>
+                        {!isHideLogo || !isBranding ?
+                            <div className="main-logo" onClick={() => {
+                                window.open(`${customLogoImage && customLogoUrl && !isHideLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
+                            }}>
+                                {customLogoImage && !isHideLogo ? 
+                                    <img className='custom-logo-image' src={customLogoImage} />
+                                : 
+                                    <Icon icon="icon-logo"></Icon>
+                                }
+                            </div>
+                        : null}
                         <Subnavbar>
                             <ToolbarController 
                                 openOptions={handleClickToOpenOptions} 

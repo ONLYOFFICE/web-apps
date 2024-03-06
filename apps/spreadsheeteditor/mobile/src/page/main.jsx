@@ -129,7 +129,7 @@ class MainPage extends Component {
             customLogoImage = '',
             customLogoUrl = '';
 
-        if(!appOptions.isDisconnected) {
+        if(!appOptions.isDisconnected && appOptions.isDocReady) {
             const { logo } = customization;
             isBranding = appOptions.canBranding || appOptions.canBrandingExt;
             
@@ -140,6 +140,8 @@ class MainPage extends Component {
                     customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
                     customLogoUrl = logo.url;
                 }
+            } else {
+                isHideLogo = false;
             }
         }
 
@@ -156,15 +158,17 @@ class MainPage extends Component {
                     <Page name="home" className={`editor${!isHideLogo || !isBranding ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}
                         <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo || !isBranding ? ' navbar-with-logo' : ''}`}>
-                            <div className="main-logo" onClick={() => {
-                                window.open(`${customLogoImage && customLogoUrl && !isHideLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
-                            }}>
-                                {customLogoImage && !isHideLogo ? 
-                                    <img className='custom-logo-image' src={customLogoImage} />
-                                : !customLogoImage ?
-                                    <Icon icon="icon-logo"></Icon>
-                                : null}
-                            </div>
+                            {!isHideLogo || !isBranding ?
+                                <div className="main-logo" onClick={() => {
+                                    window.open(`${customLogoImage && customLogoUrl && !isHideLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
+                                }}>
+                                    {customLogoImage && !isHideLogo ? 
+                                        <img className='custom-logo-image' src={customLogoImage} />
+                                    :
+                                        <Icon icon="icon-logo"></Icon>
+                                    }
+                                </div>
+                            : null}
                             <Subnavbar>
                                 <Toolbar 
                                     openOptions={this.handleClickToOpenOptions}
