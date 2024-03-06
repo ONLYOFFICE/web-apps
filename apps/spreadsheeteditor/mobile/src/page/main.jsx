@@ -155,14 +155,14 @@ class MainPage extends Component {
                     wsProps,
                     isBranding
                 }}>
-                    <Page name="home" className={`editor${!isHideLogo || !isBranding ? ' page-with-logo' : ''}`}>
+                    <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}
-                        <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo || !isBranding ? ' navbar-with-logo' : ''}`}>
-                            {!isHideLogo || !isBranding ?
+                        <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
+                            {!isHideLogo ?
                                 <div className="main-logo" onClick={() => {
-                                    window.open(`${customLogoImage && customLogoUrl && !isHideLogo ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
+                                    window.open(`${customLogoImage && customLogoUrl ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
                                 }}>
-                                    {customLogoImage && !isHideLogo ? 
+                                    {customLogoImage ? 
                                         <img className='custom-logo-image' src={customLogoImage} />
                                     :
                                         <Icon icon="icon-logo"></Icon>
