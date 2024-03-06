@@ -1950,7 +1950,7 @@ define([
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
-                    placement: 'right-bottom',
+                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
