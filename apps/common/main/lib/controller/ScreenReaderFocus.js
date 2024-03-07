@@ -56,6 +56,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _currentControls = [],
         _currentItemIndex,
         _isLockedKeyEvents = false,
+        _unlockKeyEvents = false,
         _isDocReady = false,
         _isEditDiagram = false,
         _isSidePanelMode = false,
@@ -291,6 +292,9 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 } else {
                     _exitFocusMode();
                 }
+            } else if (_unlockKeyEvents) {
+                _lockedKeyEvents(false);
+                _unlockKeyEvents = false;
             } else if (_focusVisible) {
                 e.preventDefault();
             }
@@ -365,6 +369,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                         _hideFocus();
                         _resetToDefault();
                         Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
+                        if (btn && btn.data('toggle') !== 'dropdown') _unlockKeyEvents = true;
                         _isLockedKeyEvents = false;
                         return;
                     }
