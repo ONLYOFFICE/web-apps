@@ -961,49 +961,52 @@
                 'cell': 'spreadsheeteditor',
                 'slide': 'presentationeditor',
                 'pdf': 'pdfeditor',
-                'checker': config.document && config.document.isForm ? 'documenteditor' :
-                           config.document && config.document.isForm===false ? 'pdfeditor' : 'common'
+                'common': 'common'
             },
-            appType = 'word';
+            appType = 'word',
+            type,
+            fillForms = false,
+            isForm = false;
+        if (config.document) {
+            if (typeof config.document.fileType === 'string')
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
+                    .exec(config.document.fileType);
 
-        if (typeof config.documentType === 'string') {
-            appType = config.documentType.toLowerCase();
-            if (config.type !== 'mobile' && config.type !== 'embedded' && !!config.document && typeof config.document.fileType === 'string') {
-                var type = /^(?:(pdf)|(djvu|xps|oxps))$/.exec(config.document.fileType);
-                if (type && typeof type[2] === 'string')
-                    appType = 'pdf';
-                if (type && typeof type[1] === 'string')
-                    appType = 'checker';
-            }
-        } else if (!!config.document && typeof config.document.fileType === 'string') {
-            var type = /^(?:(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(pdf)|(djvu|xps|oxps))$/
-                            .exec(config.document.fileType);
-            if (type) {
-                if (typeof type[1] === 'string') appType = 'cell'; else
-                if (typeof type[2] === 'string') appType = 'slide'; else
-                if (typeof type[4] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'pdf'; else
-                if (typeof type[3] === 'string' && config.type !== 'mobile' && config.type !== 'embedded') appType = 'checker';
+            if (config.document.permissions)
+                fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
+                            config.editorConfig && (config.editorConfig.mode !== 'view');
+        }
+        if (type && typeof type[2] === 'string') { // djvu|xps|oxps
+            appType = config.type === 'mobile' ||  config.type === 'embedded' ? 'word' : 'pdf';
+        } else if (type && typeof type[1] === 'string') { // pdf - need check
+            isForm = config.document ? config.document.isForm : undefined;
+            if (config.type === 'embedded')
+                appType = fillForms && isForm===undefined ? 'common' : 'word';
+            else if (config.type !== 'mobile')
+                appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
+        } else {
+            if (typeof config.documentType === 'string')
+                appType = config.documentType.toLowerCase();
+            else {
+                if (type && typeof type[3] === 'string') appType = 'cell'; else
+                if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
-        if (appType === 'pdf' && (config.type === 'mobile' ||  config.type === 'embedded')) {
-            appType = 'word';
-        }
+        path += appMap[appType];
 
-        path += appMap[appType] + "/";
-        const path_type = config.type === "mobile"
-                    ? "mobile" : (config.type === "embedded")
-                    ? "embed" : "main";
+        const path_type = config.type === "mobile" ? "mobile" :
+                          config.type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+        if (appType !== 'common')
+            path += "/" + path_type;
 
-        path += path_type;
         var index = "/index.html";
-        if (config.editorConfig && path_type!=="forms") {
+        if (config.editorConfig && path_type!=="forms" && appType!=='common') {
             var customization = config.editorConfig.customization;
-            if ( appType!=='checker' && typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
-                                                        (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
+            if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
+               (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
             } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
                 index = "/index_internal.html";
-
         }
         path += index;
         return path;
@@ -1039,6 +1042,9 @@
 
         if (config.editorConfig && (config.editorConfig.mode == 'editdiagram' || config.editorConfig.mode == 'editmerge' || config.editorConfig.mode == 'editole'))
             params += "&internal=true";
+
+        if (config.type)
+            params += "&type=" + config.type;
 
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;

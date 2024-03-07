@@ -106,10 +106,10 @@
             },
             "indexhtml": {
                 "expand": true,
-                "cwd": "../apps/common/main",
+                "cwd": "../apps/common",
                 "src": "*.html.deploy",
                 "ext": ".html",
-                "dest": "../deploy/web-apps/apps/common/main"
+                "dest": "../deploy/web-apps/apps/common"
             }
         },
         "imagemin": {
