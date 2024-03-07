@@ -1991,6 +1991,8 @@
   "DE.Views.DocumentHolder.unicodeText": "Unicode",
   "DE.Views.DocumentHolder.updateStyleText": "Update %1 style",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
+  "DE.Views.DocumentHolder.textClearField": "Clear field",
+  "DE.Views.DocumentHolder.textRedo": "Redo",
   "DE.Views.DropcapSettingsAdvanced.strBorders": "Borders & Fill",
   "DE.Views.DropcapSettingsAdvanced.strDropcap": "Drop cap",
   "DE.Views.DropcapSettingsAdvanced.strMargins": "Margins",
