@@ -10,7 +10,7 @@ When doing a release, do the following:
     * pre.html
     * post.html
 * Update version in x.js in the r.js project if necessary.
-* .updatesubs.sh
+* ./updatesubs.sh
 * Check in changes to r.js project.
 * Check in changes to sample projects:
   * requirejs/example-jquery-cdn
@@ -20,15 +20,19 @@ When doing a release, do the following:
   * requirejs/example-libglobal
   * volojs/create-template
   * volojs/create-responsive-template
+  * amodrojs/amodro-trace (UPDATE ESPRIMA(?), parse.js?, run tests too)
 
 * Tag the requirejs and r.js trees:
     * git tag -am "Release 0.0.0" 0.0.0
     * git push --tags
 
+* UPDATE THE "latest" tags
+
 * Commit changes to cajon, test
   * Rev cajon version
   * change package.json
   * tag it
+  * npm publish
 * Update the requirejs-npm directory
   * Update version in package.json
   * Modify bin/r.js to add: #!/usr/bin/env node
@@ -44,13 +48,14 @@ When doing a release, do the following:
 * Update the requirejs-nuget directory (DO ON WINDOWS)
   * Update the require.js and r.js versions in content/Scripts using `volo add -nostamp -f`
   * Update Package.nuspec to rev version number.
-  * NuGet.exe Pack Package.nuspec
-  * NuGet.exe Push RequireJS.0.0.0.nupkg
+  * .\nuget.exe pack Package.nuspec
+  * .\nuget.exe push RequireJS.0.0.0.nupkg API_KEY -Source https://www.nuget.org/api/v2/package
+* Update alameda, alameda-prim if appropriate
 
 Now pull down the tagged version to do a distribution, do this in git/ directory:
 
 * rm -rf ./requirejs-dist ./requirejs-build
-* git clone git://github.com/jrburke/requirejs.git requirejs-dist
+* git clone git://github.com/requirejs/requirejs.git requirejs-dist
 * cd requirejs-dist
 * git checkout 0.0.0
 * cd dist
@@ -67,4 +72,3 @@ To generate the web site:
 * cd dist-site
 * zip -r docs.zip ./*
 * mv docs.zip ../../../requirejs-build/
-

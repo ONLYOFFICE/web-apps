@@ -177,7 +177,7 @@ define([
 
         _onResetUsers: function(c, opts) {
             if (this.panelUsers) {
-                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy(function(item) {return item.get('idOriginal');}).value(),
+                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy('idOriginal').value(),
                                                             usertpl: this.tplUser, scope: this}));
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }

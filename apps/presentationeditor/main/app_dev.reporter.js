@@ -51,9 +51,6 @@ require.config({
         allfonts        : '../../sdkjs/common/AllFonts'
     },
     shim: {
-        underscore: {
-            exports: '_'
-        },
         sdk: {
             deps: [
                 'jquery',
@@ -66,11 +63,13 @@ require.config({
     }
 });
 
+
 require([
+    'underscore',
     'socketio',
     'xregexp',
-    'underscore'
-], function () {
+], function (_) {
+    window._ = _
 
     var _msg_func = function(msg) {
         var data = msg.data, cmd;
