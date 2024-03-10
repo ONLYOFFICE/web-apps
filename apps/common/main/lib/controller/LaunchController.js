@@ -5,9 +5,12 @@ define([
         const init = function (api) {
             this.api = api;
             Common.NotificationCenter.on('app:ready', on_app_ready.bind(this));
+            Common.NotificationCenter.on('app:face', on_hide_loader.bind(this));
         }
 
-        const on_app_ready = function (config) {
+        const on_app_ready = function (config) {}
+
+        const on_hide_loader = function (config) {
             const me = this;
 
             const app = window.DE || window.PE || window.SSE || window.PDFE;
