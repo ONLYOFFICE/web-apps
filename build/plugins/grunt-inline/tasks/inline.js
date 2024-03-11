@@ -135,7 +135,15 @@ module.exports = function(grunt) {
                     let c = rawstr;
                     
                     if ( options.uglify ) {
-                        const uglstr = UglifyJS.minify(rawstr);
+                        const opts = {
+                            output: {
+                                comments: false,
+                                beautify: false,
+                            },
+                            mangle: false,
+                            compress: false,
+                        };
+                        const uglstr = UglifyJS.minify(rawstr, opts);
                         if ( uglstr.error == undefined ) 
                             c = uglstr.code;
                         else grunt.log.error("uglify error " + uglstr.code);
