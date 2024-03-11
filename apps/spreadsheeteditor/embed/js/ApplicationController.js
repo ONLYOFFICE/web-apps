@@ -195,7 +195,7 @@ SSE.ApplicationController = new(function(){
         $box.find('li').off();
         $box.empty();
 
-        var tpl = '<li id="worksheet{index}" {style}>{title}</li>';
+        var tpl = '<li id="worksheet{index}" tabtitle="{tabtitle}" {style}>{title}</li>';
         for (var i = 0; i < maxPages; i++) {
             if (api.asc_isWorksheetHidden(i)) continue;
 
@@ -222,6 +222,7 @@ SSE.ApplicationController = new(function(){
 
             var item = tpl
                 .replace(/\{index}/, i)
+                .replace(/\{tabtitle}/, name)
                 .replace(/\{title}/, name)
                 .replace(/\{style}/, styleAttr);
 
