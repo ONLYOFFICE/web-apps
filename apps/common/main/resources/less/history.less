@@ -57,11 +57,15 @@
         padding: 10px 15px 15px 0px;
 
         .rtl & {
-            padding: 10px 0px 15px 15px;
+            padding: 12px 0px 12px 15px;
         }
 
         .caret-wrap {
-            width: 23px;
+            width: 24px;
+
+            .tree-caret {
+                margin-top: 4px;
+            }
         }
 
         .content-wrap {
@@ -70,11 +74,13 @@
 
             .item-internal {
                 display: flex;
+                align-items: center;
 
                 .color {
                     display: inline-block;
                     width: 26px;
                     height: 26px;
+                    margin-top: 2px;
                     border-radius: 20px;
                     border-width: @scaled-two-px-value;
                     .margin-right-8();
@@ -98,6 +104,7 @@
                         align-items: center;
 
                         .user-date {
+                            line-height: 18px;
                             display: inline-block;
                             .font-size-medium();
                             .font-weight-bold();

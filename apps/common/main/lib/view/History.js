@@ -84,8 +84,8 @@ define([
                     '<div ', 
                         'id="<%= id %>"',
                         'class="tree-item ' + '<% if (!isVisible) { %>' + 'hidden' + '<% } %>' + '" ',
-                        'style="<% if (hasParent) { %>' + (Common.UI.isRTL() ? 'padding-right: 40px;' : 'padding-left: 40px;') + '<% } %>' + '<% if (canRestore && selected) { %>' + 'padding-bottom: 6px;' + '<% } %>',
-                    '">',
+                        'style="<% if (hasParent) { %>' + (Common.UI.isRTL() ? 'padding-right: 40px;' : 'padding-left: 40px;') + '<% } %>"',
+                    '>',
                         
                         '<% if (!hasParent) { %>',
                             '<div class="caret-wrap">',
