@@ -367,7 +367,6 @@ define([
                 this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
                 this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
                 this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
-                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartTextHighlight, this)); // ??? different highlight or not
                 this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
                 this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
             }
@@ -830,17 +829,21 @@ define([
                 this.toolbar.btnStrikeout.toggle(pressed, true);
             else if (type === this.toolbar.btnUnderline.options.type)
                 this.toolbar.btnUnderline.toggle(pressed, true);
-            else {
-                this.toolbar.btnHighlight.toggle(false, true);
-                this.toolbar.btnStrikeout.toggle(false, true);
-                this.toolbar.btnUnderline.toggle(false, true);
-            }
+            else if (type===undefined)
+                this.toolbar.btnTextHighlightColor && this.toolbar.btnTextHighlightColor.toggle(pressed, true);
         },
 
         onDrawStart: function() {
             this.api && this.api.SetMarkerFormat(undefined, false);
-            this.onApiStartHighlight();
+            this.onClearHighlight();
             this.turnOnShowComments();
+        },
+
+        onClearHighlight: function() {
+            this.toolbar.btnHighlight.toggle(false, true);
+            this.toolbar.btnStrikeout.toggle(false, true);
+            this.toolbar.btnUnderline.toggle(false, true);
+            this.toolbar.btnTextHighlightColor && this.toolbar.btnTextHighlightColor.toggle(false, true);
         },
 
         onShowCommentsChange: function(checkbox, state) {
@@ -1897,10 +1900,6 @@ define([
             this._state.clrtext_asccolor = color;
         },
 
-        onApiStartTextHighlight: function(pressed) {
-            this.toolbar.btnTextHighlightColor.toggle(pressed, true);
-        },
-
         onApiTextHighlightColor: function(c) {
             if (c) {
                 if (c == -1) {
@@ -1952,7 +1951,7 @@ define([
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(undefined, true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
-
+            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnTextHighlightColor);
             Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
         },
