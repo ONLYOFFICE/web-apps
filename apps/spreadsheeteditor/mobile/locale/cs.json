@@ -826,6 +826,7 @@
       "txtVi": "vietnamština",
       "txtZh": "čínština",
       "warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
+      "textClose": "Close",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textRtlInterface": "RTL Interface"
     }

@@ -480,6 +480,7 @@
 	"SORT": "SORTIEREN",
 	"SORTBY": "SORTIERENNACH",
 	"GETPIVOTDATA": "PIVOTDATENZUORDNEN",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Kopfzeilen",

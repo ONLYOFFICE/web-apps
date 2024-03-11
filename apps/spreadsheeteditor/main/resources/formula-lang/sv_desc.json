@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(datafält; pivottabell; [fält]; [objekt]; ...)",
 		"d": "Extraherar data som sparats i en pivottabell."
+	},
+	"IMPORTRANGE": {
+		"a": "(kalkylarkets_webbadress; intervallsträng)",
+		"d": "Importerar ett cellområde från ett angivet kalkylark."
 	}
 }

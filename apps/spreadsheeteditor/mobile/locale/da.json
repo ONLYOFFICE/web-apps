@@ -797,6 +797,7 @@
       "warnDownloadAs": "Hvis du fortsætter med at gemme i dette format, vil alle funktioner på nær teksten blive tabt.<br> Er du sikker på at du vil fortsætte?",
       "advDRMEnterPassword": "Your password, please:",
       "strFuncLocale": "Formula Language",
+      "textClose": "Close",
       "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textFeedback": "Feedback & Support",

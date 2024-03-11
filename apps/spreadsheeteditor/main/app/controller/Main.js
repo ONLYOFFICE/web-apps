@@ -648,6 +648,7 @@ define([
                         Asc.c_oAscFileType.XLTX,
                         Asc.c_oAscFileType.OTS,
                         Asc.c_oAscFileType.XLSM,
+                        Asc.c_oAscFileType.XLSB,
                         Asc.c_oAscFileType.JPG,
                         Asc.c_oAscFileType.PNG
                     ];

@@ -480,6 +480,7 @@
 	"SORT": "СОРТ",
 	"SORTBY": "СОРТПО",
 	"GETPIVOTDATA": "ПОЛУЧИТЬ.ДАННЫЕ.СВОДНОЙ.ТАБЛИЦЫ",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Заголовки",

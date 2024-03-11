@@ -100,6 +100,7 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
+            height: 25px;
         }
 
         .loadmask > .sktoolbar li {

@@ -827,6 +827,7 @@
       "txtVi": "Vietnamita",
       "txtZh": "Chino",
       "warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que desea continuar?",
+      "textClose": "Close",
       "textRtlInterface": "RTL Interface"
     }
   }

@@ -49,7 +49,8 @@ define([
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
+            {name: 'XLSB', imgCls: 'xlsb', type: Asc.c_oAscFileType.XLSB},
+            {name: 'XLSM', imgCls: 'xlsm', type: Asc.c_oAscFileType.XLSM},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
@@ -151,7 +152,8 @@ define([
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX, ext: '.xltx'},
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS, ext: '.ots'},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM, ext: '.xlsm'},
+            {name: 'XLSB', imgCls: 'xlsb', type: Asc.c_oAscFileType.XLSB, ext: '.xlsb'},
+            {name: 'XLSM', imgCls: 'xlsm', type: Asc.c_oAscFileType.XLSM, ext: '.xlsm'},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA, ext: '.pdf'}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},

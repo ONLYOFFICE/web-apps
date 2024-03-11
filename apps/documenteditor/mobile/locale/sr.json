@@ -783,6 +783,7 @@
     "txtScheme7": "Ravnopravnost",
     "txtScheme8": "Tok",
     "txtScheme9": "Foundry",
+    "textClose": "Close",
     "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
     "textRtlInterface": "RTL Interface"
   },

@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(pole_danych; tabela_przestawna; [pole]; [element]; ...)",
 		"d": "Wyodrębnia dane przechowywane w tabeli przestawnej."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_arkusza; ciąg_zakresu)",
+		"d": "Importuje zakres komórek z określonego arkusza kalkulacyjnego."
 	}
 }
