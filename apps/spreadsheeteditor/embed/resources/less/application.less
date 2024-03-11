@@ -20,17 +20,11 @@
     white-space: nowrap;
     box-shadow: inset 0 1px 0 #cacaca;
     overflow: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
 
     li {
       display: inline-block;
       border-radius: 0;
-      padding: 4px 10px 0;
+      padding: 0 10px 0;
       line-height: 24px;
       margin-right: -1px;
       margin-left: 0;
@@ -38,12 +32,13 @@
       border-right: 1px solid #cacaca;
       border-left: 1px solid #cacaca;
       color: rgba(0, 0, 0, 0.8);
+      font-size: 11px;
+      font-weight: bold;
 
       &.active {
         box-shadow: inset 0 4px 0 #49795d;
         background-color: #DDDDDD;
         color: #000;
-        font-weight: bold;
       }
     }
   }
