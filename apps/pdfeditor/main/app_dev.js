@@ -179,6 +179,10 @@ require([
                 ,'common/main/lib/controller/Draw'
                 ,'common/main/lib/controller/Protection'
             ], function() {
+                app.postLaunchScripts = [
+                    'common/main/lib/controller/ScreenReaderFocus',
+                ];
+
                 window.compareVersions = true;
                 app.start();
             });

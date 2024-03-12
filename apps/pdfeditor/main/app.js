@@ -189,6 +189,10 @@ require([
                 'common/main/lib/controller/Draw',
                 'common/main/lib/controller/Protection'
             ], function() {
+                app.postLaunchScripts = [
+                    'pdfeditor/main/code',
+                ];
+
                 app.start();
             });
         }
