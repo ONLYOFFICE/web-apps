@@ -47,7 +47,6 @@ define([
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ComboDataView',
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
-    'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
     'spreadsheeteditor/main/app/view/SlicerAddDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';

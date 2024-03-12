@@ -43,7 +43,6 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

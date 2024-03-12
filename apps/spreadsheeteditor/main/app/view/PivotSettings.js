@@ -47,7 +47,6 @@ define([
     'common/main/lib/component/ListView',
     'spreadsheeteditor/main/app/view/FieldSettingsDialog',
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone, Sortable) {
     'use strict';
 

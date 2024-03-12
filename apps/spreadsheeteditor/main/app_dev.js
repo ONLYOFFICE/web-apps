@@ -181,15 +181,15 @@ require([
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
             'spreadsheeteditor/main/app/view/FileMenuPanels',
-            'spreadsheeteditor/main/app/view/ParagraphSettings',
-            'spreadsheeteditor/main/app/view/ImageSettings',
-            'spreadsheeteditor/main/app/view/ChartSettings',
-            'spreadsheeteditor/main/app/view/ShapeSettings',
-            'spreadsheeteditor/main/app/view/TextArtSettings',
-            'spreadsheeteditor/main/app/view/PivotSettings',
+            // 'spreadsheeteditor/main/app/view/ParagraphSettings',
+            // 'spreadsheeteditor/main/app/view/ImageSettings',
+            // 'spreadsheeteditor/main/app/view/ChartSettings',
+            // 'spreadsheeteditor/main/app/view/ShapeSettings',
+            // 'spreadsheeteditor/main/app/view/TextArtSettings',
+            // 'spreadsheeteditor/main/app/view/PivotSettings',
             'spreadsheeteditor/main/app/view/FieldSettingsDialog',
             'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-            'spreadsheeteditor/main/app/view/SignatureSettings',
+            // 'spreadsheeteditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
             'common/main/lib/controller/Fonts',
             'common/main/lib/controller/History',
@@ -201,6 +201,16 @@ require([
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Draw'
         ], function() {
+            app.postLaunchScripts = [
+                'common/main/lib/controller/ScreenReaderFocus',
+                'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
+                'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
+                'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
+                'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
+                'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
+                'spreadsheeteditor/main/app/view/ShapeSettingsAdvanced',
+            ];
+
             window.compareVersions = true;
             app.start();
         });

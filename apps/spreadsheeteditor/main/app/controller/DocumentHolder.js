@@ -66,17 +66,13 @@ define([
     'common/main/lib/view/ListSettingsDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
-    'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/SpecialPasteDialog',
-    'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
     'spreadsheeteditor/main/app/view/MacroDialog',
     'spreadsheeteditor/main/app/view/FieldSettingsDialog',
     'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
     'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () {
