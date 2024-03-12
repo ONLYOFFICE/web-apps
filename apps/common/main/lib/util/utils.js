@@ -1197,6 +1197,10 @@ Common.Utils.getKeyByValue = function(obj, value) {
     }
 };
 
+Common.Utils.checkComponentLoaded = function(cmp) {
+    return typeof cmp === 'function';
+}
+
 !Common.UI && (Common.UI = {});
 Common.UI.isRTL = function () {
     if ( window.isrtl === undefined ) {
