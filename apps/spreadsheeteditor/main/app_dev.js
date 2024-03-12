@@ -107,22 +107,20 @@ require.config({
     }
 });
 
-require(['underscore'], function(_) {
-    window._ = _
-})
-
 require([
     'backbone',
+    'underscore',
     'bootstrap',
     'core',
     'analytics',
     'gateway',
     'locale',
 	'socketio',
-], function (Backbone, Bootstrap, Core) {
+], function (Backbone, _, Bootstrap, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with SSE namespace defined
