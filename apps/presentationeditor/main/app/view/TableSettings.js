@@ -49,7 +49,6 @@ define([
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
-    'presentationeditor/main/app/view/TableSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

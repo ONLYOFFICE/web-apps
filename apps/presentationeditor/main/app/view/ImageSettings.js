@@ -44,7 +44,6 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/view/ImageFromUrlDialog',
-    'presentationeditor/main/app/view/ImageSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

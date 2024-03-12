@@ -184,13 +184,13 @@ require([
             'presentationeditor/main/app/controller/Search',
             'presentationeditor/main/app/controller/Print',
             'presentationeditor/main/app/view/FileMenuPanels',
-            'presentationeditor/main/app/view/ParagraphSettings',
-            'presentationeditor/main/app/view/ImageSettings',
-            'presentationeditor/main/app/view/ShapeSettings',
-            'presentationeditor/main/app/view/SlideSettings',
-            'presentationeditor/main/app/view/TableSettings',
-            'presentationeditor/main/app/view/TextArtSettings',
-            'presentationeditor/main/app/view/SignatureSettings',
+            // 'presentationeditor/main/app/view/ParagraphSettings',
+            // 'presentationeditor/main/app/view/ImageSettings',
+            // 'presentationeditor/main/app/view/ShapeSettings',
+            // 'presentationeditor/main/app/view/SlideSettings',
+            // 'presentationeditor/main/app/view/TableSettings',
+            // 'presentationeditor/main/app/view/TextArtSettings',
+            // 'presentationeditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
             'common/main/lib/controller/Fonts',
             'common/main/lib/controller/History'
@@ -208,6 +208,10 @@ require([
             ,'presentationeditor/main/app/controller/Transitions'
             ,'presentationeditor/main/app/controller/Animation'
         ], function() {
+            app.postLaunchScripts = [
+                'presentationeditor/main/code',
+            ];
+
             app.start();
         });
     });

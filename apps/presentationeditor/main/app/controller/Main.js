@@ -54,10 +54,10 @@ define([
     'presentationeditor/main/app/collection/SlideLayouts',
     'presentationeditor/main/app/collection/EquationGroups',
     'common/main/lib/controller/FocusManager',
-    'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    'common/main/lib/controller/LaunchController',
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -169,10 +169,10 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
-                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
-                
+                Common.Controllers.LaunchController.init(this.api);
+
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
                     this.api.SetThemesPath("../../../../sdkjs/slide/themes/");

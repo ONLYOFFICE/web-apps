@@ -39,9 +39,6 @@ define([
     'common/main/lib/view/CopyWarningDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
 //    'common/main/lib/view/InsertTableDialog',
-    'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
-    'presentationeditor/main/app/view/ShapeSettingsAdvanced',
-    'presentationeditor/main/app/view/TableSettingsAdvanced'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     PE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
