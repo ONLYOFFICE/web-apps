@@ -118,6 +118,469 @@ define([
                 return this;
             },
 
+            applyLayoutPDFEdit: function(config) {
+                if (!config.isPDFEdit) return;
+
+                var _set = Common.enumLock;
+                // tab Edit
+                this.cmbFontName = new Common.UI.ComboBoxFonts({
+                    cls: 'input-group-nr',
+                    menuCls: 'scrollable-menu',
+                    menuStyle: 'min-width: 325px;',
+                    hint: this.tipFontName,
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    store: new Common.Collections.Fonts(),
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.paragraphControls.push(this.cmbFontName);
+
+                this.cmbFontSize = new Common.UI.ComboBox({
+                    cls: 'input-group-nr',
+                    menuStyle: 'min-width: 55px;',
+                    hint: this.tipFontSize,
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    data: [
+                        {value: 8, displayValue: "8"},
+                        {value: 9, displayValue: "9"},
+                        {value: 10, displayValue: "10"},
+                        {value: 11, displayValue: "11"},
+                        {value: 12, displayValue: "12"},
+                        {value: 14, displayValue: "14"},
+                        {value: 16, displayValue: "16"},
+                        {value: 18, displayValue: "18"},
+                        {value: 20, displayValue: "20"},
+                        {value: 22, displayValue: "22"},
+                        {value: 24, displayValue: "24"},
+                        {value: 26, displayValue: "26"},
+                        {value: 28, displayValue: "28"},
+                        {value: 36, displayValue: "36"},
+                        {value: 48, displayValue: "48"},
+                        {value: 72, displayValue: "72"},
+                        {value: 96, displayValue: "96"}
+                    ],
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.paragraphControls.push(this.cmbFontSize);
+
+                this.btnIncFontSize = new Common.UI.Button({
+                    id: 'id-toolbar-btn-incfont',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-incfont',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.paragraphControls.push(this.btnIncFontSize);
+
+                this.btnDecFontSize = new Common.UI.Button({
+                    id: 'id-toolbar-btn-decfont',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-decfont',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.paragraphControls.push(this.btnDecFontSize);
+
+                this.btnBold = new Common.UI.Button({
+                    id: 'id-toolbar-btn-bold',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-bold',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnBold);
+
+                this.btnItalic = new Common.UI.Button({
+                    id: 'id-toolbar-btn-italic',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-italic',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnItalic);
+
+                this.btnTextUnderline = new Common.UI.Button({
+                    id: 'id-toolbar-btn-underline',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-underline',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnTextUnderline);
+
+                this.btnTextStrikeout = new Common.UI.Button({
+                    id: 'id-toolbar-btn-strikeout',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-strikeout',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    enableToggle: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnTextStrikeout);
+
+                this.btnSuperscript = new Common.UI.Button({
+                    id: 'id-toolbar-btn-superscript',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-superscript',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    enableToggle: true,
+                    toggleGroup: 'superscriptGroup',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnSuperscript);
+
+                this.btnSubscript = new Common.UI.Button({
+                    id: 'id-toolbar-btn-subscript',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-subscript',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    enableToggle: true,
+                    toggleGroup: 'superscriptGroup',
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnSubscript);
+
+                this.btnTextHighlightColor = new Common.UI.ButtonColored({
+                    id: 'id-toolbar-btn-text-highlight',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-highlight',
+                    enableToggle: true,
+                    allowDepress: true,
+                    split: true,
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -16',
+                    menu: new Common.UI.Menu({
+                        style: 'min-width: 100px;',
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-text-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
+                            {caption: '--'},
+                            this.mnuTextHighlightTransparent = new Common.UI.MenuItem({
+                                caption: this.strMenuNoFill,
+                                checkable: true
+                            })
+                        ]
+                    })
+                });
+                this.paragraphControls.push(this.btnTextHighlightColor);
+
+                this.btnFontColor = new Common.UI.ButtonColored({
+                    id: 'id-toolbar-btn-fontcolor',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-fontcolor',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    split: true,
+                    menu: true,
+                    eyeDropper: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -16',
+                    penOptions: {color: '000000'}
+                });
+                this.paragraphControls.push(this.btnFontColor);
+
+                this.btnChangeCase = new Common.UI.Button({
+                    id: 'id-toolbar-btn-case',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-change-case',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
+                            {caption: this.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
+                            {caption: this.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
+                            {caption: this.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
+                            {caption: this.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnChangeCase);
+                this.mnuChangeCase = this.btnChangeCase.menu;
+
+                this.btnClearStyle = new Common.UI.Button({
+                    id: 'id-toolbar-btn-clearstyle',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-clearstyle',
+                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom'
+                });
+                this.paragraphControls.push(this.btnClearStyle);
+
+                this.btnMarkers = new Common.UI.Button({
+                    id: 'id-toolbar-btn-markers',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    enableToggle: true,
+                    toggleGroup: 'markersGroup',
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -16'
+                });
+                this.paragraphControls.push(this.btnMarkers);
+
+                this.btnNumbers = new Common.UI.Button({
+                    id: 'id-toolbar-btn-numbering',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    enableToggle: true,
+                    toggleGroup: 'markersGroup',
+                    split: true,
+                    menu: true,
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -16'
+                });
+                this.paragraphControls.push(this.btnNumbers);
+
+                var clone = function (source) {
+                    var obj = {};
+                    for (var prop in source)
+                        obj[prop] = (typeof(source[prop]) == 'object') ? clone(source[prop]) : source[prop];
+                    return obj;
+                };
+
+                this.mnuMarkersPicker = {
+                    conf: {index: 0},
+                    selectByIndex: function (idx) {
+                        this.conf.index = idx;
+                    }
+                };
+                this.mnuNumbersPicker = clone(this.mnuMarkersPicker);
+
+                this.btnHorizontalAlign = new Common.UI.Button({
+                    id: 'id-toolbar-btn-halign',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-align-left',
+                    icls: 'btn-align-left',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: this.textAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
+                                iconCls: 'menu__icon btn-align-left',
+                                icls: 'btn-align-left',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'halignGroup',
+                                checked: true,
+                                value: 1
+                            },
+                            {
+                                caption: this.textAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
+                                iconCls: 'menu__icon btn-align-center',
+                                icls: 'btn-align-center',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'halignGroup',
+                                value: 2
+                            },
+                            {
+                                caption: this.textAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
+                                iconCls: 'menu__icon btn-align-right',
+                                icls: 'btn-align-right',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'halignGroup',
+                                value: 0
+                            },
+                            {
+                                caption: this.textAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
+                                iconCls: 'menu__icon btn-align-just',
+                                icls: 'btn-align-just',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'halignGroup',
+                                value: 3
+                            }
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnHorizontalAlign);
+
+                this.btnVerticalAlign = new Common.UI.Button({
+                    id: 'id-toolbar-btn-valign',
+                    cls: 'btn-toolbar',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noObjectSelected],
+                    iconCls: 'toolbar__icon btn-align-middle',
+                    icls: 'btn-align-middle',
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {
+                                caption: this.textAlignTop,
+                                iconCls: 'menu__icon btn-align-top',
+                                icls: 'btn-align-top',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'valignGroup',
+                                value: Asc.c_oAscVAlign.Top
+                            },
+                            {
+                                caption: this.textAlignMiddle,
+                                iconCls: 'menu__icon btn-align-middle',
+                                icls: 'btn-align-middle',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'valignGroup',
+                                value: Asc.c_oAscVAlign.Center,
+                                checked: true
+                            },
+                            {
+                                caption: this.textAlignBottom,
+                                iconCls: 'menu__icon btn-align-bottom',
+                                icls: 'btn-align-bottom',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'valignGroup',
+                                value: Asc.c_oAscVAlign.Bottom
+                            }
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnVerticalAlign);
+
+                this.btnDecLeftOffset = new Common.UI.Button({
+                    id: 'id-toolbar-btn-decoffset',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-decoffset',
+                    lock: [_set.decIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.paragraphControls.push(this.btnDecLeftOffset);
+
+                this.btnIncLeftOffset = new Common.UI.Button({
+                    id: 'id-toolbar-btn-incoffset',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-incoffset',
+                    lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    dataHint: '1',
+                    dataHintDirection: 'top'
+                });
+                this.paragraphControls.push(this.btnIncLeftOffset);
+
+                this.btnLineSpace = new Common.UI.Button({
+                    id: 'id-toolbar-btn-linespace',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-linespace',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    menu: new Common.UI.Menu({
+                        style: 'min-width: 60px;',
+                        items: [
+                            {caption: '1.0', value: 1.0, checkable: true, toggleGroup: 'linesize'},
+                            {caption: '1.15', value: 1.15, checkable: true, toggleGroup: 'linesize'},
+                            {caption: '1.5', value: 1.5, checkable: true, toggleGroup: 'linesize'},
+                            {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
+                            {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
+                            {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnLineSpace);
+
+                this.btnColumns = new Common.UI.Button({
+                    id: 'id-toolbar-btn-columns',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-columns-two',
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noColumns],
+                    menu: new Common.UI.Menu({
+                        cls: 'ppm-toolbar shifted-right',
+                        items: [
+                            {
+                                caption: this.textColumnsOne,
+                                iconCls: 'menu__icon btn-columns-one',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'menuColumns',
+                                value: 0
+                            },
+                            {
+                                caption: this.textColumnsTwo,
+                                iconCls: 'menu__icon btn-columns-two',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'menuColumns',
+                                value: 1
+                            },
+                            {
+                                caption: this.textColumnsThree,
+                                iconCls: 'menu__icon btn-columns-three',
+                                checkable: true,
+                                checkmark: false,
+                                toggleGroup: 'menuColumns',
+                                value: 2
+                            },
+                            {caption: '--'},
+                            {caption: this.textColumnsCustom, value: 'advanced'}
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.paragraphControls.push(this.btnColumns);
+
+                // this.cmbInsertShape = new Common.UI.ComboDataViewShape({
+                //     cls: 'combo-styles shapes',
+                //     itemWidth: 20,
+                //     itemHeight: 20,
+                //     menuMaxHeight: 652,
+                //     menuWidth: 330,
+                //     style: 'width: 140px;',
+                //     enableKeyEvents: true,
+                //     lock: [_set.lostConnect, _set.disableOnStart],
+                //     dataHint: '1',
+                //     dataHintDirection: 'bottom',
+                //     dataHintOffset: '-16, 0'
+                // });
+                // this.toolbarControls.push(this.cmbInsertShape);
+                //
+                // this.btnInsertText = new Common.UI.Button({
+                //     id: 'tlbtn-inserttext',
+                //     cls: 'btn-toolbar x-huge icon-top',
+                //     iconCls: 'toolbar__icon btn-big-text',
+                //     lock: [_set.lostConnect, _set.disableOnStart],
+                //     caption: this.capInsertText,
+                //     enableToggle: true,
+                //     split: true,
+                //     dataHint: '1',
+                //     dataHintDirection: 'bottom',
+                //     dataHintOffset: 'small',
+                //     textboxType: 'textRect'
+                // });
+                // this.toolbarControls.push(this.btnInsertText);
+                return this;
+            },
+
             applyLayout: function (config) {
                 var me = this;
                 me.lockControls = [];
@@ -128,8 +591,7 @@ define([
                             tabs: [
                                 {caption: me.textTabFile, action: 'file', extcls: 'canedit', layoutname: 'toolbar-file', haspanel:false, dataHintTitle: 'F'},
                                 {caption: me.textTabHome, action: 'home', extcls: 'canedit', dataHintTitle: 'H'},
-                                {caption: me.textTabComment, action: 'comment', extcls: 'canedit', dataHintTitle: 'C'},
-                                {caption: me.textTabEdit, action: 'edit', extcls: 'canedit', dataHintTitle: 'E'},
+                                {caption: me.textTabComment, action: 'comment', extcls: 'canedit', dataHintTitle: 'C'}
                             ],
                             config: config
                         }
@@ -238,463 +700,7 @@ define([
                     });
                     // this.paragraphControls.push(this.btnHighlight);
 
-                    // tab Edit
-                    this.cmbFontName = new Common.UI.ComboBoxFonts({
-                        cls: 'input-group-nr',
-                        menuCls: 'scrollable-menu',
-                        menuStyle: 'min-width: 325px;',
-                        hint: this.tipFontName,
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        store: new Common.Collections.Fonts(),
-                        dataHint: '1',
-                        dataHintDirection: 'top'
-                    });
-                    this.paragraphControls.push(this.cmbFontName);
-
-                    this.cmbFontSize = new Common.UI.ComboBox({
-                        cls: 'input-group-nr',
-                        menuStyle: 'min-width: 55px;',
-                        hint: this.tipFontSize,
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        data: [
-                            {value: 8, displayValue: "8"},
-                            {value: 9, displayValue: "9"},
-                            {value: 10, displayValue: "10"},
-                            {value: 11, displayValue: "11"},
-                            {value: 12, displayValue: "12"},
-                            {value: 14, displayValue: "14"},
-                            {value: 16, displayValue: "16"},
-                            {value: 18, displayValue: "18"},
-                            {value: 20, displayValue: "20"},
-                            {value: 22, displayValue: "22"},
-                            {value: 24, displayValue: "24"},
-                            {value: 26, displayValue: "26"},
-                            {value: 28, displayValue: "28"},
-                            {value: 36, displayValue: "36"},
-                            {value: 48, displayValue: "48"},
-                            {value: 72, displayValue: "72"},
-                            {value: 96, displayValue: "96"}
-                        ],
-                        dataHint: '1',
-                        dataHintDirection: 'top'
-                    });
-                    this.paragraphControls.push(this.cmbFontSize);
-
-                    this.btnIncFontSize = new Common.UI.Button({
-                        id: 'id-toolbar-btn-incfont',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-incfont',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        dataHint: '1',
-                        dataHintDirection: 'top'
-                    });
-                    this.paragraphControls.push(this.btnIncFontSize);
-
-                    this.btnDecFontSize = new Common.UI.Button({
-                        id: 'id-toolbar-btn-decfont',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-decfont',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        dataHint: '1',
-                        dataHintDirection: 'top'
-                    });
-                    this.paragraphControls.push(this.btnDecFontSize);
-
-                    this.btnBold = new Common.UI.Button({
-                        id: 'id-toolbar-btn-bold',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-bold',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnBold);
-
-                    this.btnItalic = new Common.UI.Button({
-                        id: 'id-toolbar-btn-italic',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-italic',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnItalic);
-
-                    this.btnTextUnderline = new Common.UI.Button({
-                        id: 'id-toolbar-btn-underline',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnTextUnderline);
-
-                    this.btnTextStrikeout = new Common.UI.Button({
-                        id: 'id-toolbar-btn-strikeout',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnTextStrikeout);
-
-                    this.btnSuperscript = new Common.UI.Button({
-                        id: 'id-toolbar-btn-superscript',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-superscript',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true,
-                        toggleGroup: 'superscriptGroup',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnSuperscript);
-
-                    this.btnSubscript = new Common.UI.Button({
-                        id: 'id-toolbar-btn-subscript',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-subscript',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        enableToggle: true,
-                        toggleGroup: 'superscriptGroup',
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnSubscript);
-
-                    this.btnTextHighlightColor = new Common.UI.ButtonColored({
-                        id: 'id-toolbar-btn-text-highlight',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-highlight',
-                        enableToggle: true,
-                        allowDepress: true,
-                        split: true,
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -16',
-                        menu: new Common.UI.Menu({
-                            style: 'min-width: 100px;',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-text-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
-                                {caption: '--'},
-                                me.mnuTextHighlightTransparent = new Common.UI.MenuItem({
-                                    caption: me.strMenuNoFill,
-                                    checkable: true
-                                })
-                            ]
-                        })
-                    });
-                    this.paragraphControls.push(this.btnTextHighlightColor);
-
-                    this.btnFontColor = new Common.UI.ButtonColored({
-                        id: 'id-toolbar-btn-fontcolor',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-fontcolor',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        split: true,
-                        menu: true,
-                        eyeDropper: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'}
-                    });
-                    this.paragraphControls.push(this.btnFontColor);
-
-                    this.btnChangeCase = new Common.UI.Button({
-                        id: 'id-toolbar-btn-case',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-change-case',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
-                                {caption: this.mniLowerCase, value: Asc.c_oAscChangeTextCaseType.LowerCase},
-                                {caption: this.mniUpperCase, value: Asc.c_oAscChangeTextCaseType.UpperCase},
-                                {caption: this.mniCapitalizeWords, value: Asc.c_oAscChangeTextCaseType.CapitalizeWords},
-                                {caption: this.mniToggleCase, value: Asc.c_oAscChangeTextCaseType.ToggleCase}
-                            ]
-                        }),
-                        dataHint: '1',
-                        dataHintDirection: 'top',
-                        dataHintOffset: '0, -6'
-                    });
-                    this.paragraphControls.push(this.btnChangeCase);
-                    this.mnuChangeCase = this.btnChangeCase.menu;
-
-                    this.btnClearStyle = new Common.UI.Button({
-                        id: 'id-toolbar-btn-clearstyle',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-clearstyle',
-                        lock: [ _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom'
-                    });
-                    this.paragraphControls.push(this.btnClearStyle);
-
-                    this.btnMarkers = new Common.UI.Button({
-                        id: 'id-toolbar-btn-markers',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
-                        enableToggle: true,
-                        toggleGroup: 'markersGroup',
-                        split: true,
-                        menu: true,
-                        dataHint: '1',
-                        dataHintDirection: 'top',
-                        dataHintOffset: '0, -16'
-                    });
-                    this.paragraphControls.push(this.btnMarkers);
-
-                    this.btnNumbers = new Common.UI.Button({
-                        id: 'id-toolbar-btn-numbering',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
-                        enableToggle: true,
-                        toggleGroup: 'markersGroup',
-                        split: true,
-                        menu: true,
-                        dataHint: '1',
-                        dataHintDirection: 'top',
-                        dataHintOffset: '0, -16'
-                    });
-                    this.paragraphControls.push(this.btnNumbers);
-
-                    var clone = function (source) {
-                        var obj = {};
-                        for (var prop in source)
-                            obj[prop] = (typeof(source[prop]) == 'object') ? clone(source[prop]) : source[prop];
-                        return obj;
-                    };
-
-                    this.mnuMarkersPicker = {
-                        conf: {index: 0},
-                        selectByIndex: function (idx) {
-                            this.conf.index = idx;
-                        }
-                    };
-                    this.mnuNumbersPicker = clone(this.mnuMarkersPicker);
-
-                    this.btnHorizontalAlign = new Common.UI.Button({
-                        id: 'id-toolbar-btn-halign',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-align-left',
-                        icls: 'btn-align-left',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {
-                                    caption: this.textAlignLeft + Common.Utils.String.platformKey('Ctrl+L'),
-                                    iconCls: 'menu__icon btn-align-left',
-                                    icls: 'btn-align-left',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'halignGroup',
-                                    checked: true,
-                                    value: 1
-                                },
-                                {
-                                    caption: this.textAlignCenter + Common.Utils.String.platformKey('Ctrl+E'),
-                                    iconCls: 'menu__icon btn-align-center',
-                                    icls: 'btn-align-center',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'halignGroup',
-                                    value: 2
-                                },
-                                {
-                                    caption: this.textAlignRight + Common.Utils.String.platformKey('Ctrl+R'),
-                                    iconCls: 'menu__icon btn-align-right',
-                                    icls: 'btn-align-right',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'halignGroup',
-                                    value: 0
-                                },
-                                {
-                                    caption: this.textAlignJust + Common.Utils.String.platformKey('Ctrl+J'),
-                                    iconCls: 'menu__icon btn-align-just',
-                                    icls: 'btn-align-just',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'halignGroup',
-                                    value: 3
-                                }
-                            ]
-                        }),
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -6'
-                    });
-                    this.paragraphControls.push(this.btnHorizontalAlign);
-
-                    this.btnVerticalAlign = new Common.UI.Button({
-                        id: 'id-toolbar-btn-valign',
-                        cls: 'btn-toolbar',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noObjectSelected],
-                        iconCls: 'toolbar__icon btn-align-middle',
-                        icls: 'btn-align-middle',
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {
-                                    caption: this.textAlignTop,
-                                    iconCls: 'menu__icon btn-align-top',
-                                    icls: 'btn-align-top',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'valignGroup',
-                                    value: Asc.c_oAscVAlign.Top
-                                },
-                                {
-                                    caption: this.textAlignMiddle,
-                                    iconCls: 'menu__icon btn-align-middle',
-                                    icls: 'btn-align-middle',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'valignGroup',
-                                    value: Asc.c_oAscVAlign.Center,
-                                    checked: true
-                                },
-                                {
-                                    caption: this.textAlignBottom,
-                                    iconCls: 'menu__icon btn-align-bottom',
-                                    icls: 'btn-align-bottom',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'valignGroup',
-                                    value: Asc.c_oAscVAlign.Bottom
-                                }
-                            ]
-                        }),
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -6'
-                    });
-                    this.paragraphControls.push(this.btnVerticalAlign);
-
-                    this.btnDecLeftOffset = new Common.UI.Button({
-                        id: 'id-toolbar-btn-decoffset',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-decoffset',
-                        lock: [_set.decIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
-                        dataHint: '1',
-                        dataHintDirection: 'top'
-                    });
-                    this.paragraphControls.push(this.btnDecLeftOffset);
-
-                    this.btnIncLeftOffset = new Common.UI.Button({
-                        id: 'id-toolbar-btn-incoffset',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-incoffset',
-                        lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
-                        dataHint: '1',
-                        dataHintDirection: 'top'
-                    });
-                    this.paragraphControls.push(this.btnIncLeftOffset);
-
-                    this.btnLineSpace = new Common.UI.Button({
-                        id: 'id-toolbar-btn-linespace',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-linespace',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
-                        menu: new Common.UI.Menu({
-                            style: 'min-width: 60px;',
-                            items: [
-                                {caption: '1.0', value: 1.0, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '1.15', value: 1.15, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '1.5', value: 1.5, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
-                            ]
-                        }),
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -6'
-                    });
-                    this.paragraphControls.push(this.btnLineSpace);
-
-                    this.btnColumns = new Common.UI.Button({
-                        id: 'id-toolbar-btn-columns',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-columns-two',
-                        lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noColumns],
-                        menu: new Common.UI.Menu({
-                            cls: 'ppm-toolbar shifted-right',
-                            items: [
-                                {
-                                    caption: this.textColumnsOne,
-                                    iconCls: 'menu__icon btn-columns-one',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'menuColumns',
-                                    value: 0
-                                },
-                                {
-                                    caption: this.textColumnsTwo,
-                                    iconCls: 'menu__icon btn-columns-two',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'menuColumns',
-                                    value: 1
-                                },
-                                {
-                                    caption: this.textColumnsThree,
-                                    iconCls: 'menu__icon btn-columns-three',
-                                    checkable: true,
-                                    checkmark: false,
-                                    toggleGroup: 'menuColumns',
-                                    value: 2
-                                },
-                                {caption: '--'},
-                                {caption: this.textColumnsCustom, value: 'advanced'}
-                            ]
-                        }),
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '0, -6'
-                    });
-                    this.paragraphControls.push(this.btnColumns);
-
-                    this.cmbInsertShape = new Common.UI.ComboDataViewShape({
-                        cls: 'combo-styles shapes',
-                        itemWidth: 20,
-                        itemHeight: 20,
-                        menuMaxHeight: 652,
-                        menuWidth: 330,
-                        style: 'width: 140px;',
-                        enableKeyEvents: true,
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: '-16, 0'
-                    });
-                    this.toolbarControls.push(this.cmbInsertShape);
-
-                    this.btnInsertText = new Common.UI.Button({
-                        id: 'tlbtn-inserttext',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-big-text',
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        caption: this.capInsertText,
-                        enableToggle: true,
-                        split: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small',
-                        textboxType: 'textRect'
-                    });
-                    this.toolbarControls.push(this.btnInsertText);
-
+                    config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
@@ -957,7 +963,8 @@ define([
                             template: _.template(template_view),
                             tabs: [
                                 {caption: me.textTabFile, action: 'file', layoutname: 'toolbar-file', haspanel: false, dataHintTitle: 'F'}
-                            ]
+                            ],
+                            config: config
                         }
                     );
                 }
@@ -975,7 +982,7 @@ define([
 
                 me.isCompactView = mode.isCompactView;
                 if ( mode.isEdit || mode.isRestrictedEdit) {
-                    me.$el.html(me.rendererComponents(me.$layout));
+                    me.$el.html(me.rendererComponents(me.$layout, mode));
                 } else {
                     me.$layout.find('.canedit').hide();
                     me.isCompactView && me.$layout.addClass('folded');
@@ -1024,38 +1031,21 @@ define([
                     me.fireEvent('home:open');
             },
 
-            rendererComponents: function (html) {
-                var $host = $(html);
+            rendererComponentsRestrictedEdit: function($host) {
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
-
-                _injectComponent('#slot-btn-print', this.btnPrint);
-                _injectComponent('#slot-btn-save', this.btnSave);
-                _injectComponent('#slot-btn-undo', this.btnUndo);
-                _injectComponent('#slot-btn-redo', this.btnRedo);
-                _injectComponent('#slot-btn-copy', this.btnCopy);
-                _injectComponent('#slot-btn-paste', this.btnPaste);
-                _injectComponent('#slot-btn-cut', this.btnCut);
-                _injectComponent('#slot-btn-select-all', this.btnSelectAll);
-                _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
-                _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
-                _injectComponent('#slot-btn-comment', this.btnAddComment);
-                _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
-                _injectComponent('#slot-btn-underline', this.btnUnderline);
-                _injectComponent('#slot-btn-highlight', this.btnHighlight);
-                // _injectComponent('#slot-btn-rotate', this.btnRotate);
-                _injectComponent('#slot-btn-pages', this.fieldPages);
-                _injectComponent('#slot-btn-first-page', this.btnFirstPage);
-                _injectComponent('#slot-btn-last-page', this.btnLastPage);
-                _injectComponent('#slot-btn-prev-page', this.btnPrevPage);
-                _injectComponent('#slot-btn-next-page', this.btnNextPage);
-                _injectComponent('#slot-chk-showcomment', this.chShowComments);
-                _injectComponent('#slot-btn-form-clear', this.btnClear);
                 _injectComponent('#slot-btn-form-prev', this.btnPrevForm);
                 _injectComponent('#slot-btn-form-next', this.btnNextForm);
                 _injectComponent('#slot-btn-form-submit', this.btnSubmit);
                 _injectComponent('#slot-btn-form-save', this.btnSaveForm);
+            },
+
+            rendererComponentsPDFEdit: function($host) {
+                var _injectComponent = function (id, cmp) {
+                    Common.Utils.injectComponent($host.findById(id), cmp);
+                };
+
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-text-underline', this.btnTextUnderline);
@@ -1078,10 +1068,53 @@ define([
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
-                _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
-                _injectComponent('#slot-btn-instext', this.btnInsertText);
+            },
 
+            rendererComponentsAnnotate: function($host) {
+                var _injectComponent = function (id, cmp) {
+                    Common.Utils.injectComponent($host.findById(id), cmp);
+                };
+                _injectComponent('#slot-btn-comment', this.btnAddComment);
+                _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
+                _injectComponent('#slot-btn-underline', this.btnUnderline);
+                _injectComponent('#slot-btn-highlight', this.btnHighlight);
+                // _injectComponent('#slot-btn-rotate', this.btnRotate);
+            },
+
+            rendererComponentsCommon: function($host) {
+                var _injectComponent = function (id, cmp) {
+                    Common.Utils.injectComponent($host.findById(id), cmp);
+                };
+                _injectComponent('#slot-btn-print', this.btnPrint);
+                _injectComponent('#slot-btn-save', this.btnSave);
+                _injectComponent('#slot-btn-undo', this.btnUndo);
+                _injectComponent('#slot-btn-redo', this.btnRedo);
+                _injectComponent('#slot-btn-copy', this.btnCopy);
+                _injectComponent('#slot-btn-paste', this.btnPaste);
+                _injectComponent('#slot-btn-cut', this.btnCut);
+                _injectComponent('#slot-btn-select-all', this.btnSelectAll);
+                _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
+                _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
+                _injectComponent('#slot-btn-pages', this.fieldPages);
+                _injectComponent('#slot-btn-first-page', this.btnFirstPage);
+                _injectComponent('#slot-btn-last-page', this.btnLastPage);
+                _injectComponent('#slot-btn-prev-page', this.btnPrevPage);
+                _injectComponent('#slot-btn-next-page', this.btnNextPage);
+                _injectComponent('#slot-chk-showcomment', this.chShowComments);
+                _injectComponent('#slot-btn-form-clear', this.btnClear);
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
+            },
+
+            rendererComponents: function (html, mode) {
+                var $host = $(html);
+                this.rendererComponentsCommon($host);
+                if (mode.isEdit) {
+                    this.rendererComponentsAnnotate($host);
+                    mode.isPDFEdit && this.rendererComponentsPDFEdit($host);
+                    $host.find(mode.isPDFEdit ? '.annotate' : '.pdfedit').addClass('hidden');
+                } else if (mode.isRestrictedEdit)
+                    this.rendererComponentsRestrictedEdit($host);
+
                 return $host;
             },
 
@@ -1175,201 +1208,34 @@ define([
                         me.mnuHighlightColorPicker = arr[0];
                         me.mnuHighlightTransparent = arr[1];
                     }
-                    if (me.btnTextHighlightColor && me.btnTextHighlightColor.cmpEl) {
-                        me.btnTextHighlightColor.currentColor = 'FFFF00';
-                        me.btnTextHighlightColor.setColor(me.btnTextHighlightColor.currentColor);
-                        me.mnuTextHighlightColorPicker = new Common.UI.ThemeColorPalette({
-                            el: $('#id-toolbar-menu-text-highlight'),
-                            colors: [
-                                'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
-                                '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
-                            ],
-                            colorHints: [
-                                Common.Utils.ThemeColor.txtYellow, Common.Utils.ThemeColor.txtBrightGreen, Common.Utils.ThemeColor.txtTurquosie, Common.Utils.ThemeColor.txtPink,
-                                Common.Utils.ThemeColor.txtBlue, Common.Utils.ThemeColor.txtRed, Common.Utils.ThemeColor.txtDarkBlue, Common.Utils.ThemeColor.txtTeal,
-                                Common.Utils.ThemeColor.txtGreen, Common.Utils.ThemeColor.txtViolet, Common.Utils.ThemeColor.txtDarkRed, Common.Utils.ThemeColor.txtDarkYellow,
-                                Common.Utils.ThemeColor.txtWhite, Common.Utils.ThemeColor.txtGray + '-25%', Common.Utils.ThemeColor.txtGray + '-50%', Common.Utils.ThemeColor.txtBlack
-                            ],
-                            value: 'FFFF00',
-                            dynamiccolors: 0,
-                            themecolors: 0,
-                            effects: 0,
-                            columns: 4,
-                            outerMenu: {menu: me.btnTextHighlightColor.menu, index: 0, focusOnShow: true}
-                        });
-                        me.btnTextHighlightColor.setPicker(me.mnuTextHighlightColorPicker);
-                        me.btnTextHighlightColor.menu.setInnerMenu([{menu: me.mnuTextHighlightColorPicker, index: 0}]);
-                    }
-                    if (me.btnFontColor && me.btnFontColor.menu) {
-                        var arr = me.createPen(me.btnFontColor, 'font');
-                        me.mnuFontColorPicker = arr[0];
-                        me.mnuFontTransparent = arr[1];
-                    }
 
-                    me.btnInsertText && me.btnInsertText.setMenu(new Common.UI.Menu({
-                        items: [
-                            {
-                                caption: me.tipInsertHorizontalText,
-                                checkable: true,
-                                checkmark: false,
-                                iconCls     : 'menu__icon btn-text',
-                                toggleGroup: 'textbox',
-                                value: 'textRect',
-                                iconClsForMainBtn: 'btn-big-text'
-                            },
-                            {
-                                caption: me.tipInsertVerticalText,
-                                checkable: true,
-                                checkmark: false,
-                                iconCls     : 'menu__icon btn-text-vertical',
-                                toggleGroup: 'textbox',
-                                value: 'textRectVertical',
-                                iconClsForMainBtn: 'btn-big-text-vertical'
-                            },
-                        ]
-                    }));
+                    // me.btnInsertText && me.btnInsertText.setMenu(new Common.UI.Menu({
+                    //     items: [
+                    //         {
+                    //             caption: me.tipInsertHorizontalText,
+                    //             checkable: true,
+                    //             checkmark: false,
+                    //             iconCls     : 'menu__icon btn-text',
+                    //             toggleGroup: 'textbox',
+                    //             value: 'textRect',
+                    //             iconClsForMainBtn: 'btn-big-text'
+                    //         },
+                    //         {
+                    //             caption: me.tipInsertVerticalText,
+                    //             checkable: true,
+                    //             checkmark: false,
+                    //             iconCls     : 'menu__icon btn-text-vertical',
+                    //             toggleGroup: 'textbox',
+                    //             value: 'textRectVertical',
+                    //             iconClsForMainBtn: 'btn-big-text-vertical'
+                    //         },
+                    //     ]
+                    // }));
 
                 });
             },
 
-            createDelayedElements: function () {
-                if (this.api) {
-                    this.updateMetricUnit();
-                }
-
-                // set hints
-                if (this.mode.isEdit) {
-                    this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnAddComment.updateHint(this.tipAddComment);
-                    this.btnStrikeout.updateHint(this.textStrikeout);
-                    this.btnUnderline.updateHint(this.textUnderline);
-                    this.btnHighlight.updateHint(this.textHighlight);
-                    // this.btnRotate.updateHint(this.tipRotate);
-                    this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
-                    this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
-                    this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
-                    this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
-                    this.btnTextUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
-                    this.btnTextStrikeout.updateHint(this.textStrikeout);
-                    this.btnSuperscript.updateHint(this.textSuperscript);
-                    this.btnSubscript.updateHint(this.textSubscript);
-                    this.btnFontColor.updateHint(this.tipFontColor);
-                    this.btnTextHighlightColor.updateHint(this.tipHighlightColor);
-                    this.btnChangeCase.updateHint(this.tipChangeCase);
-                    this.btnClearStyle.updateHint(this.tipClearStyle);
-                    this.btnMarkers.updateHint(this.tipMarkers);
-                    this.btnNumbers.updateHint(this.tipNumbers);
-                    this.btnHorizontalAlign.updateHint(this.tipHAligh);
-                    this.btnVerticalAlign.updateHint(this.tipVAligh);
-                    this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
-                    this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
-                    this.btnLineSpace.updateHint(this.tipLineSpace);
-                    this.btnColumns.updateHint(this.tipColumns);
-                    this.btnInsertText.updateHint([this.tipInsertHorizontalText ,this.tipInsertText]);
-                    this.btnMarkers.setMenu(
-                        new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            style: 'min-width: 145px',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
-                                this.mnuMarkerSettings = new Common.UI.MenuItem({
-                                    caption: this.textListSettings,
-                                    value: 'settings'
-                                })
-                            ]
-                        })
-                    );
-
-                    this.btnNumbers.setMenu(
-                        new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            items: [
-                                {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
-                                this.mnuNumberSettings = new Common.UI.MenuItem({
-                                    caption: this.textListSettings,
-                                    value: 'settings'
-                                })
-                            ]
-                        })
-                    );
-
-                    this._markersArr = [
-                        'undefined',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"char","char":"–","startAt":null}}'
-                    ];
-
-                    var _conf = this.mnuMarkersPicker.conf;
-                    this.mnuMarkersPicker = new Common.UI.DataView({
-                        el: $('#id-toolbar-menu-markers'),
-                        parentMenu: this.btnMarkers.menu,
-                        outerMenu:  {menu: this.btnMarkers.menu, index: 0},
-                        restoreHeight: 138,
-                        allowScrollbar: false,
-                        delayRenderTips: true,
-                        store: new Common.UI.DataViewStore([
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},numberingInfo: this._markersArr[0], skipRenderOnChange: true, tip: this.tipNone},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, numberingInfo: this._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, numberingInfo: this._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, numberingInfo: this._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, numberingInfo: this._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, numberingInfo: this._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, numberingInfo: this._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, numberingInfo: this._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
-                            {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, numberingInfo: this._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
-                        ]),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
-                    });
-                    this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
-                    _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
-
-                    this._numbersArr = [
-                        'undefined',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}',
-                        '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'
-                    ];
-
-                    _conf = this.mnuNumbersPicker.conf;
-                    this.mnuNumbersPicker = new Common.UI.DataView({
-                        el: $('#id-toolbar-menu-numbering'),
-                        parentMenu: this.btnNumbers.menu,
-                        outerMenu:  {menu: this.btnNumbers.menu, index: 0},
-                        restoreHeight: 92,
-                        allowScrollbar: false,
-                        delayRenderTips: true,
-                        store: new Common.UI.DataViewStore([
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.tipNone},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman},
-                            {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
-                        ]),
-                        itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
-                    });
-                    this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
-                    _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
-
-                } else if (this.mode.isRestrictedEdit) {
-                    this.btnClear.updateHint(this.textClearFields);
-                    this.btnPrevForm.updateHint(this.tipPrevForm);
-                    this.btnNextForm.updateHint(this.tipNextForm);
-                    this.btnSubmit && this.btnSubmit.updateHint(this.tipSubmit);
-                    this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
-                }
+            createDelayedElementsCommon: function() {
                 this.btnPrint.updateHint(this.tipPrint + Common.Utils.String.platformKey('Ctrl+P'));
                 this.btnUndo.updateHint(this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'));
                 this.btnRedo.updateHint(this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
@@ -1383,6 +1249,190 @@ define([
                 this.btnLastPage.updateHint(this.tipLastPage);
                 this.btnPrevPage.updateHint(this.tipPrevPage);
                 this.btnNextPage.updateHint(this.tipNextPage);
+            },
+
+            createDelayedElementsRestrictedEdit: function() {
+                if (!this.mode.isRestrictedEdit) return;
+
+                this.btnClear.updateHint(this.textClearFields);
+                this.btnPrevForm.updateHint(this.tipPrevForm);
+                this.btnNextForm.updateHint(this.tipNextForm);
+                this.btnSubmit && this.btnSubmit.updateHint(this.tipSubmit);
+                this.btnSaveForm && this.btnSaveForm.updateHint(this.mode.canRequestSaveAs || !!this.mode.saveAsUrl ? this.tipSaveForm : this.tipDownloadForm);
+            },
+
+            createDelayedElementsPDFAnnotate: function() {
+                if (!this.mode.isEdit) return;
+
+                this.btnSave.updateHint(this.btnSaveTip);
+                this.btnAddComment.updateHint(this.tipAddComment);
+                this.btnStrikeout.updateHint(this.textStrikeout);
+                this.btnUnderline.updateHint(this.textUnderline);
+                this.btnHighlight.updateHint(this.textHighlight);
+                // this.btnRotate.updateHint(this.tipRotate);
+
+            },
+
+            createDelayedElementsPDFEdit: function() {
+                if (!this.mode.isPDFEdit) return;
+
+                this.updateMetricUnit();
+                this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
+                this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
+                this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
+                this.btnItalic.updateHint(this.textItalic + Common.Utils.String.platformKey('Ctrl+I'));
+                this.btnTextUnderline.updateHint(this.textUnderline + Common.Utils.String.platformKey('Ctrl+U'));
+                this.btnTextStrikeout.updateHint(this.textStrikeout);
+                this.btnSuperscript.updateHint(this.textSuperscript);
+                this.btnSubscript.updateHint(this.textSubscript);
+                this.btnFontColor.updateHint(this.tipFontColor);
+                this.btnTextHighlightColor.updateHint(this.tipHighlightColor);
+                this.btnChangeCase.updateHint(this.tipChangeCase);
+                this.btnClearStyle.updateHint(this.tipClearStyle);
+                this.btnMarkers.updateHint(this.tipMarkers);
+                this.btnNumbers.updateHint(this.tipNumbers);
+                this.btnHorizontalAlign.updateHint(this.tipHAligh);
+                this.btnVerticalAlign.updateHint(this.tipVAligh);
+                this.btnDecLeftOffset.updateHint(this.tipDecPrLeft + Common.Utils.String.platformKey('Ctrl+Shift+M'));
+                this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
+                this.btnLineSpace.updateHint(this.tipLineSpace);
+                this.btnColumns.updateHint(this.tipColumns);
+                this.btnMarkers.setMenu(
+                    new Common.UI.Menu({
+                        cls: 'shifted-left',
+                        style: 'min-width: 145px',
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-markers" class="menu-markers" style="width: 145px; margin: 0 9px;"></div>')},
+                            this.mnuMarkerSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                value: 'settings'
+                            })
+                        ]
+                    })
+                );
+
+                this.btnNumbers.setMenu(
+                    new Common.UI.Menu({
+                        cls: 'shifted-left',
+                        items: [
+                            {template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 353px; margin: 0 9px;"></div>')},
+                            this.mnuNumberSettings = new Common.UI.MenuItem({
+                                caption: this.textListSettings,
+                                value: 'settings'
+                            })
+                        ]
+                    })
+                );
+
+                this._markersArr = [
+                    'undefined',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"·","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Courier New"},"bulletType":{"type":"char","char":"o","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"§","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"v","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"Ø","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Wingdings"},"bulletType":{"type":"char","char":"ü","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Symbol"},"bulletType":{"type":"char","char":"¨","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"char","char":"–","startAt":null}}'
+                ];
+
+                var _conf = this.mnuMarkersPicker.conf;
+                this.mnuMarkersPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-markers'),
+                    parentMenu: this.btnMarkers.menu,
+                    outerMenu:  {menu: this.btnMarkers.menu, index: 0},
+                    restoreHeight: 138,
+                    allowScrollbar: false,
+                    delayRenderTips: true,
+                    store: new Common.UI.DataViewStore([
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: -1},numberingInfo: this._markersArr[0], skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 1}, numberingInfo: this._markersArr[1], skipRenderOnChange: true, tip: this.tipMarkersFRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 2}, numberingInfo: this._markersArr[2], skipRenderOnChange: true, tip: this.tipMarkersHRound},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 3}, numberingInfo: this._markersArr[3], skipRenderOnChange: true, tip: this.tipMarkersFSquare},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 4}, numberingInfo: this._markersArr[4], skipRenderOnChange: true, tip: this.tipMarkersStar},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 5}, numberingInfo: this._markersArr[5], skipRenderOnChange: true, tip: this.tipMarkersArrow},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 6}, numberingInfo: this._markersArr[6], skipRenderOnChange: true, tip: this.tipMarkersCheckmark},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 7}, numberingInfo: this._markersArr[7], skipRenderOnChange: true, tip: this.tipMarkersFRhombus},
+                        {id: 'id-markers-' + Common.UI.getId(), data: {type: 0, subtype: 8}, numberingInfo: this._markersArr[8], skipRenderOnChange: true, tip: this.tipMarkersDash}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist"></div>')
+                });
+                this.btnMarkers.menu.setInnerMenu([{menu: this.mnuMarkersPicker, index: 0}]);
+                _conf && this.mnuMarkersPicker.selectByIndex(_conf.index, true);
+
+                this._numbersArr = [
+                    'undefined',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaUcPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcParenR","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"alphaLcPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"arabicParenR","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanUcPeriod","startAt":null}}',
+                    '{"bulletTypeface":{"type":"bufont","typeface":"Arial"},"bulletType":{"type":"autonum","char":null,"autoNumType":"romanLcPeriod","startAt":null}}'
+                ];
+
+                _conf = this.mnuNumbersPicker.conf;
+                this.mnuNumbersPicker = new Common.UI.DataView({
+                    el: $('#id-toolbar-menu-numbering'),
+                    parentMenu: this.btnNumbers.menu,
+                    outerMenu:  {menu: this.btnNumbers.menu, index: 0},
+                    restoreHeight: 92,
+                    allowScrollbar: false,
+                    delayRenderTips: true,
+                    store: new Common.UI.DataViewStore([
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: -1}, numberingInfo: this._numbersArr[0], skipRenderOnChange: true, tip: this.tipNone},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 4}, numberingInfo: this._numbersArr[1], skipRenderOnChange: true, tip: this.tipNumCapitalLetters},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 5}, numberingInfo: this._numbersArr[2], skipRenderOnChange: true, tip: this.tipNumLettersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 6}, numberingInfo: this._numbersArr[3], skipRenderOnChange: true, tip: this.tipNumLettersPoints},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 1}, numberingInfo: this._numbersArr[4], skipRenderOnChange: true, tip: this.tipNumNumbersPoint},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 2}, numberingInfo: this._numbersArr[5], skipRenderOnChange: true, tip: this.tipNumNumbersParentheses},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 3}, numberingInfo: this._numbersArr[6], skipRenderOnChange: true, tip: this.tipNumRoman},
+                        {id: 'id-numbers-' + Common.UI.getId(), data: {type: 1, subtype: 7}, numberingInfo: this._numbersArr[7], skipRenderOnChange: true, tip: this.tipNumRomanSmall}
+                    ]),
+                    itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist"></div>')
+                });
+                this.btnNumbers.menu.setInnerMenu([{menu: this.mnuNumbersPicker, index: 0}]);
+                _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
+
+                if (this.btnTextHighlightColor && this.btnTextHighlightColor.cmpEl) {
+                    this.btnTextHighlightColor.currentColor = 'FFFF00';
+                    this.btnTextHighlightColor.setColor(this.btnTextHighlightColor.currentColor);
+                    this.mnuTextHighlightColorPicker = new Common.UI.ThemeColorPalette({
+                        el: $('#id-toolbar-menu-text-highlight'),
+                        colors: [
+                            'FFFF00', '00FF00', '00FFFF', 'FF00FF', '0000FF', 'FF0000', '00008B', '008B8B',
+                            '006400', '800080', '8B0000', '808000', 'FFFFFF', 'D3D3D3', 'A9A9A9', '000000'
+                        ],
+                        colorHints: [
+                            Common.Utils.ThemeColor.txtYellow, Common.Utils.ThemeColor.txtBrightGreen, Common.Utils.ThemeColor.txtTurquosie, Common.Utils.ThemeColor.txtPink,
+                            Common.Utils.ThemeColor.txtBlue, Common.Utils.ThemeColor.txtRed, Common.Utils.ThemeColor.txtDarkBlue, Common.Utils.ThemeColor.txtTeal,
+                            Common.Utils.ThemeColor.txtGreen, Common.Utils.ThemeColor.txtViolet, Common.Utils.ThemeColor.txtDarkRed, Common.Utils.ThemeColor.txtDarkYellow,
+                            Common.Utils.ThemeColor.txtWhite, Common.Utils.ThemeColor.txtGray + '-25%', Common.Utils.ThemeColor.txtGray + '-50%', Common.Utils.ThemeColor.txtBlack
+                        ],
+                        value: 'FFFF00',
+                        dynamiccolors: 0,
+                        themecolors: 0,
+                        effects: 0,
+                        columns: 4,
+                        outerMenu: {menu: this.btnTextHighlightColor.menu, index: 0, focusOnShow: true}
+                    });
+                    this.btnTextHighlightColor.setPicker(this.mnuTextHighlightColorPicker);
+                    this.btnTextHighlightColor.menu.setInnerMenu([{menu: this.mnuTextHighlightColorPicker, index: 0}]);
+                }
+                if (this.btnFontColor && this.btnFontColor.menu) {
+                    var arr = this.createPen(this.btnFontColor, 'font');
+                    this.mnuFontColorPicker = arr[0];
+                    this.mnuFontTransparent = arr[1];
+                }
+            },
+
+            createDelayedElements: function () {
+                this.createDelayedElementsCommon();
+                if (this.mode.isEdit) {
+                    this.createDelayedElementsPDFAnnotate();
+                    this.mode.isPDFEdit && this.createDelayedElementsPDFEdit();
+                } else if (this.mode.isRestrictedEdit)
+                    this.createDelayedElementsRestrictedEdit();
             },
 
             onToolbarAfterRender: function(toolbar) {
@@ -1437,7 +1487,7 @@ define([
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
                 }
 
-                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && !this.mode.saveAlwaysEnabled);
+                this.btnSave.setDisabled(!this.mode.isPDFEdit && !this.mode.isPDFAnnotate && this.mode.canSaveToFile);
                 Common.Gateway.collaborativeChanges();
             },
 
@@ -1469,7 +1519,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && !me.mode.saveAlwaysEnabled);
+                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && me.mode.canSaveToFile);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -1494,45 +1544,6 @@ define([
             },
 
             /** coauthoring end **/
-
-            updateAutoshapeMenu: function (menuShape, collection) {
-                var me = this,
-                    index = $(menuShape.el).prop('id').slice(-1);
-
-                var menuitem = new Common.UI.MenuItem({
-                    template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
-                    index: index
-                });
-                menuShape.addItem(menuitem);
-
-                var recents = Common.localStorage.getItem('pdfe-recent-shapes');
-                recents = recents ? JSON.parse(recents) : null;
-
-                var shapePicker = new Common.UI.DataViewShape({
-                    el: $('#id-toolbar-menu-insertshape-'+index),
-                    itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
-                    groups: collection,
-                    parentMenu: menuShape,
-                    restoreHeight: 652,
-                    textRecentlyUsed: me.textRecentlyUsed,
-                    recentShapes: recents
-                });
-                shapePicker.on('item:click', function(picker, item, record, e) {
-                    if (e.type !== 'click') Common.UI.Menu.Manager.hideAll();
-                    if (record) {
-                        me.fireEvent('insert:shape', [record.get('data').shapeType]);
-                        me.cmbInsertShape.updateComboView(record);
-                    }
-                });
-
-            },
-
-            updateComboAutoshapeMenu: function (collection) {
-                var me = this,
-                    recents = Common.localStorage.getItem('pdfe-recent-shapes');
-                recents = recents ? JSON.parse(recents) : null;
-                me.cmbInsertShape.setMenuPicker(collection, recents, me.textRecentlyUsed);
-            },
 
             lockToolbar: function (causes, lock, opts) {
                 Common.Utils.lockControls(causes, lock, opts, this.lockControls);
@@ -1607,10 +1618,6 @@ define([
             tipDecPrLeft: 'Decrease Indent',
             tipIncPrLeft: 'Increase Indent',
             tipLineSpace: 'Line Spacing',
-            tipInsertHorizontalText: 'Insert horizontal text box',
-            tipInsertVerticalText: 'Insert vertical text box',
-            tipInsertText: 'Insert Text',
-            capInsertText: 'Text',
             tipIncFont: 'Increment font size',
             tipDecFont: 'Decrement font size',
             tipColumns: 'Insert columns',
@@ -1641,8 +1648,8 @@ define([
             tipMarkersFRhombus: 'Filled rhombus bullets',
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
-            textRecentlyUsed: 'Recently Used',
             textListSettings: 'List Settings',
+            textTabInsert: 'Insert'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

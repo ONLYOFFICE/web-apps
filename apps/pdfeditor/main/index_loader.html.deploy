@@ -320,6 +320,11 @@
     </script>
 
     <inline src="../../common/main/resources/img/header/icons.svg" />
+    <inline src="../../common/main/resources/img/toolbar/shapetypes.svg" />
+    <inline src="../../common/main/resources/img/toolbar/charttypes.svg" />
+    <inline src="../../common/main/resources/img/toolbar/equationicons.svg" />
+    <inline src="../../common/main/resources/img/right-panels/arrows.svg" />
+    <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <div id="viewport"></div>
     <div class="inlined-svg"></div>
     <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>

@@ -141,6 +141,7 @@ require([
             'LeftMenu',
             'Main',
             'ViewTab',
+            'InsTab',
             'Search',
             'Print',
             'Common.Controllers.Fonts'
@@ -168,6 +169,7 @@ require([
                 'pdfeditor/main/app/controller/LeftMenu',
                 'pdfeditor/main/app/controller/Main',
                 'pdfeditor/main/app/controller/ViewTab',
+                'pdfeditor/main/app/controller/InsTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
                 'pdfeditor/main/app/view/FileMenuPanels',

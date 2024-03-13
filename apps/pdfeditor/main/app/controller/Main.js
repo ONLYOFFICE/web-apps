@@ -46,10 +46,10 @@ define([
     'common/main/lib/component/LoadMask',
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
+    'common/main/lib/collection/TextArt',
     'common/main/lib/view/OpenDialog',
     'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
-    'pdfeditor/main/app/collection/ShapeGroups',
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
@@ -82,7 +82,7 @@ define([
 
             models: [],
             collections: [
-                'ShapeGroups'
+                'Common.Collections.TextArt',
             ],
             views: [],
 
@@ -318,7 +318,7 @@ define([
                         },
                         'edit:complete': _.bind(me.onEditComplete, me)
                     });
-                    this.initNames();
+
                     Common.util.Shortcuts.delegateShortcuts({
                         shortcuts: {
                             'command+s,ctrl+s,command+p,ctrl+p,command+k,ctrl+k,command+d,ctrl+d': _.bind(function (e) {
@@ -757,7 +757,7 @@ define([
                         toolbarView.btnHighlight.toggle(false, false);
                     }
 
-                    if (toolbarView.btnTextHighlightColor.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-text-highlight')) {
+                    if (toolbarView.btnTextHighlightColor && toolbarView.btnTextHighlightColor.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-text-highlight')) {
                         this.api.SetMarkerFormat(null, false);
                         toolbarView.btnTextHighlightColor.toggle(false, false);
                     }
@@ -768,7 +768,7 @@ define([
                         forcesave = this.appOptions.forcesave,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
 
                 Common.UI.HintManager.clearHints(true);
@@ -1048,16 +1048,9 @@ define([
 
                     var timer_sl = setTimeout(function(){
                         toolbarController.createDelayedElements();
-
                         toolbarController.activateControls();
                         if (me.needToUpdateVersion)
                             toolbarController.onApiCoAuthoringDisconnect();
-
-                        if (me.appOptions.isEdit) {
-                            var shapes = me.api.asc_getPropertyEditorShapes();
-                            if (shapes)
-                                me.fillAutoShapes(shapes[0], shapes[1]);
-                        }
 
                         me.api.UpdateInterfaceState();
 
@@ -1121,7 +1114,7 @@ define([
                 if (this.appOptions.isForm)
                     return this.applyLicenseForm();
 
-                if (this.appOptions.canSwitchMode && (this.appOptions.canPDFAnnotate || this.appOptions.canPDFEdit) &&
+                if ((this.appOptions.canPDFAnnotate || this.appOptions.canPDFEdit) &&
                     !this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
                     this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
@@ -1220,23 +1213,23 @@ define([
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
-                /** coauthoring begin **/
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
-                /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.canCreateNew   = this.appOptions.canCreateNew && !this.appOptions.isOffline && !this.isForm;
                 this.appOptions.isCrypted      = this.api.asc_isCrypto();
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canSwitchMode = !this.appOptions.isXpsViewer && !this.appOptions.isForm && false; // switch between View/pdf comments/pdf edit
-                this.appOptions.canEdit        = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
-                this.appOptions.isEdit         = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
-                this.appOptions.canPDFEdit     = false;//(this.permissions.edit !== false) && this.appOptions.canLicense;
+
+                var pdfEdit = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
+                this.appOptions.canSwitchMode = pdfEdit; // switch between View/pdf comments/pdf edit
+                this.appOptions.canEdit = this.appOptions.isEdit = pdfEdit;
+
+                this.appOptions.canSaveToFile = this.appOptions.isDesktopApp && this.appOptions.isOffline;
+                this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense && (this.permissions.comment!== false) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate; // TODO: this.appOptions.isDesktopApp && this.appOptions.isOffline !! online files always open in view mode
+                this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense;//(this.permissions.edit !== false);
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canPDFAnnotate = (this.appOptions.canSwitchMode || !this.appOptions.isXpsViewer && !this.appOptions.isForm && this.appOptions.isDesktopApp && this.appOptions.isOffline) && this.appOptions.canLicense && (this.permissions.comment!== false);
-                this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate && this.appOptions.isDesktopApp && this.appOptions.isOffline; // this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! online files always open in view mode
-                this.appOptions.canComments    = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
-                this.appOptions.canViewComments = this.appOptions.canComments;
+
+                this.appOptions.canComments = this.appOptions.canViewComments =  pdfEdit;
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
                                                                                                                (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat!==undefined) {
@@ -1249,7 +1242,6 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isPDFEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.saveAlwaysEnabled = !this.appOptions.isPDFAnnotate;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
@@ -1372,7 +1364,7 @@ define([
             onPdfModeChange: function(mode, callback) {
                 if (!this.appOptions.canSwitchMode) return;
 
-                if (mode==='comment' || mode==='edit') {
+                if ((mode==='comment' || mode==='edit') && false) { // TODO: fix when use co-edit
                     if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
@@ -1423,15 +1415,16 @@ define([
                 }
                 callback && callback();
                 this.onPdfModeApply();
+                this.getApplication().getController('Toolbar').applyMode();
             },
 
             onPdfModeApply: function() {
                 if (!this.api) return;
 
-                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : this.appOptions.isForm;
+                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : this.appOptions.isForm;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
-                this.api.asc_setAutoSaveGap(this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : (this.appOptions.isForm ? 1 : 0));
-                if (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) {
+                this.api.asc_setAutoSaveGap((this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : (this.appOptions.isForm ? 1 : 0));
+                if ((this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile) {
                     var value = Common.Utils.InternalSettings.get((this._state.fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
                     switch(value) {
                         case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
@@ -1478,35 +1471,33 @@ define([
                 (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.Utils.InternalSettings.set("pdfe-settings-unit", value);
+
+                this.contComments.setMode(this.appOptions);
+                this.contComments.setConfig({config: this.editorConfig}, this.api);
+
+                toolbarController.setApi(this.api);
             },
 
             applyModeEditorElements: function() {
-                /** coauthoring begin **/
-                this.contComments.setMode(this.appOptions);
-                this.contComments.setConfig({config: this.editorConfig}, this.api);
-                /** coauthoring end **/
 
                 var me = this,
                     application         = this.getApplication();
                     // reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 // reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
-                var toolbarController   = application.getController('Toolbar');
-                toolbarController   && toolbarController.setApi(me.api);
-
                 if (this.appOptions.isEdit) {
-                    var fontsControllers    = application.getController('Common.Controllers.Fonts');
-                    fontsControllers    && fontsControllers.setApi(me.api);
-
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
-                    var viewport = this.getApplication().getController('Viewport').getView('Viewport');
+                    var viewport = application.getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
 
-                    var toolbarView = (toolbarController) ? toolbarController.getView() : null;
+                    this.appOptions.canPDFEdit && application.getController('Common.Controllers.Fonts').setApi(this.api);
+
+                    var toolbarController   = application.getController('Toolbar'),
+                        toolbarView = (toolbarController) ? toolbarController.getView() : null;
                     if (toolbarView) {
-                        toolbarView.setApi(me.api);
+                        // toolbarView.setApi(me.api);
                         toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
                     }
 
@@ -1950,7 +1941,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
 
                 /** coauthoring begin **/
@@ -1967,7 +1958,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
             },
 
@@ -2459,60 +2450,24 @@ define([
                 }
             },
 
-            initNames: function() {
-                this.shapeGroupNames = [
-                    this.txtBasicShapes,
-                    this.txtFiguredArrows,
-                    this.txtMath,
-                    this.txtCharts,
-                    this.txtStarsRibbons,
-                    this.txtCallouts,
-                    this.txtButtons,
-                    this.txtRectangles,
-                    this.txtLines
-                ];
-            },
+            fillTextArt: function(shapes, force){
+                var arr = [],
+                    artStore = this.getCollection('Common.Collections.TextArt');
 
-            fillAutoShapes: function(groupNames, shapes){
-                if (_.isEmpty(shapes) || _.isEmpty(groupNames) || shapes.length != groupNames.length)
-                    return;
+                if (!shapes && artStore.length>0 || force) {// shapes == undefined when update textart collection (from asc_onSendThemeColors)
+                    shapes = this.api.asc_getTextArtPreviews();
+                }
+                if (_.isEmpty(shapes)) return;
 
-                var me = this,
-                    shapegrouparray = [],
-                    name_arr = {};
-
-                _.each(groupNames, function(groupName, index){
-                    var store = new Backbone.Collection([], {
-                            model: PDFE.Models.ShapeModel
-                        }),
-                        arr = [];
-
-                    var cols = (shapes[index].length) > 18 ? 7 : 6,
-                        height = Math.ceil(shapes[index].length/cols) * 35 + 3,
-                        width = 30 * cols;
-
-                    _.each(shapes[index], function(shape, idx){
-                        var name = me['txtShape_' + shape.Type];
-                        arr.push({
-                            data     : {shapeType: shape.Type},
-                            tip      : name || (me.textShape + ' ' + (idx+1)),
-                            allowSelected : true,
-                            selected: false
-                        });
-                        if (name)
-                            name_arr[shape.Type] = name;
-                    });
-                    store.add(arr);
-                    shapegrouparray.push({
-                        groupName   : me.shapeGroupNames[index],
-                        groupStore  : store,
-                        groupWidth  : width,
-                        groupHeight : height
+                _.each(shapes, function(shape, index){
+                    arr.push({
+                        imageUrl : shape,
+                        data     : index,
+                        allowSelected : true,
+                        selected: false
                     });
                 });
-
-                this.getCollection('ShapeGroups').reset(shapegrouparray);
-                this.api.asc_setShapeNames(name_arr);
+                artStore.reset(arr);
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2651,188 +2606,7 @@ define([
             txtEnterDate: 'Enter a date',
             errorEmailClient: 'No email client could be found',
             errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
-            txtArt: 'Your text here',
-            txtBasicShapes: 'Basic Shapes',
-            txtFiguredArrows: 'Figured Arrows',
-            txtMath: 'Math',
-            txtCharts: 'Charts',
-            txtStarsRibbons: 'Stars & Ribbons',
-            txtCallouts: 'Callouts',
-            txtButtons: 'Buttons',
-            txtRectangles: 'Rectangles',
-            txtLines: 'Lines',
-            textShape: 'Shape',
-            txtShape_textRect: 'Text Box',
-            txtShape_rect: 'Rectangle',
-            txtShape_ellipse: 'Ellipse',
-            txtShape_triangle: 'Triangle',
-            txtShape_rtTriangle: 'Right Triangle',
-            txtShape_parallelogram: 'Parallelogram',
-            txtShape_trapezoid: 'Trapezoid',
-            txtShape_diamond: 'Diamond',
-            txtShape_pentagon: 'Pentagon',
-            txtShape_hexagon: 'Hexagon',
-            txtShape_heptagon: 'Heptagon',
-            txtShape_octagon: 'Octagon',
-            txtShape_decagon: 'Decagon',
-            txtShape_dodecagon: 'Dodecagon',
-            txtShape_pie: 'Pie',
-            txtShape_chord: 'Chord',
-            txtShape_teardrop: 'Teardrop',
-            txtShape_frame: 'Frame',
-            txtShape_halfFrame: 'Half Frame',
-            txtShape_corner: 'Corner',
-            txtShape_diagStripe: 'Diagonal Stripe',
-            txtShape_plus: 'Plus',
-            txtShape_plaque: 'Sign',
-            txtShape_can: 'Can',
-            txtShape_cube: 'Cube',
-            txtShape_bevel: 'Bevel',
-            txtShape_donut: 'Donut',
-            txtShape_noSmoking: '"No" Symbol',
-            txtShape_blockArc: 'Block Arc',
-            txtShape_foldedCorner: 'Folded Corner',
-            txtShape_smileyFace: 'Smiley Face',
-            txtShape_heart: 'Heart',
-            txtShape_lightningBolt: 'Lightning Bolt',
-            txtShape_sun: 'Sun',
-            txtShape_moon: 'Moon',
-            txtShape_cloud: 'Cloud',
-            txtShape_arc: 'Arc',
-            txtShape_bracePair: 'Double Brace',
-            txtShape_leftBracket: 'Left Bracket',
-            txtShape_rightBracket: 'Right Bracket',
-            txtShape_leftBrace: 'Left Brace',
-            txtShape_rightBrace: 'Right Brace',
-            txtShape_rightArrow: 'Right Arrow',
-            txtShape_leftArrow: 'Left Arrow',
-            txtShape_upArrow: 'Up Arrow',
-            txtShape_downArrow: 'Down Arrow',
-            txtShape_leftRightArrow: 'Left Right Arrow',
-            txtShape_upDownArrow: 'Up Down Arrow',
-            txtShape_quadArrow: 'Quad Arrow',
-            txtShape_leftRightUpArrow: 'Left Right Up Arrow',
-            txtShape_bentArrow: 'Bent Arrow',
-            txtShape_uturnArrow: 'U-Turn Arrow',
-            txtShape_leftUpArrow: 'Left Up Arrow',
-            txtShape_bentUpArrow: 'Bent Up Arrow',
-            txtShape_curvedRightArrow: 'Curved Right Arrow',
-            txtShape_curvedLeftArrow: 'Curved Left Arrow',
-            txtShape_curvedUpArrow: 'Curved Up Arrow',
-            txtShape_curvedDownArrow: 'Curved Down Arrow',
-            txtShape_stripedRightArrow: 'Striped Right Arrow',
-            txtShape_notchedRightArrow: 'Notched Right Arrow',
-            txtShape_homePlate: 'Pentagon',
-            txtShape_chevron: 'Chevron',
-            txtShape_rightArrowCallout: 'Right Arrow Callout',
-            txtShape_downArrowCallout: 'Down Arrow Callout',
-            txtShape_leftArrowCallout: 'Left Arrow Callout',
-            txtShape_upArrowCallout: 'Up Arrow Callout',
-            txtShape_leftRightArrowCallout: 'Left Right Arrow Callout',
-            txtShape_quadArrowCallout: 'Quad Arrow Callout',
-            txtShape_circularArrow: 'Circular Arrow',
-            txtShape_mathPlus: 'Plus',
-            txtShape_mathMinus: 'Minus',
-            txtShape_mathMultiply: 'Multiply',
-            txtShape_mathDivide: 'Division',
-            txtShape_mathEqual: 'Equal',
-            txtShape_mathNotEqual: 'Not Equal',
-            txtShape_flowChartProcess: 'Flowchart: Process',
-            txtShape_flowChartAlternateProcess: 'Flowchart: Alternate Process',
-            txtShape_flowChartDecision: 'Flowchart: Decision',
-            txtShape_flowChartInputOutput: 'Flowchart: Data',
-            txtShape_flowChartPredefinedProcess: 'Flowchart: Predefined Process',
-            txtShape_flowChartInternalStorage: 'Flowchart: Internal Storage',
-            txtShape_flowChartDocument: 'Flowchart: Document',
-            txtShape_flowChartMultidocument: 'Flowchart: Multidocument ',
-            txtShape_flowChartTerminator: 'Flowchart: Terminator',
-            txtShape_flowChartPreparation: 'Flowchart: Preparation',
-            txtShape_flowChartManualInput: 'Flowchart: Manual Input',
-            txtShape_flowChartManualOperation: 'Flowchart: Manual Operation',
-            txtShape_flowChartConnector: 'Flowchart: Connector',
-            txtShape_flowChartOffpageConnector: 'Flowchart: Off-page Connector',
-            txtShape_flowChartPunchedCard: 'Flowchart: Card',
-            txtShape_flowChartPunchedTape: 'Flowchart: Punched Tape',
-            txtShape_flowChartSummingJunction: 'Flowchart: Summing Junction',
-            txtShape_flowChartOr: 'Flowchart: Or',
-            txtShape_flowChartCollate: 'Flowchart: Collate',
-            txtShape_flowChartSort: 'Flowchart: Sort',
-            txtShape_flowChartExtract: 'Flowchart: Extract',
-            txtShape_flowChartMerge: 'Flowchart: Merge',
-            txtShape_flowChartOnlineStorage: 'Flowchart: Stored Data',
-            txtShape_flowChartDelay: 'Flowchart: Delay',
-            txtShape_flowChartMagneticTape: 'Flowchart: Sequential Access Storage',
-            txtShape_flowChartMagneticDisk: 'Flowchart: Magnetic Disk',
-            txtShape_flowChartMagneticDrum: 'Flowchart: Direct Access Storage',
-            txtShape_flowChartDisplay: 'Flowchart: Display',
-            txtShape_irregularSeal1: 'Explosion 1',
-            txtShape_irregularSeal2: 'Explosion 2',
-            txtShape_star4: '4-Point Star',
-            txtShape_star5: '5-Point Star',
-            txtShape_star6: '6-Point Star',
-            txtShape_star7: '7-Point Star',
-            txtShape_star8: '8-Point Star',
-            txtShape_star10: '10-Point Star',
-            txtShape_star12: '12-Point Star',
-            txtShape_star16: '16-Point Star',
-            txtShape_star24: '24-Point Star',
-            txtShape_star32: '32-Point Star',
-            txtShape_ribbon2: 'Up Ribbon',
-            txtShape_ribbon: 'Down Ribbon',
-            txtShape_ellipseRibbon2: 'Curved Up Ribbon',
-            txtShape_ellipseRibbon: 'Curved Down Ribbon',
-            txtShape_verticalScroll: 'Vertical Scroll',
-            txtShape_horizontalScroll: 'Horizontal Scroll',
-            txtShape_wave: 'Wave',
-            txtShape_doubleWave: 'Double Wave',
-            txtShape_wedgeRectCallout: 'Rectangular Callout',
-            txtShape_wedgeRoundRectCallout: 'Rounded Rectangular Callout',
-            txtShape_wedgeEllipseCallout: 'Oval Callout',
-            txtShape_cloudCallout: 'Cloud Callout',
-            txtShape_borderCallout1: 'Line Callout 1',
-            txtShape_borderCallout2: 'Line Callout 2',
-            txtShape_borderCallout3: 'Line Callout 3',
-            txtShape_accentCallout1: 'Line Callout 1 (Accent Bar)',
-            txtShape_accentCallout2: 'Line Callout 2 (Accent Bar)',
-            txtShape_accentCallout3: 'Line Callout 3 (Accent Bar)',
-            txtShape_callout1: 'Line Callout 1 (No Border)',
-            txtShape_callout2: 'Line Callout 2 (No Border)',
-            txtShape_callout3: 'Line Callout 3 (No Border)',
-            txtShape_accentBorderCallout1: 'Line Callout 1 (Border and Accent Bar)',
-            txtShape_accentBorderCallout2: 'Line Callout 2 (Border and Accent Bar)',
-            txtShape_accentBorderCallout3: 'Line Callout 3 (Border and Accent Bar)',
-            txtShape_actionButtonBackPrevious: 'Back or Previous Button',
-            txtShape_actionButtonForwardNext: 'Forward or Next Button',
-            txtShape_actionButtonBeginning: 'Beginning Button',
-            txtShape_actionButtonEnd: 'End Button',
-            txtShape_actionButtonHome: 'Home Button',
-            txtShape_actionButtonInformation: 'Information Button',
-            txtShape_actionButtonReturn: 'Return Button',
-            txtShape_actionButtonMovie: 'Movie Button',
-            txtShape_actionButtonDocument: 'Document Button',
-            txtShape_actionButtonSound: 'Sound Button',
-            txtShape_actionButtonHelp: 'Help Button',
-            txtShape_actionButtonBlank: 'Blank Button',
-            txtShape_roundRect: 'Round Corner Rectangle',
-            txtShape_snip1Rect: 'Snip Single Corner Rectangle',
-            txtShape_snip2SameRect: 'Snip Same Side Corner Rectangle',
-            txtShape_snip2DiagRect: 'Snip Diagonal Corner Rectangle',
-            txtShape_snipRoundRect: 'Snip and Round Single Corner Rectangle',
-            txtShape_round1Rect: 'Round Single Corner Rectangle',
-            txtShape_round2SameRect: 'Round Same Side Corner Rectangle',
-            txtShape_round2DiagRect: 'Round Diagonal Corner Rectangle',
-            txtShape_line: 'Line',
-            txtShape_lineWithArrow: 'Arrow',
-            txtShape_lineWithTwoArrows: 'Double Arrow',
-            txtShape_bentConnector5: 'Elbow Connector',
-            txtShape_bentConnector5WithArrow: 'Elbow Arrow Connector',
-            txtShape_bentConnector5WithTwoArrows: 'Elbow Double-Arrow Connector',
-            txtShape_curvedConnector3: 'Curved Connector',
-            txtShape_curvedConnector3WithArrow: 'Curved Arrow Connector',
-            txtShape_curvedConnector3WithTwoArrows: 'Curved Double-Arrow Connector',
-            txtShape_spline: 'Curve',
-            txtShape_polyline1: 'Scribble',
-            txtShape_polyline2: 'Freeform',
+            txtArt: 'Your text here'
         }
     })(), PDFE.Controllers.Main || {}))
 });

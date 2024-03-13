@@ -83,6 +83,7 @@ define([
                 can_decrease: undefined,
                 fontsize: undefined,
                 textclrhighlight: undefined,
+                initEditing: true
             };
             this.editMode = true;
             this.binding = {};
@@ -152,62 +153,10 @@ define([
                 }
             });
 
-            var me = this;
-
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
                 this.toolbar.collapse();
             }, this));
             Common.NotificationCenter.on('comments:tryshowcomments', _.bind(this.turnOnShowComments, this));
-
-            var checkInsertAutoshape =  function(e) {
-                var cmp = $(e.target),
-                    cmp_sdk = cmp.closest('#editor_sdk'),
-                    btn_id = cmp.closest('button').attr('id');
-                if (btn_id===undefined)
-                    btn_id = cmp.closest('.btn-group').attr('id');
-                if (btn_id===undefined)
-                    btn_id = cmp.closest('.combo-dataview').attr('id');
-
-                if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
-                    if ( me.toolbar.btnInsertText.pressed && btn_id !== me.toolbar.btnInsertText.id ||
-                        me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
-                    {
-                        me._isAddingShape         = false;
-
-                        me._addAutoshape(false);
-                        me.toolbar.btnInsertText.toggle(false, true);
-                        me.toolbar.cmbInsertShape.deactivateRecords();
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                }
-            };
-
-            this.onApiEndAddShape = function() {
-                this.toolbar.fireEvent('insertshape', this.toolbar);
-
-                if ( this.toolbar.btnInsertText.pressed ) {
-                    this.toolbar.btnInsertText.toggle(false, true);
-                    this.toolbar.btnInsertText.menu.clearAll();
-                }
-
-                if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
-                    this.toolbar.cmbInsertShape.deactivateRecords();
-
-                $(document.body).off('mouseup', checkInsertAutoshape);
-            };
-
-            this._addAutoshape =  function(isstart, type) {
-                if (this.api) {
-                    if (isstart) {
-                        this.api.StartAddShape(type, true);
-                        $(document.body).on('mouseup', checkInsertAutoshape);
-                    } else {
-                        this.api.StartAddShape('', false);
-                        $(document.body).off('mouseup', checkInsertAutoshape);
-                    }
-                }
-            };
-
         },
 
         onLaunch: function() {
@@ -218,11 +167,6 @@ define([
 
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
-
-            var me = this;
-            PDFE.getCollection('ShapeGroups').bind({
-                reset: me.onResetAutoshapes.bind(this)
-            });
         },
 
         setMode: function(mode) {
@@ -230,11 +174,7 @@ define([
             this.toolbar.applyLayout(mode);
         },
 
-        attachUIEvents: function(toolbar) {
-            /**
-             * UI Events
-             */
-            var me = this;
+        attachCommonUIEvents: function(toolbar) {
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
@@ -247,7 +187,7 @@ define([
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
             toolbar.fieldPages.on('changed:after',                      _.bind(this.onPagesChanged, this));
-            toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', me.toolbar);});
+            toolbar.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', toolbar);});
             toolbar.fieldPages.cmpEl && toolbar.fieldPages.cmpEl.on('focus', 'input.form-control', function() {
                 setTimeout(function(){toolbar.fieldPages._input && toolbar.fieldPages._input.select();}, 1);
             });
@@ -258,73 +198,9 @@ define([
 
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+        },
 
-            if (this.mode && this.mode.isEdit) {
-                toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
-                toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
-                toolbar.btnAddComment.on('click', function (btn, e) {
-                    Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
-                });
-                toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
-                toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
-                toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
-                toolbar.btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
-                toolbar.mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
-                toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
-                toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
-                toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
-                toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
-                toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
-                // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
-                Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
-                Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
-
-                toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
-                toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
-                toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
-                toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
-                toolbar.btnTextUnderline.on('click',                        _.bind(this.onTextUnderline, this));
-                toolbar.btnTextStrikeout.on('click',                        _.bind(this.onTextStrikeout, this));
-                toolbar.btnSuperscript.on('click',                          _.bind(this.onSuperscript, this));
-                toolbar.btnSubscript.on('click',                            _.bind(this.onSubscript, this));
-                toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onMenuHorizontalAlignSelect, this));
-                toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onMenuVerticalAlignSelect, this));
-                toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
-                toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
-                toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
-                toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
-                toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
-                toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
-                toolbar.mnuNumberSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 1));
-                toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
-                toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
-                toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
-                toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
-                toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
-                toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
-                toolbar.cmbFontSize.on('changed:before',                    _.bind(this.onFontSizeChanged, this, true));
-                toolbar.cmbFontSize.on('changed:after',                     _.bind(this.onFontSizeChanged, this, false));
-                toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
-                toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
-                toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
-                toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
-                toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
-                toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
-                toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
-                toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
-                toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
-                toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
-                toolbar.btnTextHighlightColor.on('click',                   _.bind(this.onBtnTextHighlightColor, this));
-                toolbar.mnuTextHighlightColorPicker.on('select',            _.bind(this.onSelectTextHighlightColor, this));
-                toolbar.mnuTextHighlightTransparent.on('click',             _.bind(this.onTextHighlightTransparentClick, this));
-                toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
-                toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
-                toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
-                toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
-                toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
-                toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
-
-            }
+        attachRestrictedEditUIEvents: function(toolbar) {
             if (this.mode && this.mode.isRestrictedEdit) {
                 toolbar.btnClear.on('click', _.bind(this.onClearClick, this));
                 toolbar.btnPrevForm.on('click', _.bind(this.onGoToForm, this, 'prev'));
@@ -334,51 +210,158 @@ define([
             }
         },
 
-        setApi: function(api) {
-            this.api = api;
+        attachPDFAnnotateUIEvents: function(toolbar) {
+            if (!this.mode || !this.mode.isEdit) return;
 
-            if (this.mode.isEdit || this.mode.isRestrictedEdit) {
-                this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
-                this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
-                this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
-                Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
-                this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
-            }
+            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
+            toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+            toolbar.btnAddComment.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+            });
+            toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
+            toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
+            toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
+            toolbar.btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
+            toolbar.mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
+            toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
+            toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
+            toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
+            toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
+            toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
+            // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
+            Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
+            Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
 
+        },
+
+        attachPDFEditUIEvents: function(toolbar) {
+            if (!this.mode || !this.mode.isPDFEdit) return;
+
+            toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
+            toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
+            toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
+            toolbar.btnItalic.on('click',                               _.bind(this.onItalic, this));
+            toolbar.btnTextUnderline.on('click',                        _.bind(this.onTextUnderline, this));
+            toolbar.btnTextStrikeout.on('click',                        _.bind(this.onTextStrikeout, this));
+            toolbar.btnSuperscript.on('click',                          _.bind(this.onSuperscript, this));
+            toolbar.btnSubscript.on('click',                            _.bind(this.onSubscript, this));
+            toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onMenuHorizontalAlignSelect, this));
+            toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onMenuVerticalAlignSelect, this));
+            toolbar.btnDecLeftOffset.on('click',                        _.bind(this.onDecOffset, this));
+            toolbar.btnIncLeftOffset.on('click',                        _.bind(this.onIncOffset, this));
+            toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
+            toolbar.btnMarkers.on('click',                              _.bind(this.onMarkers, this));
+            toolbar.btnNumbers.on('click',                              _.bind(this.onNumbers, this));
+            toolbar.mnuMarkerSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 0));
+            toolbar.mnuNumberSettings.on('click',                         _.bind(this.onMarkerSettingsClick, this, 1));
+            toolbar.cmbFontName.on('selected',                          _.bind(this.onFontNameSelect, this));
+            toolbar.cmbFontName.on('show:after',                        _.bind(this.onComboOpen, this, true));
+            toolbar.cmbFontName.on('hide:after',                        _.bind(this.onHideMenus, this));
+            toolbar.cmbFontName.on('combo:blur',                        _.bind(this.onComboBlur, this));
+            toolbar.cmbFontName.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+            toolbar.cmbFontSize.on('selected',                          _.bind(this.onFontSizeSelect, this));
+            toolbar.cmbFontSize.on('changed:before',                    _.bind(this.onFontSizeChanged, this, true));
+            toolbar.cmbFontSize.on('changed:after',                     _.bind(this.onFontSizeChanged, this, false));
+            toolbar.cmbFontSize.on('show:after',                        _.bind(this.onComboOpen, this, true));
+            toolbar.cmbFontSize.on('hide:after',                        _.bind(this.onHideMenus, this));
+            toolbar.cmbFontSize.on('combo:blur',                        _.bind(this.onComboBlur, this));
+            toolbar.cmbFontSize.on('combo:focusin',                     _.bind(this.onComboOpen, this, false));
+            toolbar.mnuMarkersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnMarkers));
+            toolbar.mnuNumbersPicker.on('item:click',                   _.bind(this.onSelectBullets, this, toolbar.btnNumbers));
+            toolbar.btnMarkers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 0, toolbar.mnuMarkersPicker));
+            toolbar.btnNumbers.menu.on('show:after',                    _.bind(this.onListShowAfter, this, 1, toolbar.mnuNumbersPicker));
+            toolbar.btnFontColor.on('click',                            _.bind(this.onBtnFontColor, this));
+            toolbar.btnFontColor.on('color:select',                     _.bind(this.onSelectFontColor, this));
+            toolbar.btnTextHighlightColor.on('click',                   _.bind(this.onBtnTextHighlightColor, this));
+            toolbar.mnuTextHighlightColorPicker.on('select',            _.bind(this.onSelectTextHighlightColor, this));
+            toolbar.mnuTextHighlightTransparent.on('click',             _.bind(this.onTextHighlightTransparentClick, this));
+            toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
+            toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
+            toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
+            toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
+        },
+
+        attachUIEvents: function(toolbar) {
+            /**
+             * UI Events
+             */
+            this.attachCommonUIEvents(toolbar);
             if (this.mode.isEdit) {
-                this.toolbar.setApi(api);
-                this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
-                this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
-                this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+                this.attachPDFAnnotateUIEvents(toolbar);
+                this.mode.isPDFEdit && this.attachPDFEditUIEvents(toolbar);
+            } else if (this.mode.isRestrictedEdit)
+                this.attachRestrictedEditUIEvents(toolbar);
+        },
 
-                this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
-                this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
-                this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
-                this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
-                this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
-                this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
-                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
-
-                this.api.asc_registerCallback('asc_onListType',             _.bind(this.onApiBullets, this));
-                this.api.asc_registerCallback('asc_canIncreaseIndent',      _.bind(this.onApiCanIncreaseIndent, this));
-                this.api.asc_registerCallback('asc_canDecreaseIndent',      _.bind(this.onApiCanDecreaseIndent, this));
-                this.api.asc_registerCallback('asc_onLineSpacing',          _.bind(this.onApiLineSpacing, this));
-                this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
-                this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
-                this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
-                this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
-                this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
-            }
-            if (this.mode.isRestrictedEdit) {
-                this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
-                this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
-                this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
-                this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
-            }
+        attachCommonApiEvents: function() {
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
+        },
+
+        attachRestrictedEditApiEvents: function() {
+            if (!this.mode.isRestrictedEdit) return;
+
+            this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+            this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+            this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+
+            this.api.asc_registerCallback('asc_onStartAction', _.bind(this.onLongActionBegin, this));
+            this.api.asc_registerCallback('asc_onEndAction', _.bind(this.onLongActionEnd, this));
+            this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
+            this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
+        },
+
+        attachPDFAnnotateApiEvents: function() {
+            if (!this.mode.isEdit) return;
+
+            this.toolbar.setApi(this.api);
+
+            this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+            this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+            this.api.asc_registerCallback('asc_onZoomChange', _.bind(this.onApiZoomChange, this));
+            Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+            this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+
+            this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
+            this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
+            this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+
+        },
+
+        attachPDFEditApiEvents: function() {
+            if (!this.mode.isPDFEdit) return;
+
+            this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
+            this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
+            this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
+            this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
+            this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
+            this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
+            Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+            this.api.asc_registerCallback('asc_onListType',             _.bind(this.onApiBullets, this));
+            this.api.asc_registerCallback('asc_canIncreaseIndent',      _.bind(this.onApiCanIncreaseIndent, this));
+            this.api.asc_registerCallback('asc_canDecreaseIndent',      _.bind(this.onApiCanDecreaseIndent, this));
+            this.api.asc_registerCallback('asc_onLineSpacing',          _.bind(this.onApiLineSpacing, this));
+            this.api.asc_registerCallback('asc_onPrAlign',              _.bind(this.onApiParagraphAlign, this));
+            this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
+            this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+            this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
+        },
+
+        setApi: function(api) {
+            this.api = api;
+            this.attachCommonApiEvents();
+
+            if (this.mode.isEdit) {
+                this.attachPDFAnnotateApiEvents();
+                this.mode.isPDFEdit && this.attachPDFEditApiEvents();
+            } else if (this.mode.isRestrictedEdit)
+                this.attachRestrictedEditApiEvents();
         },
 
         onChangeCompactView: function(view, compact) {
@@ -572,7 +555,7 @@ define([
                 //     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
+                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
@@ -928,7 +911,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.redoLock, this._state.can_redo!==true, {array: [this.toolbar.btnRedo]});
             this.toolbar.lockToolbar(Common.enumLock.copyLock, this._state.can_copy!==true, {array: [this.toolbar.btnCopy]});
             this.toolbar.lockToolbar(Common.enumLock.cutLock, this._state.can_cut!==true, {array: [this.toolbar.btnCut]});
-            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(!this.mode.saveAlwaysEnabled && !this.api.isDocumentModified());
+            this.api && this.toolbar.btnSave && this.toolbar.btnSave.setDisabled(this.mode.canSaveToFile && !this.api.isDocumentModified());
             this._state.activated = true;
         },
 
@@ -1025,31 +1008,71 @@ define([
                 me.toolbar.addTab(tab, $panel, 8);
                 me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
             }
+
+            if (config.isPDFEdit) {
+                me._state.initEditing = false;
+                tab = {caption: me.toolbar.textTabInsert, action: 'ins', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-insert', dataHintTitle: 'I'};
+                var instab = me.getApplication().getController('InsTab');
+                instab.setApi(me.api).setConfig({toolbar: me, mode: config});
+                $panel = instab.createToolbarPanel();
+                if ($panel) {
+                    me.toolbar.addTab(tab, $panel, 1);
+                    me.toolbar.setVisible('ins');
+                }
+            }
         },
 
+        applyMode: function() {
+            var me = this,
+                toolbar = this.toolbar,
+                $host = $(toolbar.$layout);
+            if (this.mode.isPDFEdit && this._state.initEditing) {
+                toolbar.applyLayoutPDFEdit(this.mode);
+                toolbar.rendererComponentsPDFEdit($host);
+                this.attachPDFEditApiEvents();
+
+                setTimeout(function(){
+                    toolbar.createDelayedElementsPDFEdit();
+                    me.attachPDFEditUIEvents(toolbar);
+                    if (toolbar.cmbFontName.store.length===0) {
+                        var fontstore = new Common.Collections.Fonts(),
+                            fonts = me.getCollection('Common.Collections.Fonts').toJSON();
+                        var arr = [];
+                        _.each(fonts, function(font, index){
+                            if (!font.cloneid) {
+                                arr.push(_.clone(font));
+                            }
+                        });
+                        fontstore.add(arr);
+                        toolbar.cmbFontName.fillFonts(fontstore);
+                        me._state.fontname && toolbar.cmbFontName.onApiChangeFont(me._state.fontname);
+                    }
+                    toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.api.UpdateInterfaceState();
+                }, 50);
+
+                var tab = {caption: toolbar.textTabInsert, action: 'ins', extcls: this.mode.isEdit ? 'canedit' : '', layoutname: 'toolbar-insert', dataHintTitle: 'I'};
+                var instab = this.getApplication().getController('InsTab');
+                instab.setApi(this.api).setConfig({toolbar: this, mode: this.mode});
+                toolbar.addTab(tab, instab.createToolbarPanel(), 1);
+                instab.onAppReady(this.mode);
+                setTimeout(function(){
+                    instab.onDocumentReady();
+                }, 50);
+
+                this._state.initEditing = false;
+            }
+            if (!this.mode.isPDFEdit && toolbar.isTabActive('ins'))
+                toolbar.setTab('home');
+            toolbar.setVisible('ins', this.mode.isPDFEdit);
+            $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
+            $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
+
+        },
+        
         onAppReady: function (config) {
             var me = this;
             me.appOptions = config;
-
-            this.btnsComment = [];
-            // if ( config.canCoAuthoring && config.canComments ) {
-            //     this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-menu-comments', this.toolbar.capBtnComment,
-            //                 [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
-            //                         Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
-            //                         Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms ],
-            //                      undefined, undefined, undefined, '1', 'bottom');
-            //     if ( this.btnsComment.length ) {
-            //         var _comments = PDFE.getController('Common.Controllers.Comments').getView();
-            //         this.btnsComment.forEach(function (btn) {
-            //             btn.updateHint( _comments.textHintAddComment );
-            //             btn.on('click', function (btn, e) {
-            //                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
-            //             });
-            //         }, this);
-            //     }
-            //     Array.prototype.push.apply(this.toolbar.paragraphControls, this.btnsComment);
-            //     Array.prototype.push.apply(this.toolbar.lockControls, this.btnsComment);
-            // }
 
             (new Promise(function(accept) {
                 accept();
@@ -1113,6 +1136,7 @@ define([
         },
 
         onApiChangeFont: function(font) {
+            this._state.fontname = font;
             !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
@@ -1786,41 +1810,6 @@ define([
             this._state.columns = index;
         },
 
-        onBtnInsertTextClick: function(btn, e) {
-            btn.menu.items.forEach(function(item) {
-                if(item.value == btn.options.textboxType)
-                    item.setChecked(true);
-            });
-            if(!this.toolbar.btnInsertText.pressed) {
-                this.toolbar.btnInsertText.menu.clearAll();
-            }
-            this.onInsertText(btn.options.textboxType, btn, e);
-        },
-
-        onMenuInsertTextClick: function(btn, e) {
-            var oldType = this.toolbar.btnInsertText.options.textboxType;
-            var newType = e.value;
-            this.toolbar.btnInsertText.toggle(true);
-
-            if(newType != oldType){
-                this.toolbar.btnInsertText.changeIcon({
-                    next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
-                });
-                this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
-                this.toolbar.btnInsertText.options.textboxType = newType;
-            }
-            this.onInsertText(newType, btn, e);
-        },
-
-        onInsertText: function(type, btn, e) {
-            if (this.api)
-                this._addAutoshape(this.toolbar.btnInsertText.pressed, type);
-
-            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
-            Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
-        },
-
         onClearStyleClick: function(btn, e) {
             if (this.api)
                 this.api.ClearFormating();
@@ -1972,48 +1961,6 @@ define([
 
         onTextHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
-        },
-
-        onResetAutoshapes: function () {
-            var me = this,
-                collection = PDFE.getCollection('ShapeGroups');
-            var onShowBefore = function(menu) {
-                me.toolbar.updateAutoshapeMenu(menu, collection);
-                menu.off('show:before', onShowBefore);
-            };
-            var onComboShowBefore = function (menu) {
-                me.toolbar.updateComboAutoshapeMenu(collection);
-                menu.off('show:before', onComboShowBefore);
-            }
-            me.toolbar.cmbInsertShape.openButton.menu.on('show:before', onComboShowBefore);
-            me.toolbar.cmbInsertShape.fillComboView(collection);
-            me.toolbar.cmbInsertShape.on('click', function (btn, record, cancel) {
-                if (cancel) {
-                    me._addAutoshape(false);
-                    return;
-                }
-                if (record) {
-                    me.toolbar.cmbInsertShape.updateComboView(record);
-                    me.onInsertShape(record.get('data').shapeType);
-                }
-            });
-        },
-
-        onInsertShape: function (type) {
-            var me = this;
-            if ( type == 'menu:hide' ) {
-                me._isAddingShape = false;
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-            } else {
-                me._addAutoshape(true, type);
-                me._isAddingShape = true;
-
-                if ( me.toolbar.btnInsertText.pressed )
-                    me.toolbar.btnInsertText.toggle(false, true);
-
-                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                Common.component.Analytics.trackEvent('ToolBar', 'Add Shape');
-            }
         },
 
         textWarning: 'Warning',
