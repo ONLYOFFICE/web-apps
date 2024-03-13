@@ -1017,7 +1017,7 @@ define([
                 $panel = instab.createToolbarPanel();
                 if ($panel) {
                     me.toolbar.addTab(tab, $panel, 1);
-                    me.toolbar.setVisible('ins');
+                    me.toolbar.setVisible('ins', true);
                 }
             }
         },
