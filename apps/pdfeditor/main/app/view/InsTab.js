@@ -297,7 +297,7 @@ define([
                 me.btnAddPage = new Common.UI.Button({
                     id: 'tlbtn-addpage',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-addslide',
+                    iconCls: 'toolbar__icon btn-blankpage',
                     caption: me.capAddPage,
                     lock: [_set.lostConnect, _set.disableOnStart],
                     dataHint: '1',
