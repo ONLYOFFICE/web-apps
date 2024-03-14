@@ -74,6 +74,7 @@ define([
         cutLock:        'can-cut',
         inLightTheme:   'light-theme',
         noParagraphSelected:  'no-paragraph',
+        noTextSelected:  'no-text',
         cantPrint:      'cant-print',
         lostConnect:    'disconnect',
         disableOnStart: 'on-start',
@@ -81,7 +82,18 @@ define([
         lastPage: 'last-page',
         requiredNotFilled: 'required-not-filled',
         submit: 'submit',
-        fileMenuOpened: 'file-menu-opened'
+        fileMenuOpened: 'file-menu-opened',
+        paragraphLock:  'para-lock',
+        shapeLock:      'shape-lock',
+        incIndentLock:   'can-inc-indent',
+        decIndentLock:   'can-dec-indent',
+        hyperlinkLock:   'can-hyperlink',
+        noObjectSelected:  'no-object', // no objects in stack from asc_onFocusObject event
+        noDrawingObjects:  'no-drawing-object', // asc_getSelectedDrawingObjectsCount<1 (2 selected tables: noObjectSelected=true, noDrawingObjects = false)
+        noColumns: 'no-columns',
+        inSmartart: 'in-smartart',
+        inSmartartInternal: 'in-smartart-internal',
+        inEquation: 'in-equation'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -111,6 +123,7 @@ define([
 
                 this.paragraphControls = [];
                 this.toolbarControls = [];
+                this.shapeControls = [];
                 this._state = {
                     hasCollaborativeChanges: undefined
                 };
@@ -121,25 +134,40 @@ define([
             applyLayoutPDFEdit: function(config) {
                 if (!config.isPDFEdit) return;
 
-                var _set = Common.enumLock;
+                var _set = Common.enumLock,
+                    arr = []
                 // tab Edit
+                this.btnEditText = new Common.UI.Button({
+                    id: 'id-toolbar-btn-edittext',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-edit-text',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    caption: this.capBtnEditText,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.toolbarControls.push(this.btnEditText);
+                arr.push(this.btnEditText);
+
                 this.cmbFontName = new Common.UI.ComboBoxFonts({
                     cls: 'input-group-nr',
                     menuCls: 'scrollable-menu',
                     menuStyle: 'min-width: 325px;',
                     hint: this.tipFontName,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     store: new Common.Collections.Fonts(),
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.cmbFontName);
+                arr.push(this.cmbFontName);
 
                 this.cmbFontSize = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     hint: this.tipFontSize,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     data: [
                         {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
@@ -163,94 +191,103 @@ define([
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.cmbFontSize);
+                arr.push(this.cmbFontSize);
 
                 this.btnIncFontSize = new Common.UI.Button({
                     id: 'id-toolbar-btn-incfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.btnIncFontSize);
+                arr.push(this.btnIncFontSize);
 
                 this.btnDecFontSize = new Common.UI.Button({
                     id: 'id-toolbar-btn-decfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.btnDecFontSize);
+                arr.push(this.btnDecFontSize);
 
                 this.btnBold = new Common.UI.Button({
                     id: 'id-toolbar-btn-bold',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-bold',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnBold);
+                arr.push(this.btnBold);
 
                 this.btnItalic = new Common.UI.Button({
                     id: 'id-toolbar-btn-italic',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-italic',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnItalic);
+                arr.push(this.btnItalic);
 
                 this.btnTextUnderline = new Common.UI.Button({
                     id: 'id-toolbar-btn-underline',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-underline',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnTextUnderline);
+                arr.push(this.btnTextUnderline);
 
                 this.btnTextStrikeout = new Common.UI.Button({
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-strikeout',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnTextStrikeout);
+                arr.push(this.btnTextStrikeout);
 
                 this.btnSuperscript = new Common.UI.Button({
                     id: 'id-toolbar-btn-superscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-superscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnSuperscript);
+                arr.push(this.btnSuperscript);
 
                 this.btnSubscript = new Common.UI.Button({
                     id: 'id-toolbar-btn-subscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-subscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnSubscript);
+                arr.push(this.btnSubscript);
 
                 this.btnTextHighlightColor = new Common.UI.ButtonColored({
                     id: 'id-toolbar-btn-text-highlight',
@@ -259,7 +296,7 @@ define([
                     enableToggle: true,
                     allowDepress: true,
                     split: true,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16',
@@ -276,12 +313,13 @@ define([
                     })
                 });
                 this.paragraphControls.push(this.btnTextHighlightColor);
+                arr.push(this.btnTextHighlightColor);
 
                 this.btnFontColor = new Common.UI.ButtonColored({
                     id: 'id-toolbar-btn-fontcolor',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-fontcolor',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     split: true,
                     menu: true,
                     eyeDropper: true,
@@ -291,12 +329,13 @@ define([
                     penOptions: {color: '000000'}
                 });
                 this.paragraphControls.push(this.btnFontColor);
+                arr.push(this.btnFontColor);
 
                 this.btnChangeCase = new Common.UI.Button({
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
@@ -311,23 +350,25 @@ define([
                     dataHintOffset: '0, -6'
                 });
                 this.paragraphControls.push(this.btnChangeCase);
+                arr.push(this.btnChangeCase);
                 this.mnuChangeCase = this.btnChangeCase.menu;
 
                 this.btnClearStyle = new Common.UI.Button({
                     id: 'id-toolbar-btn-clearstyle',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-clearstyle',
-                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnClearStyle);
+                arr.push(this.btnClearStyle);
 
                 this.btnMarkers = new Common.UI.Button({
                     id: 'id-toolbar-btn-markers',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
                     enableToggle: true,
                     toggleGroup: 'markersGroup',
                     split: true,
@@ -337,12 +378,13 @@ define([
                     dataHintOffset: '0, -16'
                 });
                 this.paragraphControls.push(this.btnMarkers);
+                arr.push(this.btnMarkers);
 
                 this.btnNumbers = new Common.UI.Button({
                     id: 'id-toolbar-btn-numbering',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
                     enableToggle: true,
                     toggleGroup: 'markersGroup',
                     split: true,
@@ -352,6 +394,7 @@ define([
                     dataHintOffset: '0, -16'
                 });
                 this.paragraphControls.push(this.btnNumbers);
+                arr.push(this.btnNumbers);
 
                 var clone = function (source) {
                     var obj = {};
@@ -373,7 +416,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -420,11 +463,12 @@ define([
                     dataHintOffset: '0, -6'
                 });
                 this.paragraphControls.push(this.btnHorizontalAlign);
+                arr.push(this.btnHorizontalAlign);
 
                 this.btnVerticalAlign = new Common.UI.Button({
                     id: 'id-toolbar-btn-valign',
                     cls: 'btn-toolbar',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noObjectSelected],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noObjectSelected, _set.disableOnStart],
                     iconCls: 'toolbar__icon btn-align-middle',
                     icls: 'btn-align-middle',
                     menu: new Common.UI.Menu({
@@ -464,32 +508,35 @@ define([
                     dataHintOffset: '0, -6'
                 });
                 this.paragraphControls.push(this.btnVerticalAlign);
+                arr.push(this.btnVerticalAlign);
 
                 this.btnDecLeftOffset = new Common.UI.Button({
                     id: 'id-toolbar-btn-decoffset',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decoffset',
-                    lock: [_set.decIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    lock: [_set.decIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.btnDecLeftOffset);
+                arr.push(this.btnDecLeftOffset);
 
                 this.btnIncLeftOffset = new Common.UI.Button({
                     id: 'id-toolbar-btn-incoffset',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incoffset',
-                    lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal],
+                    lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
                 this.paragraphControls.push(this.btnIncLeftOffset);
+                arr.push(this.btnIncLeftOffset);
 
                 this.btnLineSpace = new Common.UI.Button({
                     id: 'id-toolbar-btn-linespace',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-linespace',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         style: 'min-width: 60px;',
                         items: [
@@ -506,12 +553,13 @@ define([
                     dataHintOffset: '0, -6'
                 });
                 this.paragraphControls.push(this.btnLineSpace);
+                arr.push(this.btnLineSpace);
 
                 this.btnColumns = new Common.UI.Button({
                     id: 'id-toolbar-btn-columns',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-columns-two',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noColumns],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noColumns, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar shifted-right',
                         items: [
@@ -548,37 +596,137 @@ define([
                     dataHintOffset: '0, -6'
                 });
                 this.paragraphControls.push(this.btnColumns);
+                arr.push(this.btnColumns);
 
-                // this.cmbInsertShape = new Common.UI.ComboDataViewShape({
-                //     cls: 'combo-styles shapes',
-                //     itemWidth: 20,
-                //     itemHeight: 20,
-                //     menuMaxHeight: 652,
-                //     menuWidth: 330,
-                //     style: 'width: 140px;',
-                //     enableKeyEvents: true,
-                //     lock: [_set.lostConnect, _set.disableOnStart],
-                //     dataHint: '1',
-                //     dataHintDirection: 'bottom',
-                //     dataHintOffset: '-16, 0'
-                // });
-                // this.toolbarControls.push(this.cmbInsertShape);
-                //
-                // this.btnInsertText = new Common.UI.Button({
-                //     id: 'tlbtn-inserttext',
-                //     cls: 'btn-toolbar x-huge icon-top',
-                //     iconCls: 'toolbar__icon btn-big-text',
-                //     lock: [_set.lostConnect, _set.disableOnStart],
-                //     caption: this.capInsertText,
-                //     enableToggle: true,
-                //     split: true,
-                //     dataHint: '1',
-                //     dataHintDirection: 'bottom',
-                //     dataHintOffset: 'small',
-                //     textboxType: 'textRect'
-                // });
-                // this.toolbarControls.push(this.btnInsertText);
-                return this;
+                this.mniAlignToSlide = new Common.UI.MenuItem({
+                    caption: this.txtSlideAlign,
+                    checkable: true,
+                    toggleGroup: 'slidealign',
+                    value: -1
+                }).on('click', function (mnu) {
+                    Common.Utils.InternalSettings.set("pdfe-align-to-slide", true);
+                });
+                this.mniAlignObjects = new Common.UI.MenuItem({
+                    caption: this.txtObjectsAlign,
+                    checkable: true,
+                    toggleGroup: 'slidealign',
+                    value: -1
+                }).on('click', function (mnu) {
+                    Common.Utils.InternalSettings.set("pdfe-align-to-slide", false);
+                });
+
+                this.mniDistribHor = new Common.UI.MenuItem({
+                    caption: this.txtDistribHor,
+                    iconCls: 'menu__icon btn-shape-distribute-hor',
+                    value: 6
+                });
+                this.mniDistribVert = new Common.UI.MenuItem({
+                    caption: this.txtDistribVert,
+                    iconCls: 'menu__icon btn-shape-distribute-vert',
+                    value: 7
+                });
+
+                this.btnShapeAlign = new Common.UI.Button({
+                    id: 'id-toolbar-btn-shape-align',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-shape-align-left',
+                    lock: [_set.shapeLock, _set.lostConnect, _set.noDrawingObjects, _set.disableOnStart],
+                    menu: new Common.UI.Menu({
+                        cls: 'shifted-right',
+                        items: [
+                            {
+                                caption: this.textShapeAlignLeft,
+                                iconCls: 'menu__icon btn-shape-align-left',
+                                value: Asc.c_oAscAlignShapeType.ALIGN_LEFT
+                            },
+                            {
+                                caption: this.textShapeAlignCenter,
+                                iconCls: 'menu__icon btn-shape-align-center',
+                                value: Asc.c_oAscAlignShapeType.ALIGN_CENTER
+                            },
+                            {
+                                caption: this.textShapeAlignRight,
+                                iconCls: 'menu__icon btn-shape-align-right',
+                                value: Asc.c_oAscAlignShapeType.ALIGN_RIGHT
+                            },
+                            {
+                                caption: this.textShapeAlignTop,
+                                iconCls: 'menu__icon btn-shape-align-top',
+                                value: Asc.c_oAscAlignShapeType.ALIGN_TOP
+                            },
+                            {
+                                caption: this.textShapeAlignMiddle,
+                                iconCls: 'menu__icon btn-shape-align-middle',
+                                value: Asc.c_oAscAlignShapeType.ALIGN_MIDDLE
+                            },
+                            {
+                                caption: this.textShapeAlignBottom,
+                                iconCls: 'menu__icon btn-shape-align-bottom',
+                                value: Asc.c_oAscAlignShapeType.ALIGN_BOTTOM
+                            },
+                            {caption: '--'},
+                            this.mniDistribHor,
+                            this.mniDistribVert,
+                            {caption: '--'},
+                            this.mniAlignToSlide,
+                            this.mniAlignObjects
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: '0, -6'
+                });
+                this.shapeControls.push(this.btnShapeAlign);
+                arr.push(this.btnShapeAlign);
+
+                this.btnShapeArrange = new Common.UI.Button({
+                    id: 'id-toolbar-btn-shape-arrange',
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-arrange-front',
+                    lock: [_set.lostConnect, _set.noDrawingObjects, _set.disableOnStart],
+                    menu: new Common.UI.Menu({
+                        items: [
+                            this.mnuArrangeFront = new Common.UI.MenuItem({
+                                caption: this.textArrangeFront,
+                                iconCls: 'menu__icon btn-arrange-front',
+                                value: 1
+                            }),
+                            this.mnuArrangeBack = new Common.UI.MenuItem({
+                                caption: this.textArrangeBack,
+                                iconCls: 'menu__icon btn-arrange-back',
+                                value: 2
+                            }),
+                            this.mnuArrangeForward = new Common.UI.MenuItem({
+                                caption: this.textArrangeForward,
+                                iconCls: 'menu__icon btn-arrange-forward',
+                                value: 3
+                            }),
+                            this.mnuArrangeBackward = new Common.UI.MenuItem({
+                                caption: this.textArrangeBackward,
+                                iconCls: 'menu__icon btn-arrange-backward',
+                                value: 4
+                            }),
+                            {caption: '--'},
+                            this.mnuGroupShapes = new Common.UI.MenuItem({
+                                caption: this.txtGroup,
+                                iconCls: 'menu__icon btn-shape-group',
+                                value: 5
+                            }),
+                            this.mnuUnGroupShapes = new Common.UI.MenuItem({
+                                caption: this.txtUngroup,
+                                iconCls: 'menu__icon btn-shape-ungroup',
+                                value: 6
+                            })
+                        ]
+                    }),
+                    dataHint: '1',
+                    dataHintDirection: 'top',
+                    dataHintOffset: '0, -6'
+                });
+                this.shapeControls.push(this.btnShapeArrange);
+                arr.push(this.btnShapeArrange);
+
+                return arr;
             },
 
             applyLayout: function (config) {
@@ -650,7 +798,7 @@ define([
                         id: 'id-toolbar-btn-strikeout',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-strikeout',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -661,13 +809,12 @@ define([
                         penOptions: {color: '000000'},
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
-                    // this.paragraphControls.push(this.btnStrikeout);
 
                     this.btnUnderline = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-underline',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-underline',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -678,13 +825,12 @@ define([
                         penOptions: {color: '000000'},
                         type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
-                    // this.paragraphControls.push(this.btnUnderline);
 
                     this.btnHighlight = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-highlight',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.lostConnect, _set.disableOnStart],
                         enableToggle: true,
                         allowDepress: true,
                         split: true,
@@ -698,7 +844,6 @@ define([
                                 '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                             ]}
                     });
-                    // this.paragraphControls.push(this.btnHighlight);
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
@@ -795,7 +940,7 @@ define([
                         id: 'id-toolbar-btn-undo',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-undo',
-                        lock: [_set.undoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView],
+                        lock: [_set.undoLock, _set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -807,7 +952,7 @@ define([
                         id: 'id-toolbar-btn-redo',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-redo',
-                        lock: [_set.redoLock, _set.previewReviewMode, _set.lostConnect, _set.disableOnStart, _set.docLockView],
+                        lock: [_set.redoLock, _set.lostConnect, _set.disableOnStart],
                         signals: ['disabled'],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -819,7 +964,7 @@ define([
                         id: 'id-toolbar-btn-copy',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-copy',
-                        lock: [_set.copyLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
+                        lock: [_set.copyLock, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'C'
@@ -830,7 +975,7 @@ define([
                         id: 'id-toolbar-btn-paste',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-paste',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'V'
@@ -841,7 +986,7 @@ define([
                         id: 'id-toolbar-btn-cut',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-cut',
-                        lock: [_set.cutLock, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.imageLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockComments],
+                        lock: [_set.cutLock, _set.paragraphLock, _set.shapeLock, _set.lostConnect, _set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintTitle: 'X'
@@ -852,7 +997,7 @@ define([
                         id: 'id-toolbar-btn-select-all',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-select-all',
-                        lock: [_set.viewFormMode, _set.disableOnStart],
+                        lock: [_set.disableOnStart],
                         dataHint: '1',
                         dataHintDirection: 'bottom'
                     });
@@ -954,7 +1099,7 @@ define([
                     //
 
                     // Disable all components before load document
-                    this.lockControls = me.toolbarControls.concat(me.paragraphControls);
+                    this.lockControls = me.toolbarControls.concat(me.paragraphControls).concat(me.shapeControls);
                     this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));
@@ -1046,6 +1191,7 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
+                _injectComponent('#slot-btn-edittext', this.btnEditText);
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-text-underline', this.btnTextUnderline);
@@ -1068,6 +1214,8 @@ define([
                 _injectComponent('#slot-btn-valign', this.btnVerticalAlign);
                 _injectComponent('#slot-btn-linespace', this.btnLineSpace);
                 _injectComponent('#slot-btn-columns', this.btnColumns);
+                _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
+                _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
             },
 
             rendererComponentsAnnotate: function($host) {
@@ -1277,6 +1425,7 @@ define([
                 if (!this.mode.isPDFEdit) return;
 
                 this.updateMetricUnit();
+                this.btnEditText.updateHint(this.tipEditText);
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -1297,6 +1446,8 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnShapeAlign.updateHint(this.tipShapeAlign);
+                this.btnShapeArrange.updateHint(this.tipShapeArrange);
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
@@ -1649,7 +1800,27 @@ define([
             tipMarkersDash: 'Dash bullets',
             tipNone: 'None',
             textListSettings: 'List Settings',
-            textTabInsert: 'Insert'
+            textTabInsert: 'Insert',
+            capBtnEditText: 'Edit Text',
+            tipEditText: 'Edit text',
+            txtSlideAlign: 'Align to Page',
+            txtObjectsAlign: 'Align Selected Objects',
+            tipShapeAlign: 'Align Shape',
+            tipShapeArrange: 'Arrange Shape',
+            textShapeAlignLeft: 'Align Left',
+            textShapeAlignRight: 'Align Right',
+            textShapeAlignCenter: 'Align Center',
+            textShapeAlignTop: 'Align Top',
+            textShapeAlignBottom: 'Align Bottom',
+            textShapeAlignMiddle: 'Align Middle',
+            textArrangeFront: 'Bring To Front',
+            textArrangeBack: 'Send To Back',
+            textArrangeForward: 'Bring Forward',
+            textArrangeBackward: 'Send Backward',
+            txtGroup: 'Group',
+            txtUngroup: 'Ungroup',
+            txtDistribHor: 'Distribute Horizontally',
+            txtDistribVert: 'Distribute Vertically'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

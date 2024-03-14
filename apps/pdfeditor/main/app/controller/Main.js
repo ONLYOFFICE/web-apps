@@ -1051,7 +1051,7 @@ define([
                         toolbarController.activateControls();
                         if (me.needToUpdateVersion)
                             toolbarController.onApiCoAuthoringDisconnect();
-
+                        toolbarController.onApiFocusObject([]);
                         me.api.UpdateInterfaceState();
 
                         Common.NotificationCenter.trigger('document:ready', 'main');

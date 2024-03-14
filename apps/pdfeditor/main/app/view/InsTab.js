@@ -49,7 +49,7 @@ define([
         var template =
             '<section class="panel" data-tab="ins">' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge slot-addslide"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-addpage"></span>' +
                 '</div>' +
                 '<div class="group" style="display:none;"></div>' +
                 '<div class="separator long"></div>' +
@@ -337,6 +337,7 @@ define([
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
+                _injectComponent('#slot-btn-addpage', this.btnAddPage);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
@@ -437,6 +438,7 @@ define([
                 this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnInsSlideNum.updateHint(this.tipSlideNum);
+                this.btnAddPage.updateHint(this.tipAddPage);
 
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
@@ -796,7 +798,7 @@ define([
             textYen: 'Yen Sign',
             capBtnInsHeaderFooter: 'Header & Footer',
             tipEditHeaderFooter: 'Edit header or footer',
-            textRecentlyUsed: 'Recently Used',
+            textRecentlyUsed: 'Recently Used'
         }
     }()), PDFE.Views.InsTab || {}));
 });

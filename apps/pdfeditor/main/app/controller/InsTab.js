@@ -920,10 +920,6 @@ define([
             }
         },
 
-        onComboBlur: function() {
-            Common.NotificationCenter.trigger('edit:complete', this.view);
-        },
-
         txtBasicShapes: 'Basic Shapes',
         txtFiguredArrows: 'Figured Arrows',
         txtMath: 'Math',

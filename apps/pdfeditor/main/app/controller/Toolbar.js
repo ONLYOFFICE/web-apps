@@ -237,6 +237,7 @@ define([
         attachPDFEditUIEvents: function(toolbar) {
             if (!this.mode || !this.mode.isPDFEdit) return;
 
+            toolbar.btnEditText.on('click',                             _.bind(this.onEditTextClick, this));
             toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncrease, this));
             toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecrease, this));
             toolbar.btnBold.on('click',                                 _.bind(this.onBold, this));
@@ -279,6 +280,10 @@ define([
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
             toolbar.btnClearStyle.on('click',                           _.bind(this.onClearStyleClick, this));
+            toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
+            toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
+            toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
+
         },
 
         attachUIEvents: function(toolbar) {
@@ -327,7 +332,6 @@ define([
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
             this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
 
-            this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
 
@@ -340,6 +344,7 @@ define([
         attachPDFEditApiEvents: function() {
             if (!this.mode.isPDFEdit) return;
 
+            this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
             this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
             this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
             this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
@@ -448,15 +453,19 @@ define([
         },
 
         onApiFocusObject: function(selectedObjects) {
-            if (!this.editMode) return;
+            if (!this.editMode || !this.mode.isPDFEdit) return;
 
-            var pr, sh, i = -1, type,
+            var pr, i = -1, type,
                 paragraph_locked = false,
-                image_locked = false,
-                shape_pr = undefined,
+                shape_locked = undefined,
+                no_paragraph = true,
+                no_text = true,
+                no_object = true,
+                in_equation = false,
                 toolbar = this.toolbar,
-                in_image = false,
-                in_para = false;
+                no_columns = false,
+                in_smartart = false,
+                in_smartart_internal = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -464,17 +473,102 @@ define([
 
                 if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
-                    sh = pr.get_Shade();
-                    in_para = true;
-                } else if (type === Asc.c_oAscTypeSelectElement.Image) {
-                    in_image = true;
-                    image_locked = pr.get_Locked();
-                    if (pr && pr.get_ShapeProperties())
-                        shape_pr = pr.get_ShapeProperties();
+                    no_paragraph = false;
+                    no_text = false;
+                }  else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
+                    shape_locked = pr.get_Locked();
+                    no_object = false;
+                    if (type == Asc.c_oAscTypeSelectElement.Table ||
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage()) {
+                        no_text = false;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Table ||
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
+                        no_paragraph = false;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Chart) {
+                        no_columns = true;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Shape) {
+                        var shapetype = pr.asc_getType();
+                        if (shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                            || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                            || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                            || shapetype=='straightConnector1')
+                            no_columns = true;
+                        if (pr.get_FromSmartArt())
+                            in_smartart = true;
+                        if (pr.get_FromSmartArtInternal())
+                            in_smartart_internal = true;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Table)
+                        no_columns = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Math) {
+                    in_equation = true;
                 }
             }
 
-            this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked,   {array: this.toolbar.paragraphControls});
+            if (this._state.prcontrolsdisable !== paragraph_locked) {
+                if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
+                if (paragraph_locked!==undefined)
+                    this.toolbar.lockToolbar(Common.enumLock.paragraphLock, paragraph_locked, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.no_paragraph !== no_paragraph) {
+                if (this._state.activated) this._state.no_paragraph = no_paragraph;
+                this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: toolbar.paragraphControls});
+                // this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, no_paragraph, {array: [toolbar.btnCopyStyle]});
+            }
+
+            if (this._state.no_text !== no_text) {
+                if (this._state.activated) this._state.no_text = no_text;
+                this.toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.no_object !== no_object ) {
+                if (this._state.activated) this._state.no_object = no_object;
+                this.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [toolbar.btnVerticalAlign ]});
+            }
+
+            var no_drawing_objects = this.api.asc_getSelectedDrawingObjectsCount()<1;
+            if (this._state.no_drawing_objects !== no_drawing_objects ) {
+                if (this._state.activated) this._state.no_drawing_objects = no_drawing_objects;
+                this.toolbar.lockToolbar(Common.enumLock.noDrawingObjects, no_drawing_objects, {array: [toolbar.btnShapeAlign, toolbar.btnShapeArrange]});
+            }
+
+            if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
+                if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
+                this.toolbar.lockToolbar(Common.enumLock.shapeLock, shape_locked, {array: toolbar.shapeControls.concat(toolbar.paragraphControls)});
+            }
+
+            if (shape_locked===undefined && !this._state.no_drawing_objects) { // several tables selected
+                this.toolbar.lockToolbar(Common.enumLock.shapeLock, false, {array: toolbar.shapeControls});
+            }
+
+            if (this._state.in_equation !== in_equation) {
+                if (this._state.activated) this._state.in_equation = in_equation;
+                this.toolbar.lockToolbar(Common.enumLock.inEquation, in_equation, {array: [toolbar.btnSuperscript, toolbar.btnSubscript]});
+            }
+
+            if (this._state.no_columns !== no_columns) {
+                if (this._state.activated) this._state.no_columns = no_columns;
+                this.toolbar.lockToolbar(Common.enumLock.noColumns, no_columns, {array: [toolbar.btnColumns]});
+            }
+
+            if (this._state.in_smartart !== in_smartart) {
+                this.toolbar.lockToolbar(Common.enumLock.inSmartart, in_smartart, {array: toolbar.paragraphControls});
+                this._state.in_smartart = in_smartart;
+            }
+
+            if (this._state.in_smartart_internal !== in_smartart_internal) {
+                this.toolbar.lockToolbar(Common.enumLock.inSmartartInternal, in_smartart_internal, {array: toolbar.paragraphControls});
+                this._state.in_smartart_internal = in_smartart_internal;
+
+                toolbar.mnuArrangeFront.setDisabled(in_smartart_internal);
+                toolbar.mnuArrangeBack.setDisabled(in_smartart_internal);
+                toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
+                toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
+            }
         },
 
         onApiZoomChange: function(percent, type) {},
@@ -1031,7 +1125,7 @@ define([
                 toolbar = this.toolbar,
                 $host = $(toolbar.$layout);
             if (this.mode.isPDFEdit && this._state.initEditing) {
-                toolbar.applyLayoutPDFEdit(this.mode);
+                Array.prototype.push.apply(me.toolbar.lockControls, toolbar.applyLayoutPDFEdit(this.mode));
                 toolbar.rendererComponentsPDFEdit($host);
                 this.attachPDFEditApiEvents();
 
@@ -1040,6 +1134,7 @@ define([
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.onApiFocusObject([]);
                     me.api.UpdateInterfaceState();
                 }, 50);
 
@@ -1059,7 +1154,7 @@ define([
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
-
+            this.mode.isPDFEdit && me.turnOnSelectTool();
         },
         
         onAppReady: function (config) {
@@ -1069,8 +1164,9 @@ define([
             (new Promise(function(accept) {
                 accept();
             })).then(function () {
-                (config.isEdit || config.isRestrictedEdit) && me.toolbar && me.toolbar.btnHandTool.toggle(true, true);
-                me.api && me.api.asc_setViewerTargetType('hand');
+                var hand = (config.isEdit && !config.isPDFEdit || config.isRestrictedEdit);
+                me.toolbar && me.toolbar[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
+                me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
                 if (config.isRestrictedEdit && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
                     me.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [me.toolbar.btnSubmit]});
                     if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
@@ -1829,6 +1925,65 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
+        onBeforeShapeAlign: function() {
+            var value = this.api.asc_getSelectedDrawingObjectsCount(),
+                slide_checked = Common.Utils.InternalSettings.get("pdfe-align-to-slide") || false;
+            this.toolbar.mniAlignObjects.setDisabled(value<2);
+            this.toolbar.mniAlignObjects.setChecked(value>1 && !slide_checked, true);
+            this.toolbar.mniAlignToSlide.setChecked(value<2 || slide_checked, true);
+            this.toolbar.mniDistribHor.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+            this.toolbar.mniDistribVert.setDisabled(value<3 && this.toolbar.mniAlignObjects.isChecked());
+        },
+
+        onShapeAlign: function(menu, item) {
+            if (this.api) {
+                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value>-1 && item.value < 6) {
+                    this.api.put_ShapesAlign(item.value, value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');
+                } else if (item.value == 6) {
+                    this.api.DistributeHorizontally(value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                } else if (item.value == 7){
+                    this.api.DistributeVertically(value);
+                    Common.component.Analytics.trackEvent('ToolBar', 'Distribute');
+                }
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onShapeArrange: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 1:
+                        this.api.shapes_bringToFront();
+                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
+                        break;
+                    case 2:
+                        this.api.shapes_bringToBack();
+                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
+                        break;
+                    case 3:
+                        this.api.shapes_bringForward();
+                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
+                        break;
+                    case 4:
+                        this.api.shapes_bringBackward();
+                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Arrange');
+                        break;
+                    case 5:
+                        this.api.groupShapes();
+                        Common.component.Analytics.trackEvent('ToolBar', 'Shape Group');
+                        break;
+                    case 6:
+                        this.api.unGroupShapes();
+                        Common.component.Analytics.trackEvent('ToolBar', 'Shape UnGroup');
+                        break;
+                }
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
             this.toolbar.btnNumbers.toggle(false, true);
@@ -1863,6 +2018,10 @@ define([
 
         onBtnFontColor: function() {
             this.toolbar.mnuFontColorPicker.trigger('select', this.toolbar.mnuFontColorPicker, this.toolbar.mnuFontColorPicker.currentColor);
+        },
+
+        onEditTextClick: function() {
+
         },
 
         onApiTextColor: function(color) {
