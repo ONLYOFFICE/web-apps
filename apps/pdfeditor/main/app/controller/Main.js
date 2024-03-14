@@ -1223,10 +1223,11 @@ define([
                 this.appOptions.canSwitchMode = pdfEdit; // switch between View/pdf comments/pdf edit
                 this.appOptions.canEdit = this.appOptions.isEdit = pdfEdit;
 
+                this.appOptions.canCoEditing = false; // TODO: !(this.appOptions.isDesktopApp && this.appOptions.isOffline), switch between pdf comment/ pdf edit when false
                 this.appOptions.canSaveToFile = this.appOptions.isDesktopApp && this.appOptions.isOffline;
-                this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense && (this.permissions.comment!== false) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
+                this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense;// && (this.permissions.comment!== false) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate; // TODO: this.appOptions.isDesktopApp && this.appOptions.isOffline !! online files always open in view mode
-                this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense;//(this.permissions.edit !== false);
+                this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense;//(this.permissions.edit !== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
 
                 this.appOptions.canComments = this.appOptions.canViewComments =  pdfEdit;
