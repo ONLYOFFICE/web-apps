@@ -331,6 +331,10 @@ define([
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
 
+            if (this.mode.canPDFEdit) {
+                this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
+                this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
+            }
         },
 
         attachPDFEditApiEvents: function() {
@@ -1034,19 +1038,7 @@ define([
                 setTimeout(function(){
                     toolbar.createDelayedElementsPDFEdit();
                     me.attachPDFEditUIEvents(toolbar);
-                    if (toolbar.cmbFontName.store.length===0) {
-                        var fontstore = new Common.Collections.Fonts(),
-                            fonts = me.getCollection('Common.Collections.Fonts').toJSON();
-                        var arr = [];
-                        _.each(fonts, function(font, index){
-                            if (!font.cloneid) {
-                                arr.push(_.clone(font));
-                            }
-                        });
-                        fontstore.add(arr);
-                        toolbar.cmbFontName.fillFonts(fontstore);
-                        me._state.fontname && toolbar.cmbFontName.onApiChangeFont(me._state.fontname);
-                    }
+                    me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
                     me.api.UpdateInterfaceState();
                 }, 50);
@@ -1133,6 +1125,26 @@ define([
 
         applySettings: function() {
             this.toolbar && this.toolbar.chShowComments && this.toolbar.chShowComments.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"), true);
+        },
+
+        onApiMathTypes: function(equation) {
+            this._equationTemp = equation;
+        },
+
+        fillFontsStore: function(combo, name) {
+            if (combo.store.length===0) {
+                var fontstore = new Common.Collections.Fonts(),
+                    fonts = this.getCollection('Common.Collections.Fonts').toJSON();
+                var arr = [];
+                _.each(fonts, function(font, index){
+                    if (!font.cloneid) {
+                        arr.push(_.clone(font));
+                    }
+                });
+                fontstore.add(arr);
+                combo.fillFonts(fontstore);
+                name && combo.onApiChangeFont(name);
+            }
         },
 
         onApiChangeFont: function(font) {

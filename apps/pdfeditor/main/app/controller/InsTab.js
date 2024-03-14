@@ -41,14 +41,16 @@
 define([
     'core',
     'pdfeditor/main/app/view/InsTab',
-    'pdfeditor/main/app/collection/ShapeGroups'
+    'pdfeditor/main/app/collection/ShapeGroups',
+    'pdfeditor/main/app/collection/EquationGroups'
 ], function () {
     'use strict';
 
     PDFE.Controllers.InsTab = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [
-            'ShapeGroups'
+            'ShapeGroups',
+            'EquationGroups'
         ],
         views : [
             'InsTab'
@@ -79,7 +81,6 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
-                this.api.asc_registerCallback('asc_onMathTypes',            _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
@@ -144,6 +145,7 @@ define([
                 })).then(function(){
                     me.view.onAppReady(config);
                     me.view.setEvents();
+                    me.onApiMathTypes();
                 });
             }
         },
@@ -801,11 +803,11 @@ define([
         },
 
         onApiMathTypes: function(equation) {
-            this._equationTemp = equation;
             var me = this;
             var onShowBefore = function(menu) {
-                me.onMathTypes(me._equationTemp);
-                if (me._equationTemp && me._equationTemp.get_Data().length>0)
+                var equationTemp = me.getApplication().getController('Toolbar')._equationTemp;
+                me.onMathTypes(equationTemp);
+                if (equationTemp && equationTemp.get_Data().length>0)
                     me.fillEquations();
                 me.view.btnInsertEquation.menu.off('show:before', onShowBefore);
             };
@@ -813,8 +815,6 @@ define([
         },
 
         onMathTypes: function(equation) {
-            equation = equation || this._equationTemp;
-
             var equationgrouparray = [],
                 equationsStore = this.getCollection('EquationGroups');
 

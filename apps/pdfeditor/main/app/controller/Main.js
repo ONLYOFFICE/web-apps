@@ -1492,8 +1492,6 @@ define([
                     var viewport = application.getController('Viewport').getView('Viewport');
                     viewport.applyEditorMode();
 
-                    this.appOptions.canPDFEdit && application.getController('Common.Controllers.Fonts').setApi(this.api);
-
                     var toolbarController   = application.getController('Toolbar'),
                         toolbarView = (toolbarController) ? toolbarController.getView() : null;
                     if (toolbarView) {
