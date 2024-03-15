@@ -2923,7 +2923,7 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
+                    extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
                     placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
                     target: this.btnCollabChanges.$el
                 });

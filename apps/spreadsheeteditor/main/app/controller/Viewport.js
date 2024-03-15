@@ -83,10 +83,10 @@ define([
                         if (!config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle)
                             toolbar.setExtra('right', me.header.getPanel('right', config));
 
-                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                        if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
-                        if ( me.appConfig && me.appConfig.isEdit && !(config.customization && config.customization.compactHeader) && toolbar.btnCollabChanges )
+                        if ( me.appConfig && me.appConfig.isEdit && !config.compactHeader && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
 
                         var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
@@ -151,7 +151,7 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = 41;
             }
 
-            if ( config.isEdit && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !(config.customization && config.customization.compactHeader)) {
+            if ( config.twoLevelHeader && !config.isEditDiagram && !config.isEditMailMerge && !config.isEditOle && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));

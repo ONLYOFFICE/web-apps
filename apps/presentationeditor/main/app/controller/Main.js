@@ -411,7 +411,6 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
-
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
@@ -1287,6 +1286,9 @@ define([
                 this.appOptions.canProtect     = (this.permissions.protect!==false);
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
+
+                this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
+                this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
