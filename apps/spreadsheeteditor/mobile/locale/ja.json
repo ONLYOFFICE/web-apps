@@ -675,6 +675,7 @@
       "textChooseCsvOptions": "CSVオプションを選択する",
       "textChooseDelimeter": "デリメータを選択する",
       "textChooseEncoding": "エンコード選択する",
+      "textClose": "閉じる",
       "textCollaboration": "コラボレーション",
       "textColorSchemes": "色スキーム",
       "textComment": "コメント",
@@ -827,8 +828,7 @@
       "txtUk": "ウクライナ語",
       "txtVi": "ベトナム語",
       "txtZh": "中国語",
-      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？",
-      "textClose": "Close"
+      "warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。続けてもよろしいですか？"
     }
   }
 }

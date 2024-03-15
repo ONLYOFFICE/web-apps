@@ -584,6 +584,7 @@
     "textCancel": "キャンセル",
     "textClose": "閉じる",
     "textContactUs": "営業部に連絡する",
+    "textConvertForm": "記入可能な形式で保存するために、PDFファイルとしてダウンロードしてください。",
     "textCustomLoader": "あいにく、あなたはローダーを変更できません。見積を受けるように販売部門を連絡してください。",
     "textDialogProtectedChangesTracked": "この文書は編集することができますが、すべての変更は追跡されます。",
     "textDialogProtectedEditComments": "この文書にコメントを挿入することのみ可能です",
@@ -619,8 +620,7 @@
     "warnLicenseUsersExceeded": "％1エディターのユーザー制限に達しました。 詳細についてはアドミニストレータを連絡してください。",
     "warnNoLicense": "％１エディター　時接続数の制限に達しました。この文書が見るだけのために開かれる。個人的なアップグレード条件については、％1営業チームを連絡してください。",
     "warnNoLicenseUsers": "％1エディターのユーザー制限に達しました。 個人的なアップグレード条件については、％1営業チームを連絡してください。",
-    "warnProcessRightsChange": "ファイルを編集する権限がありません！",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling."
+    "warnProcessRightsChange": "ファイルを編集する権限がありません！"
   },
   "Settings": {
     "advDRMOptions": "保護されたファイル",
@@ -643,6 +643,7 @@
     "textChooseEncoding": "エンコード選択する",
     "textChooseTxtOptions": "TXTオプションを選択する",
     "textClearAllFields": "すべてのフィールドをクリアする",
+    "textClose": "閉じる",
     "textCollaboration": "コラボレーション",
     "textColorSchemes": "色スキーム",
     "textComment": "コメント",
@@ -784,8 +785,7 @@
     "txtScheme6": "コンコース",
     "txtScheme7": "株主資本",
     "txtScheme8": "フロー",
-    "txtScheme9": "ファウンドリ",
-    "textClose": "Close"
+    "txtScheme9": "ファウンドリ"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",
