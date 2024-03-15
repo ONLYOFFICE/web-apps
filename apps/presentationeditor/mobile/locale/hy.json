@@ -248,8 +248,8 @@
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textCloseHistory": "Փակել պատմությունը",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
+    "textRenameFile": "Վերանվանել ֆայլը"
   },
   "View": {
     "Add": {
@@ -373,10 +373,12 @@
       "textHighlightColor": "Գունանշման գույն",
       "textHorizontalIn": "Հորիզոնական դեպի ներս",
       "textHorizontalOut": "Հորիզոնական դեպի դուրս",
+      "textHorizontalText": "Հորիզոնական տեքստ",
       "textHyperlink": "Գերհղում",
       "textImage": "Նկար",
       "textImageURL": "Նկարի URL",
       "textInsertImage": "Զետեղել նկար",
+      "textInvalidName": "Ֆայլի անունը չի կարող ունենալ հետևյալ գրանշանները՝ ",
       "textLastColumn": "Վերջին սյունակ",
       "textLastSlide": "Վերջին սահիկ",
       "textLayout": "Դասավորություն ",
@@ -416,6 +418,8 @@
       "textReplaceImage": "Փոխարինել նկարը",
       "textRequired": "Պարտադիր",
       "textRight": "Աջ",
+      "textRotateTextDown": "Տեքստը պտտել ներքև",
+      "textRotateTextUp": "Տեքստը պտտել վեր",
       "textScreenTip": "Հուշակի գրվածք",
       "textSearch": "Որոնել",
       "textSec": "Կրկ",
@@ -437,6 +441,7 @@
       "textSuperscript": "Վերգիր",
       "textTable": "Աղյուսակ",
       "textText": "Տեքստ",
+      "textTextOrientation": "Տեքստի կողմնորոշում",
       "textTheme": "Ոճ",
       "textTop": "Վերին",
       "textTopLeft": "Վերին ձախ",
@@ -452,12 +457,7 @@
       "textZoom": "Խոշորացնել",
       "textZoomIn": "Մեծացնել",
       "textZoomOut": "Փոքրացնել",
-      "textZoomRotate": "Դիտափոխում և պտտում",
-      "textHorizontalText": "Horizontal Text",
-      "textInvalidName": "The file name cannot contain any of the following characters: ",
-      "textRotateTextDown": "Rotate Text Down",
-      "textRotateTextUp": "Rotate Text Up",
-      "textTextOrientation": "Text Orientation"
+      "textZoomRotate": "Դիտափոխում և պտտում"
     },
     "Settings": {
       "mniSlideStandard": "Ստանդարտ (4:3)",
@@ -471,6 +471,7 @@
       "textBack": "Հետ",
       "textCaseSensitive": "Դուրճազգայուն",
       "textCentimeter": "Սանտիմետր",
+      "textClose": "Փակել",
       "textCollaboration": "Համագործակցում",
       "textColorSchemes": "Գունավորումներ",
       "textComment": "Մեկնաբանություն",
@@ -486,6 +487,7 @@
       "textEmail": "էլ․ փոստ՝",
       "textEnableAll": "Միացնել բոլորը",
       "textEnableAllMacrosWithoutNotification": "Միացնել բոլոր մակրոները առանց ծանուցման",
+      "textExplanationChangeDirection": "Հավելվածը կվերագործարկվի RTL ինտերֆեյսի ակտիվացման համար",
       "textFeedback": "Հետադարձ կապ և աջակցություն",
       "textFind": "Գտնել",
       "textFindAndReplace": "Գտնել և փոխարինել",
@@ -512,6 +514,7 @@
       "textReplaceAll": "Փոխարինել բոլորը",
       "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textRTL": "Աջից ձախ",
+      "textRtlInterface": "RTL ինտերֆեյս",
       "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Որոնել",
       "textSettings": "Կարգավորումներ",
@@ -547,10 +550,7 @@
       "txtScheme6": "Համագումար ",
       "txtScheme7": "Սեփական կապիտալ",
       "txtScheme8": "Հոսք",
-      "txtScheme9": "Հրատարակիչ",
-      "textClose": "Close",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "txtScheme9": "Հրատարակիչ"
     }
   }
 }

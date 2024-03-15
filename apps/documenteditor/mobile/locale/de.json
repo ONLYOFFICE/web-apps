@@ -584,6 +584,7 @@
     "textCancel": "Abbrechen",
     "textClose": "Schließen",
     "textContactUs": "Verkaufsteam kontaktieren",
+    "textConvertForm": "Laden Sie die Datei als PDF herunter, um das Formular im ausfüllbereiten Format zu speichern.",
     "textCustomLoader": "Sie können den Verlader nicht ändern. Sie können die Anfrage an unser Verkaufsteam senden.",
     "textDialogProtectedChangesTracked": "Sie können dieses Dokument bearbeiten, aber alle Änderungen werden protokolliert.",
     "textDialogProtectedEditComments": "Sie können nur Kommentare zu diesem Dokument einfügen",
@@ -619,8 +620,7 @@
     "warnLicenseUsersExceeded": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.",
     "warnNoLicense": "Sie haben die maximale Anzahl von gleichzeitigen Verbindungen in %1-Editoren erreicht. Die Bearbeitung ist jetzt in diesem Dokument nicht verfügbar. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
     "warnNoLicenseUsers": "Sie haben das Benutzerlimit für %1-Editoren erreicht. Bitte kontaktieren Sie unser Verkaufsteam, um persönliche Upgrade-Bedingungen zu erhalten.",
-    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten.",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling."
+    "warnProcessRightsChange": "Sie können diese Datei nicht bearbeiten."
   },
   "Settings": {
     "advDRMOptions": "Geschützte Datei",
@@ -643,6 +643,7 @@
     "textChooseEncoding": "Codierung auswählen",
     "textChooseTxtOptions": "Optionen für TXT-Dateien auswählen",
     "textClearAllFields": "Alle Felder leeren",
+    "textClose": "Schließen",
     "textCollaboration": "Zusammenarbeit",
     "textColorSchemes": "Farbschemata",
     "textComment": "Kommentar",
@@ -784,8 +785,7 @@
     "txtScheme6": "Halle",
     "txtScheme7": "Kapital",
     "txtScheme8": "Fluss",
-    "txtScheme9": "Gießerei",
-    "textClose": "Close"
+    "txtScheme9": "Gießerei"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

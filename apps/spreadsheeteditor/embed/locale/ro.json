@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Descărcare foaie de calcul...",
   "SSE.ApplicationController.errorAccessDeny": "Nu aveți dreptul să efectuați acțiunea pe care doriți.<br>Contactați administratorul dumneavoastră de Server Documente.",
   "SSE.ApplicationController.errorDefaultMessage": "Codul de eroare: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "S-a produs o eroare în timpul editării documentului.<br>Pentru copierea de rezervă pe PC utilizați opțiunea Descărcare ca",
   "SSE.ApplicationController.errorFilePassProtect": "Fișierul este protejat cu parolă și deaceea nu poate fi deschis.",
   "SSE.ApplicationController.errorFileSizeExceed": "Dimensiunea fișierului depășește limita permisă de serverul Dvs.<br>Pentru detalii, contactați administratorul dumneavoastră de Server Documente.",
   "SSE.ApplicationController.errorForceSave": "S-a produs o eroare în timpul salvării fișierului. Pentru copierea de rezervă pe PC utilizați opțiunea Descărcare ca... sau încercați din nou mai târziu.",
