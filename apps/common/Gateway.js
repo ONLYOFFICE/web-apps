@@ -160,11 +160,11 @@ if (window.Common === undefined) {
             }
         };
 
-        var _postMessage = function(msg) {
+        var _postMessage = function(msg, buffer) {
             // TODO: specify explicit origin
             if (window.parent && window.JSON) {
                 msg.frameEditorId = window.frameEditorId;
-                window.parent.postMessage(window.JSON.stringify(msg), "*");
+                buffer ? window.parent.postMessage(msg, "*", [buffer]) : window.parent.postMessage(window.JSON.stringify(msg), "*");
             }
         };
 
@@ -173,6 +173,14 @@ if (window.Common === undefined) {
             if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
 
             var data = msg.data;
+            if (data && data.command === 'openDocumentFromBinary') {
+                handler = commandMap[data.command];
+                if (handler) {
+                    handler.call(this, data.data);
+                }
+                return;
+            }
+
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
                 return;
             }
@@ -391,12 +399,10 @@ if (window.Common === undefined) {
             },
 
             saveDocument: function(data) {
-                _postMessage({
+                data && _postMessage({
                     event: 'onSaveDocument',
-                    data: {
-                        data: data
-                    }
-                });
+                    data: data.buffer
+                }, data.buffer);
             },
 
             on: function(event, handler){

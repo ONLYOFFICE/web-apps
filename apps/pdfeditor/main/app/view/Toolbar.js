@@ -815,7 +815,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && !me.mode.saveAlwaysEnabled);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary || !me.mode.isPDFEdit && !me.mode.isPDFAnnotate && !me.mode.saveAlwaysEnabled);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

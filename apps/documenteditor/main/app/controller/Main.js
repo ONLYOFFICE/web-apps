@@ -3163,8 +3163,7 @@ define([
             },
 
             loadBinary: function(data) {
-                console.log('loadBinary');
-                data && data.doc && this.api.asc_openDocumentFromBytes(data.doc);
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

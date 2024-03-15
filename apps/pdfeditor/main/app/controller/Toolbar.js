@@ -435,11 +435,11 @@ define([
             } else if (this.api) {
                 // var isModified = this.api.asc_isDocumentCanSave();
                 // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
+                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
                 //     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
+                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled && !toolbar.mode.canSaveDocumentToBinary);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }

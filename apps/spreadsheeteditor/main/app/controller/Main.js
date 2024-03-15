@@ -264,6 +264,7 @@ define([
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
+                Common.Gateway.on('opendocumentfrombinary', _.bind(this.loadBinary, this));
                 Common.Gateway.on('internalcommand', _.bind(this.onInternalCommand, this));
                 Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                 Common.Gateway.appReady();
@@ -466,7 +467,7 @@ define([
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
-                
+                this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -578,6 +579,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_ReferenceData(data.doc.referenceData);
+                    docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -1633,6 +1635,7 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     me.api.asc_registerCallback('asc_onConvertEquationToMath',   _.bind(me.onConvertEquationToMath, me));
+                    me.appOptions.canSaveDocumentToBinary && me.api.asc_registerCallback('asc_onSaveDocument',_.bind(me.onSaveDocumentBinary, me));
                     /** coauthoring end **/
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
@@ -2285,7 +2288,7 @@ define([
                 
                 if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
                     var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         this.toolbarView.btnSave.setDisabled(isDisabled);
@@ -2295,7 +2298,7 @@ define([
             onDocumentCanSaveChanged: function (isCanSave) {
                 if (this.toolbarView && this.toolbarView.btnCollabChanges) {
                     var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                     this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
@@ -3486,6 +3489,14 @@ define([
                     win && win.close();
                     me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
                 })
+            },
+
+            onSaveDocumentBinary: function(data) {
+                Common.Gateway.saveDocument(data);
+            },
+
+            loadBinary: function(data) {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

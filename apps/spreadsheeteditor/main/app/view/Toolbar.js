@@ -3239,7 +3239,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(!me.mode.forcesave);
+                    this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
 
                     this._state.hasCollaborativeChanges = false;
                 }

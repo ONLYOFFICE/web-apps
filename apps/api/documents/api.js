@@ -566,9 +566,9 @@
             }
         };
 
-        var _sendCommand = function(cmd) {
+        var _sendCommand = function(cmd, buffer) {
             if (iframe && iframe.contentWindow)
-                postMessage(iframe.contentWindow, cmd);
+                postMessage(iframe.contentWindow, cmd, buffer);
         };
 
         var _init = function(editorConfig) {
@@ -590,12 +590,10 @@
         };
 
         var _openDocumentFromBinary = function(doc) {
-            _sendCommand({
+            doc && _sendCommand({
                 command: 'openDocumentFromBinary',
-                data: {
-                    doc: doc
-                }
-            });
+                data: doc.buffer
+            }, doc.buffer);
         };
 
         var _showMessage = function(title, msg) {
@@ -1103,12 +1101,11 @@
         return iframe;
     }
 
-    function postMessage(wnd, msg) {
+    function postMessage(wnd, msg, buffer) {
         if (wnd && wnd.postMessage && window.JSON) {
             // TODO: specify explicit origin
-            wnd.postMessage(window.JSON.stringify(msg), "*");
+            buffer ? wnd.postMessage(msg, "*", [buffer]) : wnd.postMessage(window.JSON.stringify(msg), "*");
         }
-
     }
 
     function extend(dest, src) {
