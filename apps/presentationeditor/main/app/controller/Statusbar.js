@@ -180,6 +180,7 @@ define([
                  this.statusbar.btnZoomToPage.toggle(type == 2, true);
                  this.statusbar.btnZoomToWidth.toggle(type == 1, true);
                  this._state.zoom_type = type;
+                 Common.localStorage.setItem('pe-last-zoom-type', type);
              }
              if (this._state.zoom_percent !== percent) {
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));

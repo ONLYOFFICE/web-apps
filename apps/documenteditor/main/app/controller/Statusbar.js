@@ -245,12 +245,13 @@ define([
         *   api events
         * */
 
-         _onZoomChange: function(percent, type) {
+        _onZoomChange: function (percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
-            if(!this._isDocReady) return;
+            if (!this._isDocReady) return;
             Common.localStorage.setItem('de-last-zoom', percent);
+            Common.localStorage.setItem('de-last-zoom-type', type);
         },
 
         _onTextLanguage: function(langId) {
