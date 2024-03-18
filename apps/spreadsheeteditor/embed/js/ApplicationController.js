@@ -195,11 +195,37 @@ SSE.ApplicationController = new(function(){
         $box.find('li').off();
         $box.empty();
 
-        var tpl = '<li id="worksheet{index}">{title}</li>';
+        var tpl = '<li id="worksheet{index}" tabtitle="{tabtitle}" {style}>{title}</li>';
         for (var i = 0; i < maxPages; i++) {
             if (api.asc_isWorksheetHidden(i)) continue;
 
-            var item = tpl.replace(/\{index}/, i).replace(/\{title}/,api.asc_getWorksheetName(i).replace(/\s/g,'&nbsp;'));
+            var styleAttr = "";
+            var color = api.asc_getWorksheetTabColor(i);
+            if (color) {
+                styleAttr = 'style="box-shadow: inset 0 4px 0 rgba({r}, {g}, {b}, {a})"'
+                    .replace(/\{r}/, color.r)
+                    .replace(/\{g}/, color.g)
+                    .replace(/\{b}/, color.b)
+                    .replace(/\{a}/, color.a);
+            }
+
+            // escape html
+            var name = api.asc_getWorksheetName(i).replace(/[&<>"']/g, function (match) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[match];
+            });
+
+            var item = tpl
+                .replace(/\{index}/, i)
+                .replace(/\{tabtitle}/, name)
+                .replace(/\{title}/, name)
+                .replace(/\{style}/, styleAttr);
+
             $(item).appendTo($box).on('click', handleWorksheet);
         }
 
