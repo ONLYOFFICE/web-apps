@@ -754,14 +754,10 @@ define([
 
             /* update zoom */
             var zoomValue = Common.localStorage.getItem("pdfe-settings-zoom");
-            if (!zoomValue) {
-                zoomValue = 100;
-            }
-
             var lastZoom = Common.localStorage.getItem("pdfe-last-zoom");
             var lastZoomType = Common.localStorage.getItem("pdfe-last-zoom-type");
 
-            if ((zoomValue == -1 && lastZoomType == 2) || (zoomValue == -2 && lastZoomType == 1) || (zoomValue == -3) || (zoomValue == lastZoom)) {
+            if (zoomValue === null || (zoomValue == -1 && lastZoomType == 2) || (zoomValue == -2 && lastZoomType == 1) || (zoomValue == -3) || (zoomValue == lastZoom)) {
                 var newZoomValue = this.cmbZoom.getValue();
                 if (newZoomValue === -1) {
                     this.api.zoomFitToPage();

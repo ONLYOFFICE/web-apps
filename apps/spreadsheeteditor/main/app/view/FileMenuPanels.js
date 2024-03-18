@@ -1027,11 +1027,8 @@ define([
             /* update zoom */
             if (this.cmbZoom.getValue() > 0) {
                 var zoomValue = Common.localStorage.getItem("sse-settings-zoom");
-                if (!zoomValue) {
-                    zoomValue = 100;
-                }
 
-                if ((zoomValue == -3) || (zoomValue / 100 == this.api.asc_getZoom())) {
+                if (zoomValue === null || (zoomValue == -3) || (zoomValue / 100 == this.api.asc_getZoom())) {
                     this.api.asc_setZoom(this.cmbZoom.getValue() / 100);
                 }
             }
