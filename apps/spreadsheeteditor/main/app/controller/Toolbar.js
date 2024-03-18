@@ -585,7 +585,7 @@ define([
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave && !this.toolbar.mode.canSaveDocumentToBinary)
                     return;
 
                 this.api.asc_Save();

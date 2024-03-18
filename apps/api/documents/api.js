@@ -286,7 +286,8 @@
                 'onRequestOpen': <try to open external link>,
                 'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
                 'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
-                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method
+                'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
+                'onSaveDocument': 'save document from binary'
             }
         }
 
@@ -355,6 +356,7 @@
         _config.editorConfig.canRequestSelectDocument = _config.events && !!_config.events.onRequestSelectDocument;
         _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
+        _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -564,9 +566,9 @@
             }
         };
 
-        var _sendCommand = function(cmd) {
+        var _sendCommand = function(cmd, buffer) {
             if (iframe && iframe.contentWindow)
-                postMessage(iframe.contentWindow, cmd);
+                postMessage(iframe.contentWindow, cmd, buffer);
         };
 
         var _init = function(editorConfig) {
@@ -585,6 +587,13 @@
                     doc: doc
                 }
             });
+        };
+
+        var _openDocumentFromBinary = function(doc) {
+            doc && _sendCommand({
+                command: 'openDocumentFromBinary',
+                data: doc.buffer
+            }, doc.buffer);
         };
 
         var _showMessage = function(title, msg) {
@@ -846,7 +855,8 @@
             setReferenceData    : _setReferenceData,
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
-            setReferenceSource: _setReferenceSource
+            setReferenceSource: _setReferenceSource,
+            openDocument: _openDocumentFromBinary
         }
     };
 
@@ -897,6 +907,12 @@
         var _onMessage = function(msg) {
             // TODO: check message origin
             if (msg && window.JSON && _scope.frameOrigin==msg.origin ) {
+                if (msg.data && msg.data.event === 'onSaveDocument') {
+                    if (_fn) {
+                        _fn.call(_scope, msg.data);
+                    }
+                    return;
+                }
 
                 try {
                     var msg = window.JSON.parse(msg.data);
@@ -1107,12 +1123,11 @@
         return iframe;
     }
 
-    function postMessage(wnd, msg) {
+    function postMessage(wnd, msg, buffer) {
         if (wnd && wnd.postMessage && window.JSON) {
             // TODO: specify explicit origin
-            wnd.postMessage(window.JSON.stringify(msg), "*");
+            buffer ? wnd.postMessage(msg, "*", [buffer]) : wnd.postMessage(window.JSON.stringify(msg), "*");
         }
-
     }
 
     function extend(dest, src) {

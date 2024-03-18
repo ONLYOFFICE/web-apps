@@ -227,6 +227,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('opendocumentfrombinary', _.bind(this.loadBinary, this));
                     Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
@@ -411,6 +412,7 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
@@ -494,6 +496,7 @@ define([
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -662,7 +665,7 @@ define([
                 application.getController('DocumentHolder').getView().focus();
                 if (this.api && this.appOptions.isEdit && this.api.asc_isDocumentCanSave) {
                     var cansave = this.api.asc_isDocumentCanSave(),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
@@ -1486,6 +1489,7 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     me.api.asc_registerCallback('asc_onConvertEquationToMath',  _.bind(me.onConvertEquationToMath, me));
+                    me.appOptions.canSaveDocumentToBinary && me.api.asc_registerCallback('asc_onSaveDocument',_.bind(me.onSaveDocumentBinary, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1855,7 +1859,7 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if (toolbarView && toolbarView.btnCollabChanges) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
@@ -1864,7 +1868,7 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView('Toolbar');
                 if ( toolbarView ) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
@@ -2848,6 +2852,14 @@ define([
                 this._state.previewStarted = false;
                 if (this._renameDialog && !this._renameDialog.isVisible())
                     this._renameDialog.show();
+            },
+
+            onSaveDocumentBinary: function(data) {
+                Common.Gateway.saveDocument(data);
+            },
+
+            loadBinary: function(data) {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
             // Translation
