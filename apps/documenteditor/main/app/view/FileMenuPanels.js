@@ -982,7 +982,7 @@ define([
             var lastZoom = Common.localStorage.getItem("de-last-zoom");
             var lastZoomType = Common.localStorage.getItem("de-last-zoom-type");
 
-            if ((zoomValue === null || (zoomValue == -1 && lastZoomType == 2) || (zoomValue == -2 && lastZoomType == 1) || (zoomValue == -3) || (zoomValue == lastZoom)) {
+            if (zoomValue === null || (zoomValue == -1 && lastZoomType == 2) || (zoomValue == -2 && lastZoomType == 1) || (zoomValue == -3) || (zoomValue == lastZoom)) {
                 var newZoomValue = this.cmbZoom.getValue();
                 if (newZoomValue === -1) {
                     this.api.zoomFitToPage();
