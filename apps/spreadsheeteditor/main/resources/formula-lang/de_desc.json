@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(Datenfeld; PivotTable; [Feld]; [Element]; ...)",
 		"d": "Extrahiert Daten, die in einer PivotTable gespeichert sind"
+	},
+	"IMPORTRANGE": {
+		"a": "(URL_der_Tabelle, Bereichszeichenfolge)",
+		"d": "Importiert einen Zellenbereich aus einer angegebenen Tabelle."
 	}
 }

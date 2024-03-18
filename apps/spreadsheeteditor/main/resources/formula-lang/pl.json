@@ -480,6 +480,7 @@
 	"SORT": "SORTUJ",
 	"SORTBY": "SORTUJ.WEDŁUG",
 	"GETPIVOTDATA": "WEŹDANETABELI",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Wszystkie",

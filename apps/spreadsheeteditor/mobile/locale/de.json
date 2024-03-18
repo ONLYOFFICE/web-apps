@@ -675,6 +675,7 @@
       "textChooseCsvOptions": "CSV-Optionen auswählen",
       "textChooseDelimeter": "Trennzeichen auswählen",
       "textChooseEncoding": "Codierung auswählen",
+      "textClose": "Schließen",
       "textCollaboration": "Zusammenarbeit",
       "textColorSchemes": "Farbschemata",
       "textComment": "Kommentar",
@@ -827,8 +828,7 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "textClose": "Close"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
     }
   }
 }

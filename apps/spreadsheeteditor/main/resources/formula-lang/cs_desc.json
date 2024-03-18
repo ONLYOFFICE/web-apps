@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(datové_pole; kontingenční_tabulka; [pole]; [položka]; ...)",
 		"d": "Extrahuje data uložená v kontingenční tabulce."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_tabulky; řetězec_rozsahu)",
+		"d": "Importuje rozsah buněk ze zadané tabulky."
 	}
 }

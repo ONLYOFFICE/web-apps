@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(camp_dades; taula_dinàmica; [camp]; [element]; ...)",
 		"d": "Extreu les dades emmagatzemades en una taula dinàmica."
+	},
+	"IMPORTRANGE": {
+		"a": "(spreadsheet_url, cadena_interval)",
+		"d": "Importa un interval de cel·les d'un full de càlcul especificat."
 	}
 }

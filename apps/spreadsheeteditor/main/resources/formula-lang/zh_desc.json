@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(data_field; pivot_table; [field]; [item]; ...)",
 		"d": "提取存储在数据透视表中的数据"
+	},
+	"IMPORTRANGE": {
+		"a": "(电子表格网址, 范围字符串)",
+		"d": "从指定的电子表格中导入相应范围的单元格。"
 	}
 }

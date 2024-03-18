@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(datafelt; pivottabel; [felt]; [element]; ...)",
 		"d": "Uddrager data, der er gemt i en pivottabel"
+	},
+	"IMPORTRANGE": {
+		"a": "(regneark_webadresse, område_streng)",
+		"d": "Importerer et celleområde fra et angivet regneark."
 	}
 }

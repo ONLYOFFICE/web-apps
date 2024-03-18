@@ -461,6 +461,10 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                if (this.mode.isPDFForm && this.mode.canFillForms) {
+                    this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                    this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+                }
             }
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
@@ -549,12 +553,12 @@ define([
         onApiCanRevert: function(which, can) {
             if (which=='undo') {
                 if (this._state.can_undo !== can) {
-                    this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
+                    this.toolbar.btnUndo ? this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]}) : this.onBtnChangeState('undo:disabled', null, !can);
                     this._state.can_undo = can;
                 }
             } else {
                 if (this._state.can_redo !== can) {
-                    this.toolbar.lockToolbar(Common.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]});
+                    this.toolbar.btnRedo ? this.toolbar.lockToolbar(Common.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]}) : this.onBtnChangeState('redo:disabled', null, !can);
                     this._state.can_redo = can;
                 }
             }
@@ -3388,6 +3392,10 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
+        createDelayedElementsViewer: function() {
+            this.onBtnChangeState('print:disabled', null, !this.mode.canPrint);
+        },
+
         onAppShowed: function (config) {
             var me = this,
                 application = this.getApplication();
@@ -3415,7 +3423,7 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                if (!(config.customization && config.customization.compactHeader)) {
+                if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 

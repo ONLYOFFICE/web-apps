@@ -218,6 +218,7 @@ define([
                     arr[0].set('isNotHeader', true);
                     arr[0].set('name', this.txtBeginning);
                     arr[0].set('tip', this.txtGotoBeginning);
+                    arr[0].set('getTipFromName', false);
                 }
                 this.getApplication().getCollection('Navigation').reset(arr);
                 if (this.panelNavigation && this.panelNavigation.viewNavigationList && this.panelNavigation.viewNavigationList.scroller)

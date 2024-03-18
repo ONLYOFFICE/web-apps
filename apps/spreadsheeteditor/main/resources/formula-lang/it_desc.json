@@ -1882,5 +1882,9 @@
 	"GETPIVOTDATA": {
 		"a": "(campo_dati; tabella_pivot; [campo]; [elemento]; ...)",
 		"d": "Estrae i dati memorizzati in una tabella pivot."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_foglio_di_lavoro; stringa_intervallo)",
+		"d": "Importa un intervallo di celle da un foglio di lavoro specificato."
 	}
 }

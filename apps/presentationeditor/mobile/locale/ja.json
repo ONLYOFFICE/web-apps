@@ -471,6 +471,7 @@
       "textBack": "戻る",
       "textCaseSensitive": "大文字と小文字の区別",
       "textCentimeter": "センチ",
+      "textClose": "閉じる",
       "textCollaboration": "コラボレーション",
       "textColorSchemes": "色スキーム",
       "textComment": "コメント",
@@ -549,8 +550,7 @@
       "txtScheme6": "コンコース",
       "txtScheme7": "株主資本",
       "txtScheme8": "フロー",
-      "txtScheme9": "ファウンドリ",
-      "textClose": "Close"
+      "txtScheme9": "ファウンドリ"
     }
   }
 }

@@ -470,7 +470,7 @@
       "textAlignCenter": "Στοίχιση στο Κέντρο",
       "textAlignLeft": "Στοίχιση Αριστερά",
       "textAlignMiddle": "Στοίχιση στη Μέση",
-      "textAlignRight": "Στοίχιση Δεξιά",
+      "textAlignRight": "Στοίχιση δεξιά",
       "textAlignTop": "Στοίχιση Πάνω",
       "textAllBorders": "Όλα τα περιγράμματα",
       "textAngleClockwise": "Γωνία Δεξιόστροφα",
@@ -675,6 +675,7 @@
       "textChooseCsvOptions": "Επιλέξτε CSV Επιλογές",
       "textChooseDelimeter": "Επιλέξτε Διαχωριστικό",
       "textChooseEncoding": "Επιλέξτε Κωδικοποίηση",
+      "textClose": "Κλείσιμο",
       "textCollaboration": "Συνεργασία",
       "textColorSchemes": "Χρωματικοί Συνδυασμοί",
       "textComment": "Σχόλιο",
@@ -706,7 +707,7 @@
       "textFormulaLanguage": "Γλώσσα Τύπων",
       "textFormulas": "Τύποι",
       "textHelp": "Βοήθεια",
-      "textHideGridlines": "Απόκρυψη Γραμμών Πλέγματος",
+      "textHideGridlines": "Απόκρυψη γραμμών πλέγματος",
       "textHideHeadings": "Απόκρυψη Επικεφαλίδων",
       "textHighlightRes": "Επισήμανση αποτελεσμάτων",
       "textInch": "Ίντσα",
@@ -714,7 +715,7 @@
       "textLastModified": "Τελευταίο Τροποποιημένο",
       "textLastModifiedBy": "Τελευταία Τροποποίηση Από",
       "textLeft": "Αριστερά",
-      "textLeftToRight": "Αριστερά Προς Δεξιά",
+      "textLeftToRight": "Αριστερά προς δεξιά",
       "textLight": "Ανοιχτόχρωμο",
       "textLocation": "Τοποθεσία",
       "textLookIn": "Αναζήτηση Σε",
@@ -738,7 +739,7 @@
       "textResolvedComments": "Επιλυμένα Σχόλια",
       "textRestartApplication": "Παρακαλούμε επανεκκινήστε την εφαρμογή για να εφαρμοστούν οι αλλαγές",
       "textRight": "Δεξιά",
-      "textRightToLeft": "Δεξιά Προς Αριστερά",
+      "textRightToLeft": "Δεξιά προς αριστερά",
       "textRtlInterface": "Διεπαφή RTL",
       "textSameAsSystem": "Ίδιο με το σύστημα",
       "textSearch": "Αναζήτηση",
@@ -827,8 +828,7 @@
       "txtUk": "Ουκρανικά",
       "txtVi": "Βιετναμέζικα",
       "txtZh": "Κινέζικα",
-      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
-      "textClose": "Close"
+      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
     }
   }
 }
