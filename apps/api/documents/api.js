@@ -907,6 +907,12 @@
         var _onMessage = function(msg) {
             // TODO: check message origin
             if (msg && window.JSON && _scope.frameOrigin==msg.origin ) {
+                if (msg.data && msg.data.event === 'onSaveDocument') {
+                    if (_fn) {
+                        _fn.call(_scope, msg.data);
+                    }
+                    return;
+                }
 
                 try {
                     var msg = window.JSON.parse(msg.data);
