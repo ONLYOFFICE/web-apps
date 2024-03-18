@@ -355,7 +355,7 @@ define([
                     this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext').add(this.toolbar.$el.find('.slot-instext')), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
                         [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
                     this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape').add(this.toolbar.$el.find('.slot-insertshape')), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                        [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
                 }
 
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape);

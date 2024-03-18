@@ -84,6 +84,8 @@ define([
                 this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+                this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
+                this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
                 Common.NotificationCenter.on('storage:image-insert',        _.bind(this.insertImageFromStorage, this));
                 Common.Gateway.on('insertimage',                     _.bind(this.insertImage, this));
@@ -917,6 +919,53 @@ define([
                     equationsStore.add(equationgrouparray);
                     // this.fillEquations();
                 }
+            }
+        },
+
+        onApiFocusObject: function(selectedObjects) {
+            var pr, i = -1, type,
+                paragraph_locked = false,
+                no_paragraph = true,
+                in_chart = false;
+
+            while (++i < selectedObjects.length) {
+                type = selectedObjects[i].get_ObjectType();
+                pr = selectedObjects[i].get_ObjectValue();
+
+                if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                    paragraph_locked = pr.get_Locked();
+                    no_paragraph = false;
+                } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
+                    if (type == Asc.c_oAscTypeSelectElement.Table ||
+                        type == Asc.c_oAscTypeSelectElement.Shape && !pr.get_FromImage() && !pr.get_FromChart()) {
+                        no_paragraph = false;
+                    }
+                    if (type == Asc.c_oAscTypeSelectElement.Chart) {
+                        in_chart = true;
+                    }
+                }
+            }
+
+            if (in_chart !== this._state.in_chart) {
+                this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
+                this._state.in_chart = in_chart;
+            }
+
+            if (this._state.prcontrolsdisable !== paragraph_locked) {
+                if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
+                Common.Utils.lockControls(Common.enumLock.paragraphLock, paragraph_locked===true, {array: this.view.lockedControls});
+            }
+
+            if (this._state.no_paragraph !== no_paragraph) {
+                if (this._state.activated) this._state.no_paragraph = no_paragraph;
+                Common.Utils.lockControls(Common.enumLock.noParagraphSelected, no_paragraph, {array: this.view.lockedControls});
+            }
+        },
+
+        onApiCanAddHyperlink: function(value) {
+            if (this._state.can_hyper !== value) {
+                Common.Utils.lockControls(Common.enumLock.hyperlinkLock, !value, {array: [this.view.btnInsertHyperlink]});
+                if (this._state.activated) this._state.can_hyper = value;
             }
         },
 
