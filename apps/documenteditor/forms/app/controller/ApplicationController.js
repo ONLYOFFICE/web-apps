@@ -473,6 +473,22 @@ define([
             this.appOptions.canPlugins      = false;
 
             Common.Controllers.Desktop.init(this.appOptions);
+
+            this.appOptions.canCloseEditor = false;
+            var _canback = false;
+            if (typeof this.appOptions.customization === 'object') {
+                if (typeof this.appOptions.customization.goback == 'object' && this.appOptions.canBackToFolder!==false) {
+                    _canback = this.appOptions.customization.close===undefined ?
+                        this.appOptions.customization.goback.url || this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose :
+                        this.appOptions.customization.goback.url && !this.appOptions.customization.goback.requestClose;
+
+                    if (this.appOptions.customization.goback.requestClose)
+                        console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                }
+                if (this.appOptions.customization.close && typeof this.appOptions.customization.close === 'object')
+                    this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+            }
+            this.appOptions.canBackToFolder = !!_canback;
         },
 
         onExternalMessage: function(msg) {
@@ -673,6 +689,14 @@ define([
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+            }
+
+            this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
+            if (this.appOptions.canCloseEditor) {
+                this.view.btnClose.updateHint(this.appOptions.customization.close.text || this.view.textClose);
+                this.view.btnClose.on('click', function(){
+                    Common.Gateway.requestClose();
+                });
             }
 
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
