@@ -186,5 +186,6 @@
   "DE.Views.ApplicationView.txtPrint": "Print",
   "DE.Views.ApplicationView.txtSearch": "Search",
   "DE.Views.ApplicationView.txtShare": "Share",
-  "DE.Views.ApplicationView.txtTheme": "Interface theme"
+  "DE.Views.ApplicationView.txtTheme": "Interface theme",
+  "DE.Views.ApplicationView.textClose": "Close file"
 }
