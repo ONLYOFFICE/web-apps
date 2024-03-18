@@ -592,7 +592,7 @@ define([
         },
 
         onAddPage: function() {
-
+            this.api && this.api.asc_AddPage();
         },
 
         mouseenterSmartArt: function (groupName, menu) {
