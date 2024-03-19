@@ -236,8 +236,6 @@ define([
         },
 
         startCheckSize: function() {
-            if (!this.cmpEl || !this.cmpEl.is(':visible')) return;
-
             var me = this;
             me.checkSize();
             if (!me._timer_id) {
