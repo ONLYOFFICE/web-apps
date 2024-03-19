@@ -201,12 +201,12 @@ SSE.ApplicationController = new(function(){
 
             var styleAttr = "";
             var color = api.asc_getWorksheetTabColor(i);
+
             if (color) {
-                styleAttr = 'style="box-shadow: inset 0 4px 0 rgba({r}, {g}, {b}, {a})"'
-                    .replace(/\{r}/, color.r)
-                    .replace(/\{g}/, color.g)
-                    .replace(/\{b}/, color.b)
-                    .replace(/\{a}/, color.a);
+                styleAttr = 'style="box-shadow: inset 0 4px 0 rgb({r}, {g}, {b})"'
+                    .replace(/\{r}/, color.get_r())
+                    .replace(/\{g}/, color.get_g())
+                    .replace(/\{b}/, color.get_b());
             }
 
             // escape html
