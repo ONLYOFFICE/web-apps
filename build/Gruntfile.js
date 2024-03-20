@@ -392,7 +392,10 @@ module.exports = function(grunt) {
                 },
                 compile: {
                     options: packageFile['main']['js']['requirejs']['options']
-                }
+                },
+                postload: {
+                    options: packageFile.main.js.postload.options
+                },
             },
 
             replace: {
@@ -491,9 +494,9 @@ module.exports = function(grunt) {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
                     dest: packageFile['main']['js']['requirejs']['options']['out']
                 },
-                post: {
-                    src: packageFile.main.js.postload.src,
-                    dest: packageFile.main.js.postload.dest,
+                postload: {
+                    src: packageFile.main.js.postload.options.out,
+                    dest: packageFile.main.js.postload.options.out,
                 },
             },
         });

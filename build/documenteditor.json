@@ -100,14 +100,18 @@
                 }
             },
             "postload": {
-                "src": [
-                    "../apps/common/main/lib/controller/ScreenReaderFocus.js",
-                    "../apps/documenteditor/main/app/view/ParagraphSettingsAdvanced.js",
-                    "../apps/documenteditor/main/app/view/ImageSettingsAdvanced.js",
-                    "../apps/documenteditor/main/app/view/TableSettingsAdvanced.js",
-                    "../apps/documenteditor/main/app/view/DropcapSettingsAdvanced.js"
-                ],
-                "dest": "../deploy/web-apps/apps/documenteditor/main/code.js"
+                "options":{
+                    "baseUrl": "../apps/",
+                    "optimize": "none",
+                    "name": "../apps/documenteditor/main/app_pack.js",
+                    "out": "../deploy/web-apps/apps/documenteditor/main/code.js",
+                    "inlineText": true,
+                    "findNestedDependencies": false,
+                    "optimizeAllPluginResources": false,
+                    "paths": {
+                        "text": "../vendor/requirejs-text/text"
+                    }
+                }
             }
         },
         "less": {
