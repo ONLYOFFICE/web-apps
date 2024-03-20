@@ -1597,7 +1597,8 @@ define([
                                                     me.api.ShapeApply(value.shapeProps);
                                                 }
                                             }
-                                            me.fireEvent('editcomplete', me);
+
+                                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                                         }
                                     });
                                 win.show();

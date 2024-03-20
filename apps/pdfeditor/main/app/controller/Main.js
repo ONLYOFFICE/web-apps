@@ -1417,6 +1417,8 @@ define([
                 callback && callback();
                 this.onPdfModeApply();
                 this.getApplication().getController('Toolbar').applyMode();
+                this.getApplication().getController('Viewport').applyEditorMode();
+
             },
 
             onPdfModeApply: function() {
@@ -1444,7 +1446,7 @@ define([
                 window.editor_elements_prepared = true;
 
                 var app             = this.getApplication(),
-                    viewport        = app.getController('Viewport').getView('Viewport'),
+                    viewport        = app.getController('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder'),
                     toolbarController   = app.getController('Toolbar'),
@@ -1490,15 +1492,7 @@ define([
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
-                    var viewport = application.getController('Viewport').getView('Viewport');
-                    viewport.applyEditorMode();
-
-                    var toolbarController   = application.getController('Toolbar'),
-                        toolbarView = (toolbarController) ? toolbarController.getView() : null;
-                    if (toolbarView) {
-                        // toolbarView.setApi(me.api);
-                        toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
-                    }
+                    application.getController('Viewport').applyEditorMode();
 
                     var value = Common.Utils.InternalSettings.get("pdfe-settings-unit");
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
