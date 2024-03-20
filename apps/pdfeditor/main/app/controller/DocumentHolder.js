@@ -218,6 +218,52 @@ define([
                 view.menuPDFFormsCut.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuPDFFormsCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuPDFFormsPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            } else if (type==='edit') {
+                var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+                if (diagramEditor) {
+                    diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                        var command = message.data.command;
+                        var data = message.data.data;
+                        if (this.api) {
+                            ( diagramEditor.isEditMode() )
+                                ? this.api.asc_editChartDrawingObject(data)
+                                : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
+                        }
+                    }, this));
+                    diagramEditor.on('hide', _.bind(function(cmp, message) {
+                        if (this.api) {
+                            this.api.asc_onCloseChartFrame();
+                            this.api.asc_enableKeyEvents(true);
+                        }
+                        var me = this;
+                        setTimeout(function(){
+                            me.editComplete();
+                        }, 10);
+                    }, this));
+                }
+
+                var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor) {
+                    oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                        var command = message.data.command;
+                        var data = message.data.data;
+                        if (this.api) {
+                            oleEditor.isEditMode()
+                                ? this.api.asc_editTableOleObject(data)
+                                : this.api.asc_addTableOleObject(data);
+                        }
+                    }, this));
+                    oleEditor.on('hide', _.bind(function(cmp, message) {
+                        if (this.api) {
+                            this.api.asc_enableKeyEvents(true);
+                            this.api.asc_onCloseChartFrame();
+                        }
+                        var me = this;
+                        setTimeout(function(){
+                            me.editComplete();
+                        }, 10);
+                    }, this));
+                }
             }
         },
 
@@ -274,6 +320,20 @@ define([
             return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: {}};
         },
 
+        fillPDFEditMenuProps: function(selectedElements) {
+            // if (!selectedElements || !_.isArray(selectedElements)) return;
+
+            var documentHolder = this.documentHolder;
+            if (!documentHolder.editPDFModeMenu)
+                documentHolder.createDelayedElementsPDFEditor();
+            return {menu_to_show: documentHolder.editPDFModeMenu, menu_props: {}};
+        },
+
+        applyEditorMode: function() {
+            if (this.mode && this.mode.isPDFEdit && !this.documentHolder.editPDFModeMenu)
+                this.documentHolder.createDelayedElementsPDFEditor();
+        },
+
         fillFormsMenuProps: function(selectedElements) {
             if (!selectedElements || !_.isArray(selectedElements)) return;
 
@@ -314,7 +374,7 @@ define([
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : me.fillViewMenuProps();
+                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : (me.mode && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps());
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -337,7 +397,7 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible()){
-                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
+                var obj = me.mode && me.mode.isRestrictedEdit ? me.fillFormsMenuProps(selectedElements) : (me.mode && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements));
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);

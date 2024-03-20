@@ -125,6 +125,28 @@ define([
             this.fireEvent('createdelayedelements', [this, 'pdf']);
         },
 
+        createDelayedElementsPDFEditor: function() {
+            var me = this;
+            this.editPDFModeMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                },
+                items: [
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            this.fireEvent('createdelayedelements', [this, 'edit']);
+        },
+
         createDelayedElementsPDFForms: function() {
             var me = this;
 

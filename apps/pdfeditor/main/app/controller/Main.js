@@ -1049,6 +1049,7 @@ define([
                     var timer_sl = setTimeout(function(){
                         toolbarController.createDelayedElements();
                         toolbarController.activateControls();
+                        documentHolderController.applyEditorMode();
                         if (me.needToUpdateVersion)
                             toolbarController.onApiCoAuthoringDisconnect();
                         toolbarController.onApiFocusObject([]);
@@ -1418,6 +1419,7 @@ define([
                 this.onPdfModeApply();
                 this.getApplication().getController('Toolbar').applyMode();
                 this.getApplication().getController('Viewport').applyEditorMode();
+                this.getApplication().getController('DocumentHolder').applyEditorMode();
 
             },
 

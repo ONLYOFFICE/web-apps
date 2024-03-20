@@ -159,6 +159,8 @@ require([
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
             'Common.Controllers.Plugins',
+            'Common.Controllers.ExternalDiagramEditor',
+            'Common.Controllers.ExternalOleEditor',
             'Common.Controllers.Protection'
         ]
     });
@@ -190,6 +192,8 @@ require([
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/
                 'common/main/lib/controller/Plugins',
+                'common/main/lib/controller/ExternalDiagramEditor',
+                'common/main/lib/controller/ExternalOleEditor',
                 'common/main/lib/controller/Draw',
                 'common/main/lib/controller/Protection'
             ], function() {
