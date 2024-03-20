@@ -42,7 +42,6 @@ define(['text!documenteditor/main/app/template/ParagraphSettingsAdvanced.templat
 ], function (contentTemplate) {
     'use strict';
 
-    console.log('ParagraphSettingsAdvanced run');
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,

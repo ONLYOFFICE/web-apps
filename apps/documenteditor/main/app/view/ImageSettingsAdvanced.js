@@ -42,8 +42,6 @@ define([
 ], function (contentTemplate) {
     'use strict';
 
-    console.log('ImageSettingsAdvanced run');
-
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 340,
