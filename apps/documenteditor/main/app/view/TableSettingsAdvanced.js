@@ -37,15 +37,8 @@
  *
  */
 
-define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ListView',
+define([
+    'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
     'common/main/lib/component/TableStyler'
 ], function (contentTemplate) {
     'use strict';

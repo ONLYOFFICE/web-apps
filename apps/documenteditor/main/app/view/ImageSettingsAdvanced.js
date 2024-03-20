@@ -37,15 +37,12 @@
  *
  */
 
-define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ComboBoxDataView'
+define([
+    'text!documenteditor/main/app/template/ImageSettingsAdvanced.template',
 ], function (contentTemplate) {
     'use strict';
+
+    console.log('ImageSettingsAdvanced run');
 
     DE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

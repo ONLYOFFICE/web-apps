@@ -50,7 +50,6 @@ define([
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/OptionsDialog',
-    'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',

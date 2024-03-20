@@ -37,17 +37,12 @@
  *
  */
 
-define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ListView',
+define(['text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
     'common/main/lib/component/TableStyler'
 ], function (contentTemplate) {
     'use strict';
 
+    console.log('ParagraphSettingsAdvanced run');
     DE.Views.ParagraphSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 370,
