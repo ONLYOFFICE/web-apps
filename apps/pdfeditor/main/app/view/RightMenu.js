@@ -50,11 +50,11 @@ define([
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
     'pdfeditor/main/app/view/ParagraphSettings',
-    // 'pdfeditor/main/app/view/ImageSettings',
-    // 'pdfeditor/main/app/view/ChartSettings',
-    // 'pdfeditor/main/app/view/TableSettings',
-    // 'pdfeditor/main/app/view/ShapeSettings',
-    // 'pdfeditor/main/app/view/TextArtSettings',
+    'pdfeditor/main/app/view/ImageSettings',
+    'pdfeditor/main/app/view/ChartSettings',
+    'pdfeditor/main/app/view/TableSettings',
+    'pdfeditor/main/app/view/ShapeSettings',
+    'pdfeditor/main/app/view/TextArtSettings',
     // 'pdfeditor/main/app/view/SignatureSettings',
     'common/main/lib/component/Scroller'
 ], function (menuTemplate, $, _, Backbone) {
@@ -173,11 +173,11 @@ define([
             this.btnTextArt.on('click',         _.bind(this.onBtnMenuClick, this));
 
             this.paragraphSettings = new PDFE.Views.ParagraphSettings();
-            // this.imageSettings = new PDFE.Views.ImageSettings();
-            // this.chartSettings = new PDFE.Views.ChartSettings();
-            // this.tableSettings = new PDFE.Views.TableSettings();
-            // this.shapeSettings = new PDFE.Views.ShapeSettings();
-            // this.textartSettings = new PDFE.Views.TextArtSettings();
+            this.imageSettings = new PDFE.Views.ImageSettings();
+            this.chartSettings = new PDFE.Views.ChartSettings();
+            this.tableSettings = new PDFE.Views.TableSettings();
+            this.shapeSettings = new PDFE.Views.ShapeSettings();
+            this.textartSettings = new PDFE.Views.TextArtSettings();
 
             // if (mode && mode.isSignatureSupport) {
             //     this.btnSignature = new Common.UI.Button({
@@ -221,17 +221,17 @@ define([
             var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
             var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            // this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
-            // this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
-            // this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
-            // this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
-            // this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.imageSettings.setApi(api).on('editcomplete', _.bind( fire, this));
+            this.chartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('updatescroller', _updateScroller);
+            this.tableSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.shapeSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.textartSettings.setApi(api).on('editcomplete', _.bind( fire, this)).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             // if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _.bind( fire, this));
         },
 
         setMode: function(mode) {
-            // this.imageSettings && this.imageSettings.setMode(mode);
-            // this.shapeSettings && this.shapeSettings.setMode(mode);
+            this.imageSettings && this.imageSettings.setMode(mode);
+            this.shapeSettings && this.shapeSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
