@@ -127,11 +127,26 @@ define([
 
         createDelayedElementsPDFEditor: function() {
             var me = this;
+            me.menuPDFEditCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            me.menuEditAddComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-add-comment',
+                caption     : me.addCommentText
+            });
+
             this.editPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
+                    me.menuPDFEditCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
+                    me.menuEditAddComment.setVisible(me.mode && me.mode.canComments);
                 },
                 items: [
+                    me.menuPDFEditCopy,
+                    me.menuEditAddComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);

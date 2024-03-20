@@ -221,7 +221,6 @@ define([
                 else if (currentactive>=0) active = currentactive;
                 else if (lastactive>=0) active = lastactive;
                 // else if (forceSignature && !this._settings[Common.Utils.documentSettingsType.Signature].hidden) active = Common.Utils.documentSettingsType.Signature;
-                else active = Common.Utils.documentSettingsType.Shape;
 
                 if (active !== undefined) {
                     this.rightmenu.SetActivePane(active, open);
@@ -230,7 +229,8 @@ define([
                     // else
                     //     this._settings[active].panel.ChangeSettings.call(this._settings[active].panel);
                     (active !== currentactive) && this.rightmenu.updateScroller();
-                }
+                } else
+                    this.rightmenu.clearSelection();
             }
 
             this._settings[Common.Utils.documentSettingsType.Image].needShow = false;
@@ -333,7 +333,6 @@ define([
             if (this.editMode && this.mode.isPDFEdit && this.api) {
                 this.api.asc_registerCallback('asc_doubleClickOnObject', _.bind(this.onDoubleClickOnObject, this));
 
-                // this.rightmenu.shapeSettings.createDelayedElements();
                 var selectedElements = this.api.getSelectedElements();
                 if (selectedElements.length>0) {
                     this.onFocusObject(selectedElements);
