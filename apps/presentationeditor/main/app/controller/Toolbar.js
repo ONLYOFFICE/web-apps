@@ -437,6 +437,7 @@ define([
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
+            this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -2906,6 +2907,10 @@ define([
 
         onEyedropperEnd: function () {
             this.toolbar._isEyedropperStart = false;
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

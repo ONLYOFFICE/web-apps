@@ -134,7 +134,7 @@ Common.UI.LayoutManager = new(function() {
                 items: []
             });
             toMenu.on('item:click', function(menu, mi, e) {
-                _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
+                _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
             });
         }
         items.forEach(function(menuItem) {
@@ -151,7 +151,7 @@ Common.UI.LayoutManager = new(function() {
     }
 
     var _addCustomItems = function (toolbar, data) {
-        if (!_licensed || !data || data.length<1) return;
+        if (!data) return;
 
         var lang = Common.Locale.getCurrentLanguage(),
             btns = [];
@@ -205,7 +205,7 @@ Common.UI.LayoutManager = new(function() {
                                 if (typeof btn.menu !== 'object') {
                                     btn.setMenu(new Common.UI.Menu({items: []}));
                                     btn.menu.on('item:click', function(menu, mi, e) {
-                                        _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
+                                        _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
                                     });
                                 }
                                 _fillButtonMenu(item.menu, plugin.guid, lang, btn.menu);
@@ -236,13 +236,13 @@ Common.UI.LayoutManager = new(function() {
                         if (item.menu && typeof item.menu === 'object') {
                             btn.setMenu(new Common.UI.Menu({items: []}));
                             btn.menu.on('item:click', function(menu, mi, e) {
-                                _api && _api.onPluginButtonClick && _api.onPluginButtonClick(mi.options.guid, mi.value);
+                                _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
                             });
                             _fillButtonMenu(item.menu, plugin.guid, lang, btn.menu);
                         }
                         if ( !btn.menu || btn.split) {
                             btn.on('click', function(b, e) {
-                                _api && _api.onPluginButtonClick && _api.onPluginButtonClick(b.options.guid, b.options.value, b.pressed);
+                                _api && _api.onPluginToolbarMenuItemClick(b.options.guid, b.options.value, b.pressed);
                             });
                         }
                         btns.push(btn);
