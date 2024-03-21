@@ -856,7 +856,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : !itemVar.isVisual;
+                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : false;
                             }
                         }
                     });
