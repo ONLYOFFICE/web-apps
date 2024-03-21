@@ -420,6 +420,10 @@ define([
                 return this.isFolded;
             },
 
+            isExpanded: function () {
+                return !this.isFolded || optsFold.$bar && optsFold.$bar.hasClass('expanded');
+            },
+
             hasTabInvisible: function() {
                 if ($boxTabs.length<1) return false;
 
@@ -630,7 +634,7 @@ define([
                 }
             },
 
-            addCustomItems: function(tab, buttons) {
+            addCustomItems: function(tab, added, removed) {
                 if (!tab.action) return;
 
                 var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,
@@ -639,7 +643,25 @@ define([
                     compactcls = '';
                 ($moresection.length<1) && ($moresection = null);
                 if ($panel) {
-                    buttons && buttons.forEach(function(button, index) {
+                    if (removed) {
+                        removed.forEach(function(button, index) {
+                            if (button.cmpEl) {
+                                var group = button.cmpEl.closest('.group');
+                                button.cmpEl.closest('.btn-slot').remove();
+                                if (group.children().length<1) {
+                                    var in_more = group.closest('.more-container').length>0;
+                                    in_more ? group.next('.separator').remove() : group.prev('.separator').remove();
+                                    group.remove();
+                                    if (in_more && $morepanel.children().filter('.group').length === 0) {
+                                        btnsMore[tab.action] && btnsMore[tab.action].isActive() && btnsMore[tab.action].toggle(false);
+                                        $moresection && $moresection.css('display', "none");
+                                    }
+                                }
+                            }
+                        });
+                        $panel.find('.btn-slot:not(.slot-btn-more).x-huge').last().hasClass('compactwidth') && (compactcls = 'compactwidth');
+                    }
+                    added && added.forEach(function(button, index) {
                         var _groups, _group;
                         if ($morepanel) {
                             _groups = $morepanel.children().filter('.group');
@@ -668,8 +690,26 @@ define([
                 }
                 this.clearActiveData(tab.action);
                 this.processPanelVisible(null, true);
+
+                var visible = !this.isTabEmpty(tab.action) && Common.UI.LayoutManager.isElementVisible('toolbar-' + tab.action);
+                this.setVisible(tab.action, visible);
+                if (!visible && this.isTabActive(tab.action) && this.isExpanded()) {
+                    if (this.getTab('home'))
+                        this.setTab('home');
+                    else {
+                        tab = this.$tabs.siblings(':not(.x-lone):visible').first().find('> a[data-tab]').data('tab');
+                        this.setTab(tab);
+                    }
+                }
             },
 
+            isTabEmpty: function(tab) {
+                var $panel = this.getTab(tab),
+                    $morepanel = this.getMorePanel(tab),
+                    $moresection = $panel ? $panel.find('.more-box') : null;
+                ($moresection.length<1) && ($moresection = null);
+                return $panel ? !($panel.find('> .group').length>0 || $morepanel && $morepanel.find('.group').length>0) : false;
+            },
 
             resizeToolbar: function(reset) {
                 var $active = this.$panels.filter('.active'),

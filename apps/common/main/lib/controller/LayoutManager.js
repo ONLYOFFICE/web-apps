@@ -114,14 +114,34 @@ Common.UI.LayoutManager = new(function() {
     };
 
     var _findCustomButton = function(toolbar, action, guid, id) {
-        if (toolbar && toolbar.customButtonsArr) {
-            for (var i=0; i< toolbar.customButtonsArr.length; i++) {
-                var btn = toolbar.customButtonsArr[i];
+        if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
+            for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
+                var btn = toolbar.customButtonsArr[guid][i];
                 if (btn.options.tabid === action && btn.options.guid === guid && btn.options.value === id) {
                     return btn;
                 }
             }
         }
+    }
+
+    var _findRemovedButtons = function(toolbar, action, guid, items) {
+        var arr = [];
+        if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
+            if (!items || items.length<1) {
+                arr = toolbar.customButtonsArr[guid];
+                toolbar.customButtonsArr[guid] = undefined;
+            } else {
+                for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
+                    var btn = toolbar.customButtonsArr[guid][i];
+                    if (btn.options.tabid === action && !_.findWhere(items, {id: btn.options.value})) {
+                        arr.push(btn);
+                        toolbar.customButtonsArr[guid].splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+        }
+        return arr;
     }
 
     var _fillButtonMenu = function(items, guid, lang, toMenu) {
@@ -140,7 +160,7 @@ Common.UI.LayoutManager = new(function() {
         items.forEach(function(menuItem) {
             if (menuItem.separator) toMenu.addItem({caption: '--'});
             menuItem.text && toMenu.addItem({
-                caption: ((typeof menuItem.text == 'object') ? menuItem.text[lang] || menuItem.text['en'] : menuItem.text) || '',
+                caption: menuItem.text || '',
                 value: menuItem.id,
                 menu: menuItem.items ? _fillButtonMenu(menuItem.items, guid, lang) : false,
                 iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(menuItem.icons)),
@@ -161,21 +181,21 @@ Common.UI.LayoutManager = new(function() {
                 guid: 'plugin-guid',
                 tab: {
                     id: 'tab-id',
-                    text: 'caption' or { "fr": "french caption", "es": "spanish caption"}
+                    text: 'caption'
                 },
                 items: [
                     {
                         id: 'button-id',
                         type: 'button'='big-button' or 'small-button',
                         icons: 'template string' or object
-                        text: 'caption' or { "fr": "french caption", "es": "spanish caption"} or - can be empty
-                        hint: 'hint' or { "fr": "french hint", "es": "spanish hint"},
+                        text: 'caption' or - can be empty
+                        hint: 'hint',
                         separator: true/false - inserted before item,
                         split: true/false - used when has menu
                         menu: [
                             {
                                 id: 'item-id',
-                                text: 'caption' or { "fr": "french caption", "es": "spanish caption"},
+                                text: 'caption'
                                 separator: true/false - inserted before item,
                                 icons: 'template string' or object
                             }
@@ -188,18 +208,20 @@ Common.UI.LayoutManager = new(function() {
             }
             */
             if (plugin.tab) {
+                var added = [],
+                    removed = _findRemovedButtons(toolbar, plugin.tab.id, plugin.guid, plugin.items);
                 plugin.items && plugin.items.forEach(function(item, index) {
                     var btn = _findCustomButton(toolbar, plugin.tab.id, plugin.guid, item.id),
                         _set = Common.enumLock;
                     if (btn) { // change caption, hint, disable state, menu items
                         if (btn instanceof Common.UI.Button) {
-                            var caption = ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '';
+                            var caption = item.text || '';
                             if (btn.options.caption !== (caption || ' ')) {
                                 btn.cmpEl.closest('.btn-slot.x-huge').toggleClass('nocaption', !caption);
                                 btn.setCaption(caption || ' ');
                                 btn.options.caption = caption || ' ';
                             }
-                            btn.updateHint(((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',);
+                            btn.updateHint(item.hint || '');
                             (item.disabled!==undefined) && Common.Utils.lockControls(_set.customLock, !!item.disabled, {array: [btn]});
                             if (btn.menu && item.menu && item.menu.length > 0) {// update menu items
                                 if (typeof btn.menu !== 'object') {
@@ -218,7 +240,7 @@ Common.UI.LayoutManager = new(function() {
                         btn = new Common.UI.ButtonCustom({
                             cls: 'btn-toolbar x-huge icon-top',
                             iconsSet: item.icons,
-                            caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || ' ',
+                            caption: item.text || ' ',
                             menu: item.menu,
                             split: item.menu && !!item.split,
                             enableToggle: item.enableToggle && (!item.menu || !!item.split),
@@ -226,7 +248,7 @@ Common.UI.LayoutManager = new(function() {
                             guid: plugin.guid,
                             tabid: plugin.tab.id,
                             separator: item.separator,
-                            hint: ((typeof item.hint == 'object') ? item.hint[lang] || item.hint['en'] : item.hint) || '',
+                            hint: item.hint || '',
                             lock: item.lockInViewMode ? [_set.customLock, _set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ] : [_set.customLock],
                             dataHint: '1',
                             dataHintDirection: 'bottom',
@@ -245,15 +267,18 @@ Common.UI.LayoutManager = new(function() {
                                 _api && _api.onPluginToolbarMenuItemClick(b.options.guid, b.options.value, b.pressed);
                             });
                         }
-                        btns.push(btn);
+                        added.push(btn);
                         item.disabled && Common.Utils.lockControls(_set.customLock, item.disabled, {array: [btn]});
                     }
                 });
 
-                toolbar.addCustomItems({action: plugin.tab.id, caption: ((typeof plugin.tab.text == 'object') ? plugin.tab.text[lang] || plugin.tab.text['en'] : plugin.tab.text) || ''}, btns);
+                toolbar.addCustomItems({action: plugin.tab.id, caption: plugin.tab.text || ''}, added, removed);
                 if (!toolbar.customButtonsArr)
                     toolbar.customButtonsArr = [];
-                Array.prototype.push.apply(toolbar.customButtonsArr, btns);
+                if (!toolbar.customButtonsArr[plugin.guid])
+                    toolbar.customButtonsArr[plugin.guid] = [];
+                Array.prototype.push.apply(toolbar.customButtonsArr[plugin.guid], added);
+                Array.prototype.push.apply(btns, added);
             }
         });
         return btns;
