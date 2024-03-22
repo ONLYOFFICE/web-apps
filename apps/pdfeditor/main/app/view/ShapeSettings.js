@@ -1016,7 +1016,7 @@ define([
                     this.ShowHideElem(this.OriginalFillType);
                 }
 
-                $(this.btnTexture.el).find('.form-control').prop('innerHTML', this.textSelectTexture);
+                this.btnTexture && $(this.btnTexture.el).find('.form-control').prop('innerHTML', this.textSelectTexture);
 
                 var type1 = typeof(this.ShapeColor.Color),
                     type2 = typeof(this._state.ShapeColor);
