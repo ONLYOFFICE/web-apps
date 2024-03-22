@@ -337,6 +337,7 @@ define([
 
             if (this.mode.canPDFEdit) {
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
+                this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
                 this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
             }
         },
@@ -1225,6 +1226,10 @@ define([
 
         onApiMathTypes: function(equation) {
             this._equationTemp = equation;
+        },
+
+        onInitStandartTextures: function(texture) {
+            this._textureTemp = texture;
         },
 
         fillFontsStore: function(combo, name) {
