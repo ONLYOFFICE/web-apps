@@ -1601,6 +1601,9 @@ define([
 
         onInitStandartTextures: function(texture) {
             var me = this;
+            if ((!texture || texture.length<1) && (!me._texturearray || me._texturearray.length<1)) {
+                texture = PDFE.getController('Toolbar')._textureTemp;
+            }
             if (texture && texture.length>0){
                 me._texturearray = [];
                 _.each(texture, function(item){
