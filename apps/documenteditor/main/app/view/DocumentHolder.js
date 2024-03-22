@@ -597,6 +597,14 @@ define([
                 caption: me.textEditPoints
             });
 
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.textEditObject
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -691,6 +699,10 @@ define([
                     me.menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (me.menuImgReplace.isVisible())
                         me.menuImgReplace.setDisabled(islocked || pluginGuid===null);
+
+                    me.menuEditObject.setVisible(!!pluginGuid);
+                    me.menuEditObjectSeparator.setVisible(!!pluginGuid);
+
                     me.menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     me.menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
@@ -763,6 +775,8 @@ define([
                     me.menuImgCopy,
                     me.menuImgPaste,
                     me.menuImgPrint,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     { caption: '--' },
                     me.menuImgAccept,
                     me.menuImgReject,
@@ -3194,6 +3208,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
+        textEditObject: 'Edit Object',
         directionText: 'Text Direction',
         directHText: 'Horizontal',
         direct90Text: 'Rotate Text Down',

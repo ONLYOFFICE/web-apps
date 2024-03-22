@@ -290,6 +290,7 @@ define([
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
                 view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
                 view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
+                view.menuEditObject.on('click', _.bind(me.onEditObject, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -430,6 +431,22 @@ define([
             this.api.asc_registerCallback('asc_onHideComment',      this.wrapEvents.apiHideComment);
 //            this.api.asc_registerCallback('asc_onShowComment',      this.wrapEvents.apiShowComment);
             /** coauthoring end **/
+        },
+
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
         },
 
         onCopyPaste: function(item) {
@@ -2644,6 +2661,9 @@ define([
                 documentHolder.menuImgReplace.setDisabled(isObjLocked || pluginGuid===null);
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
+
+                documentHolder.menuEditObject.setVisible(!!pluginGuid);
+                documentHolder.menuEditObjectSeparator.setVisible(!!pluginGuid);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
@@ -4896,6 +4916,22 @@ define([
                     me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
                     me.fastcoauthtips.splice(i, 1);
                     break;
+                }
+            }
+        },
+
+                ject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
                 }
             }
         },
