@@ -3483,7 +3483,7 @@
   "SSE.Views.ProtectedRangesManagerDlg.textNew": "Новый",
   "SSE.Views.ProtectedRangesManagerDlg.textProtect": "Защитить лист",
   "SSE.Views.ProtectedRangesManagerDlg.textRange": "Диапазон",
-  "SSE.Views.ProtectedRangesManagerDlg.textRangesDesc": "Вы можете ограничить редактирование диапазонов для выбранных людей",
+  "SSE.Views.ProtectedRangesManagerDlg.textRangesDesc": "Вы можете ограничить редактирование или просмотр диапазонов для выбранных людей.",
   "SSE.Views.ProtectedRangesManagerDlg.textTitle": "Название",
   "SSE.Views.ProtectedRangesManagerDlg.tipIsLocked": "Этот элемент редактируется другим пользователем.",
   "SSE.Views.ProtectedRangesManagerDlg.txtAccess": "Доступ",

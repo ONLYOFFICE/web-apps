@@ -163,6 +163,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
   "DE.Views.ApplicationView.textClear": "Ukloni sva polja",
   "DE.Views.ApplicationView.textClearField": "Ukloni polje",
+  "DE.Views.ApplicationView.textClose": "Zatvori fajl",
   "DE.Views.ApplicationView.textCopy": "Kopiraj",
   "DE.Views.ApplicationView.textCut": "Iseci",
   "DE.Views.ApplicationView.textFitToPage": "Prilagodi stranici",

@@ -162,7 +162,7 @@
       "textTableRowsDel": "Tabelarni redovi izbrisani",
       "textTabs": "Promeni kartice",
       "textTrackChanges": "Prati promene",
-      "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim zajedničkog uređivanja.",
+      "textTryUndoRedo": "Poništi/Ponovi funkcije su onemogućene za Brzi režim ko-uređivanja.",
       "textUnderline": "Podvuci",
       "textUsers": "Korisnici",
       "textWidow": "Kontrola udovice"
@@ -708,7 +708,7 @@
     "textOrientation": "Orijentacija ",
     "textOwner": "Vlasnik",
     "textPages": "Stranice",
-    "textPageSize": "Veličina Stranice",
+    "textPageSize": "Veličina stranice",
     "textParagraphs": "Paragrafi",
     "textPassword": "Lozinka",
     "textPasswordNotMatched": "Lozinke se ne poklapaju",
