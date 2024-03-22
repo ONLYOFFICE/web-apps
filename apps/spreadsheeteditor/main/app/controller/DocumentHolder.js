@@ -437,7 +437,7 @@ define([
             if (this.api) {
                 var oleobj = this.api.asc_canEditTableOleObject(true);
                 if (oleobj) {
-                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                     if (oleEditor) {
                         oleEditor.setEditMode(true);
                         oleEditor.show();
@@ -4916,22 +4916,6 @@ define([
                     me.fastcoauthtips[i].fadeOut(150, function(){src.remove()});
                     me.fastcoauthtips.splice(i, 1);
                     break;
-                }
-            }
-        },
-
-                ject: function() {
-            if (this.api) {
-                var oleobj = this.api.asc_canEditTableOleObject(true);
-                if (oleobj) {
-                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.setEditMode(true);
-                        oleEditor.show();
-                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
-                    }
-                } else {
-                    this.api.asc_startEditCurrentOleObject();
                 }
             }
         },
