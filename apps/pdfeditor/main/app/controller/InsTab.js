@@ -81,9 +81,9 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onEndAddShape', _.bind(this.onApiEndAddShape, this)); //for shapes
                 this.api.asc_registerCallback('asc_onTextLanguage',         _.bind(this.onTextLanguage, this));
-                this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
-                this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
-                this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
+                // this.api.asc_registerCallback('asc_onBeginSmartArtPreview', _.bind(this.onApiBeginSmartArtPreview, this));
+                // this.api.asc_registerCallback('asc_onAddSmartArtPreview', _.bind(this.onApiAddSmartArtPreview, this));
+                // this.api.asc_registerCallback('asc_onEndSmartArtPreview', _.bind(this.onApiEndSmartArtPreview, this));
                 this.api.asc_registerCallback('asc_onFocusObject',          _.bind(this.onApiFocusObject, this));
                 this.api.asc_registerCallback('asc_onCanAddHyperlink',      _.bind(this.onApiCanAddHyperlink, this));
                 Common.NotificationCenter.on('storage:image-load',          _.bind(this.openImageFromStorage, this));
@@ -110,14 +110,14 @@ define([
                     'insert:shape'      : this.onInsertShape.bind(this),
                     'insert:page'       : this.onAddPage.bind(this),
                     'insert:chart'      : this.onSelectChart,
-                    'insert:header'     : this.onEditHeaderClick,
+                    // 'insert:header'     : this.onEditHeaderClick,
                     'insert:hyperlink'  : this.onHyperlinkClick,
                     'insert:table'      : this.onInsertTableClick,
                     'insert:equation'   : this.onInsertEquationClick,
                     'insert:symbol'     : this.onInsertSymbolClick,
-                    'insert:smartart'   : this.onInsertSmartArt,
-                    'smartart:mouseenter': this.mouseenterSmartArt,
-                    'smartart:mouseleave': this.mouseleaveSmartArt,
+                    // 'insert:smartart'   : this.onInsertSmartArt,
+                    // 'smartart:mouseenter': this.mouseenterSmartArt,
+                    // 'smartart:mouseleave': this.mouseleaveSmartArt,
                 }
             });
         },
@@ -157,8 +157,8 @@ define([
                 var shapes = this.api.asc_getPropertyEditorShapes();
                 shapes && this.fillAutoShapes(shapes[0], shapes[1]);
 
-                this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
-                this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
+                // this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
+                // this.getApplication().getController('Common.Controllers.ExternalOleEditor').setApi(this.api).loadConfig({config:this.mode, customization: this.mode.customization});
 
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, false, {array: this.view.lockedControls});
             }
@@ -598,7 +598,7 @@ define([
         onAddPage: function() {
             this.api && this.api.asc_AddPage();
         },
-
+/*
         mouseenterSmartArt: function (groupName, menu) {
             if (this.smartArtGenerating === undefined) {
                 this.generateSmartArt(groupName, menu);
@@ -702,7 +702,7 @@ define([
                 }
             }
         },
-
+*/
         onTextLanguage: function(langId) {
             this._state.lang = langId;
         },
@@ -950,10 +950,10 @@ define([
                 }
             }
 
-            if (in_chart !== this._state.in_chart) {
-                this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
-                this._state.in_chart = in_chart;
-            }
+            // if (in_chart !== this._state.in_chart) {
+            //     this.view.btnInsertChart.updateHint(in_chart ? this.view.tipChangeChart : this.view.tipInsertChart);
+            //     this._state.in_chart = in_chart;
+            // }
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;

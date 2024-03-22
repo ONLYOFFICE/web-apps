@@ -61,23 +61,22 @@ define([
                     '<span class="btn-slot text x-huge slot-instext"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-instextart"></span>' +
                     '<span class="btn-slot text x-huge slot-insertimg"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
+                    // '<span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>' +
+                    // '<span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>' +
                 '</div>' +
                 '<div class="separator long invisible"></div>' +
                 '<div class="group small" id="slot-combo-insertshape"></div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge slot-comment"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-insertlink"></span>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
-                '<div class="group">' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-editheader"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-datetime"></span>' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-slidenum"></span>' +
-                '</div>' +
-                '<div class="separator long"></div>' +
+                // '<div class="group">' +
+                //     '<span class="btn-slot text x-huge" id="slot-btn-editheader"></span>' +
+                //     '<span class="btn-slot text x-huge" id="slot-btn-datetime"></span>' +
+                //     '<span class="btn-slot text x-huge" id="slot-btn-slidenum"></span>' +
+                // '</div>' +
+                // '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge" id="slot-btn-insertequation"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>' +
@@ -93,15 +92,15 @@ define([
                 me.btnAddPage.on('click', _.bind(function () {
                     me.fireEvent('insert:page');
                 }, me));
-                me.btnEditHeader.on('click', _.bind(function () {
-                    me.fireEvent('insert:header', ['header']);
-                }, me));
-                me.btnInsDateTime.on('click', _.bind(function () {
-                    me.fireEvent('insert:header', ['datetime']);
-                }, me));
-                me.btnInsSlideNum.on('click', _.bind(function () {
-                    me.fireEvent('insert:header', ['slidenum']);
-                }, me));
+                // me.btnEditHeader.on('click', _.bind(function () {
+                //     me.fireEvent('insert:header', ['header']);
+                // }, me));
+                // me.btnInsDateTime.on('click', _.bind(function () {
+                //     me.fireEvent('insert:header', ['datetime']);
+                // }, me));
+                // me.btnInsSlideNum.on('click', _.bind(function () {
+                //     me.fireEvent('insert:header', ['slidenum']);
+                // }, me));
                 me.btnInsertHyperlink.on('click', _.bind(function () {
                     me.fireEvent('insert:hyperlink');
                 }, me));
@@ -151,7 +150,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertTable);
-
+/*
                 me.btnInsertChart = new Common.UI.Button({
                     id: 'tlbtn-insertchart',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -177,7 +176,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(this.btnInsertSmartArt);
-
+*/
                 me.btnInsertEquation = new Common.UI.Button({
                     id: 'tlbtn-insertequation',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -243,7 +242,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsertTextArt);
-
+/*
                 me.btnEditHeader = new Common.UI.Button({
                     id: 'id-toolbar-btn-editheader',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -279,7 +278,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 me.lockedControls.push(me.btnInsSlideNum);
-
+*/
                 me.btnInsertShape = new Common.UI.Button({
                     id: 'tlbtn-insertshape',
                     cls: 'btn-toolbar x-huge icon-top',
@@ -336,17 +335,17 @@ define([
                 var _injectComponent = function (id, cmp) {
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
-                _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
+                // _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
                 _injectComponent('#slot-btn-addpage', this.btnAddPage);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
                 _injectComponent('#slot-btn-inserttable', this.btnInsertTable);
-                _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
+                // _injectComponent('#slot-btn-insertchart', this.btnInsertChart);
                 _injectComponent('#slot-btn-instextart', this.btnInsertTextArt);
-                _injectComponent('#slot-btn-editheader', this.btnEditHeader);
-                _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
-                _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
+                // _injectComponent('#slot-btn-editheader', this.btnEditHeader);
+                // _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                // _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
                 _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
 
                 if (this.toolbar && this.toolbar.$el) {
@@ -429,17 +428,17 @@ define([
                 });
 
                 this.btnInsertTable.updateHint(this.tipInsertTable);
-                this.btnInsertChart.updateHint(this.tipInsertChart);
-                this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
+                // this.btnInsertChart.updateHint(this.tipInsertChart);
+                // this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
                 this.btnInsertEquation.updateHint(this.tipInsertEquation);
                 this.btnInsertSymbol.updateHint(this.tipInsertSymbol);
                 this.btnInsertHyperlink.updateHint(this.tipInsertHyperlink + Common.Utils.String.platformKey('Ctrl+K'));
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
-                this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
-                this.btnInsDateTime.updateHint(this.tipDateTime);
-                this.btnInsSlideNum.updateHint(this.tipSlideNum);
+                // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
+                // this.btnInsDateTime.updateHint(this.tipDateTime);
+                // this.btnInsSlideNum.updateHint(this.tipSlideNum);
                 this.btnAddPage.updateHint(this.tipAddPage);
-
+/*
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
                     items: [
@@ -536,7 +535,7 @@ define([
                     menu.off('show:before', onShowBeforeSmartArt);
                 };
                 this.btnInsertSmartArt.menu.on('show:before', onShowBeforeSmartArt);
-
+*/
                 var onShowBeforeTextArt = function (menu) {
                     var collection = PDFE.getCollection('Common.Collections.TextArt');
                     if (collection.length<1)

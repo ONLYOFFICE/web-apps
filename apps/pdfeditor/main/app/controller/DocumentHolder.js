@@ -221,7 +221,7 @@ define([
             } else if (type==='edit') {
                 view.menuPDFEditCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuEditAddComment.on('click', _.bind(me.addComment, me));
-
+/*
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                 if (diagramEditor) {
                     diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
@@ -267,6 +267,7 @@ define([
                         }, 10);
                     }, this));
                 }
+ */
             }
         },
 
