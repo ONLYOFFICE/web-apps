@@ -303,7 +303,7 @@ define([
                     menu: new Common.UI.Menu({
                         style: 'min-width: 100px;',
                         items: [
-                            {template: _.template('<div id="id-toolbar-menu-text-highlight" style="width: 145px; display: inline-block;" class="palette-large"></div>')},
+                            {template: _.template('<div id="id-toolbar-menu-text-highlight" style="width: 145px; display: inline-block;"></div>')},
                             {caption: '--'},
                             this.mnuTextHighlightTransparent = new Common.UI.MenuItem({
                                 caption: this.strMenuNoFill,
@@ -1266,13 +1266,14 @@ define([
                 return $host;
             },
 
-            createPen: function(button, id, transparent) {
+            createPen: function(button, id, transparent, storage) {
                 var mnu;
                 button.setMenu(new Common.UI.Menu({
                     cls: 'shifted-left',
                     style: 'min-width: 100px;',
                     items: [
-                        {template: _.template('<div id="id-toolbar-menu-' + id + '" style="width: 174px; display: inline-block;" class="palette-large"></div>')},
+                        {template: _.template('<div id="id-toolbar-menu-' + id + '" style="width: 174px; display: inline-block;"></div>')},
+                        {caption: '--'},
                         {
                             id: 'id-toolbar-menu-' + id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + button.textNewColor + '</a>')
@@ -1288,19 +1289,18 @@ define([
                 }), true);
                 button.currentColor = button.options.penOptions.color;
                 button.setColor(button.currentColor);
+                var config = Common.define.simpleColorsConfig;
                 var picker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-' + id),
-                    colors: button.options.penOptions.colors || [
-                        '1755A0', 'D43230', 'F5C346', 'EA3368', '12A489', '552F8B', '9D1F87', 'BB2765', '479ED2', '67C9FA',
-                        '3D8A44', '80CA3D', '1C19B4', '7F4B0F', 'FF7E07', 'FFFFFF', 'D3D3D4', '879397', '575757', '000000'
-                    ],
+                    colors: button.options.penOptions.colors || config.colors,
                     value: button.currentColor,
-                    dynamiccolors: 5,
-                    themecolors: 0,
-                    effects: 0,
-                    columns: 5,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    cls: config.cls,
                     outerMenu: {menu: button.menu, index: 0, focusOnShow: true},
-                    storageSuffix: '-draw'
+                    storageSuffix: storage || ''
                 });
                 button.setPicker(picker);
                 picker.on('select', _.bind(button.onColorSelect, button));
@@ -1342,17 +1342,17 @@ define([
                             }));
                     }
                     if (me.btnStrikeout && me.btnStrikeout.menu) {
-                        var arr = me.createPen(me.btnStrikeout, 'strikeout');
+                        var arr = me.createPen(me.btnStrikeout, 'strikeout', false, '-draw');
                         me.mnuStrikeoutColorPicker = arr[0];
                         me.mnuStrikeoutTransparent = arr[1];
                     }
                     if (me.btnUnderline && me.btnUnderline.menu) {
-                        var arr = me.createPen(me.btnUnderline, 'underline');
+                        var arr = me.createPen(me.btnUnderline, 'underline', false, '-draw');
                         me.mnuUnderlineColorPicker = arr[0];
                         me.mnuUnderlineTransparent = arr[1];
                     }
                     if (me.btnHighlight && me.btnHighlight.menu) {
-                        var arr = me.createPen(me.btnHighlight, 'highlight');
+                        var arr = me.createPen(me.btnHighlight, 'highlight', false, '-draw');
                         me.mnuHighlightColorPicker = arr[0];
                         me.mnuHighlightTransparent = arr[1];
                     }
@@ -1565,6 +1565,7 @@ define([
                         themecolors: 0,
                         effects: 0,
                         columns: 4,
+                        cls: 'palette-large',
                         outerMenu: {menu: this.btnTextHighlightColor.menu, index: 0, focusOnShow: true}
                     });
                     this.btnTextHighlightColor.setPicker(this.mnuTextHighlightColorPicker);

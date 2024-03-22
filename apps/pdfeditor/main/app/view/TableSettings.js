@@ -644,11 +644,19 @@ define([
         UpdateThemeColors: function() {
             if (this._initSettings) return;
             if (!this.btnBackColor) {
+                var config = Common.define.simpleColorsConfig;
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#table-border-color-btn'),
                     color: 'auto',
                     auto: true,
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -661,7 +669,14 @@ define([
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#table-back-color-btn'),
                     transparent: true,
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -672,8 +687,8 @@ define([
                 this.btnBackColor.on('eyedropper:start', _.bind(this.onEyedropperStart, this));
                 this.btnBackColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
-            this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.borderColor.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             !this.btnBorderColor.isAutoColor() && this.btnBorderColor.setColor(this.borderColor.getColor());
         },
 

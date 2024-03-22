@@ -1763,13 +1763,13 @@ define([
                                 cls: 'color-menu shifted-right',
                                 menuAlign: 'tl-tr',
                                 items: [
-                                    { template: _.template('<div id="shape-button-shadow-shape-menu-picker" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
+                                    { template: _.template('<div id="shape-button-shadow-shape-menu-picker" style="width: 174px;display: inline-block;"></div>'), stopPropagation: true },
                                     { caption: '--'},
-                                    {
-                                        caption: this.textEyedropper,
-                                        iconCls: 'menu__icon btn-eyedropper',
-                                        value: 1
-                                    },
+                                    // {
+                                    //     caption: this.textEyedropper,
+                                    //     iconCls: 'menu__icon btn-eyedropper',
+                                    //     value: 1
+                                    // },
                                     {
                                         caption: this.textMoreColors,
                                         value: 2
@@ -1832,12 +1832,19 @@ define([
             this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
             this.btnShadowShape.menu.setInnerMenu([{menu: this.viewShadowShapePresets, index: 0}]);
 
+            var config = Common.define.simpleColorsConfig;
             this.mnuShadowShapeColorPicker = new Common.UI.ThemeColorPalette({
                 el: $('#shape-button-shadow-shape-menu-picker'),
-                outerMenu: {menu: this.mnuShadowShapeColor.menu, index: 0}
+                outerMenu: {menu: this.mnuShadowShapeColor.menu, index: 0},
+                colors: config.colors,
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                cls: config.cls
             });            
             this.mnuShadowShapeColor.menu.setInnerMenu([{menu: this.mnuShadowShapeColorPicker, index: 0}]);
-            this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors())
+            // this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors())
             this.mnuShadowShapeColorPicker.on('select', _.bind(this.onSelectShadowColor, this));
 
             this.linkAdvanced = $('#shape-advanced-link');
@@ -2082,12 +2089,21 @@ define([
 
         UpdateThemeColors: function() {
             if (this._initSettings) return;
+
+            var config = Common.define.simpleColorsConfig;
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-back-color-btn'),
                     transparent: true,
                     color: 'transparent',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -2101,7 +2117,14 @@ define([
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-foreground-color-btn'),
                     color: '000000',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -2115,7 +2138,14 @@ define([
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-background-color-btn'),
                     color: 'ffffff',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -2129,7 +2159,14 @@ define([
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-gradient-color-btn'),
                     color: '000000',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -2143,7 +2180,14 @@ define([
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-border-color-btn'),
                     color: '000000',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -2155,11 +2199,11 @@ define([
                 this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
 
-            this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         onBtnRotateClick: function(btn) {

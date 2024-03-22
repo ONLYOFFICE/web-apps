@@ -1761,11 +1761,19 @@ define([
         UpdateThemeColors: function() {
             if (this._initSettings) return;
             if (!this.btnBackColor) {
+                var config = Common.define.simpleColorsConfig;
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
                     transparent: true,
                     color: 'transparent',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1779,7 +1787,14 @@ define([
                 this.btnFGColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-foreground-color-btn'),
                     color: '000000',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1793,7 +1808,14 @@ define([
                 this.btnBGColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-background-color-btn'),
                     color: 'ffffff',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1807,7 +1829,14 @@ define([
                 this.btnGradColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-gradient-color-btn'),
                     color: '000000',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1821,7 +1850,14 @@ define([
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-border-color-btn'),
                     color: '000000',
-                    eyeDropper: true,
+                    // eyeDropper: true,
+                    colors: config.colors,
+                    dynamiccolors: config.dynamiccolors,
+                    themecolors: config.themecolors,
+                    effects: config.effects,
+                    columns: config.columns,
+                    paletteCls: config.cls,
+                    paletteWidth: config.paletteWidth,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big'
@@ -1833,11 +1869,11 @@ define([
                 this.btnBorderColor.on('eyedropper:end', _.bind(this.onEyedropperEnd, this));
             }
             
-            this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
-            this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBorder.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBack.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            // this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         _pt2mm: function(value) {
