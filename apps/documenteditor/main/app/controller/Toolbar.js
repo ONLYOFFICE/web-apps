@@ -3712,11 +3712,6 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            // Common.UI.LayoutManager.getTab(toolbar, 'tab1', 'Tab 1');
-            // Common.UI.LayoutManager.getTab(toolbar, 'tab2', 'Tab 2');
-            // Common.UI.LayoutManager.getTab(toolbar, 'tab1', 'Tab 1');
-            // toolbar.setVisible('tab1', true);
-            // toolbar.setVisible('tab2', true);
             // var icons = [
             //     {
             //         "theme" : "theme-classic-light",
@@ -3750,96 +3745,112 @@ define([
             // ];
             // data = [{
             //     guid: 'plugin-guid-1',
-            //     tab: {
-            //         id: 'tab1',
-            //         text: 'Tab1'
-            //     },
-            //     items: [
+            //     tabs: [
             //         {
-            //             id: 'button-id-1',
-            //             type: 'button',
-            //             icons: icons,
-            //             text:  { "en": "english Button 1", "es": "spanish Button 1"},
-            //             hint: 'hint',
-            //             lockInViewMode: true
-            //         },
-            //         {
-            //             id: 'button-id-2',
-            //             type: 'button',
-            //             icons: icons,
-            //             text:  { "en": "english Toggle 2", "es": "spanish Toggle 2"},
-            //             enableToggle: true,
-            //             hint: 'hint',
-            //             lockInViewMode: true
-            //         },
-            //         {
-            //             id: 'button-id-3',
-            //             type: 'button',
-            //             icons: icons,
-            //             text:  { "en": "english Menu 3", "es": "spanish Menu 3"},
-            //             hint: 'hint',
-            //             separator: true,
-            //             split: false,
-            //             // disabled: true,
-            //             menu: [
+            //             id: 'tab1',
+            //             text: 'Tab1',
+            //             items: [
             //                 {
-            //                     id: 'item-id-1',
-            //                     text: 'Text1'
-            //                 }
-            //             ],
-            //             lockInViewMode: true
-            //         },
-            //         {
-            //             id: 'button-id-4',
-            //             type: 'button',
-            //             icons: icons,
-            //             text:  { "en": "english Split Menu 4", "es": "spanish Split Menu 4"},
-            //             hint: 'hint',
-            //             split: true,
-            //             menu: [
-            //                 {
-            //                     id: 'item-id-2',
-            //                     text: 'Text2'
+            //                     id: 'button-id-1',
+            //                     type: 'button',
+            //                     icons: icons,
+            //                     text:  "Button 1",
+            //                     hint: 'hint',
+            //                     lockInViewMode: true
             //                 },
             //                 {
-            //                     id: 'item-id-2',
-            //                     text: 'Text2',
+            //                     id: 'button-id-2',
+            //                     type: 'button',
+            //                     icons: icons,
+            //                     text:  "Button 2",
+            //                     enableToggle: true,
+            //                     hint: 'hint',
+            //                     lockInViewMode: true
+            //                 },
+            //                 {
+            //                     id: 'button-id-3',
+            //                     type: 'button',
+            //                     icons: icons,
+            //                     text:  "Button Menu 3",
+            //                     hint: 'hint',
+            //                     separator: true,
+            //                     split: false,
+            //                     // disabled: true,
             //                     items: [
             //                         {
-            //                             id: 'item-id-3',
-            //                             text: 'Text3'
+            //                             id: 'item-id-1',
+            //                             text: 'Text1'
+            //                         }
+            //                     ],
+            //                     lockInViewMode: true
+            //                 },
+            //                 {
+            //                     id: 'button-id-4',
+            //                     type: 'button',
+            //                     icons: icons,
+            //                     text:  "Button Split Menu 4",
+            //                     hint: 'hint',
+            //                     split: true,
+            //                     items: [
+            //                         {
+            //                             id: 'item-id-2',
+            //                             text: 'Text2'
             //                         },
             //                         {
-            //                             id: 'item-id-3',
-            //                             text: 'Text3',
+            //                             id: 'item-id-2',
+            //                             text: 'Text2',
+            //                             items: [
+            //                                 {
+            //                                     id: 'item-id-3',
+            //                                     text: 'Text3'
+            //                                 },
+            //                                 {
+            //                                     id: 'item-id-3',
+            //                                     text: 'Text3',
+            //                                     separator: true
+            //                                 }
+            //                             ],
             //                             separator: true
             //                         }
             //                     ],
-            //                     separator: true
-            //                 }
-            //             ],
-            //             lockInViewMode: true
-            //         },
-            //         {
-            //             id: 'button-id-5',
-            //             type: 'button',
-            //             icons: icons,
-            //             text:  { "en": "english Toggle Split Menu 5", "es": "spanish Toggle Split Menu 5"},
-            //             hint: 'hint',
-            //             split: true,
-            //             enableToggle: true,
-            //             menu: [
-            //                 {
-            //                     id: 'item-id-2',
-            //                     text: 'Text2'
+            //                     lockInViewMode: true
             //                 },
             //                 {
-            //                     id: 'item-id-2',
-            //                     text: 'Text2',
-            //                     separator: true
+            //                     id: 'button-id-5',
+            //                     type: 'button',
+            //                     icons: icons,
+            //                     text:  "Toggle Split Menu 5",
+            //                     hint: 'hint',
+            //                     split: true,
+            //                     enableToggle: true,
+            //                     items: [
+            //                         {
+            //                             id: 'item-id-2',
+            //                             text: 'Text2'
+            //                         },
+            //                         {
+            //                             id: 'item-id-2',
+            //                             text: 'Text2',
+            //                             separator: true
+            //                         }
+            //                     ],
+            //                     lockInViewMode: true
             //                 }
-            //             ],
-            //             lockInViewMode: true
+            //             ]
+            //         },
+            //         {
+            //             id: 'tab2',
+            //             text: 'Tab2',
+            //             items: [
+            //                 {
+            //                     id: 'button-id-7',
+            //                     type: 'button',
+            //                     icons: icons,
+            //                     text:  "Button 7",
+            //                     hint: 'hint',
+            //                     lockInViewMode: true
+            //                 },
+            //           ]
             //         }
             //     ]
             // }];
