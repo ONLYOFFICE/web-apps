@@ -48,9 +48,7 @@ define([
     'common/main/lib/component/ColorButton',
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
-    'common/main/lib/view/InsertTableDialog',
-    'documenteditor/main/app/view/TableFormulaDialog',
-    'documenteditor/main/app/view/TableToTextDialog'
+    'common/main/lib/view/InsertTableDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

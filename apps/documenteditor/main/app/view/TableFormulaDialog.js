@@ -38,8 +38,6 @@
  */
 
 define([
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
 ], function () { 'use strict';
 
     DE.Views.TableFormulaDialog = Common.UI.Window.extend(_.extend({

@@ -49,17 +49,14 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
-    'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/controller/PageLayout',
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/WatermarkSettingsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/DateTimeDialog',
     'documenteditor/main/app/view/LineNumbersDialog',
-    'documenteditor/main/app/view/TextToTableDialog',
     'documenteditor/main/app/view/HyphenationDialog'
 ], function () {
     'use strict';

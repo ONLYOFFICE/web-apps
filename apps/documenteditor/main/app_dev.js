@@ -207,6 +207,11 @@ require([
                     'documenteditor/main/app/view/ImageSettingsAdvanced',
                     'documenteditor/main/app/view/TableSettingsAdvanced',
                     'documenteditor/main/app/view/DropcapSettingsAdvanced',
+                    'documenteditor/main/app/view/StyleTitleDialog',
+                    'documenteditor/main/app/view/TableFormulaDialog',
+                    'documenteditor/main/app/view/TableToTextDialog',
+                    'documenteditor/main/app/view/TextToTableDialog',
+                    'documenteditor/main/app/view/WatermarkSettingsDialog',
                 ];
 
                 window.compareVersions = true;

@@ -36,9 +36,6 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
 ], function () { 'use strict';
 
     DE.Views.StyleTitleDialog = Common.UI.Window.extend(_.extend({

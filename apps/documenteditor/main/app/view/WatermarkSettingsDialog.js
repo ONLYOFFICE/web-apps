@@ -38,11 +38,8 @@
  *
  */
 
-define(['text!documenteditor/main/app/template/WatermarkSettings.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/view/AdvancedSettingsWindow'
+define([
+    'text!documenteditor/main/app/template/WatermarkSettings.template'
 ], function (template) { 'use strict';
 
     DE.Views.WatermarkText = new(function() {
