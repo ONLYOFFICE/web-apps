@@ -2664,6 +2664,7 @@ define([
 
                 documentHolder.menuEditObject.setVisible(!!pluginGuid);
                 documentHolder.menuEditObjectSeparator.setVisible(!!pluginGuid);
+                documentHolder.menuEditObject.setDisabled(isObjLocked);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);

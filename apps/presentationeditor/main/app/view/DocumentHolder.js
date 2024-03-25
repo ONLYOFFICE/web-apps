@@ -2323,6 +2323,7 @@ define([
 
                     me.menuEditObject.setVisible(!!pluginGuid);
                     me.menuEditObjectSeparator.setVisible(!!pluginGuid);
+                    me.menuEditObject.setDisabled(disabled);
 
                     me.mnuArrangeFront.setDisabled(inSmartartInternal);
                     me.mnuArrangeBack.setDisabled(inSmartartInternal);

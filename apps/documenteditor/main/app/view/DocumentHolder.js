@@ -702,6 +702,7 @@ define([
 
                     me.menuEditObject.setVisible(!!pluginGuid);
                     me.menuEditObjectSeparator.setVisible(!!pluginGuid);
+                    me.menuEditObject.setDisabled(islocked);
 
                     me.menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
