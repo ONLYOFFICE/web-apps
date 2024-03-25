@@ -2662,9 +2662,15 @@ define([
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
+                if (pluginGuid !== null) {
+                    var plugin = SSE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    documentHolder.menuEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || isObjLocked);
+                } else {
+                    documentHolder.menuEditObject.setDisabled(isObjLocked);
+                }
+
                 documentHolder.menuEditObject.setVisible(!!pluginGuid);
                 documentHolder.menuEditObjectSeparator.setVisible(!!pluginGuid);
-                documentHolder.menuEditObject.setDisabled(isObjLocked);
 
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);

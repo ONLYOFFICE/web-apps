@@ -2321,9 +2321,15 @@ define([
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
 
+                    if (pluginGuid !== null) {
+                        var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                        me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || disabled);
+                    } else {
+                        me.menuEditObject.setDisabled(disabled);
+                    }
+
                     me.menuEditObject.setVisible(!!pluginGuid);
                     me.menuEditObjectSeparator.setVisible(!!pluginGuid);
-                    me.menuEditObject.setDisabled(disabled);
 
                     me.mnuArrangeFront.setDisabled(inSmartartInternal);
                     me.mnuArrangeBack.setDisabled(inSmartartInternal);
