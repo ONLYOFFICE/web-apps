@@ -2295,6 +2295,14 @@ define([
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.textEditObject
+            });
+
             me.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -2312,6 +2320,15 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
+
+                    var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                    me.menuEditObject.setVisible(pluginGuidAvailable);
+                    me.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                    if (pluginGuidAvailable) {
+                        var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                        me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || disabled);
+                    }
 
                     me.mnuArrangeFront.setDisabled(inSmartartInternal);
                     me.mnuArrangeBack.setDisabled(inSmartartInternal);
@@ -2385,6 +2402,8 @@ define([
                     me.menuImgCut,
                     me.menuImgCopy,
                     me.menuImgPaste,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
@@ -2717,6 +2736,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
+        textEditObject: 'Edit object',
         textSlideSettings: 'Slide Settings',
         directionText: 'Text Direction',
         directHText: 'Horizontal',

@@ -1753,6 +1753,7 @@
   "PE.Views.DocumentHolder.textCropFit": "Fit",
   "PE.Views.DocumentHolder.textCustom": "Custom",
   "PE.Views.DocumentHolder.textCut": "Cut",
+  "PE.Views.DocumentHolder.textEditObject": "Edit object",
   "PE.Views.DocumentHolder.textDeleteGuide": "Delete guide",
   "PE.Views.DocumentHolder.textDistributeCols": "Distribute columns",
   "PE.Views.DocumentHolder.textDistributeRows": "Distribute rows",
