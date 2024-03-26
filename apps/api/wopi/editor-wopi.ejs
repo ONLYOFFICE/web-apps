@@ -340,6 +340,9 @@ div {
 				},
 				"events": {
                     "onAppReady": onAppReady,
+                    "onDocumentReady": function () {
+                        _postMessage('UI_DocumentReady', {});
+                    },
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
                     'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
                     'onRequestSaveAs': fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative ? onRequestSaveAs : undefined,
@@ -364,12 +367,16 @@ div {
             fixSize();
         };
 
-        var fixSize = function () {
+        var fixSize = function (value1) {
+            console.log("fixSize and resize", value1);
+            window.resizeBy(-100, -100);
             var wrapEl = document.getElementsByClassName("form");
             if (wrapEl.length) {
                 wrapEl[0].style.height = screen.availHeight + "px";
                 window.scrollTo(0, -1);
                 wrapEl[0].style.height = window.innerHeight + "px";
+
+                console.log("wrapEl found", wrapEl[0].style.height, window.screen.availHeight);
             }
         };
 
@@ -390,11 +397,9 @@ div {
         if (window.addEventListener) {
             window.addEventListener("load", connectEditor);
             window.addEventListener("resize", fixSize);
-            window.addEventListener("orientationchange", fixSize);
         } else if (window.attachEvent) {
             window.attachEvent("onload", connectEditor);
             window.attachEvent("onresize", fixSize);
-            window.attachEvent("orientationchange", fixSize);
         }
     </script>
 </body>
