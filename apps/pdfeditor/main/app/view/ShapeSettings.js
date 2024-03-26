@@ -796,10 +796,10 @@ define([
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
                         if (Asc.c_oAscTypeSelectElement.Shape == elType) {
-                            (new PE.Views.ShapeSettingsAdvanced(
+                            (new PDFE.Views.ShapeSettingsAdvanced(
                                 {
                                     shapeProps: elValue,
-                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
@@ -2076,7 +2076,7 @@ define([
             });
             me.btnChangeShape.shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
-                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
+                    PDFE.getController('InsTab').view.cmbInsertShape.updateComboView(record);
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }

@@ -150,7 +150,7 @@ define([
                 if (this.api) {
                     var oleobj = this.api.asc_canEditTableOleObject(true);
                     if (oleobj) {
-                        var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                        var oleEditor = PDFE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                         if (oleEditor) {
                             oleEditor.setEditMode(true);
                             oleEditor.show();
@@ -313,7 +313,7 @@ define([
             });
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
-                    PE.getController('Toolbar').toolbar.cmbInsertShape.updateComboView(record);
+                    PDFE.getController('InsTab').view.cmbInsertShape.updateComboView(record);
                     me.api.ChangeShapeType(record.get('data').shapeType);
                     me.fireEvent('editcomplete', me);
                 }
@@ -358,7 +358,7 @@ define([
                 this.btnFlipH.setDisabled(value || this._locked);
 
                 if (this._state.isOleObject) {
-                    var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    var plugin = PDFE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
                     this.btnEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin===null || plugin ===undefined) || this._locked);
                 } else {
                     this.btnSelectImage.setDisabled(pluginGuid===null || this._locked);
@@ -443,11 +443,11 @@ define([
                                     imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
                             }
 
-                            (new PE.Views.ImageSettingsAdvanced(
+                            (new PDFE.Views.ImageSettingsAdvanced(
                                 {
                                     imageProps: elValue,
                                     sizeOriginal: imgsizeOriginal,
-                                    slideSize: PE.getController('Toolbar').currentPageSize,
+                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
