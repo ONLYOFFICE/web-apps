@@ -3214,7 +3214,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
-        textEditObject: 'Edit Object',
+        textEditObject: 'Edit object',
         directionText: 'Text Direction',
         directHText: 'Horizontal',
         direct90Text: 'Rotate Text Down',

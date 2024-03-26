@@ -2736,7 +2736,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
-        textEditObject: 'Edit Object',
+        textEditObject: 'Edit object',
         textSlideSettings: 'Slide Settings',
         directionText: 'Text Direction',
         directHText: 'Horizontal',

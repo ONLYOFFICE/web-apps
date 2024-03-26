@@ -1700,7 +1700,7 @@ define([
         txtDescending:          'Descending',
         txtFormula:             'Insert Function',
         txtInsHyperlink:        'Hyperlink',
-        txtEditObject: 'Edit Object',
+        txtEditObject: 'Edit object',
         txtCut:                 'Cut',
         txtCopy:                'Copy',
         txtPaste:               'Paste',
