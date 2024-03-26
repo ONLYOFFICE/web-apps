@@ -700,15 +700,14 @@ define([
                     if (me.menuImgReplace.isVisible())
                         me.menuImgReplace.setDisabled(islocked || pluginGuid===null);
 
-                    if (pluginGuid !== null) {
+                    var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                    me.menuEditObject.setVisible(pluginGuidAvailable);
+                    me.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                    if (pluginGuidAvailable) {
                         var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
                         me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || islocked);
-                    } else {
-                        me.menuEditObject.setDisabled(islocked);
                     }
-
-                    me.menuEditObject.setVisible(!!pluginGuid);
-                    me.menuEditObjectSeparator.setVisible(!!pluginGuid);
 
                     me.menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 

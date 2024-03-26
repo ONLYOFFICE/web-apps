@@ -2321,15 +2321,14 @@ define([
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
 
-                    if (pluginGuid !== null) {
+                    var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                    me.menuEditObject.setVisible(pluginGuidAvailable);
+                    me.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                    if (pluginGuidAvailable) {
                         var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
                         me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || disabled);
-                    } else {
-                        me.menuEditObject.setDisabled(disabled);
                     }
-
-                    me.menuEditObject.setVisible(!!pluginGuid);
-                    me.menuEditObjectSeparator.setVisible(!!pluginGuid);
 
                     me.mnuArrangeFront.setDisabled(inSmartartInternal);
                     me.mnuArrangeBack.setDisabled(inSmartartInternal);
