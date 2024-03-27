@@ -2,6 +2,10 @@ import React from 'react';
 import { observer, inject } from "mobx-react";
 import { Page, Navbar, List, ListItem, BlockTitle, Icon } from "framework7-react";
 import { useTranslation } from "react-i18next";
+import SvgIcon from "../../components/svgicon";
+import SvgDocx from '../../../resources/img/formats/docx.svg'
+import SvgPdf from '../../../resources/img/formats/pdf.svg'
+import SvgDotx from '../../../resources/img/formats/dotx.svg'
 
 const Download = props => {
     const { t } = useTranslation();
@@ -20,7 +24,7 @@ const Download = props => {
             <BlockTitle>{isEditableForms ? t('Settings.textExportAs') : _t.textDownloadAs}</BlockTitle>
             <List>
                 <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
-                    <Icon slot="media" icon="icon-format-docx"></Icon>
+                    <SvgIcon slot="media" symbolId={SvgDocx.id} className={'icon icon-svg icon-svg-format'} />
                 </ListItem>
                 {canFeatureForms && isAvailableExt ? [
                     <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
@@ -28,7 +32,7 @@ const Download = props => {
                     </ListItem>,
                 ] : null}
                 <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
-                    <Icon slot="media" icon="icon-format-pdf"></Icon>
+                    <SvgIcon slot="media" symbolId={SvgPdf.id} className={'icon icon-svg icon-svg-format'} />
                 </ListItem>
                 {!isEditableForms ? [
                     <ListItem title="PDF/A" key="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
@@ -47,7 +51,7 @@ const Download = props => {
                         <Icon slot="media" icon="icon-format-html"></Icon>
                     </ListItem>,
                     <ListItem title="DOTX" key="DOTX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOTX)}>
-                        <Icon slot="media" icon="icon-format-dotx"></Icon>
+                        <SvgIcon slot="media" symbolId={SvgDotx.id} className={'icon icon-svg icon-svg-format'} />
                     </ListItem>,
                     <ListItem title="OTT" key="OTT" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OTT)}>
                         <Icon slot="media" icon="icon-format-ott"></Icon>
