@@ -10,5 +10,9 @@ require([
     'documenteditor/main/app/view/TableToTextDialog',
     'documenteditor/main/app/view/TextToTableDialog',
     'documenteditor/main/app/view/WatermarkSettingsDialog',
+    'documenteditor/main/app/view/RoleDeleteDlg',
+    'documenteditor/main/app/view/RoleEditDlg',
+    'documenteditor/main/app/view/RolesManagerDlg',
+    'documenteditor/main/app/view/SaveFormDlg',
 ], function () {
 });

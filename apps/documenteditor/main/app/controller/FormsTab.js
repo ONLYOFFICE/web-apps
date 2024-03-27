@@ -40,11 +40,11 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/FormsTab',
-    'documenteditor/main/app/view/RolesManagerDlg',
-    'documenteditor/main/app/view/SaveFormDlg'
+    'documenteditor/main/app/view/FormsTab'
 ], function () {
     'use strict';
+
+    console.log('FormsTab controller')
 
     DE.Controllers.FormsTab = Backbone.Controller.extend(_.extend({
         models : [],

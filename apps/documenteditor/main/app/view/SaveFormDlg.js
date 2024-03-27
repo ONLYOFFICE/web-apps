@@ -38,12 +38,10 @@
  *
  */
 
-define([  'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView',
-    'documenteditor/main/app/view/RoleEditDlg',
-    'documenteditor/main/app/view/RoleDeleteDlg'
-], function (contentTemplate) {
+define([], function () {
     'use strict';
+
+    console.log('SaveFormDlg view')
 
     DE.Views = DE.Views || {};
 
