@@ -1,5 +1,6 @@
 require([
     "common/main/lib/controller/ScreenReaderFocus",
+    "common/main/lib/component/ComboBoxDataView",
     "documenteditor/main/app/view/ParagraphSettingsAdvanced",
     "documenteditor/main/app/view/ImageSettingsAdvanced.js",
     "documenteditor/main/app/view/TableSettingsAdvanced.js",
