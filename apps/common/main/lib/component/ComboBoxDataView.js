@@ -41,8 +41,6 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Scroller'
 ], function () {
     'use strict';
 
