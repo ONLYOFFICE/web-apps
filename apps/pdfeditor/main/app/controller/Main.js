@@ -1581,6 +1581,18 @@ define([
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
+                    case Asc.c_oAscError.ID.SplitCellMaxRows:
+                        config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
+                        break;
+
+                    case Asc.c_oAscError.ID.SplitCellMaxCols:
+                        config.msg = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
+                        break;
+
+                    case Asc.c_oAscError.ID.SplitCellRowsDivider:
+                        config.msg = this.splitDividerErrorText.replace('%1', errData.get_Value());
+                        break;
+
                     case Asc.c_oAscError.ID.UplDocumentSize:
                         config.msg = this.uploadDocSizeMessage;
                         break;
@@ -1611,6 +1623,18 @@ define([
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
                         config.msg = this.errorFilePassProtect;
+                        break;
+
+                    case Asc.c_oAscError.ID.StockChartError:
+                        config.msg = this.errorStockChart;
+                        break;
+
+                    case Asc.c_oAscError.ID.DataRangeError:
+                        config.msg = this.errorDataRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.Database:
+                        config.msg = this.errorDatabaseConnection;
                         break;
 
                     case Asc.c_oAscError.ID.UserDrop:
@@ -1669,6 +1693,10 @@ define([
                     case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        config.msg = this.errorComboSeries;
                         break;
 
                     case Asc.c_oAscError.ID.DirectUrl:
@@ -2601,7 +2629,14 @@ define([
             txtEnterDate: 'Enter a date',
             errorEmailClient: 'No email client could be found',
             errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
-            txtArt: 'Your text here'
+            txtArt: 'Your text here',
+            splitMaxRowsErrorText: 'The number of rows must be less than %1',
+            splitMaxColsErrorText: 'The number of columns must be less than %1',
+            splitDividerErrorText: 'The number of rows must be a divisor of %1',
+            errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.',
+            errorDataRange: 'Incorrect data range.',
+            errorDatabaseConnection: 'External error.<br>Database connection error. Please, contact support.',
+            errorComboSeries: 'To create a combination chart, select at least two series of data.'
         }
     })(), PDFE.Controllers.Main || {}))
 });
