@@ -44,8 +44,6 @@ define([
 ], function () {
     'use strict';
 
-    console.log('FormsTab controller')
-
     DE.Controllers.FormsTab = Backbone.Controller.extend(_.extend({
         models : [],
         collections : [

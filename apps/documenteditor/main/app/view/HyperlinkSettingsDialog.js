@@ -46,11 +46,7 @@ var c_oHyperlinkType = {
     WebLink: 1
 };
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {

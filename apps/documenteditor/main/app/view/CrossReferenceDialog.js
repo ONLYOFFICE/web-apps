@@ -37,10 +37,7 @@
  *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.CrossReferenceDialog = Common.UI.Window.extend(_.extend({
         options: {

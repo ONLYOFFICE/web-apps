@@ -41,8 +41,6 @@
 define([], function () {
     'use strict';
 
-    console.log('SaveFormDlg view')
-
     DE.Views = DE.Views || {};
 
     DE.Views.SaveFormDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({

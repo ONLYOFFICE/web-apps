@@ -38,14 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

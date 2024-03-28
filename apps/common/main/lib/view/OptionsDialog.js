@@ -36,10 +36,7 @@
  *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
  *
  */
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/RadioBox'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.OptionsDialog = Common.UI.Window.extend(_.extend({
         options: {

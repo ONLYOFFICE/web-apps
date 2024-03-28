@@ -37,13 +37,8 @@
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'documenteditor/main/app/view/AddNewCaptionLabelDialog'
-], function () { 'use strict';
+define([], function () {
+    'use strict';
 
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

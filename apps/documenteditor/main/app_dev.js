@@ -204,6 +204,7 @@ require([
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
                     'common/main/lib/component/ComboBoxDataView',
+                    'common/main/lib/view/OptionsDialog',
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',
                     'documenteditor/main/app/view/TableSettingsAdvanced',
@@ -217,6 +218,14 @@ require([
                     'documenteditor/main/app/view/RoleEditDlg',
                     'documenteditor/main/app/view/RolesManagerDlg',
                     'documenteditor/main/app/view/SaveFormDlg',
+                    'documenteditor/main/app/view/AddNewCaptionLabelDialog',
+                    'documenteditor/main/app/view/CaptionDialog',
+                    'documenteditor/main/app/view/NoteSettingsDialog',
+                    'documenteditor/main/app/view/HyperlinkSettingsDialog',
+                    'documenteditor/main/app/view/BookmarksDialog',
+                    'documenteditor/main/app/view/NotesRemoveDialog',
+                    'documenteditor/main/app/view/CrossReferenceDialog',
+                    'documenteditor/main/app/view/TableOfContentsSettings'
                 ];
 
                 window.compareVersions = true;
