@@ -75,7 +75,7 @@ define([
 
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="review-changes-panel" class="panel" data-tab="review">' +
+            '<section id="review-changes-panel" class="panel" data-tab="review" role="tabpanel" aria-labelledby="review">' +
                 '<div class="group no-group-mask review">' +
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +

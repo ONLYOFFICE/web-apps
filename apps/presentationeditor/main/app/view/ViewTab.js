@@ -46,7 +46,7 @@ define([
 
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section class="panel" data-tab="view">' +
+            '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +

@@ -219,6 +219,16 @@ define([
             }
         },
 
+        getFocusElement: function () {
+            var btn = false;
+            if (this.btnChat && this.btnChat.pressed) {
+                btn = this.panelChat.getFocusElement();
+            } else if (this.btnSearchBar && this.btnSearchBar.pressed) {
+                btn = this.panelSearch.getFocusElement();
+            }
+            return btn;
+        },
+
         setOptionsPanel: function(name, panel) {
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');

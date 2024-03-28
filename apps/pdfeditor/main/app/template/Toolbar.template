@@ -4,7 +4,7 @@
         <%= tabsmarkup %>
         <div class="extra right"></div>
     </div>
-    <section class="box-controls">
+    <section class="box-controls" role="tabpanel">
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
@@ -41,7 +41,7 @@
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
-            <section class="panel" data-tab="home">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-pages" style="width: 95px"></span>
@@ -88,7 +88,7 @@
                 </div>
                 <% } %>
             </section>
-            <section class="panel" data-tab="comment">
+            <section class="panel" data-tab="comment" role="tabpanel" aria-labelledby="comment">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-comment"></span>
                 </div>

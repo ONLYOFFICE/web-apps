@@ -53,7 +53,7 @@ define([
 
     Common.Views.Protection = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="protection-panel" class="panel" data-tab="protect">' +
+            '<section id="protection-panel" class="panel" data-tab="protect" role="tabpanel" aria-labelledby="protect">' +
             '<div class="group">' +
                 '<span id="slot-btn-add-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-change-password" class="btn-slot text x-huge"></span>' +

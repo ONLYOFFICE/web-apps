@@ -144,6 +144,8 @@ define([
             el.html(this.template(this.model.toJSON()));
             el.addClass('item');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.attr('tabindex', 0);
+            el.attr('role', this.options.role ? this.options.role : 'listitem');
             
             if (this.dataHint !== '') {
                 el.attr('data-hint', this.dataHint);
@@ -261,11 +263,12 @@ define([
             scrollYStyle: null,
             showLast: true,
             useBSKeydown: false,
-            cls: ''
+            cls: '',
+            role: 'listbox'
         },
 
         template: _.template([
-            '<div class="dataview inner <%= cls %>" style="<%= style %>">',
+            '<div class="dataview inner <%= cls %>" style="<%= style %>" role="<%= options.role %>">',
                 '<% _.each(groups, function(group) { %>',
                     '<% if (group.headername !== undefined) { %>',
                         '<div class="header-name"><%= group.headername %></div>',
@@ -551,6 +554,7 @@ define([
                                     placement   : 'cursor',
                                     zIndex : me.tipZIndex
                                 });
+                                view_el.attr('aria-label', record.get('tip'));
                                 view_el.mouseenter();
                             });
                         else {
@@ -560,6 +564,7 @@ define([
                                 placement   : 'cursor',
                                 zIndex : me.tipZIndex
                             });
+                            view_el.attr('aria-label', record.get('tip'));
                         }
                     }
 
@@ -694,6 +699,7 @@ define([
                         placement: 'cursor',
                         zIndex: me.tipZIndex
                     });
+                    view_el.attr('aria-label', record.get('tip'));
                     view_el.mouseenter();
                 });
             } else {
@@ -703,6 +709,7 @@ define([
                     placement: 'cursor',
                     zIndex: me.tipZIndex
                 });
+                view_el.attr('aria-label', record.get('tip'));
             }
         },
 
@@ -959,6 +966,7 @@ define([
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
                         this._fromKeyDown = false;
+                        $('#' + rec.get('id')).parent().focus();
                     }
                 }
             } else {

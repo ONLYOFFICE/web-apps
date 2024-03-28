@@ -96,13 +96,13 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>" role="option"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -253,6 +253,9 @@ define([
                     this.setDefaultSelection();
 
                     this.listenTo(this.store, 'reset',  this.onResetItems);
+
+                    if (this.options.ariaLabel)
+                        this.cmpEl.find('.form-control').attr('aria-label', this.options.ariaLabel);
                 }
 
                 me.rendered = true;
@@ -291,6 +294,7 @@ define([
 
             closeMenu: function() {
                 this.cmpEl.removeClass('open');
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
             },
 
             isMenuOpen: function() {
@@ -356,6 +360,8 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
+
                 this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
             },
@@ -397,6 +403,7 @@ define([
 
             onAfterHideMenu: function(e, isFromInputControl) {
                 this.cmpEl.find('.dropdown-toggle').blur();
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {

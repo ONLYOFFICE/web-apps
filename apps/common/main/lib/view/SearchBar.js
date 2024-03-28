@@ -60,9 +60,9 @@ define([
             _.extend(this.options, options || {});
 
             this.template = [
-                '<div class="box">',
+                '<div class="box" role="search">',
                     '<div class="search-input-group">',
-                        '<input type="text" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                        '<input type="search" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
                         '<div id="search-bar-results">0/0</div>',
                     '</div>',
                     '<div class="tools">',

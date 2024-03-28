@@ -70,6 +70,7 @@ define([
                     allowBlank: true,
                     validateOnBlur: false,
                     style: 'width: 100%;',
+                    type: 'search',
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -321,6 +322,10 @@ define([
                 el.find('input').focus();
                 el.find('input').select();
             }, 10);
+        },
+
+        getFocusElement: function () {
+            return this.inputText.$el.find('input');
         },
 
         setSearchMode: function (mode) {

@@ -194,13 +194,6 @@ require([
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'documenteditor/main/app/view/FileMenuPanels',
-                'documenteditor/main/app/view/ParagraphSettings',
-                'documenteditor/main/app/view/HeaderFooterSettings',
-                'documenteditor/main/app/view/ImageSettings',
-                'documenteditor/main/app/view/TableSettings',
-                'documenteditor/main/app/view/ShapeSettings',
-                'documenteditor/main/app/view/TextArtSettings',
-                'documenteditor/main/app/view/SignatureSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
@@ -209,7 +202,6 @@ require([
                 ,'common/main/lib/controller/Chat'
                 /** coauthoring end **/
                 ,'common/main/lib/controller/Plugins'
-                ,'documenteditor/main/app/view/ChartSettings'
                 ,'common/main/lib/controller/ExternalDiagramEditor'
                 ,'common/main/lib/controller/ExternalMergeEditor'
                 ,'common/main/lib/controller/ExternalOleEditor'
@@ -217,6 +209,9 @@ require([
                 ,'common/main/lib/controller/Protection'
                 ,'common/main/lib/controller/Draw'
             ], function() {
+                app.postLaunchScripts = [
+                    'documenteditor/main/code',
+                ];
                 app.start();
             });
         }

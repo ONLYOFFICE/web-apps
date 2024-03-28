@@ -159,11 +159,13 @@ define([
                 allowScrollbar: true,
                 scrollAlwaysVisible: true,
                 emptyItemText: '',
-                keyMoveDirection: 'both'
+                keyMoveDirection: 'both',
+                role: 'tree',
+                roleItem: 'treeitem'
             },
 
             template: _.template([
-                '<div class="treeview inner" style="<%= style %>"></div>'
+                '<div class="treeview inner" style="<%= style %>" role="<%= options.role %>"></div>'
             ].join('')),
 
             initialize : function(options) {
@@ -202,7 +204,8 @@ define([
             onAddItem: function(record, store, opts) {
                 var view = new Common.UI.DataViewItem({
                     template: this.itemTemplate,
-                    model: record
+                    model: record,
+                    role: this.options.roleItem
                 });
 
                 if (view) {
@@ -232,10 +235,20 @@ define([
                         this.listenTo(view, 'select',      this.onSelectItem);
                         this.listenTo(view, 'contextmenu', this.onContextMenuItem);
 
+                        if (record.get('hasSubItems'))
+                            view.$el.attr('aria-expanded', record.get('isExpanded'));
+                        view.$el.attr('aria-level', record.get('level') + 1);
+
                         if (!this.isSuspendEvents)
                             this.trigger('item:add', this, view, record);
                     }
                 }
+            },
+
+            onChangeItem: function (view, record) {
+                if (record.get('hasSubItems'))
+                    view.$el.attr('aria-expanded', record.get('isExpanded'));
+                Common.UI.DataView.prototype.onChangeItem.call(this, view, record);
             },
 
             onClickItem: function(view, record, e) {
@@ -357,6 +370,7 @@ define([
                             this.selectRecord(rec);
                             this._fromKeyDown = false;
                             this.scrollToRecord(rec);
+                            $('#' + rec.get('id')).parent().focus();
                         }
                     }
                 } else {

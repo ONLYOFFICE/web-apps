@@ -94,7 +94,7 @@ define([
         value       : 'unchecked',
 
         template    : _.template('<label class="checkbox-indeterminate"><input id="<%= id %>" type="checkbox" class="checkbox__native">' +
-                                    '<label for="<%= id %>" class="checkbox__shape" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>"></label><span></span></label>'),
+                                    '<label for="<%= id %>" class="checkbox__shape" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" role="checkbox" aria-checked="false" aria-labelledby="<%= id %>-description"></label><span id="<%= id %>-description"></span></label>'),
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -178,6 +178,8 @@ define([
 
             this.value = this.indeterminate ? 'indeterminate' : (this.checked ? 'checked' : 'unchecked');
             this.$chk.prop({indeterminate: this.indeterminate, checked: this.checked});
+
+            $(this.$label.find('label')).attr('aria-checked', this.indeterminate ? 'mixed' : this.checked);
         },
 
         setValue: function(value, suspendchange) {

@@ -177,6 +177,9 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                         Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    if (this.options.ariaLabel)
+                        this._input.attr('aria-label', this.options.ariaLabel);
                 }
 
                 me.rendered = true;

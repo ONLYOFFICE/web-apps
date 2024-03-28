@@ -44,7 +44,6 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/ComboDataView',
-    'documenteditor/main/app/view/ImageSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
