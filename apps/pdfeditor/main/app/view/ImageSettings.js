@@ -447,7 +447,7 @@ define([
                                 {
                                     imageProps: elValue,
                                     sizeOriginal: imgsizeOriginal,
-                                    slideSize: PDFE.getController('Toolbar').currentPageSize,
+                                    slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
                                     handler: function(result, value) {
                                         if (result == 'ok') {
                                             if (me.api) {
