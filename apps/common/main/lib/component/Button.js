@@ -191,6 +191,10 @@ define([
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
 
+    var templateBtnCaption =
+        '<%= caption %>' +
+        '<i class="caret"></i>';
+
     var templateHugeCaption =
             '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
                 '<div class="inner-box-icon">' +
@@ -208,9 +212,7 @@ define([
                     templateBtnIcon +
                 '</div>' +
                 '<div class="inner-box-caption">' +
-                    '<span class="caption"><%= caption %>' +
-                        '<i class="caret"></i>' +
-                    '</span>' +
+                    '<span class="caption">' + templateBtnCaption + '</span>' +
                     '<i class="caret compact-caret"></i>' +
                 '</div>' +
             '</button>' +
@@ -225,9 +227,7 @@ define([
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<span class="btn-fixflex-vcenter">' +
-                    '<span class="caption"><%= caption %>' +
-                        '<i class="caret"></i>' +
-                    '</span>' +
+                    '<span class="caption">' + templateBtnCaption + '</span>' +
                     '<i class="caret compact-caret"></i>' +
                 '</span>' +
             '</button>' +
@@ -898,7 +898,7 @@ define([
 
         setCaption: function(caption) {
             if (this.caption != caption) {
-                if ( /icon-top/.test(this.cls) && !!this.caption && /huge/.test(this.cls) ) {
+                if ( /icon-top/.test(this.options.cls) && !!this.caption && /huge/.test(this.options.cls) ) {
                     var newCaption = this.getCaptionWithBreaks(caption);
                     this.caption = newCaption || caption;
                 } else
@@ -908,7 +908,7 @@ define([
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.html(this.caption);
+                        captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
                     } else {
                         this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }
@@ -988,5 +988,70 @@ define([
             }
         }
     });
+
+    Common.UI.ButtonCustom = Common.UI.Button.extend(_.extend({
+        initialize : function(options) {
+            options.iconCls = 'icon-custom ' + (options.iconCls || '');
+            Common.UI.Button.prototype.initialize.call(this, options);
+
+            this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
+            var icons = Common.UI.getSuitableIcons(this.iconsSet);
+            this.iconNormalImg = icons['normal'];
+            this.iconActiveImg = icons['active'];
+        },
+
+        render: function (parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+
+            var _current_active = false,
+                me = this;
+            this.cmpButtonFirst = $('button:first', this.$el || $(this.el));
+            const _callback = function (records, observer) {
+                var _hasactive = me.cmpButtonFirst.hasClass('active') || me.cmpButtonFirst.is(':active');
+                if ( _hasactive !== _current_active ) {
+                    me.updateIcon();
+                    _current_active = _hasactive;
+                }
+            };
+            this.cmpButtonFirst[0] && (new MutationObserver(_callback))
+                .observe(this.cmpButtonFirst[0], {
+                    attributes : true,
+                    attributeFilter : ['class'],
+                });
+
+            if (this.menu && !this.split) {
+                var onMouseDown = function (e) {
+                    _callback();
+                    $(document).on('mouseup',   onMouseUp);
+                };
+                var onMouseUp = function (e) {
+                    _callback();
+                    $(document).off('mouseup',   onMouseUp);
+                };
+                this.cmpButtonFirst.on('mousedown', _.bind(onMouseDown, this));
+            }
+
+            this.updateIcon();
+            Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
+        },
+
+        updateIcons: function() {
+            var icons = Common.UI.getSuitableIcons(this.iconsSet);
+            this.iconNormalImg = icons['normal'];
+            this.iconActiveImg = icons['active'];
+            this.updateIcon();
+        },
+
+        updateIcon: function() {
+            this.$icon && this.$icon.css({'background-image': 'url('+ (this.cmpButtonFirst && (this.cmpButtonFirst.hasClass('active') || this.cmpButtonFirst.is(':active')) ? this.iconActiveImg : this.iconNormalImg) +')'});
+        },
+
+        applyScaling: function (ratio) {
+            if ( this.options.scaling !== ratio ) {
+                this.options.scaling = ratio;
+                this.updateIcons();
+            }
+        }
+    }, Common.UI.ButtonCustom || {}));
 });
 
