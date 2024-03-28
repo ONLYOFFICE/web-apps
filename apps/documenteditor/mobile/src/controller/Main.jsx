@@ -44,6 +44,68 @@ class MainController extends Component {
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
         this.boxSdk = $$('#editor_sdk');
+        this.fallbackSdkTranslations = {
+            " -Section ": " -Section ",
+            "above": "above",
+            "below": "below",
+            "Caption": "Caption",
+            "Choose an item": "Choose an item",
+            "Click to load image": "Click to load image",
+            "Current Document": "Current Document",
+            "Diagram Title": "Chart Title",
+            "endnote text": "Endnote Text",
+            "Enter a date": "Enter a date",
+            "Error! Bookmark not defined": "Error! Bookmark not defined.",
+            "Error! Main Document Only": "Error! Main Document Only.",
+            "Error! No text of specified style in document": "Error! No text of specified style in document.",
+            "Error! Not a valid bookmark self-reference": "Error! Not a valid bookmark self-reference.",
+            "Even Page ": "Even Page ",
+            "First Page ": "First Page ",
+            "Footer": "Footer",
+            "footnote text": "Footnote Text",
+            "Header": "Header",
+            "Heading 1": "Heading 1",
+            "Heading 2": "Heading 2",
+            "Heading 3": "Heading 3",
+            "Heading 4": "Heading 4",
+            "Heading 5": "Heading 5",
+            "Heading 6": "Heading 6",
+            "Heading 7": "Heading 7",
+            "Heading 8": "Heading 8",
+            "Heading 9": "Heading 9",
+            "Hyperlink": "Hyperlink",
+            "Index Too Large": "Index Too Large",
+            "Intense Quote": "Intense Quote",
+            "Is Not In Table": "Is Not In Table",
+            "List Paragraph": "List Paragraph",
+            "Missing Argument": "Missing Argument",
+            "Missing Operator": "Missing Operator",
+            "No Spacing": "No Spacing",
+            "No table of contents entries found": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
+            "No table of figures entries found": "No table of figures entries found.",
+            "None": "None",
+            "Normal": "Normal",
+            "Number Too Large To Format": "Number Too Large To Format",
+            "Odd Page ": "Odd Page ",
+            "Quote": "Quote",
+            "Same as Previous": "Same as Previous",
+            "Series": "Series",
+            "Subtitle": "Subtitle",
+            "Syntax Error": "Syntax Error",
+            "Table Index Cannot be Zero": "Table Index Cannot be Zero",
+            "Table of Contents": "Table of Contents",
+            "table of figures": "Table of figures",
+            "The Formula Not In Table": "The Formula Not In Table",
+            "Title": "Title",
+            "TOC Heading": "TOC Heading",
+            "Type equation here": "Type equation here",
+            "Undefined Bookmark": "Undefined Bookmark",
+            "Unexpected End of Formula": "Unexpected End of Formula",
+            "X Axis": "X Axis XAS",
+            "Y Axis": "Y Axis",
+            "Your text here": "Your text here",
+            "Zero Divide": "Zero Divide"
+        }
 
         this._state = {
             licenseType: false,
@@ -241,7 +303,6 @@ class MainController extends Component {
 
                 const { t } = this.props;
                 const appOptions = this.props.storeAppOptions;
-                const isForm = appOptions.isForm;
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
 
@@ -276,7 +337,7 @@ class MainController extends Component {
 
                 value = LocalStorage.getBool('mobile-view', true);
 
-                if(value && !isForm) {
+                if(value) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -308,12 +369,12 @@ class MainController extends Component {
                 if(isOForm) {
                     f7.dialog.create({
                         title: t('Main.notcriticalErrorTitle'),
-                        text: t('Main.textConvertFormSave'),
+                        text: t('Main.textConvertForm'),
                         buttons: [
                             {
-                                text: appOptions.canRequestSaveAs || !!appOptions.saveAsUrl || appOptions.isOffline ? t('Main.textSaveAsPdf') : t('Main.textDownloadPdf'),
+                                text: t('Main.textDownloadPdf'),
                                 onClick: () => {
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, appOptions.canRequestSaveAs || !!appOptions.saveAsUrl));
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, false))
                                 }
                             },
                             {
@@ -324,41 +385,39 @@ class MainController extends Component {
                 }
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
+            const _process_array = async (array, fn) => {
+                const results = [];
+
+                for (const item of array) {
+                    try {
+                        const data = await fn(item);
+                        results.push(data);
+                    } catch (error) {
+                        console.log(`Error with processing element ${item}:`, error);
+                        continue;
+                    }
+                }
+
+                return results;
             };
 
             _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
+                .then(() => {
                     window["flat_desine"] = true;
-                    const {t} = this.props;
-                    let _translate = t('Main.SDK', {returnObjects:true});
-                    for (let item in _translate) {
-                        if (_translate.hasOwnProperty(item)) {
-                            const str = _translate[item];
-                            if (item[item.length-1]===' ' && str[str.length-1]!==' ')
-                                _translate[item] += ' ';
-                        }
-                    }
-                    ["Error! Bookmark not defined",
-                     "No table of contents entries found",
-                     "No table of figures entries found",
-                     "Error! Main Document Only",
-                     "Error! Not a valid bookmark self-reference",
-                     "Error! No text of specified style in document"].forEach(item => {
-                        _translate[item + '.'] = _translate[item];
-                        delete _translate[item];
-                    });
+                    const { t } = this.props;
+                    let _translate = t('Main.SDK', { returnObjects: true });
 
-                    var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                    if (typeof _translate === 'object') {
+                        Object.entries(_translate).forEach(([key, value]) => {
+                            if (key.endsWith(' ') && !value.endsWith(' ')) {
+                                _translate[key] = value + ' ';
+                            }
+                        });
+                    } else {
+                        _translate = this.fallbackSdkTranslations
+                    }
+
+                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
                         isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
                     const config = {
@@ -406,7 +465,8 @@ class MainController extends Component {
                     Common.Gateway.internalMessage('listenHardBack');
                 }, error => {
                     console.log('promise failed ' + error);
-                });
+                }
+            );
         };
 
         if ( About.developVersion() ) {
@@ -519,7 +579,7 @@ class MainController extends Component {
             let value = LocalStorage.getItem("de-opensource-warning");
             value = (value !== null) ? parseInt(value) : 0;
             const now = (new Date).getTime();
-            if (now - value > 86400000 && !isForm) {
+            if (now - value > 86400000) {
                 LocalStorage.setItem("de-opensource-warning", now);
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,

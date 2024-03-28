@@ -52,10 +52,10 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
-                    'plugins:open': _.bind(this.openPlugin, this),
-                    'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this),
-                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
+                    'pluginsleft:open': _.bind(this.openPlugin, this),
+                    'pluginsleft:close': _.bind(this.closePlugin, this),
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.Header': {
                     'history:show': function () {
@@ -191,16 +191,6 @@ define([
             this.mode = mode;
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
-
-            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
-                Common.util.Shortcuts.removeShortcuts({
-                    shortcuts: {
-                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file'),
-                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
-                    }
-                });
-
             return this;
         },
 
@@ -627,6 +617,7 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
         updatePluginButtonsIcons: function (icons) {
@@ -805,7 +796,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         this.leftMenu.showMenu('file:help');
@@ -840,8 +831,7 @@ define([
                             return false;
                         }
                     }
-                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() ||
-                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
+                    if ( this.leftMenu.btnAbout.pressed) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -952,6 +942,10 @@ define([
                 } else if (this.leftMenu.btnSpellcheck.isActive() && this.api) {
                     this.leftMenu.btnSpellcheck.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSpellcheck);
+                }
+                else if (this.leftMenu.btnChat.isActive()) {
+                    this.leftMenu.btnChat.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
                 }
             }
         },

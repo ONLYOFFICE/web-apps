@@ -379,6 +379,7 @@ define([
                 }, this));
             }
 
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
@@ -737,8 +738,6 @@ define([
                 }
                 if (key == Common.UI.Keys.ESC) {
                     Common.UI.Menu.Manager.hideAll();
-                    if (!Common.UI.HintManager.isHintVisible())
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                 }
             }
         },
@@ -834,7 +833,11 @@ define([
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
-                            (btn == 'yes') && window.open(url);
+                            try {
+                                (btn == 'yes') && window.open(url);
+                            } catch (err) {
+                                err && console.log(err.stack);
+                            }
                         }
                     });
             }
@@ -1135,6 +1138,7 @@ define([
                 if (text !== false) {
                     win = new PE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.mode,
                         handler: handlerDlg,
                         slides: _arr
                     });
@@ -1155,6 +1159,7 @@ define([
                     if (props) {
                         win = new PE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.mode,
                             handler: handlerDlg,
                             slides: _arr
                         });
@@ -1490,6 +1495,7 @@ define([
                 }
                 win = new PE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
@@ -1518,6 +1524,7 @@ define([
                 }
                 win = new PE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());
@@ -1575,6 +1582,23 @@ define([
                 }
             }
         },
+
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
+        },
+
 
         onCutCopyPaste: function(item, e) {
             var me = this;

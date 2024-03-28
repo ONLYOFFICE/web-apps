@@ -100,7 +100,8 @@ define([
         noAnimationRepeat: 'no-animation-repeat',
         noAnimationDuration: 'no-animation-duration',
         timingLock: 'timing-lock',
-        copyLock:   'can-copy'
+        copyLock:   'can-copy',
+        fileMenuOpened: 'file-menu-opened'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -299,6 +300,16 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnSelectAll);
 
+                    me.btnReplace = new Common.UI.Button({
+                        id: 'id-toolbar-btn-replace',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-replace',
+                        lock: [_set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
+                    });
+                    me.slideOnlyControls.push(me.btnReplace);
+
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls: 'input-group-nr',
                         menuCls: 'scrollable-menu',
@@ -494,7 +505,7 @@ define([
                         iconCls: 'toolbar__icon btn-clearstyle',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnClearStyle);
 
@@ -1161,7 +1172,7 @@ define([
                     this.slideOnlyControls.push(this.cmbInsertShape);
 
                     this.lockControls = [this.btnChangeSlide, this.btnSave,
-                        this.btnCopy, this.btnPaste, this.btnCut, this.btnSelectAll,this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
+                        this.btnCopy, this.btnPaste, this.btnCut, this.btnSelectAll, this.btnReplace,this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
                         this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
@@ -1268,6 +1279,7 @@ define([
                 _injectComponent('#slot-btn-paste', this.btnPaste);
                 _injectComponent('#slot-btn-cut', this.btnCut);
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
+                _injectComponent('#slot-btn-replace', this.btnReplace);
                 _injectComponent('#slot-btn-bold', this.btnBold);
                 _injectComponent('#slot-btn-italic', this.btnItalic);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
@@ -1455,6 +1467,7 @@ define([
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
                 this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
+                this.btnReplace.updateHint(this.tipReplace + ' (' + Common.Utils.String.textCtrl + '+H)');
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -1685,7 +1698,7 @@ define([
                     delayRenderTips: true,
                     scrollAlwaysVisible: true,
                     store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
-                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                    itemTemplate: _.template('<div class="item-symbol" dir="ltr" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
                 });
                 this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
                 this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
@@ -2377,7 +2390,8 @@ define([
             textTradeMark: 'Trade Mark Sign',
             textYen: 'Yen Sign',
             capBtnInsHeaderFooter: 'Header & Footer',
-            tipEditHeaderFooter: 'Edit header or footer'
+            tipEditHeaderFooter: 'Edit header or footer',
+            tipReplace: 'Replace'
         }
     }()), PE.Views.Toolbar || {}));
 });

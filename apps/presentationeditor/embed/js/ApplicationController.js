@@ -514,9 +514,9 @@ PE.ApplicationController = new(function(){
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
-            $parent.css('padding-left', _right_width - _left_width);
+            $parent.css('padding-left', parseFloat($parent.css('padding-left')) + _right_width - _left_width);
         else
-            $parent.css('padding-right', _left_width - _right_width);
+            $parent.css('padding-right', parseFloat($parent.css('padding-right')) + _left_width - _right_width);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
@@ -736,6 +736,11 @@ PE.ApplicationController = new(function(){
     function setBranding(value) {
         if ( value && value.logo) {
             var logo = $('#header-logo');
+            if (value.logo.visible===false) {
+                logo.addClass('hidden');
+                return;
+            }
+
             if (value.logo.image || value.logo.imageEmbedded) {
                 logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});

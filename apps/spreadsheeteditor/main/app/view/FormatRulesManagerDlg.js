@@ -175,7 +175,9 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             };
             this.rulesList.on('item:select', _.bind(this.onSelectRule, this))
                             .on('item:keydown', _.bind(this.onKeyDown, this))
-                            .on('item:keyup', _.bind(this.onKeyUp, this));
+                            .on('item:keyup', _.bind(this.onKeyUp, this))
+                            .on('item:dblclick', _.bind(this.onEditRule, this,true))
+                            .on('entervalue', _.bind(function (e) {!!e.store.length && this.onEditRule(true);},this));
 
             this.btnNew = new Common.UI.Button({
                 el: $('#format-manager-btn-new')
@@ -577,6 +579,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
             var me = this,
                 i = item.get('ruleIndex'),
                 cmpEl = this.rulesList.cmpEl.find('#format-manager-item-' + i);
+
             if (!this.rules[i])
                 this.rules[i] = {};
             var rule = this.rules[i];
@@ -602,6 +605,7 @@ define([  'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.templa
                 }
 
             }).on('button:click', _.bind(this.onSelectData, this, rule, item));
+            input.cmpEl.on('dblclick', 'input', function (e){e.stopPropagation();});
             Common.UI.FocusManager.add(this, input);
 
             var val = item.get('range');

@@ -1145,6 +1145,14 @@ define([
                 caption: me.textEditPoints
             });
 
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.txtEditObject
+            });
+
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
             this.imgMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -1153,6 +1161,8 @@ define([
                     me.pmiImgCut,
                     me.pmiImgCopy,
                     me.pmiImgPaste,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     {caption: '--'},
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
@@ -1690,6 +1700,7 @@ define([
         txtDescending:          'Descending',
         txtFormula:             'Insert Function',
         txtInsHyperlink:        'Hyperlink',
+        txtEditObject: 'Edit object',
         txtCut:                 'Cut',
         txtCopy:                'Copy',
         txtPaste:               'Paste',

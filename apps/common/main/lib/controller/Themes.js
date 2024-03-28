@@ -458,6 +458,10 @@ define([
                 return !!themes_map[window.uitheme.id] ? window.uitheme.id : id_default_light_theme;
             },
 
+            currentThemeColor: function (token) {
+                return getComputedStyle(document.body).getPropertyValue(token);
+            },
+
             defaultThemeId: function (type) {
                 return type == 'dark' ? id_default_dark_theme : id_default_light_theme;
             },

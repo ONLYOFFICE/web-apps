@@ -71,10 +71,10 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
-                    'plugins:open': _.bind(this.openPlugin, this),
-                    'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this),
-                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
+                    'pluginsleft:open': _.bind(this.openPlugin, this),
+                    'pluginsleft:close': _.bind(this.closePlugin, this),
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'Common.Views.About': {
                     'show':    _.bind(this.aboutShowHide, this, false),
@@ -184,16 +184,6 @@ define([
             this.mode = mode;
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
-
-            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
-                Common.util.Shortcuts.removeShortcuts({
-                    shortcuts: {
-                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file'),
-                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
-                    }
-                });
-
             return this;
         },
 
@@ -482,6 +472,7 @@ define([
 
         closePlugin: function (guid) {
             this.leftMenu.closePlugin(guid);
+            Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
         updatePluginButtonsIcons: function (icons) {
@@ -609,7 +600,7 @@ define([
                         if (this.isSearchPanelVisible()) {
                             selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                             this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                            this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText ? selectedText : undefined);
+                            this.leftMenu.fireEvent('search:aftershow', selectedText ? [selectedText] : undefined);
                             return false;
                         } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                             var viewport = this.getApplication().getController('Viewport');
@@ -642,7 +633,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
+                    if ( this.mode.canHelp ) {                   // TODO: unlock 'help' panel for 'view' mode
 
                     if (!previewPanel || !previewPanel.isVisible()){
                         Common.UI.Menu.Manager.hideAll();
@@ -683,7 +674,7 @@ define([
                         }
                     }
 
-                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
+                    if ( this.leftMenu.btnAbout.pressed ) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -723,6 +714,10 @@ define([
                     this.leftMenu.btnSearchBar.toggle(false);
                     this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);
                 }
+                else if (this.leftMenu.btnChat.isActive()) {
+                    this.leftMenu.btnChat.toggle(false);
+                    this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                }
             }
         },
 
@@ -744,7 +739,7 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
-                this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
+                this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);

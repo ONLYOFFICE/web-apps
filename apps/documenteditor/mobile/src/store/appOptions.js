@@ -119,7 +119,7 @@ export class storeAppOptions {
         this.templates = config.templates;
         this.recent = config.recent;
         this.createUrl = config.createUrl;
-        this.lang = config.lang;
+        this.lang = config.lang ?? 'en';
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
@@ -156,7 +156,7 @@ export class storeAppOptions {
             isSupportEditFeature;
         this.isEdit = this.canLicense && this.canEdit && this.config.mode !== 'view';
         this.canReview = this.canLicense && this.isEdit && (permissions.review===true);
-        this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
+        this.canUseHistory = this.canLicense && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp && !this.isOffline;
         this.canRename = this.config.canRename;
         this.canHistoryClose = this.config.canHistoryClose;
         this.canHistoryRestore= this.config.canHistoryRestore;
@@ -198,8 +198,8 @@ export class storeAppOptions {
         this.canBranding = params.asc_getCustomization();
         this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
 
-        this.canFavorite = document.info && (document.info.favorite !== undefined && document.info.favorite !== null) && !this.isOffline;
-        this.isFavorite = document.info.favorite;
+        this.canFavorite = document.info && (document.info?.favorite !== undefined && document.info?.favorite !== null) && !this.isOffline;
+        this.isFavorite = document.info?.favorite;
 
         if ( this.isLightVersion ) {
             this.canUseHistory = this.canReview = this.isReviewOnly = false;

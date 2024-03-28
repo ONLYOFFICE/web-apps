@@ -111,7 +111,7 @@ define([
                              '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                          ]}
                     ],
-                    lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments] :
+                    lock = (this.appPrefix === 'de-') ? [_set.headerLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode] :
                            (this.appPrefix === 'pe-') ? [_set.slideDeleted, _set.lostConnect, _set.noSlides] :
                                                         [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     me = this;
@@ -171,7 +171,7 @@ define([
 
             updateButtonHint: function(button) {
                 var config = button.options.penOptions;
-                button.updateHint(config.hint + ': ' + Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(config.color).asc_getName()) + ', ' + config.size.arr[config.size.idx] + ' ' + this.txtMM);
+                button.updateHint(config.hint + ': ' + Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(config.color).asc_getName()) + Common.Utils.String.textComma + ' ' + config.size.arr[config.size.idx] + ' ' + this.txtMM);
                 button.sizePicker && button.sizePicker.setValue(config.size.arr[config.size.idx] + ' ' + this.txtMM);
             },
 

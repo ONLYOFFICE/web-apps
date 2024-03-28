@@ -5,80 +5,30 @@
     .thumb {
         width: 13px;
         height: 15px;
+        z-index: 1;
         top: 18px;
+        top: calc(17px + @scaled-one-px-value);
         background: none;
-
-        .thumb-top {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 9px;
-            height: 9px;
-            background-color: @background-normal-ie;
-            background-color: @background-normal;
-            -moz-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
-            transform: rotate(45deg);
-            border-top: solid @scaled-one-px-value-ie @border-regular-control-ie;
-            border-top: solid @scaled-one-px-value @border-regular-control;
-            border-left: solid @scaled-one-px-value-ie @border-regular-control-ie;
-            border-left: solid @scaled-one-px-value @border-regular-control;
-            border-radius: 0 3px;
-            box-sizing: content-box;
-            .thumb-top-inner {
-                border-top: solid @scaled-one-px-value-ie @background-normal-ie;
-                border-top: solid @scaled-one-px-value @background-normal;
-                border-left: solid @scaled-one-px-value-ie @background-normal-ie;
-                border-left: solid @scaled-one-px-value @background-normal;
-                height: 100%;
-            }
+        canvas{
+            .margin-left(1px);
+            .margin-left(@scaled-one-px-value);
         }
 
-        .thumb-bottom {
-            position: absolute;
-            top: 6px;
-            left: 1px;
-            width: 10px;
-            height: 9px;
-            background-color: @background-normal-ie;
-            background-color: @background-normal;
-            border: solid @scaled-one-px-value-ie @border-regular-control-ie;
-            border: solid @scaled-one-px-value @border-regular-control;
-            border-top: none;
-            border-radius: 2px;
-            box-sizing: content-box;
-            .thumb-bottom-inner {
-                border: solid @scaled-one-px-value-ie @background-normal-ie;
-                border: solid @scaled-one-px-value @background-normal;
-                border-top: none;
-                height: 100%;
-            }
-        }
-
-        &.active {
-            .thumb-top {
-                border-top: solid @scaled-one-px-value-ie @border-control-focus-ie;
-                border-top: solid @scaled-one-px-value @border-control-focus;
-                border-left: solid @scaled-one-px-value-ie @border-control-focus-ie;
-                border-left: solid @scaled-one-px-value @border-control-focus;
-            }
-            .thumb-bottom {
-                border: solid @scaled-one-px-value-ie @border-control-focus-ie;
-                border: solid @scaled-one-px-value @border-control-focus;
-                border-top: none;
-            }
-        }
-
-        &:hover {
-            .thumb-bottom {
-                box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
-            }
-        }
-
-        &.remove {
+        &.remove canvas{
             opacity: 0.5;
+        }
+        &:hover::after{
+            display: block;
+            content: ' ';
+            z-index: -1;
+            position: absolute;
+            width: 11px;
+            height: 10px;
+            bottom: @scaled-one-px-value;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.32);
+            top: 5px;
+            .margin-left(1px);
+            .margin-left(@scaled-one-px-value);
         }
     }
 

@@ -1918,5 +1918,9 @@
 	"SORTBY": {
 		"a": "(tableau, par_tableau, [ordre_tri], ...)",
 		"d": "Trie une plage ou un tableau sur la base des valeurs d’une plage ou d’un tableau correspondant"
+	},
+	"GETPIVOTDATA": {
+		"a": "(champ_données; tableau_croisé_dyn; [champ]; [élément]; ...)",
+		"d": "Extrait des données d'un tableau croisé dynamique."
 	}
 }

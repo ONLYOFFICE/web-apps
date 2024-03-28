@@ -700,7 +700,7 @@ define([
                 if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
                                                                              id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
                     (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl))) {
-                    this.onEditComplete(this.loadMask);
+                    // this.onEditComplete(this.loadMask);
                     this.api.asc_enableKeyEvents(true);
                 }
             },
@@ -2330,7 +2330,8 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            // me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            window.open(url, "_blank"); // download by url, don't convert file again (+ fix print selection)
                         }
                     };
                 }
@@ -2640,7 +2641,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -2674,7 +2675,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'pptx'
+                                    fileType: 'pptx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -2695,8 +2697,8 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -2725,10 +2727,12 @@ define([
                                                 docIdPrev: docIdPrev,
                                                 selected: false,
                                                 canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
-                                                isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'pptx'
+                                                fileType: 'pptx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }

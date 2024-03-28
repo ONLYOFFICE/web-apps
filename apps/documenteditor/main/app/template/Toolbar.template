@@ -30,7 +30,7 @@
                     <span class="btn-slot" id="slot-btn-cut"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                    <span class="btn-slot" id="slot-btn-copystyle"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -38,7 +38,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
                 <div class="group small">
-                    <div class="elset" style="width:208px;">
+                    <div class="elset" style="width:230px;">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -54,6 +54,7 @@
                         <span class="btn-slot" id="slot-btn-subscript"></span>
                         <span class="btn-slot split" id="slot-btn-highlight"></span>
                         <span class="btn-slot split" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot" id="slot-btn-clearstyle"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -75,19 +76,16 @@
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>
                     </div>
                 </div>
-                <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-clearstyle"></span>
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-copystyle"></span>
-                        <span class="btn-slot split" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
-                    </div>
-                </div>
                 <div class="separator long invisible"></div>
                 <div class="group small flex field-styles" id="slot-field-styles" style="min-width: 151px;width: 100%; " data-group-width="100%"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-replace"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-select-all"></span>
+                    </div>
+                </div>
             </section>
             <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
                 <div class="group">
@@ -155,6 +153,10 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
                 </div>
             </section>
             <section class="panel" data-tab="links" role="tabpanel" aria-labelledby="links">

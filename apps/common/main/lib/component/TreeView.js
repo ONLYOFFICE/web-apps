@@ -261,6 +261,7 @@ define([
                     record.set('isExpanded', isExpanded);
                     this.store[(isExpanded) ? 'expandSubItems' : 'collapseSubItems'](record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, isExpanded, !isExpanded);
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             },
@@ -282,17 +283,21 @@ define([
 
             expandRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', true);
                     this.store.expandSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, true, oldExpand);
                 }
             },
 
             collapseRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', false);
                     this.store.collapseSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, false, oldExpand);
                 }
             },
 

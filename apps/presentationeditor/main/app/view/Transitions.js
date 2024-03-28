@@ -143,6 +143,7 @@ define([
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     style: 'min-width:108px;',
+                    autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                         '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',

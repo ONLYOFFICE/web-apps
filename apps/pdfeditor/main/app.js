@@ -68,9 +68,6 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
@@ -124,15 +121,17 @@ require.config({
 require([
     'sdk',
     'backbone',
+    'underscore',
     'bootstrap',
     'core',
     'analytics',
     'gateway',
     'locale'
-], function (Sdk, Backbone, Bootstrap, Core) {
+], function (Sdk, Backbone, _, Bootstrap, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with PDFE namespace defined

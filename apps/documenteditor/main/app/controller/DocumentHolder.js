@@ -346,6 +346,7 @@ define([
                 }, this));
             }
 
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuEquationInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuTableInsertCaption.on('click', _.bind(me.onInsertCaption, me));
@@ -726,8 +727,6 @@ define([
 
                 if (key == Common.UI.Keys.ESC) {
                     Common.UI.Menu.Manager.hideAll();
-                    if (!Common.UI.HintManager.isHintVisible())
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                 }
             }
         },
@@ -868,7 +867,11 @@ define([
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
-                            (btn == 'yes') && window.open(url);
+                            try {
+                                (btn == 'yes') && window.open(url);
+                            } catch (err) {
+                                err && console.log(err.stack);
+                            }
                         }
                     });
             }
@@ -895,6 +898,7 @@ define([
                 if (text !== false) {
                     win = new DE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.mode,
                         handler: handlerDlg
                     });
 
@@ -914,6 +918,7 @@ define([
                     if (props) {
                         win = new DE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.mode,
                             handler: handlerDlg
                         });
                         win.show();
@@ -1339,6 +1344,22 @@ define([
             });
         },
 
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
+        },
+
         onDoubleClickOnChart: function(chart) {
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
@@ -1755,6 +1776,7 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
@@ -1775,6 +1797,7 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());

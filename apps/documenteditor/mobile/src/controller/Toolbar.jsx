@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
@@ -34,6 +34,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const storeDocumentInfo = props.storeDocumentInfo;
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
+    const scrollOffsetRef = useRef(0);
 
     const getNavbarTotalHeight = useCallback(() => {
       	const navbarBg = document.querySelector('.navbar-bg');
@@ -45,8 +46,6 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
       	return 0;
     }, []);
-
-    const navbarHeight = useMemo(() => getNavbarTotalHeight(), []);
 
     useEffect(() => {
         Common.Gateway.on('init', loadConfig);
@@ -69,6 +68,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     useEffect(() => {
         const api = Common.EditorApi.get();
+        const navbarHeight = getNavbarTotalHeight();
 
         const onEngineCreated = api => {
             if(api && isViewer && navbarHeight) {
@@ -99,18 +99,21 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
 
     const scrollHandler = offset => {
         const api = Common.EditorApi.get();
+        const navbarHeight = getNavbarTotalHeight();
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
         if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > 0) {
+            if(offset > scrollOffsetRef.current) {
                 props.closeOptions('fab');
                 f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
-            } else if(offset <= 0) {
+            } else if(offset <= scrollOffsetRef.current) {
                 props.openOptions('fab');
                 f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
             }
+
+            scrollOffsetRef.current = offset;
         }
     }
 

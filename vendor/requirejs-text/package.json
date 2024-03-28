@@ -1,6 +1,6 @@
 {
     "name": "text",
-    "version": "2.0.10",
+    "version": "2.0.16",
     "description": "An AMD loader plugin for loading text resources.",
     "categories": [
         "Loader plugins"
@@ -10,22 +10,11 @@
     "bugs": {
         "web": "https://github.com/requirejs/text/issues"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/requirejs/text.git"
-        }
-    ],
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "http://www.opensource.org/licenses/mit-license.php"
-        },
-        {
-            "type": "BSD New",
-            "url": "http://opensource.org/licenses/BSD-3-Clause"
-        }
-    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/requirejs/text.git"
+    },
+    "license": "MIT",
     "volo": {
         "url": "https://raw.github.com/requirejs/text/{version}/text.js"
     }

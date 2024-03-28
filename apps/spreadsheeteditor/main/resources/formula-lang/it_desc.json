@@ -1878,5 +1878,9 @@
 	"SORTBY": {
 		"a": "(matrice, con_matrice, [ordinamento], ...)",
 		"d": "Ordina un intervallo o una matrice in base ai valori di una matrice o intervallo corrispondente"
+	},
+	"GETPIVOTDATA": {
+		"a": "(campo_dati; tabella_pivot; [campo]; [elemento]; ...)",
+		"d": "Estrae i dati memorizzati in una tabella pivot."
 	}
 }

@@ -384,6 +384,7 @@ define([
                 toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
                 toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
                 toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+                toolbar.btnReplace.on('click',                              _.bind(this.onReplace, this));
                 toolbar.btnIncFontSize.on('click',                          _.bind(this.onIncreaseFontSize, this));
                 toolbar.btnDecFontSize.on('click',                          _.bind(this.onDecreaseFontSize, this));
                 toolbar.mnuChangeCase.on('item:click',                      _.bind(this.onChangeCase, this));
@@ -496,6 +497,8 @@ define([
                 Common.Gateway.on('insertimage',                      _.bind(this.insertImage, this));
 
                 this.onSetupCopyStyleButton();
+                this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
+                this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
             }
         },
 
@@ -642,6 +645,10 @@ define([
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Select All');
+        },
+
+        onReplace: function(e) {
+            this.getApplication().getController('LeftMenu').onShortcut('replace');
         },
 
         onIncreaseFontSize: function(e) {
@@ -4634,7 +4641,7 @@ define([
                         me.toolbar.btnPaste.$el.detach().appendTo($box);
                         me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
                         me.toolbar.btnCopy.$el.removeClass('split');
-                        me.toolbar.processPanelVisible(null, true, true);
+                        me.toolbar.processPanelVisible(null, true);
                     }
 
                     if ( config.canProtect ) {

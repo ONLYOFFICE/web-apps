@@ -595,6 +595,14 @@ define([
                 caption: me.textEditPoints
             });
 
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.textEditObject
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -689,6 +697,16 @@ define([
                     me.menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (me.menuImgReplace.isVisible())
                         me.menuImgReplace.setDisabled(islocked || pluginGuid===null);
+
+                    var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                    me.menuEditObject.setVisible(pluginGuidAvailable);
+                    me.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                    if (pluginGuidAvailable) {
+                        var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                        me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || islocked);
+                    }
+
                     me.menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     me.menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
@@ -761,6 +779,8 @@ define([
                     me.menuImgCopy,
                     me.menuImgPaste,
                     me.menuImgPrint,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     { caption: '--' },
                     me.menuImgAccept,
                     me.menuImgReject,
@@ -1613,7 +1633,7 @@ define([
             });
 
             me.menuDropCapAdvanced = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-dropcap-intext',
+                iconCls: 'menu__icon btn-dropcap-intext icon-rtl',
                 caption     : me.advancedDropCapText
             });
 
@@ -2017,7 +2037,7 @@ define([
                     me.menuFrameAdvanced.setVisible(frame_pr !== undefined);
                     me.menuDropCapAdvanced.setVisible(frame_pr !== undefined);
                     if (frame_pr)
-                        me.menuDropCapAdvanced.setIconCls(frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin');
+                        me.menuDropCapAdvanced.setIconCls((frame_pr.get_DropCap()===Asc.c_oAscDropCap.Drop ? 'menu__icon btn-dropcap-intext' : 'menu__icon btn-dropcap-inmargin') + ' icon-rtl');
 
                     var edit_style = me.mode.canEditStyles && !isInChart && !(value.imgProps && value.imgProps.isSmartArtInternal);
                     menuStyleSeparator.setVisible(edit_style);
@@ -3192,6 +3212,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
+        textEditObject: 'Edit object',
         directionText: 'Text Direction',
         directHText: 'Horizontal',
         direct90Text: 'Rotate Text Down',

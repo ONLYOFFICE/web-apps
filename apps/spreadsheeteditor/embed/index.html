@@ -129,6 +129,12 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
@@ -193,19 +199,24 @@
 
           var params = getUrlParams(),
               lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+              hideLogo = params["headerlogo"]==='',
               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
 
           var elem = document.querySelector('.loading-logo');
-          if (elem && logo) {
-              elem.style.backgroundImage= 'none';
-              elem.style.width = 'auto';
-              elem.style.height = 'auto';
-              var img = document.querySelector('.loading-logo img');
-              img && img.setAttribute('src', logo);
-              img.style.opacity = 1;
+          if (elem) {
+              if (hideLogo) {
+                  elem.style.display = 'none';
+              } else if (logo) {
+                  elem.style.backgroundImage= 'none';
+                  elem.style.width = 'auto';
+                  elem.style.height = 'auto';
+                  var img = document.querySelector('.loading-logo img');
+                  img && img.setAttribute('src', logo);
+                  img.style.opacity = 1;
+              }
           }
       </script>
 

@@ -243,6 +243,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
+                    Common.NotificationCenter.on('doc:mode-apply',                  _.bind(this.onDocModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -706,7 +707,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -740,7 +741,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'docx'
+                                    fileType: 'docx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -761,8 +763,8 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -794,7 +796,10 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'docx'
+                                                fileType: 'docx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -833,6 +838,7 @@ define([
                     viewMode: disable,
                     reviewMode: false,
                     fillFormMode: false,
+                    viewDocMode: false,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -875,7 +881,7 @@ define([
                     app.getController('Viewport').SetDisabled(disable);
                 }
                 if (options.toolbar) {
-                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
+                    app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode, options.viewDocMode);
                 }
                 if (options.documentHolder) {
                     options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
@@ -1613,6 +1619,7 @@ define([
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
                     this.appOptions.canComments = false;
+                this.appOptions.canSwitchMode  = this.appOptions.isEdit;
 
                 if ( this.appOptions.isLightVersion ) {
                     this.appOptions.canUseHistory =
@@ -1742,6 +1749,46 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
+            onDocModeApply: function(mode, force) {// force !== true - change mode only if not in view mode
+                if (!this.appOptions.canSwitchMode) return;
+
+                var disable = mode==='view',
+                    inViewMode = !!this.stackDisableActions.get({type: 'view'});
+
+                if (force) {
+                    (disable || inViewMode) && Common.NotificationCenter.trigger('editing:disable', disable, {
+                        viewMode: false,
+                        reviewMode: false,
+                        fillFormMode: false,
+                        viewDocMode: true,
+                        allowMerge: false,
+                        allowSignature: false,
+                        allowProtect: false,
+                        rightMenu: {clear: disable, disable: true},
+                        statusBar: true,
+                        leftMenu: {disable: true, previewMode: true},
+                        fileMenu: {protect: true, history: false},
+                        navigation: {disable: false, previewMode: true},
+                        comments: {disable: false, previewMode: true},
+                        chat: false,
+                        review: true,
+                        viewport: false,
+                        documentHolder: {clear: true, disable: true},
+                        toolbar: true,
+                        plugins: true,
+                        protect: true
+                    }, 'view');
+
+                    if (mode==='edit') {
+                        Common.NotificationCenter.trigger('reviewchanges:turn', false);
+                    } else if (mode==='review') {
+                        Common.NotificationCenter.trigger('reviewchanges:turn', true);
+                    }
+                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.None);
+                }
+                (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
+            },
+
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
@@ -1851,7 +1898,8 @@ define([
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                } else
+                }
+                if (!this.appOptions.isEdit)
                     window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
@@ -2327,6 +2375,16 @@ define([
                     Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationElements);
                     if (this.appOptions.canBrandingExt) {
                         Common.Utils.applyCustomization(this.appOptions.customization, mapCustomizationExtElements);
+                        if (this.appOptions.customization && this.appOptions.customization.layout && this.appOptions.customization.layout.toolbar && (typeof this.appOptions.customization.layout.toolbar === 'object') &&
+                            this.appOptions.customization.layout.toolbar.home && (typeof this.appOptions.customization.layout.toolbar.home === 'object') && this.appOptions.customization.layout.toolbar.home.mailmerge===false) {
+                            console.log("Obsolete: The 'mailmerge' parameter of the 'customization.layout.toolbar.home' section is deprecated. Please use 'mailmerge' parameter in the 'customization.layout.toolbar.collaboration' section instead.");
+                            if (this.appOptions.customization.layout.toolbar.collaboration!==false) {
+                                if (typeof this.appOptions.customization.layout.toolbar.collaboration !== 'object')
+                                    this.appOptions.customization.layout.toolbar.collaboration = {};
+                                if (this.appOptions.customization.layout.toolbar.collaboration.mailmerge===undefined)
+                                    this.appOptions.customization.layout.toolbar.collaboration.mailmerge = this.appOptions.customization.layout.toolbar.home.mailmerge;
+                            }
+                        }
                         Common.UI.LayoutManager.applyCustomization();
                         if (this.appOptions.customization && (typeof (this.appOptions.customization) == 'object')) {
                             if (this.appOptions.customization.leftMenu!==undefined)
@@ -2775,7 +2833,8 @@ define([
                         me.iframePrint.contentWindow.blur();
                         window.focus();
                         } catch (e) {
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            // me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                            window.open(url, "_blank"); // download by url, don't convert file again (+ fix print selection)
                         }
                     };
                 }
@@ -2825,8 +2884,8 @@ define([
 
             DisableMailMerge: function() {
                 this.appOptions.mergeFolderUrl = "";
-                var toolbarController   = this.getApplication().getController('Toolbar');
-                toolbarController && toolbarController.DisableMailMerge();
+                var reivewController   = this.getApplication().getController('Common.Controllers.ReviewChanges');
+                reivewController && reivewController.DisableMailMerge();
             },
 
             DisableVersionHistory: function() {

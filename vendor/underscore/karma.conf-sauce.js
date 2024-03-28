@@ -1,39 +1,35 @@
 var _ = require('./');
 
 // Browsers to run on Sauce Labs platforms
+// (See https://saucelabs.com/platform/supported-browsers-devices for an
+// up-to-date overview of supported versions of browsers and platforms.)
 var sauceBrowsers = _.reduce([
-  ['firefox', '35'],
-  ['firefox', '30'],
-  ['firefox', '21'],
+  ['firefox', 'latest'],
+  ['firefox', '60'],
+  ['firefox', '40'],
   ['firefox', '11'],
-  ['firefox', '4'],
+  // ['firefox', '4'],  // failing due to "not enough arguments"
 
+  ['chrome', 'latest'],
+  ['chrome', '60'],
   ['chrome', '40'],
-  ['chrome', '39'],
-  ['chrome', '31'],
   ['chrome', '26'],
 
-  ['microsoftedge', '20.10240', 'Windows 10'],
-  ['internet explorer', '11', 'Windows 10'],
+  // latest Edge as well as pre-Blink versions
+  ['microsoftedge', 'latest', 'Windows 10'],
+  ['microsoftedge', '18', 'Windows 10'],
+  ['microsoftedge', '13', 'Windows 10'],
+
+  ['internet explorer', 'latest', 'Windows 10'],
   ['internet explorer', '10', 'Windows 8'],
   ['internet explorer', '9', 'Windows 7'],
-  // Currently disabled due to karma-sauce issues
-  // ['internet explorer', '8'],
-  // ['internet explorer', '7'],
-  // ['internet explorer', '6'],
+  // Older versions of IE no longer supported by Sauce Labs
 
-  ['opera', '12'],
-  ['opera', '11'],
+  ['safari', 'latest', 'macOS 10.15'],
+  ['safari', '12', 'macOS 10.14'],
+  ['safari', '11', 'macOS 10.13'],
+  ['safari', '8', 'OS X 10.10'],
 
-  ['android', '5'],
-  ['android', '4.4'],
-  ['android', '4.3'],
-  ['android', '4.0'],
-
-  ['safari', '8.0', 'OS X 10.10'],
-  ['safari', '7'],
-  ['safari', '6'],
-  ['safari', '5']
 ], function(memo, platform) {
   // internet explorer -> ie
   var label = platform[0].split(' ');
@@ -60,12 +56,15 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['qunit'],
     singleRun: true,
+    browserDisconnectTolerance: 5,
+    browserNoActivityTimeout: 240000,
 
     // list of files / patterns to load in the browser
     files: [
       'test/vendor/qunit-extras.js',
       'test/qunit-setup.js',
-      'underscore.js',
+      'test/overrides.js',
+      'underscore-umd.js',
       'test/*.js'
     ],
 

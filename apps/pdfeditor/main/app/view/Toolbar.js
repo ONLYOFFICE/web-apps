@@ -79,7 +79,8 @@ define([
         firstPage: 'first-page',
         lastPage: 'last-page',
         requiredNotFilled: 'required-not-filled',
-        submit: 'submit'
+        submit: 'submit',
+        fileMenuOpened: 'file-menu-opened'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

@@ -59,9 +59,6 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
@@ -104,6 +101,10 @@ require.config({
     }
 });
 
+require(['underscore'], function(_) {
+    window._ = _
+})
+
 require([
     'backbone',
     'bootstrap',
@@ -113,7 +114,6 @@ require([
     'gateway',
     'locale',
     'socketio',
-    'underscore'
 ], function (Backbone, Bootstrap, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
