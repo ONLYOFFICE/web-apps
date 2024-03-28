@@ -281,6 +281,59 @@ define([
                     }, this));
                 }
  */
+                view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuParaCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuImgCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuImgPaste.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuImgCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuTableCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuTablePaste.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuTableCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuAddHyperlinkPara.on('click', _.bind(me.addHyperlink, me));
+                view.menuAddHyperlinkTable.on('click', _.bind(me.addHyperlink, me));
+                view.menuEditHyperlinkPara.on('click', _.bind(me.editHyperlink, me));
+                view.menuEditHyperlinkTable.on('click', _.bind(me.editHyperlink, me));
+                view.menuRemoveHyperlinkPara.on('click', _.bind(me.removeHyperlink, me));
+                view.menuRemoveHyperlinkTable.on('click', _.bind(me.removeHyperlink, me));
+                // view.menuChartEdit.on('click', _.bind(me.editChartClick, me, undefined));
+                view.menuImgSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+                view.menuTableSaveAsPicture.on('click', _.bind(me.saveAsPicture, me));
+                view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
+                view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
+                view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
+                view.mnuTableMerge.on('click', _.bind(me.onTableMerge, me));
+                view.mnuTableSplit.on('click', _.bind(me.onTableSplit, me));
+                view.menuTableCellAlign.menu.on('item:click', _.bind(me.tableCellsVAlign, me));
+                view.menuTableDistRows.on('click', _.bind(me.onTableDistRows, me));
+                view.menuTableDistCols.on('click', _.bind(me.onTableDistCols, me));
+                view.menuTableAdvanced.on('click', _.bind(me.onTableAdvanced, me));
+                view.menuImageAdvanced.on('click', _.bind(me.onImageAdvanced, me));
+                view.menuImgOriginalSize.on('click', _.bind(me.onImgOriginalSize, me));
+                view.menuImgShapeRotate.menu.items[0].on('click', _.bind(me.onImgRotate, me));
+                view.menuImgShapeRotate.menu.items[1].on('click', _.bind(me.onImgRotate, me));
+                view.menuImgShapeRotate.menu.items[3].on('click', _.bind(me.onImgFlip, me));
+                view.menuImgShapeRotate.menu.items[4].on('click', _.bind(me.onImgFlip, me));
+                view.menuImgCrop.menu.on('item:click', _.bind(me.onImgCrop, me));
+                view.menuImgEditPoints.on('click', _.bind(me.onImgEditPoints, me));
+                view.menuShapeAdvanced.on('click', _.bind(me.onShapeAdvanced, me));
+                view.menuParagraphAdvanced.on('click', _.bind(me.onParagraphAdvanced, me));
+                // view.menuChartAdvanced.on('click', _.bind(me.onChartAdvanced, me));
+                view.mnuGroupImg.on('click', _.bind(me.onGroupImg, me));
+                view.mnuUnGroupImg.on('click', _.bind(me.onUnGroupImg, me));
+                view.mnuArrangeFront.on('click', _.bind(me.onArrangeFront, me));
+                view.mnuArrangeBack.on('click', _.bind(me.onArrangeBack, me));
+                view.mnuArrangeForward.on('click', _.bind(me.onArrangeForward, me));
+                view.mnuArrangeBackward.on('click', _.bind(me.onArrangeBackward, me));
+                view.menuImgShapeAlign.menu.on('item:click', _.bind(me.onImgShapeAlign, me));
+                view.menuParagraphVAlign.menu.on('item:click', _.bind(me.onParagraphVAlign, me));
+                view.menuParagraphDirection.menu.on('item:click', _.bind(me.onParagraphDirection, me));
+                view.menuTableSelectText.menu.on('item:click', _.bind(me.tableSelectText, me));
+                view.menuTableInsertText.menu.on('item:click', _.bind(me.tableInsertText, me));
+                view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
+                view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
+                view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+
             }
         },
 
@@ -338,12 +391,66 @@ define([
         },
 
         fillPDFEditMenuProps: function(selectedElements) {
-            // if (!selectedElements || !_.isArray(selectedElements)) return;
-
             var documentHolder = this.documentHolder;
             if (!documentHolder.editPDFModeMenu)
                 documentHolder.createDelayedElementsPDFEditor();
-            return {menu_to_show: documentHolder.editPDFModeMenu, menu_props: {}};
+
+            if (!selectedElements || !_.isArray(selectedElements) || selectedElements.length<1)
+                return {menu_to_show: documentHolder.editPDFModeMenu, menu_props: {}}
+
+            var me = this,
+                menu_props = {},
+                menu_to_show = null;
+            _.each(selectedElements, function(element, index) {
+                var elType  = element.get_ObjectType(),
+                    elValue = element.get_ObjectValue();
+
+                if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                    menu_to_show = documentHolder.pictureMenu;
+                    menu_props.imgProps = {};
+                    menu_props.imgProps.value = elValue;
+                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+                } else if (Asc.c_oAscTypeSelectElement.Table == elType) {
+                    menu_to_show = documentHolder.tableMenu;
+                    menu_props.tableProps = {};
+                    menu_props.tableProps.value = elValue;
+                    menu_props.tableProps.locked = (elValue) ? elValue.get_Locked() : false;
+                } else if (Asc.c_oAscTypeSelectElement.Hyperlink == elType) {
+                    menu_props.hyperProps = {};
+                    menu_props.hyperProps.value = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.Shape == elType) { // shape
+                    menu_to_show = documentHolder.pictureMenu;
+                    menu_props.shapeProps = {};
+                    menu_props.shapeProps.value = elValue;
+                    menu_props.shapeProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    if (elValue.get_FromChart())
+                        menu_props.shapeProps.isChart = true;
+                }
+                // else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
+                //     menu_to_show = documentHolder.pictureMenu;
+                //     menu_props.chartProps = {};
+                //     menu_props.chartProps.value = elValue;
+                //     menu_props.chartProps.locked = (elValue) ? elValue.get_Locked() : false;
+                // }
+                else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                    menu_props.paraProps = {};
+                    menu_props.paraProps.value = elValue;
+                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    if ((menu_props.shapeProps && menu_props.shapeProps.value || menu_props.chartProps && menu_props.chartProps.value) && // text in shape, need to show paragraph menu with vertical align
+                        _.isUndefined(menu_props.tableProps))
+                        menu_to_show = documentHolder.textMenu;
+                } else if (Asc.c_oAscTypeSelectElement.Math == elType) {
+                    menu_props.mathProps = {};
+                    menu_props.mathProps.value = elValue;
+                    documentHolder._currentMathObj = elValue;
+                }
+            });
+            if (menu_to_show === null) {
+                if (!_.isUndefined(menu_props.paraProps))
+                    menu_to_show = documentHolder.textMenu;
+            }
+
+            return {menu_to_show: menu_to_show, menu_props: menu_props};
         },
 
         applyEditorMode: function() {
@@ -351,6 +458,8 @@ define([
                 this.documentHolder.createDelayedElementsPDFEditor();
                 this.api.asc_registerCallback('asc_onShowMathTrack',            _.bind(this.onShowMathTrack, this));
                 this.api.asc_registerCallback('asc_onHideMathTrack',            _.bind(this.onHideMathTrack, this));
+                this.api.asc_registerCallback('asc_onDialogAddHyperlink',       _.bind(this.onDialogAddHyperlink, this));
+                this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
             }
         },
 
@@ -423,6 +532,24 @@ define([
                         currentMenu.options.initMenu(obj.menu_props);
                         currentMenu.alignPosition();
                     }
+                }
+            }
+            if (this.mode && this.mode.isPDFEdit) {
+                var i = -1,
+                    in_equation = false,
+                    locked = false;
+                while (++i < selectedElements.length) {
+                    var type = selectedElements[i].get_ObjectType();
+                    if (type === Asc.c_oAscTypeSelectElement.Math) {
+                        in_equation = true;
+                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                        var value = selectedElements[i].get_ObjectValue();
+                        value && (locked = locked || value.get_Locked());
+                    }
+                }
+                if (in_equation) {
+                    this._state.equationLocked = locked;
+                    this.disableEquationBar();
                 }
             }
         },
@@ -624,6 +751,66 @@ define([
                         }
                     });
             }
+        },
+
+        onDialogAddHyperlink: function() {
+            var win, props, text;
+            var me = this;
+            if (me.api && me.mode.isEdit && !me._isDisabled && !PDFE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
+                var handlerDlg = function(dlg, result) {
+                    if (result == 'ok') {
+                        props = dlg.getSettings();
+                        (text!==false)
+                            ? me.api.add_Hyperlink(props)
+                            : me.api.change_Hyperlink(props);
+                    }
+
+                    me.editComplete();
+                };
+
+                text = me.api.can_AddHyperlink();
+
+                var _arr = [];
+                for (var i=0; i<me.api.getCountPages(); i++) {
+                    _arr.push({
+                        displayValue: i+1,
+                        value: i
+                    });
+                }
+                if (text !== false) {
+                    win = new PDFE.Views.HyperlinkSettingsDialog({
+                        api: me.api,
+                        appOptions: me.mode,
+                        handler: handlerDlg,
+                        slides: _arr
+                    });
+
+                    props = new Asc.CHyperlinkProperty();
+                    props.put_Text(text);
+
+                    win.show();
+                    win.setSettings(props);
+                } else {
+                    var selectedElements = me.api.getSelectedElements();
+                    if (selectedElements && _.isArray(selectedElements)){
+                        _.each(selectedElements, function(el, i) {
+                            if (selectedElements[i].get_ObjectType() == Asc.c_oAscTypeSelectElement.Hyperlink)
+                                props = selectedElements[i].get_ObjectValue();
+                        });
+                    }
+                    if (props) {
+                        win = new PDFE.Views.HyperlinkSettingsDialog({
+                            api: me.api,
+                            appOptions: me.mode,
+                            handler: handlerDlg,
+                            slides: _arr
+                        });
+                        win.show();
+                        win.setSettings(props);
+                    }
+                }
+            }
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
         },
 
         onShowForeignCursorLabel: function(UserId, X, Y, color) {
@@ -1645,6 +1832,530 @@ define([
                     Common.localStorage.setBool('pdfe-equation-toolbar-hide', item.options.isToolbarHide);
                     if(item.options.isToolbarHide) this.onHideMathTrack();
                     else this.onShowMathTrack(this.lastMathTrackBounds);
+                }
+            }
+        },
+
+        equationCallback: function(eqProps) {
+            if (eqProps) {
+                var eqObj;
+                switch (eqProps.type) {
+                    case Asc.c_oAscMathInterfaceType.Accent:
+                        eqObj = new CMathMenuAccent();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.BorderBox:
+                        eqObj = new CMathMenuBorderBox();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Box:
+                        eqObj = new CMathMenuBox();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Bar:
+                        eqObj = new CMathMenuBar();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Script:
+                        eqObj = new CMathMenuScript();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Fraction:
+                        eqObj = new CMathMenuFraction();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Limit:
+                        eqObj = new CMathMenuLimit();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Matrix:
+                        eqObj = new CMathMenuMatrix();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.EqArray:
+                        eqObj = new CMathMenuEqArray();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.LargeOperator:
+                        eqObj = new CMathMenuNary();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Delimiter:
+                        eqObj = new CMathMenuDelimiter();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.GroupChar:
+                        eqObj = new CMathMenuGroupCharacter();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Radical:
+                        eqObj = new CMathMenuRadical();
+                        break;
+                    case Asc.c_oAscMathInterfaceType.Common:
+                        eqObj = new CMathMenuBase();
+                        break;
+                }
+                if (eqObj) {
+                    eqObj[eqProps.callback](eqProps.value);
+                    this.api.asc_SetMathProps(eqObj);
+                }
+            }
+            this.editComplete();
+        },
+
+        onChangeCropState: function(state) {
+            this.documentHolder.menuImgCrop && this.documentHolder.menuImgCrop.menu.items[0].setChecked(state, true);
+        },
+
+        addHyperlink: function(item){
+            var win, me = this;
+            if (me.api) {
+                var _arr = [];
+                for (var i=0; i<me.api.getCountPages(); i++) {
+                    _arr.push({
+                        displayValue: i+1,
+                        value: i
+                    });
+                }
+                win = new PDFE.Views.HyperlinkSettingsDialog({
+                    api: me.api,
+                    appOptions: me.mode,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            me.api.add_Hyperlink(dlg.getSettings());
+                        }
+                        me.editComplete();
+                    },
+                    slides: _arr
+                });
+
+                win.show();
+                win.setSettings(item.hyperProps.value);
+
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Add Hyperlink');
+            }
+        },
+
+        editHyperlink: function(item, e){
+            var win, me = this;
+            if (me.api){
+                var _arr = [];
+                for (var i=0; i<me.api.getCountPages(); i++) {
+                    _arr.push({
+                        displayValue: i+1,
+                        value: i
+                    });
+                }
+                win = new PDFE.Views.HyperlinkSettingsDialog({
+                    api: me.api,
+                    appOptions: me.mode,
+                    handler: function(dlg, result) {
+                        if (result == 'ok') {
+                            me.api.change_Hyperlink(win.getSettings());
+                        }
+                        me.editComplete();
+                    },
+                    slides: _arr
+                });
+                win.show();
+                win.setSettings(item.hyperProps.value);
+
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Edit Hyperlink');
+            }
+        },
+
+        removeHyperlink: function(item) {
+            if (this.api){
+                this.api.remove_Hyperlink();
+            }
+
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Remove Hyperlink');
+        },
+
+        onInsertImageUrl: function(placeholder, obj, x, y) {
+            var me = this;
+            (new Common.Views.ImageFromUrlDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            var checkUrl = value.replace(/ /g, '');
+                            if (!_.isEmpty(checkUrl)) {
+                                var props = new Asc.asc_CImgProperty();
+                                props.put_ImageUrl(checkUrl);
+                                me.api.ImgApply(props, obj);
+                            }
+                        }
+                    }
+                    me.editComplete();
+                }
+            })).show();
+        },
+
+        onImgReplace: function(menu, item, e) {
+            var me = this;
+            if (item.value==1) {
+                me.onInsertImageUrl(false);
+            } else if (item.value==2) {
+                Common.NotificationCenter.trigger('storage:image-load', 'change');
+            } else {
+                setTimeout(function(){
+                    me.api.ChangeImageFromFile();
+                }, 10);
+            }
+        },
+
+        onTableMerge: function () {
+            this.api && this.api.MergeCells();
+        },
+
+        onTableSplit: function () {
+            var me = this;
+            if (me.api) {
+                (new Common.Views.InsertTableDialog({
+                    split: true,
+                    handler: function(result, value) {
+                        if (result == 'ok') {
+                            if (me.api) {
+                                me.api.SplitCell(value.columns, value.rows);
+                            }
+                            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Split');
+                        }
+                        me.editComplete();
+                    }
+                })).show();
+            }
+        },
+
+        tableCellsVAlign: function(menu, item, e) {
+            if (this.api) {
+                var properties = new Asc.CTableProp();
+                properties.put_CellsVAlign(item.value);
+                this.api.tblApply(properties);
+            }
+
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Table Cell Align');
+        },
+
+        onTableDistRows: function () {
+            this.api && this.api.asc_DistributeTableCells(false);
+            this.editComplete();
+        },
+
+        onTableDistCols: function () {
+            this.api && this.api.asc_DistributeTableCells(true);
+            this.editComplete();
+        },
+
+        onTableAdvanced: function(item, e){
+            var me = this;
+            if (me.api) {
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Table == elType) {
+                            (new PDFE.Views.TableSettingsAdvanced(
+                                {
+                                    tableProps: elValue,
+                                    slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.tblApply(value.tableProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Table Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onImageAdvanced: function(item) {
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                            var imgsizeOriginal;
+
+                            if (!me.documentHolder.menuImgOriginalSize.isDisabled()) {
+                                imgsizeOriginal = me.api.get_OriginalSizeImage();
+                                if (imgsizeOriginal)
+                                    imgsizeOriginal = {width:imgsizeOriginal.get_ImageWidth(), height:imgsizeOriginal.get_ImageHeight()};
+                            }
+
+                            (new PDFE.Views.ImageSettingsAdvanced(
+                                {
+                                    imageProps: elValue,
+                                    sizeOriginal: imgsizeOriginal,
+                                    slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ImgApply(value.imageProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Settings Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onImgOriginalSize: function(item){
+            var me = this;
+            if (me.api){
+                var originalImageSize = me.api.get_OriginalSizeImage();
+
+                if (originalImageSize) {
+                    var properties = new Asc.asc_CImgProperty();
+
+                    properties.put_Width(originalImageSize.get_ImageWidth());
+                    properties.put_Height(originalImageSize.get_ImageHeight());
+                    properties.put_ResetCrop(true);
+                    properties.put_Rot(0);
+                    me.api.ImgApply(properties);
+                }
+
+                me.editComplete();
+                Common.component.Analytics.trackEvent('DocumentHolder', 'Set Image Original Size');
+            }
+        },
+
+        onImgRotate: function(item) {
+            var properties = new Asc.asc_CShapeProperty();
+            properties.asc_putRotAdd((item.value==1 ? 90 : 270) * 3.14159265358979 / 180);
+            this.api.ShapeApply(properties);
+            this.editComplete();
+        },
+
+        onImgFlip: function(item) {
+            var properties = new Asc.asc_CShapeProperty();
+            if (item.value==1)
+                properties.asc_putFlipHInvert(true);
+            else
+                properties.asc_putFlipVInvert(true);
+            this.api.ShapeApply(properties);
+            this.editComplete();
+        },
+
+        onImgCrop: function(menu, item) {
+            if (item.value == 1) {
+                this.api.asc_cropFill();
+            } else if (item.value == 2) {
+                this.api.asc_cropFit();
+            } else {
+                item.checked ? this.api.asc_startEditCrop() : this.api.asc_endEditCrop();
+            }
+            this.editComplete();
+        },
+
+        onImgEditPoints: function(item) {
+            this.api && this.api.asc_editPointsGeometry();
+        },
+
+        onShapeAdvanced: function(item) {
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+                if (selectedElements && selectedElements.length>0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+                        if (Asc.c_oAscTypeSelectElement.Shape == elType) {
+                            (new PDFE.Views.ShapeSettingsAdvanced(
+                                {
+                                    shapeProps: elValue,
+                                    slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.ShapeApply(value.shapeProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Shape Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onParagraphAdvanced: function(item) {
+            var me = this;
+            if (me.api){
+                var selectedElements = me.api.getSelectedElements();
+
+                if (selectedElements && selectedElements.length > 0){
+                    var elType, elValue;
+                    for (var i = selectedElements.length - 1; i >= 0; i--) {
+                        elType  = selectedElements[i].get_ObjectType();
+                        elValue = selectedElements[i].get_ObjectValue();
+
+                        if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                            (new PDFE.Views.ParagraphSettingsAdvanced(
+                                {
+                                    paragraphProps: elValue,
+                                    api: me.api,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.api.paraApply(value.paragraphProps);
+                                            }
+                                        }
+                                        me.editComplete();
+                                        Common.component.Analytics.trackEvent('DocumentHolder', 'Image Paragraph Advanced');
+                                    }
+                                })).show();
+                            break;
+                        }
+                    }
+                }
+            }
+        },
+
+        onGroupImg: function(item) {
+            this.api && this.api.groupShapes();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Group Image');
+        },
+
+        onUnGroupImg: function(item) {
+            this.api && this.api.unGroupShapes();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'UnGroup Image');
+        },
+
+        onArrangeFront: function(item) {
+            this.api && this.api.shapes_bringToFront();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Front');
+        },
+
+        onArrangeBack: function(item) {
+            this.api && this.api.shapes_bringToBack();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Bring To Back');
+        },
+
+        onArrangeForward: function(item) {
+            this.api && this.api.shapes_bringForward();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Forward');
+        },
+
+        onArrangeBackward: function(item) {
+            this.api && this.api.shapes_bringBackward();
+            this.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Send Backward');
+        },
+
+        onImgShapeAlign: function (menu, item) {
+            var me = this;
+            if (me.api) {
+                var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pe-align-to-slide");
+                value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                if (item.value < 6) {
+                    me.api.put_ShapesAlign(item.value, value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
+                } else if (item.value == 6) {
+                    me.api.DistributeHorizontally(value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Horizontally');
+                } else if (item.value == 7){
+                    me.api.DistributeVertically(value);
+                    Common.component.Analytics.trackEvent('DocumentHolder', 'Distribute Vertically');
+                }
+                me.editComplete();
+            }
+        },
+
+        onParagraphVAlign: function (menu, item) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.put_VerticalTextAlign(item.value);
+
+                me.api.ShapeApply(properties);
+            }
+
+            me.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Vertical Align');
+        },
+
+        onParagraphDirection: function(menu, item) {
+            var me = this;
+            if (me.api) {
+                var properties = new Asc.asc_CShapeProperty();
+                properties.put_Vert(item.options.direction);
+                me.api.ShapeApply(properties);
+            }
+            me.editComplete();
+            Common.component.Analytics.trackEvent('DocumentHolder', 'Text Direction');
+        },
+
+        tableSelectText: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.selectRow();
+                        break;
+                    case 1:
+                        this.api.selectColumn();
+                        break;
+                    case 2:
+                        this.api.selectCell();
+                        break;
+                    case 3:
+                        this.api.selectTable();
+                        break;
+                }
+            }
+        },
+
+        tableInsertText: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.addColumnLeft();
+                        break;
+                    case 1:
+                        this.api.addColumnRight();
+                        break;
+                    case 2:
+                        this.api.addRowAbove();
+                        break;
+                    case 3:
+                        this.api.addRowBelow();
+                        break;
+                }
+            }
+        },
+
+        tableDeleteText: function(menu, item) {
+            if (this.api) {
+                switch (item.value) {
+                    case 0:
+                        this.api.remRow();
+                        break;
+                    case 1:
+                        this.api.remColumn();
+                        break;
+                    case 2:
+                        this.api.remTable();
+                        break;
                 }
             }
         },
