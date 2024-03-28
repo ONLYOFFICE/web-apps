@@ -361,6 +361,10 @@ define([
                         '<div><div id="fms-cmb-theme"></div>',
                         '<div id="fms-chb-dark-mode"></div></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strUnit %></label></td>',
+                    '<td><span id="fms-cmb-unit"></span></td>',
+                '</tr>',
                 '<tr>',
                     '<td><label><%= scope.strZoom %></label></td>',
                     '<td><div id="fms-cmb-zoom" class="input-group-nr"></div></td>',
@@ -569,6 +573,23 @@ define([
             });
             this.cmbFontRender.on('selected', _.bind(this.onFontRenderSelected, this));
 
+            this.cmbUnit = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-unit'),
+                style       : 'width: 160px;',
+                editable    : false,
+                menuCls     : 'menu-aligned',
+                menuStyle   : 'min-width:100%;',
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
+                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
+                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
@@ -663,9 +684,9 @@ define([
             this.mode = mode;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = (mode.isPDFAnnotate || mode.isPDFEdit) && !mode.isOffline;
+                canPDFSave = (mode.isPDFAnnotate || mode.isPDFEdit) && mode.canSaveToFile && !mode.isOffline;
 
-            $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
+            $('tr.edit', this.el)[mode.isPDFEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             $('tr.forcesave', this.el)[mode.canForcesave && canPDFSave ? 'show' : 'hide']();
             $('tr.editsave',this.el)[(mode.isEdit  || mode.canForcesave) && canPDFSave ? 'show' : 'hide']();
@@ -726,6 +747,11 @@ define([
             item && value && item.set('checked', !!value);
             item && value && this.cmbFontRender.cmpEl.find('#' + item.get('id') + ' a').addClass('checked');
 
+            value = Common.Utils.InternalSettings.get("pdfe-settings-unit");
+            item = this.cmbUnit.store.findWhere({value: value});
+            this.cmbUnit.setValue(item ? parseInt(item.get('value')) : Common.Utils.Metric.getDefaultMetric());
+            this._oldUnits = this.cmbUnit.getValue();
+
             value = Common.Utils.InternalSettings.get("pdfe-settings-autosave");
             this.chAutosave.setValue(value == 1);
 
@@ -776,6 +802,8 @@ define([
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pdfe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
 
+            Common.localStorage.setItem("pdfe-settings-unit", this.cmbUnit.getValue());
+
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
@@ -784,6 +812,8 @@ define([
 
             if (this.menu) {
                 this.menu.fireEvent('settings:apply', [this.menu]);
+                if (this._oldUnits !== this.cmbUnit.getValue())
+                    Common.NotificationCenter.trigger('settings:unitschanged', this);
             }
 
             if (isRtlChanged) {
@@ -859,7 +889,12 @@ define([
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
         txtLastUsed: 'Last used',
-        txtScreenReader: 'Turn on screen reader support'
+        txtScreenReader: 'Turn on screen reader support',
+        strUnit: 'Unit of Measurement',
+        txtInch: 'Inch',
+        txtCm: 'Centimeter',
+        txtPt: 'Point'
+
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 
     PDFE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({

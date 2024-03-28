@@ -1417,10 +1417,11 @@ define([
                 }
                 callback && callback();
                 this.onPdfModeApply();
-                this.getApplication().getController('Toolbar').applyMode();
-                this.getApplication().getController('Viewport').applyEditorMode();
-                this.getApplication().getController('DocumentHolder').applyEditorMode();
-
+                var app = this.getApplication();
+                app.getController('Toolbar').applyMode();
+                app.getController('Viewport').applyEditorMode();
+                app.getController('DocumentHolder').applyEditorMode();
+                app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
             },
 
             onPdfModeApply: function() {
