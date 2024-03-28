@@ -49,7 +49,7 @@ define([
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
-    // 'pdfeditor/main/app/view/TableSettingsAdvanced'
+    'pdfeditor/main/app/view/TableSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -860,10 +860,10 @@ define([
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
                         if (Asc.c_oAscTypeSelectElement.Table == elType) {
-                            (new PE.Views.TableSettingsAdvanced(
+                            (new PDFE.Views.TableSettingsAdvanced(
                             {
                                 tableProps: elValue,
-                                slideSize: PE.getController('Toolbar').currentPageSize,
+                                slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {

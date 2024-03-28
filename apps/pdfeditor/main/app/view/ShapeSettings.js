@@ -52,7 +52,7 @@ define([
     'common/main/lib/component/MultiSliderGradient',
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/ShapeShadowDialog',
-    // 'pdfeditor/main/app/view/ShapeSettingsAdvanced'
+    'pdfeditor/main/app/view/ShapeSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

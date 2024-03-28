@@ -44,7 +44,7 @@ define([
     'backbone',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
-    // 'presentationeditor/main/app/view/ParagraphSettingsAdvanced'
+    'pdfeditor/main/app/view/ParagraphSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -356,7 +356,7 @@ define([
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
                         if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            (new PE.Views.ParagraphSettingsAdvanced(
+                            (new PDFE.Views.ParagraphSettingsAdvanced(
                             {
                                 paragraphProps: elValue,
                                 api: me.api,
