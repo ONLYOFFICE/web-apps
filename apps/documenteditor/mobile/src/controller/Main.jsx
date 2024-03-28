@@ -19,6 +19,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 
 @inject(
     "users",
@@ -385,35 +386,13 @@ class MainController extends Component {
                 }
             };
 
-            const _process_array = async (array, fn) => {
-                const results = [];
-
-                for (const item of array) {
-                    try {
-                        const data = await fn(item);
-                        results.push(data);
-                    } catch (error) {
-                        console.log(`Error with processing element ${item}:`, error);
-                        continue;
-                    }
-                }
-
-                return results;
-            };
-
-            _process_array(dep_scripts, promise_get_script)
+            processArrayScripts(dep_scripts, promise_get_script)
                 .then(() => {
                     window["flat_desine"] = true;
                     const { t } = this.props;
                     let _translate = t('Main.SDK', { returnObjects: true });
 
-                    if (typeof _translate === 'object') {
-                        Object.entries(_translate).forEach(([key, value]) => {
-                            if (key.endsWith(' ') && !value.endsWith(' ')) {
-                                _translate[key] = value + ' ';
-                            }
-                        });
-                    } else {
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
                         _translate = this.fallbackSdkTranslations
                     }
 

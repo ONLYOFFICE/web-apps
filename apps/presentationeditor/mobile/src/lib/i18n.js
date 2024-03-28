@@ -15,6 +15,15 @@ i18n.use(initReactI18next)
         react: {
             useSuspense: false,
         },
+    }).then(() => {
+        console.log("i18next is ready");
+    })
+    .catch((error) => {
+        console.error("i18next initialization error:", error);
     });
+
+i18n.on('failedLoading', (lng, ns, msg) => {
+    console.log(msg);
+});
 
 export default i18n;
