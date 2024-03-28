@@ -544,8 +544,11 @@
       "txtScheme7": "Equidade",
       "txtScheme8": "Fluxo",
       "txtScheme9": "Fundición",
+      "textClose": "Close",
       "textDark": "Dark",
+      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",
+      "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme"
     }

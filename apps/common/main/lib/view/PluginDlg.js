@@ -78,6 +78,7 @@ define([
             this.url = options.url || '';
             this.loader = (options.loader!==undefined) ? options.loader : true;
             this.frameId = options.frameId || 'plugin_iframe';
+            this.guid = options.guid;
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 

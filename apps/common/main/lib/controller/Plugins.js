@@ -73,11 +73,11 @@ define([
                     }
                 },
                 'Common.Views.Plugins': {
-                    'plugin:select': function(guid, type) {
-                        if (!this.viewPlugins.pluginPanels[guid]) {
-                            me.api.asc_pluginRun(guid, type, '');
+                    'plugin:select': function(guid, type, isRun, closePanel) {
+                        if (!this.viewPlugins.pluginPanels[guid] || (this.viewPlugins.pluginPanels[guid] && type > 0)) {
+                            !isRun || type > 0 ? me.api.asc_pluginRun(guid, type, '') : me.api.asc_pluginStop(guid);
                         } else {
-                            me.openUIPlugin(guid);
+                            closePanel ? me.onToolClose(this.viewPlugins.pluginPanels[guid]) : me.openUIPlugin(guid);
                         }
                     }
                 },
@@ -306,12 +306,14 @@ define([
                 }
             };
             this.backgroundPluginsSwitchers = [];
+            var usedPlugins = this.api.getUsedBackgroundPlugins();
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
                     parsedIcons = me.viewPlugins.parseIcons(icons),
                     icon_url = model.get('baseUrl') + parsedIcons['normal'],
-                    guid = model.get('guid');
+                    guid = model.get('guid'),
+                    isRun = _.indexOf(usedPlugins, guid) !== -1;
                 model.set('parsedIcons', parsedIcons);
                 var menuItem = new Common.UI.MenuItem({
                     value: guid,
@@ -333,14 +335,14 @@ define([
                 model.set('backgroundPlugin', menuItem);
                 var switcher = new Common.UI.Switcher({
                     el: menuItem.$el.find('.plugin-toggle')[0],
-                    value: !!model.isSystem,
+                    value: !!model.isSystem || isRun,
                     disabled: !!model.isSystem,
                     pluginGuid: guid,
-                    hint: me.viewPlugins.textStart
+                    hint: isRun ? me.viewPlugins.textStop : me.viewPlugins.textStart
                 });
                 switcher.on('change', function (element, value) {
                     switcher.updateHint(value ? me.viewPlugins.textStop : me.viewPlugins.textStart);
-                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0]);
+                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0, !value]);
                 });
                 me.backgroundPluginsSwitchers.push(switcher);
                 var menuItems = [];
@@ -367,7 +369,7 @@ define([
                     });
                     btn.menu.on('item:click', function (menu, item, e) {
                         Common.UI.Menu.Manager.hideAll();
-                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value, false]);
                         me.clickInsideMenu = false;
                     });
                     btn.menu.on('keydown:before', function (menu, e) {
@@ -630,72 +632,82 @@ define([
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
                         this.api.asc_pluginButtonClick(-1, plugin.get_Guid());
                 } else {
-                    var me = this,
-                        isCustomWindow = variation.get_CustomWindow(),
-                        arrBtns = variation.get_Buttons(),
-                        newBtns = [],
-                        size = variation.get_Size(),
-                        isModal = variation.get_Modal();
+                    var me = this;
+                    var createPluginDlg = function () {
+                        var isCustomWindow = variation.get_CustomWindow(),
+                            arrBtns = variation.get_Buttons(),
+                            newBtns = [],
+                            size = variation.get_Size(),
+                            isModal = variation.get_Modal();
                         if (!size || size.length<2) size = [800, 600];
 
-                    if (_.isArray(arrBtns)) {
-                        _.each(arrBtns, function(b, index){
-                            if (b.visible)
-                                newBtns[index] = {caption: b.text, value: index, primary: b.primary};
+                        if (_.isArray(arrBtns)) {
+                            _.each(arrBtns, function(b, index){
+                                if (b.visible)
+                                    newBtns[index] = {caption: b.text, value: index, primary: b.primary};
+                            });
+                        }
+
+                        var help = variation.get_Help();
+                        me.pluginDlg = new Common.Views.PluginDlg({
+                            guid: plugin.get_Guid(),
+                            cls: isCustomWindow ? 'plain' : '',
+                            header: !isCustomWindow,
+                            title: plugin.get_Name(lang),
+                            width: size[0], // inner width
+                            height: size[1], // inner height
+                            url: url,
+                            frameId : frameId,
+                            buttons: isCustomWindow ? undefined : newBtns,
+                            toolcallback: function(event) {
+                                me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
+                            },
+                            help: !!help,
+                            loader: plugin.get_Loader(),
+                            modal: isModal!==undefined ? isModal : true
                         });
+                        me.pluginDlg.on({
+                            'render:after': function(obj){
+                                obj.getChild('.footer .dlg-btn').on('click', function(event) {
+                                    me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
+                                });
+                                me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
+                            },
+                            'close': function(obj){
+                                me.pluginDlg = undefined;
+                            },
+                            'drag': function(args){
+                                me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                            },
+                            'resize': function(args){
+                                me.api.asc_pluginEnableMouseEvents(args[1]=='start');
+                            },
+                            'help': function(){
+                                help && window.open(help, '_blank');
+                            },
+                            'header:click': function(type){
+                                me.api.asc_pluginButtonClick(type, plugin.get_Guid());
+                            }
+                        });
+
+                        me.pluginDlg.show();
+                    };
+                    if (this.pluginDlg) {
+                        this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
+                        setTimeout(createPluginDlg, 10);
+                    } else {
+                        createPluginDlg();
                     }
 
-                    var help = variation.get_Help();
-                    me.pluginDlg = new Common.Views.PluginDlg({
-                        cls: isCustomWindow ? 'plain' : '',
-                        header: !isCustomWindow,
-                        title: plugin.get_Name(lang),
-                        width: size[0], // inner width
-                        height: size[1], // inner height
-                        url: url,
-                        frameId : frameId,
-                        buttons: isCustomWindow ? undefined : newBtns,
-                        toolcallback: function(event) {
-                            me.api.asc_pluginButtonClick(-1, plugin.get_Guid());
-                        },
-                        help: !!help,
-                        loader: plugin.get_Loader(),
-                        modal: isModal!==undefined ? isModal : true
-                    });
-                    me.pluginDlg.on({
-                        'render:after': function(obj){
-                            obj.getChild('.footer .dlg-btn').on('click', function(event) {
-                                me.api.asc_pluginButtonClick(parseInt(event.currentTarget.attributes['result'].value), plugin.get_Guid());
-                            });
-                            me.pluginContainer = me.pluginDlg.$window.find('#id-plugin-container');
-                        },
-                        'close': function(obj){
-                            me.pluginDlg = undefined;
-                        },
-                        'drag': function(args){
-                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                        },
-                        'resize': function(args){
-                            me.api.asc_pluginEnableMouseEvents(args[1]=='start');
-                        },
-                        'help': function(){
-                            help && window.open(help, '_blank');
-                        },
-                        'header:click': function(type){
-                            me.api.asc_pluginButtonClick(type, plugin.get_Guid());
-                        }
-                    });
-
-                    me.pluginDlg.show();
                 }
             }
-            !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
+            this.viewPlugins.openedPluginMode(plugin.get_Guid(), variation.get_InsideMode());
         },
 
-        onPluginClose: function(plugin) {            
+        onPluginClose: function(plugin) {
             var isIframePlugin = false,
                 guid = plugin.get_Guid();
-            if (this.pluginDlg)
+            if (this.pluginDlg && this.pluginDlg.guid === guid)
                 this.pluginDlg.close();
             else {
                 var panel = this.viewPlugins.pluginPanels[guid];
@@ -708,9 +720,8 @@ define([
                     this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
                 }
             }
-            if (!isIframePlugin) {
-                !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid);
-            }
+            !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
+
             this.runAutoStartPlugins();
         },
 
@@ -851,7 +862,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : !itemVar.isVisual;
+                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : false;
                             }
                         }
                     });

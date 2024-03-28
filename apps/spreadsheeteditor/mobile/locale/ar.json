@@ -697,6 +697,7 @@
       "textEnableAllMacrosWithoutNotification": "فعّل كل وحدات الماكرو بدون اشعارات",
       "textEncoding": "ترميز",
       "textExample": "مثال",
+      "textExplanationChangeDirection": "سيتم إعادة تشغيل البرنامج لتنشيط واجهة RTL",
       "textFeedback": "الملاحظات و الدعم",
       "textFind": "بحث",
       "textFindAndReplace": "بحث و استبدال",
@@ -738,6 +739,7 @@
       "textRestartApplication": "برجاء إعادة تشغيل التطبيق حتى يتم تطبيق التغييرات",
       "textRight": "اليمين",
       "textRightToLeft": "من اليمين إلى اليسار",
+      "textRtlInterface": "الواجهة بالاتجاه من اليمين لليسار",
       "textSameAsSystem": "نفس النظام",
       "textSearch": "بحث",
       "textSearchBy": "بحث",
@@ -825,7 +827,8 @@
       "txtUk": "الأوكرانية",
       "txtVi": "الفيتمانية",
       "txtZh": "الصينية",
-      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ "
+      "warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
+      "textClose": "Close"
     }
   }
 }

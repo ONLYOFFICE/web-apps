@@ -283,6 +283,16 @@ define([
                     });
                     this.toolbarControls.push(this.btnSelectAll);
 
+                    this.btnReplace = new Common.UI.Button({
+                        id: 'id-toolbar-btn-replace',
+                        cls: 'btn-toolbar',
+                        iconCls: 'toolbar__icon btn-replace',
+                        lock: [_set.viewFormMode, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'top'
+                    });
+                    this.toolbarControls.push(this.btnReplace);
+
                     this.btnIncFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-incfont',
                         cls: 'btn-toolbar',
@@ -846,7 +856,7 @@ define([
                     this.btnDropCap = new Common.UI.Button({
                         id: 'tlbtn-dropcap',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-dropcap',
+                        iconCls: 'toolbar__icon btn-dropcap icon-rtl',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.controlPlain, _set.dropcapLock, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: me.capBtnInsDropcap,
@@ -864,7 +874,7 @@ define([
                                 },
                                 {
                                     caption: this.textInText,
-                                    iconCls: 'menu__icon btn-dropcap-intext',
+                                    iconCls: 'menu__icon btn-dropcap-intext icon-rtl',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -872,7 +882,7 @@ define([
                                 },
                                 {
                                     caption: this.textInMargin,
-                                    iconCls: 'menu__icon btn-dropcap-inmargin',
+                                    iconCls: 'menu__icon btn-dropcap-inmargin icon-rtl',
                                     checkable: true,
                                     checkmark: false,
                                     toggleGroup: 'menuDropCap',
@@ -1067,21 +1077,13 @@ define([
                     this.toolbarControls.push(this.btnPageOrient);
 
 
-                    var pageMarginsTemplate = !Common.UI.isRTL() ? _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
+                    var pageMarginsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
                         '<% if (options.value !== null) { %><div class="margin-vertical">' +
                         '<label>' + this.textTop + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
                         '<label>' + this.textLeft + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
                         '<div class="margin-horizontal">' +
                         '<label>' + this.textBottom + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label>' +
                         '<label>' + this.textRight + '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></label></div>' +
-                        '<% } %></a>') :
-                        _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                        '<% if (options.value !== null) { %><div class="margin-vertical">' +
-                        '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %>' + this.textTop + '</label>' +
-                        '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %>' + this.textLeft + '</label></div>' +
-                        '<div class="margin-horizontal">' +
-                        '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[2]).toFixed(2)) %>' + this.textBottom + '</label>' +
-                        '<label><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[3]).toFixed(2)) %>' + this.textRight + '</label></div>' +
                         '<% } %></a>');
 
                     this.btnPageMargins = new Common.UI.Button({
@@ -1148,8 +1150,8 @@ define([
                         '<div dir="ltr"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %> x ' +
                         '<%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> <%= Common.Utils.Metric.getCurrentMetricName() %></div></a>') :
                         _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div><b><%= caption %></b></div>' +
-                        '<div dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> x ' +
-                        '<%= Common.Utils.Metric.getCurrentMetricName() %> <%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %></div></a>');
+                        '<div dir="ltr"><span dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> </span><span dir="ltr"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[1]).toFixed(2)) %> x </span>' +
+                        '<span dir="ltr"><%= Common.Utils.Metric.getCurrentMetricName() %> </span><span dir="ltr"><%= parseFloat(Common.Utils.Metric.fnRecalcFromMM(options.value[0]).toFixed(2)) %></span></div></a>');
 
                     this.btnPageSize = new Common.UI.Button({
                         id: 'tlbtn-pagesize',
@@ -1368,7 +1370,7 @@ define([
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode, _set.viewFormMode,
                             _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         dataHint: '1',
-                        dataHintDirection: 'top'
+                        dataHintDirection: 'bottom'
                     });
                     this.toolbarControls.push(this.btnClearStyle);
 
@@ -1385,36 +1387,20 @@ define([
 
                     this.btnColorSchemas = new Common.UI.Button({
                         id: 'id-toolbar-btn-colorschemas',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-colorschemas',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-big-colorschemas',
                         lock: [_set.docSchemaLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capColorScheme,
                         menu: new Common.UI.Menu({
                             cls: 'shifted-left',
                             items: [],
                             restoreHeight: true
                         }),
                         dataHint: '1',
-                        dataHintDirection: 'top',
-                        dataHintOffset: '0, -6'
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
                     });
                     this.toolbarControls.push(this.btnColorSchemas);
-
-                    this.btnMailRecepients = new Common.UI.Button({
-                        id: 'id-toolbar-btn-mailrecepients',
-                        cls: 'btn-toolbar',
-                        iconCls: 'toolbar__icon btn-mailmerge',
-                        lock: [_set.mmergeLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {caption: this.mniFromFile, value: 'file'},
-                                {caption: this.mniFromUrl, value: 'url'},
-                                {caption: this.mniFromStorage, value: 'storage'}
-                            ]
-                        })
-                    });
-                    this.toolbarControls.push(this.btnMailRecepients);
 
                     me.btnImgAlign = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1507,7 +1493,6 @@ define([
                     this.mnuPageSize = this.btnPageSize.menu;
                     this.mnuColorSchema = this.btnColorSchemas.menu;
                     this.mnuChangeCase = this.btnChangeCase.menu;
-                    this.mnuMailRecepients = this.btnMailRecepients.menu;
 
                     this.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -1741,6 +1726,7 @@ define([
                 _injectComponent('#slot-btn-paste', this.btnPaste);
                 _injectComponent('#slot-btn-cut', this.btnCut);
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
+                _injectComponent('#slot-btn-replace', this.btnReplace);
                 _injectComponent('#slot-btn-incfont', this.btnIncFontSize);
                 _injectComponent('#slot-btn-decfont', this.btnDecFontSize);
                 _injectComponent('#slot-btn-bold', this.btnBold);
@@ -1787,7 +1773,6 @@ define([
                 _injectComponent('#slot-btn-colorschemas', this.btnColorSchemas);
                 _injectComponent('#slot-btn-paracolor', this.btnParagraphColor);
                 _injectComponent('#slot-field-styles', this.listStyles);
-                _injectComponent('#slot-btn-mailrecepients', this.btnMailRecepients);
                 _injectComponent('#slot-img-align', this.btnImgAlign);
                 _injectComponent('#slot-img-group', this.btnImgGroup);
                 _injectComponent('#slot-img-movefrwd', this.btnImgForward);
@@ -2134,6 +2119,7 @@ define([
                 this.btnPaste.updateHint(this.tipPaste + Common.Utils.String.platformKey('Ctrl+V'));
                 this.btnCut.updateHint(this.tipCut + Common.Utils.String.platformKey('Ctrl+X'));
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
+                this.btnReplace.updateHint(this.tipReplace + ' (' + Common.Utils.String.textCtrl + '+H)');
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -2179,7 +2165,6 @@ define([
                 this.btnClearStyle.updateHint(this.tipClearStyle);
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
-                this.btnMailRecepients.updateHint(this.tipMailRecepients);
                 this.btnHyphenation.updateHint(this.tipHyphenation);
 
                 // set menus
@@ -2501,7 +2486,7 @@ define([
                     delayRenderTips: true,
                     scrollAlwaysVisible: true,
                     store: new Common.UI.DataViewStore(this.loadRecentSymbolsFromStorage()),
-                    itemTemplate: _.template('<div class="item-symbol" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
+                    itemTemplate: _.template('<div class="item-symbol" dir="ltr" <% if (typeof font !== "undefined" && font !=="") { %> style ="font-family: <%= font %>"<% } %>>&#<%= symbol %></div>')
                 });
                 this.btnInsertSymbol.menu.setInnerMenu([{menu: this.mnuInsertSymbolsPicker, index: 0}]);
                 this.btnInsertSymbol.menu.on('show:before',  _.bind(function() {
@@ -2853,7 +2838,6 @@ define([
 
                 this.mode = mode;
 
-                this.btnMailRecepients.setVisible(mode.canCoAuthoring == true && mode.canUseMailMerge);
                 this.listStylesAdditionalMenuItem.setVisible(mode.canEditStyles);
                 this.btnContentControls.menu.items[10].setVisible(mode.canEditContentControl);
                 this.mnuInsertImage.items[2].setVisible(this.mode.canRequestInsertImage || this.mode.fileChoiceUrl && this.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
@@ -2939,8 +2923,8 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
-                    placement: 'right-bottom',
+                    extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
+                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
@@ -2965,7 +2949,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }
@@ -3228,7 +3212,6 @@ define([
             textEvenPage: 'Even Page',
             textOddPage: 'Odd Page',
             tipSaveCoauth: 'Save your changes for the other users to see them.',
-            tipMailRecepients: 'Mail Merge',
             textStyleMenuUpdate: 'Update from select',
             textStyleMenuRestore: 'Restore to default',
             textStyleMenuDelete: 'Delete style',
@@ -3414,7 +3397,9 @@ define([
             capBtnHyphenation: 'Hyphenation',
             textAuto: 'Automatic',
             textCustomHyphen: 'Hyphenation options',
-            tipHyphenation: 'Change hyphenation'
+            tipHyphenation: 'Change hyphenation',
+            capColorScheme: 'Color Scheme',
+            tipReplace: 'Replace'
         }
     })(), DE.Views.Toolbar || {}));
 });

@@ -4,6 +4,7 @@
     @item-border-color: #c8c7cc;
     @darkGreen: #40865c;
     @text-normal: var(--text-normal);
+    @background-warning: #FF9F0A;
 
     --f7-navbar-link-color: @brandColor;
     --f7-subnavbar-link-color: @brandColor;
@@ -69,20 +70,20 @@
     }
 
     .navbar, .navbar-bg, .subnavbar {
+        background-color: var(--f7-navbar-bg-color);
+
         a.btn-doc-back {
             width: 22px;
         }
-        background-color: var(--f7-navbar-bg-color);
+
         .title {
-            font-weight: 600;
             color: @text-normal;
-            //line-height: 17px;
-            //max-height: 34px;
-            //overflow: hidden;
         }
+
         .navbar-inner, .subnavbar-inner {
             z-index: auto;
         }
+        
         .sheet-close {
             width: 44px;
             height: 44px;
@@ -94,6 +95,11 @@
     .subnavbar {
         .icon-back {
             color: @brandColor;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: normal;
         }
     }
 
@@ -180,10 +186,6 @@
                 }
             }
         }
-    }
-
-    .popover-arrow:after {
-        background: rgba(0, 0, 0, 0.9);
     }
 
     .list {
@@ -475,7 +477,7 @@
             line-height: 18px;
             right: 26px;
             color: @text-tertiary;
-            top: 5px;
+            top: 4.5px;
             z-index: 100;
         }
     }
@@ -670,6 +672,11 @@
         line-height: 22px;
         letter-spacing: -0.41px;
         color: @brandColor;
+        margin-left: 10px;
+    }
+
+    .beta-badge {
+        background-color: @background-warning;
         margin-left: 10px;
     }
 }

@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(array, by_array, [sort_order], ...)",
 		"d": "ຈັດຮຽງໄລຍະ ຫຼື ອະເຣໂດຍອ້າງອີງຈາກຄ່າໃນໄລຍະ ຫຼື ອະເຣທີ່ກ່ຽວຂ້ອງ"
+	},
+	"GETPIVOTDATA": {
+		"a": "(data_field; pivot_table; [field]; [item]; ...)",
+		"d": "ແຍກຂໍ້ມູນທີ່ເກັບໃນຕາຕະລາງPivotTable"
+	},
+	"IMPORTRANGE": {
+		"a": "(spreadsheet_url, ໄລະຍະຂອງ String)",
+		"d": "ນຳເຂົ້າໄລຍະຂອງຕາລາງຈາກສະເປຣດຊີດທີ່ລະບຸ."
 	}
 }

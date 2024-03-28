@@ -157,7 +157,7 @@ define([
         render: function (mode) {
             this.trigger('render:before', this);
 
-            this.defaultHideRightMenu = mode.customization && !!mode.customization.hideRightMenu;
+            this.defaultHideRightMenu = !(mode.customization && (mode.customization.hideRightMenu===false));
             var open = !Common.localStorage.getBool("de-hide-right-settings", this.defaultHideRightMenu);
             Common.Utils.InternalSettings.set("de-hide-right-settings", !open);
             this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');

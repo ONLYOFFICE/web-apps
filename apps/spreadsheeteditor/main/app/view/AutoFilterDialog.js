@@ -181,7 +181,7 @@ define([
                 this.btnDatePicker1 = new Common.UI.Button({
                     parentEl: $('#id-btn-date-picker-1', this.$window),
                     cls: 'btn-toolbar bg-white',
-                    iconCls: 'toolbar__icon',
+                    iconCls: 'toolbar__icon btn-date',
                     hint: this.txtSelectDate
                 });
                 this.btnDatePicker1.on('click', _.bind(this.showDatePicker, this));
@@ -189,7 +189,7 @@ define([
                 this.btnDatePicker2 = new Common.UI.Button({
                     parentEl: $('#id-btn-date-picker-2', this.$window),
                     cls: 'btn-toolbar bg-white',
-                    iconCls: 'toolbar__icon',
+                    iconCls: 'toolbar__icon btn-date',
                     hint: this.txtSelectDate
                 });
                 this.btnDatePicker2.on('click', _.bind(this.showDatePicker, this));

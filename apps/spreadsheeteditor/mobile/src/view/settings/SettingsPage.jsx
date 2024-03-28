@@ -10,10 +10,13 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
     const { t } = useTranslation();
     const appOptions = props.storeAppOptions;
     const storeSpreadsheetInfo = props.storeSpreadsheetInfo;
+    const canUseHistory = appOptions.canUseHistory;
     const {openOptions, isBranding} = useContext(MainContext);
     const settingsContext = useContext(SettingsContext);
     const _t = t('View.Settings', {returnObjects: true});
     const docTitle = storeSpreadsheetInfo.dataDoc?.title ?? '';
+    const canCloseEditor = appOptions.canCloseEditor;
+    const closeButtonText = canCloseEditor && appOptions.customization.close.text;
     const navbar = 
         <Navbar>
             <div className="title" onClick={settingsContext.changeTitleHandler}>{docTitle}</div>
@@ -79,7 +82,7 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
                 <ListItem title={_t.textApplicationSettings} link="/application-settings/">
                     <Icon slot="media" icon="icon-app-settings"></Icon>
                 </ListItem>
-                {_isEdit && 
+                {_isEdit && canUseHistory &&
                     <ListItem title={t('View.Settings.textVersionHistory')} link={!Device.phone ? "/version-history" : ""} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('history');
@@ -122,6 +125,9 @@ const SettingsPage = inject('storeAppOptions', 'storeSpreadsheetInfo')(observer(
                     <ListItem title={t('View.Settings.textFeedback')} link="#" className='no-indicator' onClick={settingsContext.showFeedback}>
                         <Icon slot="media" icon="icon-feedback"></Icon>
                     </ListItem>
+                }
+                {canCloseEditor &&
+                    <ListItem title={closeButtonText ?? t('View.Settings.textClose')} link="#" className='close-editor-btn no-indicator' onClick={() => Common.Notifications.trigger('close')}></ListItem>
                 }
             </List>
         </Page>

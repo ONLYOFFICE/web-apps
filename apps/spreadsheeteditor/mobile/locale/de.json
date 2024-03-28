@@ -41,10 +41,10 @@
       "textThemeColors": "Farben des Themas"
     },
     "Themes": {
-      "textTheme": "Thema",
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system"
+      "dark": "Dunkel",
+      "light": "Hell",
+      "system": "Wie im System",
+      "textTheme": "Thema"
     },
     "VersionHistory": {
       "notcriticalErrorTitle": "Warnung",
@@ -66,6 +66,7 @@
     "errorInvalidLink": "Der Linkverweis ist nicht vorhanden. Bitte korrigieren oder löschen Sie den Link.",
     "menuAddComment": "Kommentar hinzufügen",
     "menuAddLink": "Link hinzufügen",
+    "menuAutofill": "Automatisches Ausfüllen",
     "menuCancel": "Abbrechen",
     "menuCell": "Zelle",
     "menuDelete": "Löschen",
@@ -87,8 +88,7 @@
     "textDoNotShowAgain": "Nicht mehr anzeigen",
     "textOk": "OK",
     "txtWarnUrl": "Dieser Link kann für Ihr Gerät und Daten gefährlich sein.<br>Möchten Sie wirklich fortsetzen?",
-    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?",
-    "menuAutofill": "Autofill"
+    "warnMergeLostData": "Nur die Daten aus der oberen linken Zelle bleiben nach der Vereinigung.<br>Möchten Sie wirklich fortsetzen?"
   },
   "Controller": {
     "Main": {
@@ -675,6 +675,7 @@
       "textChooseCsvOptions": "CSV-Optionen auswählen",
       "textChooseDelimeter": "Trennzeichen auswählen",
       "textChooseEncoding": "Codierung auswählen",
+      "textClose": "Schließen",
       "textCollaboration": "Zusammenarbeit",
       "textColorSchemes": "Farbschemata",
       "textComment": "Kommentar",
@@ -682,6 +683,7 @@
       "textComments": "Kommentare",
       "textCreated": "Erstellt",
       "textCustomSize": "Benutzerdefinierte Größe",
+      "textDark": "Dunkel",
       "textDarkTheme": "Dunkelmodus",
       "textDelimeter": "Trennzeichen",
       "textDirection": "Richtung",
@@ -696,6 +698,7 @@
       "textEnableAllMacrosWithoutNotification": "Alle Makros ohne Benachrichtigung aktivieren",
       "textEncoding": "Codierung ",
       "textExample": "Beispiel",
+      "textExplanationChangeDirection": "Die Anwendung wird für die Aktivierung der RTL-Schnittstelle neu gestartet",
       "textFeedback": "Feedback und Support",
       "textFind": "Suche",
       "textFindAndReplace": "Suchen und ersetzen",
@@ -713,6 +716,7 @@
       "textLastModifiedBy": "Zuletzt geändert von",
       "textLeft": "Links",
       "textLeftToRight": "Links nach rechts",
+      "textLight": "Hell",
       "textLocation": "Standort",
       "textLookIn": "Suchen in",
       "textMacrosSettings": "Einstellungen von Makros",
@@ -736,6 +740,8 @@
       "textRestartApplication": "Bitte starten Sie die Anwendung neu, damit die Änderungen wirksam werden",
       "textRight": "Rechts",
       "textRightToLeft": "Von rechts nach links",
+      "textRtlInterface": "RTL-Schnittstelle",
+      "textSameAsSystem": "Wie im System",
       "textSearch": "Suche",
       "textSearchBy": "Suche",
       "textSearchIn": "Suchen in",
@@ -822,10 +828,7 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "textDark": "Dark",
-      "textLight": "Light",
-      "textSameAsSystem": "Same As System"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
     }
   }
 }

@@ -469,6 +469,8 @@
 	"ARRAYTOTEXT": "MATRICE.A.TESTO",
 	"SORT": "DATI.ORDINA",
 	"SORTBY": "DATI.ORDINA.PER",
+	"GETPIVOTDATA": "INFO.DATI.TAB.PIVOT",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

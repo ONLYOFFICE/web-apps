@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(array, by_array, [sort_order], ...)",
 		"d": "Mengurutkan rentang atau larik berdasarkan nilai dalam rentang atau larik yang sesuai"
+	},
+	"GETPIVOTDATA": {
+		"a": "(data_field; pivot_table; [field]; [item]; ...)",
+		"d": "Mengekstrak data yang tersimpan dalam sebuah PivotTable."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_spreadsheet; string_rentang)",
+		"d": "Mengimpor rentang sel dari spreadsheet tertentu."
 	}
 }

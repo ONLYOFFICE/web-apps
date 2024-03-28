@@ -261,6 +261,7 @@ define([
         options : {
             id              : null,
             hint            : false,
+            delayRenderHint : true,
             enableToggle    : false,
             allowDepress    : true,
             toggleGroup     : null,
@@ -352,6 +353,7 @@ define([
             me.style        = me.options.style;
             me.rendered     = false;
             me.stopPropagation = me.options.stopPropagation;
+            me.delayRenderHint = me.options.delayRenderHint;
 
             // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
             //     me.options.scaling = false;
@@ -474,44 +476,6 @@ define([
                 var el = me.cmpEl,
                     isGroup = el.hasClass('btn-group'),
                     isSplit = el.hasClass('split');
-
-                if (me.options.hint) {
-                    var modalParents = me.cmpEl.closest('.asc-window');
-
-                    if (typeof me.options.hint == 'object' && me.options.hint.length>1 && $('button', el).length>0) {
-                        var btnEl = $('button', el);
-                        me.btnEl = $(btnEl[0]);
-                        me.btnMenuEl = $(btnEl[1]);
-                    } else {
-                        me.btnEl = me.cmpEl;
-                        me.btnEl.attr('data-toggle', 'tooltip');
-                    }
-                    me.btnEl.tooltip({
-                        title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
-                        placement   : me.options.hintAnchor||'cursor'
-                    });
-                    me.btnMenuEl && me.btnMenuEl.tooltip({
-                        title       : me.options.hint[1],
-                        placement   : me.options.hintAnchor||'cursor'
-                    });
-
-                    if (modalParents.length > 0) {
-                        me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                        me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                        var onModalClose = function(dlg) {
-                            if (modalParents[0] !== dlg.$window[0]) return;
-                            var tip = me.btnEl.data('bs.tooltip');
-                            if (tip) {
-                                if (tip.dontShow===undefined)
-                                    tip.dontShow = true;
-
-                                tip.hide();
-                            }
-                            Common.NotificationCenter.off({'modal:close': onModalClose});
-                        };
-                        Common.NotificationCenter.on({'modal:close': onModalClose});
-                    }
-                }
 
                 if (_.isString(me.toggleGroup)) {
                     me.enableToggle = true;
@@ -662,6 +626,8 @@ define([
 
             me.rendered = true;
 
+            me.options.hint && me.createHint(me.options.hint);
+
             if (me.pressed) {
                 me.toggle(me.pressed, true);
             }
@@ -779,10 +745,11 @@ define([
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
                 svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
-            } else if (svgIcon.length) {
-                var icon = /btn-[^\s]+/.exec(this.iconCls);
-                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
+                if (svgIcon.length) {
+                    var icon = /btn-[^\s]+/.exec(this.iconCls);
+                    svgIcon.attr('href', icon ? '#' + icon[0]: '');
+                }
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
                 if (this.options.scaling === false) {
@@ -821,14 +788,14 @@ define([
             return (this.cmpEl) ? this.cmpEl.is(":visible") : $(this.el).is(":visible");
         },
 
-        updateHint: function(hint, isHtml) {
+        createHint: function(hint, isHtml) {
             this.options.hint = hint;
-
             if (!this.rendered) return;
-            
-            var cmpEl = this.cmpEl,
-                modalParents = cmpEl.closest('.asc-window');
 
+            var me = this,
+                cmpEl = this.cmpEl,
+                modalParents = cmpEl.closest('.asc-window'),
+                tipZIndex = modalParents.length > 0 ? parseInt(modalParents.css('z-index')) + 10 : undefined;
 
             if (!this.btnEl) {
                 if (typeof this.options.hint == 'object' && this.options.hint.length>1 && $('button', cmpEl).length>0) {
@@ -837,30 +804,81 @@ define([
                     this.btnMenuEl = $(btnEl[1]);
                 } else {
                     this.btnEl = cmpEl;
-                    this.btnEl.attr('data-toggle', 'tooltip');
                 }
             }
 
-            if (this.btnEl.data('bs.tooltip'))
-                this.btnEl.removeData('bs.tooltip');
-            if (this.btnMenuEl && this.btnMenuEl.data('bs.tooltip'))
-                this.btnMenuEl.removeData('bs.tooltip');
-
-            this.btnEl.tooltip({
-                html: !!isHtml,
-                title       : (typeof hint == 'string') ? hint : hint[0],
-                placement   : this.options.hintAnchor||'cursor'
-            });
-            this.btnMenuEl && this.btnMenuEl.tooltip({
-                html: !!isHtml,
-                title       : hint[1],
-                placement   : this.options.hintAnchor||'cursor'
-            });
-
-            if (modalParents.length > 0) {
-                this.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                this.btnMenuEl && this.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+            var tip = this.btnEl.data('bs.tooltip');
+            tip && tip.updateTitle(typeof hint === 'string' ? hint : hint[0]);
+            if (this.btnMenuEl) {
+                tip = this.btnMenuEl.data('bs.tooltip');
+                tip && tip.updateTitle(hint[1]);
             }
+            if (!this._isTooltipInited) {
+                if (this.delayRenderHint) {
+                    this.btnEl.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        me.btnEl.tooltip({
+                            html: !!isHtml,
+                            title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
+                            placement   : me.options.hintAnchor||'cursor',
+                            zIndex : tipZIndex
+                        });
+                        !Common.Utils.isGecko && (me.btnEl.data('bs.tooltip').enabled = !me.disabled);
+                        me.btnEl.mouseenter();
+                    });
+                    this.btnMenuEl && this.btnMenuEl.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        me.btnMenuEl.tooltip({
+                            html: !!isHtml,
+                            title       : me.options.hint[1],
+                            placement   : me.options.hintAnchor||'cursor',
+                            zIndex : tipZIndex
+                        });
+                        !Common.Utils.isGecko && (me.btnMenuEl.data('bs.tooltip').enabled = !me.disabled);
+                        me.btnMenuEl.mouseenter();
+                    });
+                } else {
+                    this.btnEl.tooltip({
+                        html: !!isHtml,
+                        title       : (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
+                        placement   : this.options.hintAnchor||'cursor',
+                        zIndex      : tipZIndex
+                    });
+                    this.btnMenuEl && this.btnMenuEl.tooltip({
+                        html: !!isHtml,
+                        title       : this.options.hint[1],
+                        placement   : this.options.hintAnchor||'cursor',
+                        zIndex      : tipZIndex
+                    });
+                }
+                if (modalParents.length > 0) {
+                    var onModalClose = function(dlg) {
+                        if (modalParents[0] !== dlg.$window[0]) return;
+                        var tip = me.btnEl.data('bs.tooltip');
+                        if (tip) {
+                            if (tip.dontShow===undefined)
+                                tip.dontShow = true;
+                            tip.hide();
+                        }
+                        if (me.btnMenuEl) {
+                            tip = me.btnMenuEl.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+                                tip.hide();
+                            }
+                        }
+                        Common.NotificationCenter.off({'modal:close': onModalClose});
+                    };
+                    Common.NotificationCenter.on({'modal:close': onModalClose});
+                }
+                this._isTooltipInited = true;
+            }
+        },
+
+        updateHint: function(hint, isHtml) {
+            this.options.hint = hint;
+            if (!this.rendered) return;
+
+            this.createHint(hint, isHtml);
 
             if (this.disabled || !Common.Utils.isGecko) {
                 var tip = this.btnEl.data('bs.tooltip');
@@ -938,7 +956,8 @@ define([
                         const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
                         const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                        const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                        const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
+                        const svg_icon = '<svg class="icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
 
                         me.$el.find('i.icon').after(svg_icon);
                     }

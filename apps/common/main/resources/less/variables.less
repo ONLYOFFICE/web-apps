@@ -40,6 +40,11 @@
 @brand-danger:          #d9534f;
 @brand-info:            #5bc0de;
 
+@header-background-color-pdf-ie: @toolbar-header-pdf-ie;
+@header-background-color-pdf: var(--toolbar-header-pdf);
+@toolbar-header-text-on-background-pdf-ie: @text-toolbar-header-on-background-pdf-ie;
+@toolbar-header-text-on-background-pdf: var(--text-toolbar-header-on-background-pdf);
+
 // Scaffolding
 // -------------------------
 
@@ -55,6 +60,10 @@
 
 // Typography
 // -------------------------
+
+.rtl-font {
+    --font-family-base-custom: system-ui, -apple-system, "Geeza Pro", "Segoe UI", "Traditional Arabic", "Noto Sans";
+}
 
 @font-family-sans-serif:  Arial, Helvetica, "Helvetica Neue", sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;

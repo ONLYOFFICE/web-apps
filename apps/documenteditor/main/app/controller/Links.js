@@ -233,6 +233,7 @@ define([
                 if (text !== false) {
                     win = new DE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.toolbar.appOptions,
                         handler: handlerDlg
                     });
 
@@ -252,6 +253,7 @@ define([
                     if (props) {
                         win = new DE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.toolbar.appOptions,
                             handler: handlerDlg
                         });
                         win.show();

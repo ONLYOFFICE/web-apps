@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "MATRIUATEXT",
 	"SORT": "ORDENA",
 	"SORTBY": "ORDENAPER",
+	"GETPIVOTDATA": "OBTEN.DADES.DINAMIQUES",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

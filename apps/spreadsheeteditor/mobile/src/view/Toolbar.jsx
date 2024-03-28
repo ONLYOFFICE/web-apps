@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import {NavLeft, NavRight, Link} from 'framework7-react';
 import { Device } from '../../../../common/mobile/utils/device';
 import EditorUIController from '../lib/patch'
@@ -17,42 +17,13 @@ const ToolbarView = props => {
             onRedoClick: props.onRedo
         }) : null;
     const docTitle = props.docTitle;
-    const docTitleLength = docTitle.length;
     const isVersionHistoryMode = props.isVersionHistoryMode;
     const isOpenModal = props.isOpenModal;
-    
-    const correctOverflowedText = el => {
-        if(el) {
-            el.innerText = docTitle;
-
-            if(el.scrollWidth > el.clientWidth) {
-                const arrDocTitle = docTitle.split('.');
-                const ext = arrDocTitle[1];
-                const name = arrDocTitle[0];
-                const diff = Math.floor(docTitleLength * el.clientWidth / el.scrollWidth - ext.length - 6);
-                const shortName = name.substring(0, diff).trim();
-
-                return `${shortName}...${ext}`;
-            }
-
-            return docTitle;
-        }
-    };
-
-    useEffect(() => {
-        if(!Device.phone) {
-            const elemTitle = document.querySelector('.subnavbar .title');
-
-            if (elemTitle) {
-                elemTitle.innerText = correctOverflowedText(elemTitle);
-            }
-        }
-    }, [docTitle]);
 
     return (
         <Fragment>
             <NavLeft>
-                {(props.isShowBack && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-back' onClick={() => Common.Notifications.trigger('goback')}></Link>}
+                {(props.isShowBack && !isVersionHistoryMode) && <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-return' onClick={() => Common.Notifications.trigger('goback')}></Link>}
                 {isVersionHistoryMode ? <a href="#" className='btn-close-history' onClick={(e) => {
                     e.preventDefault();
                     props.closeHistory();
@@ -61,7 +32,7 @@ const ToolbarView = props => {
             </NavLeft>
             {(!Device.phone && !isVersionHistoryMode) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
-                    {props.docTitle}
+                    {docTitle}
                 </div>
             }
             <NavRight>

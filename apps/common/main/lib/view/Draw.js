@@ -171,7 +171,7 @@ define([
 
             updateButtonHint: function(button) {
                 var config = button.options.penOptions;
-                button.updateHint(config.hint + ': ' + Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(config.color).asc_getName()) + ', ' + config.size.arr[config.size.idx] + ' ' + this.txtMM);
+                button.updateHint(config.hint + ': ' + Common.Utils.ThemeColor.getTranslation(Common.Utils.ThemeColor.getRgbColor(config.color).asc_getName()) + Common.Utils.String.textComma + ' ' + config.size.arr[config.size.idx] + ' ' + this.txtMM);
                 button.sizePicker && button.sizePicker.setValue(config.size.arr[config.size.idx] + ' ' + this.txtMM);
             },
 

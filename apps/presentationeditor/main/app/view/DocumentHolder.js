@@ -2579,7 +2579,6 @@ define([
                                 isCustomItem: true,
                                 guid: plugin.guid
                             });
-                            return;
                         }
 
                         if (!item.text) return;

@@ -43,6 +43,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
+        Common.Notifications.on('close', onClose);
         Common.Notifications.on('sheet:active', onApiActiveSheetChanged);
 
         if (isDisconnected) {
@@ -55,6 +56,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
+            Common.Notifications.off('close', onClose);
             Common.Notifications.off('sheet:active', onApiActiveSheetChanged);
         }
     });
@@ -63,10 +65,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
         if (data && data.config && data.config.canBackToFolder !== false &&
-            data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
-        {
-            setShowBack(true);
+            data.config.customization && data.config.customization.goback) {
+            const canback = data.config.customization.close === undefined ?
+                data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
+                data.config.customization.goback.url && !data.config.customization.goback.requestClose;
+            canback && setShowBack(true);
         }
     };
 
@@ -115,6 +118,10 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeSpreadsheetIn
                 parent.location.href = href;
             }
         }
+    }
+
+    const onClose = () => {
+        onRequestClose();
     }
 
     const onUndo = () => {

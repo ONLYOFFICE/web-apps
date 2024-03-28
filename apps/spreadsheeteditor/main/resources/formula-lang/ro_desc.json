@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matrice, după_matrice, [ordine_sortare], ...)",
 		"d": "Sortează o zonă sau o matrice pe baza valorilor dintr-o zonă sau dintr-o matrice corespunzătoare"
+	},
+	"GETPIVOTDATA": {
+		"a": "(câmp_date; tabel_pivot; [câmp]; [element]; ...)",
+		"d": "Extrage date stocate într-un PivotTable"
+	},
+	"IMPORTRANGE": {
+		"a": "(adresă url_foaie de calcul)",
+		"d": "Importă o zonă de celule dintr-o foaie de calcul specificată."
 	}
 }

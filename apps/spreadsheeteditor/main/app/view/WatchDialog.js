@@ -97,7 +97,7 @@ define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
                         '<div class="padding-right-5" style="width:70px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                         '<div class="padding-right-5" style="width:70px;"><%= cell %></div>',
                         '<div class="padding-right-5" style="width:110px;" data-toggle="tooltip"><%= Common.Utils.String.htmlEncode(value) %></div>',
-                        '<div style="width:135px;" data-toggle="tooltip"><%= formula %></div>',
+                        '<div style="width:135px;" data-toggle="tooltip"><%= Common.Utils.String.htmlEncode(formula) %></div>',
                     '</div>'
                 ].join('')),
                 tabindex: 1

@@ -4,16 +4,16 @@ import { Device } from '../../../../../common/mobile/utils/device';
 import {observer, inject} from "mobx-react";
 import { withTranslation } from 'react-i18next';
 
-import { EditLink, PageEditTypeLink, PageEditLinkTo } from '../../view/edit/EditLink';
+import { EditLink, ObservablePageEditTypeLink, ObservablePageEditLinkTo } from '../../view/edit/EditLink';
 
 const routes = [
     {
         path: '/edit-link-type/',
-        component: PageEditTypeLink
+        component: ObservablePageEditTypeLink
     },
     {
         path: '/edit-link-to/',
-        component: PageEditLinkTo
+        component: ObservablePageEditLinkTo
     }
 ];
 
@@ -21,12 +21,9 @@ class EditLinkController extends Component {
     constructor (props) {
         super(props);
 
-        const api = Common.EditorApi.get();
-
         this.onEditLink = this.onEditLink.bind(this);
         this.onRemoveLink = this.onRemoveLink.bind(this);
         this.initLink = this.initLink.bind(this);
-        this.slidesCount = api.getCountPages();
         this.initLink();
     }
 
@@ -200,7 +197,6 @@ class EditLinkController extends Component {
                                 slideNum={this.slideNum}
                                 onEditLink={this.onEditLink} 
                                 onRemoveLink={this.onRemoveLink}
-                                slidesCount={this.slidesCount}
                                 closeModal={this.closeModal}
                                 isNavigate={this.props.isNavigate}
                             />
@@ -219,7 +215,6 @@ class EditLinkController extends Component {
                                 slideNum={this.slideNum}
                                 onEditLink={this.onEditLink} 
                                 onRemoveLink={this.onRemoveLink}
-                                slidesCount={this.slidesCount}
                                 closeModal={this.closeModal}
                                 isNavigate={this.props.isNavigate}
                             />
@@ -236,7 +231,6 @@ class EditLinkController extends Component {
                     slideNum={this.slideNum}
                     onEditLink={this.onEditLink} 
                     onRemoveLink={this.onRemoveLink}
-                    slidesCount={this.slidesCount}
                     closeModal={this.closeModal}
                     isNavigate={this.props.isNavigate}
                 />

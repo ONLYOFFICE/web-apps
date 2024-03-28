@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "MATRIZATEXTO",
 	"SORT": "ORDENAR",
 	"SORTBY": "ORDENARPOR",
+	"GETPIVOTDATA": "IMPORTARDATOSDINAMICOS",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Encabezados",

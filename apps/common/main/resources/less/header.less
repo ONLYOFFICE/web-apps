@@ -121,6 +121,9 @@
             border-radius: 1px;
             cursor: text;
         }
+        .rtl & {
+            direction: rtl;
+        }
     }
 
     #rib-save-status {
@@ -400,6 +403,10 @@
         background-color: @icon-toolbar-header;
         color: @toolbar-header-text-on-background-ie;
         color: @toolbar-header-text-on-background;
+        .pdf-form & {
+            color: @toolbar-header-text-on-background-pdf-ie;
+            color: @toolbar-header-text-on-background-pdf;
+        }
         vertical-align: middle;
         background-size: cover;
         background-position: center;
@@ -514,8 +521,7 @@
 }
 
 #box-document-title {
-    background-color: @header-background-color-ie;
-    background-color: @header-background-color;
+    .header-background-color();
     display: flex;
     height: 100%;
     color: @text-toolbar-header-ie;
@@ -577,7 +583,9 @@
             border-radius: 1px;
             cursor: text;
         }
-
+        .rtl & {
+            direction: rtl;
+        }
    }
 
     .lr-separator {

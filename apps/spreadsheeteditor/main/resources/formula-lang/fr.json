@@ -478,6 +478,8 @@
 	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
 	"SORT": "TRIER",
 	"SORTBY": "TRIERPAR",
+	"GETPIVOTDATA": "LIREDONNEESTABCROISDYNAMIQUE",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",

@@ -316,6 +316,11 @@ module.exports = function(grunt) {
                     files: packageFile['apps-common'].svgicons.common
                 }
             },
+            inline: {
+                dist: {
+                    src: packageFile['apps-common'].copy.indexhtml.dest + '/*.html'
+                }
+            }
         }
     });
     doRegisterTask('socketio');
@@ -764,7 +769,7 @@ module.exports = function(grunt) {
     var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
     grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
-    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
+    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'inline', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-socketio',               ['socketio-init', 'clean', 'copy']);

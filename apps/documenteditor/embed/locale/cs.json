@@ -42,7 +42,7 @@
   "DE.ApplicationController.textOf": "z",
   "DE.ApplicationController.textRequired": "Aby formulář bylo možné odeslat, je třeba vyplnit všechny vyžadované kolonky.",
   "DE.ApplicationController.textSubmit": "Odeslat",
-  "DE.ApplicationController.textSubmited": "<b>Formulář úspěšně uložen.</b><br>Klikněte pro zavření nápovědy.",
+  "DE.ApplicationController.textSubmited": "<b>Formulář úspěšně odeslán.</b><br>Klikněte pro zavření nápovědy.",
   "DE.ApplicationController.titleLicenseExp": "Platnost licence skončila",
   "DE.ApplicationController.titleLicenseNotActive": "Licence není aktivní",
   "DE.ApplicationController.txtClose": "Zavřít",
