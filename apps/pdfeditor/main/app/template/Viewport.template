@@ -4,7 +4,7 @@
             <div id="file-menu-panel" class="toolbar-fullview-panel hint-section" style="display:none;"></div>
         </section>
         <section id="app-title" class="layout-item"></section>
-        <div id="toolbar" class="layout-item hint-section" data-layout-name="toolbar"></div>
+        <div id="toolbar" class="layout-item hint-section" data-layout-name="toolbar" role="toolbar"></div>
         <div class="layout-item middle">
             <div id="viewport-hbox-layout" class="layout-ct hbox">
                 <div id="left-menu" class="layout-item hint-section" data-layout-name="leftMenu" style="width: 40px;"></div>

@@ -644,7 +644,7 @@ Common.UI.HintManager = new(function() {
 
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
                 e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
-                !(window.PE && $('#pe-preview').is(':visible')));
+                !(window.PE && $('#pe-preview').is(':visible')) && !(Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()));
             if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
@@ -682,14 +682,14 @@ Common.UI.HintManager = new(function() {
         return !(_hintVisible && _currentLevel > 1);
     };
 
-    var _clearHints = function (isComplete) {
+    var _clearHints = function (isComplete, leaveLockedKeyEvents) {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
         }
-        _isLockedKeyEvents && _lockedKeyEvents(false);
+        !leaveLockedKeyEvents && _isLockedKeyEvents && _lockedKeyEvents(false);
 
         if (isComplete) {
             _isComplete = true;

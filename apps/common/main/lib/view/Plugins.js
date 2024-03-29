@@ -98,7 +98,7 @@ define([
         },
 
         getPanel: function () {
-            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins"></section>');
+            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins" role="tabpanel" aria-labelledby="plugins"></section>');
             var _group = $('<div class="group"></div>');
             if ( !this.storePlugins.isEmpty() ) {
                 this.storePlugins.each(function (model) {

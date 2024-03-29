@@ -49,7 +49,6 @@ define([
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
-    'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/TableFormulaDialog',
     'documenteditor/main/app/view/TableToTextDialog'
 ], function (menuTemplate, $, _, Backbone) {
