@@ -47,9 +47,6 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
     'common/main/lib/component/Calendar',
-    'common/main/lib/view/InsertTableDialog',
-    'common/main/lib/view/CopyWarningDialog',
-    'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
     'documenteditor/main/app/view/CellsAddDialog',
     'documenteditor/main/app/view/ListIndentsDialog'

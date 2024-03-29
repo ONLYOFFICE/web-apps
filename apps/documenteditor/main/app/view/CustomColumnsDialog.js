@@ -37,11 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.CustomColumnsDialog = Common.UI.Window.extend(_.extend({
         options: {

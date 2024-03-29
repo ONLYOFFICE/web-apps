@@ -205,6 +205,11 @@ require([
                     'common/main/lib/controller/ScreenReaderFocus',
                     'common/main/lib/component/ComboBoxDataView',
                     'common/main/lib/view/OptionsDialog',
+                    'common/main/lib/view/CopyWarningDialog',
+                    'common/main/lib/view/ImageFromUrlDialog',
+                    'common/main/lib/view/InsertTableDialog',
+                    'common/main/lib/view/SelectFileDlg',
+                    'common/main/lib/view/SymbolTableDialog',
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',
                     'documenteditor/main/app/view/TableSettingsAdvanced',
@@ -225,7 +230,16 @@ require([
                     'documenteditor/main/app/view/BookmarksDialog',
                     'documenteditor/main/app/view/NotesRemoveDialog',
                     'documenteditor/main/app/view/CrossReferenceDialog',
-                    'documenteditor/main/app/view/TableOfContentsSettings'
+                    'documenteditor/main/app/view/TableOfContentsSettings',
+                    'documenteditor/main/app/view/EditListItemDialog',
+                    'documenteditor/main/app/view/ControlSettingsDialog',
+                    'documenteditor/main/app/view/DateTimeDialog',
+                    'documenteditor/main/app/view/PageMarginsDialog',
+                    'documenteditor/main/app/view/PageSizeDialog',
+                    'documenteditor/main/app/view/CustomColumnsDialog',
+                    'documenteditor/main/app/view/ListSettingsDialog',
+                    'documenteditor/main/app/view/LineNumbersDialog',
+                    'documenteditor/main/app/view/HyphenationDialog',
                 ];
 
                 window.compareVersions = true;

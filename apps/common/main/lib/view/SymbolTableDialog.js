@@ -39,12 +39,7 @@
  */
 if (Common === undefined)
     var Common = {};
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/util/character',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     var oRangeNames = {};
     oRangeNames[1] =  'Basic Latin';

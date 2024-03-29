@@ -49,8 +49,7 @@ define([
     'common/main/lib/component/ColorButton',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/component/Slider',
-    'common/main/lib/component/MultiSliderGradient',
-    'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/component/MultiSliderGradient'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
