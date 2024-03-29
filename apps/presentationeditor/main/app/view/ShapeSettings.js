@@ -157,7 +157,6 @@ define([
             if (this.api) {
                 this.api.asc_setInterfaceDrawImagePlaceShape('shape-texture-img');
                 this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
-                this.api.asc_registerCallback('asc_onSendThemeColors',  _.bind(this.onSendThemeColors, this));
             }
             Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
@@ -1939,13 +1938,6 @@ define([
             }
         },
 
-        onSendThemeColors: function() {
-            if (this.mnuShadowShapeColorPicker) {
-                var effectcolors = Common.Utils.ThemeColor.getEffectColors();
-                this.mnuShadowShapeColorPicker.updateColors(effectcolors, Common.Utils.ThemeColor.getStandartColors());
-            }
-        },
-
         onSelectTexture: function(picker, view, record){
             this._fromTextureCmb = true;
             this.cmbFillType.setValue(this._arrFillType[1].value);
@@ -2165,6 +2157,7 @@ define([
             this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         onBtnRotateClick: function(btn) {
