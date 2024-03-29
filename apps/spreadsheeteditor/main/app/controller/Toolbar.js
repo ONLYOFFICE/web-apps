@@ -44,7 +44,6 @@ define([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
     'common/main/lib/view/SymbolTableDialog',
-    'common/main/lib/view/OptionsDialog',
     'common/main/lib/util/define',
     'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Toolbar',

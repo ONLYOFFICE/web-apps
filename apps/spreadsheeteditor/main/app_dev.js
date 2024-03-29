@@ -203,6 +203,7 @@ require([
         ], function() {
             app.postLaunchScripts = [
                 'common/main/lib/controller/ScreenReaderFocus',
+                'common/main/lib/view/OptionsDialog',
                 'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',

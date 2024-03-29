@@ -47,8 +47,7 @@ define([
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
     'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
     'spreadsheeteditor/main/app/view/GoalSeekDlg',
-    'spreadsheeteditor/main/app/view/GoalSeekStatusDlg',
-    'common/main/lib/view/OptionsDialog'
+    'spreadsheeteditor/main/app/view/GoalSeekStatusDlg'
 ], function () {
     'use strict';
 
