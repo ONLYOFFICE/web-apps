@@ -157,6 +157,7 @@ define([
             if (this.api) {
                 this.api.asc_setInterfaceDrawImagePlaceShape('shape-texture-img');
                 this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
+                this.api.asc_registerCallback('asc_onSendThemeColors',  _.bind(this.onSendThemeColors, this));
             }
             Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this));
             return this;
@@ -1935,6 +1936,13 @@ define([
                     menu.off('show:before', onShowBefore);
                 };
                 this.textureMenu.on('show:before', onShowBefore);
+            }
+        },
+
+        onSendThemeColors: function() {
+            if (this.mnuShadowShapeColorPicker) {
+                var effectcolors = Common.Utils.ThemeColor.getEffectColors();
+                this.mnuShadowShapeColorPicker.updateColors(effectcolors, Common.Utils.ThemeColor.getStandartColors());
             }
         },
 
