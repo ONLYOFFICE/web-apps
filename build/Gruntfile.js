@@ -491,10 +491,10 @@ module.exports = function(grunt) {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
                     dest: packageFile['main']['js']['requirejs']['options']['out']
                 },
-                post: {
-                    src: packageFile.main.js.postload.src,
-                    dest: packageFile.main.js.postload.dest,
-                },
+                // post: {
+                //     src: packageFile.main.js.postload.src,
+                //     dest: packageFile.main.js.postload.dest,
+                // },
             },
         });
 
