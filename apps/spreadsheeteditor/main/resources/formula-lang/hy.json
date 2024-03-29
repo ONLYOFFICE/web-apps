@@ -480,6 +480,7 @@
 	"SORT": "SORT",
 	"SORTBY": "SORTBY",
 	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Էջագլուխներ",

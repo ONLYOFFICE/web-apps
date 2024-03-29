@@ -277,6 +277,7 @@ define([
                     }
                     break;
                 case 'external-help': close_menu = true; break;
+                case 'close-editor': Common.NotificationCenter.trigger('close'); break;
                 default: close_menu = false;
             }
 
@@ -292,7 +293,10 @@ define([
 
         clickSaveCopyAsFormat: function(menu, format, ext) {
             this.isFromFileDownloadAs = ext;
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+            var options = new Asc.asc_CDownloadOptions(format, true);
+            options.asc_setIsSaveAs(true);
+            this.api.asc_DownloadAs(options);
+
             menu.hide();
         },
 

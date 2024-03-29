@@ -163,6 +163,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
   "DE.Views.ApplicationView.textClear": "Clear all fields",
   "DE.Views.ApplicationView.textClearField": "Clear field",
+  "DE.Views.ApplicationView.textClose": "Close file",
   "DE.Views.ApplicationView.textCopy": "Copy",
   "DE.Views.ApplicationView.textCut": "Cut",
   "DE.Views.ApplicationView.textFitToPage": "Fit to page",

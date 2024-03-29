@@ -145,8 +145,6 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long"></div>
@@ -162,16 +160,18 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-insslicer"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-editheader"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-insslicer"></span>
                 </div>
             </section>
             <section class="panel" data-tab="layout" role="tabpanel" aria-labelledby="layout">

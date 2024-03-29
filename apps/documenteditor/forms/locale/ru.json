@@ -163,6 +163,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Вы достигли лимита на количество пользователей редакторов %1. Напишите в отдел продаж %1, чтобы обсудить индивидуальные условия обновления.",
   "DE.Views.ApplicationView.textClear": "Очистить все поля",
   "DE.Views.ApplicationView.textClearField": "Очистить поле",
+  "DE.Views.ApplicationView.textClose": "Закрыть файл",
   "DE.Views.ApplicationView.textCopy": "Копировать",
   "DE.Views.ApplicationView.textCut": "Вырезать",
   "DE.Views.ApplicationView.textFitToPage": "По размеру страницы",

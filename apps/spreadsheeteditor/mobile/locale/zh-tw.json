@@ -821,6 +821,7 @@
       "txtVi": "越南語",
       "txtZh": "中文",
       "warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
+      "textClose": "Close",
       "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textLight": "Light",

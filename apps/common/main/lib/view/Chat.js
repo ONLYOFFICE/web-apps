@@ -233,7 +233,7 @@ define([
             var user    = this.storeUsers.findOriginalUser(m.get('userid')),
                 avatar = Common.UI.ExternalUsers.getImage(m.get('userid'));
             m.set({
-                usercolor   : user ? user.get('color') : null,
+                usercolor   : user ? user.get('color') : Common.UI.ExternalUsers.getColor(m.get('userid')),
                 avatar      : avatar,
                 initials    : user ? user.get('initials') : Common.Utils.getUserInitials(m.get('parsedName')),
                 message     : this._pickLink(m.get('message'))

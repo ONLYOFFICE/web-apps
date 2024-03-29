@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Präsentation wird heruntergeladen...",
   "PE.ApplicationController.errorAccessDeny": "Sie versuchen, eine Aktion durchzuführen, für die Sie keine Rechte haben.<br>Bitte wenden Sie sich an Ihren Document Serveradministrator.",
   "PE.ApplicationController.errorDefaultMessage": "Fehlercode: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Bei der Arbeit mit der Datei ist ein Fehler aufgetreten.<br>Verwenden Sie die Option 'Herunterladen als', um die Sicherungskopie der Datei auf der Festplatte Ihres Computers zu speichern.",
   "PE.ApplicationController.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",
   "PE.ApplicationController.errorFileSizeExceed": "Die Dateigröße überschreitet die für Ihren Server festgelegte Einschränkung.<br>Weitere Informationen können Sie von Ihrem Document Server-Administrator erhalten.",
   "PE.ApplicationController.errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Verwenden Sie die Option \"Herunterladen als\", um die Datei auf Ihrer Computerfestplatte zu speichern oder versuchen Sie es später erneut.",

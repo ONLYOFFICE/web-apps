@@ -100,9 +100,17 @@
                 "src": [
                     "**/*.{png,jpg,gif,html,css}",
                     "!*_/**",
-                    "!**/src/**"
+                    "!**/src/**",
+                    "search/js/**/*.js"
                 ],
                 "dest": "../deploy/web-apps/apps/common/main/resources/help/"
+            },
+            "indexhtml": {
+                "expand": true,
+                "cwd": "../apps/common",
+                "src": "*.html.deploy",
+                "ext": ".html",
+                "dest": "../deploy/web-apps/apps/common"
             }
         },
         "imagemin": {

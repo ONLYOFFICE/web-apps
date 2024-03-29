@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Загрузка таблицы...",
   "SSE.ApplicationController.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "SSE.ApplicationController.errorDefaultMessage": "Код ошибки: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "В ходе работы с документом произошла ошибка.<br>Используйте опцию 'Скачать как', чтобы сохранить резервную копию файла на диск.",
   "SSE.ApplicationController.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
   "SSE.ApplicationController.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
   "SSE.ApplicationController.errorForceSave": "При сохранении файла произошла ошибка. Используйте опцию 'Скачать как', чтобы сохранить файл на жестком диске компьютера или повторите попытку позже.",

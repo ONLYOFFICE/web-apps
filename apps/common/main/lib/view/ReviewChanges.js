@@ -65,7 +65,8 @@ define([
         viewFormMode:   'view-form-mode', // view form mode on Forms tab
         viewMode:       'view-mode', // view mode on disconnect, version history etc (used for locking buttons not in toolbar) or view mode from header mode button (for toolbar)
         hideComments:   'hide-comments', // no live comments and left panel is closed
-        cantShare: 'cant-share'
+        cantShare: 'cant-share',
+        customLock: 'custom-lock' // for custom buttons in toolbar
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

@@ -99,9 +99,9 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -111,21 +111,18 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

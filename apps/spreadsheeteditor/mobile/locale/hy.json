@@ -393,8 +393,8 @@
     "leaveButtonText": "Լքել այս էջը",
     "stayButtonText": "Մնալ այս էջում",
     "textCloseHistory": "Փակել պատմությունը",
-    "textEnterNewFileName": "Enter a new file name",
-    "textRenameFile": "Rename File"
+    "textEnterNewFileName": "Մուտքագրել նոր ֆայլի անուն ",
+    "textRenameFile": "Վերանվանել ֆայլը"
   },
   "View": {
     "Add": {
@@ -558,6 +558,7 @@
       "textInsideVerticalBorder": "Ներքին ուղղահայաց եզրագիծ",
       "textInteger": "Ամբողջ թիվ",
       "textInternalDataRange": "Տվյալների ներքին ընդգրկույթ",
+      "textInvalidName": "Ֆայլի անունը չի կարող ունենալ հետևյալ գրանշանները՝ ",
       "textInvalidRange": "Վանդակների անթույլատրելի ընդգրկույթ",
       "textJustified": "Տողաշտկված",
       "textLabelOptions": "Մեկնագրերի ընտրանքներ",
@@ -649,8 +650,7 @@
       "textYen": "Յուան",
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSortHigh2Low": "Տեսակավորել բարձրից ցածր:",
-      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:",
-      "textInvalidName": "The file name cannot contain any of the following characters: "
+      "txtSortLow2High": "Տեսակավորել ցածրից բարձր:"
     },
     "Settings": {
       "advCSVOptions": "Ընտրել CSV-ի հարաչափերը",
@@ -675,6 +675,7 @@
       "textChooseCsvOptions": "Ընտրել CSV-ի հարաչափերը",
       "textChooseDelimeter": "Ընտրել սահմանանշիչ",
       "textChooseEncoding": "Ընտրել կոդավորում",
+      "textClose": "Փակել",
       "textCollaboration": "Համագործակցում",
       "textColorSchemes": "Գունավորումներ",
       "textComment": "Մեկնաբանություն",
@@ -697,6 +698,7 @@
       "textEnableAllMacrosWithoutNotification": "Առանց ծանուցման միացնել բոլոր մակրոները",
       "textEncoding": "Կոդավորում",
       "textExample": "Օրինակ",
+      "textExplanationChangeDirection": "Հավելվածը կվերագործարկվի RTL ինտերֆեյսի ակտիվացման համար",
       "textFeedback": "Հետադարձ կապ և աջակցություն",
       "textFind": "Գտնել",
       "textFindAndReplace": "Գտնել և փոխարինել",
@@ -738,6 +740,7 @@
       "textRestartApplication": "Խնդրում ենք վերագործարկել հավելվածը, որպեսզի փոփոխություններն ուժի մեջ մտնեն",
       "textRight": "Աջ",
       "textRightToLeft": "Աջից ձախ",
+      "textRtlInterface": "RTL ինտերֆեյս",
       "textSameAsSystem": "Նույնը, ինչ համակարգը",
       "textSearch": "Որոնել",
       "textSearchBy": "Որոնել",
@@ -825,9 +828,7 @@
       "txtUk": "ուկրաիներեն",
       "txtVi": "Վիետնամերեն",
       "txtZh": "Չինական",
-      "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:"
     }
   }
 }

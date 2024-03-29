@@ -49,7 +49,8 @@ define([
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX},
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM},
+            {name: 'XLSB', imgCls: 'xlsb', type: Asc.c_oAscFileType.XLSB},
+            {name: 'XLSM', imgCls: 'xlsm', type: Asc.c_oAscFileType.XLSM},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG},
@@ -151,7 +152,8 @@ define([
         ],[
             {name: 'XLTX', imgCls: 'xltx', type: Asc.c_oAscFileType.XLTX, ext: '.xltx'},
             {name: 'OTS',  imgCls: 'ots',  type: Asc.c_oAscFileType.OTS, ext: '.ots'},
-            {name: 'XLSM', imgCls: 'xlsm',  type: Asc.c_oAscFileType.XLSM, ext: '.xlsm'},
+            {name: 'XLSB', imgCls: 'xlsb', type: Asc.c_oAscFileType.XLSB, ext: '.xlsb'},
+            {name: 'XLSM', imgCls: 'xlsm', type: Asc.c_oAscFileType.XLSM, ext: '.xlsm'},
             {name: 'PDFA', imgCls: 'pdfa', type: Asc.c_oAscFileType.PDFA, ext: '.pdf'}
         ], [
             {name: 'JPG',   imgCls: 'jpg',  type: Asc.c_oAscFileType.JPG, ext: '.zip'},
@@ -466,8 +468,8 @@ define([
                 dataHint    : '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('change', function () {
-                me.chAutosave.setValue(1);
+            }).on('change', function (field, newValue, eOpts) {
+                newValue && me.chAutosave.setValue(1);
             });
             this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
@@ -865,7 +867,7 @@ define([
             $('tr.coauth.changes', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
-            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
 
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();

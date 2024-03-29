@@ -29,13 +29,10 @@
 
     &.theme-color {
         .asc-synchronizetip {
-            background-color: @header-background-color-ie;
-            background-color: @header-background-color;
+            .header-background-color();
             color: @text-toolbar-header-ie;
             color: @text-toolbar-header;
-            border-color: @header-background-color-ie;
-            border-color: @header-background-color;
-
+            .header-border-color();
             .close {
                 &:before, &:after {
                     background-color: @text-toolbar-header-ie;
@@ -45,14 +42,11 @@
         }
 
         .tip-arrow:before {
-            background-color: @header-background-color-ie;
-            background-color: @header-background-color;
-            border-color: @header-background-color-ie !important;
-            border-color: @header-background-color !important;
+            .header-background-color();
+            .header-border-color();
         }
         .tip-arrow:after {
-            border-color: @header-background-color-ie !important;
-            border-color: @header-background-color !important;
+            .header-border-color();
         }
     }
 

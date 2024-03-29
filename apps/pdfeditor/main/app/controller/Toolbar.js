@@ -246,6 +246,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -424,7 +425,10 @@ define([
                             me.api.asc_DownloadAs();
                         else if (btn==='copy' || btn==='download') {
                             me._state.isFromToolbarDownloadAs = (btn==='copy');
-                            me.api.asc_DownloadOrigin(btn==='copy');
+                            var options = new Asc.asc_CDownloadOptions();
+                            options.asc_setIsDownloadEvent(me._state.isFromToolbarDownloadAs);
+                            options.asc_setIsSaveAs(me._state.isFromToolbarDownloadAs);
+                            me.api.asc_DownloadOrigin(options);
                         }
                         Common.NotificationCenter.trigger('edit:complete', toolbar);
                     }
@@ -432,11 +436,11 @@ define([
             } else if (this.api) {
                 // var isModified = this.api.asc_isDocumentCanSave();
                 // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
+                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
                 //     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled);
+                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.saveAlwaysEnabled && !toolbar.mode.canSaveDocumentToBinary);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
@@ -741,7 +745,9 @@ define([
                     this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                 else {
                     this._state.isFromToolbarDownloadAs = this.mode.canRequestSaveAs || !!this.mode.saveAsUrl;
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this._state.isFromToolbarDownloadAs));
+                    var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this._state.isFromToolbarDownloadAs);
+                    options.asc_setIsSaveAs(this._state.isFromToolbarDownloadAs);
+                    this.api.asc_DownloadAs(options);
                 }
             }
         },
@@ -848,7 +854,7 @@ define([
 
             if ( config.isEdit || config.isRestrictedEdit) {
                 me.toolbar.setMode(config);
-                if (!(config.customization && config.customization.compactHeader)) {
+                if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
@@ -968,6 +974,10 @@ define([
 
         applySettings: function() {
             this.toolbar && this.toolbar.chShowComments && this.toolbar.chShowComments.setValue(Common.Utils.InternalSettings.get("pdfe-settings-livecomment"), true);
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textWarning: 'Warning',

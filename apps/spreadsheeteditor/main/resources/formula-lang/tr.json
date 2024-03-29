@@ -480,6 +480,7 @@
 	"SORT": "SIRALA",
 	"SORTBY": "SIRALAÖLÇÜT",
 	"GETPIVOTDATA": "ÖZETVERİAL",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

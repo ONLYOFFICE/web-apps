@@ -130,14 +130,14 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-instext"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long invisible"></div>
                 <div class="group small" id="slot-combo-insertshape"></div>
+                <div class="group small">
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
+                </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-comment"></span>
@@ -145,6 +145,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge slot-instext"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-slidenum"></span>

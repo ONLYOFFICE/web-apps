@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(adat_mező; kimutatás; [mező]; [tétel]; ...)",
 		"d": "Kimutatásban tárolt adatokat gyűjt ki"
+	},
+	"IMPORTRANGE": {
+		"a": "(táblázat_url-címe, tartomány_karakterlánca)",
+		"d": "Cellatartományt importál a megadott táblázatból."
 	}
 }
