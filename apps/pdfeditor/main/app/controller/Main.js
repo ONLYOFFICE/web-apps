@@ -1420,6 +1420,7 @@ define([
                 var app = this.getApplication();
                 app.getController('Toolbar').applyMode();
                 app.getController('Viewport').applyEditorMode();
+                app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
             },

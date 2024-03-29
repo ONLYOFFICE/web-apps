@@ -346,7 +346,7 @@ define([
                 this._initEditing = false;
             }
             if (!this._initEditing) {
-                this.getApplication().getController('RightMenu').onRightMenuHide(undefined, this.mode.isPDFEdit);
+                this.getApplication().getController('RightMenu').onRightMenuHide(undefined, this.mode.isPDFEdit && !Common.Utils.InternalSettings.get("pdfe-hidden-rightmenu"), true);
             }
         },
 

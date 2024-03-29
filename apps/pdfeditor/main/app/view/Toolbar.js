@@ -1145,7 +1145,7 @@ define([
 
                 if ( mode.isEdit ) {
                     /** coauthoring begin **/
-                    this.showSynchTip = !Common.localStorage.getBool("de-hide-synch");
+                    this.showSynchTip = !Common.localStorage.getBool("pdfe-hide-synch");
                     this.needShowSynchTip = false;
                     /** coauthoring end **/
                 }
@@ -1653,7 +1653,7 @@ define([
                     this.showSynchTip = false;
                     this.synchTooltip.hide();
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
-                    Common.localStorage.setItem("de-hide-synch", 1);
+                    Common.localStorage.setItem("pdfe-hide-synch", 1);
                 }, this);
                 this.synchTooltip.on('closeclick', function () {
                     this.synchTooltip.hide();

@@ -383,7 +383,7 @@ define([
             }
         },
 
-        onRightMenuHide: function (view, status) {
+        onRightMenuHide: function (view, status, preventSave) {
             if (this.rightmenu) {
                 if (!status)  { // remember last active pane
                     var active = this.rightmenu.GetActivePane(),
@@ -407,8 +407,10 @@ define([
                         this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("pdfe-hide-right-settings"));
                     this._lastVisibleSettings = undefined;
                 }
-                Common.localStorage.setBool('pdfe-hidden-rightmenu', !status);
-                Common.Utils.InternalSettings.set("pdfe-hidden-rightmenu", !status);
+                if (!preventSave) {
+                    Common.localStorage.setBool('pdfe-hidden-rightmenu', !status);
+                    Common.Utils.InternalSettings.set("pdfe-hidden-rightmenu", !status);
+                }
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
