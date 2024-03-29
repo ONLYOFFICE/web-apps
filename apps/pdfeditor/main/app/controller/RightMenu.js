@@ -316,7 +316,6 @@ define([
         },
 
         UpdateThemeColors:  function() {
-            // this.rightmenu.slideSettings.UpdateThemeColors();
             // this.rightmenu.tableSettings.UpdateThemeColors();
             // this.rightmenu.shapeSettings.UpdateThemeColors();
             // this.rightmenu.textartSettings.UpdateThemeColors();

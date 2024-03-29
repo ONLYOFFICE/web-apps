@@ -323,7 +323,6 @@ define([
         txtTableSettings:           'Table Settings',
         txtShapeSettings:           'Shape Settings',
         txtTextArtSettings:         'Text Art Settings',
-        txtSlideSettings:           'Slide Settings',
         txtChartSettings:           'Chart Settings',
         txtSignatureSettings:       'Signature Settings'
     }, PDFE.Views.RightMenu || {}));

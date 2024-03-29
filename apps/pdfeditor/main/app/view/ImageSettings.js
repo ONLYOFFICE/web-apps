@@ -493,7 +493,7 @@ define([
         },
 
         setFitSlide:  function() {
-            this.api && this.api.asc_FitImagesToSlide();
+            this.api && this.api.asc_FitImagesToPage();
             this.fireEvent('editcomplete', this);
         },
 
@@ -551,7 +551,7 @@ define([
         textCrop: 'Crop',
         textCropFill: 'Fill',
         textCropFit: 'Fit',
-        textFitSlide: 'Fit to Slide',
+        textFitPage: 'Fit to page',
         textCropToShape: 'Crop to shape',
         textFromStorage: 'From Storage',
         textRecentlyUsed: 'Recently Used'

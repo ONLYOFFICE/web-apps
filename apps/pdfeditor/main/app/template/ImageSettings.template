@@ -19,7 +19,7 @@
     </tr>
     <tr>
         <td class="padding-small" colspan=2>
-            <button type="button" class="btn btn-text-default" id="image-button-fit-slide" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textFitSlide %></button>
+            <button type="button" class="btn btn-text-default" id="image-button-fit-slide" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textFitPage %></button>
         </td>
     </tr>
     <tr>

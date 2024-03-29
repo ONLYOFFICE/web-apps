@@ -2159,9 +2159,7 @@ define([
         textCropFill: 'Fill',
         textCropFit: 'Fit',
         textFromStorage: 'From Storage',
-        textEditPoints: 'Edit Points',
-        txtInsImage: 'Insert image from File',
-        txtInsImageUrl: 'Insert image from URL'
+        textEditPoints: 'Edit Points'
 
     }, PDFE.Views.DocumentHolder || {}));
 });

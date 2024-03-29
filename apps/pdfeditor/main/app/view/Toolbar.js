@@ -599,7 +599,7 @@ define([
                 arr.push(this.btnColumns);
 
                 this.mniAlignToSlide = new Common.UI.MenuItem({
-                    caption: this.txtSlideAlign,
+                    caption: this.txtPageAlign,
                     checkable: true,
                     toggleGroup: 'slidealign',
                     value: -1
@@ -1356,30 +1356,6 @@ define([
                         me.mnuHighlightColorPicker = arr[0];
                         me.mnuHighlightTransparent = arr[1];
                     }
-
-                    // me.btnInsertText && me.btnInsertText.setMenu(new Common.UI.Menu({
-                    //     items: [
-                    //         {
-                    //             caption: me.tipInsertHorizontalText,
-                    //             checkable: true,
-                    //             checkmark: false,
-                    //             iconCls     : 'menu__icon btn-text',
-                    //             toggleGroup: 'textbox',
-                    //             value: 'textRect',
-                    //             iconClsForMainBtn: 'btn-big-text'
-                    //         },
-                    //         {
-                    //             caption: me.tipInsertVerticalText,
-                    //             checkable: true,
-                    //             checkmark: false,
-                    //             iconCls     : 'menu__icon btn-text-vertical',
-                    //             toggleGroup: 'textbox',
-                    //             value: 'textRectVertical',
-                    //             iconClsForMainBtn: 'btn-big-text-vertical'
-                    //         },
-                    //     ]
-                    // }));
-
                 });
             },
 
@@ -1804,7 +1780,7 @@ define([
             textTabInsert: 'Insert',
             capBtnEditText: 'Edit Text',
             tipEditText: 'Edit text',
-            txtSlideAlign: 'Align to Page',
+            txtPageAlign: 'Align to Page',
             txtObjectsAlign: 'Align Selected Objects',
             tipShapeAlign: 'Align Shape',
             tipShapeArrange: 'Arrange Shape',

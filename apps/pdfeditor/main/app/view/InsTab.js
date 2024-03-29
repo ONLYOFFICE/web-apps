@@ -436,7 +436,7 @@ define([
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 // this.btnInsDateTime.updateHint(this.tipDateTime);
-                // this.btnInsSlideNum.updateHint(this.tipSlideNum);
+                // this.btnInsSlideNum.updateHint(this.tipPageNum);
                 this.btnAddPage.updateHint(this.tipAddPage);
 /*
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
@@ -761,9 +761,9 @@ define([
             capAddPage: 'Add Page',
             tipAddPage: 'Add page',
             tipInsertChart: 'Insert Chart',
-            tipSlideNum: 'Insert slide number',
+            tipPageNum: 'Insert page number',
             tipDateTime: 'Insert current date and time',
-            capBtnSlideNum: 'Slide Number',
+            capBtnPageNum: 'Page Number',
             capBtnDateTime: 'Date & Time',
             capBtnInsSymbol: 'Symbol',
             capBtnInsSmartArt: 'SmartArt',

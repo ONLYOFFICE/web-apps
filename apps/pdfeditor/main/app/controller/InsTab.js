@@ -559,7 +559,7 @@ define([
                 }
             }
             if (in_text && type=='slidenum') {
-                this.api.asc_addSlideNumber();
+                this.api.asc_addPageNumber();
             } else if (in_text && type=='datetime') {
                 //insert date time
                 var me = this;
