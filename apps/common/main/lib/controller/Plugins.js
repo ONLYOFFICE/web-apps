@@ -121,6 +121,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
         },
 
         loadConfig: function(data) {
@@ -1051,6 +1052,12 @@ define([
                 Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: this.viewPlugins.lockedControls});
                 Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.viewPlugins.lockedControls});
                 Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.viewPlugins.lockedControls});
+            }
+        },
+
+        onChangeDocMode: function (type) {
+            if (type === 'view' && this.pluginDlg) {
+                this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
             }
         },
 
