@@ -49,7 +49,6 @@ define([
   "common/main/lib/util/utils",
   "common/main/lib/component/InputField",
   "common/main/lib/component/Window",
-
 ], function () {
   "use strict";
 
@@ -109,7 +108,8 @@ define([
           this._arrLineRuleForDocuments = JSON.parse(
             Common.localStorage.getItem("this._arrLineRule")
           );
-          this._arrLineRuleForActions =[
+
+          this._arrLineRuleForActions = [
             {
               displayValue: "Redirect",
 
@@ -121,12 +121,11 @@ define([
               value: "Modal",
             },
             {
-              displayValue: 'New Tab',
+              displayValue: "New Tab",
 
-              value: 'New Tab',
+              value: "New Tab",
             },
-          
-          ]; ;
+          ];
 
           this.template = [
             '<div class="box" style="height: 319px;">',
@@ -216,21 +215,21 @@ define([
             dataHintOffset: "big",
           });
           me.inputCombo.on("selected", function (combo, record) {
-          
             var val = record.value;
-            me.inputUrl.setData(val==="Document"?JSON.parse(
-              Common.localStorage.getItem("this._arrLineRule")
-            ):[]);
-           
+            me.inputUrl.setData(
+              val === "Document"
+                ? JSON.parse(Common.localStorage.getItem("this._arrLineRule"))
+                : []
+            );
           });
-          
+
           me.inputAction = new Common.UI.ComboBox({
             el: $("#id-dlg-hyperlink-action"),
             cls: "input-group-nr",
             menuStyle: "min-width: 85px;",
             placeHolder: "- Select Document Action -",
             editable: false,
-            data:this._arrLineRuleForActions,
+            data: this._arrLineRuleForActions,
             dataHint: "1",
             dataHintDirection: "bottom",
             dataHintOffset: "big",
@@ -240,9 +239,9 @@ define([
             el: $("#id-dlg-hyperlink-url"),
             cls: "input-group-nr",
             menuStyle: "min-width: 85px;",
-            placeHolder: "- Select -",
+            placeHolder: "- Select-",
             editable: false,
-            data:[],
+            data: this._arrLineRuleForDocuments,
             dataHint: "1",
             dataHintDirection: "bottom",
             dataHintOffset: "big",
@@ -252,13 +251,13 @@ define([
             me.isInputFirstChange && me.inputUrl.showError();
             me.isInputFirstChange = false;
             var val = record.displayValue;
+            Common.localStorage.setItem("editorUrl-val", JSON.stringify(val));
             if (me.isAutoUpdate) {
               me.inputDisplay.setValue(val);
               me.isTextChanged = true;
             }
             me.btnOk.setDisabled($.trim(val) == "");
           });
-
 
           me.inputDisplay = new Common.UI.InputField({
             el: $("#id-dlg-hyperlink-display"),
@@ -461,8 +460,7 @@ define([
           Common.UI.Window.prototype.show.apply(this, arguments);
         },
 
-        demoLink:async function () {
-
+        demoLink: async function () {
           var me = this,
             props = new Asc.CHyperlinkProperty(),
             display = "",
@@ -471,26 +469,23 @@ define([
               : c_oHyperlinkType.InternalLink;
 
           if (type == c_oHyperlinkType.WebLink) {
-            const id=await this.createLink()
-            this.editorUrl= Common.localStorage.getItem('editorUrl')
-            var url = `${this.editorUrl}/${id}`// `${$.trim(me.inputDisplay.getValue())}/${id}`;
+            const id = await this.createLink();
+            this.editorUrl = Common.localStorage.getItem("editorUrl");
+            var url = `${this.editorUrl}/${id}`; // `${$.trim(me.inputDisplay.getValue())}/${id}`;
 
-           if (
-                me.urlType !== AscCommon.c_oAscUrlType.Unsafe &&
-                !/(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url)
-              )
-                // url =
-                //   (me.urlType == AscCommon.c_oAscUrlType.Email
-                //     ? "mailto:"
-                //     : "http://") + url;
-  
+            if (
+              me.urlType !== AscCommon.c_oAscUrlType.Unsafe &&
+              !/(((^https?)|(^ftp)):\/\/)|(^mailto:)/i.test(url)
+            )
+              // url =
+              //   (me.urlType == AscCommon.c_oAscUrlType.Email
+              //     ? "mailto:"
+              //     : "http://") + url;
+
               url = url.replace(new RegExp("%20", "g"), " ");
-              props.put_Value(url);
-              props.put_Bookmark(null);
-              display = url;
-          
-        
-    
+            props.put_Value(url);
+            props.put_Bookmark(null);
+            display = url;
           } else {
             var rec = this.internalList.getSelectedRec();
             if (rec) {
@@ -525,16 +520,16 @@ define([
         },
         createLink: async function () {
           this.token = Common.localStorage.getItem("token");
-          this.linkUrl =Common.localStorage.getItem('linkUrl');
-          this.documentId = Common.localStorage.getItem('documentId');
+          this.linkUrl = Common.localStorage.getItem("linkUrl");
+          this.documentId = Common.localStorage.getItem("documentId");
 
           return await fetch(this.linkUrl, {
             method: "POST",
             body: JSON.stringify({
-              link_to: this.inputCombo.getValue()||"Document",
+              link_to: this.inputCombo.getValue() || "Document",
               id_of_to: Number(this.inputUrl.getValue()),
-              action: this.inputAction.getValue()||'New Tab',
-              document_id:Number(this.documentId)
+              action: this.inputAction.getValue() || "New Tab",
+              document_id: Number(this.documentId),
             }),
             headers: {
               Accept: "application/json",
@@ -551,7 +546,30 @@ define([
             });
         },
 
-        setSettings: function (props) {
+        linkData: async function (linkNo) {
+          Common.localStorage.setItem("link_Id", JSON.stringify(linkNo));
+          this.token = Common.localStorage.getItem("token");
+          this.documentId = Common.localStorage.getItem("documentId");
+          this.linkUrl = Common.localStorage.getItem("linkUrl");
+          return await fetch(
+            `${this.linkUrl}/link?documentId=${this.documentId}&linkNo=${linkNo}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+              },
+            }
+          )
+            .then((response) => response.json())
+            .then((linkData) => {
+              return linkData;
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+            });
+        },
+
+        setSettings: async function (props) {
           if (props) {
             var me = this;
 
@@ -571,11 +589,27 @@ define([
 
             if (type == c_oHyperlinkType.WebLink) {
               if (props.get_Value()) {
-                me.inputUrl.setValue(
-                  props.get_Value().replace(new RegExp(" ", "g"), "%20")
+                Common.localStorage.setItem(
+                  "c_oHyperlinkType.WebLink",
+                  JSON.stringify(props.get_Value())
                 );
+
+                const urlString = props.get_Value();
+                const regex = /\/editor\/(\d+)$/;
+                const match = urlString.match(regex);
+
+                if (match && match[1]) {
+                  const number = parseInt(match[1]);
+                  await this.linkData(number).then((documentLinkData) => {
+                    me.inputCombo.setValue(documentLinkData.link_to);
+                    me.inputAction.setValue(documentLinkData.action);
+                    me.inputUrl.setValue(documentLinkData.link_document.title);
+                  });
+                } else {
+                  console.log("No match found");
+                }
               } else {
-                me.inputUrl.setValue("");
+                me.inputUrl.setValue(me.inputUrl.value);
               }
               this.btnOk.setDisabled($.trim(this.inputUrl.getValue()) == "");
             } else {
@@ -634,25 +668,21 @@ define([
         },
 
         getSettings: function () {
-        
-        //  const props =  this.demoLink();
-        //  Common.localStorage.setItem('PROPS',JSON.stringify(props))
-        return {}
-  
-    
-       },
+          //  const props =  this.demoLink();
+          //  Common.localStorage.setItem('PROPS',JSON.stringify(props))
+          return {};
+        },
 
         onBtnClick: function (event) {
           this._handleInput(event.currentTarget.attributes["result"].value);
-        
-       },
+        },
 
         onPrimary: function (event) {
           this._handleInput("ok");
           return false;
         },
 
-        _handleInput:async function (state) {
+        _handleInput: async function (state) {
           if (this.options.handler) {
             if (state == "ok") {
               if (this.btnExternal.isActive()) {
@@ -678,20 +708,13 @@ define([
                   this.btnInternal.isActive()
                 ); // save last added hyperlink
 
-
-                const props = await this.demoLink();
-                this.options.handler.call(this, this, state,props);
-            }else{
+              const props = await this.demoLink();
+              this.options.handler.call(this, this, state, props);
+            } else {
               this.options.handler.call(this, this, state);
             }
-        
-  
-    
-      
-       
           }
           this.close();
-    
         },
 
         textUrl: "Link to",
