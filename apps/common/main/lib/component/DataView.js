@@ -1967,7 +1967,7 @@ define([
         },
         hideTextRect: function (hide) {
             var me = this;
-            this.store.each(function(item, index){
+            this.dataViewItems && this.store.each(function(item, index){
                 if (item.get('data').shapeType === 'textRect' && me.dataViewItems[index] && me.dataViewItems[index].el) {
                     me.dataViewItems[index].el[hide ? 'addClass' : 'removeClass']('hidden');
                 }
