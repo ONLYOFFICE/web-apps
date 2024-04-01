@@ -2418,6 +2418,79 @@ define([
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            me.menuAnimZoomIn = new Common.UI.MenuItem({
+                caption: me.textZoomIn,
+                value: 'zoom-in'
+            });
+
+            me.menuAnimZoomOut = new Common.UI.MenuItem({
+                caption: me.textZoomOut,
+                value: 'zoom-out'
+            });
+
+            me.timelineZoomMenu = new Common.UI.Menu({
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                menuAlign: 'bl-tl',
+                items: [
+                    me.menuAnimZoomIn,
+                    me.menuAnimZoomOut
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            me.menuAnimStartOnClick = new Common.UI.MenuItem({
+                caption: me.textStartOnClick,
+                checkable: true
+            });
+
+            me.menuAnimStartWithPrevious = new Common.UI.MenuItem({
+                caption: me.textStartWithPrevious,
+                checkable: true
+            });
+
+            me.menuAnimStartAfterPrevious = new Common.UI.MenuItem({
+                caption: me.textStartAfterPrevious,
+                checkable: true
+            });
+
+            me.menuAnimRemove = new Common.UI.MenuItem({
+                caption: me.textRemove
+            });
+
+            me.animEffectMenu = new Common.UI.Menu({
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                menuAlign: 'tl-bl',
+                initMenu: function(value){
+
+                },
+                items: [
+                    me.menuAnimStartOnClick,
+                    me.menuAnimStartWithPrevious,
+                    me.menuAnimStartAfterPrevious,
+                    {caption: '--'},
+                    me.menuAnimRemove
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
             var nextpage = $('#id_buttonNextPage');
             nextpage.attr('data-toggle', 'tooltip');
             nextpage.tooltip({
@@ -2863,7 +2936,13 @@ define([
         txtInsTable: 'Insert table',
         txtInsVideo: 'Insert video',
         txtInsAudio: 'Insert audio',
-        txtInsSmartArt: 'Insert SmartArt'
+        txtInsSmartArt: 'Insert SmartArt',
+        textZoomIn: 'Zoom In',
+        textZoomOut: 'Zoom Out',
+        textStartOnClick: 'Start On Click',
+        textStartWithPrevious: 'Start With Previous',
+        textStartAfterPrevious: 'Start After Previous',
+        textRemove: 'Remove'
 
     }, PE.Views.DocumentHolder || {}));
 });

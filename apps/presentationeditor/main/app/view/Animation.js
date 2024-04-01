@@ -272,14 +272,13 @@ define([
                 this.lockedControls.push(this.btnParameters);
 
                 this.btnAnimationPane = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtAnimationPane,
-                    split: true,
-                    iconCls: 'toolbar__icon btn-transition-apply-all',
+                    iconCls: 'toolbar__icon icon',
                     lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
                     dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAnimationPane);
 
