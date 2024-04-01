@@ -250,8 +250,9 @@ define([
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
             if (!this._isDocReady) return;
-            Common.localStorage.setItem('de-last-zoom', percent);
-            Common.localStorage.setItem('de-last-zoom-type', type);
+            var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
+            Common.localStorage.setItem('de-last-zoom', value);
+            Common.Utils.InternalSettings.set('de-last-zoom', value);
         },
 
         _onTextLanguage: function(langId) {

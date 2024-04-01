@@ -180,13 +180,14 @@ define([
                  this.statusbar.btnZoomToPage.toggle(type == 2, true);
                  this.statusbar.btnZoomToWidth.toggle(type == 1, true);
                  this._state.zoom_type = type;
-                 Common.localStorage.setItem('pe-last-zoom-type', type);
              }
              if (this._state.zoom_percent !== percent) {
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
                  if(!this._isZoomRecord ) return;
-                 Common.localStorage.setItem('pe-last-zoom', percent);
+                 var value = this._state.zoom_type !== undefined ? this._state.zoom_type == 2 ? -1 : (this._state.zoom_type == 1 ? -2 : percent) : percent;
+                 Common.localStorage.setItem('pe-last-zoom', value);
+                 Common.Utils.InternalSettings.set('pe-last-zoom', value);
              }
         },
 

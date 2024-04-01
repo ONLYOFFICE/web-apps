@@ -171,8 +171,9 @@ define([
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
             if(!this._isDocReady) return;
-            Common.localStorage.setItem('pdfe-last-zoom', percent);
-            Common.localStorage.setItem('pdfe-last-zoom-type', type);
+            var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
+            Common.localStorage.setItem('pdfe-last-zoom', value);
+            Common.Utils.InternalSettings.set('pdfe-last-zoom', value);
         },
 
         setStatusCaption: function(text, force, delay, callback) {

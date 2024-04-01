@@ -785,24 +785,7 @@ define([
             Common.localStorage.setItem("pe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("pe-settings-show-alt-hints", Common.localStorage.getBool("pe-settings-show-alt-hints"));
 
-            /* update zoom */
-            var zoomValue = Common.localStorage.getItem("pe-settings-zoom");
-            var lastZoom = Common.localStorage.getItem("pe-last-zoom");
-            var lastZoomType = Common.localStorage.getItem("pe-last-zoom-type");
-
-            if (zoomValue === null || (zoomValue == -1 && lastZoomType == 2) || (zoomValue == -2 && lastZoomType == 1) || (zoomValue == -3) || (zoomValue == lastZoom)) {
-                var newZoomValue = this.cmbZoom.getValue();
-                if (newZoomValue === -1) {
-                    this.api.zoomFitToPage();
-                } else if (newZoomValue === -2) {
-                    this.api.zoomFitToWidth();
-                } else if (newZoomValue > 0) {
-                    this.api.zoom(newZoomValue);
-                }
-            }
-
             Common.localStorage.setItem("pe-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("pe-settings-zoom", Common.localStorage.getItem("pe-settings-zoom"));
 
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
             /** coauthoring begin **/

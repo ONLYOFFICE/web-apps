@@ -1024,17 +1024,7 @@ define([
             Common.localStorage.setItem("sse-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", Common.localStorage.getBool("sse-settings-show-alt-hints"));
 
-            /* update zoom */
-            if (this.cmbZoom.getValue() > 0) {
-                var zoomValue = Common.localStorage.getItem("sse-settings-zoom");
-
-                if (zoomValue === null || (zoomValue == -3) || (zoomValue / 100 == this.api.asc_getZoom())) {
-                    this.api.asc_setZoom(this.cmbZoom.getValue() / 100);
-                }
-            }
-
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
 
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
             /** coauthoring begin **/

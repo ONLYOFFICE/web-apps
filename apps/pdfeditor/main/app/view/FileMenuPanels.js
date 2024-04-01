@@ -752,24 +752,7 @@ define([
             Common.localStorage.setItem("pdfe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", Common.localStorage.getBool("pdfe-settings-show-alt-hints"));
 
-            /* update zoom */
-            var zoomValue = Common.localStorage.getItem("pdfe-settings-zoom");
-            var lastZoom = Common.localStorage.getItem("pdfe-last-zoom");
-            var lastZoomType = Common.localStorage.getItem("pdfe-last-zoom-type");
-
-            if (zoomValue === null || (zoomValue == -1 && lastZoomType == 2) || (zoomValue == -2 && lastZoomType == 1) || (zoomValue == -3) || (zoomValue == lastZoom)) {
-                var newZoomValue = this.cmbZoom.getValue();
-                if (newZoomValue === -1) {
-                    this.api.zoomFitToPage();
-                } else if (newZoomValue === -2) {
-                    this.api.zoomFitToWidth();
-                } else if (newZoomValue > 0) {
-                    this.api.zoom(newZoomValue);
-                }
-            }
-
             Common.localStorage.setItem("pdfe-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
 
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
