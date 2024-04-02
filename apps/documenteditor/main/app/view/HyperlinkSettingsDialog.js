@@ -589,10 +589,6 @@ define([
 
             if (type == c_oHyperlinkType.WebLink) {
               if (props.get_Value()) {
-                Common.localStorage.setItem(
-                  "c_oHyperlinkType.WebLink",
-                  JSON.stringify(props.get_Value())
-                );
 
                 const urlString = props.get_Value();
                 const regex = /\/editor\/(\d+)$/;
