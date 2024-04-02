@@ -379,6 +379,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
 
+        Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
+
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
         EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeCellSettings);
@@ -1141,17 +1143,47 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
-        if ( this.props.storeAppOptions.canDownload) {
+    onDownloadCancel() {
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onDownloadAs(format) {
+        const appOptions = this.props.storeAppOptions;
+
+        if(!appOptions.canDownload) {
             const { t } = this.props;
-            const _t = t('Controller.Main', {returnObjects:true});
+            const _t = t('Controller.Main', { returnObjects:true });
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
+
         this._state.isFromGatewayDownloadAs = true;
-        var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true);
-        options.asc_setIsSaveAs(true);
-        this.api.asc_DownloadAs(options);
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _supported = [
+                Asc.c_oAscFileType.XLSX,
+                Asc.c_oAscFileType.ODS,
+                Asc.c_oAscFileType.CSV,
+                Asc.c_oAscFileType.PDF,
+                Asc.c_oAscFileType.PDFA,
+                Asc.c_oAscFileType.XLTX,
+                Asc.c_oAscFileType.OTS,
+                Asc.c_oAscFileType.XLSM,
+                Asc.c_oAscFileType.XLSB,
+                Asc.c_oAscFileType.JPG,
+                Asc.c_oAscFileType.PNG
+            ];
+
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = Asc.c_oAscFileType.XLSX;
+
+        if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA) {
+            Common.Notifications.trigger('download:settings', this, _format, true);
+        } else {
+            const options = new Asc.asc_CDownloadOptions(_format, true);
+            options.asc_setIsSaveAs(true);
+            this.api.asc_DownloadAs(options);
+        }
     }
 
     onRequestClose () {
