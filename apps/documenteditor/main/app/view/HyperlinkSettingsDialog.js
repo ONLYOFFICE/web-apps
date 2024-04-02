@@ -241,7 +241,7 @@ define([
             menuStyle: "min-width: 85px;",
             placeHolder: "- Select-",
             editable: false,
-            data: this._arrLineRuleForDocuments,
+            data: [],
             dataHint: "1",
             dataHintDirection: "bottom",
             dataHintOffset: "big",
