@@ -1139,10 +1139,10 @@ define([
             if (this.mode.isPDFEdit && this._state.initEditing) {
                 Array.prototype.push.apply(me.toolbar.lockControls, toolbar.applyLayoutPDFEdit(this.mode));
                 toolbar.rendererComponentsPDFEdit($host);
-                this.attachPDFEditApiEvents();
 
                 setTimeout(function(){
                     toolbar.createDelayedElementsPDFEdit();
+                    me.attachPDFEditApiEvents();
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
