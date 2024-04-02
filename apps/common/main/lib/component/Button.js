@@ -911,7 +911,8 @@ define([
             }
 
             if (!this.caption) {
-                var $btn = $('button', cmpEl).length>0 ? $('button', cmpEl) : cmpEl;
+                var cmpEl = this.cmpEl,
+                    $btn = $('button', cmpEl).length>0 ? $('button', cmpEl) : cmpEl;
                 $btn.attr('aria-label', (typeof hint == 'string') ? hint : hint[0]);
             }
         },
