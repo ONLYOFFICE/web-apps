@@ -510,7 +510,8 @@ define([
                     in_equation = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Annot) {
                     in_annot = true;
-                    annot_lock = !pr.asc_getCanEditText();
+                    if (pr.asc_getCanEditText())
+                        no_text = false;
                 }
             }
 
@@ -534,11 +535,6 @@ define([
             if (this._state.in_annot !== in_annot) {
                 if (this._state.activated) this._state.in_annot = in_annot;
                 this.toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
-            }
-
-            if (this._state.annot_lock !== annot_lock) {
-                if (this._state.activated) this._state.annot_lock = annot_lock;
-                this.toolbar.lockToolbar(Common.enumLock.cantEditAnnotation, annot_lock, {array: toolbar.paragraphControls});
             }
 
             if (this._state.no_object !== no_object ) {
