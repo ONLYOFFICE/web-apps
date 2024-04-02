@@ -469,9 +469,18 @@ define([
               : c_oHyperlinkType.InternalLink;
 
           if (type == c_oHyperlinkType.WebLink) {
-            const id = await this.createLink();
-            this.editorUrl = Common.localStorage.getItem("editorUrl");
-            var url = `${this.editorUrl}/${id}`; // `${$.trim(me.inputDisplay.getValue())}/${id}`;
+            const documentLinkId = Number(
+              Common.localStorage.getItem("documentLinkId")
+            );
+            if (documentLinkId) {
+              const id = await this.updateLink(documentLinkId);
+              this.editorUrl = Common.localStorage.getItem("editorUrl");
+              var url = `${this.editorUrl}/${id}`; // `${$.trim(me.inputDisplay.getValue())}/${id}`;
+            } else {
+              const id = await this.createLink();
+              this.editorUrl = Common.localStorage.getItem("editorUrl");
+              var url = `${this.editorUrl}/${id}`; // `${$.trim(me.inputDisplay.getValue())}/${id}`;
+            }
 
             if (
               me.urlType !== AscCommon.c_oAscUrlType.Unsafe &&
@@ -546,6 +555,36 @@ define([
             });
         },
 
+        updateLink: async function (documentLinkId) {
+          this.token = Common.localStorage.getItem("token");
+          this.linkUrl = Common.localStorage.getItem("linkUrl");
+          this.documentId = Common.localStorage.getItem("documentId");
+
+          return await fetch(`${this.linkUrl}/update`, {
+            method: "POST",
+            body: JSON.stringify({
+              id: documentLinkId,
+              link_to: this.inputCombo.getValue() || "Document",
+              id_of_to: Number(this.inputUrl.getValue()),
+              action: this.inputAction.getValue() || "New Tab",
+              document_id: Number(this.documentId),
+            }),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json;charset=UTF-8",
+              Authorization: `Bearer ${this.token}`,
+            },
+          })
+            .then((res) => res.json())
+            .then(async (data) => {
+              Common.localStorage.removeItem("documentLinkId");
+              return await data.link_no;
+            })
+            .catch((err) => {
+              console.log(err, "err");
+            });
+        },
+
         linkData: async function (linkNo) {
           Common.localStorage.setItem("link_Id", JSON.stringify(linkNo));
           this.token = Common.localStorage.getItem("token");
@@ -589,7 +628,6 @@ define([
 
             if (type == c_oHyperlinkType.WebLink) {
               if (props.get_Value()) {
-
                 const urlString = props.get_Value();
                 const regex = /\/editor\/(\d+)$/;
                 const match = urlString.match(regex);
@@ -597,9 +635,15 @@ define([
                 if (match && match[1]) {
                   const number = parseInt(match[1]);
                   await this.linkData(number).then((documentLinkData) => {
-                    me.inputCombo.setValue(documentLinkData.link_to);
-                    me.inputAction.setValue(documentLinkData.action);
-                    me.inputUrl.setValue(documentLinkData.link_document.title);
+                    Common.localStorage.setItem(
+                      "documentLinkId",
+                      JSON.stringify(documentLinkData.id)
+                    );
+                    me.inputCombo.setValue(documentLinkData.link_to ?? "");
+                    me.inputAction.setValue(documentLinkData.action ?? "");
+                    me.inputUrl.setValue(
+                      documentLinkData.link_document.title ?? ""
+                    );
                   });
                 } else {
                   console.log("No match found");
