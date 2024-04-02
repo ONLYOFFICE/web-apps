@@ -93,7 +93,9 @@ define([
         noColumns: 'no-columns',
         inSmartart: 'in-smartart',
         inSmartartInternal: 'in-smartart-internal',
-        inEquation: 'in-equation'
+        inEquation: 'in-equation',
+        inAnnotation: 'in-annotation',
+        cantEditAnnotation: 'cant-edit-annotation'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -155,7 +157,7 @@ define([
                     menuCls: 'scrollable-menu',
                     menuStyle: 'min-width: 325px;',
                     hint: this.tipFontName,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     store: new Common.Collections.Fonts(),
                     dataHint: '1',
                     dataHintDirection: 'top'
@@ -167,7 +169,7 @@ define([
                     cls: 'input-group-nr',
                     menuStyle: 'min-width: 55px;',
                     hint: this.tipFontSize,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     data: [
                         {value: 8, displayValue: "8"},
                         {value: 9, displayValue: "9"},
@@ -197,7 +199,7 @@ define([
                     id: 'id-toolbar-btn-incfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -208,7 +210,7 @@ define([
                     id: 'id-toolbar-btn-decfont',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decfont',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -219,7 +221,7 @@ define([
                     id: 'id-toolbar-btn-bold',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-bold',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -231,7 +233,7 @@ define([
                     id: 'id-toolbar-btn-italic',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-italic',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -243,7 +245,7 @@ define([
                     id: 'id-toolbar-btn-underline',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-underline',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -255,7 +257,7 @@ define([
                     id: 'id-toolbar-btn-strikeout',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-strikeout',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom'
@@ -267,7 +269,7 @@ define([
                     id: 'id-toolbar-btn-superscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-superscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation, _set.cantEditAnnotation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -280,7 +282,7 @@ define([
                     id: 'id-toolbar-btn-subscript',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-subscript',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inEquation, _set.cantEditAnnotation],
                     enableToggle: true,
                     toggleGroup: 'superscriptGroup',
                     dataHint: '1',
@@ -296,7 +298,7 @@ define([
                     enableToggle: true,
                     allowDepress: true,
                     split: true,
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16',
@@ -319,7 +321,7 @@ define([
                     id: 'id-toolbar-btn-fontcolor',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-fontcolor',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     split: true,
                     menu: true,
                     eyeDropper: true,
@@ -335,7 +337,7 @@ define([
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart, _set.cantEditAnnotation],
                     menu: new Common.UI.Menu({
                         items: [
                             {caption: this.mniSentenceCase, value: Asc.c_oAscChangeTextCaseType.SentenceCase},
@@ -357,7 +359,7 @@ define([
                     id: 'id-toolbar-btn-clearstyle',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-clearstyle',
-                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart],
+                    lock: [ _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.cantEditAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'bottom'
                 });
@@ -368,7 +370,7 @@ define([
                     id: 'id-toolbar-btn-markers',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-setmarkers' : 'btn-setmarkers-rtl'),
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart, _set.inAnnotation],
                     enableToggle: true,
                     toggleGroup: 'markersGroup',
                     split: true,
@@ -384,7 +386,7 @@ define([
                     id: 'id-toolbar-btn-numbering',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon ' + (!Common.UI.isRTL() ? 'btn-numbering' : 'btn-numbering-rtl'),
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart, _set.inAnnotation],
                     enableToggle: true,
                     toggleGroup: 'markersGroup',
                     split: true,
@@ -416,7 +418,7 @@ define([
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-align-left',
                     icls: 'btn-align-left',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         items: [
                             {
@@ -468,7 +470,7 @@ define([
                 this.btnVerticalAlign = new Common.UI.Button({
                     id: 'id-toolbar-btn-valign',
                     cls: 'btn-toolbar',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noObjectSelected, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noObjectSelected, _set.disableOnStart, _set.inAnnotation],
                     iconCls: 'toolbar__icon btn-align-middle',
                     icls: 'btn-align-middle',
                     menu: new Common.UI.Menu({
@@ -514,7 +516,7 @@ define([
                     id: 'id-toolbar-btn-decoffset',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-decoffset',
-                    lock: [_set.decIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
+                    lock: [_set.decIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -525,7 +527,7 @@ define([
                     id: 'id-toolbar-btn-incoffset',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-incoffset',
-                    lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart],
+                    lock: [_set.incIndentLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.inSmartart, _set.inSmartartInternal, _set.disableOnStart, _set.inAnnotation],
                     dataHint: '1',
                     dataHintDirection: 'top'
                 });
@@ -536,7 +538,7 @@ define([
                     id: 'id-toolbar-btn-linespace',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-linespace',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         style: 'min-width: 60px;',
                         items: [
@@ -559,7 +561,7 @@ define([
                     id: 'id-toolbar-btn-columns',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-columns-two',
-                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noColumns, _set.disableOnStart],
+                    lock: [_set.paragraphLock, _set.lostConnect, _set.noParagraphSelected, _set.noColumns, _set.disableOnStart, _set.inAnnotation],
                     menu: new Common.UI.Menu({
                         cls: 'ppm-toolbar shifted-right',
                         items: [

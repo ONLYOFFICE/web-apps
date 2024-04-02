@@ -466,7 +466,9 @@ define([
                 toolbar = this.toolbar,
                 no_columns = false,
                 in_smartart = false,
-                in_smartart_internal = false;
+                in_smartart_internal = false,
+                in_annot = false,
+                annot_lock = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -506,6 +508,9 @@ define([
                         no_columns = true;
                 } else if (type === Asc.c_oAscTypeSelectElement.Math) {
                     in_equation = true;
+                } else if (type === Asc.c_oAscTypeSelectElement.Annot) {
+                    in_annot = true;
+                    annot_lock = !pr.asc_getCanEditText();
                 }
             }
 
@@ -524,6 +529,16 @@ define([
             if (this._state.no_text !== no_text) {
                 if (this._state.activated) this._state.no_text = no_text;
                 this.toolbar.lockToolbar(Common.enumLock.noTextSelected, no_text, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.in_annot !== in_annot) {
+                if (this._state.activated) this._state.in_annot = in_annot;
+                this.toolbar.lockToolbar(Common.enumLock.inAnnotation, in_annot, {array: toolbar.paragraphControls});
+            }
+
+            if (this._state.annot_lock !== annot_lock) {
+                if (this._state.activated) this._state.annot_lock = annot_lock;
+                this.toolbar.lockToolbar(Common.enumLock.cantEditAnnotation, annot_lock, {array: toolbar.paragraphControls});
             }
 
             if (this._state.no_object !== no_object ) {
