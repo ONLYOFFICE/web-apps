@@ -1857,6 +1857,142 @@ define([
             }
         },
 
+        createTextBar: function(textBarBtns) {
+            var container = $('<div id="text-bar-container" style="position: absolute;">' +
+                                '<div id="text-bar-fonts" style="display:inline-block;" class="margin-right-2"></div>' +
+                                '<div id="text-bar-font-size" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-bold" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-italic" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-underline" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-strikeout" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-super" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-sub" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-textcolor" style="display:inline-block;" class="margin-right-4"></div>' +
+                            '</div>'),
+                toolbarController = PDFE.getController('Toolbar'),
+                toolbar = toolbarController.getView('Toolbar');
+
+            this.cmbFontName = new Common.UI.ComboBoxFonts({
+                el: $('#text-bar-fonts', container),
+                cls         : 'input-group-nr',
+                style       : 'width: 100px;',
+                menuCls     : 'scrollable-menu menu-absolute',
+                menuStyle   : 'min-width: 100%;max-height: 270px;',
+                store       : new Common.Collections.Fonts(),
+                hint        : toolbar.tipFontName
+            });
+            textBarBtns.push(this.cmbFontName);
+            toolbarController.fillFontsStore(this.cmbFontName);
+
+            this.cmbFontSize = new Common.UI.ComboBox({
+                el: $('#text-bar-font-size', container),
+                cls: 'input-group-nr',
+                style: 'width: 45px;',
+                menuCls     : 'scrollable-menu menu-absolute',
+                menuStyle: 'min-width: 45px;max-height: 270px;',
+                hint: toolbar.tipFontSize,
+                data: [
+                    {value: 8, displayValue: "8"},
+                    {value: 9, displayValue: "9"},
+                    {value: 10, displayValue: "10"},
+                    {value: 11, displayValue: "11"},
+                    {value: 12, displayValue: "12"},
+                    {value: 14, displayValue: "14"},
+                    {value: 16, displayValue: "16"},
+                    {value: 18, displayValue: "18"},
+                    {value: 20, displayValue: "20"},
+                    {value: 22, displayValue: "22"},
+                    {value: 24, displayValue: "24"},
+                    {value: 26, displayValue: "26"},
+                    {value: 28, displayValue: "28"},
+                    {value: 36, displayValue: "36"},
+                    {value: 48, displayValue: "48"},
+                    {value: 72, displayValue: "72"},
+                    {value: 96, displayValue: "96"}
+                ]
+            });
+            this.cmbFontSize.setValue('');
+            textBarBtns.push(this.cmbFontSize);
+
+            this.btnBold = new Common.UI.Button({
+                parentEl: $('#text-bar-bold', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-bold',
+                enableToggle: true,
+                hint: toolbar.textBold
+            });
+            textBarBtns.push(this.btnBold);
+
+            this.btnItalic = new Common.UI.Button({
+                parentEl: $('#text-bar-italic', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-italic',
+                enableToggle: true,
+                hint: toolbar.textItalic
+            });
+            textBarBtns.push(this.btnItalic);
+
+            this.btnTextUnderline = new Common.UI.Button({
+                parentEl: $('#text-bar-underline', container),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-underline',
+                enableToggle: true,
+                hint: toolbar.textUnderline
+            });
+            textBarBtns.push(this.btnTextUnderline);
+
+            this.btnTextStrikeout = new Common.UI.Button({
+                parentEl: $('#text-bar-strikeout', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-strikeout',
+                enableToggle: true,
+                hint: toolbar.textStrikeout
+            });
+            textBarBtns.push(this.btnTextStrikeout);
+
+            this.btnSuperscript = new Common.UI.Button({
+                parentEl: $('#text-bar-super', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-superscript',
+                enableToggle: true,
+                toggleGroup: 'superscriptGroup',
+                hint: toolbar.textSuperscript
+            });
+            textBarBtns.push(this.btnSuperscript);
+
+            this.btnSubscript = new Common.UI.Button({
+                parentEl: $('#text-bar-sub', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-subscript',
+                enableToggle: true,
+                toggleGroup: 'superscriptGroup',
+                hint: toolbar.textSubscript
+            });
+            textBarBtns.push(this.btnSubscript);
+
+            var config = Common.define.simpleColorsConfig;
+            this.btnFontColor = new Common.UI.ButtonColored({
+                parentEl: $('#text-bar-textcolor', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-fontcolor',
+                split: true,
+                menu: true,
+                colors: config.colors,
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                hint: toolbar.tipFontColor
+            });
+            textBarBtns.push(this.btnFontColor);
+            this.btnFontColor.setMenu();
+            this.mnuFontColorPicker = this.btnFontColor.getPicker();
+
+            return container;
+        },
+
         updateCustomItems: function(menu, data) {
             if (!menu || !data || data.length<1) return;
 
@@ -2159,7 +2295,8 @@ define([
         textCropFill: 'Fill',
         textCropFit: 'Fit',
         textFromStorage: 'From Storage',
-        textEditPoints: 'Edit Points'
+        textEditPoints: 'Edit Points',
+        confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?'
 
     }, PDFE.Views.DocumentHolder || {}));
 });

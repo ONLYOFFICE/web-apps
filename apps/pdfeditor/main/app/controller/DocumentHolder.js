@@ -94,6 +94,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.lastTextBarBounds = [];
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -185,6 +186,12 @@ define([
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
+
+                    // for text
+                    this.api.asc_registerCallback('asc_onShowTextBar',            _.bind(this.onShowTextBar, this));
+                    this.api.asc_registerCallback('asc_onHideTextBar',            _.bind(this.onHideTextBar, this));
+
+
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
@@ -2357,6 +2364,376 @@ define([
                         this.api.remTable();
                         break;
                 }
+            }
+        },
+
+        onShowTextBar: function(bounds) {
+            if (this.mode && this.mode.isPDFEdit) return;
+
+            this.lastTextBarBounds = bounds;
+            if (bounds[3] < 0) {
+                this.onHideTextBar();
+                return;
+            }
+            var me = this,
+                documentHolder = me.documentHolder,
+                textContainer = documentHolder.cmpEl.find('#text-bar-container');
+
+            // Prepare menu container
+            if (textContainer.length < 1) {
+                me.textBarBtns = [];
+                textContainer = documentHolder.createTextBar(me.textBarBtns);
+                documentHolder.cmpEl.append(textContainer);
+
+                var bringForward = function (menu) {
+                    textContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    textContainer.removeClass('has-open-menu');
+                };
+                me.textBarBtns.forEach(function(item){
+                    if (item && item.menu) {
+                        item.menu.on('show:before', bringForward);
+                        item.menu.on('hide:after', sendBackward);
+                    }
+                });
+                // annotation text bar
+                this.api.asc_registerCallback('asc_onFontSize',             _.bind(this.onApiFontSize, this));
+                this.api.asc_registerCallback('asc_onBold',                 _.bind(this.onApiBold, this));
+                this.api.asc_registerCallback('asc_onItalic',               _.bind(this.onApiItalic, this));
+                this.api.asc_registerCallback('asc_onUnderline',            _.bind(this.onApiUnderline, this));
+                this.api.asc_registerCallback('asc_onStrikeout',            _.bind(this.onApiStrikeout, this));
+                this.api.asc_registerCallback('asc_onVerticalAlign',        _.bind(this.onApiVerticalAlign, this));
+                Common.NotificationCenter.on('fonts:change',                _.bind(this.onApiChangeFont, this));
+                this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
+
+                documentHolder.btnBold.on('click',                         _.bind(this.onBold, this));
+                documentHolder.btnItalic.on('click',                       _.bind(this.onItalic, this));
+                documentHolder.btnTextUnderline.on('click',                _.bind(this.onTextUnderline, this));
+                documentHolder.btnTextStrikeout.on('click',                _.bind(this.onTextStrikeout, this));
+                documentHolder.btnSuperscript.on('click',                  _.bind(this.onSuperscript, this));
+                documentHolder.btnSubscript.on('click',                    _.bind(this.onSubscript, this));
+                documentHolder.btnFontColor.on('click',                    _.bind(this.onBtnFontColor, this));
+                documentHolder.btnFontColor.on('color:select',             _.bind(this.onSelectFontColor, this));
+                documentHolder.cmbFontSize.on('selected',                  _.bind(this.onFontSizeSelect, this));
+                documentHolder.cmbFontSize.on('changed:before',            _.bind(this.onFontSizeChanged, this, true));
+                documentHolder.cmbFontSize.on('changed:after',             _.bind(this.onFontSizeChanged, this, false));
+                documentHolder.cmbFontSize.on('show:after',                _.bind(this.onComboOpen, this, true));
+                documentHolder.cmbFontSize.on('hide:after',                _.bind(this.onHideMenus, this));
+                documentHolder.cmbFontSize.on('combo:blur',                _.bind(this.onComboBlur, this));
+                documentHolder.cmbFontSize.on('combo:focusin',             _.bind(this.onComboOpen, this, false));
+                documentHolder.cmbFontName.on('selected',                  _.bind(this.onFontNameSelect, this));
+                documentHolder.cmbFontName.on('show:after',                _.bind(this.onComboOpen, this, true));
+                documentHolder.cmbFontName.on('hide:after',                _.bind(this.onHideMenus, this));
+                documentHolder.cmbFontName.on('combo:blur',                _.bind(this.onComboBlur, this));
+                documentHolder.cmbFontName.on('combo:focusin',             _.bind(this.onComboOpen, this, false));
+
+                this.api.UpdateInterfaceState();
+            }
+
+            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, bounds[1] - textContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
+            if (showPoint[1]<0) {
+                showPoint[1] = bounds[3] + 10;
+            }
+            showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
+            textContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            if (_.isUndefined(me._XY)) {
+                me._XY = [
+                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                me._Width       = documentHolder.cmpEl.width();
+                me._Height      = documentHolder.cmpEl.height();
+                me._BodyWidth   = $('body').width();
+            }
+
+            var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
+                diffUp = me._XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
+            me.textBarBtns.forEach(function(item){
+                item && item.menu && (item.menu.menuAlign = menuAlign);
+            });
+            if (!textContainer.is(':visible')) {
+                textContainer.show();
+            }
+            me.disableTextBar();
+        },
+
+        onHideTextBar: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var textContainer = this.documentHolder.cmpEl.find('#text-bar-container');
+            if (textContainer.is(':visible')) {
+                textContainer.hide();
+            }
+        },
+
+        disableTextBar: function() {
+            var textContainer = this.documentHolder.cmpEl.find('#text-bar-container'),
+                disabled = this._isDisabled;
+
+            if (textContainer.length>0 && textContainer.is(':visible')) {
+                this.textBarBtns.forEach(function(item){
+                    item && item.setDisabled(!!disabled);
+                });
+            }
+        },
+
+        onApiChangeFont: function(font) {
+            if (!this.mode.isPDFAnnotate) return;
+            this._state.fontname = font;
+            !Common.Utils.ModalWindow.isVisible() && this.documentHolder.cmbFontName.onApiChangeFont(font);
+        },
+
+        onApiFontSize: function(size) {
+            if (!this.mode.isPDFAnnotate) return;
+            if (this._state.fontsize !== size) {
+                this.documentHolder.cmbFontSize.setValue(size);
+                this._state.fontsize = size;
+            }
+        },
+
+        onApiBold: function(on) {
+            if (!this.mode.isPDFAnnotate) return;
+            if (this._state.bold !== on) {
+                this.documentHolder.btnBold.toggle(on === true, true);
+                this._state.bold = on;
+            }
+        },
+
+        onApiItalic: function(on) {
+            if (!this.mode.isPDFAnnotate) return;
+            if (this._state.italic !== on) {
+                this.documentHolder.btnItalic.toggle(on === true, true);
+                this._state.italic = on;
+            }
+        },
+
+        onApiUnderline: function(on) {
+            if (!this.mode.isPDFAnnotate) return;
+            if (this._state.underline !== on) {
+                this.documentHolder.btnTextUnderline.toggle(on === true, true);
+                this._state.underline = on;
+            }
+        },
+
+        onApiStrikeout: function(on) {
+            if (!this.mode.isPDFAnnotate) return;
+            if (this._state.strike !== on) {
+                this.documentHolder.btnTextStrikeout.toggle(on === true, true);
+                this._state.strike = on;
+            }
+        },
+
+        onApiVerticalAlign: function(typeBaseline) {
+            if (!this.mode.isPDFAnnotate) return;
+            if (this._state.valign !== typeBaseline) {
+                this.documentHolder.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
+                this.documentHolder.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
+                this._state.valign = typeBaseline;
+            }
+        },
+
+        onApiTextColor: function(color) {
+            if (!this.mode.isPDFAnnotate) return;
+            var clr;
+            var picker = this.documentHolder.mnuFontColorPicker;
+
+            if (color) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                    clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
+                } else
+                    clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+            }
+
+            var type1 = typeof(clr),
+                type2 = typeof(this._state.clrtext);
+
+            if ((type1 !== type2) || (type1 == 'object' &&
+                    (clr.effectValue !== this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color) < 0)) ||
+                (type1 != 'object' && this._state.clrtext.indexOf(clr) < 0)) {
+
+                if (typeof(clr) == 'object') {
+                    var isselected = false;
+                    for ( var i = 0; i < 10; i++) {
+                        if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
+                            picker.select(clr, true);
+                            isselected = true;
+                            break;
+                        }
+                    }
+                    if (!isselected) picker.clearSelection();
+                } else {
+                    picker.select(clr,true);
+                }
+                this._state.clrtext = clr;
+            }
+            this._state.clrtext_asccolor = color;
+        },
+
+        onBold: function(btn, e) {
+            this._state.bold = undefined;
+            if (this.api)
+                this.api.put_TextPrBold(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onItalic: function(btn, e) {
+            this._state.italic = undefined;
+            if (this.api)
+                this.api.put_TextPrItalic(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onTextUnderline: function(btn, e) {
+            this._state.underline = undefined;
+            if (this.api)
+                this.api.put_TextPrUnderline(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onTextStrikeout: function(btn, e) {
+            this._state.strike = undefined;
+            if (this.api)
+                this.api.put_TextPrStrikeout(btn.pressed);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onSuperscript: function(btn, e) {
+            if (!this.documentHolder.btnSubscript.pressed) {
+                this._state.valign = undefined;
+                if (this.api)
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SuperScript : Asc.vertalign_Baseline);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onSubscript: function(btn, e) {
+            if (!this.documentHolder.btnSuperscript.pressed) {
+                this._state.valign = undefined;
+                if (this.api)
+                    this.api.put_TextPrBaseline(btn.pressed ? Asc.vertalign_SubScript : Asc.vertalign_Baseline);
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+            }
+        },
+
+        onSelectFontColor: function(btn, color) {
+            this._state.clrtext = this._state.clrtext_asccolor  = undefined;
+
+            this.documentHolder.btnFontColor.currentColor = color;
+            this.documentHolder.btnFontColor.setColor((typeof(color) == 'object') ? color.color : color);
+
+            this.documentHolder.mnuFontColorPicker.currentColor = color;
+            if (this.api)
+                this.api.put_TextColor(Common.Utils.ThemeColor.getRgbColor(color));
+        },
+
+        onBtnFontColor: function() {
+            this.documentHolder.mnuFontColorPicker.trigger('select', this.documentHolder.mnuFontColorPicker, this.documentHolder.mnuFontColorPicker.currentColor);
+        },
+
+        onComboBlur: function() {
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onHideMenus: function(e){
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onFontNameSelect: function(combo, record) {
+            if (this.api) {
+                if (record.isNewFont) {
+                    !Common.Utils.ModalWindow.isVisible() &&
+                    Common.UI.warning({
+                        width: 500,
+                        msg: this.documentHolder.confirmAddFontName,
+                        buttons: ['yes', 'no'],
+                        primary: 'yes',
+                        callback: _.bind(function(btn) {
+                            if (btn == 'yes') {
+                                this.api.put_TextPrFontName(record.name);
+                            } else {
+                                this.documentHolder.cmbFontName.setValue(this.api.get_TextProps().get_TextPr().get_FontFamily().get_Name());
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+                        }, this)
+                    });
+                } else {
+                    this.api.put_TextPrFontName(record.name);
+                }
+            }
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onComboOpen: function(needfocus, combo, e, params) {
+            if (params && params.fromKeyDown) return;
+            _.delay(function() {
+                var input = $('input', combo.cmpEl).select();
+                if (needfocus) input.focus();
+                else if (!combo.isMenuOpen()) input.one('mouseup', function (e) { e.preventDefault(); });
+            }, 10);
+        },
+
+        onFontSizeSelect: function(combo, record) {
+            this._state.fontsize = undefined;
+            if (this.api)
+                this.api.put_TextPrFontSize(record.value);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onFontSizeChanged: function(before, combo, record, e) {
+            var value,
+                me = this;
+
+            if (before) {
+                var item = combo.store.findWhere({
+                    displayValue: record.value
+                });
+
+                if (!item) {
+                    value = /^\+?(\d*(\.|,).?\d+)$|^\+?(\d+(\.|,)?\d*)$/.exec(record.value);
+
+                    if (!value) {
+                        value = this._getApiTextSize();
+                        setTimeout(function(){
+                            Common.UI.warning({
+                                msg: me.textFontSizeErr,
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        $('input', combo.cmpEl).focus();
+                                    })
+                                }
+                            });
+                        }, 1);
+                        combo.setRawValue(value);
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            } else {
+                value = Common.Utils.String.parseFloat(record.value);
+                value = value > 300 ? 300 :
+                    value < 1 ? 1 : Math.floor((value+0.4)*2)/2;
+
+                combo.setRawValue(value);
+
+                this._state.fontsize = undefined;
+                if (this.api) {
+                    this.api.put_TextPrFontSize(value);
+                }
+
+                Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
         },
 

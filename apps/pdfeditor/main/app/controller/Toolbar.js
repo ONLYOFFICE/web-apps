@@ -334,11 +334,11 @@ define([
 
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
             this.api.asc_registerCallback('asc_onMarkerFormatChanged', _.bind(this.onApiStartHighlight, this));
+            this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
 
             if (this.mode.canPDFEdit) {
                 this.api.asc_registerCallback('asc_onMathTypes', _.bind(this.onApiMathTypes, this));
                 this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
-                this.getApplication().getController('Common.Controllers.Fonts').setApi(this.api);
             }
         },
 
@@ -1260,11 +1260,13 @@ define([
         },
 
         onApiChangeFont: function(font) {
+            if (!this.mode.isPDFEdit) return;
             this._state.fontname = font;
             !Common.Utils.ModalWindow.isVisible() && this.toolbar.cmbFontName.onApiChangeFont(font);
         },
 
         onApiFontSize: function(size) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.fontsize !== size) {
                 this.toolbar.cmbFontSize.setValue(size);
                 this._state.fontsize = size;
@@ -1272,6 +1274,7 @@ define([
         },
 
         onApiBold: function(on) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.bold !== on) {
                 this.toolbar.btnBold.toggle(on === true, true);
                 this._state.bold = on;
@@ -1279,6 +1282,7 @@ define([
         },
 
         onApiItalic: function(on) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.italic !== on) {
                 this.toolbar.btnItalic.toggle(on === true, true);
                 this._state.italic = on;
@@ -1286,6 +1290,7 @@ define([
         },
 
         onApiUnderline: function(on) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.underline !== on) {
                 this.toolbar.btnTextUnderline.toggle(on === true, true);
                 this._state.underline = on;
@@ -1293,6 +1298,7 @@ define([
         },
 
         onApiStrikeout: function(on) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.strike !== on) {
                 this.toolbar.btnTextStrikeout.toggle(on === true, true);
                 this._state.strike = on;
@@ -1300,6 +1306,7 @@ define([
         },
 
         onApiVerticalAlign: function(typeBaseline) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.valign !== typeBaseline) {
                 this.toolbar.btnSuperscript.toggle(typeBaseline==Asc.vertalign_SuperScript, true);
                 this.toolbar.btnSubscript.toggle(typeBaseline==Asc.vertalign_SubScript, true);
@@ -1308,6 +1315,7 @@ define([
         },
 
         onApiCanIncreaseIndent: function(value) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.can_increase !== value) {
                 this.toolbar.lockToolbar(Common.enumLock.incIndentLock, !value, {array: [this.toolbar.btnIncLeftOffset]});
                 if (this._state.activated) this._state.can_increase = value;
@@ -1315,6 +1323,7 @@ define([
         },
 
         onApiCanDecreaseIndent: function(value) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.can_decrease !== value) {
                 this.toolbar.lockToolbar(Common.enumLock.decIndentLock, !value, {array: [this.toolbar.btnDecLeftOffset]});
                 if (this._state.activated) this._state.can_decrease = value;
@@ -1332,6 +1341,7 @@ define([
         },
 
         onApiBullets: function(v) {
+            if (!this.mode.isPDFEdit) return;
             if (!(this.toolbar.mnuMarkersPicker && this.toolbar.mnuMarkersPicker.store)) {
                 this._state.needCallApiBullets = v;
                 return;
@@ -1434,6 +1444,7 @@ define([
         },
 
         onApiParagraphAlign: function(v) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.pralign !== v) {
                 this._state.pralign = v;
 
@@ -1462,6 +1473,7 @@ define([
         },
 
         onApiVerticalTextAlign: function(v) {
+            if (!this.mode.isPDFEdit) return;
             if (this._state.vtextalign !== v) {
                 this._state.vtextalign = v;
 
@@ -1490,6 +1502,7 @@ define([
         },
 
         onApiLineSpacing: function(vc) {
+            if (!this.mode.isPDFEdit) return;
             var line = (vc.get_Line() === null || vc.get_LineRule() === null || vc.get_LineRule() != 1) ? -1 : vc.get_Line();
 
             if (this._state.linespace !== line) {
@@ -2041,6 +2054,7 @@ define([
         },
 
         onApiTextColor: function(color) {
+            if (!this.mode.isPDFEdit) return;
             var clr;
             var picker = this.toolbar.mnuFontColorPicker;
 
@@ -2077,6 +2091,7 @@ define([
         },
 
         onApiTextHighlightColor: function(c) {
+            if (!this.mode.isPDFEdit) return;
             if (c) {
                 if (c == -1) {
                     if (this._state.textclrhighlight != -1) {
@@ -2160,7 +2175,8 @@ define([
         txtUntitled: 'Untitled',
         textRequired: 'Fill all required fields to send form.',
         textGotIt: 'Got it',
-        textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.'
+        textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
+        confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
 
     }, PDFE.Controllers.Toolbar || {}));
 });

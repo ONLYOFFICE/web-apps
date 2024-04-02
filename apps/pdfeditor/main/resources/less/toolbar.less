@@ -119,7 +119,8 @@
     }
 }
 
-#equation-container {
+#equation-container,
+#text-bar-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
     background-color: @background-toolbar-ie;
@@ -134,14 +135,15 @@
     .winxp & {
         overflow: visible;
     }
+
+    &.has-open-menu {
+        z-index: @zindex-navbar + 1;
+    }
 }
 
 #equation-container {
     .separator {
         height: 30px;
-    }
-    &.has-open-menu {
-        z-index: @zindex-navbar + 1;
     }
     .btn-toolbar {
         display: flex;
@@ -150,5 +152,15 @@
         width: 30px;
         height: 30px;
         border-radius: 0px;
+    }
+}
+
+#text-bar-container {
+    padding: 4px;
+    :not(.btn-group.split) .btn-toolbar,
+    .btn-group.split {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
