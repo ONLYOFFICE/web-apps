@@ -872,7 +872,8 @@ define([
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     plugins: false,
-                    protect: false
+                    protect: false,
+                    header: {docmode: true}
                 }, temp ? 'reconnect' : 'disconnect');
             },
 
@@ -929,6 +930,11 @@ define([
                 }
                 if (options.protect) {
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
+                }
+
+                if (options.header) {
+                    if (options.header.docmode)
+                        app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                 }
 
                 if (prev_options) {
@@ -1776,7 +1782,7 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
-            onDocModeApply: function(mode, force, viewmode) {// force !== true - change mode only if not in view mode, viewmode: disable or not DocMode button in the header
+            onDocModeApply: function(mode, force, disableModeButton) {// force !== true - change mode only if not in view mode, disableModeButton: disable or not DocMode button in the header
                 if (!this.appOptions.canSwitchMode && !force) return;
 
                 var disable = mode==='view',
@@ -1784,7 +1790,7 @@ define([
 
                 if (force) {
                     (disable || inViewMode) && Common.NotificationCenter.trigger('editing:disable', disable, {
-                        viewMode: !!viewmode,
+                        viewMode: false,
                         reviewMode: false,
                         fillFormMode: false,
                         viewDocMode: true,
@@ -1803,7 +1809,8 @@ define([
                         documentHolder: {clear: true, disable: true},
                         toolbar: true,
                         plugins: true,
-                        protect: true
+                        protect: true,
+                        header: {docmode: !!disableModeButton}
                     }, 'view');
 
                     if (mode==='edit') {

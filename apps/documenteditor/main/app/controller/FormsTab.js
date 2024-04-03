@@ -107,7 +107,7 @@ define([
                 'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
                 'roles': {name: 'de-form-tip-roles', placement: 'bottom-' + dirLeft, text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
                 'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined,
-                'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirRight, text: this.view.textRequired, link: false, target: '#slot-btn-form-submit',
+                'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit',
                                                             callback: function() {
                                                                 me.api.asc_MoveToFillingForm(true, true, true);
                                                                 me.view.btnSubmit.updateHint(me.view.textRequired);
@@ -433,7 +433,8 @@ define([
                     documentHolder: {clear: false, disable: true},
                     toolbar: true,
                     plugins: true,
-                    protect: true
+                    protect: true,
+                    header: {docmode: true}
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
@@ -450,20 +451,25 @@ define([
 
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                Common.Utils.lockControls(Common.enumLock.submit, false, {array: [this.view.btnSubmit]})
-                if (!this.submitedTooltip) {
-                    this.submitedTooltip = new Common.UI.SynchronizeTip({
-                        text: this.view.textSubmited,
-                        extCls: 'no-arrow',
-                        showLink: false,
-                        target: $('.toolbar'),
-                        placement: 'bottom'
-                    });
-                    this.submitedTooltip.on('closeclick', function () {
-                        this.submitedTooltip.hide();
-                    }, this);
+                Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]})
+                if (!this._submitFail) {
+                    this.view.btnSubmit.setCaption(this.view.textFilled);
+                    this.view.btnSubmit.cmpEl.addClass('gray');
+                    if (!this.submitedTooltip) {
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: this.view.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
+                    }
+                    this.submitedTooltip.show();
+                    Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
                 }
-                !this._submitFail && this.submitedTooltip.show();
             }
         },
 

@@ -409,11 +409,13 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
+                    lock: [ _set.lostConnect, _set.viewMode],
                     visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
+                this.paragraphControls.push(this.btnClear);
 
                 this.btnPrevForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -442,17 +444,29 @@ define([
                 !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnNextForm);
 
                 if (this.appConfig.canSubmitForms) {
-                    this.btnSubmit = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-submit-form',
-                        lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
-                        caption: this.capBtnSubmit,
-                        // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnSubmit);
+                    if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
+                        this.btnSubmit = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: this.capBtnSubmit,
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                    } else {
+                        this.btnSubmit = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-submit-form',
+                            lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
+                            caption: this.capBtnSubmit,
+                            // disabled: this.appConfig.isEdit && this.appConfig.canFeatureContentControl && this.appConfig.canFeatureForms, // disable only for edit mode,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.paragraphControls.push(this.btnSubmit);
+                    }
+
                 } else if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -554,6 +568,7 @@ define([
                 var $host = this.$el;
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
+                    this.btnSubmit ? this.btnSubmit.render($('#slot-btn-header-form-submit')) : $('#slot-btn-header-form-submit').hide();
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
                     this.btnComboBox.render($host.find('#slot-btn-form-combobox'));
@@ -570,6 +585,7 @@ define([
                     this.btnZipCode.render($host.find('#slot-btn-form-zipcode'));
                     this.btnCreditCard.render($host.find('#slot-btn-form-credit'));
                     this.btnDateTime.render($host.find('#slot-btn-form-datetime'));
+                    this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
 
                     $host.find('.forms-buttons').show();
                 }
@@ -577,9 +593,8 @@ define([
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));
                 this.btnNextForm.render($host.find('#slot-btn-form-next'));
 
-                this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
                 this.btnSaveForm && this.btnSaveForm.render($host.find('#slot-btn-form-save'));
-                (this.btnSubmit || this.btnSaveForm) && $host.find('.save-separator').show();
+                (this.btnSubmit && !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) || this.btnSaveForm) && $host.find('.save-separator').show();
 
                 return this.$el;
             },
@@ -713,7 +728,9 @@ define([
             tipSaveFile: 'Click “Save as pdf” to save the form in the format ready for filling.',
             tipRolesLink: 'Learn more about roles',
             tipFieldsLink: 'Learn more about field parameters',
-            capBtnSaveFormDesktop: 'Save as...'
+            capBtnSaveFormDesktop: 'Save as...',
+            textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
+            textFilled: 'Filled'
         }
     }()), DE.Views.FormsTab || {}));
 });

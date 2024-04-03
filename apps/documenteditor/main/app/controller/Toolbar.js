@@ -3285,8 +3285,6 @@ define([
             else if (viewDocMode)
                 toolbar.lockToolbar(Common.enumLock.viewMode, disable);
 
-            !viewDocMode && toolbar.fireEvent('docmode:disabled', [disable]);
-
             if(disable) {
                 if (reviewmode || fillformmode || viewDocMode)
                     mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
@@ -3485,7 +3483,7 @@ define([
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 5);
                         me.toolbar.setVisible('forms', true);
-                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                        Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }

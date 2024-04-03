@@ -916,7 +916,8 @@ define([
                 documentHolder: {clear: false, disable: true},
                 toolbar: true,
                 plugins: true,
-                protect: true
+                protect: true,
+                header: {docmode: true}
             }, 'review');
         },
 

@@ -92,6 +92,7 @@ define([
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit" style="padding: 2px 0;"></div>' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-start-fill" style="padding: 2px 0;"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
