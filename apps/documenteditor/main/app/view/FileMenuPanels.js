@@ -982,8 +982,9 @@ define([
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
+
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/

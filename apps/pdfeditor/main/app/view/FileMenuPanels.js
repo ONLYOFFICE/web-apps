@@ -755,8 +755,9 @@ define([
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("pdfe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", Common.localStorage.getBool("pdfe-settings-show-alt-hints"));
+
             Common.localStorage.setItem("pdfe-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
+
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/

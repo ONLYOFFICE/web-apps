@@ -523,6 +523,17 @@ define([
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
 
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("sse-settings-zoom");
+            if (newZoomValue > 0) {
+                var oldZoomValue = Common.Utils.InternalSettings.get("sse-settings-zoom");
+                if (oldZoomValue === null || (oldZoomValue == -3) || (oldZoomValue / 100 == this.api.asc_getZoom())) {
+                    this.api.asc_setZoom(newZoomValue / 100);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("sse-settings-zoom", newZoomValue);
+
             menu.hide();
 
             this.leftMenu.fireEvent('settings:apply');

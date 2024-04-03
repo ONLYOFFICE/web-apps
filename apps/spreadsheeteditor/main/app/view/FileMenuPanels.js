@@ -1025,8 +1025,9 @@ define([
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             Common.localStorage.setItem("sse-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", Common.localStorage.getBool("sse-settings-show-alt-hints"));
+
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
+
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
@@ -1133,7 +1134,7 @@ define([
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },
-        
+
         updateFuncExample: function(text) {
             $('#fms-lbl-func-locale').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + ' ' + text);
         },
@@ -2041,7 +2042,7 @@ define([
                     me.findUrl(data.data);
                 }
             });
-            
+
             $('#id-help-frame').append(this.iFrame);
 
             return this;

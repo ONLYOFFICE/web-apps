@@ -398,6 +398,23 @@ define([
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
 
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("pe-settings-zoom");
+            var oldZoomValue = Common.Utils.InternalSettings.get("pe-settings-zoom");
+            var lastZoomValue = Common.Utils.InternalSettings.get("pe-last-zoom");
+
+            if (oldZoomValue === null || oldZoomValue == lastZoomValue || oldZoomValue == -3) {
+                if (newZoomValue == -1) {
+                    this.api.zoomFitToPage();
+                } else if (newZoomValue == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (newZoomValue > 0) {
+                    this.api.zoom(newZoomValue);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("pe-settings-zoom", newZoomValue);
+
             menu.hide();
         },
 
