@@ -886,6 +886,8 @@ define([
                         }, this);
                     }
                     this.submitedTooltip.show();
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    this.onApiServerDisconnect(true);
                 }
             }
              if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
