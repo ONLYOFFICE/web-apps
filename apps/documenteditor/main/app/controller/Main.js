@@ -1247,11 +1247,7 @@ define([
                         this.api.zoomFitToWidth();
                     }
                 } else {
-                    if (zf > 0) {
-                        this.api.zoom(zf);
-                    } else {
-                        this.api.zoom(100);
-                    }
+                    this.api.zoom(zf > 0 ? zf : 100);
                 }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
