@@ -114,6 +114,7 @@ define([
                 this.iframePlugin.src = url;
             }
             this._state.insidePlugin = guid;
+            this._state.frameId = frameId;
             return true;
         },
 

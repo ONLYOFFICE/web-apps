@@ -197,6 +197,7 @@ define([
                 this.api.asc_registerCallback("asc_onPluginWindowResize", _.bind(this.onPluginWindowResize, this));
                 this.api.asc_registerCallback("asc_onPluginWindowMouseUp", _.bind(this.onPluginWindowMouseUp, this));
                 this.api.asc_registerCallback("asc_onPluginWindowMouseMove", _.bind(this.onPluginWindowMouseMove, this));
+                this.api.asc_registerCallback("asc_onPluginWindowActivate", _.bind(this.openUIPlugin, this));
 
                 this.loadPlugins();
             }
@@ -610,10 +611,10 @@ define([
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
         },
 
-        openUIPlugin: function (guid) {
-            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
-                menu = model.get('menu');
-            this.viewPlugins.fireEvent(menu === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [guid]);
+        openUIPlugin: function (id) {
+            var model = this.viewPlugins.storePlugins.findWhere({guid: id}),
+                menu = model ? model.get('menu') : (this.viewPlugins.customPluginPanels[id] && this.viewPlugins.customPluginPanels[id].menu);
+            this.viewPlugins.fireEvent(menu === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [id]);
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
@@ -737,7 +738,7 @@ define([
         },
 
         onToolClose: function(panel) {
-            this.api.asc_pluginButtonClick(-1, panel ? panel._state.insidePlugin : undefined);
+            this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.isExtraPanel && panel._state.frameId);
         },
 
         onPluginMouseUp: function(x, y) {
@@ -1064,13 +1065,16 @@ define([
         // Plugin can create windows
         onPluginWindowShow: function(frameId, variation) {
             if (variation.isVisual) {
-                if (this.customPluginsDlg[frameId]) return;
+                if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type);
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type),
+                    isPanel = variation.type === 'panel';
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
-                if (visible && !variation.isInsideMode) {
+                if (visible && isPanel) {
+                    this.onPluginPanelShow(frameId, variation, lang);
+                } else if (visible && !variation.isInsideMode) {
                     var me = this,
                         isCustomWindow = variation.isCustomWindow,
                         arrBtns = variation.buttons,
@@ -1136,8 +1140,17 @@ define([
         },
 
         onPluginWindowClose: function(frameId) {
-            if (this.customPluginsDlg[frameId])
+            if (this.customPluginsDlg[frameId]) {
                 this.customPluginsDlg[frameId].close();
+            } else if (this.viewPlugins.customPluginPanels[frameId]) {
+                var panel = this.viewPlugins.customPluginPanels[frameId];
+                if (panel && panel.iframePlugin) {
+                    panel.closeInsideMode();
+                    panel.$el.remove();
+                    delete this.viewPlugins.customPluginPanels[frameId];
+                    this.viewPlugins.fireEvent(panel.menu === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [frameId]);
+                }
+            }
         },
 
         onPluginWindowResize: function(frameId, size, minSize, maxSize, callback ) {
@@ -1165,6 +1178,41 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+
+        onPluginPanelShow: function (frameId, variation, lang) {
+            var guid = variation.guid,
+                menu = this.isPDFEditor ? 'left' : variation.menu;
+            !menu && (menu = 'left');
+
+            var description = variation.description;
+            if (typeof variation.descriptionLocale == 'object')
+                description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
+
+            var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
+                button = new Common.UI.Button({
+                    parentEl: $button,
+                    cls: 'btn-category plugin-buttons',
+                    hint: description,
+                    enableToggle: true,
+                    toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
+                    //iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
+                    onlyIcon: true,
+                    value: frameId,
+                    type: 'plugin'
+                });
+            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel" style="height: 100%;"></div>');
+            this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
+            this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
+                el: '#panel-plugins-' + frameId,
+                menu: menu,
+                isExtraPanel: true
+            });
+            this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));
+
+            if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
+                this.api.asc_pluginButtonClick(-1, guid, frameId);
         }
+
     }, Common.Controllers.Plugins || {}));
 });
