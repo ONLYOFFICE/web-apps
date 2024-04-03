@@ -867,14 +867,23 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                 this.view.btnSubmit.setDisabled(false);
+                 this.view.btnSubmit.setDisabled(!_submitFail);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
+                    this.view.btnSubmit.setCaption(this.textFilled);
+                    this.view.btnSubmit.cmpEl.addClass('gray');
                     if (!this.submitedTooltip) {
-                        var me = this;
-                        this.submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + this.textSubmited + '</div>');
-                        $(document.body).append(this.submitedTooltip);
-                        this.submitedTooltip.on('click', function() {me.submitedTooltip.hide();});
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: this.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            style: 'max-width: 400px',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
                     }
                     this.submitedTooltip.show();
                 }
@@ -2066,7 +2075,9 @@ define([
         errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
         warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
         titleLicenseNotActive: 'License not active',
-        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+        textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
+        textFilled: 'Filled'
 
     }, DE.Controllers.ApplicationController));
 
