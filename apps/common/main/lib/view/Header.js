@@ -86,14 +86,14 @@ define([
                             '</section>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit" style="padding: 2px 0;"></div>' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-start-fill" style="padding: 2px 0;"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
-                                '</div>' +
-                                '<div class="hedset">' +
-                                    '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit" style="padding: 2px 0;"></div>' +
-                                    '<div class="btn-slot margin-right-2" id="slot-btn-start-fill" style="padding: 2px 0;"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-edit-mode"></div>' +
@@ -434,13 +434,13 @@ define([
                         me.fireEvent('downloadas', ['original']);
                     });
                 }
+            }
 
-                if ( me.btnEdit ) {
-                    me.btnEdit.updateHint(me.tipGoEdit);
-                    me.btnEdit.on('click', function (e) {
-                        me.fireEvent('go:editor', me);
-                    });
-                }
+            if ( me.btnEdit ) {
+                me.btnEdit.updateHint(me.tipGoEdit);
+                me.btnEdit.on('click', function (e) {
+                    me.fireEvent('go:editor', me);
+                });
             }
 
             if (me.btnSearch)
@@ -729,10 +729,10 @@ define([
 
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
-
-                        if ( config.canEdit && config.canRequestEditRights && !isPDFEditor)
-                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
+                    if ( config.canRequestEditRights && (!config.twoLevelHeader && config.canEdit && !isPDFEditor || config.isPDFForm && config.canFillForms && config.isRestrictedEdit))
+                        this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
+
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
                     if (!config.twoLevelHeader || config.compactHeader) {
