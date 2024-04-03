@@ -34,10 +34,7 @@
  *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/LoadMask'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.SaveAsDlg = Common.UI.Window.extend(_.extend({
         initialize : function(options) {

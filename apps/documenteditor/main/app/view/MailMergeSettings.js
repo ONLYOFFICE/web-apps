@@ -41,7 +41,6 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/CheckBox',
-    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';

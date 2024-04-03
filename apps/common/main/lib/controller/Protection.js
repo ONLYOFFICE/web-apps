@@ -44,10 +44,7 @@ Common.Controllers = Common.Controllers || {};
 
 define([
     'core',
-    'common/main/lib/view/Protection',
-    'common/main/lib/view/PasswordDialog',
-    'common/main/lib/view/SignDialog',
-    'common/main/lib/view/SignSettingsDialog'
+    'common/main/lib/view/Protection'
 ], function () {
     'use strict';
 

@@ -7,6 +7,11 @@ require([
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SelectFileDlg',
     'common/main/lib/view/SymbolTableDialog',
+    'common/main/lib/view/PasswordDialog',
+    'common/main/lib/view/SignDialog',
+    'common/main/lib/view/SignSettingsDialog',
+    'common/main/lib/view/SaveAsDlg',
+
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
@@ -36,6 +41,10 @@ require([
     'documenteditor/main/app/view/CustomColumnsDialog',
     'documenteditor/main/app/view/ListSettingsDialog',
     'documenteditor/main/app/view/LineNumbersDialog',
-    'documenteditor/main/app/view/HyphenationDialog'
+    'documenteditor/main/app/view/HyphenationDialog',
+    'documenteditor/main/app/view/CellsAddDialog',
+    'documenteditor/main/app/view/NumberingValueDialog',
+    'documenteditor/main/app/view/ListIndentsDialog',
+    'documenteditor/main/app/view/ProtectDialog'
 ], function () {
 });

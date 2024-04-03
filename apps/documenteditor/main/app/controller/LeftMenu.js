@@ -42,7 +42,6 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/SaveAsDlg',
     'documenteditor/main/app/view/LeftMenu',
     'documenteditor/main/app/view/FileMenu',
     'documenteditor/main/app/view/ViewTab'
