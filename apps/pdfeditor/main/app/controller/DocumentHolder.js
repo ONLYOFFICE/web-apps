@@ -188,8 +188,8 @@ define([
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
 
                     // for text
-                    this.api.asc_registerCallback('asc_onShowTextPrTrack',            _.bind(this.onShowTextBar, this));
-                    this.api.asc_registerCallback('asc_onHideTextPrTrack',            _.bind(this.onHideTextBar, this));
+                    this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
+                    this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
