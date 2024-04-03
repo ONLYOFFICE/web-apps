@@ -39,10 +39,8 @@
  */
 if (Common === undefined)
     var Common = {};
-define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox'
+define([
+    'text!common/main/lib/template/AutoCorrectDialog.template'
 ], function (contentTemplate) { 'use strict';
     var _mathStore = new Common.UI.DataViewStore();
     var _functionsStore = new Common.UI.DataViewStore();

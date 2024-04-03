@@ -47,8 +47,6 @@ define([
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'documenteditor/main/app/collection/ShapeGroups',
     'documenteditor/main/app/collection/EquationGroups',
