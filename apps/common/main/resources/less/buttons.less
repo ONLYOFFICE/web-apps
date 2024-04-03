@@ -1072,6 +1072,27 @@
         opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
     }
+
+    &.yellow {
+        .font-weight-bold();
+        border: 1px solid transparent;
+        color: @text-alt-key-hint-ie;
+        color: @text-alt-key-hint;
+        background-color: @background-fill-button-ie;
+        background-color: @background-fill-button;
+
+        &:hover:not(.disabled),
+        .over:not(.disabled) {
+            background-color: @highlight-fill-button-hover-ie !important;
+            background-color: @highlight-fill-button-hover !important;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled) {
+            background-color: @highlight-fill-button-pressed-ie !important;
+            background-color: @highlight-fill-button-pressed !important;
+        }
+    }
 }
 
 .btn-text-menu-default {

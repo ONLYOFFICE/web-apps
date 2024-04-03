@@ -92,6 +92,9 @@ define([
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                                 '</div>' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-start-fill" style="padding: 2px 0;"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-btn-edit-mode"></div>' +
                                 '</div>' +
                                 '<div class="hedset" data-layout-name="header-users">' +
@@ -337,6 +340,16 @@ define([
                 me.btnShare.updateHint(me.tipAccessRights);
                 me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
                 updateDocNamePosition();
+            }
+
+            if (me.btnStartFill) {
+                Common.Gateway.on('startfilling', function() {
+                    me.btnStartFill.setVisible(false);
+                    updateDocNamePosition();
+                });
+                me.btnStartFill.on('click', function (e) {
+                    Common.Gateway.requestStartFilling();
+                });
             }
 
             if ( me.logo )
@@ -787,6 +800,19 @@ define([
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
 
+                    if (config.canStartFilling) {
+                        me.btnStartFill = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: me.textStartFill,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnStartFill.render($html.find('#slot-btn-start-fill'));
+                    } else {
+                        $html.find('#slot-btn-start-fill').hide();
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $panelUsers.find('> .btn-users');
@@ -1129,7 +1155,8 @@ define([
             textReview: 'Reviewing',
             textReviewDesc: 'Suggest changes',
             tipReview: 'Reviewing',
-            textClose: 'Close file'
+            textClose: 'Close file',
+            textStartFill: 'Start filling'
         }
     }(), Common.Views.Header || {}))
 });

@@ -287,7 +287,8 @@
                 'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
                 'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
                 'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
-                'onSaveDocument': 'save document from binary'
+                'onSaveDocument': 'save document from binary',
+                'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
             }
         }
 
@@ -357,6 +358,7 @@
         _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
+        _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -779,6 +781,13 @@
             });
         };
 
+        var _startFilling = function(data) {
+            _sendCommand({
+                command: 'startFilling',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -856,7 +865,8 @@
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
-            openDocument: _openDocumentFromBinary
+            openDocument: _openDocumentFromBinary,
+            startFilling: _startFilling
         }
     };
 

@@ -1395,6 +1395,9 @@ define([
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
+
+                    me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
+
                     var timer_sl = setInterval(function(){
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
@@ -1644,6 +1647,7 @@ define([
                     this.appOptions.canComments = false;
                 this.appOptions.canSwitchMode  = this.appOptions.isEdit;
                 this.appOptions.canSubmitForms = this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+                this.appOptions.canStartFilling = this.editorConfig.canStartFilling && this.appOptions.isEdit &&  this.appOptions.isPDFForm; // show Start Filling button in the header
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isPDFForm && this.appOptions.canFillForms && this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1662,7 +1666,7 @@ define([
                 this.appOptions.canDownloadOrigin = false;
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.canUseSelectHandTools = this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = isPDFViewer;
-                this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload && this.appOptions.isRestrictedEdit && this.appOptions.canFillForms; // don't show download form button in edit mode
+                this.appOptions.canDownloadForms = false && this.appOptions.canLicense && this.appOptions.canDownload && this.appOptions.isRestrictedEdit && this.appOptions.canFillForms; // don't show download form button in edit mode
 
                 this.appOptions.fileKey = this.document.key;
 
@@ -1772,15 +1776,15 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
-            onDocModeApply: function(mode, force) {// force !== true - change mode only if not in view mode
-                if (!this.appOptions.canSwitchMode) return;
+            onDocModeApply: function(mode, force, viewmode) {// force !== true - change mode only if not in view mode, viewmode: disable or not DocMode button in the header
+                if (!this.appOptions.canSwitchMode && !force) return;
 
                 var disable = mode==='view',
                     inViewMode = !!this.stackDisableActions.get({type: 'view'});
 
                 if (force) {
                     (disable || inViewMode) && Common.NotificationCenter.trigger('editing:disable', disable, {
-                        viewMode: false,
+                        viewMode: !!viewmode,
                         reviewMode: false,
                         fillFormMode: false,
                         viewDocMode: true,
@@ -1810,6 +1814,10 @@ define([
                     this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.None);
                 }
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
+            },
+
+            onStartFilling: function() {
+                Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
             },
 
             applyModeCommonElements: function() {
