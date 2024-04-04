@@ -1094,9 +1094,10 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
+    onDownloadAs(format) {
         const appOptions = this.props.storeAppOptions;
-        if ( !appOptions.canDownload && !appOptions.canDownloadOrigin) {
+
+        if (!appOptions.canDownload && !appOptions.canDownloadOrigin) {
             const { t } = this.props;
             const _t = t('Main', {returnObjects:true});
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
@@ -1104,14 +1105,61 @@ class MainController extends Component {
         }
 
         this._state.isFromGatewayDownloadAs = true;
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _defaultFormat = null,
+            textParams,
+            _supported = [
+                Asc.c_oAscFileType.TXT,
+                Asc.c_oAscFileType.RTF,
+                Asc.c_oAscFileType.ODT,
+                Asc.c_oAscFileType.DOCX,
+                Asc.c_oAscFileType.HTML,
+                Asc.c_oAscFileType.DOTX,
+                Asc.c_oAscFileType.OTT,
+                Asc.c_oAscFileType.FB2,
+                Asc.c_oAscFileType.EPUB,
+                Asc.c_oAscFileType.DOCM,
+                Asc.c_oAscFileType.JPG,
+                Asc.c_oAscFileType.PNG
+            ];
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
 
-        let options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
-        options.asc_setIsSaveAs(true);
-        if (type && typeof type[1] === 'string') {
-            this.api.asc_DownloadOrigin(options);
+        if (type && typeof type[1] === 'string' && !appOptions.isForm) {
+            if (!(format && (typeof format == 'string')) || type[1] === format.toLowerCase()) {
+                const options = new Asc.asc_CDownloadOptions();
+                options.asc_setIsDownloadEvent(true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadOrigin(options);
+                return;
+            }
+
+            if (/^xps|oxps$/.test(this.document.fileType))
+                _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+            else if (/^djvu$/.test(this.document.fileType)) {
+                _supported = [Asc.c_oAscFileType.PDF];
+            }
+
+            textParams = new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine);
         } else {
+            _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+            _defaultFormat = Asc.c_oAscFileType.DOCX;
+        }
+
+        if (appOptions.canFeatureForms && !/^djvu$/.test(this.document.fileType)) {
+            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF]);
+        }
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = _defaultFormat;
+
+        const options = new Asc.asc_CDownloadOptions(_format, true);
+        options.asc_setIsSaveAs(true);
+
+        if(_format) {
+            textParams && options.asc_setTextParams(textParams);
             this.api.asc_DownloadAs(options);
+        } else {
+            this.api.asc_DownloadOrigin(options);
         }
     }
 

@@ -354,6 +354,8 @@ class MainController extends Component {
             storePresentationSettings.addSchemes(arr);
         });
 
+        this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
+
         EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
         EditorUIController.initEditorStyles && EditorUIController.initEditorStyles(this.props.storeSlideSettings);
@@ -955,13 +957,43 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
-        if ( !this.props.storeAppOptions.canDownload) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+    onDownloadUrl(url, fileType) {
+        if (this._state.isFromGatewayDownloadAs) {
+            Common.Gateway.downloadAs(url, fileType);
+        }
+
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onDownloadAs(format) {
+        const appOptions = this.props.storeAppOptions;
+
+        if (!appOptions.canDownload) {
+            const { t } = this.props;
+            const _t = t('Controller.Main', { returnObjects:true });
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
+
         this._state.isFromGatewayDownloadAs = true;
-        var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true);
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _supported = [
+                Asc.c_oAscFileType.PPTX,
+                Asc.c_oAscFileType.ODP,
+                Asc.c_oAscFileType.PDF,
+                Asc.c_oAscFileType.PDFA,
+                Asc.c_oAscFileType.POTX,
+                Asc.c_oAscFileType.OTP,
+                Asc.c_oAscFileType.PPTM,
+                Asc.c_oAscFileType.PNG,
+                Asc.c_oAscFileType.JPG
+            ];
+
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = Asc.c_oAscFileType.PPTX;
+
+        const options = new Asc.asc_CDownloadOptions(_format, true);
         options.asc_setIsSaveAs(true);
         this.api.asc_DownloadAs(options);
     }
