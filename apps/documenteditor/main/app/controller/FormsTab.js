@@ -63,7 +63,8 @@ define([
                 lastRoleInList: undefined, // last role in the roles list,
                 formCount: 0,
                 formAdded: undefined,
-                formRadioAdded: undefined
+                formRadioAdded: undefined,
+                pageCount: 1
             };
         },
 
@@ -83,6 +84,8 @@ define([
                 this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
+                this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             }
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
@@ -124,7 +127,8 @@ define([
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick,
-                    'forms:manager': this.onManagerClick
+                    'forms:manager': this.onManagerClick,
+                    'forms:gopage': this.onGotoPage
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab
@@ -630,6 +634,35 @@ define([
         onFillRequiredFields: function(isFilled) {
             this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit && Common.Utils.lockControls(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.view.btnSubmit]});
         },
+
+        onCountPages: function(count) {
+            this._state.pageCount = count;
+            this.view && this.view.fieldPages && this.view.fieldPages.setFixedValue('/ ' + count);
+        },
+
+        onCurrentPage: function(value) {
+            if (this.view && this.view.fieldPages) {
+                this.view.fieldPages.setValue(value + 1);
+                Common.Utils.lockControls(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+                Common.Utils.lockControls(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+            }
+        },
+
+        onGotoPage: function (type, value) {
+            if (!this.api) return;
+
+            if (type==='first')
+                this.api.goToPage(0);
+            else if (type==='last')
+                this.api.goToPage(this._state.pageCount-1);
+            else if (type==='prev' || type==='next')
+                this.api.goToPage(this.api.getCurrentPage() + (type==='next' ? 1 : -1));
+            else {
+                if (value>this._state.pageCount)
+                    value = this._state.pageCount;
+                this.api && this.api.goToPage(value-1);
+            }
+        }
 
     }, DE.Controllers.FormsTab || {}));
 });

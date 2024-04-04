@@ -50,7 +50,9 @@ define([
 
     var enumLock = {
         requiredNotFilled: 'required-not-filled',
-        submit: 'submit'
+        submit: 'submit',
+        firstPage: 'first-page',
+        lastPage: 'last-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -83,6 +85,18 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-manager"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
+            '<div class="group small pdf-buttons" style="display: none;">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot" id="slot-btn-pages" style="width: 95px;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot" id="slot-btn-first-page"></span>' +
+                    '<span class="btn-slot margin-left-5" id="slot-btn-prev-page"></span>' +
+                    '<span class="btn-slot margin-left-5" id="slot-btn-next-page"></span>' +
+                    '<span class="btn-slot margin-left-5" id="slot-btn-last-page"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="separator long pdf-buttons" style="display: none;"></div>' +
             '<div class="group no-group-mask" style="">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view-roles"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
@@ -195,6 +209,29 @@ define([
             this.btnSaveForm && this.btnSaveForm.on('click', function (b, e) {
                 me.fireEvent('forms:save');
             });
+
+            if (this.fieldPages) {
+                this.fieldPages.on('changed:after', function () {
+                    me.fireEvent('forms:gopage', ['', parseInt(me.fieldPages.getValue())]);
+                });
+                this.fieldPages.on('inputleave', function(){ Common.NotificationCenter.trigger('edit:complete', this);});
+                this.fieldPages.cmpEl && this.fieldPages.cmpEl.on('focus', 'input.form-control', function() {
+                    setTimeout(function(){me.fieldPages._input && me.fieldPages._input.select();}, 1);
+                });
+            }
+            this.btnFirstPage && this.btnFirstPage.on('click', function () {
+                me.fireEvent('forms:gopage', ['first']);
+            });
+            this.btnLastPage && this.btnLastPage.on('click', function () {
+                me.fireEvent('forms:gopage', ['last']);
+            });
+            this.btnPrevPage && this.btnPrevPage.on('click', function () {
+                me.fireEvent('forms:gopage', ['prev']);
+            });
+            this.btnNextPage && this.btnNextPage.on('click', function () {
+                me.fireEvent('forms:gopage', ['next']);
+            });
+
         }
 
         return {
@@ -213,7 +250,69 @@ define([
                 var _set = Common.enumLock;
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
+                    if (this.appConfig.isPDFForm) {
+                        this.fieldPages = new Common.UI.InputFieldFixed({
+                            id: 'id-toolbar-txt-pages',
+                            style       : 'width: 100%;',
+                            maskExp     : /[0-9]/,
+                            allowBlank  : true,
+                            validateOnChange: false,
+                            fixedValue: '/ 1',
+                            value: 1,
+                            lock: [_set.disableOnStart],
+                            validation  : function(value) {
+                                if (/(^[0-9]+$)/.test(value)) {
+                                    value = parseInt(value);
+                                    if (value===undefined || value===null || value<1)
+                                        me.fieldPages.setValue(me.api.getCurrentPage()+1);
+                                } else
+                                    me.fieldPages.setValue(me.api.getCurrentPage()+1);
 
+                                return true;
+                            }
+                        });
+                        this.paragraphControls.push(this.fieldPages);
+
+                        this.btnFirstPage = new Common.UI.Button({
+                            id          : 'id-toolbar-btn-first-page',
+                            cls         : 'btn-toolbar',
+                            iconCls     : 'toolbar__icon btn-firstitem',
+                            lock: [_set.disableOnStart, _set.firstPage],
+                            dataHint    : '1',
+                            dataHintDirection: 'bottom'
+                        });
+                        this.paragraphControls.push(this.btnFirstPage);
+
+                        this.btnLastPage = new Common.UI.Button({
+                            id          : 'id-toolbar-btn-last-page',
+                            cls         : 'btn-toolbar',
+                            iconCls     : 'toolbar__icon btn-lastitem',
+                            lock: [_set.disableOnStart, _set.lastPage],
+                            dataHint    : '1',
+                            dataHintDirection: 'bottom'
+                        });
+                        this.paragraphControls.push(this.btnLastPage);
+
+                        this.btnPrevPage = new Common.UI.Button({
+                            id          : 'id-toolbar-btn-prev-page',
+                            cls         : 'btn-toolbar',
+                            iconCls     : 'toolbar__icon btn-previtem',
+                            lock: [_set.disableOnStart, _set.firstPage],
+                            dataHint    : '1',
+                            dataHintDirection: 'bottom'
+                        });
+                        this.paragraphControls.push(this.btnPrevPage);
+                        //
+                        this.btnNextPage = new Common.UI.Button({
+                            id          : 'id-toolbar-btn-next-page',
+                            cls         : 'btn-toolbar',
+                            iconCls     : 'toolbar__icon btn-nextitem',
+                            lock: [_set.disableOnStart, _set.lastPage],
+                            dataHint    : '1',
+                            dataHintDirection: 'bottom'
+                        });
+                        this.paragraphControls.push(this.btnNextPage);
+                    }
                 } else {
                     var isfixed = Common.localStorage.getBool("de-text-form-fixed", true);
                     this.btnTextField = new Common.UI.Button({
@@ -552,6 +651,11 @@ define([
                         me.btnZipCode.updateHint(me.tipZipCode);
                         me.btnCreditCard.updateHint(me.tipCreditCard);
                         me.btnDateTime.updateHint(me.tipDateTime);
+                    } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
+                        me.btnFirstPage.updateHint(me.tipFirstPage);
+                        me.btnLastPage.updateHint(me.tipLastPage);
+                        me.btnPrevPage.updateHint(me.tipPrevPage);
+                        me.btnNextPage.updateHint(me.tipNextPage);
                     }
                     me.btnClear.updateHint(me.textClearFields);
                     me.btnPrevForm.updateHint(me.tipPrevForm);
@@ -569,6 +673,14 @@ define([
 
                 if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                     this.btnSubmit ? this.btnSubmit.render($('#slot-btn-header-form-submit')) : $('#slot-btn-header-form-submit').hide();
+                    if (this.appConfig.isPDFForm) {
+                        this.fieldPages.render($host.find('#slot-btn-pages'));
+                        this.btnFirstPage.render($host.find('#slot-btn-first-page'));
+                        this.btnLastPage.render($host.find('#slot-btn-last-page'));
+                        this.btnPrevPage.render($host.find('#slot-btn-prev-page'));
+                        this.btnNextPage.render($host.find('#slot-btn-next-page'));
+                        $host.find('.pdf-buttons').show();
+                    }
                 } else {
                     this.btnTextField.render($host.find('#slot-btn-form-field'));
                     this.btnComboBox.render($host.find('#slot-btn-form-combobox'));
@@ -730,7 +842,11 @@ define([
             tipFieldsLink: 'Learn more about field parameters',
             capBtnSaveFormDesktop: 'Save as...',
             textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
-            textFilled: 'Filled'
+            textFilled: 'Filled',
+            tipFirstPage: 'Go to the first page',
+            tipLastPage: 'Go to the last page',
+            tipPrevPage: 'Go to the previous page',
+            tipNextPage: 'Go to the next page'
         }
     }()), DE.Views.FormsTab || {}));
 });
