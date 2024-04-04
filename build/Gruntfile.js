@@ -458,6 +458,9 @@ module.exports = function(grunt) {
             },
 
             inline: {
+                options: {
+                    uglify: true
+                },
                 dist: {
                     src: '<%= pkg.main.copy.indexhtml[0].dest %>/*.html'
                 }
