@@ -147,7 +147,7 @@ define([
           me.btnInternal.on(
             "click",
             _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink)
-          ); //DocumentLinkTo
+          );
           me.documentLinkTo = new Common.UI.ComboBox({
             el: $("#id-dlg-hyperlink-document"),
             cls: "input-group-nr",
@@ -165,25 +165,28 @@ define([
             try {
               if (val === "Document") {
                 await me.companyDocuments();
+                me.connectedDocumentList.setDisabled(false);
               } else if (val === "Layout") {
                 await me.companyLayouts();
+                me.connectedDocumentList.setDisabled(false);
               } else if (val === "Case") {
                 await me.companyErrands();
+                me.connectedDocumentList.setDisabled(false);
               } else if (val === "New Layout") {
                 me.connectedDocumentList.setData([]);
+                me.connectedDocumentList.setValue("");
+                me.connectedDocumentList.setDisabled(true);
               } else if (val === "New Case") {
                 me.connectedDocumentList.setData([]);
+                me.connectedDocumentList.setValue("");
+                me.connectedDocumentList.setDisabled(true);
               } else {
                 me.connectedDocumentList.setData([]);
+                me.connectedDocumentList.setDisabled(false);
               }
-              if (me.isAutoUpdate) {
-                me.inputDisplay.setValue(val);
-                me.isTextChanged = true;
-                me.btnOk.setDisabled($.trim(val) == "");
-              }
+              me.btnOk.setDisabled(false);
             } catch (error) {
               console.error("Error:", error);
-              // Handle errors here
             }
           });
 
@@ -197,15 +200,6 @@ define([
             dataHint: "1",
             dataHintDirection: "bottom",
             dataHintOffset: "big",
-          });
-
-          me.documentLinkAction.on("selected", function (combo, record) {
-            var val = record.value;
-            if (me.isAutoUpdate) {
-              me.inputDisplay.setValue(val);
-              me.isTextChanged = true;
-              me.btnOk.setDisabled($.trim(val) == "");
-            }
           });
 
           me.connectedDocumentList = new Common.UI.ComboBox({
@@ -381,17 +375,14 @@ define([
               this.internalList.collapseAll();
             }
             var rec = this.internalList.getSelectedRec();
-            this.btnOk.setDisabled(
-              !rec || (rec.get("level") == 0 && rec.get("index") > 0)
-            );
+           
+            this.btnOk.setDisabled(false);
             var me = this;
             _.delay(function () {
               me.inputDisplay.focus();
             }, 50);
           } else {
-            this.btnOk.setDisabled(
-              $.trim(this.connectedDocumentList.getValue()) == ""
-            );
+            this.btnOk.setDisabled(false);
             var me = this;
             _.delay(function () {
               me.connectedDocumentList.focus();
@@ -536,9 +527,7 @@ define([
         },
 
         onSelectItem: function (picker, item, record, e) {
-          this.btnOk.setDisabled(
-            record.get("level") == 0 && record.get("index") > 0
-          );
+          this.btnOk.setDisabled(false);
           if (this.isAutoUpdate) {
             this.inputDisplay.setValue(
               record.get("level") || record.get("index") == 0
@@ -556,6 +545,7 @@ define([
         close: function () {
           Common.UI.Window.prototype.close.apply(this, arguments);
           Common.localStorage.removeItem("documentLinkId");
+          Common.localStorage.removeItem("link_Id");
         },
 
         demoLink: async function () {
@@ -741,10 +731,7 @@ define([
                       "documentLinkId",
                       JSON.stringify(documentLinkData.id)
                     );
-                    console.log(
-                      "documentLinkData.link_to",
-                      documentLinkData.link_to
-                    );
+
                     if (documentLinkData.link_to === "Layout") {
                       await me.companyLayouts();
                       me.connectedDocumentList.setValue(
@@ -758,10 +745,17 @@ define([
                     } else if (documentLinkData.link_to === "Document") {
                       await me.companyDocuments();
                       me.connectedDocumentList.setValue(
-                        documentLinkData.link_document.title ?? ""
+                        documentLinkData.link_document?.title ?? ""
                       );
+                    } else if (documentLinkData.link_to === "New Layout") {
+                      me.connectedDocumentList.setData([]);
+                      me.connectedDocumentList.setValue("");
+                      me.connectedDocumentList.setDisabled(true);
+                    } else if (documentLinkData.link_to === "New Case") {
+                      me.connectedDocumentList.setData([]);
+                      me.connectedDocumentList.setValue("");
+                      me.connectedDocumentList.setDisabled(true);
                     }
-
                     me.documentLinkTo.setValue(documentLinkData.link_to ?? "");
                     me.documentLinkAction.setValue(
                       documentLinkData.action ?? ""
@@ -775,9 +769,7 @@ define([
                   me.connectedDocumentList.value
                 );
               }
-              this.btnOk.setDisabled(
-                $.trim(this.connectedDocumentList.getValue()) == ""
-              );
+              this.btnOk.setDisabled(false);
             } else {
               if (props.is_TopOfDocument()) this.internalList.selectByIndex(0);
               else if (props.is_Heading()) {
@@ -809,9 +801,7 @@ define([
                 }
               }
               var rec = this.internalList.getSelectedRec();
-              this.btnOk.setDisabled(
-                !rec || (rec.get("level") == 0 && rec.get("index") > 0)
-              );
+              this.btnOk.setDisabled(false);
             }
 
             if (props.get_Text() !== null) {
