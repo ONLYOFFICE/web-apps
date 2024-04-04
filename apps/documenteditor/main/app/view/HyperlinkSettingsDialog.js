@@ -206,7 +206,7 @@ define([
             el: $("#id-dlg-hyperlink-url"),
             cls: "input-group-nr",
             menuStyle: "min-width: 85px;",
-            placeHolder: "- Select-",
+            placeHolder: "- Select -",
             editable: false,
             data: [],
             dataHint: "1",
@@ -375,7 +375,7 @@ define([
               this.internalList.collapseAll();
             }
             var rec = this.internalList.getSelectedRec();
-           
+
             this.btnOk.setDisabled(false);
             var me = this;
             _.delay(function () {
@@ -825,8 +825,6 @@ define([
         },
 
         getSettings: function () {
-          //  const props =  this.demoLink();
-          //  Common.localStorage.setItem('PROPS',JSON.stringify(props))
           return {};
         },
 
