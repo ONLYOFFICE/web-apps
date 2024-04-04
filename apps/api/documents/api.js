@@ -1079,6 +1079,8 @@
         if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
+        if (type && typeof type[1] === 'string' && config.document && config.document.permissions && config.document.permissions.edit === false)
+            params += "&mode=fillforms";
 
         if (config.document) {
             config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
