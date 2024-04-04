@@ -97,6 +97,23 @@ define([
                 '</div>' +
             '</div>' +
             '<div class="separator long pdf-buttons" style="display: none;"></div>' +
+            '<div class="group small pdf-buttons" style="display: none;">' +
+                '<div class="elset" style="display: flex;">' +
+                    '<span class="btn-slot slot-field-zoom" style="flex-grow: 1;"></span>' +
+                '</div>' +
+                '<div class="elset" style="text-align: center;">' +
+                    '<span class="btn-slot text font-size-normal slot-lbl-zoom" style="text-align: center;margin-top: 4px;"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="group small pdf-buttons" style="display: none;">' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text slot-btn-ftp" style="text-align: center;"></span>' +
+                '</div>' +
+                '<div class="elset">' +
+                    '<span class="btn-slot text slot-btn-ftw" style="text-align: center;"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="separator long pdf-buttons" style="display: none;"></div>' +
             '<div class="group no-group-mask" style="">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-view-roles"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-prev"></span>' +
