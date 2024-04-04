@@ -495,6 +495,15 @@ define([
                     });
                 }
             });
+            for (var key in this.viewPlugins.customPluginPanels) {
+                var panel = this.viewPlugins.customPluginPanels[key],
+                    menu = panel.menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
+                menu.push({
+                    guid: panel.frameId,
+                    baseUrl: panel.baseUrl,
+                    parsedIcons: this.viewPlugins.parseIcons(panel.icons)
+                });
+            }
             if (iconsInLeftMenu.length > 0) {
                 me.viewPlugins.fireEvent('pluginsleft:updateicons', [iconsInLeftMenu]);
             }
@@ -738,7 +747,7 @@ define([
         },
 
         onToolClose: function(panel) {
-            this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.isExtraPanel && panel._state.frameId);
+            this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.frameId);
         },
 
         onPluginMouseUp: function(x, y) {
@@ -1189,6 +1198,12 @@ define([
             if (typeof variation.descriptionLocale == 'object')
                 description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
 
+            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
+                modes = model.get('variations'),
+                icons = variation.icons ? variation.icons : modes[model.get('currentVariation')].get('icons'),
+                parsedIcons = this.viewPlugins.parseIcons(icons),
+                icon_url = model.get('baseUrl') + parsedIcons['normal'];
+
             var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
                 button = new Common.UI.Button({
                     parentEl: $button,
@@ -1196,7 +1211,7 @@ define([
                     hint: description,
                     enableToggle: true,
                     toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
-                    //iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
+                    iconImg: icon_url,
                     onlyIcon: true,
                     value: frameId,
                     type: 'plugin'
@@ -1206,7 +1221,9 @@ define([
             this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
                 el: '#panel-plugins-' + frameId,
                 menu: menu,
-                isExtraPanel: true
+                frameId: frameId,
+                baseUrl: model.get('baseUrl'),
+                icons: icons
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));
 
