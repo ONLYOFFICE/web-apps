@@ -3573,8 +3573,7 @@ define([
             capBtnSelect: 'Select',
             capBtnHand: 'Hand',
             tipSelectTool: 'Select tool',
-            tipHandTool: 'Hand tool',
-
+            tipHandTool: 'Hand tool'
         }
     })(), DE.Views.Toolbar || {}));
 });
