@@ -63,7 +63,8 @@ define([
                 lastRoleInList: undefined, // last role in the roles list,
                 formCount: 0,
                 formAdded: undefined,
-                formRadioAdded: undefined
+                formRadioAdded: undefined,
+                pageCount: 1
             };
         },
 
@@ -83,6 +84,8 @@ define([
                 this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
+                this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             }
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
@@ -107,7 +110,7 @@ define([
                 'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
                 'roles': {name: 'de-form-tip-roles', placement: 'bottom-' + dirLeft, text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
                 'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined,
-                'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirRight, text: this.view.textRequired, link: false, target: '#slot-btn-form-submit',
+                'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit',
                                                             callback: function() {
                                                                 me.api.asc_MoveToFillingForm(true, true, true);
                                                                 me.view.btnSubmit.updateHint(me.view.textRequired);
@@ -124,7 +127,8 @@ define([
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick,
-                    'forms:manager': this.onManagerClick
+                    'forms:manager': this.onManagerClick,
+                    'forms:gopage': this.onGotoPage
                 },
                 'Toolbar': {
                     'tab:active': this.onActiveTab
@@ -433,7 +437,8 @@ define([
                     documentHolder: {clear: false, disable: true},
                     toolbar: true,
                     plugins: true,
-                    protect: true
+                    protect: true,
+                    header: {docmode: true}
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
@@ -450,20 +455,25 @@ define([
 
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                Common.Utils.lockControls(Common.enumLock.submit, false, {array: [this.view.btnSubmit]})
-                if (!this.submitedTooltip) {
-                    this.submitedTooltip = new Common.UI.SynchronizeTip({
-                        text: this.view.textSubmited,
-                        extCls: 'no-arrow',
-                        showLink: false,
-                        target: $('.toolbar'),
-                        placement: 'bottom'
-                    });
-                    this.submitedTooltip.on('closeclick', function () {
-                        this.submitedTooltip.hide();
-                    }, this);
+                Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]})
+                if (!this._submitFail) {
+                    this.view.btnSubmit.setCaption(this.view.textFilled);
+                    this.view.btnSubmit.cmpEl.addClass('gray');
+                    if (!this.submitedTooltip) {
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: this.view.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
+                    }
+                    this.submitedTooltip.show();
+                    Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
                 }
-                !this._submitFail && this.submitedTooltip.show();
             }
         },
 
@@ -624,6 +634,35 @@ define([
         onFillRequiredFields: function(isFilled) {
             this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit && Common.Utils.lockControls(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.view.btnSubmit]});
         },
+
+        onCountPages: function(count) {
+            this._state.pageCount = count;
+            this.view && this.view.fieldPages && this.view.fieldPages.setFixedValue('/ ' + count);
+        },
+
+        onCurrentPage: function(value) {
+            if (this.view && this.view.fieldPages) {
+                this.view.fieldPages.setValue(value + 1);
+                Common.Utils.lockControls(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+                Common.Utils.lockControls(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+            }
+        },
+
+        onGotoPage: function (type, value) {
+            if (!this.api) return;
+
+            if (type==='first')
+                this.api.goToPage(0);
+            else if (type==='last')
+                this.api.goToPage(this._state.pageCount-1);
+            else if (type==='prev' || type==='next')
+                this.api.goToPage(this.api.getCurrentPage() + (type==='next' ? 1 : -1));
+            else {
+                if (value>this._state.pageCount)
+                    value = this._state.pageCount;
+                this.api && this.api.goToPage(value-1);
+            }
+        }
 
     }, DE.Controllers.FormsTab || {}));
 });

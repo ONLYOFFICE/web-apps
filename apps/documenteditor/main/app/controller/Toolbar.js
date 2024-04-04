@@ -272,6 +272,25 @@ define([
             this.toolbar.applyLayout(mode);
         },
 
+        attachRestrictedEditFormsUIEvents: function(toolbar) {
+            toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
+            toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+            toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
+            toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+            toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
+            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
+            toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
+            toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+            toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
+            toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
+
+            this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
+            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+        },
+
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
@@ -464,6 +483,8 @@ define([
                 if (this.mode.isPDFForm && this.mode.canFillForms) {
                     this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
                     this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+                    this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
@@ -3286,8 +3307,6 @@ define([
             else if (viewDocMode)
                 toolbar.lockToolbar(Common.enumLock.viewMode, disable);
 
-            !viewDocMode && toolbar.fireEvent('docmode:disabled', [disable]);
-
             if(disable) {
                 if (reviewmode || fillformmode || viewDocMode)
                     mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
@@ -3393,6 +3412,11 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
+        createDelayedElementsRestrictedEditForms: function() {
+            this.toolbar.createDelayedElementsRestrictedEditForms();
+            this.attachRestrictedEditFormsUIEvents(this.toolbar);
+        },
+
         createDelayedElementsViewer: function() {
             this.onBtnChangeState('print:disabled', null, !this.mode.canPrint);
         },
@@ -3475,18 +3499,36 @@ define([
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
 
                 me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
+            } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
+                me.toolbar.setMode(config);
+
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+
+                if (!config.compactHeader) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                    me.toolbar.processPanelVisible(null, true);
+                }
             }
 
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
-                    tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
+                    tab = {caption: config.isRestrictedEdit && config.canFillForms && config.isPDFForm ? me.toolbar.textTabHome : me.textTabForms, action: 'forms', dataHintTitle: 'M'};
                     var forms = application.getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 5);
                         me.toolbar.setVisible('forms', true);
-                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                        Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
@@ -3553,6 +3595,11 @@ define([
                     me.controllers.pageLayout.onLaunch(me.toolbar)
                         .setApi(me.api)
                         .onAppReady(config);
+                } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
+                    if (me.toolbar.btnHandTool) {
+                        me.toolbar.btnHandTool.toggle(true, true);
+                        me.api.asc_setViewerTargetType('hand');
+                    }
                 }
 
                 config.isOForm && config.canDownloadForms && Common.UI.warning({
@@ -3716,6 +3763,13 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockReview, props.isReviewOnly);
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
                 Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
+            }
+        },
+
+        onSelectTool: function (type, btn, state, e) {
+            if (this.api && state) {
+                this.api.asc_setViewerTargetType(type);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
         },
 
