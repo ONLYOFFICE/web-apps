@@ -533,6 +533,8 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
             }
+            if ( !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle )
+                this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -5222,6 +5224,10 @@ define([
                     items[i].setDisabled(!props[items[i].value]);
                 }
             }
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

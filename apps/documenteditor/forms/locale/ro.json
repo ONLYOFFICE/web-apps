@@ -163,6 +163,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Ați atins numărul maxim de utilizatori ai %1 editoare. Contactați Grup Vânzări %1 pentru acordarea condițiilor personale de licențiere.",
   "DE.Views.ApplicationView.textClear": "Goleşte toate câmpurile",
   "DE.Views.ApplicationView.textClearField": "Golire câmp",
+  "DE.Views.ApplicationView.textClose": "Închidere fișier",
   "DE.Views.ApplicationView.textCopy": "Copiere",
   "DE.Views.ApplicationView.textCut": "Decupare",
   "DE.Views.ApplicationView.textFitToPage": "Portivire la pagina",

@@ -68,16 +68,16 @@ define([
                             var tab = {action: 'plugins', caption: me.viewPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
                             me.$toolbarPanelPlugins = me.viewPlugins.getPanel();
                             me.toolbar = toolbar;
-                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
+                            toolbar.addTab(tab, me.$toolbarPanelPlugins, Common.UI.LayoutManager.lastTabIdx);     // TODO: clear plugins list in left panel
                         }
                     }
                 },
                 'Common.Views.Plugins': {
-                    'plugin:select': function(guid, type) {
-                        if (!this.viewPlugins.pluginPanels[guid]) {
-                            me.api.asc_pluginRun(guid, type, '');
+                    'plugin:select': function(guid, type, isRun, closePanel) {
+                        if (!this.viewPlugins.pluginPanels[guid] || (this.viewPlugins.pluginPanels[guid] && type > 0)) {
+                            !isRun || type > 0 ? me.api.asc_pluginRun(guid, type, '') : me.api.asc_pluginStop(guid);
                         } else {
-                            me.openUIPlugin(guid);
+                            closePanel ? me.onToolClose(this.viewPlugins.pluginPanels[guid]) : me.openUIPlugin(guid);
                         }
                     }
                 },
@@ -121,6 +121,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
         },
 
         loadConfig: function(data) {
@@ -306,12 +307,14 @@ define([
                 }
             };
             this.backgroundPluginsSwitchers = [];
+            var usedPlugins = this.api.getUsedBackgroundPlugins();
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
                     parsedIcons = me.viewPlugins.parseIcons(icons),
                     icon_url = model.get('baseUrl') + parsedIcons['normal'],
-                    guid = model.get('guid');
+                    guid = model.get('guid'),
+                    isRun = _.indexOf(usedPlugins, guid) !== -1;
                 model.set('parsedIcons', parsedIcons);
                 var menuItem = new Common.UI.MenuItem({
                     value: guid,
@@ -333,14 +336,14 @@ define([
                 model.set('backgroundPlugin', menuItem);
                 var switcher = new Common.UI.Switcher({
                     el: menuItem.$el.find('.plugin-toggle')[0],
-                    value: !!model.isSystem,
+                    value: !!model.isSystem || isRun,
                     disabled: !!model.isSystem,
                     pluginGuid: guid,
-                    hint: me.viewPlugins.textStart
+                    hint: isRun ? me.viewPlugins.textStop : me.viewPlugins.textStart
                 });
                 switcher.on('change', function (element, value) {
                     switcher.updateHint(value ? me.viewPlugins.textStop : me.viewPlugins.textStart);
-                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0]);
+                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0, !value]);
                 });
                 me.backgroundPluginsSwitchers.push(switcher);
                 var menuItems = [];
@@ -367,7 +370,7 @@ define([
                     });
                     btn.menu.on('item:click', function (menu, item, e) {
                         Common.UI.Menu.Manager.hideAll();
-                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value, false]);
                         me.clickInsideMenu = false;
                     });
                     btn.menu.on('keydown:before', function (menu, e) {
@@ -419,6 +422,11 @@ define([
                         me.backgroundPlugins.push(model);
                         return;
                     }
+                    if (model.get('tab')) {
+                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        return;
+                    }
+
                     //if (new_rank === 1 || new_rank === 2) return; // for test
                     if ((new_rank === 0 || new_rank === 2) && !isBackground) {
                         _group = me.addBackgroundPluginsButton(_group);
@@ -694,7 +702,7 @@ define([
 
                 }
             }
-            !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
+            this.viewPlugins.openedPluginMode(plugin.get_Guid(), variation.get_InsideMode());
         },
 
         onPluginClose: function(plugin) {
@@ -713,9 +721,8 @@ define([
                     this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
                 }
             }
-            if (!isIframePlugin) {
-                !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid);
-            }
+            !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
+
             this.runAutoStartPlugins();
         },
 
@@ -882,7 +889,8 @@ define([
                             original: item,
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
-                            isSystem: isSystem
+                            isSystem: isSystem,
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
@@ -1044,6 +1052,12 @@ define([
                 Common.Utils.lockControls(Common.enumLock.docLockView, props.isReadOnly, {array: this.viewPlugins.lockedControls});
                 Common.Utils.lockControls(Common.enumLock.docLockForms, props.isFormsOnly, {array: this.viewPlugins.lockedControls});
                 Common.Utils.lockControls(Common.enumLock.docLockComments, props.isCommentsOnly, {array: this.viewPlugins.lockedControls});
+            }
+        },
+
+        onChangeDocMode: function (type) {
+            if (type === 'view' && this.pluginDlg) {
+                this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
             }
         },
 

@@ -30,7 +30,8 @@
  *
  */
 function checkExtendedPDF(directUrl, key, url, token, callback) {
-    var limit = 110;
+    //110 is not enough for the new PDF form    
+    var limit = 300;
     if (directUrl) {
         downloadPartialy(directUrl, limit, null, function(text) {
             callback(isExtendedPDFFile(text))

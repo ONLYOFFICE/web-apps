@@ -487,6 +487,7 @@ define([
 
                 }
             }
+            this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
@@ -3770,6 +3771,10 @@ define([
                 this.api.asc_setViewerTargetType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
