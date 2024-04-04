@@ -16,6 +16,7 @@ import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 
 @inject(
     "users",
@@ -38,6 +39,31 @@ class MainController extends Component {
 
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
+        this.fallbackSdkTranslations = {
+            "Chart": "Chart",
+            "Click to add first slide": "Click to add first slide",
+            "Click to add notes": "Click to add notes",
+            "ClipArt": "Clip Art",
+            "Date and time": "Date and time",
+            "Diagram": "Diagram",
+            "Diagram Title": "Chart Title",
+            "Footer": "Footer",
+            "Header": "Header",
+            "Image": "Image",
+            "Loading": "Loading",
+            "Media": "Media",
+            "None": "None",
+            "Picture": "Picture",
+            "Series": "Series",
+            "Slide number": "Slide number",
+            "Slide subtitle": "Slide subtitle",
+            "Slide text": "Slide text",
+            "Slide title": "Slide title",
+            "Table": "Table",
+            "X Axis": "X Axis XAS",
+            "Y Axis": "Y Axis",
+            "Your text here": "Your text here"
+        }
 
         this._state = {
             licenseType: false,
@@ -191,30 +217,24 @@ class MainController extends Component {
                 this.api.Resize();
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
-            };
+            processArrayScripts(dep_scripts, promise_get_script)
+                .then(() => {
+                    const { t } = this.props;
+                    let _translate = t('Controller.Main.SDK', { returnObjects:true })
 
-            _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
-                    const {t} = this.props;
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
+                        _translate = this.fallbackSdkTranslations
+                    }
+
                     this.api = new Asc.asc_docs_api({
                         'id-view': 'editor_sdk',
                         'mobile': true,
-                        'translate': t('Controller.Main.SDK', {returnObjects:true})
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
 
-                    this.appOptions   = {};
+                    this.appOptions = {};
                     this.bindEvents();
 
                     let value = LocalStorage.getItem("pe-settings-fontrender");
