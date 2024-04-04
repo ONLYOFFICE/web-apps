@@ -1430,7 +1430,15 @@ define([
                         }
                     }, 50);
                 } else {
-                    me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_SetHighlightRequiredFields(true);
+                    if (me.appOptions.isRestrictedEdit && me.appOptions.canFillForms) {
+                        me.api.asc_SetHighlightRequiredFields(true);
+                        if (me.appOptions.isPDFForm) {
+                            toolbarController.createDelayedElementsRestrictedEditForms();
+                            toolbarController.activateControls();
+                            me.api.UpdateInterfaceState();
+                        }
+                    }
+
                     documentHolderController.getView().createDelayedElementsViewer();
                     toolbarController.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();

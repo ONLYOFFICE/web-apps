@@ -409,7 +409,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-clear-style',
                     caption: this.textClear,
-                    lock: [ _set.lostConnect, _set.viewMode],
+                    lock: [ _set.lostConnect, _set.viewMode, _set.disableOnStart],
                     visible: this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.appConfig.isPDFForm,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
@@ -428,7 +428,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnPrevForm);
+                this.paragraphControls.push(this.btnPrevForm);
 
                 this.btnNextForm = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -441,7 +441,7 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
                 });
-                !(this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) && this.paragraphControls.push(this.btnNextForm);
+                this.paragraphControls.push(this.btnNextForm);
 
                 if (this.appConfig.canSubmitForms) {
                     if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
