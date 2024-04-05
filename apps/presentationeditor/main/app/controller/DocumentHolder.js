@@ -629,7 +629,7 @@ define([
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.TimelineZoom) {
                     me.showPopupMenu.call(me, me.documentHolder.timelineZoomMenu, undefined, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
-                    me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_Effect()}, event);
+                    me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
                 } else {
                     me.showObjectMenu.call(me, event);
                 }
