@@ -276,6 +276,7 @@ define([
                     caption: this.txtAnimationPane,
                     iconCls: 'toolbar__icon icon',
                     lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
+                    enableToggle: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
