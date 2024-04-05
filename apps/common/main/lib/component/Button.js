@@ -898,9 +898,11 @@ define([
 
         setCaption: function(caption) {
             if (this.caption != caption) {
+                var isHuge = false;
                 if ( /icon-top/.test(this.options.cls) && !!this.caption && /huge/.test(this.options.cls) ) {
                     var newCaption = this.getCaptionWithBreaks(caption);
                     this.caption = newCaption || caption;
+                    isHuge = true;
                 } else
                     this.caption = caption;
 
@@ -908,7 +910,7 @@ define([
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
+                        captionNode.html(isHuge && (this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
                     } else {
                         this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }
