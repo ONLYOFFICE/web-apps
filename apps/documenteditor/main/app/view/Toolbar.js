@@ -3119,7 +3119,7 @@ define([
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
 
-                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary && me.mode.canSaveToFile || !me.mode.showSaveButton);
                         this._state.hasCollaborativeChanges = false;
                     }
                 }

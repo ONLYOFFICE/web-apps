@@ -1034,9 +1034,9 @@ define([
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
-                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                        isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
 
@@ -1657,6 +1657,13 @@ define([
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.canFillForms   = this.appOptions.canLicense && (this.appOptions.isEdit ? true : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && (this.appOptions.canComments || this.appOptions.canFillForms);
+                this.appOptions.canSaveToFile = this.appOptions.isEdit || this.appOptions.isRestrictedEdit;
+                this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm; // save to file or save to file copy (for pdf-form viewer)
+
+                if (this.appOptions.isPDFForm && !this.appOptions.isEdit) {
+                    this.appOptions.canFillForms = this.appOptions.isRestrictedEdit = true; // can fill forms in viewer!
+                }
+
                 if (this.appOptions.isRestrictedEdit && this.appOptions.canComments && this.appOptions.canFillForms) // must be one restricted mode, priority for filling forms
                     this.appOptions.canComments = false;
                 this.appOptions.canSwitchMode  = this.appOptions.isEdit;
@@ -2348,8 +2355,8 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
                 if (toolbarView && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
+                        isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
 
@@ -2365,8 +2372,8 @@ define([
 
                 if (toolbarView && this.api && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary || !this.appOptions.canSaveToFile,
+                        isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.showSaveButton;
                         toolbarView.btnSave.setDisabled(isDisabled);
                 }
             },
