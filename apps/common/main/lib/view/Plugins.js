@@ -65,6 +65,7 @@ define([
             };
             this.lockedControls = [];
             this.pluginPanels = {};
+            this.customPluginPanels = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
@@ -505,18 +506,23 @@ define([
             this.fireEvent('hide', this );
         },
 
-        showPluginPanel: function (show, guid) {
-            var model = this.storePlugins.findWhere({guid: guid}),
-                menu = model.get('menu');
+        showPluginPanel: function (show, id) {
+            var panel = this.pluginPanels[id] ? this.pluginPanels[id] : this.customPluginPanels[id],
+                menu = this.pluginPanels[id] ? this.storePlugins.findWhere({guid: id}).get('menu') : panel.menu;
             if (show) {
                 for (var key in this.pluginPanels) {
                     if (this.pluginPanels[key].menu === menu) {
                         this.pluginPanels[key].$el.removeClass('active');
                     }
                 }
-                this.pluginPanels[guid].$el.addClass('active');
+                for (var key in this.customPluginPanels) {
+                    if (this.customPluginPanels[key].menu === menu) {
+                        this.customPluginPanels[key].$el.removeClass('active');
+                    }
+                }
+                panel.$el.addClass('active');
             } else {
-                this.pluginPanels[guid].$el.removeClass('active');
+                panel.$el.removeClass('active');
                 this.fireEvent(menu === 'right' ? 'pluginsright:hide' : 'pluginsleft:hide', this);
             }
             //this.updateLeftPluginButton(guid);
