@@ -458,6 +458,7 @@ define([
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.timelineZoomMenu.on('item:click', _.bind(me.onTimelineZoom, me));
+            view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
         },
 
         getView: function (name) {
@@ -628,7 +629,7 @@ define([
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.TimelineZoom) {
                     me.showPopupMenu.call(me, me.documentHolder.timelineZoomMenu, undefined, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
-                    me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {}, event);
+                    me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_Effect()}, event);
                 } else {
                     me.showObjectMenu.call(me, event);
                 }
@@ -937,8 +938,7 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
-                        //ToolTip = moveData.get_Info();
-                        ToolTip = moveData.Info;
+                        ToolTip = moveData.get_Info();
                     }
                     var recalc = false;
                     screenTip.isHidden = false;
@@ -2759,6 +2759,14 @@ define([
                 this.api.asc_ZoomInTimeline();
             } else {
                 this.api.asc_ZoomOutTimeline();
+            }
+        },
+
+        onAnimEffect: function (menu, item) {
+            if (item.value === 'remove') {
+                this.api.asc_RemoveSelectedAnimEffects();
+            } else {
+                this.api.asc_SetSelectedAnimEffectsStartType(item.value);
             }
         }
     });

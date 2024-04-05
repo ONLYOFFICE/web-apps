@@ -2449,21 +2449,25 @@ define([
 
             me.menuAnimStartOnClick = new Common.UI.MenuItem({
                 caption: me.textStartOnClick,
-                checkable: true
+                checkable: true,
+                value: AscFormat.NODE_TYPE_CLICKEFFECT
             });
 
             me.menuAnimStartWithPrevious = new Common.UI.MenuItem({
                 caption: me.textStartWithPrevious,
-                checkable: true
+                checkable: true,
+                value: AscFormat.NODE_TYPE_WITHEFFECT
             });
 
             me.menuAnimStartAfterPrevious = new Common.UI.MenuItem({
                 caption: me.textStartAfterPrevious,
-                checkable: true
+                checkable: true,
+                value: AscFormat.NODE_TYPE_AFTEREFFECT
             });
 
             me.menuAnimRemove = new Common.UI.MenuItem({
-                caption: me.textRemove
+                caption: me.textRemove,
+                value: 'remove'
             });
 
             me.animEffectMenu = new Common.UI.Menu({
@@ -2471,7 +2475,9 @@ define([
                 scrollToCheckedItem: false,
                 menuAlign: 'tl-bl',
                 initMenu: function(value){
-
+                    me.menuAnimStartOnClick.setChecked(value.effect === AscFormat.NODE_TYPE_CLICKEFFECT, true);
+                    me.menuAnimStartWithPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_WITHEFFECT, true);
+                    me.menuAnimStartAfterPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_AFTEREFFECT, true);
                 },
                 items: [
                     me.menuAnimStartOnClick,
