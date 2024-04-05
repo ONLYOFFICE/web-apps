@@ -157,6 +157,10 @@ if (window.Common === undefined) {
 
             'setReferenceSource': function(data) {
                 $me.trigger('setreferencesource', data);
+            },
+
+            'startFilling': function(data) {
+                $me.trigger('startfilling', data);
             }
         };
 
@@ -392,6 +396,10 @@ if (window.Common === undefined) {
 
             requestReferenceSource:  function () {
                 _postMessage({event:'onRequestReferenceSource'});
+            },
+
+            requestStartFilling:  function () {
+                _postMessage({event:'onRequestStartFilling'});
             },
 
             pluginsReady: function() {

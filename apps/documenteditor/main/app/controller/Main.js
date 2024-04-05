@@ -872,7 +872,8 @@ define([
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
                     plugins: false,
-                    protect: false
+                    protect: false,
+                    header: {docmode: true}
                 }, temp ? 'reconnect' : 'disconnect');
             },
 
@@ -929,6 +930,11 @@ define([
                 }
                 if (options.protect) {
                     app.getController('Common.Controllers.Protection').SetDisabled(disable, false);
+                }
+
+                if (options.header) {
+                    if (options.header.docmode)
+                        app.getController('Toolbar').getView('Toolbar').fireEvent('docmode:disabled', [disable]);
                 }
 
                 if (prev_options) {
@@ -1090,7 +1096,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs'] || id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs'] || id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
                       (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
@@ -1395,6 +1401,9 @@ define([
 
                     if (me.needToUpdateVersion)
                         Common.NotificationCenter.trigger('api:disconnect');
+
+                    me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
+
                     var timer_sl = setInterval(function(){
                         if (window.styles_loaded) {
                             clearInterval(timer_sl);
@@ -1421,7 +1430,15 @@ define([
                         }
                     }, 50);
                 } else {
-                    me.appOptions.isRestrictedEdit && me.appOptions.canFillForms && me.api.asc_SetHighlightRequiredFields(true);
+                    if (me.appOptions.isRestrictedEdit && me.appOptions.canFillForms) {
+                        me.api.asc_SetHighlightRequiredFields(true);
+                        if (me.appOptions.isPDFForm) {
+                            toolbarController.createDelayedElementsRestrictedEditForms();
+                            toolbarController.activateControls();
+                            me.api.UpdateInterfaceState();
+                        }
+                    }
+
                     documentHolderController.getView().createDelayedElementsViewer();
                     toolbarController.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
@@ -1644,6 +1661,7 @@ define([
                     this.appOptions.canComments = false;
                 this.appOptions.canSwitchMode  = this.appOptions.isEdit;
                 this.appOptions.canSubmitForms = this.appOptions.isRestrictedEdit && this.appOptions.canFillForms && this.appOptions.canLicense && (typeof (this.editorConfig.customization) == 'object') && !!this.editorConfig.customization.submitForm && !this.appOptions.isOffline;
+                this.appOptions.canStartFilling = this.editorConfig.canStartFilling && this.appOptions.isEdit &&  this.appOptions.isPDFForm; // show Start Filling button in the header
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isPDFForm && this.appOptions.canFillForms && this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1662,7 +1680,7 @@ define([
                 this.appOptions.canDownloadOrigin = false;
                 this.appOptions.canDownload       = this.permissions.download !== false;
                 this.appOptions.canUseSelectHandTools = this.appOptions.canUseThumbnails = this.appOptions.canUseViwerNavigation = isPDFViewer;
-                this.appOptions.canDownloadForms = this.appOptions.canLicense && this.appOptions.canDownload && this.appOptions.isRestrictedEdit && this.appOptions.canFillForms; // don't show download form button in edit mode
+                this.appOptions.canDownloadForms = false && this.appOptions.canLicense && this.appOptions.canDownload && this.appOptions.isRestrictedEdit && this.appOptions.canFillForms; // don't show download form button in edit mode
 
                 this.appOptions.fileKey = this.document.key;
 
@@ -1772,8 +1790,8 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
-            onDocModeApply: function(mode, force) {// force !== true - change mode only if not in view mode
-                if (!this.appOptions.canSwitchMode) return;
+            onDocModeApply: function(mode, force, disableModeButton) {// force !== true - change mode only if not in view mode, disableModeButton: disable or not DocMode button in the header
+                if (!this.appOptions.canSwitchMode && !force) return;
 
                 var disable = mode==='view',
                     inViewMode = !!this.stackDisableActions.get({type: 'view'});
@@ -1799,7 +1817,8 @@ define([
                         documentHolder: {clear: true, disable: true},
                         toolbar: true,
                         plugins: true,
-                        protect: true
+                        protect: true,
+                        header: {docmode: !!disableModeButton}
                     }, 'view');
 
                     if (mode==='edit') {
@@ -1810,6 +1829,10 @@ define([
                     this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.None);
                 }
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
+            },
+
+            onStartFilling: function() {
+                Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
             },
 
             applyModeCommonElements: function() {

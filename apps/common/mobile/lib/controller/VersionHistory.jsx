@@ -4,6 +4,7 @@ import VersionHistoryView from '../view/VersionHistory';
 import { f7, Sheet, Popover, View } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
+import { getUserColor } from '../../utils/getUserColor';
 
 const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory')(observer(props => {
     const api = Common.EditorApi.get();
@@ -131,11 +132,13 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                     user = historyStore.findUserById(version.user.id);
 
                     if (!user) {
+                        const color = getUserColor(version.user.id || version.user.name || t('Common.VersionHistory.textAnonymous'), true);
+
                         user = {
                             id: version.user.id,
                             username: version.user.name || t('Common.VersionHistory.textAnonymous'),
-                            colorval: Asc.c_oAscArrUserColors[usersCnt],
-                            color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
+                            colorval: color,
+                            color: generateUserColor(color),
                            
                         };
 
@@ -192,11 +195,13 @@ const VersionHistoryController = inject('storeAppOptions', 'storeVersionHistory'
                                 user = historyStore.findUserById(change.user.id);
 
                                 if (!user) {
+                                    const color = getUserColor(change.user.id || change.user.name || t('Common.VersionHistory.textAnonymous'), true);
+
                                     user = {
                                         id: change.user.id,
                                         username: change.user.name || t('Common.VersionHistory.textAnonymous'),
-                                        colorval: Asc.c_oAscArrUserColors[usersCnt],
-                                        color: generateUserColor(Asc.c_oAscArrUserColors[usersCnt++]),
+                                        colorval: color,
+                                        color: generateUserColor(color),
                                     };
 
                                     historyStore.addUser(user);

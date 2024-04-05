@@ -86,6 +86,10 @@ define([
                             '</section>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit"></div>' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-start-fill"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
@@ -339,6 +343,16 @@ define([
                 updateDocNamePosition();
             }
 
+            if (me.btnStartFill) {
+                Common.Gateway.on('startfilling', function() {
+                    me.btnStartFill.setVisible(false);
+                    updateDocNamePosition();
+                });
+                me.btnStartFill.on('click', function (e) {
+                    Common.Gateway.requestStartFilling();
+                });
+            }
+
             if ( me.logo )
                 me.logo.children(0).on('click', function (e) {
                     var _url = !!me.branding && !!me.branding.logo && (me.branding.logo.url!==undefined) ?
@@ -420,13 +434,13 @@ define([
                         me.fireEvent('downloadas', ['original']);
                     });
                 }
+            }
 
-                if ( me.btnEdit ) {
-                    me.btnEdit.updateHint(me.tipGoEdit);
-                    me.btnEdit.on('click', function (e) {
-                        me.fireEvent('go:editor', me);
-                    });
-                }
+            if ( me.btnEdit ) {
+                me.btnEdit.updateHint(me.tipGoEdit);
+                me.btnEdit.on('click', function (e) {
+                    me.fireEvent('go:editor', me);
+                });
             }
 
             if (me.btnSearch)
@@ -715,10 +729,10 @@ define([
 
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
-
-                        if ( config.canEdit && config.canRequestEditRights && !isPDFEditor)
-                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
+                    if ( config.canRequestEditRights && (!config.twoLevelHeader && config.canEdit && !isPDFEditor || config.isPDFForm && config.canFillForms && config.isRestrictedEdit))
+                        this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
+
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
                     if (!config.twoLevelHeader || config.compactHeader) {
@@ -786,6 +800,19 @@ define([
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
+
+                    if (config.canStartFilling) {
+                        me.btnStartFill = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: me.textStartFill,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnStartFill.render($html.find('#slot-btn-start-fill'));
+                    } else {
+                        $html.find('#slot-btn-start-fill').hide();
+                    }
 
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
@@ -1129,7 +1156,8 @@ define([
             textReview: 'Reviewing',
             textReviewDesc: 'Suggest changes',
             tipReview: 'Reviewing',
-            textClose: 'Close file'
+            textClose: 'Close file',
+            textStartFill: 'Start filling'
         }
     }(), Common.Views.Header || {}))
 });
