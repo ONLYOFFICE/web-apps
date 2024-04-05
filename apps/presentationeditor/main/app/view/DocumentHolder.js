@@ -2432,6 +2432,7 @@ define([
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 menuAlign: 'bl-tl',
+                style: 'min-width: auto;',
                 items: [
                     me.menuAnimZoomIn,
                     me.menuAnimZoomOut
@@ -2474,6 +2475,7 @@ define([
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 menuAlign: 'tl-bl',
+                style: 'min-width: auto;',
                 initMenu: function(value){
                     me.menuAnimStartOnClick.setChecked(value.effect === AscFormat.NODE_TYPE_CLICKEFFECT, true);
                     me.menuAnimStartWithPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_WITHEFFECT, true);

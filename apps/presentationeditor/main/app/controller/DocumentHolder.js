@@ -900,7 +900,7 @@ define([
                 var showPoint, ToolTip = '',
                     type = moveData.get_Type();
 
-                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder || Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder || type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
