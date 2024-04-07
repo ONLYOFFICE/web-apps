@@ -53,21 +53,10 @@ class SearchSettingsView extends Component {
 
     render() {
         const show_popover = !Device.phone;
-        // const navbar =
-        //     <Navbar title="Find and replace">
-        //         {!show_popover &&
-        //             <NavRight>
-        //                 <Link popupClose=".search-settings-popup">Done</Link>
-        //             </NavRight>
-        //         }
-        //     </Navbar>;
         const extra = this.extraSearchOptions();
         const content =
             <View style={show_popover ? popoverStyle : null}>
-                {/* <Page>
-                    {navbar} */}
                 {extra}
-                {/* </Page> */}
             </View>;
         return (
             show_popover ?
@@ -93,7 +82,7 @@ class SearchView extends Component {
         this.onReplaceClick = this.onReplaceClick.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.$replace = $$('#idx-replace-val');
         const $editor = $$('#editor_sdk');
 
@@ -126,8 +115,13 @@ class SearchView extends Component {
     }
 
     componentWillUnmount() {
-        $$('#editor_sdk').off('pointerdown', this.onEditorTouchStart)
-                        .off('pointerup', this.onEditorTouchEnd);
+        $$('#editor_sdk')
+            .off('pointerdown', this.onEditorTouchStart)
+            .off('pointerup', this.onEditorTouchEnd);
+        
+        if(this.searchTimer) {
+            clearInterval(this.searchTimer);
+        }
     }
 
     onSettingsClick(e) {
@@ -138,7 +132,7 @@ class SearchView extends Component {
 
     searchParams() {
         let params = {
-            find: this.searchbar.query
+            find: this.state.searchQuery
         };
 
         if (searchOptions.usereplace || searchOptions.isReplaceAll) {
@@ -152,9 +146,9 @@ class SearchView extends Component {
         if (this.searchbar && this.state.searchQuery) {
             if (this.props.onSearchQuery) {
                 let params = this.searchParams();
+
                 params.find = this.state.searchQuery;
                 params.forward = action != SEARCH_BACKWARD;
-                // console.log(params);
 
                 this.props.onSearchQuery(params);
             }
@@ -183,14 +177,7 @@ class SearchView extends Component {
         }
     }
 
-    // onSearchbarShow(isshowed, bar) {
-    //     if ( !isshowed ) {
-    //         // this.$replace.val('');
-    //     }
-    // }
-
     onEditorTouchStart(e) {
-        console.log('taouch start');
         this.startPoint = this.pointerPosition(e);
     }
 
@@ -236,9 +223,40 @@ class SearchView extends Component {
         });
     }
     
-    onSearchKeyBoard(event) {
-        if(event.keyCode === 13) {
-            this.props.onSearchQuery(this.searchParams());
+    onSearchKeyDown(e) {
+        if(e.keyCode === 13) {
+            if (this.props.onSearchQuery(this.searchParams(), true) && this.searchTimer) {
+                clearInterval(this.searchTimer);
+                this.searchTimer = undefined;
+            }
+        }
+    }
+
+    onSearchInput(e) {
+        const text = e.target.value;
+
+        if (text && this.state.searchQuery !== text) {
+            this.setState(prevState => ({
+                ...prevState,
+                searchQuery: text
+            }));
+
+            this.lastInputChange = new Date();
+
+            if (this.searchTimer === undefined) {
+                this.searchTimer = setInterval(() => {
+                    if (new Date() - this.lastInputChange < 400) return;
+
+                    clearInterval(this.searchTimer);
+                    this.searchTimer = undefined;
+
+                    if(this.state.searchQuery !== '') {
+                        this.props.onSearchQuery(this.searchParams(), true);
+                    }
+                }, 10);
+            }
+        } else {
+            this.props.setNumberSearchResults(null);
         }
     }
 
@@ -250,6 +268,7 @@ class SearchView extends Component {
         const replaceQuery = this.state.replaceQuery;
         const isIos = Device.ios;
         const { _t } = this.props;
+        const numberSearchResults = this.props.numberSearchResults;
 
         if(this.searchbar && this.searchbar.enabled) {
             usereplace || isReplaceAll ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
@@ -267,14 +286,17 @@ class SearchView extends Component {
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
                             <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
-                                onKeyDown={e => this.onSearchKeyBoard(e)}
+                                onKeyDown={e => this.onSearchKeyDown(e)}
+                                onInput={e => this.onSearchInput(e)}
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />
                             {isIos ? <i className="searchbar-icon" /> : null}
                             <span className="input-clear-button" onClick={() => this.changeSearchQuery('')} />
+                            {numberSearchResults !== null ? 
+                                <span className="number-search-results">{numberSearchResults}</span> 
+                            : null}
                         </div>
                         {/* {usereplace || isReplaceAll ?  */}
                             <div className="searchbar-input-wrap" style={usereplace || isReplaceAll ? null : hidden}>
-                                {/* style={!usereplace ? hidden: null} */}
                                 <input value={replaceQuery} placeholder={_t.textReplace} type="text" maxLength="255" id="idx-replace-val"
                                     onChange={e => {this.changeReplaceQuery(e.target.value)}} />
                                 {isIos ? <i className="searchbar-icon" /> : null}
@@ -284,9 +306,6 @@ class SearchView extends Component {
                     </div>
                     <div className="buttons-row searchbar-inner__right">
                         <div className="buttons-row buttons-row-replace">
-                            {/* <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
-                            <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} style={!usereplace ? hidden: null} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a> */}
-
                             {isReplaceAll ? (
                                 <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
                             ) : usereplace ? (

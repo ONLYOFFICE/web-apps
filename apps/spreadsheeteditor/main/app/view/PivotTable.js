@@ -50,7 +50,7 @@ define([
 
     SSE.Views.PivotTable = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="pivot-table-panel" class="panel" data-tab="pivot">' +
+            '<section id="pivot-table-panel" class="panel" data-tab="pivot" role="tabpanel" aria-labelledby="pivot">' +
                 '<div class="group">' +
                     '<span class="btn-slot text x-huge slot-add-pivot"></span>' +
                 '</div>' +
@@ -68,6 +68,15 @@ define([
                 '<div class="separator long"></div>' +
                 '<div class="group">' +
                     '<span id="slot-btn-select-pivot" class="btn-slot text x-huge"></span>' +
+                '</div>' +
+                '<div class="separator long"></div>' +
+                '<div class="group small">' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-btn-expand-field"></span>' +
+                    '</div>' +
+                    '<div class="elset">' +
+                        '<span class="btn-slot text" id="slot-btn-collapse-field"></span>' +
+                    '</div>' +
                 '</div>' +
                 '<div class="separator long"></div>' +
                 '<div class="group small">' +
@@ -129,6 +138,14 @@ define([
                 me.fireEvent('pivottable:select');
             });
 
+            this.btnExpandField.on('click', function (e) {
+                me.fireEvent('pivottable:expand');
+            });
+
+            this.btnCollapseField.on('click', function (e) {
+                me.fireEvent('pivottable:collapse');
+            });
+
             this.chRowHeader.on('change', function (field, value) {
                 me.fireEvent('pivottable:rowscolumns', [0, value]);
             });
@@ -161,7 +178,7 @@ define([
 
                 var _set = Common.enumLock;
 
-                this.btnsAddPivot = Common.Utils.injectButtons(this.toolbar.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-pivot-sum', this.txtPivotTable,
+                this.btnsAddPivot = Common.Utils.injectButtons(this.toolbar.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-big-pivot-sum', this.txtPivotTable,
                     [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.wsLock], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 this.chRowHeader = new Common.UI.CheckBox({
@@ -275,6 +292,28 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnSelectPivot);
+
+                this.btnExpandField = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-expand-field',
+                    caption: this.txtExpandEntire,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.pivotExpandLock, _set['FormatCells'], _set['PivotTables']],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnExpandField);
+
+                this.btnCollapseField = new Common.UI.Button({
+                    cls: 'btn-toolbar',
+                    iconCls: 'toolbar__icon btn-collapse-field',
+                    caption: this.txtCollapseEntire,
+                    lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.pivotExpandLock, _set['FormatCells'], _set['PivotTables']],
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnCollapseField);
 
                 this.pivotStyles = new Common.UI.ComboDataView({
                     cls             : 'combo-pivot-template',
@@ -396,7 +435,7 @@ define([
                 this.$el = $(_.template(template)( {} ));
 
                 var _set = Common.enumLock;
-                this.btnsAddPivot = this.btnsAddPivot.concat(Common.Utils.injectButtons(this.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-pivot-sum', this.txtCreate,
+                this.btnsAddPivot = this.btnsAddPivot.concat(Common.Utils.injectButtons(this.$el.find('.btn-slot.slot-add-pivot'), '', 'toolbar__icon btn-big-pivot-sum', this.txtCreate,
                     [_set.lostConnect, _set.coAuth, _set.editPivot, _set.selRangeEdit, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.wsLock], undefined, undefined, undefined, '1', 'bottom', 'small'));
 
                 this.chRowHeader.render(this.$el.find('#slot-chk-header-row'));
@@ -406,6 +445,8 @@ define([
 
                 this.btnRefreshPivot.render(this.$el.find('#slot-btn-refresh-pivot'));
                 this.btnSelectPivot.render(this.$el.find('#slot-btn-select-pivot'));
+                this.btnExpandField.render(this.$el.find('#slot-btn-expand-field'));
+                this.btnCollapseField.render(this.$el.find('#slot-btn-collapse-field'));
                 this.btnPivotLayout.render(this.$el.find('#slot-btn-pivot-report-layout'));
                 this.btnPivotBlankRows.render(this.$el.find('#slot-btn-pivot-blank-rows'));
                 this.btnPivotSubtotals.render(this.$el.find('#slot-btn-pivot-subtotals'));
@@ -463,6 +504,8 @@ define([
             tipGrandTotals: 'Show or hide grand totals',
             tipSubtotals: 'Show or hide subtotals',
             txtSelect: 'Select',
+            txtExpandEntire: 'Expand Entire Field',
+            txtCollapseEntire: 'Collapse Entire Field',
             tipSelect: 'Select entire pivot table',
             txtPivotTable: 'Pivot Table',
             txtTable_PivotStyleMedium: 'Pivot Table Style Medium',

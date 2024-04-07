@@ -45,6 +45,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'common/main/lib/component/SideMenu',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
@@ -62,7 +63,7 @@ define([
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
-    DE.Views.RightMenu = Backbone.View.extend(_.extend({
+    DE.Views.RightMenu = Common.UI.SideMenu.extend(_.extend({
         el: '#right-menu',
 
         // Compile our stats template
@@ -74,6 +75,7 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
+            this.maximizedMode = false;
 
             this.btnText = new Common.UI.Button({
                 hint: this.txtParagraphSettings,
@@ -155,7 +157,7 @@ define([
         render: function (mode) {
             this.trigger('render:before', this);
 
-            this.defaultHideRightMenu = mode.customization && !!mode.customization.hideRightMenu;
+            this.defaultHideRightMenu = !(mode.customization && (mode.customization.hideRightMenu===false));
             var open = !Common.localStorage.getBool("de-hide-right-settings", this.defaultHideRightMenu);
             Common.Utils.InternalSettings.set("de-hide-right-settings", !open);
             this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
@@ -163,6 +165,10 @@ define([
 
             var $markup = $(this.template({}));
             this.$el.html($markup);
+
+            this.btnMoreContainer = $markup.find('#slot-right-menu-more');
+            Common.UI.SideMenu.prototype.render.call(this);
+            this.btnMore.menu.menuAlign = 'tr-tl';
 
             this.btnText.setElement($markup.findById('#id-right-menu-text'), false);           this.btnText.render();
             this.btnTable.setElement($markup.findById('#id-right-menu-table'), false);         this.btnTable.render();
@@ -198,7 +204,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings",      btn: this.btnMailMerge};
+                this._settings[Common.Utils.documentSettingsType.MailMerge]   = {panel: "id-mail-merge-settings", btn: this.btnMailMerge};
                 this.btnMailMerge.setElement($markup.findById('#id-right-menu-mail-merge'), false); this.btnMailMerge.render().setVisible(true);
                 this.btnMailMerge.on('click', this.onBtnMenuClick.bind(this));
                 this.mergeSettings = new DE.Views.MailMergeSettings();
@@ -214,7 +220,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings",      btn: this.btnSignature};
+                this._settings[Common.Utils.documentSettingsType.Signature]   = {panel: "id-signature-settings", btn: this.btnSignature};
                 this.btnSignature.setElement($markup.findById('#id-right-menu-signature'), false); this.btnSignature.render().setVisible(true);
                 this.btnSignature.on('click', this.onBtnMenuClick.bind(this));
                 this.signatureSettings = new DE.Views.SignatureSettings();
@@ -230,7 +236,7 @@ define([
                     toggleGroup: 'tabpanelbtnsGroup',
                     allowMouseEventsOnDisabled: true
                 });
-                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings",      btn: this.btnForm};
+                this._settings[Common.Utils.documentSettingsType.Form]   = {panel: "id-form-settings", btn: this.btnForm};
                 this.btnForm.setElement($markup.findById('#id-right-menu-form'), false); this.btnForm.render().setVisible(true);
                 this.btnForm.on('click', this.onBtnMenuClick.bind(this));
                 this.formSettings = new DE.Views.FormSettings();
@@ -261,16 +267,17 @@ define([
             me.api = api;
             var _fire_editcomplete = function() {me.fireEvent('editcomplete', me);};
             var _isEyedropperStart = function (isStart) {this._isEyedropperStart = isStart;};
+            var _updateScroller = function () {me.updateScroller();};
             this.paragraphSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
             this.headerSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             this.imageSettings.setApi(api).on('editcomplete', _fire_editcomplete);
-            this.chartSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            this.chartSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('updatescroller', _updateScroller);
             this.tableSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.shapeSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
-            this.textartSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this));
+            this.shapeSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
+            this.textartSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('eyedropper', _.bind(_isEyedropperStart, this)).on('updatescroller', _updateScroller);
             if (this.mergeSettings) this.mergeSettings.setApi(api).on('editcomplete', _fire_editcomplete);
             if (this.signatureSettings) this.signatureSettings.setApi(api).on('editcomplete', _fire_editcomplete);
-            if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', _fire_editcomplete);
+            if (this.formSettings) this.formSettings.setApi(api).on('editcomplete', _fire_editcomplete).on('updatescroller', _updateScroller);
         },
 
         setMode: function(mode) {
@@ -281,10 +288,14 @@ define([
         },
 
         onBtnMenuClick: function(btn, e) {
-            var target_pane = $("#" + this._settings[btn.options.asctype].panel);
-            var target_pane_parent = target_pane.parent();
+            var isPlugin = btn && btn.options.type === 'plugin',
+                target_pane_parent = $(this.el).find('.right-panel'),
+                target_pane;
+            if (btn && !isPlugin) {
+                target_pane = $("#" + this._settings[btn.options.asctype].panel);
+            }
 
-            if (btn.pressed) {
+            if (btn && btn.pressed) {
                 if ( this.minimizedMode ) {
                     $(this.el).width(MENU_SCALE_PART);
                     target_pane_parent.css("display", "inline-block" );
@@ -293,7 +304,7 @@ define([
                     Common.Utils.InternalSettings.set("de-hide-right-settings", false);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
-                target_pane.addClass("active");
+                target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
@@ -306,7 +317,7 @@ define([
                 Common.Utils.InternalSettings.set("de-hide-right-settings", true);
             }
 
-            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
+            btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
         SetActivePane: function(type, open) {
@@ -331,7 +342,8 @@ define([
         },
 
         GetActivePane: function() {
-            return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
+            var active = this.$el.find(".settings-panel.active");
+            return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
         clearSelection: function() {
@@ -348,6 +360,19 @@ define([
             $(this.el).width(SCALE_MIN);
             this.minimizedMode = true;
             Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updateScroller: function() {
+            if (this.scroller) {
+                this.scroller.update();
+                this.scroller.scrollTop(0);
+            }
+        },
+
+        setButtons: function () {
+            var allButtons = [this.btnText, this.btnTable, this.btnImage, this.btnHeaderFooter, this.btnShape, this.btnChart, this.btnTextArt,
+                    this.btnMailMerge, this.btnSignature, this.btnForm];
+            Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
         txtParagraphSettings:       'Paragraph Settings',

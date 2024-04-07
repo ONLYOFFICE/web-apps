@@ -478,6 +478,8 @@
 	"ARRAYTOTEXT": "TABLEAU.EN.TEXTE",
 	"SORT": "TRIER",
 	"SORTBY": "TRIERPAR",
+	"GETPIVOTDATA": "LIREDONNEESTABCROISDYNAMIQUE",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "En-têtes",
@@ -499,7 +501,22 @@
 			"num": "#NOMBRE!",
 			"na": "#N/A",
 			"getdata": "#CHARGEMENT_DONNEES",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adresse",
+			"col": "col",
+			"color": "couleur",
+			"contents": "contenu",
+			"filename": "nomfichier",
+			"format": "format",
+			"parentheses": "parentheses",
+			"prefix": "prefixe",
+			"protect": "protege",
+			"row": "ligne",
+			"type": "type",
+			"width": "largeur"
 		}
 	}
 }

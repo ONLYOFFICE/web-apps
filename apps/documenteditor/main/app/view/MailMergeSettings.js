@@ -639,9 +639,8 @@ define([
                     title: this.notcriticalErrorTitle,
                     msg: opts.data.error,
                     iconCls: 'warn',
-                    buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : ['custom', 'cancel'],
+                    buttons: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : [{value: 'custom', caption: this.textGoToMail}, 'cancel'],
                     primary: _.isEmpty(opts.data.createEmailAccountUrl) ? ['ok'] : 'custom',
-                    customButtonText: this.textGoToMail,
                     callback: _.bind(function(btn){
                         if (btn == 'custom') {
                             window.open(opts.data.createEmailAccountUrl, "_blank");
@@ -840,6 +839,7 @@ define([
                 viewMode: disable,
                 reviewMode: false,
                 fillFormMode: false,
+                viewDocMode: false,
                 allowMerge: true,
                 allowSignature: false,
                 allowProtect: false,
@@ -869,7 +869,7 @@ define([
         },
 
         openHelp: function(e) {
-            DE.getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/UseMailMerge.htm');
+            Common.NotificationCenter.trigger('file:help', 'UsageInstructions\/UseMailMerge.htm');
         },
 
         disablePreviewMode: function() {

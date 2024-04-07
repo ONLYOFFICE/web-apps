@@ -12,52 +12,10 @@
     position: absolute !important;
 }
 
-.background-cells-all(@border-color, @fill-Color,  @first-coord, @last-coord, @background-color: @background-normal){
-
-    background: linear-gradient( 90deg, @background-color, @background-color @first-coord, transparent @first-coord, transparent @last-coord,  @background-color @last-coord, @background-color),
-    linear-gradient(  @background-color, @background-color @first-coord, transparent @first-coord, transparent @last-coord,  @background-color @last-coord, @background-color),
-    linear-gradient( 90deg, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px, transparent 18px, @border-color  18px, @border-color  @last-coord, transparent @last-coord, transparent),
-    linear-gradient( transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, @fill-Color 2px, @fill-Color 18px, @border-color  18px, @border-color  @last-coord, transparent @last-coord, transparent );
-    background-size: 1em 1em;
-}
-
-.background-cells(@border-color, @fill-Color, @size-one-pixel: @scaled-one-px-value){
-    @first-coord: calc(2px - @size-one-pixel);
-    @last-coord: calc(18px + @size-one-pixel);
-    .background-cells-all(@border-color, @fill-Color, @first-coord, @last-coord);
-}
-
-.background-cells-ie(@border-color, @fill-Color){
-    .background-cells-all(@border-color, @fill-Color, @scaled-one-px-value-ie, 19px, @background-normal-ie);
+.rtl .dimension-picker-unhighlighted {
 }
 
 
-.dimension-picker div.dimension-picker-highlighted {
-    left: 0;
-    top: 0;
-    overflow: hidden;
-    position: absolute;
-
-    .background-cells-ie(@border-control-focus-ie, @highlight-button-pressed-ie);
-    &:not(.pixel-ratio__2){
-        .background-cells(@border-control-focus, @highlight-button-pressed);
-    }
-    .pixel-ratio__2 &{
-        .background-cells(@border-control-focus, @highlight-button-pressed, 0.5px);
-    }
-}
-
-.dimension-picker-unhighlighted {
-
-    .background-cells-ie(@border-regular-control-ie, @background-normal-ie);
-
-    &:not(.pixel-ratio__2){
-        .background-cells(@border-regular-control, @background-normal);
-    }
-    .pixel-ratio__2 &{
-        .background-cells(@border-regular-control, @background-normal, 0.5px);
-    }
-}
 
 .dimension-picker-status {
     .font-size-medium();

@@ -13,14 +13,14 @@
     <div id="status-zoom-box" class="status-group">
         <div class="separator short"></div>
         <button id="status-btn-zoomdown" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
-        <div class="cnt-zoom">
+        <div class="cnt-zoom" role="button" aria-haspopup="menu">
             <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
         <button id="status-btn-zoomup" type="button" class="btn small btn-toolbar"><i class="icon toolbar__icon btn-zoomup">&nbsp;</i></button>
     </div>
-    <div id="status-math-box" class="status-group">
+    <div id="status-math-box" class="status-group padding-right-4">
         <div class="separator short"></div>
         <label id="status-math-average">AVERAGE: 10</label>
         <label id="status-math-count">COUNT: 3</label>

@@ -60,7 +60,7 @@ define([
             this.template = [
                 '<div class="box" style="height: 245px;">',
                     '<div class="float-left">',
-                        '<label style="font-weight: bold;">' + this.textTitle + '</label>',
+                        '<label class="font-weight-bold">' + this.textTitle + '</label>',
                         '<div style="margin-top: 2px;">',
                             '<div style="display: inline-block;">',
                                 '<label class="input-label">' + this.textTop + '</label>',
@@ -82,23 +82,23 @@ define([
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textGutterPosition + '</label>',
+                            '<label class="font-weight-bold">' + this.textGutterPosition + '</label>',
                             '<div>',
                                 '<div style="display: inline-block;" id="page-margins-spin-gutter"></div>',
                                 '<div style="display: inline-block;" id="page-margins-spin-gutter-position" class="margin-left-8"></div>',
                             '</div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textOrientation + '</label>',
+                            '<label class="font-weight-bold">' + this.textOrientation + '</label>',
                             '<div id="page-margins-cmb-orientation"></div>',
                         '</div>',
                         '<div style="margin-top: 10px;">',
-                            '<label style="font-weight: bold;">' + this.textMultiplePages + '</label>',
+                            '<label class="font-weight-bold">' + this.textMultiplePages + '</label>',
                             '<div id="page-margins-cmb-multiple-pages"></div>',
                         '</div>',
                     '</div>',
                     '<div class="float-right">',
-                        '<label style="font-weight: bold;">' + this.textPreview + '</label>',
+                        '<label class="font-weight-bold">' + this.textPreview + '</label>',
                         '<div id="page-margins-preview" style="margin-top: 2px; height: 120px; width: 162px;"></div>',
                     '</div>',
                 '</div>'
@@ -310,7 +310,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages];
+            return [this.spnTop, this.spnBottom, this.spnLeft, this.spnRight, this.spnGutter, this.cmbGutterPosition, this.cmbOrientation, this.cmbMultiplePages].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

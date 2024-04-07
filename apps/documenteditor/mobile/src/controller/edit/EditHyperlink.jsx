@@ -90,7 +90,7 @@ class EditHyperlinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.onClosed('edit-link')}>
+                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.closeOptions('edit-link')}>
                         <EditHyperlink 
                             onEditLink={this.onEditLink}
                             onRemoveLink={this.onRemoveLink}
@@ -99,7 +99,7 @@ class EditHyperlinkController extends Component {
                         />
                     </Popup>
                 :
-                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('edit-link')}>
+                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('edit-link')}>
                         <View style={{height: '410px'}}>
                             <EditHyperlink 
                                 onEditLink={this.onEditLink}

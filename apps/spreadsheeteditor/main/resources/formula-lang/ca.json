@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "MATRIUATEXT",
 	"SORT": "ORDENA",
 	"SORTBY": "ORDENAPER",
+	"GETPIVOTDATA": "OBTEN.DADES.DINAMIQUES",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "adreça",
+			"col": "columna",
+			"color": "color",
+			"contents": "contingut",
+			"filename": "nom del fitxer",
+			"format": "format",
+			"parentheses": "parèntesis",
+			"prefix": "prefix",
+			"protect": "protecció",
+			"row": "fila",
+			"type": "tipus",
+			"width": "amplada"
 		}
 	}
 }

@@ -1896,7 +1896,7 @@
 		"d": "Palauttaa numerosarjan"
 	},
 	"EXPAND": {
-		"a": "(matriisi, rivit, [sarakkeet], [täyte])",
+		"a": "(matriisi, rivit, [sarakkeet], [pad_with])",
 		"d": "Laajentaa matriisin määritettyyn kokoon."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matriisi, matriisin_mukaan, [lajittelujärjestys], ...)",
 		"d": "Lajittelee alueen tai matriisin vastaavan alueen tai matriisin arvojen perusteella"
+	},
+	"GETPIVOTDATA": {
+		"a": "(tietokenttä; pivot_taulukko; [kenttä]; [osa]; ...)",
+		"d": "Poimii Pivot-taulukkoon tallennettuja tietoja."
+	},
+	"IMPORTRANGE": {
+		"a": "(laskentataulukon_url, alueen_merkkijono)",
+		"d": "Tuo tiedot määritetyn laskentataulukon soluväliltä."
 	}
 }

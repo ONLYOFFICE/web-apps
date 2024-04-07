@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"SORT": "SORT",
 	"SORTBY": "SORTBY",
+	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "주소",
+			"col": "열",
+			"color": "색상",
+			"contents": "내용",
+			"filename": "파일 이름",
+			"format": "형식",
+			"parentheses": "대괄호",
+			"prefix": "접두사",
+			"protect": "보호",
+			"row": "행",
+			"type": "유형",
+			"width": "너비"
 		}
 	}
 }

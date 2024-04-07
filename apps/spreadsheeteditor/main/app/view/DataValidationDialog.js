@@ -50,7 +50,7 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
     SSE.Views.DataValidationDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 320,
-            height: 330,
+            contentHeight: 245,
             toggleGroup: 'data-validation-group',
             storageName: 'sse-data-validation-category'
         },
@@ -263,11 +263,11 @@ define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.templ
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.cmbAllow, this.cmbData, this.chIgnore, this.chShowDropDown, this.inputRangeSource, this.inputRangeMin, this.inputRangeMax, this.chApply, // 0 tab
                 this.chShowInput, this.inputInputTitle, this.textareaInput,  // 1 tab
                 this.chShowError, this.cmbStyle, this.inputErrorTitle, this.textareaError  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

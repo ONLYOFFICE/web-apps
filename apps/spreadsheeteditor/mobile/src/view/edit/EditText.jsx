@@ -1,8 +1,8 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
+import {List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
-import {Device} from '../../../../../common/mobile/utils/device';
+import { Device } from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 
@@ -10,6 +10,8 @@ const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true});
+    const storeFocusObjects = props.storeFocusObjects;
+    const shapeObject = storeFocusObjects.shapeObject;
     const storeTextSettings = props.storeTextSettings;
     const textIn = storeTextSettings.textIn;
 
@@ -36,11 +38,11 @@ const EditText = props => {
                     changeFontFamily: props.changeFontFamily
                 }}/>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                         <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <ListItem title={_t.textTextColor} link="/edit-text-font-color/" routeProps={{
                     onTextColor: props.onTextColor
@@ -55,7 +57,7 @@ const EditText = props => {
                 <Fragment>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (paragraphAlign === AscCommon.align_Left ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
                                     <Icon slot="media" icon="icon-text-align-left"></Icon>
                                 </a>
@@ -68,10 +70,10 @@ const EditText = props => {
                                 <a className={'button' + (paragraphAlign === AscCommon.align_Justify ? ' active' : '')} onClick={() => {props.onParagraphAlign('justify')}}>
                                     <Icon slot="media" icon="icon-text-align-jast"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (paragraphValign === Asc.c_oAscVAlign.Top ? ' active' : '')} onClick={() => {props.onParagraphValign('top')}}>
                                     <Icon slot="media" icon="icon-text-valign-top"></Icon>
                                 </a>
@@ -81,14 +83,73 @@ const EditText = props => {
                                 <a className={'button' + (paragraphValign === Asc.c_oAscVAlign.Bottom ? ' active' : '')} onClick={() => {props.onParagraphValign('bottom')}}>
                                     <Icon slot="media" icon="icon-text-valign-bottom"></Icon>
                                 </a>
-                            </Row>
+                            </div>
                         </ListItem>
+                        {shapeObject &&
+                            <ListItem title={t('View.Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                                setOrientationTextShape: props.setOrientationTextShape,
+                                shapeObject
+                            }}>
+                                {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
+                            </ListItem>
+                        }
                     </List>
                 </Fragment>
             ) : null}
         </Fragment>
     );
 };
+
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('View.Edit', {returnObjects: true});
+    const shapeObject = props.shapeObject;
+    const [directionTextShape, setDirectionTextShape] = useState(shapeObject.get_Vert());
+    const isAndroid = Device.android;
+
+    return (
+        <Page>
+            <Navbar title={t('View.Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('View.Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon>
+                </ListItem>
+                <ListItem title={t('View.Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
 
 const PageFonts = props => {
     const isAndroid = Device.android;
@@ -101,8 +162,8 @@ const PageFonts = props => {
     const fonts = storeTextSettings.fontsArray;
     const iconWidth = storeTextSettings.iconWidth;
     const iconHeight = storeTextSettings.iconHeight;
-    const thumbs = storeTextSettings.thumbs;
-    const thumbIdx = storeTextSettings.thumbIdx;
+    // const thumbs = storeTextSettings.thumbs;
+    // const thumbIdx = storeTextSettings.thumbIdx;
     const thumbCanvas = storeTextSettings.thumbCanvas;
     const thumbContext = storeTextSettings.thumbContext;
     const spriteCols = storeTextSettings.spriteCols;
@@ -292,5 +353,6 @@ export {
     EditTextContainer as EditText,
     PageTextFonts,
     PageTextFontColor,
-    PageTextCustomFontColor
+    PageTextCustomFontColor,
+    PageOrientationTextShape
 };

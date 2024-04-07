@@ -1896,7 +1896,7 @@
 		"d": "Returnerer en sekvens af tal"
 	},
 	"EXPAND": {
-		"a": "(matrix, rækker, [kolonner], [pad_with])",
+		"a": "(matrix, rækker, [kolonner], [udfyld_med])",
 		"d": "Udvider en matrix til de angivne dimensioner."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matrix, efter_matrix, [sorteringsrækkefølge], ...)",
 		"d": "Sorterer et område eller en matrix baseret på værdierne i et tilsvarende område eller en tilsvarende matrix"
+	},
+	"GETPIVOTDATA": {
+		"a": "(datafelt; pivottabel; [felt]; [element]; ...)",
+		"d": "Uddrager data, der er gemt i en pivottabel"
+	},
+	"IMPORTRANGE": {
+		"a": "(regneark_webadresse, område_streng)",
+		"d": "Importerer et celleområde fra et angivet regneark."
 	}
 }

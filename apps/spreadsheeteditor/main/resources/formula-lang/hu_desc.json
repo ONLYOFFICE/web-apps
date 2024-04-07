@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(tömb, tömb_szerint, [rendezési_sorrend], ...)",
 		"d": "Tartományt vagy tömböt rendez a megfelelő tartományban vagy tömbben lévő értékek alapján."
+	},
+	"GETPIVOTDATA": {
+		"a": "(adat_mező; kimutatás; [mező]; [tétel]; ...)",
+		"d": "Kimutatásban tárolt adatokat gyűjt ki"
+	},
+	"IMPORTRANGE": {
+		"a": "(táblázat_url-címe, tartomány_karakterlánca)",
+		"d": "Cellatartományt importál a megadott táblázatból."
 	}
 }

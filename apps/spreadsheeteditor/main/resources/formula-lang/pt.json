@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "MATRIZPARATEXTO",
 	"SORT": "ORDENAR",
 	"SORTBY": "ORDENARPOR",
+	"GETPIVOTDATA": "OBTERDADOSDIN",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#CÁLC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "endereço",
+			"col": "col",
+			"color": "cor",
+			"contents": "conteúdo",
+			"filename": "nome.ficheiro",
+			"format": "formato",
+			"parentheses": "parênteses",
+			"prefix": "prefixo",
+			"protect": "proteger",
+			"row": "proteger",
+			"type": "tipo",
+			"width": "largura"
 		}
 	}
 }

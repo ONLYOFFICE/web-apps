@@ -46,7 +46,6 @@ define([
     DE.Views.TableToTextDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 300,
-            height: 254,
             header: true,
             style: 'min-width: 240px;',
             cls: 'modal-dlg',
@@ -60,7 +59,7 @@ define([
 
             this.template = [
                 '<div class="box">',
-                    '<div style="margin-bottom: 8px;"><label style="font-weight: bold;">' + this.textSeparator + '</label></div>',
+                    '<div style="margin-bottom: 8px;"><label class="font-weight-bold">' + this.textSeparator + '</label></div>',
                     '<div id="id-table-text-radio-para" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-tabs" style="margin-bottom: 8px;"></div>',
                     '<div id="id-table-text-radio-semi" style="margin-bottom: 5px;"></div>',
@@ -131,7 +130,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther, this.chNested];
+            return [this.rbPara, this.rbTabs, this.rbSemi, this.rbOther, this.inputOther, this.chNested].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

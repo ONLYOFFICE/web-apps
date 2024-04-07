@@ -2,13 +2,18 @@ import React, { Component } from "react";
 import { ApplicationSettings } from "../../view/settings/ApplicationSettings";
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
 import {observer, inject} from "mobx-react";
-import { Themes } from '../../../../../common/mobile/lib/controller/Themes.js';
+import { ThemesContext } from "../../../../../common/mobile/lib/controller/Themes";
+import { withTranslation } from 'react-i18next';
+import { f7 } from "framework7-react";
 
 class ApplicationSettingsController extends Component {
     constructor(props) {
         super(props);
         this.props.storeApplicationSettings.changeUnitMeasurement(Common.Utils.Metric.getCurrentMetric());
+        this.changeDirectionMode = this.changeDirectionMode.bind(this);
     }
+
+    static contextType = ThemesContext;
 
     setUnitMeasurement(value) {
         const api = Common.EditorApi.get();
@@ -27,16 +32,36 @@ class ApplicationSettingsController extends Component {
         LocalStorage.setItem("pe-mobile-macros-mode", value);
     }
 
+    changeDirectionMode(direction) {
+        const { t } = this.props;
+        const _t = t("View.Settings", { returnObjects: true });
+
+        this.props.storeApplicationSettings.changeDirectionMode(direction);
+        LocalStorage.setItem('mode-direction', direction);
+
+        f7.dialog.create({
+            title: _t.notcriticalErrorTitle,
+            text: t('View.Settings.textRestartApplication'),
+            buttons: [
+                {
+                    text: _t.textOk
+                }
+            ]
+        }).open();
+    }
+
     render() {
         return (
             <ApplicationSettings 
                 setUnitMeasurement={this.setUnitMeasurement}
                 switchSpellCheck={this.switchSpellCheck} 
                 setMacrosSettings={this.setMacrosSettings}
+                changeTheme={this.context.changeTheme}
+                changeDirectionMode={this.changeDirectionMode}
             />
         )
     }
 }
 
 
-export default inject("storeApplicationSettings")(observer(ApplicationSettingsController));
+export default inject("storeApplicationSettings", "storeAppOptions")(observer(withTranslation()(ApplicationSettingsController)));

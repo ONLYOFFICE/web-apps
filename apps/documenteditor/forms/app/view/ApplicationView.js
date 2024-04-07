@@ -46,9 +46,15 @@ define([
             this.btnOptions = new Common.UI.Button({
                 cls: 'btn-toolbar no-caret',
                 iconCls: 'svg-icon more-vertical',
+                scaling: false,
                 menu: new Common.UI.Menu({
                     cls: 'shifted-right',
                     items: [
+                        {caption: this.textUndo, value: 'undo', iconCls: 'mi-icon svg-icon undo', cls: 'small-resolution'},
+                        {caption: this.textRedo, value: 'redo', iconCls: 'mi-icon svg-icon redo', cls: 'small-resolution'},
+                        {caption: '--'},
+                        {caption: this.textClear, value: 'clear', iconCls: 'mi-icon svg-icon clear-style', cls: 'small-resolution'},
+                        {caption: '--'},
                         {caption: this.txtDownload, value: 'download', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadDocx, value: 'download-docx', iconCls: 'mi-icon svg-icon download'},
                         {caption: this.txtDownloadPdf, value: 'download-pdf', iconCls: 'mi-icon'},
@@ -98,39 +104,46 @@ define([
                 })
             });
             this.btnOptions.render($('#box-tools'));
+            this.btnOptions.menu.items[2].cmpEl.addClass('small-resolution');
+            this.btnOptions.menu.items[4].cmpEl.addClass('small-resolution');
 
 
             this.btnClear = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon clear-style',
-                caption: this.textClear
+                caption: this.textClear,
+                scaling: false
             });
             this.btnClear.render($('#id-btn-clear-fields'));
 
             this.btnNext = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon arrow-down',
-                caption: this.textNext
+                caption: this.textNext,
+                scaling: false
             });
             this.btnNext.render($('#id-btn-next-field'));
 
             this.btnPrev = new Common.UI.Button({
                 cls: 'btn-toolbar',
-                iconCls: 'svg-icon arrow-up'
+                iconCls: 'svg-icon arrow-up',
+                scaling: false
             });
             this.btnPrev.render($('#id-btn-prev-field'));
 
             this.btnUndo = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon undo',
-                hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z')
+                hint: this.tipUndo + Common.Utils.String.platformKey('Ctrl+Z'),
+                scaling: false
             });
             this.btnUndo.render($('#id-btn-undo'));
 
             this.btnRedo = new Common.UI.Button({
                 cls: 'btn-toolbar',
                 iconCls: 'svg-icon redo',
-                hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y')
+                hint: this.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'),
+                scaling: false
             });
             this.btnRedo.render($('#id-btn-redo'));
 
@@ -155,6 +168,15 @@ define([
                 value: '1',
                 maskExp: /[0-9]/
             });
+
+            this.btnClose = new Common.UI.Button({
+                cls: 'btn-toolbar margin-left-small',
+                iconCls: 'svg-icon search-close',
+                hint: this.textClose,
+                visible: false,
+                scaling: false
+            });
+            this.btnClose.render($('#id-btn-close-editor'));
 
             return this;
         },
@@ -200,7 +222,8 @@ define([
         txtSearch: 'Search',
         tipUndo: 'Undo',
         tipRedo: 'Redo',
-        textClearField: 'Clear field'
+        textClearField: 'Clear field',
+        textClose: 'Close file'
 
     }, DE.Views.ApplicationView || {}));
 });

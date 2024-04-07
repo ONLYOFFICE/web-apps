@@ -1896,7 +1896,7 @@
 		"d": "Returnerer en tallsekvens"
 	},
 	"EXPAND": {
-		"a": "(matrise, rader, [kolonner], [pad_with])",
+		"a": "(matrise, rader, [kolonner], [fyll_med])",
 		"d": "Utvider en matrise til de angitte dimensjonene."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matrise, etter_matrise, [sorteringsrekkefølge], ...)",
 		"d": "Sorterer et område eller en matrise basert på verdiene i et tilsvarende område eller en tilsvarende matrise"
+	},
+	"GETPIVOTDATA": {
+		"a": "(data_felt; pivottabell; [felt]; [element]; ...)",
+		"d": "Trekker ut data som er lagret i en pivottabell."
+	},
+	"IMPORTRANGE": {
+		"a": "(nettadresse_til_regneark; områdestreng)",
+		"d": "Importerer et celleområde fra et angitt regneark."
 	}
 }

@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "MATRIISI.TEKSTIKSI",
 	"SORT": "LAJITTELE",
 	"SORTBY": "LAJITTELE.ARVOJEN.PERUSTEELLA",
+	"GETPIVOTDATA": "NOUDA.PIVOT.TIEDOT",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
@@ -500,7 +502,22 @@
 			"num": "#NUM!",
 			"na": "#N/A",
 			"getdata": "#GETTING_DATA",
-			"uf": "#UNSUPPORTED_FUNCTION!"
+			"uf": "#UNSUPPORTED_FUNCTION!",
+			"calc": "#LASKE!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "osoite",
+			"col": "sarake",
+			"color": "väri",
+			"contents": "sisältö",
+			"filename": "tiedostonimi",
+			"format": "muoto",
+			"parentheses": "sulkeet",
+			"prefix": "etuliite",
+			"protect": "suojaus",
+			"row": "rivi",
+			"type": "tyyppi",
+			"width": "leveys"
 		}
 	}
 }

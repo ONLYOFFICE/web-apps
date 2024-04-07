@@ -336,7 +336,7 @@ Common.util.LanguageInfo = new(function() {
         0x0032 : ["tn", "Setswana"],
         0x0432 : ["tn-ZA", "Setswana (Aforika Borwa)", "Setswana (South Africa)"],
         0x005B : ["si", "සිංහ"],
-        0x045B : ["si-LK", "සිංහ (ශ්‍රී ලංකා)", "Sinhala (Sri Lanka)"],
+        0x045B : ["si-LK", "සිංහල (ශ්‍රී ලංකාව)", "Sinhala (Sri Lanka)"],
         0x001B : ["sk", "Slovenčina"],
         0x041B : ["sk-SK", "Slovenčina (Slovenská republika)", "Slovak (Slovakia)"],
         0x0024 : ["sl", "Slovenski"],

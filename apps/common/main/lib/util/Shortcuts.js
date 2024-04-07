@@ -77,7 +77,8 @@ Common.util = Common.util||{};
 
  define([
     'backbone',
-    'keymaster'
+    'keymaster',
+    'notification'
 ], function (Backbone) {
     'use strict';
 

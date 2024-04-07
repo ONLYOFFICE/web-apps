@@ -67,6 +67,13 @@ label {
                 border-left: @scaled-one-px-value solid @border-toolbar;
                 border-right: 0 none;
             }
+
+            .separator.horizontal {
+                position: relative;
+                width: 33px;
+                margin: 0 3px;
+                margin-bottom: 8px;
+            }
         }
     }
 
@@ -103,15 +110,24 @@ label {
     }
 }
 
+.btn-side-more.btn {
+    z-index: 0;
+}
+
+.btn-category.plugin-buttons {
+    img {
+        max-width: 20px;
+        max-height: 20px;
+    }
+}
+
 .left-panel {
-    padding-left: 40px;
+    .padding-left-40();
     height: 100%;
     border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
     border-right: @scaled-one-px-value solid @border-toolbar;
 
     .rtl & {
-        padding-right: 40px;
-        padding-left: 0;
         border-left: @scaled-one-px-value solid @border-toolbar;
         border-right: 0 none;
     }
@@ -133,7 +149,6 @@ label {
     width: 220px;
     height: 100%;
     display: none;
-    padding: 0 10px 0 15px;
     position: relative;
     overflow: hidden;
     border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
@@ -143,6 +158,14 @@ label {
     .rtl & {
         border-right: @scaled-one-px-value solid @border-toolbar;
         border-left: 0 none;
+    }
+
+    .settings-panel {
+        padding: 0 10px 0 15px;
+
+        .rtl & {
+            padding: 0 15px 0 10px;
+        }
     }
 }
 
@@ -171,14 +194,13 @@ label {
         max-height: 100%;
         position: relative;
         overflow: hidden;
-        float: left;
+        .float-left();
         border-right: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-right: @scaled-one-px-value solid @border-toolbar;
         background-color: @background-toolbar-ie;
         background-color: @background-toolbar;
 
         .rtl & {
-            float: right;
             border-right: none;
             border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
             border-left: @scaled-one-px-value solid @border-toolbar;
@@ -194,6 +216,13 @@ label {
         position: relative;
     }
 
+    .beta-hint {
+        background-color: #ffb400;
+        color: #6e4e00;
+        padding: 3px 5px;
+        border-radius: 2px;
+        .margin-left-10();
+    }
 }
 
 .settings-panel {
@@ -261,6 +290,13 @@ label {
     }
 }
 
+.plugin-panel {
+    display: none;
+    &.active {
+        display: block;
+    }
+}
+
 .dropdown-menu {
     > li > a {
         color: @text-normal-ie;
@@ -282,6 +318,10 @@ textarea {
         color: @text-tertiary-ie;
     }
     .placeholder();
+
+    .rtl & {
+        direction: rtl;
+    }
 }
 
 //.btn-edit-table,
@@ -344,11 +384,14 @@ body {
     font-family: @font-family-base;
 }
 
-.rtl .ps-scrollbar-y-rail {
-    right: unset !important;
-    left: 1px !important;
-    .ps-scrollbar-y {
-        left: 0 !important;
+.rtl .ps-container.oo {
+    .ps-scrollbar-y-rail {
+        right: unset !important;
+        left: 1px;
+
+        .ps-scrollbar-y {
+            left: 0;
+        }
     }
 }
 
@@ -369,4 +412,44 @@ body {
 .color-btn-wrap {
     display: flex;
     align-items: center;
+}
+
+.menu-add-smart-art {
+    .loading-item {
+        .box-shadow(0 0 0 @scaled-one-px-value-ie @border-regular-control-ie);
+        .box-shadow(0 0 0 @scaled-one-px-value @border-regular-control);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .loading-spinner {
+            display: block;
+            width: 28px;
+            height: 28px;
+            background-image: ~"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuNSIgcj0iNy4yNSIgc3Ryb2tlLWRhc2hhcnJheT0iMTYwJSwgNDAlIiAvPjwvc3ZnPg==)";
+            background-color: transparent;
+            opacity: 0.5;
+            animation-duration: .8s;
+            animation-name: rotation;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+
+            .theme-type-dark & {
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.icon-rtl {
+    .rtl & {
+        transform: scaleX(-1);
+    }
+}
+
+// only for test screen reader focus manager
+.focus-mode {
+    :focus {
+        outline: 1px solid red !important;
+    }
 }

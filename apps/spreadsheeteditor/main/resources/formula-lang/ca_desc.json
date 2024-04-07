@@ -1896,7 +1896,7 @@
 		"d": "Retorna una seqüència de nombres"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(matriu, files, [columnes], [pad_with])",
 		"d": "Expandeix una matriu a les dimensions especificades"
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matriu, per_matriu, [criteri_ordenació], ...)",
 		"d": "Ordena un interval o una matriu segons els valors d'un interval o d'una matriu corresponent"
+	},
+	"GETPIVOTDATA": {
+		"a": "(camp_dades; taula_dinàmica; [camp]; [element]; ...)",
+		"d": "Extreu les dades emmagatzemades en una taula dinàmica."
+	},
+	"IMPORTRANGE": {
+		"a": "(spreadsheet_url, cadena_interval)",
+		"d": "Importa un interval de cel·les d'un full de càlcul especificat."
 	}
 }

@@ -1896,7 +1896,7 @@
 		"d": "Vráti postupnosť čísel"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(pole, riadky, [stĺpce], [pad_with])",
 		"d": "Rozšíri pole na zadané rozmery."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(pole, podľa_poľa, [poradie_zoradenia], ...)",
 		"d": "Zoradí rozsah alebo pole podľa hodnôt v zodpovedajúcom rozsahu alebo poli"
+	},
+	"GETPIVOTDATA": {
+		"a": "(údajové_pole; kontingenčná_tabuľka; [pole]; [položka]; ...)",
+		"d": "Extrahuje údaje uložené v kontingenčnej tabuľke"
+	},
+	"IMPORTRANGE": {
+		"a": "(webová_adresa_tabuľky, reťazec_rozsahu)",
+		"d": "Importuje rozsah buniek zo zadanej tabuľky."
 	}
 }

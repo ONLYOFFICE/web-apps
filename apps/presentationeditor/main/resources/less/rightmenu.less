@@ -1,19 +1,10 @@
 
-.settings-panel {
-}
-
 .right-panel .settings-panel {
     label.input-label{
         vertical-align: baseline;
     }
 
     .btn.align-left {
-        text-align: left;
-
-        .rtl & {
-            text-align: right;
-        }
-
         .pixel-ratio__2_5 & {
             display: flex;
             align-items: center;
@@ -183,6 +174,24 @@
     margin-right: 62px !important;
 }
 
+.item-shadow {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border-radius: 1px;
+        border: 1px @icon-normal-ie solid;
+        border: 1px @icon-normal solid;
+    }
+}
+
+
 #signature-requested-sign,
 #signature-valid-sign,
 #signature-invalid-sign {
@@ -242,6 +251,10 @@
                 margin: 2px;
                 right: 26px;
             }
+        }
+
+        .rtl & {
+            padding: 5px 15px 5px 2px;
         }
     }
 }

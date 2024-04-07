@@ -1896,7 +1896,7 @@
 		"d": "Gibt eine Abfolge von Zahlen zurück."
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(Array, Zeilen, [Spalten], [füllen_mit])",
 		"d": "Erweitert eine Matrix auf die angegebenen Dimensionen."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(Matrix, nach_Matrix, [Sortierreihenfolge], ...)",
 		"d": "Sortiert einen Bereich oder eine Matrix, basierend auf den Werten in einem entsprechenden Bereich oder einer entsprechenden Matrix."
+	},
+	"GETPIVOTDATA": {
+		"a": "(Datenfeld; PivotTable; [Feld]; [Element]; ...)",
+		"d": "Extrahiert Daten, die in einer PivotTable gespeichert sind"
+	},
+	"IMPORTRANGE": {
+		"a": "(URL_der_Tabelle, Bereichszeichenfolge)",
+		"d": "Importiert einen Zellenbereich aus einer angegebenen Tabelle."
 	}
 }

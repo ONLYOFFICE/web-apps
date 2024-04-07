@@ -1896,7 +1896,7 @@
 		"d": "Zwraca sekwencję liczb"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(tablica, wiersze, [kolumny], [dopełnij])",
 		"d": "Rozwija tablicę do określonych wymiarów."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(tablica, według_tablicy, [kolejność_sortowania], ...)",
 		"d": "Sortuje zakres lub tablicę na podstawie wartości w odpowiednim zakresie lub odpowiedniej tablicy"
+	},
+	"GETPIVOTDATA": {
+		"a": "(pole_danych; tabela_przestawna; [pole]; [element]; ...)",
+		"d": "Wyodrębnia dane przechowywane w tabeli przestawnej."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_arkusza; ciąg_zakresu)",
+		"d": "Importuje zakres komórek z określonego arkusza kalkulacyjnego."
 	}
 }

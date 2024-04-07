@@ -5,7 +5,7 @@
 
     .view {
         display: inline-block;
-        float: left;
+        .float-left();
         overflow: hidden;
         width: @combo-dataview-width;
         height: 100%;
@@ -15,10 +15,6 @@
         background-color: @background-normal-ie;
         background-color: @background-normal;
 
-        .rtl & {
-            float: right;
-        }
-
         .dataview {
             padding: 1px;
         }
@@ -26,11 +22,7 @@
 
     .button {
         display: inline-block;
-        float: right;
-
-        .rtl & {
-            float: left;
-        }
+        .float-right();
 
         button {
             border-radius:0 @border-radius-small @border-radius-small 0;
@@ -45,9 +37,11 @@
 
             &.dropdown-toggle {
                 .inner-box-caret {
-                    padding: 0 1px 0 0;
+                    &,
+                    .rtl & {
+                        padding: 0 1px 0 0;
+                    }
                 }
-
                 .caret {
 //                    width: 7px;
 //                    height: 7px;
@@ -109,25 +103,27 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: calc(@combo-dataview-button-width - @scaled-two-px-value);
+        .padding-right(calc(@combo-dataview-button-width - @scaled-two-px-value));
 
         .border-left-radius(0);
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: @combo-dataview-button-width;
-
-            .border-radius(@border-radius-small);
-            .border-right-radius(0);
-        }
 
         .dataview {
             @minus-px: calc(-1px / @pixel-ratio-factor);
             height: @combo-dataview-height;
             height: @combo-dataview-height-calc;
             padding: 0;
-            margin: -1 0 0 -1;
+            margin: -1px 0 0 -1px;
             margin: @minus-px 0 0 @minus-px;
+        }
+        .rtl & {
+            .border-radius(@border-radius-small);
+            .border-right-radius(0);
+
+            .dataview {
+                @minus-px: calc(-1px / @pixel-ratio-factor);
+                margin: -1px -1px 0 0;
+                margin: @minus-px @minus-px 0 0;
+            }
         }
     }
 
@@ -261,12 +257,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: @combo-dataview-button-width;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: @combo-dataview-button-width;
-        }
+        .padding-right(@combo-dataview-button-width);
 
         .dataview {
             padding: 2px;
@@ -305,12 +296,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: @combo-dataview-button-width;
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: @combo-dataview-button-width;
-        }
+        .padding-right(@combo-dataview-button-width);
     }
 
     .button {
@@ -347,7 +333,7 @@
     }
 
     .dropdown-menu {
-        padding-right: 2px;
+        .padding-x(1px, 2px);
     }
 
     .ps-scrollbar-y-rail {
@@ -398,12 +384,7 @@
 
     top: -4px;
     position: absolute;
-    padding-right: 12px;
-
-    .rtl & {
-        padding-right: 0;
-        padding-left: 12px;
-    }
+    .padding-right-12();
 
     .more-container & {
         position: static;
@@ -459,12 +440,7 @@
 
     .view {
         .margin-right(-@combo-dataview-button-width);
-        padding-right: calc(@combo-dataview-button-width - @scaled-one-px-value);
-
-        .rtl & {
-            padding-right: 0;
-            padding-left: calc(@combo-dataview-button-width - @scaled-one-px-value);
-        }
+        .padding-right(calc(@combo-dataview-button-width - @scaled-one-px-value));
     }
 
     .view .dataview, .dropdown-menu {
@@ -483,12 +459,12 @@
         margin: @combo-dataview-item-margins;
         .box-shadow(none);
 
-        &:hover {
+        &:hover:not(.disabled) {
             .box-shadow(0 0 0 2px @border-preview-hover-ie);
             .box-shadow(0 0 0 @scaled-two-px-value @border-preview-hover);
         }
 
-        &.selected {
+        &.selected:not(.disabled) {
             .box-shadow(0 0 0 2px @border-preview-select-ie);
             .box-shadow(0 0 0 @scaled-two-px-value @border-preview-select);
         }

@@ -109,6 +109,10 @@
             position: relative;
         }
 
+        .loadmask > .sktoolbar ul {
+            height: 25px;
+        }
+
         .loadmask > .sktoolbar li {
             background: #d8dadc;
             background: var(--highlight-button-hover, #d8dadc);
@@ -130,8 +134,12 @@
             top: 0;
             bottom: 0;
             left: 854px;
-            width: inherit;
+            width: 670px;
             height: 44px;
+        }
+        .rtl .loadmask > .sktoolbar li.fat {
+            right: 854px;
+            left: 0;
         }
 
         .loadmask > .skformula {
@@ -272,6 +280,7 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
             logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
@@ -283,7 +292,6 @@
             document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
         }
     </script>
-    <script src="../../common/main/lib/util/themeinit.js"></script>
     <link rel="stylesheet" type="text/css" href="../../../../sdkjs/cell/css/main.css"/>
 
     <!-- debug begin -->
@@ -292,7 +300,7 @@
     <script src="../../common/main/lib/util/themeinit.js"></script>
 </head>
 
-<body>
+<body role="application">
     <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;"><div>
@@ -311,7 +319,7 @@
         </div>
     </div>
 
-    <div id="viewport"></div>
+    <div id="viewport" role="main"></div>
 
     <script>
         var params = getUrlParams(),
@@ -356,10 +364,15 @@
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {
-            var elem = document.querySelector('.loading-logo img');
-            if (elem) {
-                (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
-                elem.style.opacity = 1;
+            if (hideLogo) {
+                var elem = document.querySelector('.loading-logo');
+                elem && (elem.style.display = 'none');
+            } else {
+                var elem = document.querySelector('.loading-logo img');
+                if (elem) {
+                    (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                    elem.style.opacity = 1;
+                }
             }
         }
     </script>

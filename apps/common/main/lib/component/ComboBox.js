@@ -82,6 +82,7 @@ define([
                 disabled    : false,
                 menuCls     : '',
                 menuStyle   : '',
+                restoreMenuHeight: true,
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
@@ -95,13 +96,13 @@ define([
 
             template: _.template([
                 '<span class="input-group combobox <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                    '<input type="text" class="form-control" spellcheck="false" placeholder="<%= placeHolder %>" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">',
                         '<span class="caret"></span>',
                     '</button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%= item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>" role="option"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -129,6 +130,9 @@ define([
                 this.search         = me.options.search;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
+
+                this.restoreMenuHeight = me.options.restoreMenuHeight;
+
                 me.rendered         = me.options.rendered || false;
 
                 this.lastValue = null;
@@ -249,6 +253,9 @@ define([
                     this.setDefaultSelection();
 
                     this.listenTo(this.store, 'reset',  this.onResetItems);
+
+                    if (this.options.ariaLabel)
+                        this.cmpEl.find('.form-control').attr('aria-label', this.options.ariaLabel);
                 }
 
                 me.rendered = true;
@@ -287,6 +294,7 @@ define([
 
             closeMenu: function() {
                 this.cmpEl.removeClass('open');
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
             },
 
             isMenuOpen: function() {
@@ -329,6 +337,7 @@ define([
             },
 
             onAfterShowMenu: function(e) {
+                this.alignMenuPosition();
                 var $list = $(this.el).find('ul'),
                     $selected = $list.find('> li.selected');
 
@@ -351,8 +360,38 @@ define([
                 if (this.scroller)
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
 
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'true');
+
                 this.trigger('show:after', this, e, {fromKeyDown: e===undefined});
                 this._search = {};
+            },
+
+            alignMenuPosition: function () {
+                if (this.restoreMenuHeight) {
+                    var $list = $(this.el).find('ul');
+                    if (typeof this.restoreMenuHeight !== "number") {
+                        var maxHeight = parseFloat($list.css('max-height'));
+                        if ($list.hasClass('scrollable-menu') || maxHeight) {
+                            this.restoreMenuHeight = maxHeight ? maxHeight : 100000;
+                        } else {
+                            this.restoreMenuHeight = 100000;
+                        }
+                    }
+                    var cg = Common.Utils.croppedGeometry(),
+                        docH = cg.height - 10,
+                        menuH = $list.outerHeight(),
+                        menuTop = $list.get(0).getBoundingClientRect().top,
+                        newH = menuH;
+
+                    if (menuH < this.restoreMenuHeight)
+                        newH = this.restoreMenuHeight;
+
+                    if (menuTop + newH > docH)
+                        newH = docH - menuTop;
+
+                    if (newH !== menuH)
+                        $list.css('max-height', newH + 'px');
+                }
             },
 
             onBeforeHideMenu: function(e) {
@@ -364,6 +403,7 @@ define([
 
             onAfterHideMenu: function(e, isFromInputControl) {
                 this.cmpEl.find('.dropdown-toggle').blur();
+                this.cmpEl.find('.form-control').attr('aria-expanded', 'false');
                 this.trigger('hide:after', this, e, isFromInputControl);
                 Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
                 if (this.options.takeFocusOnClose) {
@@ -377,6 +417,7 @@ define([
 
             onAfterKeydownMenu: function(e) {
                 if (e.keyCode == Common.UI.Keys.DOWN && !this.editable && !this.isMenuOpen()) {
+                    this.onBeforeShowMenu();
                     this.openMenu();
                     this.onAfterShowMenu();
                     return false;

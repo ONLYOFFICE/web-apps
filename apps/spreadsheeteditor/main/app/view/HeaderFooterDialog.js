@@ -81,7 +81,7 @@ define([
             };
 
             this.template = [
-                '<div class="box" style="height: 400px;">',
+                '<div class="box">',
                     '<table cols="2" style="width: 450px;margin-bottom: 30px;">',
                         '<tr>',
                             '<td style="padding-bottom: 8px;">',
@@ -100,7 +100,7 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
-                    '<div class="input-row input-row--tabs" style="margin-bottom: 15px;">',
+                    '<div class="input-row input-row-tabs" style="margin-bottom: 15px;">',
                         '<button type="button" class="btn btn-text-default auto" id="id-dlg-hf-btn-all" style="border-radius: 0;">', this.textAll,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-odd" style="border-radius: 0;">', this.textOdd,'</button>',
                         '<button type="button" class="btn btn-text-default auto hidden" id="id-dlg-hf-btn-even" style="border-radius: 0;">', this.textEven,'</button>',
@@ -274,7 +274,7 @@ define([
                 parentEl: $('#id-dlg-h-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 115px;',
+                style: 'width: 122px;',
                 menu: true
             });
 
@@ -282,7 +282,7 @@ define([
                 parentEl: $('#id-dlg-f-presets'),
                 cls: 'btn-text-menu-default',
                 caption: this.textPresets,
-                style: 'width: 115px;',
+                style: 'width: 122px;',
                 menu: true
             });
 
@@ -292,16 +292,17 @@ define([
                 {caption: this.textDate, value: Asc.c_oAscHeaderFooterField.date},
                 {caption: this.textTime, value: Asc.c_oAscHeaderFooterField.time},
                 {caption: this.textFileName, value: Asc.c_oAscHeaderFooterField.fileName},
-                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName}
+                {caption: this.textSheet, value: Asc.c_oAscHeaderFooterField.sheetName},
+                {caption: this.textImage, value: Asc.c_oAscHeaderFooterField.picture}
             ];
 
             this.btnInsertH = new Common.UI.Button({
                 parentEl: $('#id-dlg-h-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 115px;',
+                style: 'width: 120px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 115px;',
+                    style: 'min-width: 120px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -314,9 +315,9 @@ define([
                 parentEl: $('#id-dlg-f-insert'),
                 cls: 'btn-text-menu-default',
                 caption: this.textInsert,
-                style: 'width: 115px;',
+                style: 'width: 120px;',
                 menu: new Common.UI.Menu({
-                    style: 'min-width: 115px;',
+                    style: 'min-width: 120px;',
                     maxHeight: 200,
                     additionalAlign: this.menuAddAlign,
                     items: data
@@ -329,7 +330,7 @@ define([
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-h-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 130px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -343,7 +344,7 @@ define([
             this.cmbFonts.push(new Common.UI.ComboBoxFonts({
                 el          : $('#id-dlg-f-fonts'),
                 cls         : 'input-group-nr',
-                style       : 'width: 142px;',
+                style       : 'width: 130px;',
                 menuCls     : 'scrollable-menu',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
                 store       : new Common.Collections.Fonts(),
@@ -573,9 +574,9 @@ define([
             this.mnuTextColorPicker.push(initNewColor(this.btnTextColor[1]));
             this.footerControls.push(this.btnTextColor[1]);
 
-            this.btnOk = new Common.UI.Button({
-                el: $window.find('.primary')
-            });
+            this.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
@@ -1029,7 +1030,8 @@ define([
         textOdd: 'Odd page',
         textEven: 'Even page',
         textAll: 'All pages',
-        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.'
+        textMaxError: 'The text string you entered is too long. Reduce the number of characters used.',
+        textImage: 'Picture'
 
     }, SSE.Views.HeaderFooterDialog || {}))
 });

@@ -52,8 +52,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         options: {
             alias: 'NameManagerDlg',
             contentWidth: 540,
-            height: 330,
-            buttons: null,
+            buttons: ['close'],
+            separator: false,
             id: 'window-name-manager'
         },
 
@@ -61,14 +61,8 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
             var me = this;
             _.extend(this.options, {
                 title: this.txtTitle,
-                template: [
-                    '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
-                    '<div class="content-panel" style="padding: 0;">' + _.template(contentTemplate)({scope: this}) + '</div>',
-                    '</div>',
-                    '<div class="footer center">',
-                    '<button class="btn normal dlg-btn" result="cancel" style="width: 86px;">' + this.closeButtonText + '</button>',
-                    '</div>'
-                ].join('')
+                contentStyle: 'padding: 0;',
+                contentTemplate: _.template(contentTemplate)({scope: this})
             }, options);
 
             this.api        = options.api;
@@ -128,10 +122,10 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
                         '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                             '<div class="listitem-icon toolbar__icon margin-right-5 <% print(isTable?"btn-menu-table":(isSlicer ? "btn-slicer" : "btn-named-range")) %>"></div>',
                             '<div style="width:146px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 5px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
-                            '<div style="width:122px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 5px;"><%= scopeName %></div>',
-                            '<div style="width:209px;"><%= range %></div>',
+                            '<div style="width:122px;padding-<% if (Common.UI.isRTL()) { %>left<% } else {%>right<% } %>: 5px;"><%= Common.Utils.String.htmlEncode(scopeName) %></div>',
+                            '<div style="width:209px;"><%= Common.Utils.String.htmlEncode(range) %></div>',
                             '<% if (lock) { %>',
-                                '<div class="lock-user"><%=lockuser%></div>',
+                                '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                             '<% } %>',
                         '</div>'
                 ].join('')),
@@ -168,7 +162,7 @@ define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
         },
 
         getFocusedComponents: function() {
-            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList];
+            return [ this.cmbFilter, this.btnNewRange, this.btnEditRange, this.btnDeleteRange, this.rangeList].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

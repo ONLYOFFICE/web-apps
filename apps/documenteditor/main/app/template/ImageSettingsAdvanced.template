@@ -41,7 +41,7 @@
             <td style="vertical-align: bottom; padding-bottom: 19px;">
                 <div id="shape-radio-hsizepc"></div>
             </td>
-            <td class="padding-large padding-right">
+            <td class="padding-large padding-right-15">
                 <label class="input-label"><%= scope.textRelativeWH %></label>
                 <div id="shape-advanced-spin-width-rel"></div>
             </td>
@@ -68,7 +68,7 @@
             <td style="vertical-align: bottom; padding-bottom: 19px;">
                 <div id="shape-radio-vsizepc"></div>
             </td>
-            <td class="padding-large padding-right">
+            <td class="padding-large padding-right-15">
                 <label class="input-label"><%= scope.textRelativeWH %></label>
                 <div id="shape-advanced-spin-height-rel"></div>
             </td>
@@ -93,8 +93,8 @@
 <div id="id-adv-image-rotate" class="settings-panel active">
     <div class="inner-content  padding-large">
         <div style="width: 100%;">
-            <label class="input-label"><%= scope.textAngle %></label>
-            <div id="image-advanced-spin-angle" class="margin-left-5" style="display: inline-block;"></div>
+            <label class="input-label vertical-align-baseline"><%= scope.textAngle %></label>
+            <div id="image-advanced-spin-angle" class="margin-left-5 vertical-align-baseline" style="display: inline-block;"></div>
         </div>
     </div>
     <div class="separator horizontal padding-large"></div>
@@ -171,7 +171,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="image-radio-hposition image-radio-hpositionpc">
                     <div id="image-radio-halign"></div>
                 </td>
                 <td class="padding-small">
@@ -215,7 +215,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="vertical-align: bottom; padding-bottom: 12px;">
+                <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="image-radio-vposition image-radio-vpositionpc">
                     <div id="image-radio-valign"></div>
                 </td>
                 <td class="padding-small">

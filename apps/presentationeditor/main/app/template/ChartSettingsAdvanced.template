@@ -1,3 +1,15 @@
+<div id="id-adv-chart-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textChartName %></label>
+                <div id="chart-advanced-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
 <div  id="id-adv-chart-placement" class="settings-panel active">
     <div class="inner-content">
         <table cols="3">

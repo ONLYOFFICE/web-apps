@@ -135,12 +135,15 @@ define([
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, Asc.c_oAscHyperlinkType.RangeLink));
 
-            me.inputUrl = new Common.UI.InputField({
+            var config = {
                 el          : $('#id-dlg-hyperlink-url'),
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                iconCls: 'toolbar__icon btn-browse',
+                placeHolder: me.appOptions.isDesktopApp ? me.txtUrlPlaceholder : '',
+                btnHint: me.textSelectFile,
                 validation  : function(value) {
                     var trimmed = $.trim(value);
                     if (me.api.asc_getFullHyperlinkLength(trimmed)>2083) return me.txtSizeLimit;
@@ -148,7 +151,8 @@ define([
                     me.urlType = me.api.asc_getUrlType(trimmed);
                     return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
                 }
-            });
+            };
+            me.inputUrl = me.appOptions.isDesktopApp ? new Common.UI.InputFieldBtn(config) : new Common.UI.InputField(config);
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange_url && me.inputUrl.showError();
                 me.isInputFirstChange_url = false;
@@ -156,6 +160,7 @@ define([
                 me.isAutoUpdate && me.inputDisplay.setValue(val);
                 me.btnOk.setDisabled($.trim(val)=='');
             });
+            me.appOptions.isDesktopApp && me.inputUrl.on('button:click', _.bind(me.onSelectFile, me));
 
             me.inputRange = new Common.UI.InputFieldBtn({
                 el          : $('#id-dlg-hyperlink-range'),
@@ -241,10 +246,10 @@ define([
             me.linkGetLink = $('#id-dlg-hyperlink-get-link');
             me.linkGetLink.toggleClass('hidden', !(me.appOptions && me.appOptions.canMakeActionLink));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary'),
-                disabled: true
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
+            me.btnOk.setDisabled(true);
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
@@ -255,7 +260,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip];
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputRange, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
         },
 
         show: function() {
@@ -570,6 +575,23 @@ define([
             }
         },
 
+        onSelectFile: function() {
+            var me = this;
+            if (me.api) {
+                var callback = function(result) {
+                    if (result) {
+                        me.inputUrl.setValue(result);
+                        if (me.inputUrl.checkValidate() !== true)
+                            me.isInputFirstChange_url = true;
+                        me.isAutoUpdate && me.inputDisplay.setValue(result);
+                        me.btnOk.setDisabled($.trim(result)=='');
+                    }
+                };
+
+                me.api.asc_getFilePath(callback); // change sdk function
+            }
+        },
+
         textTitle:          'Hyperlink Settings',
         textInternalLink:   'Place in Document',
         textExternalLink:   'Web Link',
@@ -590,6 +612,8 @@ define([
         textGetLink: 'Get Link',
         textCopy: 'Copy',
         textSelectData: 'Select data',
-        txtSizeLimit: 'This field is limited to 2083 characters'
+        txtSizeLimit: 'This field is limited to 2083 characters',
+        txtUrlPlaceholder: 'Enter the web address or select a file',
+        textSelectFile: 'Select file'
     }, SSE.Views.HyperlinkSettingsDialog || {}))
 });

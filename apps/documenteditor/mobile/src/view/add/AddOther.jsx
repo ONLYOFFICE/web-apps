@@ -193,7 +193,6 @@ const AddOther = props => {
                 <Icon slot="media" icon="icon-image"></Icon>
             </ListItem>
             {(isText && !disabledAddLink) && <ListItem title={_t.textLink} href={isHyperLink ? '/edit-link/' : '/add-link/'} routeProps={{
-                onClosed: props.onCloseLinkSettings,
                 isNavigate: true
             }}>
                 <Icon slot="media" icon="icon-link"></Icon>

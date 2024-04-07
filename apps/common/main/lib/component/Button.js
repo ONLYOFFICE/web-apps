@@ -191,6 +191,10 @@ define([
                     'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); %>' +
             '<% } %>';
 
+    var templateBtnCaption =
+        '<%= caption %>' +
+        '<i class="caret"></i>';
+
     var templateHugeCaption =
             '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
                 '<div class="inner-box-icon">' +
@@ -208,9 +212,7 @@ define([
                     templateBtnIcon +
                 '</div>' +
                 '<div class="inner-box-caption">' +
-                    '<span class="caption"><%= caption %>' +
-                        '<i class="caret"></i>' +
-                    '</span>' +
+                    '<span class="caption">' + templateBtnCaption + '</span>' +
                     '<i class="caret compact-caret"></i>' +
                 '</div>' +
             '</button>' +
@@ -225,9 +227,7 @@ define([
             '</button>' +
             '<button type="button" class="btn <%= cls %> inner-box-caption dropdown-toggle" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>' +
                 '<span class="btn-fixflex-vcenter">' +
-                    '<span class="caption"><%= caption %>' +
-                        '<i class="caret"></i>' +
-                    '</span>' +
+                    '<span class="caption">' + templateBtnCaption + '</span>' +
                     '<i class="caret compact-caret"></i>' +
                 '</span>' +
             '</button>' +
@@ -261,6 +261,7 @@ define([
         options : {
             id              : null,
             hint            : false,
+            delayRenderHint : true,
             enableToggle    : false,
             allowDepress    : true,
             toggleGroup     : null,
@@ -276,6 +277,8 @@ define([
             dataHintDirection: '',
             dataHintOffset: '0, 0',
             scaling         : true,
+            canFocused      : false, // used for button with menu
+            takeFocusOnClose: false // used for button with menu, for future use in toolbar when canFocused=true, but takeFocusOnClose=false
         },
 
         template: _.template([
@@ -289,11 +292,21 @@ define([
                         'print(\'<i class=\"icon \' + iconCls + \'\">&nbsp;</i>\'); ' +
                 '}} %>',
             '<% } %>',
-            '<% if ( !menu ) { %>',
+            '<% if ( !menu && onlyIcon ) { %>',
+                '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
+                    '<% applyicon() %>',
+                '</button>',
+            '<% } else if ( !menu ) { %>',
                 '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
                     '<% applyicon() %>',
                     '<span class="caption"><%= caption %></span>',
                 '</button>',
+            '<% } else if (onlyIcon) {%>',
+                '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
+                    '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
+                        '<% applyicon() %>',
+                    '</button>',
+                '</div>',
             '<% } else if (split == false) {%>',
                 '<div class="btn-group" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn dropdown-toggle <%= cls %>" data-toggle="dropdown" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>>',
@@ -305,7 +318,7 @@ define([
                     '</button>',
                 '</div>',
             '<% } else { %>',
-                '<div class="btn-group split" id="<%= id %>" style="<%= style %>">',
+                '<div class="btn-group split <%= groupCls %>" id="<%= id %>" style="<%= style %>">',
                     '<button type="button" class="btn <%= cls %>">',
                         '<% applyicon() %>',
                         '<span class="caption"><%= caption %></span>',
@@ -339,10 +352,17 @@ define([
             me.template     = me.options.template || me.template;
             me.style        = me.options.style;
             me.rendered     = false;
+            me.stopPropagation = me.options.stopPropagation;
+            me.delayRenderHint = me.options.delayRenderHint;
+
+            // if ( /(?<!-)svg-icon(?!-)/.test(me.options.iconCls) )
+            //     me.options.scaling = false;
 
             if ( me.options.scaling === false && me.options.iconCls) {
                 me.iconCls = me.options.iconCls + ' scaling-off';
             }
+
+            me.options.takeFocusOnClose && (me.options.canFocused = true);
 
             if (me.options.el) {
                 me.render();
@@ -426,10 +446,12 @@ define([
                     me.cmpEl = $(this.template({
                         id           : me.id,
                         cls          : me.cls,
+                        groupCls     : me.split && /btn-toolbar/.test(me.cls) ? 'no-borders' : '',
                         iconCls      : me.iconCls,
                         iconImg      : me.options.iconImg,
                         menu         : me.menu,
                         split        : me.split,
+                        onlyIcon     : me.options.onlyIcon,
                         disabled     : me.disabled,
                         pressed      : me.pressed,
                         caption      : me.caption,
@@ -440,8 +462,10 @@ define([
                         dataHintTitle: me.options.dataHintTitle
                     }));
 
-                    if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render))
+                    if (me.menu && _.isObject(me.menu) && _.isFunction(me.menu.render)) {
                         me.menu.render(me.cmpEl);
+                        me.options.canFocused && me.attachKeyEvents();
+                    }
 
                     parentEl.html(me.cmpEl);
                     me.$icon = me.$el.find('.icon');
@@ -453,50 +477,12 @@ define([
                     isGroup = el.hasClass('btn-group'),
                     isSplit = el.hasClass('split');
 
-                if (me.options.hint) {
-                    var modalParents = me.cmpEl.closest('.asc-window');
-
-                    if (typeof me.options.hint == 'object' && me.options.hint.length>1 && $('button', el).length>0) {
-                        var btnEl = $('button', el);
-                        me.btnEl = $(btnEl[0]);
-                        me.btnMenuEl = $(btnEl[1]);
-                    } else {
-                        me.btnEl = me.cmpEl;
-                        me.btnEl.attr('data-toggle', 'tooltip');
-                    }
-                    me.btnEl.tooltip({
-                        title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
-                        placement   : me.options.hintAnchor||'cursor'
-                    });
-                    me.btnMenuEl && me.btnMenuEl.tooltip({
-                        title       : me.options.hint[1],
-                        placement   : me.options.hintAnchor||'cursor'
-                    });
-
-                    if (modalParents.length > 0) {
-                        me.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                        me.btnMenuEl && me.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                        var onModalClose = function(dlg) {
-                            if (modalParents[0] !== dlg.$window[0]) return;
-                            var tip = me.btnEl.data('bs.tooltip');
-                            if (tip) {
-                                if (tip.dontShow===undefined)
-                                    tip.dontShow = true;
-
-                                tip.hide();
-                            }
-                            Common.NotificationCenter.off({'modal:close': onModalClose});
-                        };
-                        Common.NotificationCenter.on({'modal:close': onModalClose});
-                    }
-                }
-
                 if (_.isString(me.toggleGroup)) {
                     me.enableToggle = true;
                 }
 
                 var buttonHandler = function(e) {
-                    if (!me.disabled && e.which == 1) {
+                    if (!me.disabled && (e.which === 1 || e.which===undefined)) {
                         me.doToggle();
                         if (me.options.hint) {
                             var tip = me.btnEl.data('bs.tooltip');
@@ -507,6 +493,7 @@ define([
                                 tip.hide();
                             }
                         }
+                        me.split && me.options.takeFocusOnClose && me.focus();
                         me.trigger('click', me, e);
                     }
                 };
@@ -539,9 +526,10 @@ define([
 
                         $('button:first', el).toggleClass('active', select);
                     } else
-                        $('[data-toggle^=dropdown]', el).toggleClass('active', select);
+                        $('[data-toggle^=dropdown]:first', el).toggleClass('active', select);
 
                     el.toggleClass('active', select);
+                    me.stopPropagation && e.stopPropagation();
                 };
 
                 var menuHandler = function(e) {
@@ -556,8 +544,7 @@ define([
                                     tip.hide();
                                 }
                             }
-                            var isOpen = el.hasClass('open');
-                            doSplitSelect(!isOpen, 'arrow', e);
+                            doSplitSelect(!me.isMenuOpen(), 'arrow', e);
                         }
                     }
                 };
@@ -569,6 +556,7 @@ define([
                         el.toggleClass('active', state);
                         $('button', el).toggleClass('active', state);
                     }
+                    me.stopPropagation && e.stopPropagation();
                 };
 
                 var splitElement;
@@ -634,9 +622,24 @@ define([
                         }
                     });
                 }
+
+                var $btn = $('button', el).length>0 ? $('button', el) : me.cmpEl;
+                if (me.enableToggle && !me.menu) {
+                    $btn.attr('aria-pressed', !!me.pressed)
+                }
+
+                if (me.menu) {
+                    $('[data-toggle^=dropdown]', el).attr('aria-haspopup', 'menu');
+                }
+
+                if (!me.caption && me.options.hint) {
+                    $btn.attr('aria-label', (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
+                }
             }
 
             me.rendered = true;
+
+            me.options.hint && me.createHint(me.options.hint);
 
             if (me.pressed) {
                 me.toggle(me.pressed, true);
@@ -667,8 +670,10 @@ define([
 
             this.pressed = state;
 
-            if (this.cmpEl)
+            if (this.cmpEl) {
+                this.cmpEl.attr('aria-pressed', state);
                 this.cmpEl.trigger('button.internal.active', [state]);
+            }
 
             if (!suppressEvent)
                 this.trigger('toggle', this, state);
@@ -685,7 +690,7 @@ define([
             if (this.enableToggle)
                 return this.pressed;
 
-            return this.cmpEl.hasClass('active')
+            return this.cmpEl.hasClass('active');
         },
 
         setDisabled: function(disabled) {
@@ -731,6 +736,12 @@ define([
                         me.trigger('disabled', me, disabled);
                     }
                 }
+
+                if (me.tabindex!==undefined) {
+                    var el = this.split ? this.cmpEl : this.$el && this.$el.find('button').addBack().filter('button');
+                    disabled && (this.tabindex = el.attr('tabindex'));
+                    el.attr('tabindex', disabled ? "-1" : me.tabindex);
+                }
             }
 
             this.disabled = disabled;
@@ -749,10 +760,11 @@ define([
             if (/svgicon/.test(this.iconCls)) {
                 var icon = /svgicon\s(\S+)/.exec(this.iconCls);
                 svgIcon.attr('xlink:href', icon && icon.length > 1 ? '#' + icon[1] : '');
-            } else if (svgIcon.length) {
-                var icon = /btn-[^\s]+/.exec(this.iconCls);
-                svgIcon.attr('href', icon ? '#' + icon[0]: '');
             } else {
+                if (svgIcon.length) {
+                    var icon = /btn-[^\s]+/.exec(this.iconCls);
+                    svgIcon.attr('href', icon ? '#' + icon[0]: '');
+                }
                 btnIconEl.removeClass(oldCls);
                 btnIconEl.addClass(cls || '');
                 if (this.options.scaling === false) {
@@ -791,14 +803,14 @@ define([
             return (this.cmpEl) ? this.cmpEl.is(":visible") : $(this.el).is(":visible");
         },
 
-        updateHint: function(hint, isHtml) {
+        createHint: function(hint, isHtml) {
             this.options.hint = hint;
-
             if (!this.rendered) return;
-            
-            var cmpEl = this.cmpEl,
-                modalParents = cmpEl.closest('.asc-window');
 
+            var me = this,
+                cmpEl = this.cmpEl,
+                modalParents = cmpEl.closest('.asc-window'),
+                tipZIndex = modalParents.length > 0 ? parseInt(modalParents.css('z-index')) + 10 : undefined;
 
             if (!this.btnEl) {
                 if (typeof this.options.hint == 'object' && this.options.hint.length>1 && $('button', cmpEl).length>0) {
@@ -807,30 +819,81 @@ define([
                     this.btnMenuEl = $(btnEl[1]);
                 } else {
                     this.btnEl = cmpEl;
-                    this.btnEl.attr('data-toggle', 'tooltip');
                 }
             }
 
-            if (this.btnEl.data('bs.tooltip'))
-                this.btnEl.removeData('bs.tooltip');
-            if (this.btnMenuEl && this.btnMenuEl.data('bs.tooltip'))
-                this.btnMenuEl.removeData('bs.tooltip');
-
-            this.btnEl.tooltip({
-                html: !!isHtml,
-                title       : (typeof hint == 'string') ? hint : hint[0],
-                placement   : this.options.hintAnchor||'cursor'
-            });
-            this.btnMenuEl && this.btnMenuEl.tooltip({
-                html: !!isHtml,
-                title       : hint[1],
-                placement   : this.options.hintAnchor||'cursor'
-            });
-
-            if (modalParents.length > 0) {
-                this.btnEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
-                this.btnMenuEl && this.btnMenuEl.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+            var tip = this.btnEl.data('bs.tooltip');
+            tip && tip.updateTitle(typeof hint === 'string' ? hint : hint[0]);
+            if (this.btnMenuEl) {
+                tip = this.btnMenuEl.data('bs.tooltip');
+                tip && tip.updateTitle(hint[1]);
             }
+            if (!this._isTooltipInited) {
+                if (this.delayRenderHint) {
+                    this.btnEl.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        me.btnEl.tooltip({
+                            html: !!isHtml,
+                            title       : (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0],
+                            placement   : me.options.hintAnchor||'cursor',
+                            zIndex : tipZIndex
+                        });
+                        !Common.Utils.isGecko && (me.btnEl.data('bs.tooltip').enabled = !me.disabled);
+                        me.btnEl.mouseenter();
+                    });
+                    this.btnMenuEl && this.btnMenuEl.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        me.btnMenuEl.tooltip({
+                            html: !!isHtml,
+                            title       : me.options.hint[1],
+                            placement   : me.options.hintAnchor||'cursor',
+                            zIndex : tipZIndex
+                        });
+                        !Common.Utils.isGecko && (me.btnMenuEl.data('bs.tooltip').enabled = !me.disabled);
+                        me.btnMenuEl.mouseenter();
+                    });
+                } else {
+                    this.btnEl.tooltip({
+                        html: !!isHtml,
+                        title       : (typeof this.options.hint == 'string') ? this.options.hint : this.options.hint[0],
+                        placement   : this.options.hintAnchor||'cursor',
+                        zIndex      : tipZIndex
+                    });
+                    this.btnMenuEl && this.btnMenuEl.tooltip({
+                        html: !!isHtml,
+                        title       : this.options.hint[1],
+                        placement   : this.options.hintAnchor||'cursor',
+                        zIndex      : tipZIndex
+                    });
+                }
+                if (modalParents.length > 0) {
+                    var onModalClose = function(dlg) {
+                        if (modalParents[0] !== dlg.$window[0]) return;
+                        var tip = me.btnEl.data('bs.tooltip');
+                        if (tip) {
+                            if (tip.dontShow===undefined)
+                                tip.dontShow = true;
+                            tip.hide();
+                        }
+                        if (me.btnMenuEl) {
+                            tip = me.btnMenuEl.data('bs.tooltip');
+                            if (tip) {
+                                if (tip.dontShow===undefined)
+                                    tip.dontShow = true;
+                                tip.hide();
+                            }
+                        }
+                        Common.NotificationCenter.off({'modal:close': onModalClose});
+                    };
+                    Common.NotificationCenter.on({'modal:close': onModalClose});
+                }
+                this._isTooltipInited = true;
+            }
+        },
+
+        updateHint: function(hint, isHtml) {
+            this.options.hint = hint;
+            if (!this.rendered) return;
+
+            this.createHint(hint, isHtml);
 
             if (this.disabled || !Common.Utils.isGecko) {
                 var tip = this.btnEl.data('bs.tooltip');
@@ -846,11 +909,17 @@ define([
                     }
                 }
             }
+
+            if (!this.caption) {
+                var cmpEl = this.cmpEl,
+                    $btn = $('button', cmpEl).length>0 ? $('button', cmpEl) : cmpEl;
+                $btn.attr('aria-label', (typeof hint == 'string') ? hint : hint[0]);
+            }
         },
 
         setCaption: function(caption) {
             if (this.caption != caption) {
-                if ( /icon-top/.test(this.cls) && !!this.caption && /huge/.test(this.cls) ) {
+                if ( /icon-top/.test(this.options.cls) && !!this.caption && /huge/.test(this.options.cls) ) {
                     var newCaption = this.getCaptionWithBreaks(caption);
                     this.caption = newCaption || caption;
                 } else
@@ -860,7 +929,7 @@ define([
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.html(this.caption);
+                        captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
                     } else {
                         this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }
@@ -871,8 +940,29 @@ define([
         setMenu: function (m) {
             if (m && _.isObject(m) && _.isFunction(m.render)){
                 this.menu = m;
-                if (this.rendered)
+                if (this.rendered) {
                     this.menu.render(this.cmpEl);
+                    this.options.canFocused && this.attachKeyEvents();
+                }
+            }
+        },
+
+        attachKeyEvents: function() {
+            var me = this;
+            if (me.menu && me.menu.rendered && me.cmpEl) {
+                var btnEl = $('button', me.cmpEl);
+                !me.split && btnEl.addClass('move-focus');
+                me.menu.on('keydown:before', function(menu, e) {
+                    if ((e.keyCode === Common.UI.Keys.DOWN || e.keyCode === Common.UI.Keys.SPACE) && !me.isMenuOpen()) {
+                        $(btnEl[me.split ? 1 : 0]).click();
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                });
+                me.options.takeFocusOnClose && me.menu.on('hide:after', function() {
+                    setTimeout(function(){me.focus();}, 1);
+                });
             }
         },
 
@@ -887,7 +977,8 @@ define([
                         const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
                         const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
-                        const svg_icon = '<svg class="icon"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name);
+                        const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
+                        const svg_icon = '<svg class="icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
 
                         me.$el.find('i.icon').after(svg_icon);
                     }
@@ -900,9 +991,88 @@ define([
             }
         },
 
+        isMenuOpen: function() {
+            return this.cmpEl && this.cmpEl.hasClass('open');
+        },
+
         focus: function() {
-            this.$el && this.$el.find('button').addBack().filter('button').focus();
+            this.split ? this.cmpEl.focus() : this.$el && this.$el.find('button').addBack().filter('button').focus();
+        },
+
+        setTabIndex: function(tabindex) {
+            if (!this.rendered)
+                return;
+
+            this.tabindex = tabindex.toString();
+            if (!this.disabled) {
+                this.split ? this.cmpEl.attr('tabindex', this.tabindex) : this.$el && this.$el.find('button').addBack().filter('button').attr('tabindex', this.tabindex);
+            }
         }
     });
+
+    Common.UI.ButtonCustom = Common.UI.Button.extend(_.extend({
+        initialize : function(options) {
+            options.iconCls = 'icon-custom ' + (options.iconCls || '');
+            Common.UI.Button.prototype.initialize.call(this, options);
+
+            this.iconsSet = Common.UI.iconsStr2IconsObj(options.iconsSet || ['']);
+            var icons = Common.UI.getSuitableIcons(this.iconsSet);
+            this.iconNormalImg = icons['normal'];
+            this.iconActiveImg = icons['active'];
+        },
+
+        render: function (parentEl) {
+            Common.UI.Button.prototype.render.call(this, parentEl);
+
+            var _current_active = false,
+                me = this;
+            this.cmpButtonFirst = $('button:first', this.$el || $(this.el));
+            const _callback = function (records, observer) {
+                var _hasactive = me.cmpButtonFirst.hasClass('active') || me.cmpButtonFirst.is(':active');
+                if ( _hasactive !== _current_active ) {
+                    me.updateIcon();
+                    _current_active = _hasactive;
+                }
+            };
+            this.cmpButtonFirst[0] && (new MutationObserver(_callback))
+                .observe(this.cmpButtonFirst[0], {
+                    attributes : true,
+                    attributeFilter : ['class'],
+                });
+
+            if (this.menu && !this.split) {
+                var onMouseDown = function (e) {
+                    _callback();
+                    $(document).on('mouseup',   onMouseUp);
+                };
+                var onMouseUp = function (e) {
+                    _callback();
+                    $(document).off('mouseup',   onMouseUp);
+                };
+                this.cmpButtonFirst.on('mousedown', _.bind(onMouseDown, this));
+            }
+
+            this.updateIcon();
+            Common.NotificationCenter.on('uitheme:changed', this.updateIcons.bind(this));
+        },
+
+        updateIcons: function() {
+            var icons = Common.UI.getSuitableIcons(this.iconsSet);
+            this.iconNormalImg = icons['normal'];
+            this.iconActiveImg = icons['active'];
+            this.updateIcon();
+        },
+
+        updateIcon: function() {
+            this.$icon && this.$icon.css({'background-image': 'url('+ (this.cmpButtonFirst && (this.cmpButtonFirst.hasClass('active') || this.cmpButtonFirst.is(':active')) ? this.iconActiveImg : this.iconNormalImg) +')'});
+        },
+
+        applyScaling: function (ratio) {
+            if ( this.options.scaling !== ratio ) {
+                this.options.scaling = ratio;
+                this.updateIcons();
+            }
+        }
+    }, Common.UI.ButtonCustom || {}));
 });
 

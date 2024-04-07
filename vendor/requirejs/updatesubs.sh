@@ -48,6 +48,9 @@ echo "Updating volojs/create-responsive-template"
 cp require.js ../../volojs/create-responsive-template/www/js/lib/require.js
 cp ../r.js/r.js ../../volojs/create-responsive-template/tools/r.js
 
+echo "Updating amodrojs/amodro-trace"
+cp require.js ../../amodrojs/amodro-trace/lib/loader/require.js
+
 # The cajon project
 echo "Updating the cajon project"
 cp require.js ../cajon/tools/require.js
@@ -55,11 +58,6 @@ cp ../r.js/r.js ../cajon/tools/r.js
 cd ../cajon/tools
 ./build-cajon.js
 cd ../../requirejs
-
-# The require-cs project
-echo "Updating the require-cs CoffeeScript plugin"
-cp require.js ../require-cs/demo/lib/require.js
-cp ../r.js/r.js ../require-cs/tools/r.js
 
 # The npm container stuff
 echo "Updating requirejs-npm"

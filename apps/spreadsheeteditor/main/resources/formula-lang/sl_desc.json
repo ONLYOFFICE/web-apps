@@ -1896,7 +1896,7 @@
 		"d": "Vrne zaporedje števil"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(matrika, vrstice, [stolpce], [pad_with])",
 		"d": "Razširi polje na določene dimenzije."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(array, by_array, [sort_order], ...)",
 		"d": "Razvrsti obseh ali polje glede na vrednosti v pripadajočem obsegu ali polju"
+	},
+	"GETPIVOTDATA": {
+		"a": "(podatkovno_polje; vrtilna_tabela; [polje]; [element]; ...)",
+		"d": "Ekstrahira podatke, ki so shranjeni v vrtilni tabeli."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_preglednice, niz_obsega)",
+		"d": "Uvozi obseg celic iz podane preglednice."
 	}
 }

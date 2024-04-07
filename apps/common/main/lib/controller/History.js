@@ -74,6 +74,7 @@ define([
             this.panelHistory.storeHistory.on('reset', _.bind(this.onResetStore, this));
             this.panelHistory.on('render:after', _.bind(this.onAfterRender, this));
             Common.Gateway.on('sethistorydata', _.bind(this.onSetHistoryData, this));
+            Common.NotificationCenter.on('mentions:setusers', _.bind(this.avatarsUpdate, this));
         },
 
         setApi: function(api) {
@@ -99,8 +100,7 @@ define([
 
         onResetStore: function() {
             var hasChanges = this.panelHistory.storeHistory.hasChanges();
-            this.panelHistory.$el.find('#history-expand-changes')[hasChanges ? 'show' : 'hide']();
-            this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
+            this.panelHistory.btnExpand.setDisabled(!hasChanges);
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -114,7 +114,7 @@ define([
             if (e) {
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
-                    if (record.get('isRevision'))
+                    if (!record.get('hasParent'))
                         Common.Gateway.requestRestore(record.get('revision'), undefined, record.get('fileType'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
@@ -271,14 +271,27 @@ define([
             var store = this.panelHistory.storeHistory,
                 needExpand = store.hasCollapsed();
 
-            store.where({isRevision: true, hasChanges: true, isExpanded: !needExpand}).forEach(function(item){
-                item.set('isExpanded', needExpand);
-            });
-            store.where({isRevision: false}).forEach(function(item){
-                item.set('isVisible', needExpand);
-            });
-            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: this.panelHistory.viewHistoryList.minScrollbarLength});
-            this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
+            if(needExpand) {
+                this.panelHistory.viewHistoryList.expandAll();
+            } else {
+                this.panelHistory.viewHistoryList.collapseAll();
+            }
+            this.panelHistory.btnExpand.setCaption(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
+        },
+
+        avatarsUpdate: function(type, users) {
+            if (type!=='info') return;
+
+            if (users && users.length>0 ){
+                this.panelHistory.storeHistory.each(function(item){
+                    var user = _.findWhere(users, {id: item.get('userid')});
+                    if (user && (user.image!==undefined)) {
+                        if (user.image !== item.get('avatar')) {
+                            item.set('avatar', user.image);
+                        }
+                    }
+                });
+            }
         },
 
         notcriticalErrorTitle: 'Warning'

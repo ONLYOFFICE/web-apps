@@ -1896,7 +1896,7 @@
 		"d": "Renvoie une séquence de nombres"
 	},
 	"EXPAND": {
-		"a": "(array, rows, [columns], [pad_with])",
+		"a": "(tableau, lignes, [colonnes], [pad_with])",
 		"d": "Développe un tableau aux dimensions spécifiées."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(tableau, par_tableau, [ordre_tri], ...)",
 		"d": "Trie une plage ou un tableau sur la base des valeurs d’une plage ou d’un tableau correspondant"
+	},
+	"GETPIVOTDATA": {
+		"a": "(champ_données; tableau_croisé_dyn; [champ]; [élément]; ...)",
+		"d": "Extrait des données d'un tableau croisé dynamique."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_feuille; chaîne_plage)",
+		"d": "Importe une plage de cellules depuis une feuille de calcul spécifiée."
 	}
 }

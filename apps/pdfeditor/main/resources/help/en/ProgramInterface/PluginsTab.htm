@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>Plugins tab</title>
+		<meta charset="utf-8" />
+        <meta name="description" content="Introducing the PDF Editor user interface - Plugins tab" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
+		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
+        <script type="text/javascript" src="../callback.js"></script>
+        <script type="text/javascript" src="../search/js/page-search.js"></script>
+	</head>
+	<body>
+		<div class="mainpart">
+        <div class="search-field">
+            <input id="search" class="searchBar" placeholder="Search" type="text" onkeypress="doSearch(event)">
+        </div>
+			<h1>Plugins tab</h1>
+            <p>The <b>Plugins</b> tab in the <!--<a target="_blank" href="https://www.onlyoffice.com/presentation-editor.aspx" onclick="onhyperlinkclick(this)">--><b>PDF Editor</b><!--</a>--> makes it possible to access advanced editing features using the available third-party components. <!--Here you can also use macros to simplify routine operations.--></p>
+            <div class="onlineDocumentFeatures">
+                <p>The corresponding window of the Online PDF Editor:</p>
+                <p><img alt="Plugins tab" src="../images/interface/pluginstab.png" /></p>
+            </div>
+            <div class="desktopDocumentFeatures">
+                <p>The corresponding window of the Desktop PDF Editor:</p>
+                <p><img alt="Plugins tab" src="../images/interface/desktop_pluginstab.png" /></p>
+            </div>
+            <!--<p class="desktopDocumentFeatures">The <b>Plugin Manager</b> button allows you to open the window where you can view and manage all installed plugins and add your own ones.</p>
+            <p>The <b>Macros</b> button allows to open the window where you can create your own macros and run them. To learn more about macros, please refer to our <a target="_blank" href="https://api.onlyoffice.com/plugin/macros" onclick="onhyperlinkclick(this)">API Documentation</a>.</p>-->
+            <p>The <b>Background Plugins</b> button allows viewing the list of plugins that work in the background. Here you can activate or disable them by activating/deactivating the corresponding switches, and adjust their settings by clicking the <b>More</b> button next to the required plugin.</p>
+            <p>Currently, the following plugins are available:</p>		
+            <ul>
+                <li class="desktopDocumentFeatures"><b>Send</b> allows sending the presentation via email using the default desktop mail client (available in the <em>desktop version</em> only),</li>
+                <li><a href="../UsageInstructions/HTML.htm" onclick="onhyperlinkclick(this)"><b>Get and paste html</b></a> allows you to get the selected text as an HTML code.</li>
+                <li><a href="../UsageInstructions/CommunicationPlugins.htm" onclick="onhyperlinkclick(this)"><b>Telegram</b></a> can be integrated into your working area to continue chatting.</li>
+                <!--<li><a href="../UsageInstructions/Typograf.htm" onclick="onhyperlinkclick(this)"><b>Typograf</b></a> automatically places non-breaking spaces and removes extra ones, as well as corrects minor typos, inserts correct quotes, replaces hyphens with dashes, etc.</li>-->
+                <li><a href="../UsageInstructions/WordCounter.htm" onclick="onhyperlinkclick(this)"><b>Count words and characters</b></a> counts the exact number of words and symbols, both with and without spaces, in your PDF, as well as the number of paragraphs altogether.</li>
+                <li>
+                    <a href="../UsageInstructions/Translator.htm" onclick="onhyperlinkclick(this)"><b>Translator</b></a> allows translating the selected text into other languages,
+                    <p class="note">This plugin doesn't work with Internet Explorer.</p>
+                </li>
+                <li><a href="../UsageInstructions/Thesaurus.htm" onclick="onhyperlinkclick(this)"><b>Thesaurus</b></a> allows searching for synonyms and antonyms of a word<!--and replace it with the selected one-->,</li>
+                <li class="onlineDocumentFeatures"><a href="../UsageInstructions/Speech.htm" onclick="onhyperlinkclick(this)"><b>Speech</b></a> allows converting the selected text into speech,</li>
+                <!--<li class="onlineDocumentFeatures"><a href="../UsageInstructions/Speechinput.htm" onclick="onhyperlinkclick(this)"><b>Speech input</b></a> allows converting speech into text.</li>-->
+            </ul>
+            <p>Several visual plugins can be added to your document. The added plugins will be displayed as corresponding icons on the left panel.</p>
+            <p>To learn more about plugins, please refer to our <a target="_blank" href="https://api.onlyoffice.com/plugin/basic" onclick="onhyperlinkclick(this)">API Documentation</a>. All the currently existing open-source plugin examples are available on <a target="_blank" href="https://github.com/ONLYOFFICE/sdkjs-plugins" onclick="onhyperlinkclick(this)">GitHub</a>.</p>
+		</div>
+	</body>
+</html>

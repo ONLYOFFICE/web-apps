@@ -278,8 +278,7 @@ DE.ApplicationController = new(function(){
 
         window["flat_desine"] = true;
         api = new Asc.asc_docs_api({
-            'id-view'  : 'editor_sdk',
-            'embedded' : true
+            'id-view'  : 'editor_sdk'
         });
 
         if (api){

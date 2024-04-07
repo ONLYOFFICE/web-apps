@@ -55,8 +55,7 @@ define([
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM}
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
@@ -111,7 +110,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
                 this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
@@ -123,10 +122,12 @@ define([
             }
 
             if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 2); // remove docxf and oform
+                this.formats[0].splice(3, 1); // remove docxf
             }
 
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase(), header: this.textDownloadAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'docx').toLowerCase(),
+                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'DE.Views.FileMenu', default:this.textDownloadAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -178,8 +179,7 @@ define([
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'},
-            {name: 'OFORM',  imgCls: 'oform',  type: Asc.c_oAscFileType.OFORM, ext: '.oform'}
+            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
@@ -235,7 +235,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
                 this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
@@ -247,10 +247,12 @@ define([
             }
 
             if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 2); // remove docxf and oform
+                this.formats[0].splice(3, 1); // remove docxf
             }
 
-            this.$el.html(this.template({rows:this.formats, fileType: (this.fileType || 'docx').toLowerCase(), header: this.textSaveCopyAs}));
+            this.$el.html(this.template({rows:this.formats,
+                fileType: (this.fileType || 'docx').toLowerCase(),
+                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'DE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -316,6 +318,9 @@ define([
                     '<td colspan="2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
                 '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-smart-selection"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-compatible"></span></td>',
                 '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
@@ -326,7 +331,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
-                    '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-fast"></div>',
+                    '<td colspan="2"><div style="display: flex;" role="radiogroup" aria-owns="fms-rb-coauth-mode-strict"><div id="fms-rb-coauth-mode-fast"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
                     '<label class="comment-text"><%= scope.txtFastTip %></label></span></div>',
                     '</td>',
@@ -342,7 +347,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.txtShowTrackChanges %></label></td>',
                 '</tr>',
                 '<tr class="view-review">',
-                    '<td colspan="2"><div id="fms-rb-show-track-ballons"></div></td>',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-show-track-tooltips"><div id="fms-rb-show-track-ballons"></div></td>',
                 '</tr>',
                 '<tr class="view-review">',
                     '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
@@ -352,7 +357,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
-                    '<td colspan="2"><div id="fms-rb-show-changes-none"></div></td>',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-show-changes-all"><div id="fms-rb-show-changes-none"></div></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-all"></div></td>',
@@ -390,6 +395,9 @@ define([
                 '<tr>',
                     '<td colspan="2" class="group-name"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
+                '<tr>',
+                    '<td colspan="2"><div id="fms-chb-scrn-reader"></div></td>',
+                '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-align-guides"></span></td>',
                 '</tr>',
@@ -397,7 +405,7 @@ define([
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
                 '<tr class="ui-rtl">',
-                    '<td colspan="2"><div id="fms-chb-rtl-ui"></div></td>',
+                    '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
                 '<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
@@ -437,7 +445,7 @@ define([
 
         '</div>',
         '<div class="fms-flex-apply hidden">',
-            '<table style="margin: 10px 14px;"><tbody>',
+            '<table style="margin: 10px 20px;"><tbody>',
                 '<tr>',
                     '<td><button class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
                     '<td></td>',
@@ -464,6 +472,14 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chScreenReader = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-scrn-reader'),
+                labelText: this.txtScreenReader,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             /** coauthoring begin **/
             this.chLiveComment = new Common.UI.CheckBox({
@@ -520,6 +536,14 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chSmartSelection = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-smart-selection'),
+                labelText: this.textSmartSelection,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.chAutosave = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-autosave'),
                 labelText: this.textAutoSave,
@@ -557,6 +581,7 @@ define([
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
+                    { value: -3, displayValue: this.txtLastUsed },
                     { value: -1, displayValue: this.txtFitPage },
                     { value: -2, displayValue: this.txtFitWidth },
                     { value: 50, displayValue: "50%" },
@@ -584,11 +609,14 @@ define([
                 name        : 'coauth-mode',
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strFast + ' ' + this.txtFastTip
             });
-            this.rbCoAuthModeFast.on('change', function(){
-                me.chAutosave.setValue(1);
-                me.onChangeCoAuthMode(1);
+            this.rbCoAuthModeFast.on('change', function(field, newValue, eOpts){
+                if (newValue) {
+                    me.chAutosave.setValue(1);
+                    me.onChangeCoAuthMode(1);
+                }
             });
             this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
@@ -597,9 +625,12 @@ define([
                 name        : 'coauth-mode',
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strStrict + ' ' + this.txtStrictTip
             });
-            this.rbCoAuthModeStrict.on('change', _.bind(this.onChangeCoAuthMode, this,0));
+            this.rbCoAuthModeStrict.on('change', function(field, newValue, eOpts){
+                newValue && me.onChangeCoAuthMode(0);
+            });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 
             this.rbChangesBallons = new Common.UI.RadioBox({
@@ -715,7 +746,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
                 dataHint: '2',
@@ -817,7 +848,7 @@ define([
         updateScroller: function() {
             if (this.scroller) {
                 Common.UI.Menu.Manager.hideAll();
-                var scrolled = this.$el.height()< this.pnlTable.parent().height() + 25 + this.pnlApply.height() + this.$el.find('.header').outerHeight(true);
+                var scrolled = this.$el.height()< this.pnlTable.parent().height() + 25 + this.pnlApply.height();
                 this.pnlApply.toggleClass('hidden', !scrolled);
                 this.trApply.toggleClass('hidden', scrolled);
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
@@ -850,7 +881,7 @@ define([
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 
-            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -864,12 +895,12 @@ define([
 
         updateSettings: function() {
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("de-settings-show-alt-hints"));
+            this.chScreenReader.setValue(Common.Utils.InternalSettings.get("app-settings-screen-reader"));
 
             var value = Common.Utils.InternalSettings.get("de-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
             var item = this.cmbZoom.store.findWhere({value: value});
             this.cmbZoom.setValue(item ? parseInt(item.get('value')) : (value>0 ? value+'%' : 100));
-
             /** coauthoring begin **/
             this.chLiveComment.setValue(Common.Utils.InternalSettings.get("de-settings-livecomment"));
             this.chResolvedComment.setValue(Common.Utils.InternalSettings.get("de-settings-resolvedcomment"));
@@ -922,6 +953,7 @@ define([
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("de-settings-paste-button"));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("de-settings-quick-print-button"));
+            this.chSmartSelection.setValue(Common.Utils.InternalSettings.get("de-settings-smart-selection"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -935,7 +967,7 @@ define([
             }
             this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
-            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl"));
+            this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
 
             if (this.mode.canViewReview) {
                 value = Common.Utils.InternalSettings.get("de-settings-review-hover-mode");
@@ -950,8 +982,10 @@ define([
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
+
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+
+            Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/
             Common.localStorage.setItem("de-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
@@ -992,7 +1026,8 @@ define([
             }
 
             Common.localStorage.setItem("de-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
-            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl") !== this.chRTL.isChecked();
+            Common.localStorage.setItem("de-settings-smart-selection", this.chSmartSelection.isChecked() ? 1 : 0);
+            var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
 
@@ -1096,7 +1131,7 @@ define([
         txtWorkspace: 'Workspace',
         txtHieroglyphs: 'Hieroglyphs',
         txtUseAltKey: 'Use Alt key to navigate the user interface using the keyboard',
-        txtUseOptionKey: 'Use ⌘F6 to navigate the user interface using the keyboard',
+        txtUseOptionKey: 'Use Option key to navigate the user interface using the keyboard',
         strShowComments: 'Show comments in text',
         strShowResolvedComments: 'Show resolved comments',
         txtFastTip: 'Real-time co-editing. All changes are saved automatically',
@@ -1108,69 +1143,11 @@ define([
         txtQuickPrint: 'Show the Quick Print button in the editor header',
         txtQuickPrintTip: 'The document will be printed on the last selected or default printer',
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
-        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect'
+        txtRestartEditor: 'Please restart document editor so that your workspace settings can take effect',
+        txtLastUsed: 'Last used',
+        textSmartSelection: 'Use smart paragraph selection',
+        txtScreenReader: 'Turn on screen reader support'
     }, DE.Views.FileMenuPanels.Settings || {}));
-
-    DE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({
-        el: '#panel-recentfiles',
-        menu: undefined,
-
-        template: _.template([
-            '<div class="header"><%= scope.txtOpenRecent %></div>',
-            '<div id="id-recent-view"></div>'
-        ].join('')),
-
-        initialize: function(options) {
-            Common.UI.BaseView.prototype.initialize.call(this,arguments);
-
-            this.menu = options.menu;
-            this.recent = options.recent;
-        },
-
-        render: function() {
-            this.$el.html(this.template({scope: this}));
-
-            this.viewRecentPicker = new Common.UI.DataView({
-                el: $('#id-recent-view'),
-                store: new Common.UI.DataViewStore(this.recent),
-                itemTemplate: _.template([
-                    '<div class="recent-wrap">',
-                        '<div class="recent-icon float-left">',
-                            '<div>',
-                                '<div class="svg-file-recent"></div>',
-                            '</div>',
-                        '</div>',
-                        '<div class="file-name"><% if (typeof title !== "undefined") {%><%= Common.Utils.String.htmlEncode(title || "") %><% } %></div>',
-                        '<div class="file-info"><% if (typeof folder !== "undefined") {%><%= Common.Utils.String.htmlEncode(folder || "") %><% } %></div>',
-                    '</div>'
-                ].join(''))
-            });
-
-            this.viewRecentPicker.on('item:click', _.bind(this.onRecentFileClick, this));
-
-            if (_.isUndefined(this.scroller)) {
-                this.scroller = new Common.UI.Scroller({
-                    el: this.$el,
-                    suppressScrollX: true,
-                    alwaysVisibleY: true
-                });
-            }
-
-            return this;
-        },
-
-        show: function() {
-            Common.UI.BaseView.prototype.show.call(this,arguments);
-            this.scroller && this.scroller.update();
-        },
-
-        onRecentFileClick: function(view, itemview, record){
-            if ( this.menu )
-                this.menu.fireEvent('recent:open', [this.menu, record.get('url')]);
-        },
-
-        txtOpenRecent: 'Open Recent'
-    });
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
         el: '#panel-createnew',
@@ -1461,7 +1438,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtTitle
             }).on('keydown:before', keyDownBefore);
             this.inputTags = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-tags'),
@@ -1470,7 +1448,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtTags
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
@@ -1479,7 +1458,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtSubject
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
@@ -1488,7 +1468,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtComment
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -1520,7 +1501,8 @@ define([
                 placeHolder: this.txtAddAuthor,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtAuthor
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 
@@ -2002,7 +1984,7 @@ define([
                         '<td class="right"><div id="id-info-rights"></div></td>',
                     '</tr>',
                     '<tr class="edit-rights">',
-                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary custom margin-right-10">' + this.txtBtnAccessRights + '</button></td>',
+                        '<td class="left"></td><td class="right"><button id="id-info-btn-edit" class="btn normal dlg-btn primary auto margin-right-10">' + this.txtBtnAccessRights + '</button></td>',
                     '</tr>',
                 '</table>'
             ].join(''));
@@ -2521,21 +2503,21 @@ define([
                             '<div class="main-header"><%= scope.txtPrint %></div>',
                             '<table style="width: 100%;">',
                             '<tbody>',
-                                '<tr><td><label class="header"><%= scope.txtPrintRange %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrintRange %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-range" style="width: 248px;"></div></td></tr>',
                                 '<tr><td class="padding-large">',
                                     '<table style="width: 100%;"><tbody>',
-                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" style="width: 100%;"></div></td></tr>',
-                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" style="width: 60px;"></div></td></tr>',
+                                        '<tr><td class="padding-large"><%= scope.txtPages %>:</td><td class="padding-large" style="width: 100%;"><div id="print-txt-pages" class="padding-left-5" style="width: 100%;"></div></td></tr>',
+                                        '<tr><td><%= scope.txtCopies %>:</td><td style="width: 100%;"><div id="print-txt-copies" class="padding-left-5" style="width: 60px;"></div></td></tr>',
                                     '</tbody></table>',
                                 '</td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtPrintSides %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPrintSides %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-sides" style="width: 248px;"></div></td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtPageSize %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPageSize %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-pages" style="width: 248px;"></div></td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtPageOrientation %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtPageOrientation %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-orient" style="width: 150px;"></div></td></tr>',
-                                '<tr><td><label class="header"><%= scope.txtMargins %></label></td></tr>',
+                                '<tr><td><label class="font-weight-bold"><%= scope.txtMargins %></label></td></tr>',
                                 '<tr><td class="padding-large"><div id="print-combo-margins" style="width: 248px;"></div></td></tr>',
                                 '<tr class="fms-btn-apply"><td>',
                                     '<div class="footer justify">',
@@ -2638,7 +2620,7 @@ define([
                 itemsTemplate: _.template([
                     '<% _.each(items, function(item) { %>',
                     '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" style ="display: flex; flex-direction: column;">',
-                    '<label><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
+                    '<label class="font-weight-bold"><%= scope.getDisplayValue(item) %></label><label class="comment-text"><%= item.descValue %></label></a></li>',
                     '<% }); %>'
                 ].join('')),
                 dataHint: '2',
@@ -2647,35 +2629,95 @@ define([
             });
             this.cmbSides.setValue('one');
 
-            this.cmbPaperSize = new Common.UI.ComboBox({
+            var paperSizeItemsTemplate = !Common.UI.isRTL() ?
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem">',
+                        '<% if (typeof item.displayValue === "string") { %>',
+                            '<%= item.displayValue %>',
+                        '<% } else { %>',
+                            '<%= item.displayValue[0] %>',
+                            ' (<%= item.displayValue[1] %> <%= item.displayValue[3] %> x',
+                            ' <%= item.displayValue[2] %> <%= item.displayValue[3] %>)',
+                        '<% } %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join('')) :
+                _.template([
+                    '<% _.each(items, function(item) { %>',
+                    '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" dir="ltr">',
+                        '<% if (typeof item.displayValue === "string") { %>',
+                            '<%= item.displayValue %>',
+                        '<% } else { %>',
+                            '(<span dir="rtl"><%= item.displayValue[2] %> <%= item.displayValue[3] %></span>',
+                            '<span> x </span>',
+                            '<span dir="rtl"><%= item.displayValue[1] %> <%= item.displayValue[3] %></span>)',
+                            '<span> <%= item.displayValue[0] %></span>',
+                        '<% } %>',
+                    '</a></li>',
+                    '<% }); %>'
+                ].join(''));
+
+            var paperSizeTemplate = _.template([
+                '<div class="input-group combobox input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
+                '<div class="form-control" style="padding-top:3px; line-height: 14px; cursor: pointer; width: 248px; <%= style %>"',
+                (Common.UI.isRTL() ? 'dir="rtl"' : ''), '></div>',
+                '<div style="display: table-cell;"></div>',
+                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
+                '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">'].concat(paperSizeItemsTemplate).concat([
+                '</ul>',
+                '</div>'
+            ]).join(''));
+
+            this.cmbPaperSize = new Common.UI.ComboBoxCustom({
                 el: $markup.findById('#print-combo-pages'),
                 menuStyle: 'max-height: 280px; min-width: 248px;',
                 editable: false,
                 takeFocusOnClose: true,
-                cls: 'input-group-nr',
+                template: paperSizeTemplate,
+                itemsTemplate: paperSizeItemsTemplate,
                 data: [
-                    { value: 0, displayValue:'US Letter (21,59 cm x 27,94 cm)', caption: 'US Letter', size: [215.9, 279.4]},
-                    { value: 1, displayValue:'US Legal (21,59 cm x 35,56 cm)', caption: 'US Legal', size: [215.9, 355.6]},
-                    { value: 2, displayValue:'A4 (21 cm x 29,7 cm)', caption: 'A4', size: [210, 297]},
-                    { value: 3, displayValue:'A5 (14,8 cm x 21 cm)', caption: 'A5', size: [148, 210]},
-                    { value: 4, displayValue:'B5 (17,6 cm x 25 cm)', caption: 'B5', size: [176, 250]},
-                    { value: 5, displayValue:'Envelope #10 (10,48 cm x 24,13 cm)', caption: 'Envelope #10', size: [104.8, 241.3]},
-                    { value: 6, displayValue:'Envelope DL (11 cm x 22 cm)', caption: 'Envelope DL', size: [110, 220]},
-                    { value: 7, displayValue:'Tabloid (27,94 cm x 43,18 cm)', caption: 'Tabloid', size: [279.4, 431.8]},
-                    { value: 8, displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3', size: [297, 420]},
-                    { value: 9, displayValue:'Tabloid Oversize (30,48 cm x 45,71 cm)', caption: 'Tabloid Oversize', size: [304.8, 457.1]},
-                    { value: 10, displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
-                    { value: 12, displayValue:'Super B/A3 (33,02 cm x 48,25 cm)', caption: 'Super B/A3', size: [330.2, 482.5]},
-                    { value: 13, displayValue:'A4 (84,1 cm x 118,9 cm)', caption: 'A0', size: [841, 1189]},
-                    { value: 14, displayValue:'A4 (59,4 cm x 84,1 cm)', caption: 'A1', size: [594, 841]},
-                    { value: 16, displayValue:'A4 (42 cm x 59,4 cm)', caption: 'A2', size: [420, 594]},
-                    { value: 17, displayValue:'A4 (10,5 cm x 14,8 cm)', caption: 'A6', size: [105, 148]},
+                    { value: 0, displayValue: ['US Letter', '21,59', '27,94', 'cm'], caption: 'US Letter', size: [215.9, 279.4]},
+                    { value: 1, displayValue: ['US Legal', '21,59', '35,56', 'cm'], caption: 'US Legal', size: [215.9, 355.6]},
+                    { value: 2, displayValue: ['A4', '21', '29,7', 'cm'], caption: 'A4', size: [210, 297]},
+                    { value: 3, displayValue: ['A5', '14,8', '21', 'cm'], caption: 'A5', size: [148, 210]},
+                    { value: 4, displayValue: ['B5', '17,6', '25', 'cm'], caption: 'B5', size: [176, 250]},
+                    { value: 5, displayValue: ['Envelope #10', '10,48', '24,13', 'cm'], caption: 'Envelope #10', size: [104.8, 241.3]},
+                    { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
+                    { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
+                    { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
+                    { value: 9, displayValue: ['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
+                    { value: 11, displayValue: ['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
+                    { value: 12, displayValue: ['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
+                    { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
+                    { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
+                    { value: 17, displayValue: ['A4', '10,5', '14,8', 'cm'], caption: 'A6', size: [105, 148]},
                     { value: -1, displayValue: this.txtCustom, caption: this.txtCustom, size: []}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                updateFormControl: function (record, customValue){
+                    var formcontrol = $(this.el).find('.form-control');
+                    if (record || customValue) {
+                        var displayValue = customValue ? customValue : record.get('displayValue');
+                        if (typeof displayValue === 'string') {
+                            formcontrol[0].innerHTML = displayValue;
+                        } else {
+                            if (!Common.UI.isRTL()) {
+                                formcontrol[0].innerHTML = displayValue[0] + ' (' + displayValue[1] + ' ' + displayValue[3] + ' x ' +
+                                    displayValue[2] + ' ' + displayValue[3] + ')';
+                            } else {
+                                formcontrol[0].innerHTML = '<span dir="ltr">(<span dir="rtl">' + displayValue[2] + ' ' + displayValue[3] + '</span>' +
+                                    '<span> x </span>' + '<span dir="rtl">' + displayValue[1] + ' ' + displayValue[3] + '</span>)' +
+                                    '<span> ' + displayValue[0] + '</span></span>';
+                            }
+                        }
+                    } else
+                        formcontrol[0].innerHTML = '';
+                }
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
@@ -2835,8 +2877,10 @@ define([
                     pagewidth = size[0],
                     pageheight = size[1];
 
-                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ')');
+                item.set('displayValue', [item.get('caption'),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)),
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)),
+                    Common.Utils.Metric.getCurrentMetricName()]);
             }
             this.cmbPaperSize.onResetItems();
             this.cmbPaperMargins.onResetItems();

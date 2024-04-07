@@ -22,7 +22,7 @@
                 <td class="settins-cell padding-small" width="80">
                     <label class="input-label"><%= scope.textWidth %></label>
                 </td>
-                <td class="settins-cell padding-small" width="130" style="padding-right: 10px;">
+                <td class="settins-cell padding-small padding-right-10" width="130">
                     <div id="frame-advanced-input-widthtype"></div>
                 </td>
                 <td class="settins-cell padding-small" width="95">
@@ -33,7 +33,7 @@
                 <td class="settins-cell padding-small" width="80">
                     <label class="input-label"><%= scope.textHeight %></label>
                 </td>
-                <td class="settins-cell padding-small" width="130" style="padding-right: 10px;">
+                <td class="settins-cell padding-small padding-right-10" width="130">
                     <div id="frame-advanced-input-heighttype"></div>
                 </td>
                 <td class="settins-cell padding-small" width="95">
@@ -60,7 +60,7 @@
                 <td class="settins-cell padding-small" width="80">
                     <label class="input-label"><%= scope.textPosition %></label>
                 </td>
-                <td class="settins-cell padding-small" width="130" style="padding-right: 10px;">
+                <td class="settins-cell padding-small padding-right-10" width="130">
                     <div id="frame-advanced-input-hposition"></div>
                 </td>
                 <td class="settins-cell padding-small" width="95">
@@ -68,7 +68,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="settins-cell padding-small" colspan="2" style="padding-right: 10px;">
+                <td class="settins-cell padding-small padding-right-10" colspan="2">
                     <label class="input-label float-right"><%= scope.textDistance %></label>
                 </td>
                 <td class="settins-cell padding-small">
@@ -95,7 +95,7 @@
                 <td class="settins-cell padding-small" width="80">
                     <label class="input-label"><%= scope.textPosition %></label>
                 </td>
-                <td class="settins-cell padding-small" width="130" style="padding-right: 10px;">
+                <td class="settins-cell padding-small padding-right-10" width="130">
                     <div id="frame-advanced-input-vposition"></div>
                 </td>
                 <td class="settins-cell padding-small" width="95">
@@ -103,7 +103,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="settins-cell padding-small" colspan="2" style="padding-right: 10px;">
+                <td class="settins-cell padding-small padding-right-10" colspan="2">
                     <label class="input-label float-right"><%= scope.textDistance %></label>
                 </td>
                 <td class="settins-cell padding-small">
@@ -158,7 +158,7 @@
         <label class="input-label padding-small" style="width: 100%;"><%= scope.textBorderDesc %></label>
         <div style="width: 100%;" class="padding-large">
             <div id="drop-advanced-borderstyler" style="display: inline-block; vertical-align: middle; width: 200px; height: 170px;outline: 1px solid #ccc;"></div>
-            <div style="display: inline-block; vertical-align: middle; width: 80px; height: 170px; padding-top: 10px; padding-left: 4px;" class="float-right">
+            <div style="display: inline-block; vertical-align: middle; width: 80px; height: 170px; padding-top: 10px;" class="float-right padding-left-4">
                 <div id="drop-advanced-button-borderline-00" style="display: inline-block;"></div>
                 <div id="drop-advanced-button-borderline-01" style="display: inline-block;"></div>
                 <div id="drop-advanced-button-borderline-10" style="display: inline-block;"></div>

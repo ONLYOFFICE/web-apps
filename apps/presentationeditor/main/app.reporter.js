@@ -52,9 +52,6 @@ require.config({
         sdk             : '../../sdkjs/slide/sdk-all-min'
     },
     shim: {
-        underscore: {
-            exports: '_'
-        },
         sdk: {
             deps: [
                 'jquery',
@@ -67,8 +64,10 @@ require.config({
 });
 
 require([
-    'sdk'
-], function () {
+    'underscore',
+    'sdk',
+], function (_) {
+    window._ = _
 
     var _msg_func = function(msg) {
         var data = msg.data, cmd;

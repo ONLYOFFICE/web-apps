@@ -45,7 +45,7 @@ define([
     'use strict';
 
     SSE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
-        var template = '<section class="panel" data-tab="view">' +
+        var template = '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group sheet-views">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-sheet-view"></span>' +
             '</div>' +
@@ -360,7 +360,7 @@ define([
 
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect],
-                    labelText: this.textRightMenu,
+                    labelText: !Common.UI.isRTL() ? this.textRightMenu : this.textLeftMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -369,7 +369,7 @@ define([
 
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect],
-                    labelText: this.textLeftMenu,
+                    labelText: !Common.UI.isRTL() ? this.textLeftMenu : this.textRightMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'

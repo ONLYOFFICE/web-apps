@@ -47,7 +47,12 @@
   }
 
   &:not(.disabled) > .item {
-    &:hover {
+    &.disabled {
+      opacity: @component-disabled-opacity-ie;
+      opacity: @component-disabled-opacity;
+    }
+
+    &:hover:not(.disabled) {
       background-color: @highlight-button-hover-ie;
       background-color: @highlight-button-hover;
       border-color: @highlight-button-hover-ie;
@@ -57,7 +62,7 @@
       border-width: @scaled-one-px-value 0;
     }
 
-    &.selected {
+    &.selected:not(.disabled) {
       background-color: @highlight-button-pressed-ie;
       background-color: @highlight-button-pressed;
       color: @text-normal-pressed-ie;
@@ -99,8 +104,12 @@
     border-bottom: @scaled-one-px-value solid @border-regular-control;
     padding: 3px 6px;
     position: absolute;
-    margin: @scaled-one-px-value;
-    width: calc(100% - 2 * @scaled-one-px-value);
+    left: 1px;
+    left: @scaled-one-px-value;
+    top: 1px;
+    top: @scaled-one-px-value;
+    width: calc(100% - 2px);
+    width: calc(100% - @scaled-two-px-value);
     display: flex;
     align-items: center;
   
@@ -121,16 +130,11 @@
           display: flex;
           align-items: center;
           overflow: hidden;
-          padding-right: 1px;
+          .padding-right-1();
           cursor: pointer;
   
           label {
-            padding-right: 6px;
-
-            .rtl & {
-              padding-right: 0px;
-              padding-left: 6px;
-            }
+            .padding-right-6();
           }
   
           .caret {

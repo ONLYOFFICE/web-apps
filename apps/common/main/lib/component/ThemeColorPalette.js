@@ -262,6 +262,10 @@ define([
                         color = target.attr('color');
                         me.trigger('select', me, color);
                         me.value = color.toUpperCase();
+                        if (me.colorHints) {
+                            var tip = target.data('bs.tooltip');
+                            if (tip) (tip.tip()).remove();
+                        }
                     }
                 } else {
                     if (e.suppressEvent) {
@@ -286,6 +290,10 @@ define([
                         me.value = color.toUpperCase();
                         me.trigger('select', me, {color: color, effectId: effectId});
                         me.lastSelectedIdx = parseInt(target.attr('idx'));
+                        if (me.colorHints) {
+                            var tip = target.data('bs.tooltip');
+                            if (tip) (tip.tip()).remove();
+                        }
                     }
                 } else {
                     if (/#?[a-fA-F0-9]{6}/.test(color)) {
@@ -294,6 +302,10 @@ define([
                             me.value = color;
                             me.trigger('select', me, color);
                             me.lastSelectedIdx = parseInt(target.attr('idx'));
+                            if (me.colorHints) {
+                                var tip = target.data('bs.tooltip');
+                                if (tip) (tip.tip()).remove();
+                            }
                         }
                     }
                 }

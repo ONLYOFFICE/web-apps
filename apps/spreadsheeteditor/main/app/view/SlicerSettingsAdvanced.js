@@ -49,7 +49,7 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
     SSE.Views.SlicerSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 330,
-            height: 435,
+            contentHeight: 350,
             toggleGroup: 'slicer-adv-settings-group',
             storageName: 'sse-slicer-settings-adv-category'
         },
@@ -124,7 +124,8 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
                     items: [
                         { template: _.template('<div id="sliceradv-menu-style" class="menu-slicer-template"  style="margin: 5px 5px 5px 10px;"></div>') }
                     ]
-                })
+                }),
+                takeFocusOnClose: true
             });
             this.mnuSlicerPicker = new Common.UI.DataView({
                 el: $('#sliceradv-menu-style'),
@@ -385,13 +386,13 @@ define([    'text!spreadsheeteditor/main/app/template/SlicerSettingsAdvanced.tem
         },
 
         getFocusedComponents: function() {
-            return [
-                this.inputHeader, this.chHeader, this.numWidth, this.btnRatio, this.numHeight, this.numCols, this.numColHeight, // 0 tab
+            return this.btnsCategory.concat([
+                this.inputHeader, this.chHeader, this.btnSlicerStyle, this.numWidth, this.btnRatio, this.numHeight, this.numCols, this.numColHeight, // 0 tab
                 this.radioAsc, this.radioDesc, this.chHideNoData, this.chIndNoData, this.chShowNoData, // 1 tab
                 this.inputName,  // 2 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 3 tab
                 this.inputAltTitle, this.textareaAltDescription  // 4 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {

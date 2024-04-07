@@ -10,11 +10,14 @@ const Download = props => {
     const dataDoc = storeDocumentInfo.dataDoc;
     const canFeatureForms = props.storeAppOptions.canFeatureForms;
     const isAvailableExt = dataDoc.fileType === 'docxf' || dataDoc.fileType === 'docx' || dataDoc.fileType === 'pdf' || dataDoc.fileType === 'pdfa';
+    const isForm = props.isForm;
+    const canFillForms = props.canFillForms;
+    const isEditableForms = isForm && canFillForms;
 
     return (
         <Page>
-            <Navbar title={_t.textDownload} backLink={_t.textBack} />
-            <BlockTitle>{_t.textDownloadAs}</BlockTitle>
+            <Navbar title={isEditableForms ? t('Settings.textExport') : _t.textDownload} backLink={_t.textBack} />
+            <BlockTitle>{isEditableForms ? t('Settings.textExportAs') : _t.textDownloadAs}</BlockTitle>
             <List>
                 <ListItem title="DOCX" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCX)}>
                     <Icon slot="media" icon="icon-format-docx"></Icon>
@@ -23,15 +26,11 @@ const Download = props => {
                     <ListItem title="DOCXF" key="DOCXF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.DOCXF)}>
                         <Icon slot="media" icon="icon-format-docxf"></Icon>
                     </ListItem>,
-                    <ListItem title="OFORM" key="OFORM" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.OFORM)}>
-                        <Icon slot="media" icon="icon-format-oform"></Icon>
-                    </ListItem>
-                    ] 
-                : null}
+                ] : null}
                 <ListItem title="PDF" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDF)}>
                     <Icon slot="media" icon="icon-format-pdf"></Icon>
                 </ListItem>
-                {dataDoc.fileType !== 'oform' ? [
+                {!isEditableForms ? [
                     <ListItem title="PDF/A" key="PDF/A" onClick={() => props.onSaveFormat(Asc.c_oAscFileType.PDFA)}>
                         <Icon slot="media" icon="icon-format-pdfa"></Icon>
                     </ListItem>,

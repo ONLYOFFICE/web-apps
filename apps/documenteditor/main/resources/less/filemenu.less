@@ -62,14 +62,9 @@
 
   .panel-context {
     width: 100%;
-    padding-left: 260px;
+    .padding-left(260px);
     background-color: @background-normal-ie;
     background-color: @background-normal;
-
-    .rtl & {
-      padding-left: 0;
-      padding-right: 260px;
-    }
 
     .content-box {
       height: 100%;
@@ -157,7 +152,6 @@
   width: 98px;
   height: 125px;
   cursor: pointer;
-
   .svg-format- {
     &docx {
       background: ~"url('@{common-image-const-path}/doc-formats/docx.svg') no-repeat center";
@@ -300,19 +294,6 @@
         }
       }
 
-      &.left {
-         text-align: right;
-         width: 30%;
-         label {
-           .font-weight-bold();
-           .font-size-medium();
-         }
-      }
-
-      &.right {
-        width: 70%;
-      }
-
       &.divider {
         height: 10px;
       }
@@ -414,7 +395,7 @@
 
 #panel-recentfiles {
   #id-recent-view {
-    margin: 0 0 20px 10px;
+    margin: 0 0 20px 0px;
   }
 
   .header {
@@ -424,12 +405,13 @@
 
   .item {
     border: none;
+    .margin-left-4;
     width: 100%;
     .box-shadow(none);
   }
 
   .recent-wrap {
-    padding: 5px 10px;
+    padding: 5px 6px;
     cursor: pointer;
     .font-size-medium();
 
@@ -441,12 +423,108 @@
 
     .recent-icon {
       display: inline-block;
-      width: 25px;
-      height: 25px;
+      .float-left();
+      width: 24px;
+      height: 30px;
       margin-top: 1px;
       div {
         width: 100%;
         height: 100%;
+        div{
+          background: ~"url(@{common-image-const-path}/doc-formats/formats.png)";
+          background-size: 1056px 30px;
+          &:not(.svg-file-recent) {
+            .pixel-ratio__1_25 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.25x.png)";
+            }
+
+            .pixel-ratio__1_5 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.5x.png)";
+            }
+
+            .pixel-ratio__1_75 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@1.75x.png)";
+            }
+
+            .pixel-ratio__2 & {
+              background-image: ~"url(@{common-image-const-path}/doc-formats/formats@2x.png)";
+            }
+          }
+        }
+        .format-from-index(@index) {
+          background-position: -24px*@index 0;
+        }
+        .img-format- {
+          &docx {
+            .format-from-index(0);
+          }
+          &pdf {
+            .format-from-index(14);
+          }
+          &odt {
+            .format-from-index(2);
+          }
+          &txt {
+            .format-from-index(4);
+          }
+          &dotx {
+            .format-from-index(21);
+          }
+          &pdfa {
+            .format-from-index(14);
+          }
+          &ott {
+            .format-from-index(24);
+          }
+          &rtf {
+            .format-from-index(3);
+          }
+          &doc {
+            .format-from-index(1);
+          }
+          &docxf {
+            .format-from-index(29);
+          }
+          &oform {
+            .format-from-index(30);
+          }
+          &html, &htm {
+            .format-from-index(5);
+          }
+          &fb2 {
+            .format-from-index(20);
+          }
+          &epub {
+            .format-from-index(19);
+          }
+          &xps {
+            .format-from-index(16);
+          }
+          &xml {
+            .format-from-index(17);
+          }
+          &djvu {
+            .format-from-index(15);
+          }
+          &mht {
+            .format-from-index(18);
+          }
+          &docm {
+            .format-from-index(32);
+          }
+          &dotm {
+            .format-from-index(33);
+          }
+          &fodt {
+            .format-from-index(34);
+          }
+          &md {
+            .format-from-index(42);
+          }
+          &neutral {
+            .format-from-index(43);
+          }
+        }
         .svg-file-recent {
           background: ~"url(@{app-image-const-path}/recent-file.svg) no-repeat top";
         }
@@ -455,6 +533,7 @@
 
     > div:not(:first-child) {
       display: block;
+      .padding-left-10();
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -567,12 +646,8 @@
 
         &.left {
           padding: 5px 10px;
-          text-align: right;
+          .text-align-right();
           width: 200px;
-
-          .rtl & {
-            text-align: left;
-          }
 
           label {
             .font-weight-bold();
@@ -596,13 +671,17 @@
   }
 
   .userLink {
-    background-position: -81px -234px;
+    background-position: -24px -28px;
     padding: 0 0 0 17px;
     width: 16px;
     height: 16px;
 
     &.sharedLink {
-      background-position: -24px -273px;
+      background-position: -22px -44px;
+    }
+
+    .rtl & {
+      padding: 0 17px 0 0;
     }
   }
 
@@ -699,7 +778,6 @@
       margin: 18px 0 20px 0;
     }
     .comment-text{
-      opacity: 0.45;
       white-space: normal;
     }
     #id-print-settings {
@@ -720,9 +798,6 @@
         border-right: none;
         border-left: @scaled-one-px-value-ie solid @border-toolbar-ie;
         border-left: @scaled-one-px-value solid @border-toolbar;
-      }
-      label.header {
-        font-weight: 700;
       }
 
       .settings-container {
@@ -746,28 +821,16 @@
         .footer {
           margin-top: 24px;
         }
-        #print-txt-pages, #print-txt-copies {
-          padding-left: 5px;
-          .rtl & {
-            padding-left: 0;
-            padding-right: 5px;
-          }
-        }
         #print-combo-sides {
           .dropdown-menu li > a {
-            padding-right: 5px;
-            padding-left: 20px;
-            .rtl & {
-              padding-right: 20px;
-              padding-left: 5px;
-            }
+            .padding-x(20px, 5px);
           }
         }
       }
     }
     #print-navigation {
       height: 50px;
-      padding-left: 20px;
+      .padding-left-20();
       padding-top: 10px;
       display: flex;
       #print-prev-page {

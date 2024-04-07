@@ -100,6 +100,7 @@ define([
             this.slides = this.options.slides;
             this.api = this.options.api;
             this.urlType = AscCommon.c_oAscUrlType.Invalid;
+            this.appOptions = this.options.appOptions;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -127,12 +128,15 @@ define([
             });
             me.btnInternal.on('click', _.bind(me.onLinkTypeClick, me, c_oHyperlinkType.InternalLink));
 
-            me.inputUrl = new Common.UI.InputField({
+            var config = {
                 el          : $('#id-dlg-hyperlink-url'),
                 allowBlank  : false,
                 blankError  : me.txtEmpty,
                 validateOnBlur: false,
                 style       : 'width: 100%;',
+                iconCls: 'toolbar__icon btn-browse',
+                placeHolder: me.appOptions.isDesktopApp ? me.txtUrlPlaceholder : '',
+                btnHint: me.textSelectFile,
                 validation  : function(value) {
                     var trimmed = $.trim(value);
                     if (trimmed.length>2083) return me.txtSizeLimit;
@@ -140,7 +144,8 @@ define([
                     me.urlType = me.api.asc_getUrlType(trimmed);
                     return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
                 }
-            });
+            };
+            me.inputUrl = me.appOptions.isDesktopApp ? new Common.UI.InputFieldBtn(config) : new Common.UI.InputField(config);
             me.inputUrl._input.on('input', function (e) {
                 me.isInputFirstChange && me.inputUrl.showError();
                 me.isInputFirstChange = false;
@@ -151,6 +156,7 @@ define([
                 }
                 me.btnOk.setDisabled($.trim(val)=='');
             });
+            me.appOptions.isDesktopApp && me.inputUrl.on('button:click', _.bind(me.onSelectFile, me));
 
             me.inputDisplay = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-display'),
@@ -178,10 +184,10 @@ define([
             });
             me.internalList.on('item:select', _.bind(this.onSelectItem, this));
 
-            me.btnOk = new Common.UI.Button({
-                el: $window.find('.primary'),
-                disabled: true
-            });
+            me.btnOk = _.find(this.getFooterButtons(), function (item) {
+                return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
+            }) || new Common.UI.Button({ el: $window.find('.primary') });
+            me.btnOk.setDisabled(true);
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
             me.internalList.on('entervalue', _.bind(me.onPrimary, me));
@@ -190,7 +196,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl, this.internalList, this.inputDisplay, this.inputTip];
+            return [this.btnExternal, this.btnInternal, this.inputUrl, this.internalList, this.inputDisplay, this.inputTip].concat(this.getFooterButtons());
         },
 
         setSettings: function (props) {
@@ -423,6 +429,26 @@ define([
             }
         },
 
+        onSelectFile: function() {
+            var me = this;
+            if (me.api) {
+                var callback = function(result) {
+                    if (result) {
+                        me.inputUrl.setValue(result);
+                        if (me.inputUrl.checkValidate() !== true)
+                            me.isInputFirstChange = true;
+                        if (me.isAutoUpdate) {
+                            me.inputDisplay.setValue(result);
+                            me.isTextChanged = true;
+                        }
+                        me.btnOk.setDisabled($.trim(result)=='');
+                    }
+                };
+
+                me.api.asc_getFilePath(callback); // change sdk function
+            }
+        },
+
         textTitle:          'Hyperlink Settings',
         textInternalLink:   'Place in Document',
         textExternalLink:   'External Link',
@@ -441,6 +467,8 @@ define([
         txtLast:            'Last Slide',
         textDefault:        'Selected text',
         textSlides: 'Slides',
-        txtSizeLimit: 'This field is limited to 2083 characters'
+        txtSizeLimit: 'This field is limited to 2083 characters',
+        txtUrlPlaceholder: 'Enter the web address or select a file',
+        textSelectFile: 'Select file'
     }, PE.Views.HyperlinkSettingsDialog || {}))
 });

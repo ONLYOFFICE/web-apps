@@ -43,11 +43,7 @@ li {
       margin-top: 1px;
     }
     li a {
-      padding-left: 28px !important;
-      .rtl & {
-        padding-left: 0 !important;
-        padding-right: 28px !important;
-      }
+      .padding-x(28px, 20px);
     }
   }
 
@@ -104,7 +100,7 @@ li {
   &.en-GB                           {background-position: -32px      -108px;}
   &.en-AU                           {background-position: 0          -120px;}
   &.az-Latn-AZ                      {background-position: -16px      -120px;}
-  &.id, &.id-ID                     {background-position: -32px      -120px;}
+  &.id, &.id-ID, &.en-ID            {background-position: -32px      -120px;}
 
   &.bg, &.bg-BG                     {background-position: 0          -132px;}
   &.ca-ES-valencia                  {background-position: -16px      -132px;}

@@ -51,7 +51,7 @@ define([
                 sdkplaceholder: 'id-ole-editor-placeholder',
                 initwidth: 900,
                 initheight: 700,
-                minwidth: 860,
+                minwidth: 875,
                 minheight: 275
             }, options);
 

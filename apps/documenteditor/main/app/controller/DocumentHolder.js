@@ -141,11 +141,6 @@ define([
                 isVisible: false
             };
             me.eyedropperTip = {
-                toolTip: new Common.UI.Tooltip({
-                    owner: this,
-                    html: true,
-                    cls: 'eyedropper-tooltip'
-                }),
                 isHidden: true,
                 isVisible: false,
                 eyedropperColor: null,
@@ -165,6 +160,7 @@ define([
                 if (me.api.can_AddQuotedComment()!==false) {
                     me.addComment();
                 }
+                return false;
             };
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
@@ -269,7 +265,7 @@ define([
             var me = this,
                 view = me.documentHolder;
 
-            if (type=='view') {
+            if (type==='view') {
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuViewPaste.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuViewCut.on('click', _.bind(me.onCutCopyPaste, me));
@@ -281,8 +277,16 @@ define([
                 view.menuSignatureRemove.on('click', _.bind(me.onSignatureClick, me));
                 view.menuViewPrint.on('click', _.bind(me.onPrintSelection, me));
                 return;
-            } else if (type=='pdf') {
+            } else if (type==='pdf') {
                 view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                return;
+            } else if (type==='forms') {
+                view.menuPDFFormsUndo.on('click', _.bind(me.onUndo, me));
+                view.menuPDFFormsRedo.on('click', _.bind(me.onRedo, me));
+                view.menuPDFFormsClear.on('click', _.bind(me.onClear, me));
+                view.menuPDFFormsCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsPaste.on('click', _.bind(me.onCutCopyPaste, me));
                 return;
             }
 
@@ -350,6 +354,7 @@ define([
                 }, this));
             }
 
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuEquationInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuTableInsertCaption.on('click', _.bind(me.onInsertCaption, me));
@@ -609,12 +614,50 @@ define([
             return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
         },
 
+        fillFormsMenuProps: function(selectedElements) {
+            if (!selectedElements || !_.isArray(selectedElements)) return;
+
+            var documentHolder = this.documentHolder;
+            if (!documentHolder.formsPDFMenu)
+                documentHolder.createDelayedElementsPDFForms();
+            var menu_props = {},
+                menu_to_show = documentHolder.formsPDFMenu,
+                noobject = true;
+            for (var i = 0; i <selectedElements.length; i++) {
+                var elType = selectedElements[i].get_ObjectType();
+                var elValue = selectedElements[i].get_ObjectValue();
+                if (Asc.c_oAscTypeSelectElement.Image == elType) {
+                    //image
+                    menu_props.imgProps = {};
+                    menu_props.imgProps.value = elValue;
+                    menu_props.imgProps.locked = (elValue) ? elValue.get_Locked() : false;
+
+                    var control_props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null,
+                        lock_type = (control_props) ? control_props.get_Lock() : Asc.c_oAscSdtLockType.Unlocked;
+                    menu_props.imgProps.content_locked = lock_type==Asc.c_oAscSdtLockType.SdtContentLocked || lock_type==Asc.c_oAscSdtLockType.ContentLocked;
+
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
+                    menu_props.paraProps = {};
+                    menu_props.paraProps.value = elValue;
+                    menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
+                    noobject = false;
+                } else if (Asc.c_oAscTypeSelectElement.Header == elType) {
+                    menu_props.headerProps = {};
+                    menu_props.headerProps.locked = (elValue) ? elValue.get_Locked() : false;
+                }
+            }
+            return (!noobject) ? {menu_to_show: menu_to_show, menu_props: menu_props} : null;
+        },
+
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var docProtection = me.documentHolder._docProtection;
-                var obj = (me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) ?
-                            me.fillMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps(me.api.getSelectedElements());
+                var docProtection = me.documentHolder._docProtection,
+                    disableEditing = me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly,
+                    obj = me.mode.isEdit && !disableEditing ? me.fillMenuProps(me.api.getSelectedElements()) :
+                          me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit && !disableEditing ? me.fillFormsMenuProps(me.api.getSelectedElements()) :
+                            me.fillViewMenuProps(me.api.getSelectedElements());
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -641,9 +684,11 @@ define([
             var me = this,
                 currentMenu = me.documentHolder.currentMenu;
             if (currentMenu && currentMenu.isVisible() && currentMenu !== me.documentHolder.hdrMenu){
-                var docProtection = me.documentHolder._docProtection;
-                var obj = (me.mode.isEdit && !(me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) ?
-                            me.fillMenuProps(selectedElements) : me.fillViewMenuProps(selectedElements);
+                var docProtection = me.documentHolder._docProtection,
+                    disableEditing = me._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly,
+                    obj = me.mode.isEdit && !disableEditing ? me.fillMenuProps(selectedElements) :
+                          me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit && !disableEditing ? me.fillFormsMenuProps(selectedElements) :
+                          me.fillViewMenuProps(selectedElements);
                 if (obj) {
                     if (obj.menu_to_show===currentMenu) {
                         currentMenu.options.initMenu(obj.menu_props);
@@ -683,8 +728,10 @@ define([
                 if (event.ctrlKey && !event.altKey) {
                     if (delta < 0) {
                         me.api.zoomOut();
+                        me._handleZoomWheel = true;
                     } else if (delta > 0) {
                         me.api.zoomIn();
+                        me._handleZoomWheel = true;
                     }
 
                     event.preventDefault();
@@ -708,11 +755,11 @@ define([
                         return false;
                     }
                     else if (key === Common.UI.Keys.NUM_MINUS || key === Common.UI.Keys.MINUS || (Common.Utils.isGecko && key === Common.UI.Keys.MINUS_FF) || (Common.Utils.isOpera && key == 45)){
-                        me.api.zoomOut();
+                        (key !== Common.UI.Keys.NUM_MINUS || !me.mode.isEdit) && me.api.zoomOut();
                         event.preventDefault();
                         event.stopPropagation();
                         return false;
-                    } else if (key === 48 || key === 96) {// 0
+                    } else if (key === Common.UI.Keys.ZERO || key === Common.UI.Keys.NUM_ZERO) {// 0
                         me.api.zoom(100);
                         event.preventDefault();
                         event.stopPropagation();
@@ -728,8 +775,6 @@ define([
 
                 if (key == Common.UI.Keys.ESC) {
                     Common.UI.Menu.Manager.hideAll();
-                    if (!Common.UI.HintManager.isHintVisible())
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                 }
             }
         },
@@ -870,7 +915,11 @@ define([
                         buttons: ['yes', 'no'],
                         primary: 'yes',
                         callback: function(btn) {
-                            (btn == 'yes') && window.open(url);
+                            try {
+                                (btn == 'yes') && window.open(url);
+                            } catch (err) {
+                                err && console.log(err.stack);
+                            }
                         }
                     });
             }
@@ -897,6 +946,7 @@ define([
                 if (text !== false) {
                     win = new DE.Views.HyperlinkSettingsDialog({
                         api: me.api,
+                        appOptions: me.mode,
                         handler: handlerDlg
                     });
 
@@ -916,6 +966,7 @@ define([
                     if (props) {
                         win = new DE.Views.HyperlinkSettingsDialog({
                             api: me.api,
+                            appOptions: me.mode,
                             handler: handlerDlg
                         });
                         win.show();
@@ -1032,7 +1083,7 @@ define([
                     type = moveData.get_Type();
 
                 if (type==Asc.c_oAscMouseMoveDataTypes.Hyperlink || type==Asc.c_oAscMouseMoveDataTypes.Footnote || type==Asc.c_oAscMouseMoveDataTypes.Form ||
-                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
+                    type==Asc.c_oAscMouseMoveDataTypes.Review && me.mode.reviewHoverMode || type==Asc.c_oAscMouseMoveDataTypes.Eyedropper || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -1063,10 +1114,29 @@ define([
                             if (ToolTip.length>1000)
                                 ToolTip = ToolTip.substr(0, 1000) + '...';
                         }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                        switch (moveData.get_PlaceholderType()) {
+                            case AscCommon.PlaceholderButtonType.Image:
+                                ToolTip = me.documentHolder.txtInsImage;
+                                break;
+                            case AscCommon.PlaceholderButtonType.ImageUrl:
+                                ToolTip = me.documentHolder.txtInsImageUrl;
+                                break;
+                        }
                     } else if (type==Asc.c_oAscMouseMoveDataTypes.Eyedropper) {
                         if (me.eyedropperTip.isTipVisible) {
                             me.eyedropperTip.isTipVisible = false;
                             me.eyedropperTip.toolTip.hide();
+                        }
+
+                        if (!me.eyedropperTip.toolTip) {
+                            var tipEl = $('<div id="tip-container-eyedroppertip" style="position: absolute; z-index: 10000;"></div>');
+                            me.documentHolder.cmpEl.append(tipEl);
+                            me.eyedropperTip.toolTip = new Common.UI.Tooltip({
+                                owner: tipEl,
+                                html: true,
+                                cls: 'eyedropper-tooltip'
+                            });
                         }
 
                         var color = moveData.get_EyedropperColor().asc_getColor(),
@@ -1119,7 +1189,7 @@ define([
                     var recalc = false;
                     screenTip.isHidden = false;
 
-                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review)
+                    if (type!==Asc.c_oAscMouseMoveDataTypes.Review && type!==Asc.c_oAscMouseMoveDataTypes.Placeholder)
                         ToolTip = Common.Utils.String.htmlEncode(ToolTip);
 
                     if (screenTip.tipType !== type || screenTip.tipLength !== ToolTip.length || screenTip.strTip.indexOf(ToolTip)<0 ) {
@@ -1243,20 +1313,26 @@ define([
                 });
                 (menu.items.length>0) && menu.items[0].setChecked(true, true);
             }
-            if (coord.asc_getX()<0 || coord.asc_getY()<0) {
+
+            var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
+            if (coord.asc_getX()<0 || coord.asc_getY()<0 || showPoint[0]>me._Width || showPoint[1]>me._Height) {
                 if (pasteContainer.is(':visible')) pasteContainer.hide();
                 $(document).off('keyup', this.wrapEvents.onKeyUp);
-            } else {
-                var showPoint = [coord.asc_getX() + coord.asc_getWidth() + 3, coord.asc_getY() + coord.asc_getHeight() + 3];
-                if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
-                    showPoint = [showPoint[0] - 19, showPoint[1] - 26];
-                }
-                pasteContainer.css({left: showPoint[0], top : showPoint[1]});
-                pasteContainer.show();
-                setTimeout(function() {
-                    $(document).on('keyup', me.wrapEvents.onKeyUp);
-                }, 10);
+                return;
             }
+            if (showPoint[1] + pasteContainer.height()>me._Height)
+                showPoint[1] = me._Height - pasteContainer.height();
+            if (showPoint[0] + pasteContainer.width()>me._Width)
+                showPoint[0] = me._Width - pasteContainer.width();
+
+            if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
+                showPoint = [showPoint[0] - 19, showPoint[1] - 26];
+            }
+            pasteContainer.css({left: showPoint[0], top : showPoint[1]});
+            pasteContainer.show();
+            setTimeout(function() {
+                $(document).on('keyup', me.wrapEvents.onKeyUp);
+            }, 10);
             this.disableSpecialPaste();
         },
 
@@ -1280,10 +1356,11 @@ define([
         },
 
         onKeyUp: function (e) {
-            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
+            if (e.keyCode == Common.UI.Keys.CTRL && this._needShowSpecPasteMenu && !this._handleZoomWheel && !this.btnSpecialPaste.menu.isVisible() && /area_id/.test(e.target.id)) {
                 $('button', this.btnSpecialPaste.cmpEl).click();
                 e.preventDefault();
             }
+            this._handleZoomWheel = false;
             this._needShowSpecPasteMenu = false;
         },
 
@@ -1313,6 +1390,22 @@ define([
                     me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[menu.items[i].value], undefined, true);
                 }
             });
+        },
+
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
         },
 
         onDoubleClickOnChart: function(chart) {
@@ -1548,7 +1641,7 @@ define([
                         value       : '',
                         template    : _.template([
                             '<a id="<%= id %>" tabindex="-1" type="menuitem" style="<% if (options.value=="") { %> opacity: 0.6 <% } %>">',
-                            '<%= caption %>',
+                            '<%= Common.Utils.String.htmlEncode(caption) %>',
                             '</a>'
                         ].join(''))
                     }));
@@ -1731,6 +1824,7 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.add_Hyperlink(dlg.getSettings());
@@ -1751,6 +1845,7 @@ define([
             if (me.api){
                 win = new DE.Views.HyperlinkSettingsDialog({
                     api: me.api,
+                    appOptions: me.mode,
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             me.api.change_Hyperlink(win.getSettings());
@@ -1911,7 +2006,20 @@ define([
         },
 
         onUndo: function () {
-            this.api.Undo();
+            this.api && this.api.Undo();
+        },
+
+        onRedo: function () {
+            this.api && this.api.Redo();
+        },
+
+        onClear: function () {
+            if (this.api) {
+                var props = this.api.asc_IsContentControl() ? this.api.asc_GetContentControlProperties() : null;
+                if (props) {
+                    this.api.asc_ClearContentControl(props.get_InternalId());
+                }
+            }
         },
 
         onAcceptRejectChange: function(item, e) {
@@ -2537,9 +2645,9 @@ define([
                     menu.items[5].setChecked(eq===Asc.c_oAscMathInputType.Unicode);
                     menu.items[6].setChecked(eq===Asc.c_oAscMathInputType.LaTeX);
                     menu.items[8].options.isEquationInline = isInlineMath;
-                    menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText);
+                    menu.items[8].setCaption(isInlineMath ? me.documentHolder.eqToDisplayText : me.documentHolder.eqToInlineText, true);
                     menu.items[9].options.isToolbarHide = isEqToolbarHide;
-                    menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar);
+                    menu.items[9].setCaption(isEqToolbarHide ? me.documentHolder.showEqToolbar : me.documentHolder.hideEqToolbar, true);
                 };
                 me.equationSettingsBtn.menu.on('item:click', _.bind(me.convertEquation, me));
                 me.equationSettingsBtn.menu.on('show:before', function(menu) {
@@ -2553,6 +2661,7 @@ define([
             if (!Common.Utils.InternalSettings.get("de-hidden-rulers")) {
                 showPoint = [showPoint[0] - 19, showPoint[1] - 26];
             }
+            (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
                 showPoint[1] = bounds[3] + 10;
                 !Common.Utils.InternalSettings.get("de-hidden-rulers") && (showPoint[1] -= 26);

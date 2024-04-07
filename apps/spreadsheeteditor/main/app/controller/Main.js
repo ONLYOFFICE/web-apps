@@ -57,6 +57,7 @@ define([
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers'
@@ -152,7 +153,9 @@ define([
                         'Text': this.textText,
                         'Sheet': this.txtSheet,
                         'None': this.txtNone,
-                        'Slicer': this.txtSlicer
+                        'Slicer': this.txtSlicer,
+                        'Info': this.txtInfo,
+                        'Picture': this.txtPicture
                     };
 
                 styleNames.forEach(function(item){
@@ -189,6 +192,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
 
@@ -201,8 +205,12 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-fontrender", value);
                 this.api.asc_setFontRenderingMode(parseInt(value));
 
-                value = Common.localStorage.getBool("sse-settings-show-alt-hints", Common.Utils.isMac ? false : true);
+                value = Common.localStorage.getBool("sse-settings-show-alt-hints", true);
                 Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", value);
+
+                value = Common.localStorage.getBool("app-settings-screen-reader");
+                Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
+                this.api.setSpeechEnabled(value);
 
                 if ( !Common.Utils.isIE ) {
                     if ( /^https?:\/\//.test('{{HELP_CENTER_WEB_SSE}}') ) {
@@ -228,6 +236,7 @@ define([
                 this.api.asc_registerCallback('asc_onOleEditorReady',        _.bind(this.onOleEditorReady, this));
                 Common.NotificationCenter.on('api:disconnect',               _.bind(this.onCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('goback',                       _.bind(this.goBack, this));
+                Common.NotificationCenter.on('close',                        _.bind(this.closeEditor, this));
                 Common.NotificationCenter.on('namedrange:locked',            _.bind(this.onNamedRangeLocked, this));
                 Common.NotificationCenter.on('protectedrange:locked',        _.bind(this.onProtectedRangeLocked, this));
                 Common.NotificationCenter.on('download:cancel',              _.bind(this.onDownloadCancel, this));
@@ -257,6 +266,7 @@ define([
                 Common.Gateway.on('init', _.bind(this.loadConfig, this));
                 Common.Gateway.on('showmessage', _.bind(this.onExternalMessage, this));
                 Common.Gateway.on('opendocument', _.bind(this.loadDocument, this));
+                Common.Gateway.on('opendocumentfrombinary', _.bind(this.loadBinary, this));
                 Common.Gateway.on('internalcommand', _.bind(this.onInternalCommand, this));
                 Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                 Common.Gateway.appReady();
@@ -423,8 +433,12 @@ define([
                 this.appOptions.user.anonymous && Common.localStorage.setItem("guest-id", this.appOptions.user.id);
 
                 this.appOptions.isDesktopApp    = this.editorConfig.targetApp == 'desktop' || Common.Controllers.Desktop.isActive();
+                if( Common.Controllers.Desktop.isActive() ){
+                    !this.editorConfig.recent && (this.editorConfig.recent = []);
+                }
+
                 this.appOptions.canCreateNew    = this.editorConfig.canRequestCreateNew || !_.isEmpty(this.editorConfig.createUrl) || this.editorConfig.templates && this.editorConfig.templates.length;
-                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined && !this.appOptions.isDesktopApp;
+                this.appOptions.canOpenRecent   = this.editorConfig.recent !== undefined;
                 this.appOptions.templates       = this.editorConfig.templates;
                 this.appOptions.recent          = this.editorConfig.recent;
                 this.appOptions.createUrl       = this.editorConfig.createUrl;
@@ -440,10 +454,6 @@ define([
                 this.appOptions.isEditDiagram   = this.editorConfig.mode == 'editdiagram';
                 this.appOptions.isEditMailMerge = this.editorConfig.mode == 'editmerge';
                 this.appOptions.isEditOle       = this.editorConfig.mode == 'editole';
-                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
-                this.appOptions.canBackToFolder = (this.editorConfig.canBackToFolder!==false) && (typeof (this.editorConfig.customization) == 'object') && (typeof (this.editorConfig.customization.goback) == 'object')
-                                                  && (!_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose);
-                this.appOptions.canBack         = this.appOptions.canBackToFolder === true;
                 this.appOptions.canPlugins      = false;
                 this.appOptions.canRequestUsers = this.editorConfig.canRequestUsers;
                 this.appOptions.canRequestSendNotify = this.editorConfig.canRequestSendNotify;
@@ -455,16 +465,34 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = true;
+                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
-                
+                this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 if (this.appOptions.user.guest && this.appOptions.canRenameAnonymous && !this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle)
                     Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
+                this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
+                this.appOptions.canCloseEditor = false;
+
+                var _canback = false;
+                if (typeof this.appOptions.customization === 'object') {
+                    if (typeof this.appOptions.customization.goback == 'object' && this.editorConfig.canBackToFolder!==false) {
+                        _canback = this.appOptions.customization.close===undefined ?
+                            !_.isEmpty(this.editorConfig.customization.goback.url) || this.editorConfig.customization.goback.requestClose && this.appOptions.canRequestClose :
+                            !_.isEmpty(this.editorConfig.customization.goback.url) && !this.editorConfig.customization.goback.requestClose;
+
+                        if (this.appOptions.customization.goback.requestClose)
+                            console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                    }
+                    if (this.appOptions.customization.close && typeof this.appOptions.customization.close === 'object')
+                        this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+                }
+                this.appOptions.canBack = this.appOptions.canBackToFolder = !!_canback;
+
                 this.headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.headerView.setCanBack(this.appOptions.canBackToFolder === true, (this.appOptions.canBackToFolder) ? this.editorConfig.customization.goback.text : '');
+                this.headerView.setCanBack(this.appOptions.canBack, this.appOptions.canBack ? this.editorConfig.customization.goback.text : '');
 
                 var reg = Common.localStorage.getItem("sse-settings-reg-settings"),
                     isUseBaseSeparator = Common.localStorage.getBool("sse-settings-use-base-separator", true),
@@ -512,7 +540,8 @@ define([
                 Common.Utils.InternalSettings.set("sse-allow-macros-request", (value !== null) ? parseInt(value)  : 0);
 
                 this.appOptions.wopi = this.editorConfig.wopi;
-                
+                this.headerView.setWopi(this.appOptions.wopi);
+
                 this.isFrameClosed = (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle);
                 Common.Controllers.Desktop.init(this.appOptions);
 
@@ -552,6 +581,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_ReferenceData(data.doc.referenceData);
+                    docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -623,6 +653,7 @@ define([
                         Asc.c_oAscFileType.XLTX,
                         Asc.c_oAscFileType.OTS,
                         Asc.c_oAscFileType.XLSM,
+                        Asc.c_oAscFileType.XLSB,
                         Asc.c_oAscFileType.JPG,
                         Asc.c_oAscFileType.PNG
                     ];
@@ -631,8 +662,11 @@ define([
                     _format = Asc.c_oAscFileType.XLSX;
                 if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA)
                     Common.NotificationCenter.trigger('download:settings', this, _format, true);
-                else
-                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(_format, true));
+                else {
+                    var options = new Asc.asc_CDownloadOptions(_format, true);
+                    options.asc_setIsSaveAs(true);
+                    this.api.asc_DownloadAs(options);
+                }
             },
 
             onProcessMouse: function(data) {
@@ -687,6 +721,10 @@ define([
                         }
                     }
                 }
+            },
+
+            closeEditor: function() {
+                this.appOptions.canRequestClose && this.onRequestClose();
             },
 
             markFavorite: function(favorite) {
@@ -775,15 +813,18 @@ define([
                     this.setLongActionView(action);
                 } else {
                     if (this.loadMask) {
-                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl)
+                        if (this.loadMask.isVisible() && !this.dontCloseDummyComment && !this.inTextareaControl && !Common.Utils.ModalWindow.isVisible() && !this.inFormControl) {
                             if (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) {
                                 Common.UI.HintManager.setInternalEditorLoading(false);
                             }
                             this.api.asc_enableKeyEvents(true);
+                        }
                         this.loadMask.hide();
                     }
 
-                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
+                    if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
+                                                                                  id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
+                        (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
@@ -932,7 +973,9 @@ define([
                 value = (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram || this.appOptions.isEditOle) ? 100 : Common.localStorage.getItem("sse-settings-zoom");
                 Common.Utils.InternalSettings.set("sse-settings-zoom", value);
                 var zf = (value!==null) ? parseInt(value)/100 : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom)/100 : 1);
-                this.api.asc_setZoom(zf>0 ? zf : 1);
+                value = Common.localStorage.getItem("sse-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value)/100 : 1;
+                this.api.asc_setZoom(zf>0 ? zf : (zf < 0 && lastZoom > 0) ? lastZoom : 1);
 
                 /** coauthoring begin **/
                 this.isLiveCommenting = Common.localStorage.getBool("sse-settings-livecomment", true);
@@ -1071,6 +1114,7 @@ define([
                     var formulasDlgController = application.getController('FormulaDialog');
                     formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
                     documentHolderView.createDelayedElementsViewer();
+                    Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();
                 }
@@ -1157,9 +1201,8 @@ define([
                         buttons = ['ok'],
                         primary = 'ok';
                     if ((this.appOptions.trialMode & Asc.c_oLicenseMode.Limited) !== 0 &&
-                        (license===Asc.c_oLicenseResult.SuccessLimit || license===Asc.c_oLicenseResult.ExpiredLimited || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
-                        (license===Asc.c_oLicenseResult.ExpiredLimited) && this.getApplication().getController('LeftMenu').leftMenu.setLimitMode();// show limited hint
-                        license = (license===Asc.c_oLicenseResult.ExpiredLimited) ? this.warnLicenseLimitedNoAccess : this.warnLicenseLimitedRenewed;
+                        (license===Asc.c_oLicenseResult.SuccessLimit || this.appOptions.permissionsLicense===Asc.c_oLicenseResult.SuccessLimit)) {
+                        license = this.warnLicenseLimitedRenewed;
                     } else if (license===Asc.c_oLicenseResult.Connections || license===Asc.c_oLicenseResult.UsersCount) {
                         license = (license===Asc.c_oLicenseResult.Connections) ? this.warnLicenseExceeded : this.warnLicenseUsersExceeded;
                     } else {
@@ -1298,7 +1341,8 @@ define([
             onEditorPermissions: function(params) {
                 var licType = params ? params.asc_getLicenseType() : Asc.c_oLicenseResult.Error;
                 if ( params && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle)) {
-                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType || Asc.c_oLicenseResult.NotBefore === licType) {
+                    if (Asc.c_oLicenseResult.Expired === licType || Asc.c_oLicenseResult.Error === licType || Asc.c_oLicenseResult.ExpiredTrial === licType ||
+                        Asc.c_oLicenseResult.NotBefore === licType || Asc.c_oLicenseResult.ExpiredLimited === licType) {
                         Common.UI.warning({
                             title: Asc.c_oLicenseResult.NotBefore === licType ? this.titleLicenseNotActive : this.titleLicenseExp,
                             msg: Asc.c_oLicenseResult.NotBefore === licType ? this.warnLicenseBefore : this.warnLicenseExp,
@@ -1307,8 +1351,6 @@ define([
                         });
                         return;
                     }
-                    if (Asc.c_oLicenseResult.ExpiredLimited === licType)
-                        this._state.licenseType = licType;
 
                     if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() ) return;
 
@@ -1357,6 +1399,8 @@ define([
                     this.appOptions.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(this.permissions.commentGroups);
                     this.appOptions.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(this.permissions.userInfoGroups);
                     this.headerView.setUserName(AscCommon.UserInfoParser.getParsedName(AscCommon.UserInfoParser.getCurrentName()));
+                    this.headerView.setUserId(this.appOptions.user.id);
+                    this.headerView.setUserAvatar(this.appOptions.user.image);
                 } else
                     this.appOptions.canModifyFilter = true;
 
@@ -1385,6 +1429,9 @@ define([
                 this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canComments;
 
+                this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
+                this.appOptions.twoLevelHeader = this.appOptions.isEdit; // when compactHeader=true some buttons move to toolbar
+
                 // change = true by default in editor
                 this.appOptions.canLiveView = !!params.asc_getLiveViewerSupport() && (this.editorConfig.mode === 'view'); // viewer: change=false when no flag canLiveViewer (i.g. old license), change=true by default when canLiveViewer==true
                 this.appOptions.canChangeCoAuthoring = this.appOptions.isEdit && !(this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge || this.appOptions.isEditOle) && this.appOptions.canCoAuthoring &&
@@ -1395,9 +1442,10 @@ define([
                 if (!this.appOptions.isEditDiagram && !this.appOptions.isEditMailMerge && !this.appOptions.isEditOle) {
                     this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
-                    this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
+                    Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
                     this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-                    Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers);
+                    Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
+                    this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 }
 
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
@@ -1592,6 +1640,7 @@ define([
                     me.api.asc_registerCallback('asc_onParticipantsChanged',     _.bind(me.onAuthParticipantsChanged, me));
                     me.api.asc_registerCallback('asc_onConnectionStateChanged',  _.bind(me.onUserConnection, me));
                     me.api.asc_registerCallback('asc_onConvertEquationToMath',   _.bind(me.onConvertEquationToMath, me));
+                    me.appOptions.canSaveDocumentToBinary && me.api.asc_registerCallback('asc_onSaveDocument',_.bind(me.onSaveDocumentBinary, me));
                     /** coauthoring end **/
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
@@ -1611,6 +1660,8 @@ define([
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
                 }
+                if (!this.appOptions.isEdit)
+                    window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
             onExternalMessage: function(msg, options) {
@@ -2078,6 +2129,19 @@ define([
                         config.msg = this.errorProtectedRange;
                         break;
 
+                    case Asc.c_oAscError.ID.TraceDependentsNoFormulas:
+                        config.msg = this.errorDependentsNoFormulas;
+                        break;
+
+                    case Asc.c_oAscError.ID.TracePrecedentsNoValidReference:
+                        config.msg = this.errorPrecedentsNoValidRef;
+                        config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.LockedCellGoalSeek:
+                        config.msg = this.errorLockedCellGoalSeek;
+                        break;
+
                     default:
                         config.msg = (typeof id == 'string') ? id : this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2229,7 +2293,7 @@ define([
                 
                 if (this.toolbarView && this.toolbarView.btnCollabChanges && this.api) {
                     var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         cansave = this.api.asc_isDocumentCanSave(),
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                         this.toolbarView.btnSave.setDisabled(isDisabled);
@@ -2239,7 +2303,7 @@ define([
             onDocumentCanSaveChanged: function (isCanSave) {
                 if (this.toolbarView && this.toolbarView.btnCollabChanges) {
                     var isSyncButton = this.toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave;
                     this.toolbarView.btnSave.setDisabled(isDisabled);
                 }
@@ -2265,6 +2329,11 @@ define([
 
             onUnload: function() {
                 if (this.continueSavingTimer) clearTimeout(this.continueSavingTimer);
+            },
+
+            onBeforeUnloadView: function() {
+                Common.localStorage.save();
+                this._state.unloadTimer = 10000;
             },
 
             hidePreloader: function() {
@@ -2426,82 +2495,102 @@ define([
 
             onConfirmAction: function(id, apiCallback, data) {
                 var me = this;
-                if (id == Asc.c_oAscConfirm.ConfirmReplaceRange || id == Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'yes');
-                            }
-                            if (btn == 'yes') {
+                switch (id) {
+                    case Asc.c_oAscConfirm.ConfirmReplaceRange:
+                    case Asc.c_oAscConfirm.ConfirmReplaceFormulaInTable:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: id == Asc.c_oAscConfirm.ConfirmReplaceRange ? this.confirmMoveCellRange : this.confirmReplaceFormulaInTable,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'yes');
+                                }
+                                if (btn == 'yes') {
+                                    me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmPutMergeRange:
+                        Common.UI.warning({
+                            closable: false,
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmPutMergeRange,
+                            buttons: ['ok'],
+                            primary: 'ok',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback();
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmChangeProtectRange:
+                        var win = new Common.Views.OpenDialog({
+                            title: this.txtUnlockRange,
+                            closable: true,
+                            type: Common.Utils.importTextType.DRM,
+                            warning: true,
+                            warningMsg: this.txtUnlockRangeWarning,
+                            txtOpenFile: this.txtUnlockRangeDescription,
+                            validatePwd: false,
+                            handler: function (result, value) {
+                                if (me.api && apiCallback)  {
+                                    if (result == 'ok') {
+                                        me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
+                                            apiCallback(res, false);
+                                        });
+                                    } else
+                                        apiCallback(false, true);
+                                }
                                 me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
                             }
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmPutMergeRange) {
-                    Common.UI.warning({
-                        closable: false,
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmPutMergeRange,
-                        buttons: ['ok'],
-                        primary: 'ok',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback();
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmChangeProtectRange) {
-                    var win = new Common.Views.OpenDialog({
-                        title: this.txtUnlockRange,
-                        closable: true,
-                        type: Common.Utils.importTextType.DRM,
-                        warning: true,
-                        warningMsg: this.txtUnlockRangeWarning,
-                        txtOpenFile: this.txtUnlockRangeDescription,
-                        validatePwd: false,
-                        handler: function (result, value) {
-                            if (me.api && apiCallback)  {
-                                if (result == 'ok') {
-                                    me.api.asc_checkProtectedRangesPassword(value.drmOptions.asc_getPassword(), data, function(res) {
-                                        apiCallback(res, false);
-                                    });
-                                } else
-                                    apiCallback(false, true);
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }
-                    });
-                    win.show();
-                } else if (id == Asc.c_oAscConfirm.ConfirmAddCellWatches) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'yes');
-                            }
-                        }, this)
-                    });
-                } else if (id == Asc.c_oAscConfirm.ConfirmMaxChangesSize) {
-                    Common.UI.warning({
-                        title: this.notcriticalErrorTitle,
-                        msg: this.confirmMaxChangesSize,
-                        buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
-                        maxwidth: 600,
-                        callback: _.bind(function(btn) {
-                            if (apiCallback)  {
-                                apiCallback(btn === 'ok');
-                            }
-                            me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
-                        }, this)
-                    });
+                        });
+                        win.show();
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmAddCellWatches:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: (data>Asc.c_nAscMaxAddCellWatchesCount) ? Common.Utils.String.format(this.confirmAddCellWatchesMax, Asc.c_nAscMaxAddCellWatchesCount) : Common.Utils.String.format(this.confirmAddCellWatches, data),
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'yes');
+                                }
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmMaxChangesSize:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmMaxChangesSize,
+                            buttons: [{value: 'ok', caption: this.textUndo, primary: true}, {value: 'cancel', caption: this.textContinue}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                                me.onEditComplete(me.application.getController('DocumentHolder').getView('DocumentHolder'));
+                            }, this)
+                        });
+                        break;
+                    case Asc.c_oAscConfirm.ConfirmReplaceHeaderFooterPicture:
+                        Common.UI.warning({
+                            title: this.notcriticalErrorTitle,
+                            msg: this.confirmReplaceHFPicture,
+                            buttons: [{value: 'ok', caption: this.textReplace, primary: true}, {value: 'cancel', caption: this.textKeep}],
+                            maxwidth: 600,
+                            callback: _.bind(function(btn) {
+                                if (apiCallback)  {
+                                    apiCallback(btn === 'ok');
+                                }
+                            }, this)
+                        });
+                        break;
                 }
             },
 
@@ -2891,18 +2980,17 @@ define([
             },
 
             onTryUndoInFastCollaborative: function() {
-                var val = window.localStorage.getItem("sse-hide-try-undoredo");
+                var val = Common.localStorage.getItem("sse-hide-try-undoredo");
                 if (!(val && parseInt(val) == 1))
                     Common.UI.info({
                         width: 500,
                         msg: this.appOptions.canChangeCoAuthoring ? this.textTryUndoRedo : this.textTryUndoRedoWarn,
                         iconCls: 'info',
-                        buttons: this.appOptions.canChangeCoAuthoring ? ['custom', 'cancel'] : ['ok'],
+                        buttons: this.appOptions.canChangeCoAuthoring ? [{value: 'custom', caption: this.textStrict}, 'cancel'] : ['ok'],
                         primary: this.appOptions.canChangeCoAuthoring ? 'custom' : 'ok',
-                        customButtonText: this.textStrict,
                         dontshow: true,
                         callback: _.bind(function(btn, dontshow){
-                            if (dontshow) window.localStorage.setItem("sse-hide-try-undoredo", 1);
+                            if (dontshow) Common.localStorage.setItem("sse-hide-try-undoredo", 1);
                             if (btn == 'custom') {
                                 Common.localStorage.setItem("sse-settings-coauthmode", 0);
                                 this.api.asc_SetFastCollaborative(false);
@@ -3222,12 +3310,13 @@ define([
                     this._renameDialog && this._renameDialog.close();
                     var versions = opts.data.history,
                         historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
-                        currentVersion = null;
+                        currentVersion = null,
+                        arrIds = [];
                     if (historyStore) {
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -3236,21 +3325,25 @@ define([
                                 docIdPrev = (ver>0 && versions[ver-1]) ? versions[ver-1].key : version.key + '0';
                                 user = usersStore.findUser(version.user.id);
                                 if (!user) {
+                                    var color = Common.UI.ExternalUsers.getColor(version.user.id || version.user.name || this.textAnonymous, true);
                                     user = new Common.Models.User({
                                         id          : version.user.id,
                                         username    : version.user.name,
-                                        colorval    : Asc.c_oAscArrUserColors[usersCnt],
-                                        color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                        colorval    : color,
+                                        color       : this.generateUserColor(color)
                                     });
                                     usersStore.add(user);
                                 }
-
+                                var avatar = Common.UI.ExternalUsers.getImage(version.user.id);
+                                (avatar===undefined) && arrIds.push(version.user.id);
                                 arrVersions.push(new Common.Models.HistoryVersion({
                                     version: version.versionGroup,
                                     revision: version.version,
                                     userid : version.user.id,
                                     username : version.user.name,
                                     usercolor: user.get('color'),
+                                    initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(version.user.name || this.textAnonymous)),
+                                    avatar : avatar,
                                     created: version.created,
                                     docId: version.key,
                                     markedAsVersion: (group!==version.versionGroup),
@@ -3258,7 +3351,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'xslx'
+                                    fileType: 'xslx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -3279,21 +3373,23 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
                                             if (!user) {
+                                                var color = Common.UI.ExternalUsers.getColor(change.user.id || change.user.name || this.textAnonymous, true);
                                                 user = new Common.Models.User({
                                                     id          : change.user.id,
                                                     username    : change.user.name,
-                                                    colorval    : Asc.c_oAscArrUserColors[usersCnt],
-                                                    color       : this.generateUserColor(Asc.c_oAscArrUserColors[usersCnt++])
+                                                    colorval    : color,
+                                                    color       : this.generateUserColor(color)
                                                 });
                                                 usersStore.add(user);
                                             }
-
+                                            avatar = Common.UI.ExternalUsers.getImage(change.user.id);
+                                            (avatar===undefined) && arrIds.push(change.user.id);
                                             arrVersions.push(new Common.Models.HistoryVersion({
                                                 version: version.versionGroup,
                                                 revision: version.version,
@@ -3301,6 +3397,8 @@ define([
                                                 userid : change.user.id,
                                                 username : change.user.name,
                                                 usercolor: user.get('color'),
+                                                initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.user.name || this.textAnonymous)),
+                                                avatar : avatar,
                                                 created: change.created,
                                                 docId: version.key,
                                                 docIdPrev: docIdPrev,
@@ -3309,7 +3407,10 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'xslx'
+                                                fileType: 'xslx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -3333,6 +3434,7 @@ define([
                         }
                         // if (currentVersion)
                         //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }
             },
@@ -3396,6 +3498,14 @@ define([
                     win && win.close();
                     me.getApplication().getController('LeftMenu').getView('LeftMenu').showMenu('file:help', 'UsageInstructions\/InsertEquation.htm#convertequation');
                 })
+            },
+
+            onSaveDocumentBinary: function(data) {
+                Common.Gateway.saveDocument(data);
+            },
+
+            loadBinary: function(data) {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -3848,7 +3958,15 @@ define([
             txtSheet: 'Sheet',
             txtNone: 'None',
             warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            txtSlicer: 'Slicer'
+            txtSlicer: 'Slicer',
+            txtInfo: 'Info',
+            confirmReplaceHFPicture: 'Only one picture can be inserted in each section of the header.<br>Press \"Replace\" to replace existing picture.<br>Press \"Keep\" to keep existing picture.',
+            textReplace: 'Replace',
+            textKeep: 'Keep',
+            errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
+            errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
+            txtPicture: 'Picture',
+            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.'
         }
     })(), SSE.Controllers.Main || {}))
 });

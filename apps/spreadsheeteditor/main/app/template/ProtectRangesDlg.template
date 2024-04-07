@@ -14,12 +14,12 @@
                     <button type="button" class="btn btn-text-default auto margin-right-5" id="protect-ranges-btn-new" style="min-width: 80px;"><%= scope.textNew %></button>
                     <button type="button" class="btn btn-text-default auto" id="protect-ranges-btn-edit" style="min-width: 80px;"><%= scope.textEdit %></button>
                 </td>
-                <td class="padding-small" style="text-align: right;width:90px;">
+                <td class="padding-small text-align-right" style="width:90px;">
                     <button type="button" class="btn btn-text-default auto" id="protect-ranges-btn-delete" style="min-width: 80px;"><%= scope.textDelete %></button>
                 </td>
             </tr>            
             <tr>
-                <td colspan=2 class="padding-small">
+                <td colspan=2>
                     <div id="protect-ranges-list" class="range-tableview" style="width:100%; height: 164px;"></div>
                 </td>
             </tr>

@@ -263,8 +263,7 @@ PE.ApplicationController = new(function(){
         window.onbeforeunload = onBeforeUnload;
 
         api = new Asc.asc_docs_api({
-        'id-view'  : 'editor_sdk',
-        'embedded' : true
+        'id-view'  : 'editor_sdk'
         });
 
         if (api){

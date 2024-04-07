@@ -57,16 +57,15 @@ define([
                 automove: false
             }, options);
 
-            var header_footer = (_options.buttons && _.size(_options.buttons)>0) ? 85 : 34;
-            if (!_options.header) header_footer -= 34;
             this.bordersOffset = 40;
             _options.width = (Common.Utils.innerWidth()-this.bordersOffset*2-_options.width)<0 ? Common.Utils.innerWidth()-this.bordersOffset*2: _options.width;
-            _options.height += header_footer;
-            _options.height = (Common.Utils.innerHeight()-this.bordersOffset*2-_options.height)<0 ? Common.Utils.innerHeight()-this.bordersOffset*2: _options.height;
-            _options.cls += ' advanced-settings-dlg';
+            _options.cls += ' advanced-settings-dlg invisible-borders';
+            (!_options.buttons || _.size(_options.buttons)<1) && (_options.cls += ' no-footer');
+            _options.contentHeight = _options.height;
+            _options.height = 'auto';
 
             this.template = [
-                '<div id="id-plugin-container" class="box" style="height:' + (_options.height-header_footer) + 'px;">',
+                '<div id="id-plugin-container" class="box" style="height:' + _options.contentHeight + 'px;">',
                 '<div id="id-plugin-placeholder" style="width: 100%;height: 100%;"></div>',
                 '</div>',
                 '<% if ((typeof buttons !== "undefined") && _.size(buttons) > 0) { %>',
@@ -79,17 +78,26 @@ define([
             this.url = options.url || '';
             this.loader = (options.loader!==undefined) ? options.loader : true;
             this.frameId = options.frameId || 'plugin_iframe';
+            this.guid = options.guid;
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
-            this.$window.find('> .body').css({height: 'auto', overflow: 'hidden'});
 
+            var bodyEl = this.$window.find('> .body');
+            bodyEl.css({height: 'auto', overflow: 'hidden'});
             this.boxEl = this.$window.find('.body > .box');
-            this._headerFooterHeight = (this.options.buttons && _.size(this.options.buttons)>0) ? 85 : 34;
-            if (!this.options.header) this._headerFooterHeight -= 34;
+
+            this._headerFooterHeight = this.options.header ? parseInt(this.$window.find('.header').css('height')) : 0;
+            if (this.options.buttons && _.size(this.options.buttons)>0)
+                this._headerFooterHeight += parseInt(this.$window.find('.footer').css('height')) + parseInt(bodyEl.css('padding-top')) + parseInt(bodyEl.css('padding-bottom'));
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
+
+            if (Common.Utils.innerHeight()-this.bordersOffset*2 < this.options.contentHeight + this._headerFooterHeight) {
+                this.options.contentHeight = Common.Utils.innerHeight()-this.bordersOffset*2 - this._headerFooterHeight;
+                this.boxEl.css('height', this.options.contentHeight);
+            }
 
             this.$window.find('.header').prepend($('<div class="tools left hidden"></div>'));
 
@@ -200,29 +208,25 @@ define([
             }
         },
 
-        showButton: function(id) {
-            var header = this.$window.find('.header .tools.left');
-            if (id=='back') {
-                var btn = header.find('#id-plugindlg-' + id);
-                if (btn.length<1) {
-                    btn = $('<div id="id-plugindlg-' + id + '" class="tool help" style="font-size:20px;">←</div>');
-                    btn.on('click', _.bind(function() {
-                        this.fireEvent('header:click',id);
-                    }, this));
-                    header.prepend(btn);
-                }
-                btn.show();
-                header.removeClass('hidden');
+        showButton: function(id, toRight) {
+            var header = this.$window.find(toRight ? '.header .tools:not(.left)' : '.header .tools.left'),
+                btn = header.find('#id-plugindlg-' + id);
+            if (btn.length<1) {
+                var iconCls = (id ==='back') ? 'btn-promote' : 'btn-' + Common.Utils.String.htmlEncode(id);
+                btn = $('<div id="id-plugindlg-' + id + '" class="tool custom toolbar__icon ' + iconCls + '"></div>');
+                btn.on('click', _.bind(function() {
+                    this.fireEvent('header:click',id);
+                }, this));
+                header.append(btn);
             }
+            btn.show();
+            header.removeClass('hidden');
         },
 
         hideButton: function(id) {
-            var header = this.$window.find('.header .tools.left');
-            if (id=='back') {
-                var btn = header.find('#id-plugindlg-' + id);
-                if (btn.length>0) {
-                    btn.hide();
-                }
+            var btn = this.$window.find('.header #id-plugindlg-' + id);
+            if (btn.length>0) {
+                btn.hide();
             }
         },
 

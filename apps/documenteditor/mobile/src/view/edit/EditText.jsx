@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState } from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, Swiper, View, SwiperSlide, List, ListItem, Icon, Row, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link} from 'framework7-react';
+import { f7, View, List, ListItem, Icon, Button, Page, Navbar, NavRight, Segmented, BlockTitle, Link } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
@@ -224,14 +224,14 @@ const PageNumbers = observer( props => {
     return (
         <View className='numbers dataview'>
             <List className="row" style={{listStyle: 'none'}}>
-            {numberArrays.map( number => (
-                        <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) ? 'active' : ''}
-                            onClick={() => {
-                                props.onNumber(number.numberingInfo);
-                            }}>
-                            <div id={number.id} className='item-number'></div>
-                        </ListItem>
-                    ))}
+                {numberArrays.map( number => (
+                    <ListItem key={'number-' + number.subtype} data-type={number.subtype} className={(number.subtype === typeNumbers) ? 'active' : ''}
+                        onClick={() => {
+                            props.onNumber(number.numberingInfo);
+                        }}>
+                        <div id={number.id} className='item-number'></div>
+                    </ListItem>
+                ))}
             </List>
         </View>
     );
@@ -249,19 +249,19 @@ const PageMultiLevel = observer( props => {
 
     return(
         <View className='multilevels dataview'>
-                <List className="row" style={{listStyle: 'none'}}>
-                    {arrayMultiLevel.map((item) => (
-                        <ListItem
-                        key={'multi-level-' + item.subtype} 
-                        data-type={item.subtype} 
-                        className={item.subtype === typeMultiLevel ? 'active' : ''}
-                        onClick={() => props.onMultiLevelList(item.numberingInfo)}>
-                            <div id={item.id} className='item-multilevellist'>
+            <List className="row" style={{listStyle: 'none'}}>
+                {arrayMultiLevel.map((item) => (
+                    <ListItem
+                    key={'multi-level-' + item.subtype} 
+                    data-type={item.subtype} 
+                    className={item.subtype === typeMultiLevel ? 'active' : ''}
+                    onClick={() => props.onMultiLevelList(item.numberingInfo)}>
+                        <div id={item.id} className='item-multilevellist'>
 
-                            </div>
-                        </ListItem>
-                    ))}
-                </List>
+                        </div>
+                    </ListItem>
+                ))}
+            </List>
         </View>
     )
         
@@ -319,7 +319,8 @@ const PageLineSpacing = props => {
     const { t } = useTranslation();
     const storeTextSettings = props.storeTextSettings;
     const lineSpacing = storeTextSettings.lineSpacing;
-    return(
+
+    return (
         <Page>
             <Navbar title={t('Edit.textLineSpacing')} backLink={t('Edit.textBack')}>
                 {Device.phone &&
@@ -478,6 +479,56 @@ const PageHighlightColor = props => {
     )
 };
 
+const PageOrientationTextShape = props => {
+    const { t } = useTranslation();
+    const _t = t('Edit', {returnObjects: true});
+    const shapePr = props.shapePr;
+    const [directionTextShape, setDirectionTextShape] = useState(shapePr.get_Vert());
+
+    return (
+        <Page>
+            <Navbar title={t('Edit.textTextOrientation')} backLink={_t.textBack}>
+                {Device.phone &&
+                    <NavRight>
+                        <Link sheetClose='#edit-sheet'>
+                            <Icon icon='icon-expand-down'/>
+                        </Link>
+                    </NavRight>
+                }
+            </Navbar>
+            <List>
+                <ListItem title={t('Edit.textHorizontalText')} radio 
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.normal}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.normal);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.normal);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextDown')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> 
+                </ListItem>
+                <ListItem title={t('Edit.textRotateTextUp')} radio
+                    checked={directionTextShape === Asc.c_oAscVertDrawingText.vert270}
+                    radioIcon="end"
+                    onChange={() => {
+                        setDirectionTextShape(Asc.c_oAscVertDrawingText.vert270);
+                        props.setOrientationTextShape(Asc.c_oAscVertDrawingText.vert270);
+                }}>
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
+                </ListItem>
+            </List>
+        </Page>
+    )
+}
+
 const EditText = props => {
     const isAndroid = Device.android;
     const { t } = useTranslation();
@@ -498,7 +549,10 @@ const EditText = props => {
     const isStrikethrough = storeTextSettings.isStrikethrough;
     const paragraphAlign = storeTextSettings.paragraphAlign;
 
-    props.updateListType();
+    useEffect(() => {
+        props.updateListType();
+    }, [])
+   
     let previewList;
     switch(storeTextSettings.listType) {
         case -1: 
@@ -528,12 +582,12 @@ const EditText = props => {
                     changeFontFamily: props.changeFontFamily
                 }}/>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className='row'>
                         <a className={'button' + (isBold ? ' active' : '')} onClick={() => { props.toggleBold(!isBold)}}><b>B</b></a>
                         <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                         <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
                         <a className={'button' + (isStrikethrough ? ' active' : '')} onClick={() => {props.toggleStrikethrough(!isStrikethrough)}} style={{textDecoration: "line-through"}}>S</a>
-                    </Row>
+                    </div>
                 </ListItem>
                 <ListItem title={t("Edit.textFontColor")} link="/edit-text-font-color/" routeProps={{
                     onTextColorAuto: props.onTextColorAuto,
@@ -562,7 +616,7 @@ const EditText = props => {
             </List>
             <List>
                 <ListItem className='buttons'>
-                    <Row>
+                    <div className="row">
                         <a className={'button' + (paragraphAlign === 'left' ? ' active' : '')} onClick={() => {props.onParagraphAlign('left')}}>
                             <Icon slot="media" icon="icon-text-align-left"></Icon>
                         </a>
@@ -575,11 +629,11 @@ const EditText = props => {
                         <a className={'button' + (paragraphAlign === 'just' ? ' active' : '')} onClick={() => {props.onParagraphAlign('just')}}>
                             <Icon slot="media" icon="icon-text-align-just"></Icon>
                         </a>
-                    </Row>
+                    </div>
                 </ListItem>
                 {!inSmartArtInternal &&
                     <ListItem className='buttons'>
-                        <Row>
+                        <div className="row">
                             <a className='button item-link' onClick={() => {
                                 props.onParagraphMove(true)
                             }}>
@@ -590,7 +644,15 @@ const EditText = props => {
                             }}>
                                 <Icon slot="media" icon="icon-in-indent"></Icon>
                             </a>
-                        </Row>
+                        </div>
+                    </ListItem>
+                }
+                {shapePr &&
+                    <ListItem title={t('Edit.textTextOrientation')} link='/edit-text-shape-orientation/' routeProps={{
+                        setOrientationTextShape: props.setOrientationTextShape,
+                        shapePr
+                    }}>
+                        {!isAndroid && <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>}
                     </ListItem>
                 }
                 {!inSmartArt && !inSmartArtInternal &&
@@ -623,6 +685,7 @@ const PageTextLineSpacing = inject("storeTextSettings")(observer(PageLineSpacing
 const PageTextFontColor = inject("storeTextSettings", "storePalette")(observer(PageFontColor));
 const PageTextCustomFontColor = inject("storeTextSettings", "storePalette")(observer(PageCustomFontColor));
 const PageTextHighlightColor = inject("storeTextSettings")(observer(PageHighlightColor));
+// const PageTextOrientation = observer(TextOrientation);
 
 export {
     EditTextContainer as EditText,
@@ -633,5 +696,7 @@ export {
     PageTextFontColor,
     PageTextCustomFontColor,
     PageTextHighlightColor,
+    // PageTextOrientation,
+    PageOrientationTextShape
     // PageTextCustomBackColor
 };

@@ -479,6 +479,8 @@
 	"ARRAYTOTEXT": "ARRAYTOTEXT",
 	"SORT": "SORT",
 	"SORTBY": "SORTBY",
+	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Էջագլուխներ",
@@ -500,7 +502,22 @@
 			"num": "#ԹԻՎ!",
 			"na": "#ԿԻՌ/ՉԷ",
 			"getdata": "#ՎԱՆԴԱԿԱՆԻՇՏՎՅԱԼՆԵՐԻ_ՍՏԱՑՈՒՄ",
-			"uf": "#ՉԱՋԱԿՑՎՈՂ_ՖՈՒՆԿՑԻԱ!"
+			"uf": "#ՉԱՋԱԿՑՎՈՂ_ՖՈՒՆԿՑԻԱ!",
+			"calc": "#CALC!"
+		},
+		"CELL_FUNCTION_INFO_TYPE": {
+			"address": "Հասցե",
+			"col": "Սյունակ",
+			"color": "Գույն",
+			"contents": "Բովանդակություն",
+			"filename": "Ֆայլի անուն",
+			"format": "Ձևաչափ",
+			"parentheses": "Փակագծեր",
+			"prefix": "Նախածանց",
+			"protect": "Պաշտպանություն",
+			"row": "Տող",
+			"type": "Տեսակ",
+			"width": "Լայնք"
 		}
 	}
 }

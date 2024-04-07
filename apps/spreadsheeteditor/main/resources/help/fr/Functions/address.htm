@@ -4,24 +4,24 @@
 		<title>Fonction ADRESSE</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
-		<link type="text/css" rel="stylesheet" href="../editor.css" />
+		<link type="text/css" rel="stylesheet" href="../../../../../../common/main/resources/help/editor.css" />
 		<link type = "text/css" rel = "stylesheet" href = "../../images/sprite.css" />
         <script type="text/javascript" src="../callback.js"></script>
-        <script type="text/javascript" src="../search/js/page-search.js"></script>
+        <script type="text/javascript" src="../../../../../../common/main/resources/help/search/js/page-search.js"></script>
 	</head>
 	<body>
 		<div class="mainpart">
             <div class="search-field">
-                <input id="search" class="searchBar" placeholder="Recherche" type="text" onkeypress="doSearch(event)">
+                <input id="search" class="searchBar" placeholder="Rechercher" type="text" onkeypress="doSearch(event)">
             </div>
 			<h1>Fonction ADRESSE</h1>
 			<p>La fonction <b>ADRESSE</b> est l'une des fonctions de recherche et de référence. Elle est utilisée pour renvoyer une représentation textuelle de l'adresse d'une cellule.</p>
 			<p>La syntaxe de la fonction <b>ADRESSE</b> est :</p> 
-			<p style="text-indent: 150px;"><b><em>ADRESSE(row-number, col-number[ , [ref-type] [, [A1-ref-type-flag] [, sheet name]]])</em></b></p> 
+			<p style="text-indent: 150px;"><b><em>ADRESSE(no_lig, no_col, [no_abs], [a1], [feuille_texte])</em></b></p> 
 			<p><em>où</em></p> 
-			<p style="text-indent: 50px;"><em><b>row-number</b></em> est un numéro de ligne à utiliser dans une adresse de cellule.</p>
-			<p style="text-indent: 50px;"><em><b>col-number</b></em> est un numéro de colonne à utiliser dans une adresse de cellule.</p>
-			<p style="text-indent: 50px;"><em><b>ref-type</b></em> est un type de référence. Il peut s'agir de l'une des valeurs numériques suivantes :</p>
+			<p style="text-indent: 50px;"><em><b>no_lig</b></em> est un numéro de ligne à utiliser dans une adresse de cellule.</p>
+			<p style="text-indent: 50px;"><em><b>no_col</b></em> est un numéro de colonne à utiliser dans une adresse de cellule.</p>
+			<p style="text-indent: 50px;"><em><b>no_abs</b></em> est un type de référence. Il peut s'agir de l'une des valeurs numériques suivantes :</p>
 				<table style="width: 40%">
 				<tr>
 					<td><b>Valeur numérique</b></td>
@@ -44,8 +44,8 @@
 					<td>Référencement relatif</td>
 				</tr>
 			</table>
-			<p><em><b>A1-ref-type-flag</b></em> est une valeur logique optionnelle : TRUE (VRAI) ou FALSE (FAUX). Si elle est définie sur TRUE (VRAI) ou omise, la fonction analysera <b><em>ref-text</em></b> comme une référence de style A1. Si elle est définie sur FALSE (FAUX), la fonction interprétera <b><em>ref-text</em></b> comme une référence de style R1C1.</p>
-			<p><em><b>sheet name</b></em>  est le nom de la feuille à utiliser dans une adresse de cellule. C'est un argument facultatif. En cas d'omission, la fonction renvoie l'adresse de la cellule sans mentionner le nom de la feuille.</p>
+			<p><em><b>a1</b></em> est une valeur logique optionnelle : TRUE (VRAI) ou FALSE (FAUX). Si elle est définie sur TRUE (VRAI) ou omise, la fonction analysera <b><em>ref-text</em></b> comme une référence de style A1. Si elle est définie sur FALSE (FAUX), la fonction interprétera <b><em>ref-text</em></b> comme une référence de style R1C1.</p>
+			<p><em><b>feuille_texte</b></em>  est le nom de la feuille à utiliser dans une adresse de cellule. C'est un argument facultatif. En cas d'omission, la fonction renvoie l'adresse de la cellule sans mentionner le nom de la feuille.</p>
 			<p>Ces arguments peuvent être saisis à la main ou inclus dans les cellules auxquelles il est fait référence.</p>
 			<p>Pour appliquer la fonction <b>ADRESSE</b>,</p>
 			<ol>

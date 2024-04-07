@@ -219,6 +219,10 @@ div {
                 window.open(fileInfo.HostEditUrl, "_blank");
         };
 
+        var onRequestSaveAs = function (event) {
+            //SaveAs work via PutRelativeFile server-server request
+        };
+
         var onRequestSharingSettings = function (event) {
             if (fileInfo.FileSharingPostMessage)
                 _postMessage('UI_Sharing', {});
@@ -243,6 +247,19 @@ div {
                 innerAlert(event.data);
         };
 
+        var getWopiFileUrl = function(fileInfo, userAuth) {
+           let url;
+           if (fileInfo.FileUrl) {
+              //Requests to the FileUrl can not be signed using proof keys. The FileUrl is used exactly as provided by the host, so it does not necessarily include the access token, which is required to construct the expected proof.
+              url = fileInfo.FileUrl;
+           } else if (fileInfo.TemplateSource) {
+              url = fileInfo.TemplateSource;
+           } else if (userAuth) {
+              url = userAuth.wopiSrc + "/contents?access_token=" + userAuth.access_token;
+           }
+           return url;
+        }
+
         var connectEditor = function () {
 
             fileInfo = <%- JSON.stringify(fileInfo) %>;
@@ -266,6 +283,8 @@ div {
                 type = "desktop"
             }
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
+			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
+			fileType = fileType.toLowerCase();
 			var config = {
 				"width": "100%",
 				"height": "100%",
@@ -274,8 +293,8 @@ div {
 				"token": token,
 				"document": {
 					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
-					"url": userAuth.wopiSrc,
-					"fileType": fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType,
+					"url": getWopiFileUrl(fileInfo, userAuth),
+					"fileType": fileType,
 					"key": key,
                     "info": {
                         "folder": fileInfo.BreadcrumbFolderName
@@ -285,6 +304,9 @@ div {
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption
+					},
+					"options": {
+						"WOPISrc": userAuth.wopiSrc
 					}
 				},
 				"editorConfig": {
@@ -319,7 +341,8 @@ div {
 				"events": {
                     "onAppReady": onAppReady,
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
-                    'onRequestEditRights': fileInfo.EditModePostMessage || (fileInfo.HostEditUrl && !fileInfo.UserCanNotWriteRelative) ? onRequestEditRights : undefined,
+                    'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
+                    'onRequestSaveAs': fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative ? onRequestSaveAs : undefined,
                     "onError": onError,
                     "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
@@ -367,9 +390,11 @@ div {
         if (window.addEventListener) {
             window.addEventListener("load", connectEditor);
             window.addEventListener("resize", fixSize);
+            window.addEventListener("orientationchange", fixSize);
         } else if (window.attachEvent) {
             window.attachEvent("onload", connectEditor);
             window.attachEvent("onresize", fixSize);
+            window.attachEvent("orientationchange", fixSize);
         }
     </script>
 </body>

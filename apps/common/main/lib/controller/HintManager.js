@@ -295,7 +295,7 @@ Common.UI.HintManager = new(function() {
                 }
             }
         }
-        if (visibleItems.length > _arrAlphabet.length) {
+        if (visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0) > _arrAlphabet.length) {
             visibleItemsWithTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').charAt(0).toLowerCase();
                 t = _getLetterInUILanguage(t);
@@ -604,9 +604,10 @@ Common.UI.HintManager = new(function() {
                                     }
                                 }
                                 if (curr.prop('id') === 'btn-go-back' || curr.closest('.btn-slot').prop('id') === 'slot-btn-options' ||
-                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
+                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'id-btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
                                     curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
-                                    curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search') {
+                                    curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search' ||
+                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-edit-mode') {
                                     _resetToDefault();
                                     return;
                                 }
@@ -642,10 +643,9 @@ Common.UI.HintManager = new(function() {
             }
 
             _needShow = (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !e.shiftKey &&
-                (!Common.Utils.isMac && e.keyCode == Common.UI.Keys.ALT || Common.Utils.isMac && e.metaKey && e.keyCode === Common.UI.Keys.F6) &&
-                !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
-                !(window.PE && $('#pe-preview').is(':visible')));
-            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && !Common.Utils.isMac && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
+                e.keyCode == Common.UI.Keys.ALT && !Common.Utils.ModalWindow.isVisible() && _isDocReady && _arrAlphabet.length > 0 &&
+                !(window.PE && $('#pe-preview').is(':visible')) && !(Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.isFocusMode()));
+            if (Common.Utils.InternalSettings.get(_appPrefix + "settings-show-alt-hints") && e.altKey && e.keyCode !== 115 && _isInternalEditorLoading) {
                 e.preventDefault();
             }
         });
@@ -682,14 +682,14 @@ Common.UI.HintManager = new(function() {
         return !(_hintVisible && _currentLevel > 1);
     };
 
-    var _clearHints = function (isComplete) {
+    var _clearHints = function (isComplete, leaveLockedKeyEvents) {
         if (Common.Utils.isIE || Common.UI.isMac && Common.Utils.isGecko)
             return;
         _hintVisible && _hideHints();
         if (_currentHints.length > 0) {
             _resetToDefault();
         }
-        _isLockedKeyEvents && _lockedKeyEvents(false);
+        !leaveLockedKeyEvents && _isLockedKeyEvents && _lockedKeyEvents(false);
 
         if (isComplete) {
             _isComplete = true;

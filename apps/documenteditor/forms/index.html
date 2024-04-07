@@ -148,9 +148,17 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
+      <script>var params = {}</script>
+      <script src="../../common/main/lib/util/themeinit.js"></script>
       <script src="../../common/main/lib/util/htmlutils.js"></script>
       <script>
           if ( !!window.desktop ) {
@@ -259,12 +267,12 @@
       <div class="toolbar" id="toolbar">
           <div class="group left">
               <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
-              <span id="id-btn-undo" class="margin-right-small"></span>
-              <span id="id-btn-redo" class="margin-right-small"></span>
-              <div class="separator"></div>
+              <span id="id-btn-undo" class="margin-right-small big-resolution"></span>
+              <span id="id-btn-redo" class="margin-right-small big-resolution"></span>
+              <div class="separator big-resolution"></div>
               <span id="id-btn-prev-field" class="margin-left-small margin-right-small"></span>
               <span id="id-btn-next-field" class="margin-right-large"></span>
-              <span id="id-btn-clear-fields"></span>
+              <span id="id-btn-clear-fields" class="big-resolution"></span>
           </div>
           <div class="group center">
               <span id="title-doc-name"></span>
@@ -276,6 +284,7 @@
               <div id="id-submit-group" style="display: inline-block;"></div>
               <div id="id-download-group" style="display: inline-block;"></div>
               <span id="box-tools"></span>
+              <div id="id-btn-close-editor" style="display: inline-block;"></div>
           </div>
       </div>
 

@@ -21,7 +21,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 10000;
+            z-index: 1000;
         }
 
         .loadmask > .brendpanel {
@@ -136,6 +136,10 @@
             50%  { opacity:0.3; }
             100% { opacity:1; }
         }
+
+        .loadmask.none-animation > .placeholder .slide-container {
+            animation: none;
+        }
     </style>
 
     <!--[if lt IE 9]>
@@ -207,20 +211,25 @@
 
            var params = getUrlParams(),
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+               hideLogo = params["headerlogo"]==='',
                logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
 
            var elem = document.querySelector('.loading-logo');
-           if (elem && logo) {
-               elem.style.backgroundImage= 'none';
-               elem.style.width = 'auto';
-               elem.style.height = 'auto';
-               var img = document.querySelector('.loading-logo img');
-               img && img.setAttribute('src', logo);
-               img.style.opacity = 1;
-           }
+           if (elem) {
+              if (hideLogo) {
+                  elem.style.display = 'none';
+              } else if (logo) {
+                  elem.style.backgroundImage= 'none';
+                  elem.style.width = 'auto';
+                  elem.style.height = 'auto';
+                  var img = document.querySelector('.loading-logo img');
+                  img && img.setAttribute('src', logo);
+                  img.style.opacity = 1;
+              }
+          }
       </script>
 
       <div id="box-preview">
@@ -248,6 +257,7 @@
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
+              <button id="id-btn-close-editor" class="control-btn svg-icon search-close hidden"></button>
           </div>
       </div>
 
@@ -293,6 +303,7 @@
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

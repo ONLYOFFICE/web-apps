@@ -46,7 +46,7 @@ define([
 
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section class="panel" data-tab="view">' +
+            '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -320,7 +320,7 @@ define([
 
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.disableOnStart],
-                    labelText: this.textRightMenu,
+                    labelText: !Common.UI.isRTL() ? this.textRightMenu : this.textLeftMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -329,7 +329,7 @@ define([
 
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.disableOnStart],
-                    labelText: this.textLeftMenu,
+                    labelText: !Common.UI.isRTL() ? this.textLeftMenu : this.textRightMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'

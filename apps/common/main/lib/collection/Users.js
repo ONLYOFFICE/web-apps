@@ -68,25 +68,23 @@ define([
         },
 
         getEditingOriginalCount: function() {
-            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).size().value();
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy('idOriginal').size().value();
         },
 
         getVisibleEditingOriginalCount: function() {
-            return this.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).size().value();
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy('idOriginal').size().value();
         },
 
         findUser: function(id) {
-            return this.find(
-                function(model){
-                    return model.get('id') == id;
-                });
+            return this.findWhere({id: id});
         },
 
         findOriginalUser: function(id) {
-            return this.find(
-                function(model){
-                    return model.get('idOriginal') == id;
-                });
+            return this.findWhere({idOriginal: id});
+        },
+
+        findOriginalUsers: function(id) {
+            return this.where({idOriginal: id});
         }
     });
 
@@ -94,10 +92,7 @@ define([
         model: Common.Models.User,
 
         findUser: function(id) {
-            return this.find(
-                function(model){
-                    return model.get('id') == id;
-                });
+            return this.findWhere({id: id});
         }
     });
 });

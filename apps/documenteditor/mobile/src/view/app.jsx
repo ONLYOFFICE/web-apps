@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {App,Panel,Views,View,Popup,Page,Navbar,Toolbar,NavRight,Link,Block,BlockTitle,List,ListItem,ListInput,ListButton,BlockFooter} from 'framework7-react';
-import { f7, f7ready } from 'framework7-react';
+import { App, View } from 'framework7-react';
+import { f7ready } from 'framework7-react';
 
 import '../../../../common/Analytics.js';
 
@@ -18,7 +18,6 @@ import {Themes} from '../../../../common/mobile/lib/controller/Themes'
 const f7params = {
     name: 'Desktop Editor', // App name
     theme: 'auto', // Automatic theme detection
-
     routes: routes, // App routes
 };
 
@@ -27,7 +26,7 @@ export default class extends React.Component {
         super(props);
 
         Common.Notifications = new Notifications();
-        Themes.init();
+        // Themes.init();
     }
 
     render() {

@@ -1896,7 +1896,7 @@
 		"d": "Vrátí aritmetickou posloupnost."
 	},
 	"EXPAND": {
-		"a": "(matice, řádky, [sloupce], [pad_with])",
+		"a": "(matice, řádky, [sloupce], [výplň])",
 		"d": "Rozbalí pole na zadané dimenze."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matice, podle_matice, [pořadí_řazení], ...)",
 		"d": "Seřadí oblast nebo matici na základě hodnot v odpovídající oblasti nebo matici."
+	},
+	"GETPIVOTDATA": {
+		"a": "(datové_pole; kontingenční_tabulka; [pole]; [položka]; ...)",
+		"d": "Extrahuje data uložená v kontingenční tabulce."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_tabulky; řetězec_rozsahu)",
+		"d": "Importuje rozsah buněk ze zadané tabulky."
 	}
 }

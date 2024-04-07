@@ -1,10 +1,11 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import {observer, inject} from "mobx-react";
-import {f7, f7router, List, ListItem, Icon, Row, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, Swiper, SwiperSlide, ListInput, Block} from 'framework7-react';
+import {f7, List, ListItem, Icon, Button, Page, Navbar, Segmented, BlockTitle, NavRight, Link, Toggle, ListInput, Block} from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { ThemeColorPalette, CustomColorPicker } from '../../../../../common/mobile/lib/component/ThemeColorPalette.jsx';
 import { LocalStorage } from '../../../../../common/mobile/utils/LocalStorage.mjs';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const EditCell = props => {
     const isAndroid = Device.android;
@@ -48,11 +49,11 @@ const EditCell = props => {
                 <>
                     <List>
                         <ListItem className='buttons'>
-                            <Row>
+                            <div className="row">
                                 <a className={'button' + (isBold ? ' active' : '')} onClick={() => {props.toggleBold(!isBold)}}><b>B</b></a>
                                 <a className={'button' + (isItalic ? ' active' : '')} onClick={() => {props.toggleItalic(!isItalic)}}><i>I</i></a>
                                 <a className={'button' + (isUnderline ? ' active' : '')} onClick={() => {props.toggleUnderline(!isUnderline)}} style={{textDecoration: "underline"}}>U</a>
-                            </Row>
+                            </div>
                         </ListItem>
                         <ListItem title={_t.textTextColor} link="/edit-cell-text-color/" routeProps={{
                             onTextColor: props.onTextColor,
@@ -74,19 +75,20 @@ const EditCell = props => {
                         <ListItem title={_t.textTextFormat} link="/edit-cell-text-format/" routeProps={{
                             onHAlignChange: props.onHAlignChange,
                             onVAlignChange: props.onVAlignChange,
-                            onWrapTextChange: props.onWrapTextChange
+                            onWrapTextChange: props.onWrapTextChange,
+                            onTextOrientationChange: props.onTextOrientationChange
                         }}>
                             {!isAndroid ?
                                 <Icon slot="media" icon="icon-text-align-left"></Icon> : null
                             }
                         </ListItem>
-                        <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
+                        {/* <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
                             onTextOrientationChange: props.onTextOrientationChange
                         }}>
                             {!isAndroid ?
                                 <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
                             }
-                        </ListItem>
+                        </ListItem> */}
                         <ListItem title={_t.textBorderStyle} link="/edit-cell-border-style/" routeProps={{
                             onBorderStyle: props.onBorderStyle
                         }}>
@@ -145,25 +147,23 @@ const PageCellStyle = props => {
                 }
             </Navbar>
             {cellStyles && cellStyles.length ? (
-                <div className="swiper-container swiper-init" data-pagination='{"el": ".swiper-pagination"}'>
-                    <div className="swiper-wrapper">
-                        {arraySlides.map((_, indexSlide) => {
-                            let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
-                            
-                            return (
-                                <div className="swiper-slide" key={indexSlide}>
-                                    <List className="cell-styles-list">
-                                        {stylesSlide.map((elem, index) => (
-                                            <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
-                                                <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
-                                            </ListItem> 
-                                        ))}
-                                    </List>
-                                </div>
-                        )})}
-                    </div>
-                    <div className="swiper-pagination"></div>
-                </div>
+                <Swiper pagination={true}>
+                    {arraySlides.map((_, indexSlide) => {
+                        let stylesSlide = cellStyles.slice(indexSlide * countStylesSlide, (indexSlide * countStylesSlide) + countStylesSlide);
+                        
+                        return (
+                            <SwiperSlide key={indexSlide}>
+                                <List className="cell-styles-list">
+                                    {stylesSlide.map((elem, index) => (
+                                        <ListItem key={index} className={elem.name === styleName ? "item-theme active" : "item-theme"} onClick={() => props.onStyleClick(elem.name)}>
+                                            <div className='thumb' style={{backgroundImage: `url(${elem.image})`}}></div>
+                                        </ListItem> 
+                                    ))}
+                                </List>
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
             ) : null}
         </Page>
     )
@@ -488,58 +488,53 @@ const PageTextFormatCell = props => {
                 }
             </Navbar>
             <List>
-                <ListItem title={_t.textAlignLeft} radio checked={hAlignStr === 'left'} onChange={() => {
-                    props.onHAlignChange('left');
+                <ListItem className='buttons'>
+                    <div className="row">
+                        <a className={'button' + (hAlignStr === 'left' ? ' active' : '')} onClick={() => {props.onHAlignChange('left')}}>
+                            <Icon slot="media" icon="icon-text-align-left"></Icon>
+                        </a>
+                        <a className={'button' + (hAlignStr === 'center' ? ' active' : '')} onClick={() => {props.onHAlignChange('center')}}>
+                            <Icon slot="media" icon="icon-text-align-center"></Icon>
+                        </a>
+                        <a className={'button' + (hAlignStr === 'right' ? ' active' : '')} onClick={() => {props.onHAlignChange('right')}}>
+                            <Icon slot="media" icon="icon-text-align-right"></Icon>
+                        </a>
+                        <a className={'button' + (hAlignStr === 'justify' ? ' active' : '')} onClick={() => {props.onHAlignChange('justify')}}>
+                            <Icon slot="media" icon="icon-text-align-just"></Icon>
+                        </a>
+                    </div>
+                </ListItem>
+                <ListItem className='buttons'>
+                    <div className="row">
+                        <a className={'button' + (vAlignStr === 'top' ? ' active' : '')} onClick={() => {props.onVAlignChange('top')}}>
+                            <Icon slot="media" icon="icon-text-valign-top"></Icon>
+                        </a>
+                        <a className={'button' + (vAlignStr === 'center' ? ' active' : '')} onClick={() => {props.onVAlignChange('center')}}>
+                            <Icon slot="media" icon="icon-text-valign-middle"></Icon>
+                        </a>
+                        <a className={'button' + (vAlignStr === 'bottom' ? ' active' : '')} onClick={() => {props.onVAlignChange('bottom')}}>
+                            <Icon slot="media" icon="icon-text-valign-bottom"></Icon>
+                        </a>
+                    </div>
+                </ListItem>
+                <ListItem title={_t.textTextOrientation} link="/edit-cell-text-orientation/" routeProps={{
+                    onTextOrientationChange: props.onTextOrientationChange
                 }}>
                     {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-align-left"></Icon> : null
+                        <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
                     }
                 </ListItem>
-                <ListItem title={_t.textAlignCenter} radio checked={hAlignStr === 'center'} onChange={() => {
-                    props.onHAlignChange('center');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-align-center"></Icon> : null
-                    }
-                </ListItem>
-                <ListItem title={_t.textAlignRight} radio checked={hAlignStr === 'right'} onChange={() => {
-                    props.onHAlignChange('right');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-align-right"></Icon> : null
-                    }
-                </ListItem>
-                <ListItem title={_t.textJustified} radio checked={hAlignStr === 'justify'} onChange={() => {
-                    props.onHAlignChange('justify');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-align-jast"></Icon> : null
-                    }
-                </ListItem>
-            </List>
-            <List>
-                <ListItem title={_t.textAlignTop} radio checked={vAlignStr === 'top'} onChange={() => {
-                    props.onVAlignChange('top');
-                }}>
-                    {!isAndroid ? <Icon slot="media" icon="icon-text-valign-top"></Icon> : null}
-                </ListItem>
-                <ListItem title={_t.textAlignMiddle} radio checked={vAlignStr === 'center'} onChange={() => {
-                    props.onVAlignChange('center');
-                }}>
-                    {!isAndroid ? <Icon slot="media" icon="icon-text-valign-middle"></Icon> : null}
-                </ListItem>
-                <ListItem title={_t.textAlignBottom} radio checked={vAlignStr === 'bottom'} onChange={() => {
-                    props.onVAlignChange('bottom');
-                }}>
-                    {!isAndroid ? <Icon slot="media" icon="icon-text-valign-bottom"></Icon> : null}
-                </ListItem>
-            </List>
-            <List>
                 <ListItem title={_t.textWrapText}>
                     {!isAndroid ? <Icon slot="media" icon="icon-cell-wrap"></Icon> : null}
                     <Toggle checked={isWrapText} onToggleChange={() => {props.onWrapTextChange(!isWrapText)}} />
                 </ListItem>
             </List>
+            {/* <List>
+                <ListItem title={_t.textWrapText}>
+                    {!isAndroid ? <Icon slot="media" icon="icon-cell-wrap"></Icon> : null}
+                    <Toggle checked={isWrapText} onToggleChange={() => {props.onWrapTextChange(!isWrapText)}} />
+                </ListItem>
+            </List> */}
         </Page>
     )
 };
@@ -568,52 +563,52 @@ const PageTextOrientationCell = props => {
             </Navbar>
             <List>
                 <ListItem title={_t.textHorizontalText} radio checked={orientationStr === 'horizontal'}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null} onChange={() => {
-                    props.onTextOrientationChange('horizontal');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon> : null
+                    radioIcon="end"
+                    onChange={() => {
+                        props.onTextOrientationChange('horizontal');
                     }
+                }>
+                    <Icon slot="media" icon="icon-text-orientation-horizontal"></Icon>
                 </ListItem>
                 <ListItem title={_t.textAngleCounterclockwise} radio checked={orientationStr === 'anglecount'}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon> : null} onChange={() => {
-                    props.onTextOrientationChange('anglecount');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon> : null
+                    radioIcon="end"
+                    onChange={() => {
+                        props.onTextOrientationChange('anglecount');
                     }
+                }>
+                    <Icon slot="media" icon="icon-text-orientation-anglecount"></Icon>
                 </ListItem>
                 <ListItem title={_t.textAngleClockwise} radio checked={orientationStr === 'angleclock'}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-angleclock"></Icon> : null} onChange={() => {
-                    props.onTextOrientationChange('angleclock');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-angleclock"></Icon> : null
+                    radioIcon="end"
+                    onChange={() => {
+                        props.onTextOrientationChange('angleclock');
                     }
+                }>
+                    <Icon slot="media" icon="icon-text-orientation-angleclock"></Icon>
                 </ListItem>
                 <ListItem title={_t.textVerticalText} radio checked={orientationStr === 'vertical'}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-vertical"></Icon> : null} onChange={() => {
-                    props.onTextOrientationChange('vertical');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-vertical"></Icon> : null
+                    radioIcon="end"
+                    onChange={() => {
+                        props.onTextOrientationChange('vertical');
                     }
+                }>
+                    <Icon slot="media" icon="icon-text-orientation-vertical"></Icon>
                 </ListItem>
                 <ListItem title={_t.textRotateTextUp} radio checked={orientationStr === 'rotateup'}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> : null} onChange={() => {
-                    props.onTextOrientationChange('rotateup');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon> : null
+                    radioIcon="end"
+                    onChange={() => {
+                        props.onTextOrientationChange('rotateup');
                     }
+                }>
+                    <Icon slot="media" icon="icon-text-orientation-rotateup"></Icon>
                 </ListItem>
                 <ListItem title={_t.textRotateTextDown} radio checked={orientationStr === 'rotatedown'}
-                    after={isAndroid ? <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null} onChange={() => {
-                    props.onTextOrientationChange('rotatedown');
-                }}>
-                    {!isAndroid ?
-                        <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon> : null
+                    radioIcon="end"
+                    onChange={() => {
+                        props.onTextOrientationChange('rotatedown');
                     }
+                }>
+                    <Icon slot="media" icon="icon-text-orientation-rotatedown"></Icon>
                 </ListItem>
             </List>
         </Page>
@@ -1007,6 +1002,7 @@ const PageCreationCustomFormat = observer(props => {
                         placeholder={t('View.Edit.textEnterFormat')}
                         value={formatValue}
                         onInput={e => setFormatValue(e.target.value)}
+                        clearButton={isIos ? true : false}
                     />
                 </List>
                 <Block>

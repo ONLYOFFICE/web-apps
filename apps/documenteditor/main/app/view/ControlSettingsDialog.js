@@ -50,7 +50,7 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 310,
-            height: 392,
+            contentHeight: 320,
             toggleGroup: 'control-adv-settings-group',
             storageName: 'de-control-settings-adv-category'
         },
@@ -142,7 +142,6 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 ],
                 themecolors: 0,
                 effects: 0,
-                cls: 'move-focus',
                 takeFocusOnClose: true
             });
             this.colors = this.btnColor.getPicker();
@@ -151,6 +150,11 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 el: $('#control-settings-btn-all')
             });
             this.btnApplyAll.on('click', _.bind(this.applyAllClick, this));
+
+            this.chTemp = new Common.UI.CheckBox({
+                el: $('#control-settings-chb-temp'),
+                labelText: this.txtRemContent
+            });
 
             this.chLockDelete = new Common.UI.CheckBox({
                 el: $('#control-settings-chb-lock-delete'),
@@ -204,8 +208,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
             this.btnDown.on('click', _.bind(this.onMoveItem, this, false));
 
             // date picker
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
-                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
+            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+                { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
@@ -358,12 +362,13 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         },
 
         getFocusedComponents: function() {
-            return [
-                this.txtName, this.txtTag, this.txtPlaceholder, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
+            return this.btnsCategory.concat([
+                this.txtName, this.txtTag, this.txtPlaceholder, this.chTemp, this.cmbShow, this.btnColor, this.btnApplyAll, // 0 tab
                 this.chLockDelete , this.chLockEdit, // 1 tab
-                this.list, // 2 tab
-                this.txtDate, this.listFormats, this.cmbLang // 3 tab
-            ];
+                this.list, this.btnAdd, this.btnChange, this.btnDelete, this.btnUp, this.btnDown, // 2 tab
+                this.txtDate, this.listFormats, this.cmbLang, // 3 tab,
+                this.btnEditChecked, this.btnEditUnchecked // 4 tab,
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
@@ -379,6 +384,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     me.list.focus();
                 } else if (index==3)
                     me.txtDate.focus();
+                else if (index==4)
+                    me.btnEditChecked.focus();
             }, 100);
         },
 
@@ -424,6 +431,9 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                 (val===undefined) && (val = Asc.c_oAscSdtLockType.Unlocked);
                 this.chLockDelete.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.SdtLocked);
                 this.chLockEdit.setValue(val==Asc.c_oAscSdtLockType.SdtContentLocked || val==Asc.c_oAscSdtLockType.ContentLocked);
+
+                val = props.get_Temporary();
+                this.chTemp.setValue(!!val);
 
                 var type = props.get_SpecificType();
                 var specProps;
@@ -561,6 +571,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                     props.put_Color(color.get_r(), color.get_g(), color.get_b());
                 }
             }
+
+            props.put_Temporary(this.chTemp.getValue()==='checked');
 
             var lock = Asc.c_oAscSdtLockType.Unlocked;
 
@@ -709,6 +721,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         }
                         me.list.focus();
                     }
+                }).on('close', function() {
+                    me.list.focus();
                 });
             win.show();
         },
@@ -729,6 +743,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         }
                         me.list.focus();
                     }
+                }).on('close', function() {
+                    me.list.focus();
                 });
             rec && win.show();
             rec && win.setSettings({name: rec.get('name'), value: rec.get('value')});
@@ -808,6 +824,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
                         font: props.font,
                         code: props.code,
                         handler: handler
+                    }).on('close', function() {
+                        cmp.focus();
                     });
                 win.show();
                 win.on('symbol:dblclick', handler);
@@ -894,7 +912,8 @@ define([ 'text!documenteditor/main/app/template/ControlSettingsDialog.template',
         textWidth: 'Width',
         textPlaceholderSymbol: 'Placeholder symbol',
         textMaxChars: 'Characters limit',
-        textComb: 'Comb of characters'
+        textComb: 'Comb of characters',
+        txtRemContent: 'Remove content control when contents are edited'
 
     }, DE.Views.ControlSettingsDialog || {}))
 });

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { f7, Popup, Popover, View } from 'framework7-react';
 import { Device } from '../../../../../common/mobile/utils/device';
-import {observer, inject} from "mobx-react";
 import { withTranslation } from 'react-i18next';
 
 import { EditLink, PageEditTypeLink, PageEditSheet} from '../../view/edit/EditLink';
@@ -149,7 +148,7 @@ class EditLinkController extends Component {
         return (
             !this.props.isNavigate ?
                 Device.phone ?
-                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.onClosed('edit-link')}>
+                    <Popup id="edit-link-popup" onPopupClosed={() => this.props.closeOptions('edit-link')}>
                         <View routes={routes} style={{height: '100%'}}>
                             <EditLink 
                                 linkInfo={this.linkInfo}
@@ -164,7 +163,7 @@ class EditLinkController extends Component {
                         </View>
                     </Popup>
                 :
-                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.onClosed('edit-link')}>
+                    <Popover id="edit-link-popover" className="popover__titled" closeByOutsideClick={false} onPopoverClosed={() => this.props.closeOptions('edit-link')}>
                         <View routes={routes} style={{height: '410px'}}>
                             <EditLink
                                 linkInfo={this.linkInfo}

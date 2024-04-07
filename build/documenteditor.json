@@ -98,6 +98,16 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "src": [
+                    "../apps/common/main/lib/controller/ScreenReaderFocus.js",
+                    "../apps/documenteditor/main/app/view/ParagraphSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/ImageSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/TableSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/DropcapSettingsAdvanced.js"
+                ],
+                "dest": "../deploy/web-apps/apps/documenteditor/main/code.js"
             }
         },
         "less": {
@@ -152,6 +162,12 @@
                     "cwd": "../apps/documenteditor/main/resources/watermark",
                     "src": "*",
                     "dest": "../deploy/web-apps/apps/documenteditor/main/resources/watermark"
+                },
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/main/resources/numbering",
+                    "src": "*",
+                    "dest": "../deploy/web-apps/apps/documenteditor/main/resources/numbering"
                 },
                 {
                     "expand": true,
@@ -350,10 +366,17 @@
                     "dest": "../deploy/web-apps/apps/documenteditor/embed/locale/"
                 }
             ],
-            "index-page": {
-                "../deploy/web-apps/apps/documenteditor/embed/index.html": "../apps/documenteditor/embed/index.html.deploy",
-                "../deploy/web-apps/apps/documenteditor/embed/index_loader.html": "../apps/documenteditor/embed/index_loader.html.deploy"
-            },
+            "indexhtml": [
+                {
+                    "expand": true,
+                    "cwd": "../apps/documenteditor/embed",
+                    "src": [
+                        "*.html.deploy"
+                    ],
+                    "ext": ".html",
+                    "dest": "../deploy/web-apps/apps/documenteditor/embed"
+                }
+            ],
             "images-app": [
                 {
                     "expand": true,

@@ -47,6 +47,10 @@ if (window.Common === undefined) {
                 $me.trigger('opendocument', data);
             },
 
+            'openDocumentFromBinary': function(data) {
+                $me.trigger('opendocumentfrombinary', data);
+            },
+
             'showMessage': function(data) {
                 $me.trigger('showmessage', data);
             },
@@ -156,11 +160,11 @@ if (window.Common === undefined) {
             }
         };
 
-        var _postMessage = function(msg) {
+        var _postMessage = function(msg, buffer) {
             // TODO: specify explicit origin
             if (window.parent && window.JSON) {
                 msg.frameEditorId = window.frameEditorId;
-                window.parent.postMessage(window.JSON.stringify(msg), "*");
+                buffer ? window.parent.postMessage(msg, "*", [buffer]) : window.parent.postMessage(window.JSON.stringify(msg), "*");
             }
         };
 
@@ -169,6 +173,14 @@ if (window.Common === undefined) {
             if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
 
             var data = msg.data;
+            if (data && data.command === 'openDocumentFromBinary') {
+                handler = commandMap[data.command];
+                if (handler) {
+                    handler.call(this, data.data);
+                }
+                return;
+            }
+
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
                 return;
             }
@@ -334,8 +346,8 @@ if (window.Common === undefined) {
                 _postMessage({event:'onMakeActionLink', data: config});
             },
 
-            requestUsers:  function (command) {
-                _postMessage({event:'onRequestUsers', data: {c: command}});
+            requestUsers:  function (command, id) {
+                _postMessage({event:'onRequestUsers', data: {c: command, id: id}});
             },
 
             requestSendNotify:  function (emails) {
@@ -384,6 +396,13 @@ if (window.Common === undefined) {
 
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
+            },
+
+            saveDocument: function(data) {
+                data && _postMessage({
+                    event: 'onSaveDocument',
+                    data: data.buffer
+                }, data.buffer);
             },
 
             on: function(event, handler){

@@ -70,6 +70,7 @@ define([
                     allowBlank: true,
                     validateOnBlur: false,
                     style: 'width: 100%;',
+                    type: 'search',
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -191,9 +192,9 @@ define([
                         editable: false,
                         cls: 'input-group-nr',
                         data: [
-                            { value: 0, displayValue: this.textSheet },
-                            { value: 1, displayValue: this.textWorkbook },
-                            { value: 2, displayValue: this.textSpecificRange}
+                            { value: Asc.c_oAscSearchBy.Sheet, displayValue: this.textSheet },
+                            { value: Asc.c_oAscSearchBy.Workbook, displayValue: this.textWorkbook },
+                            { value: Asc.c_oAscSearchBy.Range, displayValue: this.textSpecificRange}
                         ],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -260,7 +261,7 @@ define([
                         this.$searchOptionsBlock.addClass('no-expand');
                     }
 
-                    this.cmbWithin.setValue(0);
+                    this.cmbWithin.setValue(Asc.c_oAscSearchBy.Sheet);
                     this.cmbSearch.setValue(0);
                     this.cmbLookIn.setValue(0);
 
@@ -321,6 +322,10 @@ define([
                 el.find('input').focus();
                 el.find('input').select();
             }, 10);
+        },
+
+        getFocusElement: function () {
+            return this.inputText.$el.find('input');
         },
 
         setSearchMode: function (mode) {

@@ -1896,7 +1896,7 @@
 		"d": "Retorna uma sequência de números"
 	},
 	"EXPAND": {
-		"a": "(matriz, linhas, [colunas], [pad_with])",
+		"a": "(matriz, linhas, [colunas], [preenchimento_com])",
 		"d": "Expande uma matriz para as dimensões especificadas."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matriz, índice_de_classificação, [ordem_de_classificação], ...)",
 		"d": "Classifica um intervalo ou matriz com base nos valores de uma matriz ou intervalo correspondente"
+	},
+	"GETPIVOTDATA": {
+		"a": "(campo_dados; tab_din; [campo]; [item]; ...)",
+		"d": "Extrai os dados armazenados em uma tabela dinâmica"
+	},
+	"IMPORTRANGE": {
+		"a": "(url_da_planilha; string_do_intervalo)",
+		"d": "Importa um intervalo de células da planilha especificada."
 	}
 }

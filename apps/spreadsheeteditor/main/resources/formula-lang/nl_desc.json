@@ -1896,7 +1896,7 @@
 		"d": "Retourneert een reeks getallen"
 	},
 	"EXPAND": {
-		"a": "(matrix, rijen, [kolommen], [pad_with])",
+		"a": "(matrix, rijen, [kolommen], [opvullen_met])",
 		"d": "Hiermee wordt een matrix uitgevouwen naar de opgegeven dimensies."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matrix, op_matrix, [sorteervolgorde], ...)",
 		"d": "Sorteert een bereik of matrix op basis van de waarden in een bijbehorend bereik of een bijbehorende matrix"
+	},
+	"GETPIVOTDATA": {
+		"a": "(gegevensveld; draaitabel; [veld]; [item]; ...)",
+		"d": "Haalt gegevens op uit een draaitabel"
+	},
+	"IMPORTRANGE": {
+		"a": "(spreadsheet_url; bereik_tekenreeks)",
+		"d": "Importeert een bereik van cellen uit een bepaalde spreadsheet."
 	}
 }

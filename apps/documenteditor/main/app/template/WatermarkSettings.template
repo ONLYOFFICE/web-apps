@@ -1,4 +1,6 @@
-<table cols="1">
+<div class="settings-panel active">
+<div class="inner-content">
+<table cols="1" style="width: 100%;">
     <tr><td class="padding-small">
         <div id="watermark-radio-none"></div>
     </td></tr>
@@ -65,3 +67,5 @@
             </table>
     </td></tr>
 </table>
+</div>
+</div>

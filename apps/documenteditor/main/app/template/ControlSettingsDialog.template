@@ -20,7 +20,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large">
+                <td class="padding-small">
+                    <div id="control-settings-chb-temp"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
                     <div class="separator horizontal"></div>
                 </td>
             </tr>
@@ -48,7 +53,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="padding-large" colspan="2">
+                <td class="" colspan="2">
                     <button type="button" class="btn btn-text-default auto" id="control-settings-btn-all" style="min-width: 98px;"><%= scope.textApplyAll %></button>
                 </td>
             </tr>

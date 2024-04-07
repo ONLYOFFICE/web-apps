@@ -43,13 +43,13 @@ Common.Models = Common.Models || {};
 define([
     'underscore',
     'backbone',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/TreeView'
 ], function(_, Backbone){
     'use strict';
 
-    Common.Models.HistoryVersion = Backbone.Model.extend({
+    Common.Models.HistoryVersion = Common.UI.TreeViewModel.extend({
         defaults: function() {
-            return {
+            return _.extend({
                 version : 0,
                 revision: 0,
                 changeid : undefined,
@@ -67,15 +67,9 @@ define([
                 arrColors: [], // array of user colors for all changes of current version
                 markedAsVersion: false,
                 canRestore: false,
-                isRevision: true,
-                hasChanges: false,
-                isExpanded: true,
-                isVisible: true,
-                allowSelected: true,
-                selected: false,
                 serverVersion: 0,
                 fileType: 'docx'
-            }
+            }, Common.UI.TreeViewModel.prototype.defaults() || {});
         }
     });
 });

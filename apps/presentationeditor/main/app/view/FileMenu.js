@@ -42,7 +42,8 @@
 define([
     'text!presentationeditor/main/app/template/FileMenu.template',
     'underscore',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/view/RecentFiles'
 ], function (tpl, _) {
     'use strict';
 
@@ -332,6 +333,10 @@ define([
             }
             this.applyMode();
 
+            if ( Common.Controllers.Desktop.isActive() ) {
+                Common.NotificationCenter.trigger('update:recents', Common.Controllers.Desktop.recentFiles());
+            }
+
             if ( !!this.api ) {
                 this.panels['info'].setApi(this.api);
                 if (this.panels['opts']) this.panels['opts'].setApi(this.api);
@@ -339,6 +344,7 @@ define([
                     this.panels['protect'].setApi(this.api);
             }
 
+            this.fireEvent('render:after', [this]);
             return this;
         },
 
@@ -363,7 +369,7 @@ define([
         hide: function() {
             this.$el.hide();
             this.fireEvent('menu:hide', [this]);
-            this.api && this.api.asc_enableKeyEvents(true);
+            // this.api && this.api.asc_enableKeyEvents(true);
         },
 
         applyMode: function() {
@@ -446,6 +452,7 @@ define([
             !this.mode.isDisconnected && this.panels['info'].updateInfo(this.document);
             this.panels['rights'].setMode(this.mode);
             !this.mode.isDisconnected && this.panels['rights'].updateInfo(this.document);
+            this.panels['printpreview'] && this.panels['printpreview'].setMode(this.mode);
 
             if ( this.mode.canCreateNew ) {
                 if (this.mode.templates && this.mode.templates.length) {
@@ -454,7 +461,7 @@ define([
             }
 
             if ( this.mode.canOpenRecent && this.mode.recent ) {
-                !this.panels['recent'] && (this.panels['recent'] = (new PE.Views.FileMenuPanels.RecentFiles({menu:this, recent: this.mode.recent})).render());
+                !this.panels['recent'] && (this.panels['recent'] = (new Common.Views.RecentFiles({ el: '#panel-recentfiles', menu:this, recent: this.mode.recent})).render());
             }
 
             if (this.mode.isSignatureSupport || this.mode.isPasswordSupport) {
@@ -501,6 +508,19 @@ define([
                         el      : $('#fm-btn-exit', this.$el),
                         action  : 'file:exit',
                         caption : this.btnExitCaption,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
+            } else if (this.mode.canCloseEditor) {
+                $('<li class="devider" />' +
+                    '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-close', this.$el),
+                        action  : 'close-editor',
+                        caption : this.mode.customization.close.text || this.btnCloseEditor,
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
@@ -655,6 +675,7 @@ define([
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnHistoryCaption       : 'Versions History',
         btnExitCaption          : 'Exit',
-        btnFileOpenCaption      : 'Open...'
+        btnFileOpenCaption      : 'Open...',
+        btnCloseEditor          : 'Close File'
     }, PE.Views.FileMenu || {}));
 });

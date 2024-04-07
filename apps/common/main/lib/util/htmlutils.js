@@ -29,6 +29,8 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
+const isIE = /msie|trident/i.test(navigator.userAgent);
+
 var checkLocalStorage = (function () {
     try {
         var storage = window['localStorage'];
@@ -39,12 +41,33 @@ var checkLocalStorage = (function () {
     }
 })();
 
-if ( checkLocalStorage && localStorage.getItem("ui-rtl") === '1' ) {
+if (!window.lang) {
+    window.lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    window.lang = window.lang ? window.lang[1] : '';
+}
+window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
+
+var ui_rtl = false;
+if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
+    ui_rtl = window.nativeprocvars.rtl;
+} else {
+    if ( checkLocalStorage && localStorage.getItem("ui-rtl") !== null )
+        ui_rtl = localStorage.getItem("ui-rtl") === '1';
+    else ui_rtl = lang === 'ar';
+}
+
+if ( ui_rtl && !isIE ) {
     document.body.setAttribute('dir', 'rtl');
     document.body.classList.add('rtl');
 }
 
-const isIE = /msie|trident/i.test(navigator.userAgent);
+var isLangRtl = function (lang) {
+    return lang.lastIndexOf('ar', 0) === 0;
+}
+
+if ( isLangRtl(window.lang || lang) ) {
+    document.body.classList.add('rtl-font');
+}
 
 function checkScaling() {
     var matches = {
@@ -65,7 +88,7 @@ function checkScaling() {
 
     if ( !isIE ) {
         matches = {
-            'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.5), screen and (min-resolution: 2.5dppx)',
+            'pixel-ratio__2_5': 'screen and (-webkit-min-device-pixel-ratio: 2.25), screen and (min-resolution: 2.25dppx)',
         };
         for (let c in matches) {
             if ( window.matchMedia(matches[c]).matches ) {
@@ -104,7 +127,7 @@ window.Common = {
                                     else {/* error */}
                                 }).then(function (text) {
                                     const el = document.querySelector('div.inlined-svg')
-                                    el.append(htmlToElements(text));
+                                    el.appendChild(htmlToElements(text));
 
                                     const i = svg_icons.findIndex(function (item) {return item == url});
                                     if ( !(i < 0) ) svg_icons.splice(i, 1)

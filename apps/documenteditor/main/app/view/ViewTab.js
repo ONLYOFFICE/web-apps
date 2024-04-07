@@ -46,7 +46,7 @@ define([
 
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="view">' +
+        '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group" data-layout-name="toolbar-view-navigation">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-navigation"></span>' +
             '</div>' +
@@ -146,7 +146,7 @@ define([
 
                 this.btnNavigation = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-menu-navigation',
+                    iconCls: 'toolbar__icon btn-big-menu-navigation',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.textOutline,
                     enableToggle: true,
@@ -252,7 +252,7 @@ define([
 
                 this.chRightMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    labelText: this.textRightMenu,
+                    labelText: !Common.UI.isRTL() ? this.textRightMenu : this.textLeftMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -261,7 +261,7 @@ define([
 
                 this.chLeftMenu = new Common.UI.CheckBox({
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    labelText: this.textLeftMenu,
+                    labelText: !Common.UI.isRTL() ? this.textLeftMenu : this.textRightMenu,
                     dataHint    : '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'

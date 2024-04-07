@@ -60,9 +60,9 @@ define([
             _.extend(this.options, options || {});
 
             this.template = [
-                '<div class="box">',
+                '<div class="box" role="search">',
                     '<div class="search-input-group">',
-                        '<input type="text" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                        '<input type="search" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
                         '<div id="search-bar-results">0/0</div>',
                     '</div>',
                     '<div class="tools">',
@@ -94,19 +94,22 @@ define([
                 this.fireEvent('search:keydown', [this.inputSearch.val(), e]);
             }, this));
 
+            const is_svg_icon = this.iconType === 'svg';
             this.btnBack = new Common.UI.Button({
                 parentEl: $('#search-bar-back'),
                 cls: 'btn-toolbar',
-                iconCls: this.iconType === 'svg' ? 'svg-icon search-arrow-up' : 'toolbar__icon btn-arrow-up',
-                hint: this.tipPreviousResult
+                iconCls: is_svg_icon ? 'svg-icon search-arrow-up' : 'toolbar__icon btn-arrow-up',
+                hint: this.tipPreviousResult,
+                scaling: !is_svg_icon,
             });
             this.btnBack.on('click', _.bind(this.onBtnNextClick, this, 'back'));
 
             this.btnNext = new Common.UI.Button({
                 parentEl: $('#search-bar-next'),
                 cls: 'btn-toolbar',
-                iconCls: this.iconType === 'svg' ? 'svg-icon search-arrow-down' : 'toolbar__icon btn-arrow-down',
-                hint: this.tipNextResult
+                iconCls: is_svg_icon ? 'svg-icon search-arrow-down' : 'toolbar__icon btn-arrow-down',
+                hint: this.tipNextResult,
+                scaling: !is_svg_icon,
             });
             this.btnNext.on('click', _.bind(this.onBtnNextClick, this, 'next'));
 
@@ -123,8 +126,9 @@ define([
             this.btnClose = new Common.UI.Button({
                 parentEl: $('#search-bar-close'),
                 cls: 'btn-toolbar',
-                iconCls: this.iconType === 'svg' ? 'svg-icon search-close' : 'toolbar__icon btn-close',
-                hint: this.tipCloseSearch
+                iconCls: is_svg_icon ? 'svg-icon search-close' : 'toolbar__icon btn-close',
+                hint: this.tipCloseSearch,
+                scaling: !is_svg_icon,
             });
             this.btnClose.on('click', _.bind(function () {
                 this.hide();

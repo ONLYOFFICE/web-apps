@@ -1896,7 +1896,7 @@
 		"d": "Returnerar en sekvens med tal"
 	},
 	"EXPAND": {
-		"a": "(matris, rader, [kolumner], [pad_with])",
+		"a": "(matris, rader, [kolumner], [fyll_med])",
 		"d": "Expanderar en matris till de angivna dimensionerna."
 	},
 	"XMATCH": {
@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(matris, efter_matris, [sorteringsordning], ...)",
 		"d": "Sorterar ett intervall eller en matris utifrån värdena i ett motsvarande intervall eller en motsvarande matris"
+	},
+	"GETPIVOTDATA": {
+		"a": "(datafält; pivottabell; [fält]; [objekt]; ...)",
+		"d": "Extraherar data som sparats i en pivottabell."
+	},
+	"IMPORTRANGE": {
+		"a": "(kalkylarkets_webbadress; intervallsträng)",
+		"d": "Importerar ett cellområde från ett angivet kalkylark."
 	}
 }

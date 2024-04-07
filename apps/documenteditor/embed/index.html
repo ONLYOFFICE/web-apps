@@ -23,7 +23,7 @@
             overflow: hidden;
             border: none;
             background-color: #f4f4f4;
-            z-index: 10000;
+            z-index: 1000;
         }
 
         .loadmask > .brendpanel {
@@ -81,37 +81,77 @@
             overflow: hidden;
             position: relative;
 
-            -webkit-animation: flickerAnimation 2s infinite ease-in-out;
-            -moz-animation: flickerAnimation 2s infinite ease-in-out;
-            -o-animation: flickerAnimation 2s infinite ease-in-out;
-            animation: flickerAnimation 2s infinite ease-in-out;
+            -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
+            -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
+            -o-animation: startFlickerAnimation 2s infinite ease-in-out;
+            animation: startFlickerAnimation 2s infinite ease-in-out;
+        }
+        
+        @keyframes startFlickerAnimation {
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-o-keyframes startFlickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-moz-keyframes startFlickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
+        }
+        @-webkit-keyframes startFlickerAnimation{
+            0%   { opacity:0.1; }
+            50%  { opacity:1; }
+            100% { opacity:0.1; }
         }
 
-        @keyframes flickerAnimation {
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+        .loadmask.none-animation > .placeholder > .line {
+            animation: none;
         }
-        @-o-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+
+        .loadmask.end-animation > .placeholder > .line {
+            -webkit-animation: endFlickerAnimation 2s infinite ease-in-out;
+            -moz-animation: endFlickerAnimation 2s infinite ease-in-out;
+            -o-animation: endFlickerAnimation 2s infinite ease-in-out;
+            animation: endFlickerAnimation 2s infinite ease-in-out;
         }
-        @-moz-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+
+        @keyframes endFlickerAnimation {
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
         }
-        @-webkit-keyframes flickerAnimation{
-            0%   { opacity:0.1; }
-            50%  { opacity:1; }
-            100% { opacity:0.1; }
+        @-o-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
         }
+        @-moz-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes endFlickerAnimation{
+            0%   { opacity:1; }
+            50%  { opacity:0.1; }
+            100% { opacity:1; }
+        }
+
+        
     </style>
 
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
@@ -162,19 +202,25 @@
 
            var params = getUrlParams(),
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
-               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
+               hideLogo = params["headerlogo"]==='',
+               logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
+               isForm = params["isForm"];
 
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
 
            var elem = document.querySelector('.loading-logo');
-           if (elem && logo) {
-               elem.style.backgroundImage= 'none';
-               elem.style.width = 'auto';
-               elem.style.height = 'auto';
-               var img = document.querySelector('.loading-logo img');
-               img && img.setAttribute('src', logo);
-               img.style.opacity = 1;
+           if (elem) {
+               if (hideLogo) {
+                   elem.style.display = 'none';
+               } else if (logo) {
+                   elem.style.backgroundImage= 'none';
+                   elem.style.width = 'auto';
+                   elem.style.height = 'auto';
+                   var img = document.querySelector('.loading-logo img');
+                   img && img.setAttribute('src', logo);
+                   img.style.opacity = 1;
+               }
            }
         </script>
 
@@ -203,6 +249,7 @@
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
+              <button id="id-btn-close-editor" class="control-btn svg-icon search-close hidden"></button>
           </div>
       </div>
 
@@ -259,13 +306,30 @@
       <script type="text/javascript" src="js/SearchBar.js"></script>
       <script type="text/javascript" src="js/ApplicationView.js"></script>
       <script type="text/javascript" src="js/ApplicationController.js"></script>
-      <script type="text/javascript" src="js/application.js"></script>
+      <script type="text/javascript" src="../../common/checkExtendedPDF.js"></script>
+      <script>
+          function startApp() {
+              var script = document.createElement("script");
+              script.src = "js/application.js";
+              document.body.appendChild(script);
+          }
+          if (isForm===undefined) {
+              listenApiMsg(function (isform) {
+                  window.isPDFForm = !!isform;
+                  startApp();
+              });
+          } else {
+              window.isPDFForm = isForm==='true';
+              startApp();
+          }
+      </script>
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

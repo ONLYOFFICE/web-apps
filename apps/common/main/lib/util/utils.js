@@ -143,8 +143,8 @@ var utils = new(function() {
                         "screen and (min-resolution: 1.75dppx) and (max-resolution: 1.99dppx)";
                 var str_mq_200 = "screen and (-webkit-min-device-pixel-ratio: 2), " +
                         "screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi)";
-                const str_mq_250 = "screen and (-webkit-min-device-pixel-ratio: 2.5), " +
-                        "screen and (min-resolution: 2.5dppx), screen and (min-resolution: 240dpi)";
+                const str_mq_225 = "screen and (-webkit-min-device-pixel-ratio: 2.25), " +
+                        "screen and (min-resolution: 2.25dppx), screen and (min-resolution: 216dpi)";
 
                 if ( window.matchMedia(str_mq_125).matches ) {
                     scale.devicePixelRatio = 1.5;
@@ -159,8 +159,8 @@ var utils = new(function() {
                     scale.devicePixelRatio = 2;
                 else scale.devicePixelRatio = 1;
 
-                if ( window.matchMedia(str_mq_250).matches ) {
-                    scale.devicePixelRatio = 2.5;
+                if ( window.matchMedia(str_mq_225).matches ) {
+                    scale.devicePixelRatio = 2.25;
                 }
             }
 
@@ -187,7 +187,7 @@ var utils = new(function() {
                     document.body.className = clear_list + ' pixel-ratio__1_75';
                 }
             } else
-            if ( !(scale.devicePixelRatio < 2) && scale.devicePixelRatio < 2.5 ) {
+            if ( !(scale.devicePixelRatio < 2) && scale.devicePixelRatio < 2.25 ) {
                 if ( !/pixel-ratio__2\b/.test(classes) ) {
                     document.body.className = clear_list + ' pixel-ratio__2';
                 }
@@ -391,8 +391,8 @@ var themecolor = new(function() {
                         schemeName = this.getTranslation(colors[idx].asc_getNameInColorScheme()),
                         effectName = this.getEffectTranslation(colors[idx].asc_getEffectValue());
                     if (colorName) {
-                        schemeName && (colorName += ', ' + schemeName);
-                        effectName && (colorName += ', ' + effectName);
+                        schemeName && (colorName += Common.Utils.String.textComma + ' ' + schemeName);
+                        effectName && (colorName += Common.Utils.String.textComma + ' ' + effectName);
                     }
                     item = {
                         color: this.getHexColor(colors[idx].get_r(), colors[idx].get_g(), colors[idx].get_b()),
@@ -701,6 +701,7 @@ var utilsString = new (function() {
         textCtrl: 'Ctrl',
         textShift: 'Shift',
         textAlt: 'Alt',
+        textComma: ',',
 
         format: function(format) {
             var args = _.toArray(arguments).slice(1);
@@ -789,7 +790,7 @@ Common.Utils.isBrowserSupported = function() {
 
 Common.Utils.showBrowserRestriction = function() {
     if (document.getElementsByClassName && document.getElementsByClassName('app-error-panel').length>0) return;
-    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : 'that');
+    var editor = (window.DE ? 'Document' : window.SSE ? 'Spreadsheet' : window.PE ? 'Presentation' : window.PDFE ? 'PDF' : 'that');
     var newDiv = document.createElement("div");
     newDiv.innerHTML = '<div class="app-error-panel">' +
                             '<div class="message-block">' +
@@ -1052,7 +1053,7 @@ Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )
         opts.disablefunc(true);
 
-    var app = window.DE || window.PE || window.SSE;
+    var app = window.DE || window.PE || window.SSE || window.PDFE;
 
     Common.UI.warning({
         msg: Common.Locale.get("warnFileLocked",{name:"Common.Translation", default: "You can't edit this file. Document is in use by another application."}),
@@ -1176,6 +1177,20 @@ Common.Utils.UserInfoParser = new(function() {
     }
 })();
 
+Common.Utils.getUserInitials = function(username) {
+    var fio = username.split(' ');
+    var initials = fio[0].substring(0, 1).toUpperCase();
+    for (var i = fio.length-1; i>0; i--) {
+        if (fio[i][0]!=='(' && fio[i][0]!==')') {
+            if (/[\u0600-\u06FF]/.test(initials))
+                initials += '\u2009';
+            initials += fio[i].substring(0, 1).toUpperCase();
+            break;
+        }
+    }
+    return initials;
+};
+
 Common.Utils.getKeyByValue = function(obj, value) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop)) {
@@ -1185,13 +1200,172 @@ Common.Utils.getKeyByValue = function(obj, value) {
     }
 };
 
-if (Common.UI) {
-    Common.UI.isRTL = function () {
-        if ( window.isrtl == undefined ) {
-            window.isrtl = Common.localStorage.itemExists('ui-rtl') ?
-                Common.localStorage.getBool("ui-rtl") : Common.Locale.isCurrentLanguageRtl();
+!Common.UI && (Common.UI = {});
+Common.UI.isRTL = function () {
+    if ( window.isrtl === undefined ) {
+        if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined )
+            window.isrtl =  window.nativeprocvars.rtl;
+        else window.isrtl =  !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+    }
+
+    return window.isrtl;
+};
+
+Common.UI.iconsStr2IconsObj = function(icons) {
+    let result = icons;
+    if (typeof result === 'string' && result.indexOf('%') !== -1) {
+        /*
+            valid params:
+            theme-type - {string} theme type (light|dark|common)
+            theme-name - {string} the name of theme
+            state - {string} state of icons for different situations (normal|hover|active)
+            scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+            extension - {string} use it after symbol "." (png|jpeg|svg)
+
+            Example: "resources/%theme-type%(light|dark)/%state%(normal)icon%scale%(default).%extension%(png)"
+        */
+        let scaleValue = {
+            '100%' : '.',
+            '125%' : '@1.25x.',
+            '150%' : '@1.5x.',
+            '175%' : '@1.75x.',
+            '200%' : '@2x.'
+        }
+        let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension'],
+            start = result.indexOf('%'),
+            template = result.substring(start).replace(/[/.]/g, ('')),
+            commonPart = result.substring(0, start),
+            end = 0,
+            param = null,
+            values = null,
+            iconName = '',
+            tempObj = {};
+
+        result = [];
+
+        for (let index = 0; index < arrParams.length; index++) {
+            param = arrParams[index];
+            start = template.indexOf(param) - 1;
+            if (start < 0 )
+                continue;
+
+            end = param.length + 2;
+            template = template.substring(0, start) + template.substring(start + end);
+            start = template.indexOf('(', 0);
+            end = template.indexOf(')', 0);
+            values = template.substring((start + 1), end);
+            template = template.substring(0, start) + template.substring(++end);
+            tempObj[param] = values.split('|');
         }
 
-        return window.isrtl;
-    };
+        if (template.length) {
+            iconName = template;
+        } else {
+            let arr = commonPart.split('/');
+            iconName = arr.pop().replace(/\./g, '');
+            commonPart = arr.join('/') + '/';
+        }
+
+        // we don't work with svg yet. Change it when we will work with it (extended variant).
+        if (tempObj['scale'] && (tempObj['scale'] == 'default' || tempObj['scale'] == 'extended') ) {
+            tempObj['scale'] = ['100', '125', '150', '175', '200'];
+        } else if (!tempObj['scale']) {
+            tempObj['scale'] = ['100'];
+        }
+
+        if (!tempObj['state']) {
+            tempObj['state'] = ['normal'];
+        }
+
+        if (!iconName) {
+            iconName = 'icon';
+        }
+
+        let bHasName = !!tempObj['theme-name'];
+        let bHasType = (tempObj['theme-type'] && tempObj['theme-type'][0] !== 'common');
+        let arrThemes = bHasName ? tempObj['theme-name'] : (bHasType ? tempObj['theme-type'] : []);
+        let paramName = bHasName ? 'theme' : 'style';
+        if (arrThemes.length) {
+            for (let thInd = 0; thInd < arrThemes.length; thInd++) {
+                let obj = {};
+                obj[paramName] = arrThemes[thInd];
+                result.push(obj);
+            }
+        } else {
+            result.push({});
+        }
+
+        for (let index = 0; index < result.length; index++) {
+            for (let scaleInd = 0; scaleInd < tempObj['scale'].length; scaleInd++) {
+                let themePath = (result[index][paramName] || 'img') + '/';
+                let scale = tempObj['scale'][scaleInd] + '%';
+                let obj = {};
+                for (let stateInd = 0; stateInd < tempObj['state'].length; stateInd++) {
+                    let state = tempObj['state'][stateInd];
+                    obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + iconName + (scaleValue[scale] || '.') + tempObj['extension'][0];
+                }
+                result[index][scale] = obj;
+            }
+        }
+    }
+    return result;
+}
+
+Common.UI.getSuitableIcons = function(icons) {
+    if (!icons) return;
+
+    icons = Common.UI.iconsStr2IconsObj(icons);
+    if (icons.length && typeof icons[0] !== 'string') {
+        var theme = Common.UI.Themes.currentThemeId().toLowerCase(),
+            style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
+            idx = -1;
+        for (var i=0; i<icons.length; i++) {
+            if (icons[i].theme && icons[i].theme.toLowerCase() == theme) {
+                idx = i;
+                break;
+            }
+        }
+        if (idx<0)
+            for (var i=0; i<icons.length; i++) {
+                if (icons[i].style && icons[i].style.toLowerCase() == style) {
+                    idx = i;
+                    break;
+                }
+            }
+        (idx<0) && (idx = 0);
+
+        var ratio = Common.Utils.applicationPixelRatio()*100,
+            current = icons[idx],
+            bestDistance = 10000,
+            currentDistance = 0,
+            defUrl,
+            bestUrl;
+        for (var key in current) {
+            if (current.hasOwnProperty(key)) {
+                if (key=='default') {
+                    defUrl = current[key];
+                } else if (!isNaN(parseInt(key))) {
+                    currentDistance = Math.abs(ratio-parseInt(key));
+                    if (currentDistance < (bestDistance - 0.01))
+                    {
+                        bestDistance = currentDistance;
+                        bestUrl = current[key];
+                    }
+                }
+            }
+        }
+        (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
+        return {
+            'normal': bestUrl ? bestUrl['normal'] : '',
+            'hover': bestUrl ? bestUrl['hover'] || bestUrl['normal'] : '',
+            'active': bestUrl ? bestUrl['active'] || bestUrl['normal'] : ''
+        };
+    } else { // old version
+        var url = icons[((Common.Utils.applicationPixelRatio() > 1 && icons.length > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+        return {
+            'normal': url,
+            'hover': url,
+            'active': url
+        };
+    }
 }

@@ -46,24 +46,83 @@ if (Common.UI === undefined) {
 
 Common.UI.ExternalUsers = new( function() {
     var externalUsers = [],
-        isUsersLoading = false;
+        isUsersLoading = false,
+        externalUsersInfo = [],
+        isUsersInfoLoading = false,
+        stackUsersInfoResponse = [],
+        api,
+        userColors = [];
 
-    var _get = function(type) {
-        if (isUsersLoading) return;
-
-        type = type || 'mention';
-        if (externalUsers[type]===undefined) {
-            isUsersLoading = true;
-            Common.Gateway.requestUsers(type || 'mention');
+    var _get = function(type, ids) {
+        if (type==='info') {
+            (typeof ids !== 'object') && (ids = [ids]);
+            ids && (ids = _.uniq(ids));
+            if (ids.length>100) {
+                while (ids.length>0) {
+                    Common.Gateway.requestUsers('info', ids.splice(0, 100));
+                }
+            } else
+                Common.Gateway.requestUsers('info', ids);
         } else {
-            Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
+            if (isUsersLoading) return;
+
+            type = type || 'mention';
+            if (externalUsers[type]===undefined) {
+                isUsersLoading = true;
+                Common.Gateway.requestUsers(type || 'mention');
+            } else {
+                Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
+            }
         }
     };
 
-    var _init = function(canRequestUsers) {
+    var _getImage = function(id, request) {
+        var image,
+            user = _.findWhere(externalUsersInfo, {id: id})
+        user && (image = user.image);
+        request && (image===undefined) && _get('info', [id]);
+        return image;
+    };
+
+    var _setImage = function(id, image) {
+        var user = _.findWhere(externalUsersInfo, {id: id})
+        user ? (user.image = image) : externalUsersInfo.push({id: id, image: image});
+    };
+
+    var _onUsersInfo = function(data) {
+        if (data.c !== 'info') return;
+
+        if (isUsersInfoLoading) {
+            stackUsersInfoResponse.push(data);
+            return;
+        }
+
+        isUsersInfoLoading = true;
+
+        var append = [];
+        data.users && _.each(data.users, function(item) {
+            var user = _.findWhere(externalUsersInfo, {id: item.id});
+            if (user) {
+                user.image = item.image;
+                user.name = item.name;
+                user.email = item.email;
+            } else
+                append.push(item);
+        });
+        externalUsersInfo = externalUsersInfo.concat(append);
+        Common.NotificationCenter.trigger('mentions:setusers', data.c, data.users);
+        isUsersInfoLoading = false;
+        if (stackUsersInfoResponse.length>0)
+            _onUsersInfo(stackUsersInfoResponse.shift());
+    };
+
+    var _init = function(canRequestUsers, _api) {
+        Common.Gateway.on('setusers', _onUsersInfo);
+        api = _api;
         if (!canRequestUsers) return;
 
         Common.Gateway.on('setusers', function(data) {
+            if (data.c === 'info') return;
             if (data.users===null) {// clear user lists
                 externalUsers = [];
                 return;
@@ -73,13 +132,27 @@ Common.UI.ExternalUsers = new( function() {
             isUsersLoading = false;
             Common.NotificationCenter.trigger('mentions:setusers', type, externalUsers[type]);
         });
-        Common.NotificationCenter.on('mentions:clearusers',   function() {
-            externalUsers = [];
+
+        Common.NotificationCenter.on('mentions:clearusers',   function(type) {
+            if (type !== 'info')
+                externalUsers[type || 'mention'] = undefined;
         });
+    };
+
+    var _getColor = function(id, intValue) {
+        if (!userColors[id]) {
+            var color = api.asc_getUserColorById(id);
+            userColors[id] = ["#"+("000000"+color.toString(16)).substr(-6), color];
+        }
+
+        return intValue ? userColors[id][1] : userColors[id][0];
     };
 
     return {
         init: _init,
-        get: _get
+        get: _get,
+        getImage: _getImage,
+        setImage: _setImage,
+        getColor: _getColor
     }
 })();

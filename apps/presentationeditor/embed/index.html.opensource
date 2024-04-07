@@ -105,8 +105,7 @@
       <!--3td party-->
       <script type="text/javascript" src="../../../3rdparty/jquery/jquery-1.8.1.min.js"></script>
       <script type="text/javascript" src="../../../3rdparty/bootstrap/js/bootstrap.js"></script>
-      <script type="text/javascript" src="../../../3rdparty/sockjs/sockjs-0.3.min.js"></script>
-      <script type="text/javascript" src="../../../3rdparty/xregexp/xregexp-all-min.js"></script> 
+      <script type="text/javascript" src="../../../3rdparty/xregexp/xregexp-all-min.js"></script>
 
       <!--sdk-->
       <script type="text/javascript" src="../../../sdk/Common/AllFonts.js"></script>
@@ -220,6 +219,7 @@
                       ($.browser.chrome   && parseFloat($.browser.version) > 7)     ||
                       ($.browser.safari   && parseFloat($.browser.version) > 4)     ||
                       ($.browser.opera    && parseFloat($.browser.version) > 10.4)  ||
+                      ($.browser.webkit   && parseFloat($.browser.version) > 534.53)  ||
                       ($.browser.mozilla  && parseFloat($.browser.version) > 3.9);
           };
 

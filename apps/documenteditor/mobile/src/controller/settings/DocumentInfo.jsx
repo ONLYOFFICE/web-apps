@@ -148,9 +148,14 @@ class DocumentInfoController extends Component {
     }
 
     changeTitleHandler() {
+        if(!this.props.storeAppOptions.canRename) return;
+
         const { t } = this.props;
         const storeDocumentInfo = this.props.storeDocumentInfo;
         const docTitle = storeDocumentInfo.dataDoc.title;
+        const api = Common.EditorApi.get();
+        
+        api.asc_enableKeyEvents(true);
 
         f7.dialog.create({
             title: t('Toolbar.textRenameFile'),

@@ -48,7 +48,7 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
     SSE.Views.ImageSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 300,
-            height: 342,
+            contentHeight: 257,
             toggleGroup: 'image-adv-settings-group',
             properties: null,
             storageName: 'sse-image-settings-adv-category'
@@ -146,11 +146,11 @@ define([    'text!spreadsheeteditor/main/app/template/ImageSettingsAdvanced.temp
         },
 
         getFocusedComponents: function() {
-            return [
+            return this.btnsCategory.concat([
                 this.spnAngle, this.chFlipHor, this.chFlipVert, // 0 tab
                 this.radioTwoCell, this.radioOneCell, this.radioAbsolute, // 1 tab
                 this.inputAltTitle, this.textareaAltDescription  // 2 tab
-            ];
+            ]).concat(this.getFooterButtons());
         },
 
         onCategoryClick: function(btn, index) {
