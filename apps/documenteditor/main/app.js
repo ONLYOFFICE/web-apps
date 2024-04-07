@@ -194,6 +194,11 @@ require([
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'documenteditor/main/app/view/FileMenuPanels',
+                'common/main/lib/controller/ScreenReaderFocus',
+                'documenteditor/main/app/view/ParagraphSettingsAdvanced',
+                'documenteditor/main/app/view/ImageSettingsAdvanced',
+                'documenteditor/main/app/view/TableSettingsAdvanced',
+                'documenteditor/main/app/view/DropcapSettingsAdvanced',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
