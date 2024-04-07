@@ -35,10 +35,8 @@
  * Time: 16:47
  */
 
-define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField'
+define([
+    'text!documenteditor/main/app/template/MailMergeEmailDlg.template'
 ], function (contentTemplate) {
     'use strict';
 

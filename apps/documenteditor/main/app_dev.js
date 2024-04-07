@@ -219,6 +219,7 @@ require([
                     'common/main/lib/view/OpenDialog',
                     'common/main/lib/view/UserNameDialog',
                     'common/main/lib/view/SearchDialog',
+                    'common/main/lib/view/AdvancedSettingsWindow',
 
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',
@@ -254,7 +255,7 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
-                    // 'documenteditor/main/app/view/MailMergeEmailDlg'
+                    'documenteditor/main/app/view/MailMergeEmailDlg'
                 ];
 
                 window.compareVersions = true;

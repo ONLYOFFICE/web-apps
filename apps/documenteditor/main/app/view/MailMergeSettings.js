@@ -40,8 +40,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/CheckBox',
-    'documenteditor/main/app/view/MailMergeEmailDlg'
+    'common/main/lib/component/CheckBox'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
