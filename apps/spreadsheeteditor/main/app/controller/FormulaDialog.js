@@ -189,17 +189,17 @@ define([
             var me = this;
             Common.Utils.InternalSettings.set("sse-settings-func-locale", lang);
             if (me.langJson[lang]) {
-                me.api.asc_setLocalization(me.langJson[lang]);
+                me.api.asc_setLocalization(me.langJson[lang], lang);
                 Common.NotificationCenter.trigger('formula:settings', this);
             } else if (lang == 'en') {
-                me.api.asc_setLocalization(undefined);
+                me.api.asc_setLocalization(undefined, lang);
                 Common.NotificationCenter.trigger('formula:settings', this);
             } else {
                 Common.Utils.loadConfig('resources/formula-lang/' + lang + '.json',
                     function (config) {
                         if ( config != 'error' ) {
                             me.langJson[lang] = config;
-                            me.api.asc_setLocalization(config);
+                            me.api.asc_setLocalization(config, lang);
                             Common.NotificationCenter.trigger('formula:settings', this);
                         }
                     });
