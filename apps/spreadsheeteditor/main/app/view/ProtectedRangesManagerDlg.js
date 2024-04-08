@@ -103,13 +103,13 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                 headers: [
                     {name: this.textTitle,  width: 184},
                     {name: this.textRange,  width: 191},
-                    {name: this.textYouCan, width: 70},
+                    {name: this.txtAccess, width: 70},
                 ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                     '<div class="padding-right-5" style="width:184px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<div class="padding-right-5" style="width:191px;"><%= Common.Utils.String.htmlEncode(range) %></div>',
-                    '<div style="width:70px;"><% if (canEdit) { %>', me.txtEdit, '<% } else { %>', me.txtView, '<% } %></div>',
+                    '<div style="width:70px;"><% if (type===Asc.c_oSerUserProtectedRangeType.edit) { %>', me.txtEdit, '<% } else if (type===Asc.c_oSerUserProtectedRangeType.view) { %>', me.txtView, '<% } else { %>', me.txtDenied, '<% } %></div>',
                     '<% if (lock) { %>',
                     '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                     '<% } %>',
@@ -174,14 +174,18 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
                     currentId = this.currentUser.id;
                 for (var i=0; i<ranges.length; i++) {
                     var id = ranges[i].asc_getIsLock(),
-                        users = ranges[i].asc_getUsers();
+                        users = ranges[i].asc_getUsers(),
+                        type = ranges[i].asc_getType(),
+                        user = _.find(users, function(item) { return (item.asc_getId()===currentId); })
+                    user && (type = user.asc_getType());
                     arr.push({
                         name: ranges[i].asc_getName() || '',
                         range: ranges[i].asc_getRef() || '',
                         rangeId: ranges[i].asc_getId() || '',
                         users: users,
                         props: ranges[i],
-                        canEdit: !!_.find(users, function(item) { return (item.asc_getId()===currentId); }),
+                        type: type,
+                        canEdit: type===Asc.c_oSerUserProtectedRangeType.edit,
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
@@ -428,7 +432,7 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         },
 
         txtTitle: 'Protected Ranges',
-        textRangesDesc: 'You can restrict editing ranges to selected people.',
+        textRangesDesc: 'You can restrict editing or viewing ranges to selected people.',
         textTitle: 'Title',
         textRange: 'Range',
         textNew: 'New',
@@ -447,7 +451,8 @@ define([  'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.te
         lockText: 'Locked',
         textFilter: 'Filter',
         textFilterAll: 'All',
-        textYouCan: 'You can'
+        txtDenied: 'Denied',
+        txtAccess: 'Access'
 
     }, SSE.Views.ProtectedRangesManagerDlg || {}));
 });

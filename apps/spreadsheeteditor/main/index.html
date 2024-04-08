@@ -109,6 +109,10 @@
             position: relative;
         }
 
+        .loadmask > .sktoolbar ul {
+            height: 25px;
+        }
+
         .loadmask > .sktoolbar li {
             background: #d8dadc;
             background: var(--highlight-button-hover, #d8dadc);
@@ -296,7 +300,7 @@
     <script src="../../common/main/lib/util/themeinit.js"></script>
 </head>
 
-<body>
+<body role="application">
     <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;"><div>
@@ -315,7 +319,7 @@
         </div>
     </div>
 
-    <div id="viewport"></div>
+    <div id="viewport" role="main"></div>
 
     <script>
         var params = getUrlParams(),

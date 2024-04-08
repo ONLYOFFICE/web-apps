@@ -167,6 +167,10 @@ define([
             this.setupAutoSizingTextBox();
         },
 
+        getFocusElement: function () {
+            return this.txtMessage;
+        },
+
         _onKeyDown: function(event) {
             if (event.keyCode == Common.UI.Keys.RETURN) {
                 if ((event.ctrlKey || event.metaKey) && !event.altKey) {
@@ -177,7 +181,7 @@ define([
 
         _onResetUsers: function(c, opts) {
             if (this.panelUsers) {
-                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy(function(item) {return item.get('idOriginal');}).value(),
+                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy('idOriginal').value(),
                                                             usertpl: this.tplUser, scope: this}));
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
@@ -229,7 +233,7 @@ define([
             var user    = this.storeUsers.findOriginalUser(m.get('userid')),
                 avatar = Common.UI.ExternalUsers.getImage(m.get('userid'));
             m.set({
-                usercolor   : user ? user.get('color') : null,
+                usercolor   : user ? user.get('color') : Common.UI.ExternalUsers.getColor(m.get('userid')),
                 avatar      : avatar,
                 initials    : user ? user.get('initials') : Common.Utils.getUserInitials(m.get('parsedName')),
                 message     : this._pickLink(m.get('message'))

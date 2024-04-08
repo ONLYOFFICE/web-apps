@@ -169,6 +169,15 @@ define([
                 maskExp: /[0-9]/
             });
 
+            this.btnClose = new Common.UI.Button({
+                cls: 'btn-toolbar margin-left-small',
+                iconCls: 'svg-icon search-close',
+                hint: this.textClose,
+                visible: false,
+                scaling: false
+            });
+            this.btnClose.render($('#id-btn-close-editor'));
+
             return this;
         },
 
@@ -213,7 +222,8 @@ define([
         txtSearch: 'Search',
         tipUndo: 'Undo',
         tipRedo: 'Redo',
-        textClearField: 'Clear field'
+        textClearField: 'Clear field',
+        textClose: 'Close file'
 
     }, DE.Views.ApplicationView || {}));
 });

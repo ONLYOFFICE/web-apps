@@ -277,6 +277,7 @@ define([
                     }
                     break;
                 case 'external-help': close_menu = true; break;
+                case 'close-editor': Common.NotificationCenter.trigger('close'); break;
                 default: close_menu = false;
             }
 
@@ -292,7 +293,10 @@ define([
 
         clickSaveCopyAsFormat: function(menu, format, ext) {
             this.isFromFileDownloadAs = ext;
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+            var options = new Asc.asc_CDownloadOptions(format, true);
+            options.asc_setIsSaveAs(true);
+            this.api.asc_DownloadAs(options);
+
             menu.hide();
         },
 
@@ -393,6 +397,23 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("pe-settings-zoom");
+            var oldZoomValue = Common.Utils.InternalSettings.get("pe-settings-zoom");
+            var lastZoomValue = Common.Utils.InternalSettings.get("pe-last-zoom");
+
+            if (oldZoomValue === null || oldZoomValue == lastZoomValue || oldZoomValue == -3) {
+                if (newZoomValue == -1) {
+                    this.api.zoomFitToPage();
+                } else if (newZoomValue == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (newZoomValue > 0) {
+                    this.api.zoom(newZoomValue);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("pe-settings-zoom", newZoomValue);
 
             menu.hide();
         },

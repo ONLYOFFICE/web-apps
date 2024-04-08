@@ -77,7 +77,7 @@ define([
                     'render:before' : function (toolbar) {
                         var config = DE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                        if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
                         var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
@@ -181,7 +181,7 @@ define([
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
 
-            if ( config.isEdit && (!(config.customization && config.customization.compactHeader))) {
+            if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));
@@ -197,8 +197,10 @@ define([
 
                 $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
 
-                toolbar = me.getApplication().getController('Toolbar').getView();
-                toolbar.btnCollabChanges = me.header.btnSave;
+                if (config.isEdit) {
+                    toolbar = me.getApplication().getController('Toolbar').getView();
+                    toolbar.btnCollabChanges = me.header.btnSave;
+                }
             }
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));

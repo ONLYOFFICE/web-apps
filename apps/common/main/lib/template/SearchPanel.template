@@ -1,4 +1,4 @@
-<div id="search-box" class="layout-ct vbox search-panel">
+<div id="search-box" class="layout-ct vbox search-panel" role="search">
     <div id="search-header">
         <label id="search-adv-title"></label>
         <div id="search-btn-close" class="float-right"></div>

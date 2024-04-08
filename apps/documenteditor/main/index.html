@@ -59,6 +59,11 @@
             background: var(--toolbar-header-document, #446995);
         }
 
+        .pdf-form .loadmask > .brendpanel {
+            background: #AA5252;
+            background: var(--toolbar-header-pdf, #AA5252);
+        }
+
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
@@ -117,6 +122,7 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
+            height: 25px;
         }
 
         .loadmask > .sktoolbar li {
@@ -255,10 +261,12 @@
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            isForm = params["isForm"]==='true';
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+        window.isPDFForm = isForm;
 
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
@@ -271,7 +279,7 @@
     <link rel="stylesheet/less" type="text/css" href="resources/less/app.less" />
     <!-- debug end -->
 </head>
-<body>
+<body role="application">
     <script src="../../common/main/lib/util/htmlutils.js"></script>
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
@@ -285,7 +293,7 @@
         </div>
     </div>
 
-    <div id="viewport"></div>
+    <div id="viewport" role="main"></div>
 
     <script>
         var params = getUrlParams(),
@@ -294,6 +302,7 @@
             view = params["mode"] == 'view',
             visible = true;
 
+        isForm && document.body.classList.add('pdf-form');
         (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
 
         if (compact || view) {

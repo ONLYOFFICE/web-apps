@@ -58,6 +58,7 @@ define([
                 selected: false,
                 allowSelected: true,
                 disabled: false,
+                getTipFromName: true,
                 level: 0,
                 index: 0
             }
@@ -159,11 +160,13 @@ define([
                 allowScrollbar: true,
                 scrollAlwaysVisible: true,
                 emptyItemText: '',
-                keyMoveDirection: 'both'
+                keyMoveDirection: 'both',
+                role: 'tree',
+                roleItem: 'treeitem'
             },
 
             template: _.template([
-                '<div class="treeview inner" style="<%= style %>"></div>'
+                '<div class="treeview inner" style="<%= style %>" role="<%= options.role %>"></div>'
             ].join('')),
 
             initialize : function(options) {
@@ -202,7 +205,8 @@ define([
             onAddItem: function(record, store, opts) {
                 var view = new Common.UI.DataViewItem({
                     template: this.itemTemplate,
-                    model: record
+                    model: record,
+                    role: this.options.roleItem
                 });
 
                 if (view) {
@@ -232,10 +236,20 @@ define([
                         this.listenTo(view, 'select',      this.onSelectItem);
                         this.listenTo(view, 'contextmenu', this.onContextMenuItem);
 
+                        if (record.get('hasSubItems'))
+                            view.$el.attr('aria-expanded', record.get('isExpanded'));
+                        view.$el.attr('aria-level', record.get('level') + 1);
+
                         if (!this.isSuspendEvents)
                             this.trigger('item:add', this, view, record);
                     }
                 }
+            },
+
+            onChangeItem: function (view, record) {
+                if (record.get('hasSubItems'))
+                    view.$el.attr('aria-expanded', record.get('isExpanded'));
+                Common.UI.DataView.prototype.onChangeItem.call(this, view, record);
             },
 
             onClickItem: function(view, record, e) {
@@ -248,6 +262,7 @@ define([
                     record.set('isExpanded', isExpanded);
                     this.store[(isExpanded) ? 'expandSubItems' : 'collapseSubItems'](record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, isExpanded, !isExpanded);
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             },
@@ -269,17 +284,21 @@ define([
 
             expandRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', true);
                     this.store.expandSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, true, oldExpand);
                 }
             },
 
             collapseRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', false);
                     this.store.collapseSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, false, oldExpand);
                 }
             },
 
@@ -352,6 +371,7 @@ define([
                             this.selectRecord(rec);
                             this._fromKeyDown = false;
                             this.scrollToRecord(rec);
+                            $('#' + rec.get('id')).parent().focus();
                         }
                     }
                 } else {
@@ -368,29 +388,16 @@ define([
                     name = record.get('name'),
                     me = this;
 
-                if (name.length > 37 - record.get('level')*2)
-                    record.set('tip', name);
-                else
-                    record.set('tip', '');
+                record.get('getTipFromName') && record.set('tip', name.length > 37 - record.get('level')*2 ? name : '');
 
-                var el = item.$el || $(item.el);
-                var tip = el.data('bs.tooltip');
-                if (tip) {
-                    if (tip.dontShow===undefined)
-                        tip.dontShow = true;
-                    el.removeData('bs.tooltip');
-                    (tip.tip()).remove();
-                }
-                if (record.get('tip')) {
+                var el = item.$el || $(item.el),
+                    tip = el.data('bs.tooltip');
+                if (tip)
+                    tip.updateTitle(record.get('tip'));
+                else if (record.get('tip') && el.attr('data-toggle')!=='tooltip') { // init tooltip
                     el.attr('data-toggle', 'tooltip');
-                    el.tooltip({
-                        title       : record.get('tip'),
-                        placement   : 'cursor',
-                        zIndex : this.tipZIndex
-                    });
                     if (this.delayRenderTips)
                         el.one('mouseenter', function(){
-                            el.attr('data-toggle', 'tooltip');
                             el.tooltip({
                                 title       : record.get('tip'),
                                 placement   : 'cursor',
@@ -399,7 +406,6 @@ define([
                             el.mouseenter();
                         });
                     else {
-                        el.attr('data-toggle', 'tooltip');
                         el.tooltip({
                             title       : record.get('tip'),
                             placement   : 'cursor',

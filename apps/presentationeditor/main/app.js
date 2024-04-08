@@ -66,9 +66,6 @@ require.config({
         irregularstack  : 'common/IrregularStack'
     },
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
@@ -117,14 +114,16 @@ require.config({
 require([
     'sdk',
     'backbone',
+    'underscore',
     'core',
     'analytics',
     'gateway',
     'locale'
-], function (Sdk, Backbone, Core) {
+], function (Sdk, Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with PE namespace defined

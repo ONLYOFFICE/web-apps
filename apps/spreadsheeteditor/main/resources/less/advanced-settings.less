@@ -526,25 +526,57 @@
         }
         .listitem-icon {
             position: absolute;
-            display: none;
             width: 20px;
             height: 20px;
-            right: -5px;
-            top: -3px;
+            right: 16px;
+            top: 4px;
             .rtl & {
                 right: auto;
-                left: -5px;
+                left: 16px;
             }
         }
-        &:hover {
-            .listitem-icon {
-                display: block;
-            }
+        .color {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            border-radius: 20px;
+            border-width: var(--scaled-two-pixel, 2px);
+            .margin-right-8();
+            vertical-align: middle;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            line-height: 26px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .listitem-icon .btn-toolbar {
+            background-color: transparent !important;
+            box-shadow: none;
         }
         &.selected {
             .listitem-icon {
-                background-position-x: -20px;
-                background-position-x: @button-small-active-icon-offset-x;
+                .btn-toolbar .icon{
+                    background-position-x: -20px;
+                    background-position-x: @button-small-active-icon-offset-x !important;
+                }
+                .caret {
+                    border-color: @icon-normal-pressed-ie;
+                    border-color: @icon-normal-pressed;
+                }
+            }
+        }
+        &:not(.selected) {
+            .listitem-icon {
+                .btn-toolbar .icon{
+                    background-position-x: 0;
+                    background-position-x: @button-small-normal-icon-offset-x !important;
+                }
+                .caret {
+                    border-color: @icon-normal-ie;
+                    border-color: @icon-normal;
+                }
             }
         }
     }

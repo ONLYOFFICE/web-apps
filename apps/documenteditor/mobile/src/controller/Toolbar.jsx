@@ -52,6 +52,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
+        Common.Notifications.on('close', onRequestClose);
 
         if (isDisconnected) {
             f7.popover.close();
@@ -63,6 +64,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
+            Common.Notifications.off('close', onRequestClose);
         }
     }, []);
 
@@ -120,11 +122,11 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     // Back button
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
-        if (data && data.config && data.config.canBackToFolder !== false &&
-            data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
-        {
-            setShowBack(true);
+        if (data && data.config && data.config?.canBackToFolder !== false && data.config?.customization && data.config?.customization.goback) {
+            const canback = data.config.customization.close === undefined ?
+                data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
+                data.config.customization.goback.url && !data.config.customization.goback.requestClose;
+            canback && setShowBack(true);
         }
     };
 
@@ -367,7 +369,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
         } else {
             const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
-            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+            let options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload);
+            options.asc_setIsSaveAs(isFromBtnDownload);
+            api.asc_DownloadAs(options);
         }
     }
 

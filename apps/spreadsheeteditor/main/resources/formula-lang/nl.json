@@ -480,6 +480,7 @@
 	"SORT": "SORTEREN",
 	"SORTBY": "SORTEREN.OP",
 	"GETPIVOTDATA": "DRAAITABEL.OPHALEN",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

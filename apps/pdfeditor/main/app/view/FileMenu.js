@@ -497,6 +497,19 @@ define([
                         dataHintDirection: 'left-top',
                         dataHintOffset: [2, 14]
                     }));
+            } else if (this.mode.canCloseEditor) {
+                $('<li class="devider" />' +
+                    '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                this.items.push(
+                    new Common.UI.MenuItem({
+                        el      : $('#fm-btn-close', this.$el),
+                        action  : 'close-editor',
+                        caption : this.mode.customization.close.text || this.btnCloseEditor,
+                        canFocused: false,
+                        dataHint: 1,
+                        dataHintDirection: 'left-top',
+                        dataHintOffset: [2, 14]
+                    }));
             }
         },
 
@@ -625,6 +638,7 @@ define([
         btnProtectCaption: 'Protect',
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnExitCaption          : 'Exit',
-        btnFileOpenCaption      : 'Open...'
+        btnFileOpenCaption      : 'Open...',
+        btnCloseEditor          : 'Close File'
     }, PDFE.Views.FileMenu || {}));
 });

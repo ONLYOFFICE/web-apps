@@ -52,8 +52,6 @@ define([
     'common/main/lib/view/OptionsDialog',
     'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/ParagraphSettingsAdvanced',
-    'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/ControlSettingsDialog',
     'documenteditor/main/app/view/NumberingValueDialog',
     'documenteditor/main/app/view/CellsAddDialog',
@@ -265,6 +263,80 @@ define([
             });
 
             this.fireEvent('createdelayedelements', [this, 'pdf']);
+        },
+
+        createDelayedElementsPDFForms: function() {
+            var me = this;
+
+            me.menuPDFFormsCopy = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-copy',
+                caption: me.textCopy,
+                value: 'copy'
+            });
+
+            me.menuPDFFormsPaste = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-paste',
+                caption : me.textPaste,
+                value : 'paste'
+            });
+
+            me.menuPDFFormsCut = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cut',
+                caption : me.textCut,
+                value : 'cut'
+            });
+
+            me.menuPDFFormsUndo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-undo',
+                caption: me.textUndo
+            });
+
+            me.menuPDFFormsRedo = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-redo',
+                caption: me.textRedo
+            });
+
+            me.menuPDFFormsClear = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-clearstyle',
+                caption: me.textClearField
+            });
+
+            me.formsPDFMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                initMenu: function (value) {
+                    var cancopy = me.api.can_CopyCut(),
+                        disabled = value.paraProps && value.paraProps.locked || value.headerProps && value.headerProps.locked ||
+                            value.imgProps && (value.imgProps.locked || value.imgProps.content_locked) || me._isDisabled;
+                    me.menuPDFFormsUndo.setDisabled(disabled || !me.api.asc_getCanUndo()); // undo
+                    me.menuPDFFormsRedo.setDisabled(disabled || !me.api.asc_getCanRedo()); // redo
+
+                    me.menuPDFFormsClear.setDisabled(disabled || !me.api.asc_IsContentControl()); // clear
+                    me.menuPDFFormsCut.setDisabled(disabled || !cancopy); // cut
+                    me.menuPDFFormsCopy.setDisabled(!cancopy); // copy
+                    me.menuPDFFormsPaste.setDisabled(disabled) // paste;
+                },
+                items: [
+                    me.menuPDFFormsUndo,
+                    me.menuPDFFormsRedo,
+                    { caption: '--' },
+                    me.menuPDFFormsClear,
+                    { caption: '--' },
+                    me.menuPDFFormsCut,
+                    me.menuPDFFormsCopy,
+                    me.menuPDFFormsPaste
+                ]
+            }).on('hide:after', function (menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            this.fireEvent('createdelayedelements', [this, 'forms']);
         },
 
         createDelayedElements: function() {
@@ -597,6 +669,14 @@ define([
                 caption: me.textEditPoints
             });
 
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.textEditObject
+            });
+
             this.pictureMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 restoreHeightAndTop: true,
@@ -691,6 +771,16 @@ define([
                     me.menuImgReplace.setVisible(value.imgProps.isOnlyImg && (pluginGuid===null || pluginGuid===undefined));
                     if (me.menuImgReplace.isVisible())
                         me.menuImgReplace.setDisabled(islocked || pluginGuid===null);
+
+                    var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                    me.menuEditObject.setVisible(pluginGuidAvailable);
+                    me.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                    if (pluginGuidAvailable) {
+                        var plugin = DE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                        me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || islocked);
+                    }
+
                     me.menuImgReplace.menu.items[2].setVisible(me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1);
 
                     me.menuImgRotate.setVisible(!value.imgProps.isChart && (pluginGuid===null || pluginGuid===undefined));
@@ -763,6 +853,8 @@ define([
                     me.menuImgCopy,
                     me.menuImgPaste,
                     me.menuImgPrint,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     { caption: '--' },
                     me.menuImgAccept,
                     me.menuImgReject,
@@ -3194,6 +3286,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
+        textEditObject: 'Edit object',
         directionText: 'Text Direction',
         directHText: 'Horizontal',
         direct90Text: 'Rotate Text Down',
@@ -3349,7 +3442,9 @@ define([
         showEqToolbar: 'Show Equation Toolbar',
         textIndents: 'Adjust list indents',
         txtInsImage: 'Insert image from File',
-        txtInsImageUrl: 'Insert image from URL'
+        txtInsImageUrl: 'Insert image from URL',
+        textClearField: 'Clear field',
+        textRedo: 'Redo'
 
 }, DE.Views.DocumentHolder || {}));
 });

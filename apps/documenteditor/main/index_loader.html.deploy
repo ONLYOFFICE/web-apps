@@ -241,11 +241,12 @@
             customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
             margin = (customer !== '') ? 50 : 20,
             loading = 'Loading...',
-            logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
+            logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null,
+            isForm = params["isForm"]==='true';
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-
+        window.isPDFForm = isForm;
         if ( lang == 'de')      loading = 'Ladevorgang...';
         else if ( lang == 'es') loading = 'Cargando...';
         else if ( lang == 'fr') loading = 'Chargement en cours...';
@@ -290,7 +291,9 @@
 </head>
 <body>
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
-
+    <script>
+        isForm && document.body.classList.add('pdf-form');
+    </script>
     <script>
         window.requireTimeourError = function(){
             var reqerr;

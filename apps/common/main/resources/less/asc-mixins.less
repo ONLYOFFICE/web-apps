@@ -844,3 +844,23 @@
 //        }
 //    }
 //}
+
+.header-background-color {
+    background-color: @header-background-color-ie;
+    background-color: @header-background-color;
+
+    .pdf-form & {
+        background-color: @header-background-color-pdf-ie;
+        background-color: @header-background-color-pdf;
+    }
+}
+
+.header-border-color {
+    border-color: @header-background-color-ie !important;
+    border-color: @header-background-color !important;
+
+    .pdf-form & {
+        border-color: @header-background-color-pdf-ie !important;
+        border-color: @header-background-color-pdf !important;
+    }
+}

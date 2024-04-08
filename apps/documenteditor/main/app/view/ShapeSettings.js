@@ -1385,7 +1385,8 @@ define([
                 data: this._arrFillSrc,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strFill
             });
             this.cmbFillSrc.setValue(this._arrFillSrc[0].value);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -1677,7 +1678,8 @@ define([
                 txtNoBorders: this.txtNoBorders,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strStroke + ' ' + this.strSize
             })
             .on('selected', _.bind(this.onBorderSizeSelect, this))
             .on('changed:before',_.bind(this.onBorderSizeChanged, this, true))
@@ -1693,7 +1695,8 @@ define([
                 menuStyle: 'min-width: 93px;',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strStroke + ' ' + this.strType
             }).on('selected', _.bind(this.onBorderTypeSelect, this))
             .on('combo:blur',    _.bind(this.onComboBlur, this, false));
             this.BorderType = Asc.c_oDashType.solid;

@@ -80,7 +80,7 @@ define([
                 this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
-
+                this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
             }
@@ -98,14 +98,20 @@ define([
                 config: config.config
             });
             var dirRight = Common.UI.isRTL() ? 'left' : 'right',
-                dirLeft = Common.UI.isRTL() ? 'right' : 'left';
+                dirLeft = Common.UI.isRTL() ? 'right' : 'left',
+                me = this;
             this._helpTips = {
                 'create': {name: 'de-form-tip-create', placement: 'bottom-' + dirRight, text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
                 'key': {name: 'de-form-tip-settings-key', placement: dirLeft + '-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
                 'group-key': {name: 'de-form-tip-settings-group', placement: dirLeft + '-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
                 'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
                 'roles': {name: 'de-form-tip-roles', placement: 'bottom-' + dirLeft, text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
-                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
+                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined,
+                'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirRight, text: this.view.textRequired, link: false, target: '#slot-btn-form-submit',
+                                                            callback: function() {
+                                                                me.api.asc_MoveToFillingForm(true, true, true);
+                                                                me.view.btnSubmit.updateHint(me.view.textRequired);
+                                                            }} : undefined
             };
             !Common.localStorage.getItem(this._helpTips['key'].name) && this.addListeners({'RightMenu': {'rightmenuclick': this.onRightMenuClick}});
             this.addListeners({
@@ -352,10 +358,20 @@ define([
 
         onSaveFormClick: function() {
             this.closeHelpTip('save', true);
-            this.showRolesList(function() {
-                this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
-            });
+            var me = this,
+                callback = function() {
+                    if (me.appConfig.isOffline)
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                    else {
+                        me.isFromFormSaveAs = me.appConfig.canRequestSaveAs || !!me.appConfig.saveAsUrl;
+                        var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs);
+                        options.asc_setIsSaveAs(me.isFromFormSaveAs);
+                        me.api.asc_DownloadAs(options);
+                    }
+                };
+            if (this.api && this.appConfig.canDownload) {
+                this.appConfig.isRestrictedEdit && this.appConfig.canFillForms ? callback() : this.showRolesList(callback);
+            }
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -428,13 +444,13 @@ define([
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
                 this._submitFail = false;
                 this.submitedTooltip && this.submitedTooltip.hide();
-                this.view.btnSubmit.setDisabled(true);
+                Common.Utils.lockControls(Common.enumLock.submit, true, {array: [this.view.btnSubmit]})
             }
         },
 
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                this.view.btnSubmit.setDisabled(false);
+                Common.Utils.lockControls(Common.enumLock.submit, false, {array: [this.view.btnSubmit]})
                 if (!this.submitedTooltip) {
                     this.submitedTooltip = new Common.UI.SynchronizeTip({
                         text: this.view.textSubmited,
@@ -470,6 +486,10 @@ define([
                 // }
 
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
+                if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
+                    Common.Utils.lockControls(Common.enumLock.requiredNotFilled, true, {array: [me.view.btnSubmit]});
+                    me.showHelpTip('submit');
+                }
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });
@@ -519,6 +539,7 @@ define([
                     },
                     'close': function() {
                         Common.localStorage.setItem(props.name, 1);
+                        props.callback && props.callback();
                     }
                 });
                 props.tip.show();
@@ -598,7 +619,11 @@ define([
                 this.closeHelpTip('group-key');
                 this.closeHelpTip('settings');
             }
-        }
+        },
+
+        onFillRequiredFields: function(isFilled) {
+            this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit && Common.Utils.lockControls(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.view.btnSubmit]});
+        },
 
     }, DE.Controllers.FormsTab || {}));
 });

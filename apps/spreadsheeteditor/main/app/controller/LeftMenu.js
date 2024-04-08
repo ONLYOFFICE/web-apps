@@ -318,6 +318,7 @@ define([
                 }
                 break;
             case 'external-help': close_menu = true; break;
+            case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             default: close_menu = false;
             }
 
@@ -382,7 +383,9 @@ define([
                             if (btn == 'ok') {
                                 me.showLostDataWarning(function () {
                                     me.isFromFileDownloadAs = ext;
-                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                                    var options = new Asc.asc_CDownloadOptions(format, true);
+                                    options.asc_setIsSaveAs(true);
+                                    Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, options);
                                     menu.hide();
                                 });
                             }
@@ -391,7 +394,9 @@ define([
                 } else
                     me.showLostDataWarning(function () {
                         me.isFromFileDownloadAs = ext;
-                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, new Asc.asc_CDownloadOptions(format, true));
+                        var options = new Asc.asc_CDownloadOptions(format, true);
+                        options.asc_setIsSaveAs(true);
+                        Common.NotificationCenter.trigger('download:advanced', Asc.c_oAscAdvancedOptionsID.CSV, me.api.asc_getAdvancedOptions(), 2, options);
                         menu.hide();
                     });
             } else if (format == Asc.c_oAscFileType.PDF || format == Asc.c_oAscFileType.PDFA) {
@@ -400,7 +405,9 @@ define([
                 Common.NotificationCenter.trigger('download:settings', this.leftMenu, format, true);
             } else {
                 this.isFromFileDownloadAs = ext;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(format, true));
+                var options = new Asc.asc_CDownloadOptions(format, true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadAs(options);
                 menu.hide();
             }
         },
@@ -515,6 +522,17 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("sse-settings-zoom");
+            if (newZoomValue > 0) {
+                var oldZoomValue = Common.Utils.InternalSettings.get("sse-settings-zoom");
+                if (oldZoomValue === null || (oldZoomValue == -3) || (oldZoomValue / 100 == this.api.asc_getZoom())) {
+                    this.api.asc_setZoom(newZoomValue / 100);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("sse-settings-zoom", newZoomValue);
 
             menu.hide();
 

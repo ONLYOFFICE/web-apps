@@ -37,6 +37,11 @@
             background: var(--toolbar-header-document, #446995);
         }
 
+        .pdf-form .loadmask > .brendpanel {
+            background: #AA5252;
+            background: var(--toolbar-header-pdf, #AA5252);
+        }
+
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
@@ -95,6 +100,7 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
+            height: 25px;
         }
 
         .loadmask > .sktoolbar li {
@@ -228,21 +234,23 @@
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            isForm = params["isForm"]==='true';
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+        window.isPDFForm = isForm;
     </script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css">
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
-<body>
+<body role="application">
     <script src="../../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
 
     <div id="loading-mask" class="loadmask"><div class="brendpanel" style="display: none;"><div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div><div class="sktoolbar" style="display: none;"><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li style="width: 234px;"></li><li class="space"></li><li style="width: 189px;"></li><li class="fat"></li></ul><ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li style="width: 234px;"></li><li class="space"></li><li style="width: 189px;"></li></ul></div><div class="placeholder" style="display: none;"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
-    <div id="viewport"></div>
+    <div id="viewport" role="main"></div>
 
     <script>
         if ( window.desktop ) {
@@ -258,6 +266,7 @@
             view = params["mode"] == 'view',
             visible = true;
 
+        isForm && document.body.classList.add('pdf-form');
         (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
 
         if (compact || view) {

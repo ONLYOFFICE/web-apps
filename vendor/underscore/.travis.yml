@@ -1,24 +1,34 @@
 language: node_js
 sudo: false
-node_js:
-  - "0.8"
-  - "0.10"
-  - "0.12"
-matrix:
+jobs:
   include:
-    - node_js: "4.0"
-      env: BROWSER=true
+    - node_js: 8
+      env:
+        - DOWNGRADE=true
+        - EXTRA=false
+    - node_js: 12
+      env:
+        - DOWNGRADE=false
+        - EXTRA=false
+    - node_js: 16
+      env:
+        - DOWNGRADE=false
+        - EXTRA=true
 before_install:
-  - npm install -g npm@2.6
-  - npm install -g karma-cli
+  - "[ $EXTRA = false ] || npm install -g karma-cli"
 before_script:
-  - npm install karma-sauce-launcher
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - "[ $EXTRA = false ] || npm install karma-sauce-launcher"
+  - "[ $DOWNGRADE = false ] || npm install rollup@1"
 script:
-  - npm test
-  - "[ $BROWSER == false ] || npm run test-browser"
-  - "[ $BROWSER == false ] || karma start karma.conf-sauce.js"
+  - "[ $EXTRA = false ] || npm run lint"
+  - npm run prepare-tests
+  - "[ $EXTRA = false ] || npm run build-umd"
+  - "[ $EXTRA = false ] || npm run build-esm"
+  - "[ $EXTRA = false ] || npm run doc"
+  - "[ $EXTRA = true ] || npm run test-node"
+  - "[ $EXTRA = false ] || npm run coveralls"
+  - "[ $EXTRA = false ] || npm run test-browser"
+  - "[ $EXTRA = false ] || karma start karma.conf-sauce.js"
 notifications:
   email: false
 env:
@@ -26,5 +36,3 @@ env:
   - NPM_CONFIG_PROGRESS="false"
   - secure: bDZSBQfqr21hCayjcZ20IxrV6+XGhxQPFIfwWqEKLrF93Gu8LLVjZRxXE/mE8I8N4Z5WtDNb4ZHrm/TTzmcPa5MuHgIxEdknQCncobH8oimwc83SHwEPk6okeNKl39VlCjvvnmoe/V/KpnknuYn3Rqghtl/Uv9KLpCwskwjTtcw=
   - secure: SRECgXuwcZTcD3GVxTS2bYNgRyye4vq6BLrV2PH9FyNenowsKQR2EwlC/dppc1Q8NWMgv79J/R96q9JOFh+mEH9L5dlBb2yhnGH8amVeM/ChAJHT/F8YktKM453uVpz5fR00QcCQDDUOx6Pvx374ID0OKNpWKAkQBWA9mPTsLnE=
-  matrix: BROWSER=false
-after_success: npm run coveralls

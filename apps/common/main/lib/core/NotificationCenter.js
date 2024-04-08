@@ -56,8 +56,9 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    'backbone'
-], function (Backbone) {
+    'backbone',
+    'underscore',
+], function (Backbone, _) {
     'use strict';
 
     var NotificationCenter = function(){};

@@ -311,7 +311,7 @@
                     }
                 }
 
-                .emptycaption & {
+                .emptycaption & { // used for buttons without caption, but with color div
                     width: 37px;
                     .caret {
                         margin: 0 1px 0 2px;
@@ -415,6 +415,11 @@
             .mx-button-otherstates-icon2(@button-small-active-icon-offset-x);
         }
     }
+}
+
+.icon-custom {
+    background-position: 0 0 !important;
+    background-size: cover;
 }
 
 .btn-toolbar {
@@ -778,10 +783,6 @@
                     background-color: @highlight-button-pressed-ie;
                     background-color: @highlight-button-pressed;
                 }
-            }
-
-            .caret {
-                background-position: @arrow-small-offset-x - 7px @arrow-small-offset-y;
             }
         }
 
@@ -1359,7 +1360,6 @@
     &:active:not(.disabled),
     &.active:not(.disabled) {
         .caret {
-            background-position: @arrow-small-offset-x @arrow-small-offset-y;
             border-color: @icon-normal-ie;
             border-color: @icon-normal;
         }

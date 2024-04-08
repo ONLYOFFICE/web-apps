@@ -110,7 +110,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
                 this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
@@ -235,7 +235,7 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
                 this.formats[1].splice(2, 1); // remove pdfa
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
@@ -331,7 +331,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
-                    '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-fast"></div>',
+                    '<td colspan="2"><div style="display: flex;" role="radiogroup" aria-owns="fms-rb-coauth-mode-strict"><div id="fms-rb-coauth-mode-fast"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
                     '<label class="comment-text"><%= scope.txtFastTip %></label></span></div>',
                     '</td>',
@@ -347,7 +347,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.txtShowTrackChanges %></label></td>',
                 '</tr>',
                 '<tr class="view-review">',
-                    '<td colspan="2"><div id="fms-rb-show-track-ballons"></div></td>',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-show-track-tooltips"><div id="fms-rb-show-track-ballons"></div></td>',
                 '</tr>',
                 '<tr class="view-review">',
                     '<td colspan="2"><div id="fms-rb-show-track-tooltips"></div></td>',
@@ -357,7 +357,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
-                    '<td colspan="2"><div id="fms-rb-show-changes-none"></div></td>',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-show-changes-all"><div id="fms-rb-show-changes-none"></div></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-all"></div></td>',
@@ -609,11 +609,14 @@ define([
                 name        : 'coauth-mode',
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strFast + ' ' + this.txtFastTip
             });
-            this.rbCoAuthModeFast.on('change', function(){
-                me.chAutosave.setValue(1);
-                me.onChangeCoAuthMode(1);
+            this.rbCoAuthModeFast.on('change', function(field, newValue, eOpts){
+                if (newValue) {
+                    me.chAutosave.setValue(1);
+                    me.onChangeCoAuthMode(1);
+                }
             });
             this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
@@ -622,9 +625,12 @@ define([
                 name        : 'coauth-mode',
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strStrict + ' ' + this.txtStrictTip
             });
-            this.rbCoAuthModeStrict.on('change', _.bind(this.onChangeCoAuthMode, this,0));
+            this.rbCoAuthModeStrict.on('change', function(field, newValue, eOpts){
+                newValue && me.onChangeCoAuthMode(0);
+            });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 
             this.rbChangesBallons = new Common.UI.RadioBox({
@@ -875,7 +881,7 @@ define([
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 
-            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -976,8 +982,9 @@ define([
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("de-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("de-settings-show-alt-hints", Common.localStorage.getBool("de-settings-show-alt-hints"));
+
             Common.localStorage.setItem("de-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("de-settings-zoom", Common.localStorage.getItem("de-settings-zoom"));
+
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/
@@ -1431,7 +1438,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtTitle
             }).on('keydown:before', keyDownBefore);
             this.inputTags = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-tags'),
@@ -1440,7 +1448,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtTags
             }).on('keydown:before', keyDownBefore);
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
@@ -1449,7 +1458,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtSubject
             }).on('keydown:before', keyDownBefore);
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
@@ -1458,7 +1468,8 @@ define([
                 validateOnBlur: false,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtComment
             }).on('keydown:before', keyDownBefore);
 
             // modify info
@@ -1490,7 +1501,8 @@ define([
                 placeHolder: this.txtAddAuthor,
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.txtAuthor
             }).on('changed:after', function(input, newValue, oldValue, e) {
                 if (newValue == oldValue) return;
 

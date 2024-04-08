@@ -494,9 +494,11 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.rbCoAuthModeFast.on('change', function(){
-                me.chAutosave.setValue(1);
-                me.onChangeCoAuthMode(1);
+            this.rbCoAuthModeFast.on('change', function(field, newValue, eOpts){
+                if (newValue) {
+                    me.chAutosave.setValue(1);
+                    me.onChangeCoAuthMode(1);
+                }
             });
             this.rbCoAuthModeFast.$el.parent().on('click', function (){me.rbCoAuthModeFast.setValue(true);});
 
@@ -507,7 +509,9 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
-            this.rbCoAuthModeStrict.on('change', _.bind(this.onChangeCoAuthMode, this,0));
+            this.rbCoAuthModeStrict.on('change', function(field, newValue, eOpts){
+                newValue && me.onChangeCoAuthMode(0);
+            });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 
             this.rbShowChangesNone = new Common.UI.RadioBox({
@@ -676,7 +680,7 @@ define([
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 
-            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
@@ -751,8 +755,9 @@ define([
                 Common.UI.Themes.toggleContentTheme();
             Common.localStorage.setItem("pdfe-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", Common.localStorage.getBool("pdfe-settings-show-alt-hints"));
+
             Common.localStorage.setItem("pdfe-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
+
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
 
             /** coauthoring begin **/

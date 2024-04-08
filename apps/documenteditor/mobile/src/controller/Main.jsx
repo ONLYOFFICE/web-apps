@@ -1106,10 +1106,12 @@ class MainController extends Component {
         this._state.isFromGatewayDownloadAs = true;
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
 
+        let options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+        options.asc_setIsSaveAs(true);
         if (type && typeof type[1] === 'string') {
-            this.api.asc_DownloadOrigin(true);
+            this.api.asc_DownloadOrigin(options);
         } else {
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            this.api.asc_DownloadAs(options);
         }
     }
 

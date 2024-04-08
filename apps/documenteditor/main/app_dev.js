@@ -65,9 +65,6 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
@@ -107,16 +104,17 @@ require.config({
 
 require([
     'backbone',
+    'underscore',
     'core',
     'analytics',
     'gateway',
     'locale',
     'socketio',
-	'underscore'
-], function (Backbone) {
+], function (Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with DE namespace defined
@@ -181,13 +179,11 @@ require([
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'documenteditor/main/app/view/FileMenuPanels',
-                'documenteditor/main/app/view/ParagraphSettings',
-                'documenteditor/main/app/view/HeaderFooterSettings',
-                'documenteditor/main/app/view/ImageSettings',
-                'documenteditor/main/app/view/TableSettings',
-                'documenteditor/main/app/view/ShapeSettings',
-                'documenteditor/main/app/view/TextArtSettings',
-                'documenteditor/main/app/view/SignatureSettings',
+                'common/main/lib/controller/ScreenReaderFocus',
+                'documenteditor/main/app/view/ParagraphSettingsAdvanced',
+                'documenteditor/main/app/view/ImageSettingsAdvanced',
+                'documenteditor/main/app/view/TableSettingsAdvanced',
+                'documenteditor/main/app/view/DropcapSettingsAdvanced',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
@@ -196,7 +192,6 @@ require([
                 ,'common/main/lib/controller/Chat'
                 /** coauthoring end **/
                 ,'common/main/lib/controller/Plugins'
-                ,'documenteditor/main/app/view/ChartSettings'
                 ,'common/main/lib/controller/ExternalDiagramEditor'
                 ,'common/main/lib/controller/ExternalMergeEditor'
                 ,'common/main/lib/controller/ExternalOleEditor'
@@ -204,6 +199,14 @@ require([
                 ,'common/main/lib/controller/Protection'
                 ,'common/main/lib/controller/Draw'
             ], function() {
+                app.postLaunchScripts = [
+                    'common/main/lib/controller/ScreenReaderFocus',
+                    'documenteditor/main/app/view/ParagraphSettingsAdvanced',
+                    'documenteditor/main/app/view/ImageSettingsAdvanced',
+                    'documenteditor/main/app/view/TableSettingsAdvanced',
+                    'documenteditor/main/app/view/DropcapSettingsAdvanced',
+                ];
+
                 window.compareVersions = true;
                 app.start();
             });

@@ -480,6 +480,7 @@
 	"SORT": "ORDENAR",
 	"SORTBY": "ORDENARPOR",
 	"GETPIVOTDATA": "OBTERDADOSDIN",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",
