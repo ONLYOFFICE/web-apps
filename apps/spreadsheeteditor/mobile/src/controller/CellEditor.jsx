@@ -71,7 +71,7 @@ const CellEditor = inject("storeFunctions")(observer(props => {
 
                 switch (type) {
                     case Asc.c_oAscPopUpSelectorType.Func:
-                        descr = functions && functions[origName] ? functions[origName].descr : '';
+                        descr = functions && functions[origName] ? functions[origName].descr : item.asc_getDescription() || '';
                         break;
                     case Asc.c_oAscPopUpSelectorType.TableThisRow:
                         descr = t('View.Add.textThisRowHint');
