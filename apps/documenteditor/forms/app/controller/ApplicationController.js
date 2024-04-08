@@ -805,6 +805,12 @@ define([
         setBranding: function (value) {
             if ( value && value.logo) {
                 var logo = $('#header-logo');
+                if (value.logo.visible===false) {
+                    logo.addClass('hidden');
+                    logo.parent().removeClass('margin-right-large');
+                    return;
+                }
+
                 if (value.logo.image || value.logo.imageDark) {
                     var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                     logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');

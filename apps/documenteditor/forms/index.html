@@ -225,6 +225,7 @@
 
            var params = getUrlParams(),
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+               hideLogo = params["headerlogo"]==='',
                logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
                logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
@@ -238,13 +239,17 @@
                document.body.removeChild(document.getElementById('loading-mask'));
            } else {
                var elem = document.querySelector('.loading-logo');
-               if (elem && (logo || logoDark)) {
-                   elem.style.backgroundImage= 'none';
-                   elem.style.width = 'auto';
-                   elem.style.height = 'auto';
-                   var img = document.querySelector('.loading-logo img');
-                   img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
-                   img.style.opacity = 1;
+               if (elem) {
+                   if (hideLogo) {
+                       elem.style.display = 'none';
+                   } else if (logo || logoDark) {
+                       elem.style.backgroundImage= 'none';
+                       elem.style.width = 'auto';
+                       elem.style.height = 'auto';
+                       var img = document.querySelector('.loading-logo img');
+                       img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                       img.style.opacity = 1;
+                   }
                }
            }
        </script>
