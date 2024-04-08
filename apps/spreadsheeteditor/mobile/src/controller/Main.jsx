@@ -69,7 +69,6 @@ class MainController extends Component {
                                                            '../../../../sdkjs/cell/sdk-all-min.js']);
             let dep_scripts = [
                 '../../../vendor/jquery/jquery.min.js',
-                '../../../vendor/bootstrap/dist/js/bootstrap.min.js',
                 '../../../vendor/underscore/underscore-min.js',
                 '../../../vendor/xregexp/xregexp-all-min.js',
                 '../../../vendor/socketio/socket.io.min.js'];

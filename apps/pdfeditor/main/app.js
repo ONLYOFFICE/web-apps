@@ -55,8 +55,6 @@ require.config({
         allfonts        : '../../sdkjs/common/AllFonts',
         sdk             : '../../sdkjs/word/sdk-all-min',
         api             : 'api/documents/api',
-        dropdown        : 'common/main/lib/mods/dropdown',
-        tooltip         : 'common/main/lib/mods/tooltip',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
         keymaster       : 'common/main/lib/core/keymaster',
@@ -159,8 +157,8 @@ require([
     Common.Locale.apply(
         function() {
             require([
-                'tooltip',
-                'dropdown',
+                'common/main/lib/mods/dropdown',
+                'common/main/lib/mods/tooltip',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
