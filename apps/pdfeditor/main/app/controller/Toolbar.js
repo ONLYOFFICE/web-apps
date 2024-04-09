@@ -1177,7 +1177,7 @@ define([
                 accept();
             })).then(function () {
                 var hand = (config.isEdit && !config.isPDFEdit || config.isRestrictedEdit);
-                me.toolbar && me.toolbar[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
+                me.toolbar && me.toolbar.btnHandTool && me.toolbar[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
                 if (config.isRestrictedEdit && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
                     me.toolbar.lockToolbar(Common.enumLock.requiredNotFilled, true, {array: [me.toolbar.btnSubmit]});

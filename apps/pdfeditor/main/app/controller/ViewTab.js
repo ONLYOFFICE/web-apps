@@ -149,11 +149,11 @@ define([
                     }
 
                     if (!config.canPDFEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
-                        emptyGroup.push(me.chRightMenu.$el.closest('.elset'));
-                        me.chRightMenu.$el.remove();
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        me.view.chRightMenu.$el.remove();
                     } else if (emptyGroup.length>0) {
-                        emptyGroup.push(me.chRightMenu.$el.closest('.elset'));
-                        emptyGroup.shift().append(me.chRightMenu.$el[0]);
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.view.chRightMenu.$el[0]);
                     }
                     config.canPDFEdit && me.applyEditorMode(config);
 
