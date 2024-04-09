@@ -610,6 +610,7 @@ define([
                     viewMode: disable,
                     allowSignature: false,
                     statusBar: true,
+                    rightMenu: {clear: !temp, disable: true},
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true},
                     navigation: {disable: !temp, previewMode: true},
@@ -631,6 +632,11 @@ define([
                 !disable && this.stackDisableActions.pop({type: type});
                 var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
 
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
+                }
+
                 if (options.statusBar) {
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
@@ -641,6 +647,7 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
+                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
                     options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {

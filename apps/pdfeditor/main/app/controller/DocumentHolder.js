@@ -466,6 +466,8 @@ define([
                 this.api.asc_registerCallback('asc_onDialogAddHyperlink',       _.bind(this.onDialogAddHyperlink, this));
                 this.api.asc_registerCallback('asc_ChangeCropState',            _.bind(this.onChangeCropState, this));
             }
+            if (this.mode)
+                this.mode.isPDFEdit ? this.onHideTextBar() : this.onHideMathTrack();
         },
 
         fillFormsMenuProps: function(selectedElements) {
@@ -508,7 +510,7 @@ define([
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : (me.mode && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps());
+                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps());
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -1661,7 +1663,7 @@ define([
         },
 
         onShowMathTrack: function(bounds) {
-            if (this.mode && !this.mode.isPDFEdit) return;
+            if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             this.lastMathTrackBounds = bounds;
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pdfe-equation-toolbar-hide')) {
@@ -2366,7 +2368,7 @@ define([
         },
 
         onShowTextBar: function(bounds) {
-            if (this.mode && this.mode.isPDFEdit) return;
+            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             this.lastTextBarBounds = bounds;
             if (bounds[3] < 0) {
@@ -2733,6 +2735,11 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        },
+
+        clearSelection: function() {
+            this.onHideMathTrack();
+            this.onHideTextBar();
         },
 
         editComplete: function() {
