@@ -554,6 +554,7 @@
   "Common.Views.Header.txtAccessRights": "Change access rights",
   "Common.Views.Header.txtRename": "Rename",
   "Common.Views.Header.textStartFill": "Start filling",
+  "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
   "Common.Views.History.textCloseHistory": "Close History",
   "Common.Views.History.textHide": "Collapse",
   "Common.Views.History.textHideAll": "Hide detailed changes",

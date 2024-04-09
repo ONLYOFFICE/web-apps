@@ -149,6 +149,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     // '<label id="title-doc-name" /></label>' +
@@ -424,6 +425,77 @@ define([
                 me.btnRedo.updateHint(me.tipRedo + Common.Utils.String.platformKey('Ctrl+Y'));
                 me.btnRedo.on('click', function (e) {
                     me.fireEvent('redo', me);
+                });
+            }
+
+            if (me.btnQuickAccess) {
+                me.btnQuickAccess.updateHint(me.tipCustomizeQuickAccessToolbar);
+                var arr = [];
+                if (me.btnSave) {
+                    arr.push({
+                        caption: me.tipSave,
+                        value: 'save',
+                        checkable: true,
+                        checked: true
+                    });
+                }
+                if (me.btnPrint) {
+                    arr.push({
+                        caption: me.tipPrint,
+                        value: 'print',
+                        checkable: true,
+                        checked: true
+                    });
+                }
+                if (me.btnPrintQuick) {
+                    arr.push({
+                        caption: me.tipPrintQuick,
+                        value: 'print-quick',
+                        checkable: true,
+                        checked: true
+                    });
+                }
+                if (me.btnUndo) {
+                    arr.push({
+                        caption: me.tipUndo,
+                        value: 'undo',
+                        checkable: true,
+                        checked: true
+                    });
+                }
+                if (me.btnRedo) {
+                    arr.push({
+                        caption: me.tipRedo,
+                        value: 'redo',
+                        checkable: true,
+                        checked: true
+                    });
+                }
+                me.btnQuickAccess.setMenu(new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    style: 'min-width: 110px;',
+                    menuAlign: 'tl-bl',
+                    items: arr
+                }));
+                me.btnQuickAccess.menu.on('item:click', function (menu, item) {
+                    switch (item.value) {
+                        case 'save':
+                            me.btnSave[item.checked ? 'show' : 'hide']();
+                            break;
+                        case 'print':
+                            me.btnPrint[item.checked ? 'show' : 'hide']();
+                            break;
+                        case 'print-quick':
+                            me.btnPrintQuick[item.checked ? 'show' : 'hide']();
+                            break;
+                        case 'undo':
+                            me.btnUndo[item.checked ? 'show' : 'hide']();
+                            break;
+                        case 'redo':
+                            me.btnRedo[item.checked ? 'show' : 'hide']();
+                            break;
+                    }
+                    Common.NotificationCenter.trigger('edit:complete');
                 });
             }
 
@@ -862,6 +934,16 @@ define([
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened]);
+                    me.btnQuickAccess = new Common.UI.Button({
+                        cls: 'btn-header no-caret',
+                        iconCls: 'toolbar__icon icon--inverse btn-more',
+                        menu: true,
+                        enableToggle: true,
+                        dataHint:'0',
+                        dataHintDirection: config.isDesktopApp ? 'right' : 'left',
+                        dataHintOffset: config.isDesktopApp ? '10, -18' : '10, 10'
+                    });
+                    me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
 
                     return $html;
                 }
@@ -1157,7 +1239,8 @@ define([
             textReviewDesc: 'Suggest changes',
             tipReview: 'Reviewing',
             textClose: 'Close file',
-            textStartFill: 'Start filling'
+            textStartFill: 'Start filling',
+            tipCustomizeQuickAccessToolbar: 'Customize Quick Access Toolbar'
         }
     }(), Common.Views.Header || {}))
 });

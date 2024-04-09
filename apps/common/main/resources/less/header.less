@@ -527,10 +527,17 @@
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
-    z-index: 1;
+    z-index: @zindex-navbar + 2;
 
     .btn-slot {
         display: inline-block;
+    }
+
+    .btn {
+        &.active {
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
+        }
     }
 
     svg.icon {
