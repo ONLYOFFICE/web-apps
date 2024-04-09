@@ -497,7 +497,7 @@ define([
                 }, 10);
 
                 me.documentHolder.currentMenu = menu;
-                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow(event);
             }
         },
 
