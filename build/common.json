@@ -137,27 +137,6 @@
             ]
         }
     },
-    "bootstrap": {
-        "clean": [
-            "../deploy/web-apps/vendor/bootstrap"
-        ],
-        "copy": {
-            "script": {
-                "src": "../vendor/bootstrap/dist/js/bootstrap.min.js",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/js/bootstrap.min.js"
-            },
-            "font": {
-                "expand": true,
-                "cwd": "../vendor/bootstrap/dist/fonts/",
-                "src": "*",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/fonts/"
-            },
-            "css": {
-                "src": "../vendor/bootstrap/dist/css/bootstrap.min.css",
-                "dest": "../deploy/web-apps/vendor/bootstrap/dist/css/bootstrap.min.css"
-            }
-        }
-    },
     "jquery": {
         "clean": [
             "../deploy/web-apps/vendor/jquery"
@@ -286,7 +265,6 @@
             "deploy-megapixel",
             "deploy-jquery",
             "deploy-underscore",
-            "deploy-bootstrap",
             "deploy-iscroll",
             "deploy-fetch",
             "deploy-es6-promise",

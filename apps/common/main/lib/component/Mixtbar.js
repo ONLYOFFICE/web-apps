@@ -42,7 +42,8 @@
 
 define([
     'backbone',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/mods/transition'
 ], function (Backbone) {
     'use strict';
 
