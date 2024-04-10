@@ -274,7 +274,7 @@ define([
                 this.btnAnimationPane = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtAnimationPane,
-                    iconCls: 'toolbar__icon icon',
+                    iconCls: 'toolbar__icon icon btn-animation-panel',
                     lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
                     enableToggle: true,
                     dataHint: '1',
