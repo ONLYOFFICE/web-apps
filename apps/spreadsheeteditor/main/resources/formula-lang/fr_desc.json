@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(champ_données; tableau_croisé_dyn; [champ]; [élément]; ...)",
 		"d": "Extrait des données d'un tableau croisé dynamique."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_feuille; chaîne_plage)",
+		"d": "Importe une plage de cellules depuis une feuille de calcul spécifiée."
 	}
 }

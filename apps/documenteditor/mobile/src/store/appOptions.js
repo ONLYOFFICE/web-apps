@@ -128,9 +128,30 @@ export class storeAppOptions {
         this.saveAsUrl = config.saveAsUrl;
         this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
-        this.canBackToFolder = (config.canBackToFolder!==false) && (typeof (config.customization) == 'object') && (typeof (config.customization.goback) == 'object')
-            && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
-        this.canBack = this.canBackToFolder === true;
+        this.canCloseEditor = false;
+
+        let canBack = false;
+
+        if (typeof config.customization === 'object' && config.customization !== null) {
+            const { goback, close } = config.customization;
+
+            if (typeof goback === 'object' && config.canBackToFolder !== false) {
+                const hasUrl = !!goback.url;
+                const requestClose = goback.requestClose && this.canRequestClose;
+
+                canBack = close === undefined ? hasUrl || requestClose : hasUrl && !goback.requestClose;
+
+                if (goback.requestClose) {
+                    console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                }
+            }
+
+            if (typeof close === 'object' && close !== null) {
+                this.canCloseEditor = (close.visible!==false) && this.canRequestClose && !this.isDesktopApp;
+            }
+        }
+
+        this.canBack = this.canBackToFolder = canBack;
         this.canRequestSaveAs = config.canRequestSaveAs;
         this.canPlugins = false;
         this.canFeatureForms = !!Common.EditorApi.get().asc_isSupportFeature("forms");
@@ -156,7 +177,7 @@ export class storeAppOptions {
             isSupportEditFeature;
         this.isEdit = this.canLicense && this.canEdit && this.config.mode !== 'view';
         this.canReview = this.canLicense && this.isEdit && (permissions.review===true);
-        this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
+        this.canUseHistory = this.canLicense && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp && !this.isOffline;
         this.canRename = this.config.canRename;
         this.canHistoryClose = this.config.canHistoryClose;
         this.canHistoryRestore= this.config.canHistoryRestore;

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>ONLYOFFICE Documents</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+      <style type="text/css">
+          .loadmask {
+              left: 0;
+              top: 0;
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              overflow: hidden;
+              border: none;
+              background: #e2e2e2;
+              background: var(--canvas-background, #e2e2e2);
+              z-index: 1002;
+          }
+
+          .theme-dark .loadmask, .theme-type-dark .loadmask {
+              background: #555;
+          }
+      </style>
+      <script>
+          function getUrlParams() {
+              var e,
+                  a = /\+/g,  // Regex for replacing addition symbol with a space
+                  r = /([^&=]+)=?([^&]*)/g,
+                  d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                  q = window.location.search.substring(1),
+                  urlParams = {};
+
+              while (e = r.exec(q))
+                  urlParams[d(e[1])] = d(e[2]);
+
+              return urlParams;
+          }
+
+          var params = getUrlParams(),
+              postfix = params["indexPostfix"] || '',
+              embed = params["type"]==='embedded';
+          window.frameEditorId = params["frameEditorId"];
+          window.parentOrigin = params["parentOrigin"];
+      </script>
+      <script src="../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
+  </head>
+  <body>
+      <script src="../../../../apps/common/main/lib/util/htmlutils.js?__inline=true"></script>
+      <script src="../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
+      <div id="loading-mask" class="loadmask"></div>
+      <script>
+          listenApiMsg(function (isform) {
+              var match = window.location.href.match(/(.*)common\/index.html/i);
+              match && window.location.replace(match[1] + (isform || embed ? 'documenteditor' : 'pdfeditor') + '/' + (isform && embed ? 'forms' : embed ? 'embed' : 'main') + '/index' + (isform && embed ? '' : postfix) + '.html' +
+                       window.location.search + ("&isForm=" + !!isform));
+          });
+      </script>
+  </body>
+</html>

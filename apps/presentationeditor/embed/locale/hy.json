@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Սահիկաշարի ներբեռնում...",
   "PE.ApplicationController.errorAccessDeny": "Դուք փորձում եք կատարել գործողություն, որի իրավունքը չունեք։<br>Դիմեք փաստաթղթերի ձեր սպասարկիչի վարիչին։",
   "PE.ApplicationController.errorDefaultMessage": "Սխալի դասիչ՝ %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Փաստաթղթի հետ աշխատանքի ընթացքում տեղի ունեցավ սխալ։<br>«Ներբեռնել որպես» հրամանով պահպանեք ֆայլի պահուստային պատճենը Ձեր համակարգչի կոշտ սկավառակում։",
   "PE.ApplicationController.errorFilePassProtect": "Ֆայլն ունի գաղտնաբառ և չի կարող բացվել։",
   "PE.ApplicationController.errorFileSizeExceed": "Նիշքի չափը գերազանցում է ձեր սպասարկիչի համար եղած սահմանափակումը։<br>Մանրամասների համար դիմեք ձեր սպասարկիչի վարիչին։",
   "PE.ApplicationController.errorForceSave": "Սխալ է տեղի ունեցել ֆայլը պահելիս:Խնդրում ենք օգտագործել «Ներբեռնել որպես» տարբերակը՝ ֆայլը ձեր համակարգչի կոշտ սկավառակում պահելու համար կամ ավելի ուշ նորից փորձեք:",

@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(data_field; pivot_table; [field]; [item]; ...)",
 		"d": "피벗 테이블 보고서 내에 저장된 데이터를 반환합니다."
+	},
+	"IMPORTRANGE": {
+		"a": "(스프레드시트_URL, 범위_문자열)",
+		"d": "지정된 스프레드시트에서 셀 범위를 가져옵니다."
 	}
 }

@@ -255,7 +255,7 @@ define([
                 }, 10);
 
                 me.documentHolder.currentMenu = menu;
-                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
+                me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow(event);
             }
         },
 
@@ -394,8 +394,6 @@ define([
 
                 if (key == Common.UI.Keys.ESC) {
                     Common.UI.Menu.Manager.hideAll();
-                    if (!Common.UI.HintManager.isHintVisible())
-                        Common.NotificationCenter.trigger('leftmenu:change', 'hide');
                 }
             }
         },

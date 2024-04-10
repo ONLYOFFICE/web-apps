@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(gegevensveld; draaitabel; [veld]; [item]; ...)",
 		"d": "Haalt gegevens op uit een draaitabel"
+	},
+	"IMPORTRANGE": {
+		"a": "(spreadsheet_url; bereik_tekenreeks)",
+		"d": "Importeert een bereik van cellen uit een bepaalde spreadsheet."
 	}
 }

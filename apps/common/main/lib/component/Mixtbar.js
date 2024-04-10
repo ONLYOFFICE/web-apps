@@ -392,8 +392,36 @@ define([
                 }
             },
 
+            getTab: function(tab) {
+                if (tab && this.$panels) {
+                    var panel = this.$panels.filter('[data-tab=' + tab + ']');
+                    return panel.length ? panel : undefined;
+                }
+            },
+
+            createTab: function(tab, visible) {
+                if (!tab.action || !tab.caption) return;
+
+                var _panel = $('<section id="' + tab.action + '" class="panel" data-tab="' + tab.action + '"></section>');
+                this.addTab(tab, _panel, this.getLastTabIdx());
+                this.setVisible(tab.action, !!visible);
+                return _panel;
+            },
+
+            getMorePanel: function(tab) {
+                return tab && btnsMore[tab] ? btnsMore[tab].panel : null;
+            },
+
+            getLastTabIdx: function() {
+                return config.tabs.length;
+            },
+
             isCompact: function () {
                 return this.isFolded;
+            },
+
+            isExpanded: function () {
+                return !this.isFolded || optsFold.$bar && optsFold.$bar.hasClass('expanded');
             },
 
             hasTabInvisible: function() {
@@ -445,6 +473,9 @@ define([
                         if ( !_btns ) {
                             _btns = [];
                             _.each($active.find('.btn-slot .x-huge'), function(item) {
+                                _btns.push($(item).closest('.btn-slot'));
+                            });
+                            btnsMore[data.tab] && btnsMore[data.tab].panel && _.each(btnsMore[data.tab].panel.find('.btn-slot .x-huge'), function(item) {
                                 _btns.push($(item).closest('.btn-slot'));
                             });
                             data.buttons = _btns;
@@ -593,6 +624,91 @@ define([
                     btnsMore[tab].remove();
                     delete btnsMore[tab];
                 }
+            },
+
+            clearActiveData: function(tab) {
+                var panel = tab ? this.$panels.filter('[data-tab=' + tab + ']') : this.$panels.filter('.active');
+                if ( panel.length ) {
+                    var data = panel.data();
+                    data.buttons = data.flex = data.rightedge = data.leftedge = undefined;
+                }
+            },
+
+            addCustomItems: function(tab, added, removed) {
+                if (!tab.action) return;
+
+                var $panel = tab.action ? this.getTab(tab.action) || this.createTab(tab, true) || this.getTab('plugins') : null,
+                    $morepanel = this.getMorePanel(tab.action),
+                    $moresection = $panel ? $panel.find('.more-box') : null,
+                    compactcls = '';
+                ($moresection.length<1) && ($moresection = null);
+                if ($panel) {
+                    if (removed) {
+                        removed.forEach(function(button, index) {
+                            if (button.cmpEl) {
+                                var group = button.cmpEl.closest('.group');
+                                button.cmpEl.closest('.btn-slot').remove();
+                                if (group.children().length<1) {
+                                    var in_more = group.closest('.more-container').length>0;
+                                    in_more ? group.next('.separator').remove() : group.prev('.separator').remove();
+                                    group.remove();
+                                    if (in_more && $morepanel.children().filter('.group').length === 0) {
+                                        btnsMore[tab.action] && btnsMore[tab.action].isActive() && btnsMore[tab.action].toggle(false);
+                                        $moresection && $moresection.css('display', "none");
+                                    }
+                                }
+                            }
+                        });
+                        $panel.find('.btn-slot:not(.slot-btn-more).x-huge').last().hasClass('compactwidth') && (compactcls = 'compactwidth');
+                    }
+                    added && added.forEach(function(button, index) {
+                        var _groups, _group;
+                        if ($morepanel) {
+                            _groups = $morepanel.children().filter('.group');
+                            if (_groups.length>0) {
+                                $moresection = null;
+                                $panel = $morepanel;
+                                compactcls = 'compactwidth';
+                            }
+                        }
+                        if (!_groups || _groups.length<1)
+                            _groups = $panel.children().filter('.group');
+
+                        if (_groups.length>0 && !button.options.separator && index>0) // add first button to new group
+                            _group = $(_groups[_groups.length-1]);
+                        else {
+                            if (button.options.separator) {
+                                var el = $('<div class="separator long"></div>');
+                                $moresection ? $moresection.before(el) : el.appendTo($panel);
+                            }
+                            _group = $('<div class="group"></div>');
+                            $moresection ? $moresection.before(_group) : _group.appendTo($panel);
+                        }
+                        var $slot = $('<span class="btn-slot text x-huge ' + (!(button.options.caption || '').trim() ? 'nocaption ' : ' ') + compactcls + '"></span>').appendTo(_group);
+                        button.render($slot);
+                    });
+                }
+                this.clearActiveData(tab.action);
+                this.processPanelVisible(null, true);
+
+                var visible = !this.isTabEmpty(tab.action) && Common.UI.LayoutManager.isElementVisible('toolbar-' + tab.action);
+                this.setVisible(tab.action, visible);
+                if (!visible && this.isTabActive(tab.action) && this.isExpanded()) {
+                    if (this.getTab('home'))
+                        this.setTab('home');
+                    else {
+                        tab = this.$tabs.siblings(':not(.x-lone):visible').first().find('> a[data-tab]').data('tab');
+                        this.setTab(tab);
+                    }
+                }
+            },
+
+            isTabEmpty: function(tab) {
+                var $panel = this.getTab(tab),
+                    $morepanel = this.getMorePanel(tab),
+                    $moresection = $panel ? $panel.find('.more-box') : null;
+                ($moresection.length<1) && ($moresection = null);
+                return $panel ? !($panel.find('> .group').length>0 || $morepanel && $morepanel.find('.group').length>0) : false;
             },
 
             resizeToolbar: function(reset) {

@@ -282,7 +282,7 @@
       "textPictureFromLibrary": "Image depuis la bibliothèque",
       "textPictureFromURL": "Image à partir d'une URL",
       "textPreviousSlide": "Diapositive précédente",
-      "textRecommended": "Recommandés",
+      "textRecommended": "Recommandations",
       "textRequired": "Obligatoire",
       "textRows": "Lignes",
       "textScreenTip": "Info-bulle",
@@ -409,7 +409,7 @@
       "textPreviousSlide": "Diapositive précédente",
       "textPt": "pt",
       "textPush": "Expulsion",
-      "textRecommended": "Recommandés",
+      "textRecommended": "Recommandations",
       "textRemoveChart": "Supprimer le graphique",
       "textRemoveShape": "Supprimer la forme",
       "textRemoveTable": "Supprimer le tableau",
@@ -549,7 +549,8 @@
       "txtScheme6": "Rotonde",
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
-      "txtScheme9": "Fonderie"
+      "txtScheme9": "Fonderie",
+      "textClose": "Close"
     }
   }
 }

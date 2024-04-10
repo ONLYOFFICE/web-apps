@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Device } from '../../../../common/mobile/utils/device';
 import { inject, observer } from 'mobx-react';
 import { f7 } from 'framework7-react';
@@ -34,6 +34,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const storeDocumentInfo = props.storeDocumentInfo;
     const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
     const docTitle = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.title : '';
+    const scrollOffsetRef = useRef(0);
 
     const getNavbarTotalHeight = useCallback(() => {
       	const navbarBg = document.querySelector('.navbar-bg');
@@ -51,6 +52,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         Common.Notifications.on('toolbar:activatecontrols', activateControls);
         Common.Notifications.on('toolbar:deactivateeditcontrols', deactivateEditControls);
         Common.Notifications.on('goback', goBack);
+        Common.Notifications.on('close', onRequestClose);
 
         if (isDisconnected) {
             f7.popover.close();
@@ -62,6 +64,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             Common.Notifications.off('toolbar:activatecontrols', activateControls);
             Common.Notifications.off('toolbar:deactivateeditcontrols', deactivateEditControls);
             Common.Notifications.off('goback', goBack);
+            Common.Notifications.off('close', onRequestClose);
         }
     }, []);
 
@@ -102,26 +105,28 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         const isSearchbarEnabled = document.querySelector('.subnavbar .searchbar')?.classList.contains('searchbar-enabled');
 
         if(!isSearchbarEnabled && navbarHeight) {
-            if(offset > 0) {
+            if(offset > scrollOffsetRef.current) {
                 props.closeOptions('fab');
                 f7.navbar.hide('.main-navbar');
                 api.SetMobileTopOffset(undefined, 0);
-            } else if(offset <= 0) {
+            } else if(offset <= scrollOffsetRef.current) {
                 props.openOptions('fab');
                 f7.navbar.show('.main-navbar');
                 api.SetMobileTopOffset(undefined, navbarHeight);
             }
+
+            scrollOffsetRef.current = offset;
         }
     }
 
     // Back button
     const [isShowBack, setShowBack] = useState(appOptions.canBackToFolder);
     const loadConfig = (data) => {
-        if (data && data.config && data.config.canBackToFolder !== false &&
-            data.config.customization && data.config.customization.goback &&
-            (data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose))
-        {
-            setShowBack(true);
+        if (data && data.config && data.config?.canBackToFolder !== false && data.config?.customization && data.config?.customization.goback) {
+            const canback = data.config.customization.close === undefined ?
+                data.config.customization.goback.url || data.config.customization.goback.requestClose && data.config.canRequestClose :
+                data.config.customization.goback.url && !data.config.customization.goback.requestClose;
+            canback && setShowBack(true);
         }
     };
 
@@ -364,7 +369,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
         } else {
             const isFromBtnDownload = appOptions.canRequestSaveAs || !!appOptions.saveAsUrl;
-            api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload));
+            let options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, isFromBtnDownload);
+            options.asc_setIsSaveAs(isFromBtnDownload);
+            api.asc_DownloadAs(options);
         }
     }
 

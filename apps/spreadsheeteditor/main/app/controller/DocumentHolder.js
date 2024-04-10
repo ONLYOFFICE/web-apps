@@ -3176,7 +3176,7 @@ define([
 
                 menu.show();
                 me.currentMenu = menu;
-                (type!==Asc.c_oAscContextMenuTypes.changeSeries) && me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
+                (type!==Asc.c_oAscContextMenuTypes.changeSeries) && me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow(event);
             }
         },
 

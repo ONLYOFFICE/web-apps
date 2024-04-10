@@ -425,7 +425,8 @@ define([
                     documentHolder: {clear: true, disable: true},
                     toolbar: true,
                     plugins: false,
-                    protect: false
+                    protect: false,
+                    header: {docmode: true}
                 }, 'signature');
             }
         },

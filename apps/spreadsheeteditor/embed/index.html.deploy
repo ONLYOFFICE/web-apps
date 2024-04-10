@@ -184,19 +184,24 @@
 
         var params = getUrlParams(),
                       lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+                      hideLogo = params["headerlogo"]==='',
                       logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null;
 
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
 
           var elem = document.querySelector('.loading-logo');
-          if (elem && logo) {
-              elem.style.backgroundImage= 'none';
-              elem.style.width = 'auto';
-              elem.style.height = 'auto';
-              var img = document.querySelector('.loading-logo img');
-              img && img.setAttribute('src', logo);
-              img.style.opacity = 1;
+          if (elem) {
+             if (hideLogo) {
+                 elem.style.display = 'none';
+             } else if (logo) {
+                 elem.style.backgroundImage= 'none';
+                 elem.style.width = 'auto';
+                 elem.style.height = 'auto';
+                 var img = document.querySelector('.loading-logo img');
+                 img && img.setAttribute('src', logo);
+                 img.style.opacity = 1;
+             }
           }
     </script>
 
@@ -223,6 +228,7 @@
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
+              <button id="id-btn-close-editor" class="control-btn svg-icon search-close hidden"></button>
           </div>
       </div>
 

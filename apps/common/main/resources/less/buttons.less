@@ -311,7 +311,7 @@
                     }
                 }
 
-                .emptycaption & {
+                .emptycaption & { // used for buttons without caption, but with color div
                     width: 37px;
                     .caret {
                         margin: 0 1px 0 2px;
@@ -415,6 +415,11 @@
             .mx-button-otherstates-icon2(@button-small-active-icon-offset-x);
         }
     }
+}
+
+.icon-custom {
+    background-position: 0 0 !important;
+    background-size: cover;
 }
 
 .btn-toolbar {
@@ -1071,6 +1076,27 @@
     &.disabled {
         opacity: @component-disabled-opacity-ie;
         opacity: @component-disabled-opacity;
+    }
+
+    &.yellow {
+        .font-weight-bold();
+        border: 1px solid transparent;
+        color: @text-alt-key-hint-ie;
+        color: @text-alt-key-hint;
+        background-color: @background-fill-button-ie;
+        background-color: @background-fill-button;
+
+        &:hover:not(.disabled),
+        .over:not(.disabled) {
+            background-color: @highlight-fill-button-hover-ie !important;
+            background-color: @highlight-fill-button-hover !important;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled) {
+            background-color: @highlight-fill-button-pressed-ie !important;
+            background-color: @highlight-fill-button-pressed !important;
+        }
     }
 }
 

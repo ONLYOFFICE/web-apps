@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(camp_datos; tabla_dinámica; [campo]; [elemento]; ...)",
 		"d": "Extrae datos almacenados en una tabla dinámica"
+	},
+	"IMPORTRANGE": {
+		"a": "(url_hoja_cálculo; cadena_intervalo)",
+		"d": "Importa un intervalo de celdas de una hoja de cálculo específica."
 	}
 }

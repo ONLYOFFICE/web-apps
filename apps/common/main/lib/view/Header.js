@@ -86,6 +86,10 @@ define([
                             '</section>' +
                             '<section style="display: inherit;">' +
                                 '<div class="hedset">' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit"></div>' +
+                                    '<div class="btn-slot margin-right-2" id="slot-btn-start-fill"></div>' +
+                                '</div>' +
+                                '<div class="hedset">' +
                                     '<div class="btn-slot" id="slot-hbtn-edit"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
@@ -127,6 +131,7 @@ define([
                                             '<div class="color-user-name"></div>' +
                                         '</div>' +
                                     '</div>' +
+                                    '<div class="btn-slot" id="slot-btn-close"></div>' +
                                 '</div>' +
                             '</section>' +
                         '</section>';
@@ -158,6 +163,7 @@ define([
                                             '<div class="color-user-name"></div>' +
                                         '</div>' +
                                     '</div>' +
+                                    '<div class="btn-slot" id="slot-btn-close"></div>' +
                                 '</div>' +
                             '</section>';
 
@@ -201,13 +207,13 @@ define([
             } else {
                 $panelUsers['hide']();
             }
-            updateDocNamePosition(appConfig);
+            updateDocNamePosition();
         }
 
         function onLostEditRights() {
             _readonlyRights = true;
             this.btnShare && this.btnShare.setVisible(false);
-            updateDocNamePosition(appConfig);
+            updateDocNamePosition();
         }
 
         function onUsersClick(e) {
@@ -221,14 +227,15 @@ define([
         }
 
         function updateDocNamePosition(config) {
+            config = config || appConfig;
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
-                if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
+                if (!config.twoLevelHeader) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
                     $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, _left_width - _right_width));
-                } else if (!(config.customization && config.customization.compactHeader)) {
+                } else if (!config.compactHeader) {
                     var _left_width = $parent.position().left,
                         _right_width = $parent.next().outerWidth(),
                         outerWidth = $labelDocName.outerWidth(),
@@ -243,7 +250,7 @@ define([
                     }
                 }
 
-                if (!(config.customization && config.customization.toolbarHideFileName) && (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && config.customization.compactHeader)) {
+                if (!(config.customization && config.customization.toolbarHideFileName) && (!config.twoLevelHeader || config.compactHeader)) {
                     var basis = parseFloat($parent.css('padding-left') || 0) + parseFloat($parent.css('padding-right') || 0) + parseInt($labelDocName.css('min-width') || 50); // 2px - box-shadow
                     config.isCrypted && (basis += 20);
                     $parent.css('flex-basis', Math.ceil(basis) + 'px');
@@ -283,9 +290,8 @@ define([
         }
 
         function onResize() {
-            if (appConfig && (appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader)) {
-                updateDocNamePosition(appConfig);
-            }
+            if (appConfig && appConfig.twoLevelHeader && !appConfig.compactHeader)
+                updateDocNamePosition();
         }
 
         function onAppShowed(config) {
@@ -312,6 +318,13 @@ define([
                 Common.NotificationCenter.trigger('goback');
             });
 
+            if (me.btnClose) {
+                me.btnClose.on('click', function (e) {
+                    Common.NotificationCenter.trigger('close');
+                });
+                me.btnClose.updateHint(appConfig.customization.close.text || me.textClose);
+            }
+
             me.btnFavorite.on('click', function (e) {
                 // wait for setFavorite method
                 // me.options.favorite = !me.options.favorite;
@@ -327,7 +340,17 @@ define([
                 });
                 me.btnShare.updateHint(me.tipAccessRights);
                 me.btnShare.setVisible(!_readonlyRights && appConfig && (appConfig.sharingSettingsUrl && appConfig.sharingSettingsUrl.length || appConfig.canRequestSharingSettings));
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
+            }
+
+            if (me.btnStartFill) {
+                Common.Gateway.on('startfilling', function() {
+                    me.btnStartFill.setVisible(false);
+                    updateDocNamePosition();
+                });
+                me.btnStartFill.on('click', function (e) {
+                    Common.Gateway.requestStartFilling();
+                });
             }
 
             if ( me.logo )
@@ -358,7 +381,7 @@ define([
                 });
                 $btnUsers.on('click', onUsersClick.bind(me));
                 $panelUsers[(appConfig && (editingUsers > 1 && (appConfig.isEdit || appConfig.isRestrictedEdit) || editingUsers > 0 && appConfig.canLiveView)) ? 'show' : 'hide']();
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
             }
 
             if (appConfig.user.guest && appConfig.canRenameAnonymous) {
@@ -404,26 +427,26 @@ define([
                 });
             }
 
-            if ( !(mode.isEdit || isPDFEditor && mode.isRestrictedEdit) ) {
+            if ( !appConfig.twoLevelHeader ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
                     me.btnDownload.on('click', function (e) {
                         me.fireEvent('downloadas', ['original']);
                     });
                 }
+            }
 
-                if ( me.btnEdit ) {
-                    me.btnEdit.updateHint(me.tipGoEdit);
-                    me.btnEdit.on('click', function (e) {
-                        me.fireEvent('go:editor', me);
-                    });
-                }
+            if ( me.btnEdit ) {
+                me.btnEdit.updateHint(me.tipGoEdit);
+                me.btnEdit.on('click', function (e) {
+                    me.fireEvent('go:editor', me);
+                });
             }
 
             if (me.btnSearch)
                 me.btnSearch.updateHint(me.tipSearch +  Common.Utils.String.platformKey('Ctrl+F'));
 
-            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem"><div>' +
+            var menuTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="menu-item"><div>' +
                                             '<% if (!_.isEmpty(iconCls)) { %>' +
                                                 '<span class="menu-item-icon <%= iconCls %>"></span>' +
                                             '<% } %>' +
@@ -496,7 +519,7 @@ define([
                     Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
                 });
             }
-            if ((appConfig.isEdit || isPDFEditor && appConfig.isRestrictedEdit) && !(appConfig.customization && appConfig.customization.compactHeader))
+            if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
         }
 
@@ -513,41 +536,42 @@ define([
             },100);
         }
 
+        function onDocNameChanged(editcomplete) {
+            var me = this,
+                name = $labelDocName.val();
+            name = name.trim();
+            if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
+                me.isSaveDocName =true;
+                if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
+                    _.defer(function() {
+                        Common.UI.error({
+                            msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
+                            , callback: function() {
+                                _.delay(function() {
+                                    $labelDocName.focus();
+                                }, 50);
+                            }
+                        });
+                    })
+                } else if (me.withoutExt) {
+                    name = me.cutDocName(name);
+                    me.fireEvent('rename', [name]);
+                    name += me.fileExtention;
+                    me.withoutExt = false;
+                    me.setDocTitle(name);
+                    editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+                }
+            } else {
+                editcomplete && Common.NotificationCenter.trigger('edit:complete', me);
+            }
+        }
+
         function onDocNameKeyDown(e) {
             var me = this;
-
-            var name = $labelDocName.val();
-            if ( e.keyCode == Common.UI.Keys.RETURN ) {
-                name = name.trim();
-                if ( !_.isEmpty(name) && me.cutDocName(me.documentCaption) !== name ) {
-                    me.isSaveDocName =true;
-                    if ( /[\t*\+:\"<>?|\\\\/]/gim.test(name) ) {
-                        _.defer(function() {
-                            Common.UI.error({
-                                msg: (new Common.Views.RenameDialog).txtInvalidName + "*+:\"<>?|\/"
-                                , callback: function() {
-                                    _.delay(function() {
-                                        $labelDocName.focus();
-                                        me.isSaveDocName =true;
-                                    }, 50);
-                                }
-                            });
-                        })
-                    } else
-                    if(me.withoutExt) {
-                        name = me.cutDocName(name);
-                        me.fireEvent('rename', [name]);
-                        name += me.fileExtention;
-                        me.withoutExt = false;
-                        me.setDocTitle(name);
-                        Common.NotificationCenter.trigger('edit:complete', me);
-                    }
-
-                } else {
-                    Common.NotificationCenter.trigger('edit:complete', me);
-                }
-            } else
-            if ( e.keyCode == Common.UI.Keys.ESC ) {
+            if ( e.keyCode === Common.UI.Keys.RETURN ) {
+                onDocNameChanged.call(me, true);
+            } else if ( e.keyCode === Common.UI.Keys.ESC ) {
+                me.setDocTitle(me.cutDocName(me.documentCaption));
                 Common.NotificationCenter.trigger('edit:complete', this);
             } else {
                 _.delay(function(){
@@ -619,7 +643,7 @@ define([
                 Common.NotificationCenter.on({
                     'app:ready': function(mode) {Common.Utils.asyncCall(onAppReady, me, mode);},
                     'app:face': function(mode) {Common.Utils.asyncCall(onAppShowed, me, mode);},
-                    'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me, appConfig);},
+                    'tab:visible': function() {Common.Utils.asyncCall(updateDocNamePosition, me);},
                     'collaboration:sharingdeny': function(mode) {Common.Utils.asyncCall(onLostEditRights, me, mode);}
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
@@ -652,11 +676,15 @@ define([
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
 
-                    if (this.branding && this.branding.logo && (this.branding.logo.image || this.branding.logo.imageDark) && this.logo) {
-                        var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
-                        this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        this.logo.css({'background-image': 'none', width: 'auto'});
-                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                    if (this.branding && this.branding.logo && this.logo) {
+                        if (this.branding.logo.visible===false) {
+                            this.logo.addClass('hidden');
+                        } else if (this.branding.logo.image || this.branding.logo.imageDark) {
+                            var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
+                            this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                            this.logo.css({'background-image': 'none', width: 'auto'});
+                            (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
+                        }
                     }
 
                     return $html;
@@ -692,7 +720,7 @@ define([
                         $html.find('#slot-btn-favorite').hide();
                     }
 
-                    if ( !(config.isEdit || isPDFEditor && config.isRestrictedEdit)) {
+                    if ( !config.twoLevelHeader) {
                         if ( (config.canDownload || config.canDownloadOrigin) && !config.isOffline  )
                             this.btnDownload = createTitleButton('toolbar__icon icon--inverse btn-download', $html.findById('#slot-hbtn-download'), undefined, 'bottom', 'big');
 
@@ -701,13 +729,13 @@ define([
 
                         if ( config.canQuickPrint )
                             this.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-hbtn-print-quick'), undefined, 'bottom', 'big', 'Q');
-
-                        if ( config.canEdit && config.canRequestEditRights && !isPDFEditor)
-                            this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
                     }
+                    if ( config.canRequestEditRights && (!config.twoLevelHeader && config.canEdit && !isPDFEditor || config.isPDFForm && config.canFillForms && config.isRestrictedEdit))
+                        this.btnEdit = createTitleButton('toolbar__icon icon--inverse btn-edit', $html.findById('#slot-hbtn-edit'), undefined, 'bottom', 'big');
+
                     me.btnSearch.render($html.find('#slot-btn-search'));
 
-                    if (!(config.isEdit || isPDFEditor && config.isRestrictedEdit) || config.customization && !!config.customization.compactHeader) {
+                    if (!config.twoLevelHeader || config.compactHeader) {
                         if (config.user.guest && config.canRenameAnonymous) {
                             me.btnUserName = new Common.UI.Button({
                                 el: $html.findById('.slot-btn-user-name'),
@@ -724,6 +752,9 @@ define([
                         }
                         $btnUserName = $html.find('.color-user-name');
                         me.setUserName(me.options.userName);
+
+                        if ( config.canCloseEditor )
+                            me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'bottom', 'big');
                     }
 
                     if (!_readonlyRights && config && (config.sharingSettingsUrl && config.sharingSettingsUrl.length || config.canRequestSharingSettings)) {
@@ -770,6 +801,19 @@ define([
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
 
+                    if (config.canStartFilling) {
+                        me.btnStartFill = new Common.UI.Button({
+                            cls: 'btn-text-default auto yellow',
+                            caption: me.textStartFill,
+                            dataHint: '0',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'big'
+                        });
+                        me.btnStartFill.render($html.find('#slot-btn-start-fill'));
+                    } else {
+                        $html.find('#slot-btn-start-fill').hide();
+                    }
+
                     $userList = $html.find('.cousers-list');
                     $panelUsers = $html.find('.box-cousers');
                     $btnUsers = $panelUsers.find('> .btn-users');
@@ -803,13 +847,16 @@ define([
                     $btnUserName = $html.find('.color-user-name');
                     me.setUserName(me.options.userName);
 
-                    if ( config.canPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) ) {
+                    if ( config.canCloseEditor )
+                        me.btnClose = createTitleButton('toolbar__icon icon--inverse btn-close', $html.findById('#slot-btn-close'), false, 'left', '10, 10');
+
+                    if ( config.canPrint && config.twoLevelHeader ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
                     }
-                    if ( config.canQuickPrint && (config.isEdit || isPDFEditor && config.isRestrictedEdit) )
+                    if ( config.canQuickPrint && config.twoLevelHeader )
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
 
-                    if (!isPDFEditor || !config.isForm)
+                    if (!isPDFEditor && !(config.isPDFForm && config.canFillForms && config.isRestrictedEdit) || isPDFEditor && !config.isForm)
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
@@ -827,26 +874,23 @@ define([
             },
 
             setBranding: function (value) {
-                var element;
-
                 this.branding = value;
-
-                if ( value ) {
-                    if ( value.logo &&(value.logo.image || value.logo.imageDark)) {
+                var element = $('#header-logo');
+                if ( value && value.logo && element) {
+                    if (value.logo.visible===false) {
+                        element.addClass('hidden');
+                    } else if (value.logo.image || value.logo.imageDark) {
                         var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                        element = $('#header-logo');
-                        if (element) {
-                            element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                            element.css({'background-image': 'none', width: 'auto'});
-                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
-                        }
+                        element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        element.css({'background-image': 'none', width: 'auto'});
+                        (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                     }
                 }
             },
 
             changeLogo: function () {
                 var value = this.branding;
-                if ( value && value.logo && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
+                if ( value && value.logo && (value.logo.visible!==false) && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
                     var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                     $('#header-logo img').attr('src', image);
                 }
@@ -857,8 +901,7 @@ define([
 
                 this.documentCaption = value;
                 var idx = this.documentCaption.lastIndexOf('.');
-                if (idx>0)
-                    this.fileExtention = this.documentCaption.substring(idx);
+                this.fileExtention = idx>0 ? this.documentCaption.substring(idx) : '';
                 this.isModified && (value += '*');
                 this.readOnly && (value += ' (' + this.textReadOnly + ')');
                 if ( $labelDocName ) {
@@ -885,7 +928,7 @@ define([
                 this.btnGoBack[value ? 'show' : 'hide']();
                 if (value)
                     this.btnGoBack.updateHint((text && typeof text == 'string') ? text : this.textBack);
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
                 return this;
             },
 
@@ -898,7 +941,7 @@ define([
                 this.btnFavorite[value!==undefined && value!==null ? 'show' : 'hide']();
                 this.btnFavorite.changeIcon(!!value ? {next: 'btn-in-favorite', curr: 'btn-favorite'} : {next: 'btn-favorite', curr: 'btn-in-favorite'});
                 this.btnFavorite.updateHint(!value ? this.textAddFavorite : this.textRemoveFavorite);
-                updateDocNamePosition(appConfig);
+                updateDocNamePosition();
                 return this;
             },
 
@@ -925,6 +968,7 @@ define([
                             'keydown': onDocNameKeyDown.bind(this),
                             'focus': onFocusDocName.bind(this),
                             'blur': function (e) {
+                                !me.isSaveDocName && onDocNameChanged.call(me);
                                 me.imgCrypted && me.imgCrypted.toggleClass('hidden', false);
                                 Common.Utils.isGecko && (label[0].selectionStart = label[0].selectionEnd = 0);
                                 if(!me.isSaveDocName) {
@@ -1111,7 +1155,9 @@ define([
             tipDocEdit: 'Editing',
             textReview: 'Reviewing',
             textReviewDesc: 'Suggest changes',
-            tipReview: 'Reviewing'
+            tipReview: 'Reviewing',
+            textClose: 'Close file',
+            textStartFill: 'Start filling'
         }
     }(), Common.Views.Header || {}))
 });

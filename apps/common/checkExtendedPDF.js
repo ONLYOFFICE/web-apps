@@ -30,7 +30,8 @@
  *
  */
 function checkExtendedPDF(directUrl, key, url, token, callback) {
-    var limit = 110;
+    //110 is not enough for the new PDF form    
+    var limit = 300;
     if (directUrl) {
         downloadPartialy(directUrl, limit, null, function(text) {
             callback(isExtendedPDFFile(text))
@@ -93,7 +94,7 @@ function downloadPartialy(url, limit, postData, callback) {
     var xhr = new XMLHttpRequest();
     //value of responseText always has the current content received from the server, even if it's incomplete
     // xhr.responseType = "json"; it raises an IE error. bug 66160
-    xhr.overrideMimeType('text/xml; charset=iso-8859-1');
+    xhr.overrideMimeType('text/plain; charset=iso-8859-1');
     xhr.onreadystatechange = function () {
         if (callbackCalled) {
             return;

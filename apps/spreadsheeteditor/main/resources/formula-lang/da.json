@@ -480,6 +480,7 @@
 	"SORT": "SORTER",
 	"SORTBY": "SORTER.EFTER",
 	"GETPIVOTDATA": "GETPIVOTDATA",
+	"IMPORTRANGE": "IMPORTRANGE",
 	"LocalFormulaOperands": {
 		"StructureTables": {
 			"h": "Headers",

@@ -1922,5 +1922,9 @@
 	"GETPIVOTDATA": {
 		"a": "(tietokenttä; pivot_taulukko; [kenttä]; [osa]; ...)",
 		"d": "Poimii Pivot-taulukkoon tallennettuja tietoja."
+	},
+	"IMPORTRANGE": {
+		"a": "(laskentataulukon_url, alueen_merkkijono)",
+		"d": "Tuo tiedot määritetyn laskentataulukon soluväliltä."
 	}
 }

@@ -20,7 +20,7 @@ import VersionHistoryController from '../../../../common/mobile/lib/controller/V
 
 export const MainContext = createContext();
 
-const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeVersionHistory', 'storeToolbarSettings')(observer(props => {
+const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeVersionHistory', 'storeToolbarSettings', 'storeThemes')(observer(props => {
     const { t } = useTranslation();
     const [state, setState] = useState({
         editOptionsVisible: false,
@@ -36,6 +36,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         isOpenModal: false
     });
     const appOptions = props.storeAppOptions;
+    const storeThemes = props.storeThemes;
+    const colorTheme = storeThemes.colorTheme;
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const storeDocumentInfo = props.storeDocumentInfo;
@@ -52,16 +54,28 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     const typeProtection = appOptions.typeProtection;
     const isFabShow = isViewer && !disabledSettings && !disabledControls && !isDisconnected && isAvailableExt && isEdit && (!isProtected || typeProtection === Asc.c_oAscEDocProtect.TrackedChanges);
     const config = appOptions.config;
-    const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+    const { customization = {} } = config;
+    const isShowPlaceholder = !appOptions.isDocReady && (!customization || !(customization.loaderName || customization.loaderLogo));
 
-    let isHideLogo = true,
-        isCustomization = true,
-        isBranding = true;
+    let isBranding = true,
+        isHideLogo = true,
+        customLogoImage = '',
+        customLogoUrl = '';
 
-    if(!appOptions.isDisconnected && config?.customization) {
-        isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
+    if(!appOptions.isDisconnected && appOptions.isDocReady) {
+        const { logo } = customization;
         isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-        isHideLogo = isCustomization && isBranding; 
+        
+        if(logo && isBranding) {
+            isHideLogo = logo.visible === false;
+
+            if(logo.image || logo.imageDark) {
+                customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
+                customLogoUrl = logo.url;
+            }
+        } else {
+            isHideLogo = false;
+        }
     }
 
     useEffect(() => {
@@ -225,9 +239,13 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
                         {!isHideLogo &&
                             <div className="main-logo" onClick={() => {
-                                window.open(`${__PUBLISHER_URL__}`, "_blank");
+                                window.open(`${customLogoImage && customLogoUrl ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
                             }}>
-                                <Icon icon="icon-logo"></Icon>
+                                {customLogoImage ? 
+                                    <img className='custom-logo-image' src={customLogoImage} />
+                                : 
+                                    <Icon icon="icon-logo"></Icon>
+                                }
                             </div>
                         }
                         <Subnavbar>
