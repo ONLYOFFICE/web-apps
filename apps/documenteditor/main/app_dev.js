@@ -204,6 +204,7 @@ require([
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
                     'common/main/lib/component/ComboBoxDataView',
+                    'common/main/lib/component/ListView',
                     'common/main/lib/view/OptionsDialog',
                     'common/main/lib/view/CopyWarningDialog',
                     'common/main/lib/view/ImageFromUrlDialog',
