@@ -471,7 +471,7 @@ define([
                         break;
                     }
                 }
-                // this.formulaTab && this.formulaTab.updateCustom();
+                this.formulaTab && this.formulaTab.updateCustom();
             }
         },
 
