@@ -152,6 +152,7 @@ define([
                 this.onApiSheetChanged();
             }
             this.api.asc_registerCallback('asc_onSendFunctionWizardInfo', _.bind(this.onSendFunctionWizardInfo, this));
+            this.api.asc_registerCallback('asc_onAddCustomFunction', _.bind(this.onAddCustomFunction, this));
 
             return this;
         },
@@ -261,7 +262,7 @@ define([
                         name: name,
                         origin: origin,
                         args: ((descrarr && descrarr[origin]) ? descrarr[origin].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
-                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : ''
+                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : props.asc_getDescription() || ''
                     };
 
                 (new SSE.Views.FormulaWizard({
@@ -388,7 +389,7 @@ define([
                                 name  : ascFunctions[j].asc_getLocaleName(),
                                 origin: funcname,
                                 args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
-                                desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ''
+                                desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ascFunctions[j].asc_getDescription() || ''
                             });
 
                             funcInd += 1;
@@ -406,6 +407,72 @@ define([
                 }
             }
             (!suppressEvent || this._formulasInited) && this.formulaTab && this.formulaTab.fillFunctions();
+        },
+
+        onAddCustomFunction: function() {
+            this.needUpdateFormula = true;
+
+            var i = 0, j = 0,
+                customGroupName = 'Custom',
+                ascFunctions,
+                functions,
+                store = this.formulasGroups,
+                funcInd = 0,
+                info = null,
+                allFunctions = [],
+                allFunctionsGroup = null,
+                customFunctionsGroup = null;
+
+            if (store) {
+                allFunctionsGroup = this.formulasGroups.findWhere({name : 'All'});
+                if (allFunctionsGroup) {
+                    allFunctions = allFunctionsGroup.get('functions');
+                    for (i = 0; i < allFunctions.length; i++) {
+                        if (allFunctions[i].get('group')===customGroupName) {
+                            allFunctions.splice(i, 1);
+                            i--;
+                        }
+                    }
+                }
+
+                customFunctionsGroup = this.formulasGroups.findWhere({name : customGroupName});
+                if (!customFunctionsGroup) {
+                    customFunctionsGroup = new SSE.Models.FormulaGroup ({
+                        name    : customGroupName,
+                        index   : store.length,
+                        store   : store,
+                        caption : this['sCategory' + customGroupName] || customGroupName
+                    });
+                    store.push(customFunctionsGroup);
+                }
+                info = this.api.asc_getFormulasInfo();
+                for (i = 0; i < info.length; i += 1) {
+                    functions = [];
+                    if (info[i].asc_getGroupName()===customGroupName) {
+                        ascFunctions = info[i].asc_getFormulasArray();
+                        for (j = 0; j < ascFunctions.length; j += 1) {
+                            var funcname = ascFunctions[j].asc_getName();
+                            var func = new SSE.Models.FormulaModel({
+                                index : funcInd,
+                                group : customGroupName,
+                                name  : ascFunctions[j].asc_getLocaleName(),
+                                origin: funcname,
+                                args  : '',
+                                desc  : ascFunctions[j].asc_getDescription() || ''
+                            });
+
+                            funcInd += 1;
+
+                            functions.push(func);
+                            allFunctions.push(func);
+                        }
+                        customFunctionsGroup.set('functions', _.sortBy(functions, function (model) {return model.get('name'); }));
+                        allFunctionsGroup.set('functions', _.sortBy(allFunctions, function (model) {return model.get('name'); }));
+                        break;
+                    }
+                }
+                // this.formulaTab && this.formulaTab.updateCustom();
+            }
         },
 
         onTabActive: function (tab) {
@@ -492,7 +559,8 @@ define([
         sCategoryLookupAndReference:    'Lookup and reference',
         sCategoryMathematic:            'Math and trigonometry',
         sCategoryStatistical:           'Statistical',
-        sCategoryTextAndData:           'Text and data'
+        sCategoryTextAndData:           'Text and data',
+        sCategoryCustom:                'Custom'
 
     }, SSE.Controllers.FormulaDialog || {}));
 });
