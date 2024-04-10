@@ -258,11 +258,12 @@ define([
                 var name = props.asc_getName(),
                     origin = this.api.asc_getFormulaNameByLocale(name),
                     descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
+                    custom = this.api.asc_getCustomFunctionInfo(origin),
                     funcprops = {
                         name: name,
                         origin: origin,
                         args: ((descrarr && descrarr[origin]) ? descrarr[origin].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
-                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : props.asc_getDescription() || ''
+                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : custom ? custom.asc_getDescription() || '' : ''
                     };
 
                 (new SSE.Views.FormulaWizard({
@@ -309,14 +310,16 @@ define([
                 separator = this.api.asc_getFunctionArgumentSeparator(),
                 functions = [];
             for (var j = 0; j < arr.length; j++) {
-                var funcname = arr[j];
-                functions.push(new SSE.Models.FormulaModel({
+                var funcname = arr[j],
+                    custom = descrarr && descrarr[funcname] ? null : this.api.asc_getCustomFunctionInfo(funcname),
+                    name = this.api.asc_getFormulaLocaleName(funcname);
+                name && functions.push(new SSE.Models.FormulaModel({
                     index : j,
                     group : 'Last10',
-                    name  : this.api.asc_getFormulaLocaleName(funcname),
+                    name  : name,
                     origin: funcname,
                     args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
-                    desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ''
+                    desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : ''
                 }));
             }
             return functions;
@@ -382,14 +385,15 @@ define([
                         functions = [];
 
                         for (j = 0; j < ascFunctions.length; j += 1) {
-                            var funcname = ascFunctions[j].asc_getName();
+                            var funcname = ascFunctions[j].asc_getName(),
+                                custom = descrarr && descrarr[funcname] ? null : this.api.asc_getCustomFunctionInfo(funcname);
                             var func = new SSE.Models.FormulaModel({
                                 index : funcInd,
                                 group : ascGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
                                 origin: funcname,
                                 args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
-                                desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : ascFunctions[j].asc_getDescription() || ''
+                                desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : ''
                             });
 
                             funcInd += 1;
@@ -451,14 +455,15 @@ define([
                     if (info[i].asc_getGroupName()===customGroupName) {
                         ascFunctions = info[i].asc_getFormulasArray();
                         for (j = 0; j < ascFunctions.length; j += 1) {
-                            var funcname = ascFunctions[j].asc_getName();
+                            var funcname = ascFunctions[j].asc_getName(),
+                                custom = this.api.asc_getCustomFunctionInfo(funcname);
                             var func = new SSE.Models.FormulaModel({
                                 index : funcInd,
                                 group : customGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
                                 origin: funcname,
                                 args  : '',
-                                desc  : ascFunctions[j].asc_getDescription() || ''
+                                desc  : custom ? custom.asc_getDescription() || '' : ''
                             });
 
                             funcInd += 1;
