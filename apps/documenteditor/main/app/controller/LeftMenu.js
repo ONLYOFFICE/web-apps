@@ -243,7 +243,7 @@ define([
             switch (action) {
             case 'back':
                 break;
-            case 'save': this.api.asc_Save(); break;
+            case 'save': Common.NotificationCenter.trigger('leftmenu:save'); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
             case 'saveas':
                 if ( isopts ) close_menu = false;
