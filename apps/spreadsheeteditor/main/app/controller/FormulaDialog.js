@@ -308,18 +308,24 @@ define([
         loadingLast10Formulas: function(descrarr) {
             var arr = (Common.Utils.InternalSettings.get("sse-settings-func-last") || 'SUM;AVERAGE;IF;HYPERLINK;COUNT;MAX;SIN;SUMIF;PMT;STDEV').split(';'),
                 separator = this.api.asc_getFunctionArgumentSeparator(),
-                functions = [];
+                functions = [],
+                allFunctionsGroup = this.formulasGroups ? this.formulasGroups.findWhere({name : 'All'}) : null,
+                allFunctions = allFunctionsGroup ? allFunctionsGroup.get('functions') : null;
+
             for (var j = 0; j < arr.length; j++) {
                 var funcname = arr[j],
                     custom = descrarr && descrarr[funcname] ? null : this.api.asc_getCustomFunctionInfo(funcname),
-                    name = this.api.asc_getFormulaLocaleName(funcname);
-                name && functions.push(new SSE.Models.FormulaModel({
+                    desc = (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : '';
+
+                if (!desc && allFunctions && !_.find(allFunctions, function(item){ return item.get('origin')===funcname; }))
+                    continue;
+                functions.push(new SSE.Models.FormulaModel({
                     index : j,
                     group : 'Last10',
-                    name  : name,
+                    name  : this.api.asc_getFormulaLocaleName(funcname),
                     origin: funcname,
                     args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
-                    desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : ''
+                    desc  : desc
                 }));
             }
             return functions;
@@ -349,7 +355,6 @@ define([
                     caption : this['sCategory' + ascGroupName] || ascGroupName
                 });
                 if (last10FunctionsGroup) {
-                    last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
                     store.push(last10FunctionsGroup);
                     index += 1;
                 }
@@ -408,6 +413,8 @@ define([
 
                     allFunctionsGroup.set('functions',
                        _.sortBy(allFunctions, function (model) {return model.get('name'); }));
+
+                    last10FunctionsGroup && last10FunctionsGroup.set('functions', this.loadingLast10Formulas(descrarr));
                 }
             }
             (!suppressEvent || this._formulasInited) && this.formulaTab && this.formulaTab.fillFunctions();
