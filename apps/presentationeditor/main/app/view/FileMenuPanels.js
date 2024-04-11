@@ -42,7 +42,8 @@
 define([
     'common/main/lib/view/DocumentAccessDialog',
     'common/main/lib/view/AutoCorrectDialog',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/component/CheckBox',
+    'common/main/lib/view/CustomizeQuickAccessDialog'
 ], function () {
     'use strict';
 
@@ -338,6 +339,9 @@ define([
                         '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td><span id="fms-cmb-theme"></span></td>',
@@ -598,6 +602,11 @@ define([
             });
             this.btnAutoCorrect.on('click', _.bind(this.autoCorrect, this));
 
+            this.btnCustomizeQuickAccess = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-customize-quick-access')
+            });
+            this.btnCustomizeQuickAccess.on('click', _.bind(this.customizeQuickAccess, this));
+
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
@@ -851,6 +860,21 @@ define([
             this.dlgAutoCorrect.show();
         },
 
+        customizeQuickAccess: function () {
+            if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
+            this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
+                canQuickPrint: this.mode.canQuickPrint,
+                props: {
+                    save: Common.localStorage.getBool('pe-quick-access-save', true),
+                    print: Common.localStorage.getBool('pe-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('pe-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('pe-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('pe-quick-access-redo', true)
+                }
+            });
+            this.dlgQuickAccess.show();
+        },
+
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
         txtFitSlide: 'Fit to Slide',
@@ -905,7 +929,8 @@ define([
         txtWorkspaceSettingChange: 'Workspace setting (RTL interface) change',
         txtRestartEditor: 'Please restart presentation editor so that your workspace settings can take effect',
         txtLastUsed: 'Last used',
-        txtScreenReader: 'Turn on screen reader support'
+        txtScreenReader: 'Turn on screen reader support',
+        txtCustomizeQuickAccess: 'Customize quick access'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({

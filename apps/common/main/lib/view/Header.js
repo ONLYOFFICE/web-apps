@@ -435,40 +435,35 @@ define([
                     arr.push({
                         caption: me.tipSave,
                         value: 'save',
-                        checkable: true,
-                        checked: true
+                        checkable: true
                     });
                 }
                 if (me.btnPrint) {
                     arr.push({
-                        caption: me.tipPrint,
+                        caption: me.textPrint,
                         value: 'print',
-                        checkable: true,
-                        checked: true
+                        checkable: true
                     });
                 }
                 if (me.btnPrintQuick) {
                     arr.push({
                         caption: me.tipPrintQuick,
-                        value: 'print-quick',
-                        checkable: true,
-                        checked: true
+                        value: 'quick-print',
+                        checkable: true
                     });
                 }
                 if (me.btnUndo) {
                     arr.push({
                         caption: me.tipUndo,
                         value: 'undo',
-                        checkable: true,
-                        checked: true
+                        checkable: true
                     });
                 }
                 if (me.btnRedo) {
                     arr.push({
                         caption: me.tipRedo,
                         value: 'redo',
-                        checkable: true,
-                        checked: true
+                        checkable: true
                     });
                 }
                 me.btnQuickAccess.setMenu(new Common.UI.Menu({
@@ -477,26 +472,43 @@ define([
                     menuAlign: 'tl-bl',
                     items: arr
                 }));
+                me.btnQuickAccess.menu.on('show:before', function (menu) {
+                    menu.items.forEach(function (item) {
+                        if (item.value === 'save') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true));
+                        } else if (item.value === 'print') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true));
+                        } else if (item.value === 'quick-print') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true));
+                        } else if (item.value === 'undo') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true));
+                        } else if (item.value === 'redo') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true));
+                        }
+                    });
+                });
                 me.btnQuickAccess.menu.on('item:click', function (menu, item) {
+                    var props = {};
                     switch (item.value) {
                         case 'save':
-                            me.btnSave[item.checked ? 'show' : 'hide']();
+                            props.save = item.checked;
                             break;
                         case 'print':
-                            me.btnPrint[item.checked ? 'show' : 'hide']();
+                            props.print = item.checked;
                             break;
-                        case 'print-quick':
-                            me.btnPrintQuick[item.checked ? 'show' : 'hide']();
+                        case 'quick-print':
+                            props.quickPrint = item.checked;
                             break;
                         case 'undo':
-                            me.btnUndo[item.checked ? 'show' : 'hide']();
+                            props.undo = item.checked;
                             break;
                         case 'redo':
-                            me.btnRedo[item.checked ? 'show' : 'hide']();
+                            props.redo = item.checked;
                             break;
                     }
-                    Common.NotificationCenter.trigger('edit:complete');
+                    me.onChangeQuickAccess(props);
                 });
+                Common.NotificationCenter.on('quickaccess:changed', me.onChangeQuickAccess.bind(me));
             }
 
             if ( !appConfig.twoLevelHeader ) {
@@ -677,6 +689,9 @@ define([
                 this.documentCaption = this.options.documentCaption;
                 this.branding = this.options.customization;
                 this.isModified = false;
+
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-go-back',
@@ -924,16 +939,22 @@ define([
 
                     if ( config.canPrint && config.twoLevelHeader ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true) && me.btnPrint.hide();
                     }
-                    if ( config.canQuickPrint && config.twoLevelHeader )
+                    if ( config.canQuickPrint && config.twoLevelHeader ) {
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
-
-                    if (!isPDFEditor && !(config.isPDFForm && config.canFillForms && config.isRestrictedEdit) || isPDFEditor && !config.isForm)
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true) && me.btnPrintQuick.hide();
+                    }
+                    if (!isPDFEditor && !(config.isPDFForm && config.canFillForms && config.isRestrictedEdit) || isPDFEditor && !config.isForm) {
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
+                    }
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
+                    !Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true) && me.btnUndo.hide();
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened]);
+                    !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
                     me.btnQuickAccess = new Common.UI.Button({
                         cls: 'btn-header no-caret',
                         iconCls: 'toolbar__icon icon--inverse btn-more',
@@ -1196,6 +1217,30 @@ define([
                 this.setDocumentCaption(this.documentCaption);
             },
 
+            onChangeQuickAccess: function (props) {
+                if (props.save !== undefined) {
+                    this.btnSave[props.save ? 'show' : 'hide']();
+                    Common.localStorage.setBool(this.appPrefix + 'quick-access-save', props.save);
+                }
+                if (props.print !== undefined) {
+                    this.btnPrint[props.print ? 'show' : 'hide']();
+                    Common.localStorage.setBool(this.appPrefix + 'quick-access-print', props.print);
+                }
+                if (props.quickPrint !== undefined) {
+                    this.btnPrintQuick[props.quickPrint ? 'show' : 'hide']();
+                    Common.localStorage.setBool(this.appPrefix + 'quick-access-quick-print', props.quickPrint);
+                }
+                if (props.undo !== undefined) {
+                    this.btnUndo[props.undo ? 'show' : 'hide']();
+                    Common.localStorage.setBool(this.appPrefix + 'quick-access-undo', props.undo);
+                }
+                if (props.redo !== undefined) {
+                    this.btnRedo[props.redo ? 'show' : 'hide']();
+                    Common.localStorage.setBool(this.appPrefix + 'quick-access-redo', props.redo);
+                }
+                Common.NotificationCenter.trigger('edit:complete');
+            },
+
             textBack: 'Go to Documents',
             txtRename: 'Rename',
             txtAccessRights: 'Change access rights',
@@ -1240,7 +1285,8 @@ define([
             tipReview: 'Reviewing',
             textClose: 'Close file',
             textStartFill: 'Start filling',
-            tipCustomizeQuickAccessToolbar: 'Customize Quick Access Toolbar'
+            tipCustomizeQuickAccessToolbar: 'Customize Quick Access Toolbar',
+            textPrint: 'Print'
         }
     }(), Common.Views.Header || {}))
 });

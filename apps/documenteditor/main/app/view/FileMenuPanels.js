@@ -1091,7 +1091,14 @@ define([
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
-                canQuickPrint: this.mode.canQuickPrint
+                canQuickPrint: this.mode.canQuickPrint,
+                props: {
+                    save: Common.localStorage.getBool('de-quick-access-save', true),
+                    print: Common.localStorage.getBool('de-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('de-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('de-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('de-quick-access-redo', true)
+                }
             });
             this.dlgQuickAccess.show();
         },

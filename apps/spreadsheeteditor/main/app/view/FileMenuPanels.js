@@ -31,7 +31,8 @@
  */
 define([
     'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/AutoCorrectDialog'
+    'common/main/lib/view/AutoCorrectDialog',
+    'common/main/lib/view/CustomizeQuickAccessDialog'
 ], function () {
     'use strict';
 
@@ -317,6 +318,9 @@ define([
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
                         '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
                 '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
@@ -724,6 +728,11 @@ define([
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
             });
+
+            this.btnCustomizeQuickAccess = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-customize-quick-access')
+            });
+            this.btnCustomizeQuickAccess.on('click', _.bind(this.customizeQuickAccess, this));
 
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
@@ -1166,6 +1175,21 @@ define([
             }
         },
 
+        customizeQuickAccess: function () {
+            if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
+            this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
+                canQuickPrint: this.mode.canQuickPrint,
+                props: {
+                    save: Common.localStorage.getBool('sse-quick-access-save', true),
+                    print: Common.localStorage.getBool('sse-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('sse-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('sse-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('sse-quick-access-redo', true)
+                }
+            });
+            this.dlgQuickAccess.show();
+        },
+
         strZoom: 'Default Zoom Value',
         okButtonText: 'Apply',
         txtWin: 'as Windows',
@@ -1280,7 +1304,8 @@ define([
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
-        txtScreenReader: 'Turn on screen reader support'
+        txtScreenReader: 'Turn on screen reader support',
+        txtCustomizeQuickAccess: 'Customize quick access'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 

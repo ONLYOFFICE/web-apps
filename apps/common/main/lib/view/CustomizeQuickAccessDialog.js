@@ -70,6 +70,9 @@ define([
 
             this.options.tpl = _.template(this.template)(this.options);
 
+            this.props = this.options.props;
+            this.canQuickPrint = this.options.canQuickPrint;
+
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
 
@@ -82,20 +85,23 @@ define([
 
             this.chSave = new Common.UI.CheckBox({
                 el: $('#quick-access-chb-save'),
-                labelText: this.textSave
+                labelText: this.textSave,
+                value: this.props.save
             });
             this.focusedComponents.push(this.chSave);
 
             this.chPrint = new Common.UI.CheckBox({
                 el: $('#quick-access-chb-print'),
-                labelText: this.textPrint
+                labelText: this.textPrint,
+                value: this.props.print
             });
             this.focusedComponents.push(this.chPrint);
 
-            if (this.options.canQuickPrint) {
+            if (this.canQuickPrint) {
                 this.chQuickPrint = new Common.UI.CheckBox({
                     el: $('#quick-access-chb-quick-print'),
-                    labelText: this.textQuickPrint
+                    labelText: this.textQuickPrint,
+                    value: this.props.quickPrint
                 });
                 this.focusedComponents.push(this.chQuickPrint);
                 this.chQuickPrint.show();
@@ -103,13 +109,15 @@ define([
 
             this.chUndo = new Common.UI.CheckBox({
                 el: $('#quick-access-chb-undo'),
-                labelText: this.textUndo
+                labelText: this.textUndo,
+                value: this.props.undo
             });
             this.focusedComponents.push(this.chUndo);
 
             this.chRedo = new Common.UI.CheckBox({
                 el: $('#quick-access-chb-redo'),
-                labelText: this.textRedo
+                labelText: this.textRedo,
+                value: this.props.redo
             });
             this.focusedComponents.push(this.chRedo);
         },
@@ -127,7 +135,7 @@ define([
                 Common.NotificationCenter.trigger('quickaccess:changed', {
                     save: this.chSave.getValue() == 'checked',
                     print: this.chPrint.getValue() == 'checked',
-                    quickPrint: this.chQuickPrint.getValue() == 'checked',
+                    quickPrint: this.chQuickPrint ? this.chQuickPrint.getValue() == 'checked' : undefined,
                     undo: this.chUndo.getValue() == 'checked',
                     redo: this.chRedo.getValue() == 'checked'
                 });
