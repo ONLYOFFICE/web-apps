@@ -2599,10 +2599,10 @@ define([
                     {value:'110|220',        displayValue:['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL'},
                     {value:'279.4|431.8',    displayValue:['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid'},
                     {value:'297|420',        displayValue:['A3', '29,7', '42', 'cm'], caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize'},
+                    {value:'296.9|457.2',    displayValue:['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize'},
                     {value:'196.8|273',      displayValue:['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K'},
                     {value:'119.9|234.9',    displayValue:['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3'}
+                    {value:'305|487',        displayValue:['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3'}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
