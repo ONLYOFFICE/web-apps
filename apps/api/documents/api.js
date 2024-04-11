@@ -1079,7 +1079,7 @@
         if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
-        if (type && typeof type[1] === 'string' && config.document && config.document.permissions && config.document.permissions.edit === false)
+        if (type && typeof type[1] === 'string' && (config.document && config.document.permissions && config.document.permissions.edit === false || config.editorConfig && config.editorConfig.mode == 'view'))
             params += "&mode=fillforms";
 
         if (config.document) {
