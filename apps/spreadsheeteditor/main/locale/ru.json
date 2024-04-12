@@ -912,6 +912,7 @@
   "SSE.Controllers.FormulaDialog.sCategoryMathematic": "Математические",
   "SSE.Controllers.FormulaDialog.sCategoryStatistical": "Статистические",
   "SSE.Controllers.FormulaDialog.sCategoryTextAndData": "Текст и данные",
+  "SSE.Controllers.FormulaDialog.sCategoryCustom": "Пользовательские",
   "SSE.Controllers.LeftMenu.newDocumentTitle": "Электронная таблица без имени",
   "SSE.Controllers.LeftMenu.textByColumns": "По столбцам",
   "SSE.Controllers.LeftMenu.textByRows": "По строкам",

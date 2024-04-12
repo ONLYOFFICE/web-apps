@@ -3349,7 +3349,12 @@ define([
                     switch (type) {
                         case Asc.c_oAscPopUpSelectorType.Func:
                             iconCls = 'menu__icon btn-function';
-                            hint = (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : '';
+                            if (funcdesc && funcdesc[origname])
+                                hint = funcdesc[origname].d;
+                            else {
+                                var custom = me.api.asc_getCustomFunctionInfo(origname);
+                                hint = custom ? custom.asc_getDescription() || '' : '';
+                            }
                             break;
                         case Asc.c_oAscPopUpSelectorType.Table:
                             iconCls = 'menu__icon btn-menu-table';

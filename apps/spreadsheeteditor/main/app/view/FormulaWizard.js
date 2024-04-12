@@ -279,9 +279,10 @@ define([
         getArgumentName: function(argcount) {
             var name = '',
                 namesLen = this.argsNames.length;
-            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') // no repeated args
+            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') { // no repeated args
                 name = this.argsNames[argcount];
-            else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
+                (name==='') && (name = this.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : ''));
+            } else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
                 var repeatedLen = this.repeatedArg.length;
                 var req = namesLen-1 - repeatedLen; // required/no-repeated
                 if (argcount<req) // get required args as is

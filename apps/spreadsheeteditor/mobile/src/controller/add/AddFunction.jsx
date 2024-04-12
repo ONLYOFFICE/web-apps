@@ -29,7 +29,7 @@ class _FunctionGroups extends Component {
         const editorLang = LocalStorage.getItem('sse-settings-func-lang');
         this._editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
         const localizationFunctions = (data) => {
-            this.api.asc_setLocalization(data);
+            this.api.asc_setLocalization(data, this._editorLang);
             this.fill(data);
         };
 
