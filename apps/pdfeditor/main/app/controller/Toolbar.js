@@ -1966,7 +1966,7 @@ define([
 
         onShapeAlign: function(menu, item) {
             if (this.api) {
-                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                var value = this.toolbar.mniAlignToSlide.isChecked() ? Asc.c_oAscObjectsAlignType.Page : Asc.c_oAscObjectsAlignType.Selected;
                 if (item.value>-1 && item.value < 6) {
                     this.api.put_ShapesAlign(item.value, value);
                     Common.component.Analytics.trackEvent('ToolBar', 'Shape Align');

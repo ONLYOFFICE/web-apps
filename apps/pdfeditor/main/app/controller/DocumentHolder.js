@@ -2276,7 +2276,7 @@ define([
             var me = this;
             if (me.api) {
                 var value = me.api.asc_getSelectedDrawingObjectsCount()<2 || Common.Utils.InternalSettings.get("pdfe-align-to-slide");
-                value = value ? Asc.c_oAscObjectsAlignType.Slide : Asc.c_oAscObjectsAlignType.Selected;
+                value = value ? Asc.c_oAscObjectsAlignType.Page : Asc.c_oAscObjectsAlignType.Selected;
                 if (item.value < 6) {
                     me.api.put_ShapesAlign(item.value, value);
                     Common.component.Analytics.trackEvent('DocumentHolder', 'Shape Align');
