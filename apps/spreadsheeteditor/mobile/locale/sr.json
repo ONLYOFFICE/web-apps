@@ -574,7 +574,7 @@
       "textBorderStyle": "Stil granice",
       "textBottom": "Dno",
       "textBottomBorder": "Donja granica ",
-      "textBringToForeground": "Dovedi u Prednji Plan",
+      "textBringToForeground": "Dovedi u prednji plan",
       "textCancel": "Otkaži",
       "textCell": "Ćelija",
       "textCellStyle": "Stil ćelije ",
@@ -783,6 +783,7 @@
       "textEnableAllMacrosWithoutNotification": "Omogući sve makroe bez notifikacije",
       "textEncoding": "Enkodiranje",
       "textExample": "Primer",
+      "textExplanationChangeDirection": "Aplikacija će biti restartovana za RTL interfejs aktivaciju",
       "textFeedback": "Povratne Informacije i Podrška",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
@@ -824,6 +825,7 @@
       "textRestartApplication": "Molimo ponovo učitajte aplikaciju da bi izmene imale efekta",
       "textRight": "Desno",
       "textRightToLeft": "Desno Ka Levom",
+      "textRtlInterface": "RTL Interfejs",
       "textSameAsSystem": "Isto kao sistem",
       "textSearch": "Pretraga",
       "textSearchBy": "Pretraga",
@@ -911,9 +913,7 @@
       "txtUk": "Ukrajinski",
       "txtVi": "Vijetnamski",
       "txtZh": "Kineski",
-      "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?"
     }
   }
 }

@@ -487,6 +487,7 @@
       "textEmail": "email:",
       "textEnableAll": "Omogući sve",
       "textEnableAllMacrosWithoutNotification": "Omogući makroe bez notifikacija",
+      "textExplanationChangeDirection": "Aplikacija će biti restartovana za RTL interfejs aktivaciju",
       "textFeedback": "Povratne Informacije i Podrška",
       "textFind": "Pronađi",
       "textFindAndReplace": "Pronađi i Zameni",
@@ -513,6 +514,7 @@
       "textReplaceAll": "Zameni Sve",
       "textRestartApplication": "Molimo ponovo učitajte aplikaciju da bi izmene imale efekta",
       "textRTL": "S desna na levo",
+      "textRtlInterface": "RTL Interfejs",
       "textSameAsSystem": "Isto kao sistem",
       "textSearch": "Pretraži",
       "textSettings": "Podešavanja",
@@ -548,9 +550,7 @@
       "txtScheme6": "Konkurs",
       "txtScheme7": "Ravnopravnost",
       "txtScheme8": "Tok",
-      "txtScheme9": "Foundry",
-      "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "txtScheme9": "Foundry"
     }
   }
 }

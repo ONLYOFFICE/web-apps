@@ -760,6 +760,7 @@
       "textChooseCsvOptions": "Choisir les options CSV",
       "textChooseDelimeter": "Choisir la délimitation",
       "textChooseEncoding": "Choisir l'encodage",
+      "textClose": "Fermer",
       "textCollaboration": "Collaboration",
       "textColorSchemes": "Jeux de couleurs",
       "textComment": "Commentaire",
@@ -912,8 +913,7 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "textClose": "Close"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }

@@ -584,6 +584,7 @@
     "textCancel": "Annuler",
     "textClose": "Fermer",
     "textContactUs": "Contacter l'équipe de ventes",
+    "textConvertForm": "Télécharger le fichier au format PDF pour enregistrer le formulaire prêt à être rempli.",
     "textCustomLoader": "Désolé, vous n'êtes pas autorisé à changer le chargeur. Veuillez contacter notre Service de Ventes pour obtenir le devis.",
     "textDialogProtectedChangesTracked": "Vous pouvez modifier ce document, mais toutes les modifications feront l'objet d'un suivi",
     "textDialogProtectedEditComments": "Vous ne pouvez insérer que des commentaires à ce document",
@@ -619,8 +620,7 @@
     "warnLicenseUsersExceeded": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Pour en savoir plus, contactez votre administrateur.",
     "warnNoLicense": "Vous avez dépassé le nombre maximal de connexions simultanées aux éditeurs %1. Ce document sera ouvert en lecture seule. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
     "warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Contactez l’équipe des ventes %1 pour mettre à jour les termes de la licence.",
-    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier.",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling."
+    "warnProcessRightsChange": "Vous n'avez pas la permission de modifier ce fichier."
   },
   "Settings": {
     "advDRMOptions": "Fichier protégé",
@@ -643,6 +643,7 @@
     "textChooseEncoding": "Choisir l'encodage",
     "textChooseTxtOptions": "Choisir les options TXT",
     "textClearAllFields": "Effacer tous les champs",
+    "textClose": "Fermer",
     "textCollaboration": "Collaboration",
     "textColorSchemes": "Jeux de couleurs",
     "textComment": "Commentaire",
@@ -784,8 +785,7 @@
     "txtScheme6": "Rotonde",
     "txtScheme7": "Capitaux",
     "txtScheme8": "Flux",
-    "txtScheme9": "Fonderie",
-    "textClose": "Close"
+    "txtScheme9": "Fonderie"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Vous avez des modifications non enregistrées dans ce document. Cliquez sur Rester sur cette page et attendez l'enregistrement automatique. Cliquez sur Quitter cette page pour annuler toutes les modifications non enregistrées.",

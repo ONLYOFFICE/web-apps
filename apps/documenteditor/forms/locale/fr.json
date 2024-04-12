@@ -163,6 +163,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Vous avez dépassé le nombre maximal d’utilisateurs des éditeurs %1. Veuillez contacter l’équipe des ventes %1 pour connaître les conditions de mise à niveau personnelle.",
   "DE.Views.ApplicationView.textClear": "Effacer tous les champs",
   "DE.Views.ApplicationView.textClearField": "Effacer le champ",
+  "DE.Views.ApplicationView.textClose": "Fermer le fichier",
   "DE.Views.ApplicationView.textCopy": "Copier",
   "DE.Views.ApplicationView.textCut": "Couper",
   "DE.Views.ApplicationView.textFitToPage": "Ajuster à la page",
