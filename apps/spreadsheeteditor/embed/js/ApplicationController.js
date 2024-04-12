@@ -249,10 +249,14 @@ SSE.ApplicationController = new(function(){
                     $prevButton.prop('disabled', false);
                     $nextButton.prop('disabled', false);
                 }
+            } else {
+                $prevButton.prop('disabled', true);
+                $nextButton.prop('disabled', true);
             }
         };
 
         $container.on('scroll', handleScroll);
+        $(window).on('resize', handleScroll);
 
         handleScroll();
 
