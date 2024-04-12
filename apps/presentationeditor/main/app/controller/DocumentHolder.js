@@ -492,6 +492,16 @@ define([
                     menu.cmpEl.attr({tabindex: "-1"});
                 }
 
+                if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
+                    showPoint[0] += event.get_ButtonWidth() + 2;
+                    showPoint[1] += event.get_ButtonHeight() + 2;
+                    menu.menuAlign = 'tr-br';
+                    if (me.documentHolder.cmpEl.offset().top + showPoint[1] + menu.menuRoot.outerHeight() > Common.Utils.innerHeight() - 10) {
+                        showPoint[1] -= event.get_ButtonHeight() + 4;
+                        menu.menuAlign = 'br-tr';
+                    }
+                }
+
                 menuContainer.css({
                     left: showPoint[0],
                     top : showPoint[1]

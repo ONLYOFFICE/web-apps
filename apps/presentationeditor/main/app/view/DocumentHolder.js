@@ -2474,7 +2474,7 @@ define([
             me.animEffectMenu = new Common.UI.Menu({
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
-                menuAlign: 'tl-bl',
+                menuAlign: 'tr-br',
                 style: 'min-width: auto;',
                 initMenu: function(value){
                     me.menuAnimStartOnClick.setChecked(value.effect === AscFormat.NODE_TYPE_CLICKEFFECT, true);
