@@ -424,12 +424,15 @@ define([
                     menu_props.hyperProps = {};
                     menu_props.hyperProps.value = elValue;
                 } else if (Asc.c_oAscTypeSelectElement.Shape == elType) { // shape
-                    menu_to_show = documentHolder.pictureMenu;
                     menu_props.shapeProps = {};
                     menu_props.shapeProps.value = elValue;
                     menu_props.shapeProps.locked = (elValue) ? elValue.get_Locked() : false;
                     if (elValue.get_FromChart())
                         menu_props.shapeProps.isChart = true;
+                    if (menu_props.paraProps && menu_props.paraProps.value && elValue.asc_getCanEditText())  // text in shape, need to show paragraph menu with vertical align
+                        menu_to_show = documentHolder.textMenu;
+                    else
+                        menu_to_show = documentHolder.pictureMenu;
                 }
                 // else if (Asc.c_oAscTypeSelectElement.Chart == elType) {
                 //     menu_to_show = documentHolder.pictureMenu;
@@ -441,8 +444,7 @@ define([
                     menu_props.paraProps = {};
                     menu_props.paraProps.value = elValue;
                     menu_props.paraProps.locked = (elValue) ? elValue.get_Locked() : false;
-                    if ((menu_props.shapeProps && menu_props.shapeProps.value || menu_props.chartProps && menu_props.chartProps.value) && // text in shape, need to show paragraph menu with vertical align
-                        _.isUndefined(menu_props.tableProps))
+                    if (menu_props.shapeProps && menu_props.shapeProps.value && menu_props.shapeProps.value.asc_getCanEditText())  // text in shape, need to show paragraph menu with vertical align
                         menu_to_show = documentHolder.textMenu;
                 } else if (Asc.c_oAscTypeSelectElement.Math == elType) {
                     menu_props.mathProps = {};

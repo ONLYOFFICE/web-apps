@@ -834,7 +834,6 @@ define([
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
-                    me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     me.menuImgCut,
