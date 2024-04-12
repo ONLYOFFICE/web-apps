@@ -1430,12 +1430,15 @@ define([
                 }
                 callback && callback();
                 this.onPdfModeApply();
-                var app = this.getApplication();
-                app.getController('Toolbar').applyMode();
+                var app = this.getApplication(),
+                    toolbar = app.getController('Toolbar');
+                toolbar.applyMode();
                 app.getController('Viewport').applyEditorMode();
                 app.getController('ViewTab').applyEditorMode();
                 app.getController('DocumentHolder').applyEditorMode();
                 app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                toolbar.toolbar.clearActiveData();
+                toolbar.toolbar.processPanelVisible(null, true);
             },
 
             onPdfModeApply: function() {
