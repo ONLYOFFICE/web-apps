@@ -769,7 +769,8 @@ define([
                         chartdisabled = (value.chartProps!==undefined && value.chartProps.locked),
                         disabled = imgdisabled || shapedisabled || chartdisabled,
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
-                        inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
+                        inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal(),
+                        lastSeparator = menuImgSaveAsPictureSeparator;
 
                     me.mnuArrangeFront.setDisabled(inSmartartInternal);
                     me.mnuArrangeBack.setDisabled(inSmartartInternal);
@@ -812,9 +813,11 @@ define([
                         me.menuImgEditPoints.isVisible() || me.menuShapeAdvanced.isVisible() /*||
                         me.menuChartEdit.isVisible() || me.menuChartAdvanced.isVisible()*/
                     );
+                    menuAdvancedSettingsSeparator.isVisible() && (lastSeparator = menuAdvancedSettingsSeparator);
 
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.mode && me.mode.canComments);
+                    !me.menuAddCommentImg.isVisible() && lastSeparator.setVisible(false);
                     /** coauthoring end **/
                     me.menuImgShapeAlign.setDisabled(disabled);
                     if (!disabled) {

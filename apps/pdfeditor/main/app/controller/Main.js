@@ -1233,12 +1233,12 @@ define([
 
                 this.appOptions.canCoEditing = false; // TODO: !(this.appOptions.isDesktopApp && this.appOptions.isOffline), switch between pdf comment/ pdf edit when false
                 this.appOptions.canSaveToFile = this.appOptions.isDesktopApp && this.appOptions.isOffline;
-                this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense;// && (this.permissions.comment!== false) && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
+                this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense;// && (this.permissions.comment!== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate; // TODO: this.appOptions.isDesktopApp && this.appOptions.isOffline !! online files always open in view mode
                 this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense;//(this.permissions.edit !== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
 
-                this.appOptions.canComments = this.appOptions.canViewComments =  pdfEdit;
+                this.appOptions.canComments = this.appOptions.canViewComments =  pdfEdit && !(this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
                                                                                                                (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat!==undefined) {
