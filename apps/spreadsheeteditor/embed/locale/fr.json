@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Téléchargement de la feuille de calcul en cours...",
   "SSE.ApplicationController.errorAccessDeny": "Vous ne disposez pas des droits pour effectuer cette action.<br>Veuillez contacter l'administrateur de Document Server.",
   "SSE.ApplicationController.errorDefaultMessage": "Code d'erreur: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "Une erreur s'est produite lors du travail avec le document.<br>Utilisez l'option 'Télécharger comme' pour enregistrer une copie de sauvegarde du fichier sur le disque dur de votre ordinateur.",
   "SSE.ApplicationController.errorFilePassProtect": "Le fichier est protégé par un mot de passe et ne peut pas être ouvert.",
   "SSE.ApplicationController.errorFileSizeExceed": "La taille du fichier dépasse les limites paramétrées sur votre serveur.<br>Veuillez contacter votre administrateur de Document Server pour obtenir plus d'informations.  ",
   "SSE.ApplicationController.errorForceSave": "Une erreur est survenue lors de l'enregistrement du fichier. Veuillez utiliser l'option «Télécharger en tant que» pour enregistrer le fichier sur le disque dur de votre ordinateur ou réessayer plus tard.",
