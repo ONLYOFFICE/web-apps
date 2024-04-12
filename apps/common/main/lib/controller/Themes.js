@@ -161,12 +161,12 @@ define([
             "canvas-high-contrast-disabled",
 
             "canvas-cell-border",
-            "canvas-cell-title",
+            "canvas-cell-title-background",
+            "canvas-cell-title-background-hover",
+            "canvas-cell-title-background-selected",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
-            "canvas-cell-title-hover",
-            "canvas-cell-title-selected",
 
             "canvas-dark-cell-title",
             "canvas-dark-cell-title-hover",
