@@ -633,7 +633,7 @@ define([
             var toolbar = this.toolbar,
                 mode = toolbar.mode,
                 me = this;
-            if (!mode.isPDFAnnotate && !mode.isPDFEdit) {
+            if (!mode.canSaveToFile) {
                 var canDownload = mode.canDownload && (!mode.isDesktopApp || !mode.isOffline),
                     saveSopy = (mode.canDownload && (!mode.isDesktopApp || !mode.isOffline)) && (mode.canRequestSaveAs || mode.saveAsUrl),
                     saveAs = mode.canDownload && mode.isDesktopApp && mode.isOffline,
@@ -642,9 +642,12 @@ define([
 
                 Common.UI.info({
                     maxwidth: 500,
-                    buttons: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? ['ok'] : buttons.concat(['cancel']),
-                    primary: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? 'ok' : primary,
-                    msg: (mode.canPDFAnnotate || mode.canPDFEdit) ? this.txtNeedCommentMode : (mode.canDownload ? this.txtNeedDownload : this.errorAccessDeny),
+                    // buttons: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? ['ok'] : buttons.concat(['cancel']),
+                    // primary: (mode.canPDFAnnotate || mode.canPDFEdit || !mode.canDownload) ? 'ok' : primary,
+                    // msg: (mode.canPDFAnnotate || mode.canPDFEdit) ? this.txtNeedCommentMode : (mode.canDownload ? this.txtNeedDownload : this.errorAccessDeny),
+                    buttons: mode.canDownload ? buttons.concat(['cancel']) : ['ok'],
+                    primary: mode.canDownload ? primary : 'ok' ,
+                    msg: mode.canDownload ? this.txtNeedDownload : this.errorAccessDeny,
                     callback: function(btn) {
                         if (saveAs && btn==='copy')
                             me.api.asc_DownloadAs();
