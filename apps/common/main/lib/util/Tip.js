@@ -241,7 +241,7 @@
             clearTimeout(self.timeout);
             self.hoverState = 'in';
 
-            if (this._updateTitle) {
+            if (this._updateTitle!==undefined) {
                 this.tip().find('.tooltip-inner')[this.options.html ? 'html' : 'text'](this.options.title);
                 this._updateTitle = undefined;
             }

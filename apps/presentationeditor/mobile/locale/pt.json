@@ -549,7 +549,8 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição"
+      "txtScheme9": "Fundição",
+      "textClose": "Close"
     }
   }
 }

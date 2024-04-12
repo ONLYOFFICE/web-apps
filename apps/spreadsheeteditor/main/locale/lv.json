@@ -3272,7 +3272,6 @@
   "SSE.Views.ProtectedRangesEditDlg.textInvalidName": "Diapazona nosaukumam ir jāsākas ar burtu, un tajā var būt tikai burti, cipari un atstarpes.",
   "SSE.Views.ProtectedRangesEditDlg.textInvalidRange": "KĻŪDA! Nederīgs šūnu diapazons",
   "SSE.Views.ProtectedRangesEditDlg.textSelectData": "Izvēlēties datus",
-  "SSE.Views.ProtectedRangesEditDlg.textTipDelete": "Dzēst lietotāju",
   "SSE.Views.ProtectedRangesEditDlg.txtEmpty": "Šis lauks ir obligāts",
   "SSE.Views.ProtectedRangesEditDlg.txtProtect": "Aizsargāt",
   "SSE.Views.ProtectedRangesEditDlg.txtRange": "Diapazons",

@@ -65,6 +65,7 @@ define([
             };
             this.lockedControls = [];
             this.pluginPanels = {};
+            this.customPluginPanels = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
@@ -190,7 +191,7 @@ define([
             }
         },
 
-        openedPluginMode: function(pluginGuid) {
+        openedPluginMode: function(pluginGuid, insideMode) {
             // var rec = this.viewPluginsList.store.findWhere({guid: pluginGuid});
             // if ( rec ) {
             //     this.viewPluginsList.cmpEl.find('#' + rec.get('id')).parent().addClass('selected');
@@ -200,27 +201,35 @@ define([
             if ( model ) {
                 var _btn = model.get('button');
                 if (_btn) {
-                    _btn.toggle(true);
-                    this.updatePluginButton(model);
+                    if (!insideMode) {
+                        _btn.toggle(true);
+                        this.updatePluginButton(model);
+                    }
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStop);
+                        _btn.menu.items[0].isRun = true;
                     }
+                    _btn.options.isRun = true;
                 }
             }
         },
 
-        closedPluginMode: function(guid) {
+        closedPluginMode: function(guid, insideMode) {
             // this.viewPluginsList.cmpEl.find('.selected').removeClass('selected');
 
             var model = this.storePlugins.findWhere({guid: guid});
             if ( model ) {
                 var _btn = model.get('button');
                 if (_btn) {
-                    _btn.toggle(false);
-                    this.updatePluginButton(model);
+                    if (!insideMode) {
+                        _btn.toggle(false);
+                        this.updatePluginButton(model);
+                    }
                     if (_btn.menu && _btn.menu.items.length>0) {
                         _btn.menu.items[0].setCaption(this.textStart);
+                        _btn.menu.items[0].isRun = false;
                     }
+                    _btn.options.isRun = false;
                 }
             }
         },
@@ -449,7 +458,8 @@ define([
                 if (variation.get('visible'))
                     _menu_items.push({
                         caption     : index > 0 ? variation.get('description') : me.textStart,
-                        value       : parseInt(variation.get('index'))
+                        value       : parseInt(variation.get('index')),
+                        isRun       : false
                     });
             });
 
@@ -461,6 +471,7 @@ define([
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
                 value: guid,
+                isRun: false,
                 hint: model.get('name'),
                 lock: model.get('isDisplayedInViewer') ? [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.selRangeEdit, _set.editFormula] : [_set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ],
                 dataHint: '1',
@@ -477,12 +488,12 @@ define([
                 );
 
                 btn.menu.on('item:click', function(menu, item, e) {
-                    me.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                    me.fireEvent('plugin:select', [menu.options.pluginGuid, item.value, item.isRun, item.value === 0 && item.isRun]);
                 });
             }
 
             btn.on('click', function(b, e) {
-                me.fireEvent('plugin:select', [b.options.value, 0]);
+                me.fireEvent('plugin:select', [b.options.value, 0, btn.options.isRun]);
             });
 
             model.set('button', btn);
@@ -495,18 +506,23 @@ define([
             this.fireEvent('hide', this );
         },
 
-        showPluginPanel: function (show, guid) {
-            var model = this.storePlugins.findWhere({guid: guid}),
-                menu = model.get('menu');
+        showPluginPanel: function (show, id) {
+            var panel = this.pluginPanels[id] ? this.pluginPanels[id] : this.customPluginPanels[id],
+                menu = this.pluginPanels[id] ? this.storePlugins.findWhere({guid: id}).get('menu') : panel.menu;
             if (show) {
                 for (var key in this.pluginPanels) {
                     if (this.pluginPanels[key].menu === menu) {
                         this.pluginPanels[key].$el.removeClass('active');
                     }
                 }
-                this.pluginPanels[guid].$el.addClass('active');
+                for (var key in this.customPluginPanels) {
+                    if (this.customPluginPanels[key].menu === menu) {
+                        this.customPluginPanels[key].$el.removeClass('active');
+                    }
+                }
+                panel.$el.addClass('active');
             } else {
-                this.pluginPanels[guid].$el.removeClass('active');
+                panel.$el.removeClass('active');
                 this.fireEvent(menu === 'right' ? 'pluginsright:hide' : 'pluginsleft:hide', this);
             }
             //this.updateLeftPluginButton(guid);

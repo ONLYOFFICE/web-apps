@@ -247,6 +247,19 @@ div {
                 innerAlert(event.data);
         };
 
+        var getWopiFileUrl = function(fileInfo, userAuth) {
+           let url;
+           if (fileInfo.FileUrl) {
+              //Requests to the FileUrl can not be signed using proof keys. The FileUrl is used exactly as provided by the host, so it does not necessarily include the access token, which is required to construct the expected proof.
+              url = fileInfo.FileUrl;
+           } else if (fileInfo.TemplateSource) {
+              url = fileInfo.TemplateSource;
+           } else if (userAuth) {
+              url = userAuth.wopiSrc + "/contents?access_token=" + userAuth.access_token;
+           }
+           return url;
+        }
+
         var connectEditor = function () {
 
             fileInfo = <%- JSON.stringify(fileInfo) %>;
@@ -272,6 +285,8 @@ div {
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
 			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
 			fileType = fileType.toLowerCase();
+			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && queryParams.formsubmit !== "1";
+			let permissionsFillForm = permissionsEdit || queryParams.formsubmit === "1";
 			var config = {
 				"width": "100%",
 				"height": "100%",
@@ -280,17 +295,18 @@ div {
 				"token": token,
 				"document": {
 					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
-					"url": userAuth.wopiSrc,
+					"url": getWopiFileUrl(fileInfo, userAuth),
 					"fileType": fileType,
 					"key": key,
                     "info": {
                         "folder": fileInfo.BreadcrumbFolderName
                     },
 					"permissions": {
-						"edit": !fileInfo.ReadOnly && fileInfo.UserCanWrite,
+                        "edit": permissionsEdit,
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
-                        "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption
+                        "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
+                        "fillForms": permissionsFillForm
 					},
 					"options": {
 						"WOPISrc": userAuth.wopiSrc
@@ -377,9 +393,11 @@ div {
         if (window.addEventListener) {
             window.addEventListener("load", connectEditor);
             window.addEventListener("resize", fixSize);
+            window.addEventListener("orientationchange", fixSize);
         } else if (window.attachEvent) {
             window.attachEvent("onload", connectEditor);
             window.attachEvent("onresize", fixSize);
+            window.attachEvent("orientationchange", fixSize);
         }
     </script>
 </body>

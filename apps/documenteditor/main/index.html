@@ -59,6 +59,11 @@
             background: var(--toolbar-header-document, #446995);
         }
 
+        .pdf-form .loadmask > .brendpanel {
+            background: #AA5252;
+            background: var(--toolbar-header-pdf, #AA5252);
+        }
+
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
@@ -117,6 +122,7 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
+            height: 25px;
         }
 
         .loadmask > .sktoolbar li {
@@ -132,6 +138,12 @@
         .loadmask > .sktoolbar li.space {
             background: none;
             width: 0;
+        }
+
+        .loadmask > .sktoolbar li.big {
+            width: 40px;
+            height: 46px;
+            margin-top: -46px;
         }
 
         .loadmask > .sktoolbar li.fat {
@@ -255,10 +267,12 @@
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            isForm = params["isForm"]==='true';
 
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
+        window.isPDFForm = isForm;
 
         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
             document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
@@ -276,9 +290,13 @@
     <div id="loading-mask" class="loadmask">
         <div class="brendpanel" style="display: none;">
             <div><div class="loading-logo"><img src="../../common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span></div></div>
-        <div class="sktoolbar" style="display: none;">
+        <div id="sktoolbar" class="sktoolbar" style="display: none;">
             <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li style="width: 234px;"></li><li class="space"></li><li style="width: 189px;"></li><li class="fat"></li></ul>
             <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li style="width: 234px;"></li><li class="space"></li><li style="width: 189px;"></li></ul>
+        </div>
+        <div id="sktoolbar-pdf" class="sktoolbar" style="display: none;">
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 98px;"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"></li><li class="big"/><li class="big"/><li class="space"></li><li style="width: 105px;"></li><li class="space"></li><li style="width: 160px;"></li><li class="big"/><li class="big"/><li class="big"/></ul>
         </div>
         <div class="placeholder" style="display: none;">
             <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
@@ -292,8 +310,10 @@
             notoolbar = params["toolbar"] == 'false',
             compact = params["compact"] == 'true',
             view = params["mode"] == 'view',
+            fillforms = params["mode"] == 'fillforms',
             visible = true;
 
+        isForm && document.body.classList.add('pdf-form');
         (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
 
         if (compact || view) {
@@ -317,7 +337,10 @@
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
-        !(view && (params["toolbar"] !== 'true') || notoolbar) && (document.querySelector('.sktoolbar').style.display = 'block');
+        if (fillforms)
+            document.getElementById('sktoolbar-pdf').style.display = 'block';
+        else if (!(view && (params["toolbar"] !== 'true') || notoolbar))
+            document.getElementById('sktoolbar').style.display = 'block';
         view && (document.querySelector('.placeholder').style.marginTop = '19px');
         document.querySelector('.placeholder').style.display = 'block';
 

@@ -128,6 +128,7 @@ define([
                             Asc.c_oAscFileType.PDFA,
                             Asc.c_oAscFileType.XLTX,
                             Asc.c_oAscFileType.OTS,
+                            Asc.c_oAscFileType.XLSB,
                             Asc.c_oAscFileType.XLSM
                         ];
 
@@ -532,6 +533,8 @@ define([
                 this.api.asc_registerCallback('asc_onSelectionChanged',     _.bind(this.onApiSelectionChangedRestricted, this));
                 Common.NotificationCenter.on('protect:wslock',              _.bind(this.onChangeProtectSheet, this));
             }
+            if ( !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle )
+                this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -584,7 +587,7 @@ define([
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = this.toolbar.btnCollabChanges && this.toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave && !this.toolbar.mode.canSaveDocumentToBinary)
                     return;
 
                 this.api.asc_Save();
@@ -4630,7 +4633,7 @@ define([
                         }
                     }
 
-                    if (!(config.customization && config.customization.compactHeader)) {
+                    if (!config.compactHeader) {
                         // hide 'print' and 'save' buttons group and next separator
                         me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
@@ -5221,6 +5224,10 @@ define([
                     items[i].setDisabled(!props[items[i].value]);
                 }
             }
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textEmptyImgUrl     : 'You need to specify image URL.',

@@ -302,6 +302,7 @@ define([
             this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
             this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             this.api.asc_registerCallback('asc_onDownloadUrl',  _.bind(this.onDownloadUrl, this));
+            this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
         },
 
         attachRestrictedEditApiEvents: function() {
@@ -664,11 +665,11 @@ define([
             } else if (this.api) {
                 // var isModified = this.api.asc_isDocumentCanSave();
                 // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
+                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
                 //     return;
 
                 this.api.asc_Save();
-                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile);
+                toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary);
                 Common.component.Analytics.trackEvent('Save');
                 Common.component.Analytics.trackEvent('ToolBar', 'Save');
             }
@@ -1086,7 +1087,7 @@ define([
 
             if ( config.isEdit || config.isRestrictedEdit) {
                 me.toolbar.setMode(config);
-                if (!(config.customization && config.customization.compactHeader)) {
+                if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
@@ -2168,6 +2169,10 @@ define([
 
         onTextHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textWarning: 'Warning',

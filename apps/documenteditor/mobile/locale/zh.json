@@ -396,7 +396,7 @@
     "textTableOptions": "表格选项",
     "textText": "文字",
     "textTextOrientation": "文本方向",
-    "textTextWrapping": "文本换行",
+    "textTextWrapping": "文本环绕",
     "textTh": "周四",
     "textThrough": "通过",
     "textTight": "紧",
@@ -406,8 +406,8 @@
     "textTu": "周二",
     "textType": "类型",
     "textWe": "周三",
-    "textWrap": "包裹",
-    "textWrappingStyle": "文字环绕样式",
+    "textWrap": "环绕",
+    "textWrappingStyle": "环绕方式",
     "textYourOption": "您的选择"
   },
   "Error": {
@@ -584,6 +584,7 @@
     "textCancel": "取消",
     "textClose": "关闭",
     "textContactUs": "联系销售人员",
+    "textConvertForm": "将文件下载为可填写的 PDF 表单格式。",
     "textCustomLoader": "对不起，您无权更改加载器。请联系我们的销售部门获取报价。",
     "textDialogProtectedChangesTracked": "您可以编辑此文档，但所有更改都将被跟踪",
     "textDialogProtectedEditComments": "您只能在此文档中插入批注",
@@ -619,8 +620,7 @@
     "warnLicenseUsersExceeded": "您已达到%1编辑器的用户限制。请与管理员联系以了解更多信息。",
     "warnNoLicense": "您已达到同时连接到 %1 编辑器的限制。此文档将仅打开以供查看。有关个人升级条款，请与 %1 销售团队联系。",
     "warnNoLicenseUsers": "您已达到%1编辑器的用户限制。有关个人升级条款，请与%1销售团队联系。",
-    "warnProcessRightsChange": "您没有编辑此文件的权限。",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling."
+    "warnProcessRightsChange": "您没有编辑此文件的权限。"
   },
   "Settings": {
     "advDRMOptions": "受保护的文档",
@@ -643,6 +643,7 @@
     "textChooseEncoding": "选择编码",
     "textChooseTxtOptions": "选择TXT选项",
     "textClearAllFields": "清除所有字段",
+    "textClose": "关闭",
     "textCollaboration": "共同编辑",
     "textColorSchemes": "配色方案",
     "textComment": "批注",

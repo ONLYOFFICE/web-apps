@@ -74,6 +74,9 @@
         &jpg {
             background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
         }
+        &xlsb {
+            background: ~"url('@{common-image-const-path}/doc-formats/xlsb.svg') no-repeat center";
+        }
     }
 
     div {
@@ -154,7 +157,8 @@
                 padding-top: 4px;
                 cursor: pointer;
                 .font-size-large();
-
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:hover {
                     text-decoration: none;
                 }

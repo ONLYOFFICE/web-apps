@@ -48,6 +48,10 @@ define([
                         uithemes: true,
                         btnhome: true,
                         quickprint: true,
+                        framesize: {
+                            width: window.innerWidth,
+                            height: window.innerHeight
+                        },
                     }, webapp.features);
 
     var native = window.desktop || window.AscDesktopEditor;
@@ -139,7 +143,7 @@ define([
                     }
                 } else
                 if (/theme:changed/.test(cmd)) {
-                    Common.UI.Themes.setTheme(param);
+                    Common.UI.Themes.setTheme(param, "native");
                 } else
                 if (/^uitheme:added/.test(cmd)) {
                     if ( !nativevars.localthemes )
@@ -169,7 +173,7 @@ define([
                         window.RendererProcessVariable.theme.system = opts.theme.system;
 
                         if ( Common.UI.Themes.currentThemeId() == 'theme-system' )
-                            Common.UI.Themes.refreshTheme(true);
+                            Common.UI.Themes.refreshTheme(true, 'native');
                     }
                 } else
                 if (/element:show/.test(cmd)) {
@@ -557,13 +561,18 @@ define([
                         'modal:show': _onModalDialog.bind(this, 'open'),
                         'modal:close': _onModalDialog.bind(this, 'close'),
                         'modal:hide': _onModalDialog.bind(this, 'hide'),
-                        'uitheme:changed' : function (name) {
-                            if ( window.uitheme.is_theme_system() ) {
-                                native.execCommand("uitheme:changed", JSON.stringify({name:'theme-system'}));
-                            } else {
-                                var theme = Common.UI.Themes.get(name);
-                                if ( theme )
-                                    native.execCommand("uitheme:changed", JSON.stringify({name:name, type:theme.type}));
+                        'uitheme:changed' : function (name, caller) {
+                            if ( caller != 'native' ) {
+                                if (window.uitheme.is_theme_system()) {
+                                    native.execCommand("uitheme:changed", JSON.stringify({name: 'theme-system'}));
+                                } else {
+                                    var theme = Common.UI.Themes.get(name);
+                                    if (theme)
+                                        native.execCommand("uitheme:changed", JSON.stringify({
+                                            name: name,
+                                            type: theme.type
+                                        }));
+                                }
                             }
                         },
                         'hints:show': _onHintsShow.bind(this),

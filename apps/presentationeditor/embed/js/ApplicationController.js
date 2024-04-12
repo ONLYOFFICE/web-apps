@@ -97,8 +97,8 @@ PE.ApplicationController = new(function(){
                 if (config.customization.goback.requestClose)
                     console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
             }
-            if (typeof config.customization.close === 'object')
-                config.canCloseEditor  = !!config.customization.close.visible && config.canRequestClose && !config.isDesktopApp;
+            if (config.customization.close && typeof config.customization.close === 'object')
+                config.canCloseEditor  = (config.customization.close.visible!==false) && config.canRequestClose && !config.isDesktopApp;
         }
         config.canBackToFolder = !!_canback;
     }
@@ -678,6 +678,10 @@ PE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
+            case Asc.c_oAscError.ID.EditingError:
+                message = me.errorEditingDownloadas;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -865,6 +869,7 @@ PE.ApplicationController = new(function(){
         titleLicenseExp: 'License expired',
         titleLicenseNotActive: 'License not active',
         warnLicenseBefore: 'License not active. Please contact your administrator.',
-        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.'
+        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
+        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
     }
 })();

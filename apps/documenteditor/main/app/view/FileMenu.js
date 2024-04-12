@@ -402,7 +402,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
-            this.miSave[this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
+            this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();

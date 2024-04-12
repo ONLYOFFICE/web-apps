@@ -68,16 +68,16 @@ define([
                             var tab = {action: 'plugins', caption: me.viewPlugins.groupCaption, dataHintTitle: 'E', layoutname: 'toolbar-plugins'};
                             me.$toolbarPanelPlugins = me.viewPlugins.getPanel();
                             me.toolbar = toolbar;
-                            toolbar.addTab(tab, me.$toolbarPanelPlugins, 10);     // TODO: clear plugins list in left panel
+                            toolbar.addTab(tab, me.$toolbarPanelPlugins, Common.UI.LayoutManager.lastTabIdx);     // TODO: clear plugins list in left panel
                         }
                     }
                 },
                 'Common.Views.Plugins': {
-                    'plugin:select': function(guid, type) {
-                        if (!this.viewPlugins.pluginPanels[guid]) {
-                            me.api.asc_pluginRun(guid, type, '');
+                    'plugin:select': function(guid, type, isRun, closePanel) {
+                        if (!this.viewPlugins.pluginPanels[guid] || (this.viewPlugins.pluginPanels[guid] && type > 0)) {
+                            !isRun || type > 0 ? me.api.asc_pluginRun(guid, type, '') : me.api.asc_pluginStop(guid);
                         } else {
-                            me.openUIPlugin(guid);
+                            closePanel ? me.onToolClose(this.viewPlugins.pluginPanels[guid]) : me.openUIPlugin(guid);
                         }
                     }
                 },
@@ -121,6 +121,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
         },
 
         loadConfig: function(data) {
@@ -196,6 +197,7 @@ define([
                 this.api.asc_registerCallback("asc_onPluginWindowResize", _.bind(this.onPluginWindowResize, this));
                 this.api.asc_registerCallback("asc_onPluginWindowMouseUp", _.bind(this.onPluginWindowMouseUp, this));
                 this.api.asc_registerCallback("asc_onPluginWindowMouseMove", _.bind(this.onPluginWindowMouseMove, this));
+                this.api.asc_registerCallback("asc_onPluginWindowActivate", _.bind(this.openUIPlugin, this));
 
                 this.loadPlugins();
             }
@@ -306,12 +308,14 @@ define([
                 }
             };
             this.backgroundPluginsSwitchers = [];
+            var usedPlugins = this.api.getUsedBackgroundPlugins();
             this.backgroundPlugins.forEach(function (model) {
                 var modes = model.get('variations'),
                     icons = modes[model.get('currentVariation')].get('icons'),
                     parsedIcons = me.viewPlugins.parseIcons(icons),
                     icon_url = model.get('baseUrl') + parsedIcons['normal'],
-                    guid = model.get('guid');
+                    guid = model.get('guid'),
+                    isRun = _.indexOf(usedPlugins, guid) !== -1;
                 model.set('parsedIcons', parsedIcons);
                 var menuItem = new Common.UI.MenuItem({
                     value: guid,
@@ -333,14 +337,14 @@ define([
                 model.set('backgroundPlugin', menuItem);
                 var switcher = new Common.UI.Switcher({
                     el: menuItem.$el.find('.plugin-toggle')[0],
-                    value: !!model.isSystem,
+                    value: !!model.isSystem || isRun,
                     disabled: !!model.isSystem,
                     pluginGuid: guid,
-                    hint: me.viewPlugins.textStart
+                    hint: isRun ? me.viewPlugins.textStop : me.viewPlugins.textStart
                 });
                 switcher.on('change', function (element, value) {
                     switcher.updateHint(value ? me.viewPlugins.textStop : me.viewPlugins.textStart);
-                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0]);
+                    me.viewPlugins.fireEvent('plugin:select', [switcher.options.pluginGuid, 0, !value]);
                 });
                 me.backgroundPluginsSwitchers.push(switcher);
                 var menuItems = [];
@@ -367,7 +371,7 @@ define([
                     });
                     btn.menu.on('item:click', function (menu, item, e) {
                         Common.UI.Menu.Manager.hideAll();
-                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value]);
+                        me.viewPlugins.fireEvent('plugin:select', [menu.options.pluginGuid, item.value, false]);
                         me.clickInsideMenu = false;
                     });
                     btn.menu.on('keydown:before', function (menu, e) {
@@ -419,6 +423,11 @@ define([
                         me.backgroundPlugins.push(model);
                         return;
                     }
+                    if (model.get('tab')) {
+                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        return;
+                    }
+
                     //if (new_rank === 1 || new_rank === 2) return; // for test
                     if ((new_rank === 0 || new_rank === 2) && !isBackground) {
                         _group = me.addBackgroundPluginsButton(_group);
@@ -486,6 +495,15 @@ define([
                     });
                 }
             });
+            for (var key in this.viewPlugins.customPluginPanels) {
+                var panel = this.viewPlugins.customPluginPanels[key],
+                    menu = panel.menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
+                menu.push({
+                    guid: panel.frameId,
+                    baseUrl: panel.baseUrl,
+                    parsedIcons: this.viewPlugins.parseIcons(panel.icons)
+                });
+            }
             if (iconsInLeftMenu.length > 0) {
                 me.viewPlugins.fireEvent('pluginsleft:updateicons', [iconsInLeftMenu]);
             }
@@ -602,10 +620,10 @@ define([
             this.viewPlugins.pluginPanels[pluginGuid].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.pluginPanels[pluginGuid], pluginGuid));
         },
 
-        openUIPlugin: function (guid) {
-            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
-                menu = model.get('menu');
-            this.viewPlugins.fireEvent(menu === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [guid]);
+        openUIPlugin: function (id) {
+            var model = this.viewPlugins.storePlugins.findWhere({guid: id}),
+                menu = model ? model.get('menu') : (this.viewPlugins.customPluginPanels[id] && this.viewPlugins.customPluginPanels[id].menu);
+            this.viewPlugins.fireEvent(menu === 'right' ? 'pluginsright:open' : 'pluginsleft:open', [id]);
         },
 
         onPluginShow: function(plugin, variationIndex, frameId, urlAddition) {
@@ -619,7 +637,7 @@ define([
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
                         langName = plugin.get_Name(lang),
-                        menu = this.isPDFEditor ? 'left' : variation.get_Menu();
+                        menu = this.isPDFEditor ? 'left' : (variation.get_Type() == Asc.PluginType.PanelRight ? 'right' : 'left');
                         !menu && (menu = 'left');
                         this.addPluginToSideMenu(plugin, langName, menu);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
@@ -694,7 +712,7 @@ define([
 
                 }
             }
-            !variation.get_InsideMode() && this.viewPlugins.openedPluginMode(plugin.get_Guid());
+            this.viewPlugins.openedPluginMode(plugin.get_Guid(), variation.get_InsideMode());
         },
 
         onPluginClose: function(plugin) {
@@ -713,9 +731,8 @@ define([
                     this.viewPlugins.fireEvent(model.get('menu') === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [guid]);
                 }
             }
-            if (!isIframePlugin) {
-                !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid);
-            }
+            !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
+
             this.runAutoStartPlugins();
         },
 
@@ -730,7 +747,7 @@ define([
         },
 
         onToolClose: function(panel) {
-            this.api.asc_pluginButtonClick(-1, panel ? panel._state.insidePlugin : undefined);
+            this.api.asc_pluginButtonClick(-1, panel && panel._state.insidePlugin, panel && panel.frameId);
         },
 
         onPluginMouseUp: function(x, y) {
@@ -856,7 +873,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : !itemVar.isVisual;
+                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : false;
                             }
                         }
                     });
@@ -882,7 +899,8 @@ define([
                             original: item,
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
-                            isSystem: isSystem
+                            isSystem: isSystem,
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                     }
@@ -1047,16 +1065,25 @@ define([
             }
         },
 
+        onChangeDocMode: function (type) {
+            if (type === 'view' && this.pluginDlg) {
+                this.api.asc_pluginButtonClick(-1, this.pluginDlg.guid);
+            }
+        },
+
         // Plugin can create windows
         onPluginWindowShow: function(frameId, variation) {
             if (variation.isVisual) {
-                if (this.customPluginsDlg[frameId]) return;
+                if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type);
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type),
+                    isPanel = variation.type === 'panel' || variation.type === 'panelRight';
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
-                if (visible && !variation.isInsideMode) {
+                if (visible && isPanel) {
+                    this.onPluginPanelShow(frameId, variation, lang);
+                } else if (visible && !variation.isInsideMode) {
                     var me = this,
                         isCustomWindow = variation.isCustomWindow,
                         arrBtns = variation.buttons,
@@ -1122,8 +1149,17 @@ define([
         },
 
         onPluginWindowClose: function(frameId) {
-            if (this.customPluginsDlg[frameId])
+            if (this.customPluginsDlg[frameId]) {
                 this.customPluginsDlg[frameId].close();
+            } else if (this.viewPlugins.customPluginPanels[frameId]) {
+                var panel = this.viewPlugins.customPluginPanels[frameId];
+                if (panel && panel.iframePlugin) {
+                    panel.closeInsideMode();
+                    panel.$el.remove();
+                    delete this.viewPlugins.customPluginPanels[frameId];
+                    this.viewPlugins.fireEvent(panel.menu === 'right' ? 'pluginsright:close' : 'pluginsleft:close', [frameId]);
+                }
+            }
         },
 
         onPluginWindowResize: function(frameId, size, minSize, maxSize, callback ) {
@@ -1151,6 +1187,49 @@ define([
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
+        },
+
+        onPluginPanelShow: function (frameId, variation, lang) {
+            var guid = variation.guid,
+                menu = this.isPDFEditor ? 'left' : (variation.type == 'panelRight' ? 'right' : 'left');
+            !menu && (menu = 'left');
+
+            var description = variation.description;
+            if (typeof variation.descriptionLocale == 'object')
+                description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
+
+            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
+                modes = model.get('variations'),
+                icons = variation.icons ? variation.icons : modes[model.get('currentVariation')].get('icons'),
+                parsedIcons = this.viewPlugins.parseIcons(icons),
+                icon_url = model.get('baseUrl') + parsedIcons['normal'];
+
+            var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
+                button = new Common.UI.Button({
+                    parentEl: $button,
+                    cls: 'btn-category plugin-buttons',
+                    hint: description,
+                    enableToggle: true,
+                    toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
+                    iconImg: icon_url,
+                    onlyIcon: true,
+                    value: frameId,
+                    type: 'plugin'
+                });
+            var $panel = $('<div id="panel-plugins-' + frameId + '" class="plugin-panel" style="height: 100%;"></div>');
+            this.viewPlugins.fireEvent(menu === 'right' ? 'plugins:addtoright' : 'plugins:addtoleft', [button, $button, $panel]);
+            this.viewPlugins.customPluginPanels[frameId] = new Common.Views.PluginPanel({
+                el: '#panel-plugins-' + frameId,
+                menu: menu,
+                frameId: frameId,
+                baseUrl: model.get('baseUrl'),
+                icons: icons
+            });
+            this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));
+
+            if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
+                this.api.asc_pluginButtonClick(-1, guid, frameId);
         }
+
     }, Common.Controllers.Plugins || {}));
 });

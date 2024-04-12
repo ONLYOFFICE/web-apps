@@ -793,7 +793,8 @@
     "textSaveAsPdf": "Save as PDF",
     "textExportAs": "Export As",
     "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "textRtlInterface": "RTL Interface",
+    "textClose": "Close"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "You have unsaved changes. Click 'Stay on this Page' to wait for autosave. Click 'Leave this Page' to discard all the unsaved changes.",

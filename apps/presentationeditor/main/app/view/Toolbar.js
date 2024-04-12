@@ -1949,8 +1949,8 @@ define([
 
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
-                    extCls: (this.mode.customization && !!this.mode.customization.compactHeader) ? undefined : 'inc-index',
-                    placement: 'right-bottom',
+                    extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
+                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
@@ -1974,7 +1974,7 @@ define([
                         if (this.synchTooltip)
                             this.synchTooltip.hide();
                         this.btnCollabChanges.updateHint(this.btnSaveTip);
-                        this.btnSave.setDisabled(!me.mode.forcesave);
+                        this.btnSave.setDisabled(!me.mode.forcesave && !me.mode.canSaveDocumentToBinary);
 
                         this._state.hasCollaborativeChanges = false;
                     }

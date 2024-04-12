@@ -202,6 +202,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
+                    Common.Gateway.on('opendocumentfrombinary', _.bind(this.loadBinary, this));
                     Common.Gateway.on('grabfocus',      _.bind(this.onGrabFocus, this));
                     Common.Gateway.appReady();
 
@@ -399,9 +400,8 @@ define([
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
                 this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
-
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
-
+                this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
                 this.appOptions.canRequestClose = this.editorConfig.canRequestClose;
@@ -417,8 +417,8 @@ define([
                         if (this.appOptions.customization.goback.requestClose)
                             console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
                     }
-                    if (typeof this.appOptions.customization.close === 'object')
-                        this.appOptions.canCloseEditor  = !!this.appOptions.customization.close.visible && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+                    if (this.appOptions.customization.close && typeof this.appOptions.customization.close === 'object')
+                        this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
                 }
                 this.appOptions.canBack = this.appOptions.canBackToFolder = !!_canback;
 
@@ -469,6 +469,7 @@ define([
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -772,7 +773,7 @@ define([
 
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
                         toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
@@ -829,7 +830,7 @@ define([
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                     (!this.getApplication().getController('LeftMenu').dlgSearch || !this.getApplication().getController('LeftMenu').dlgSearch.isVisible()) &&
                     (!this.getApplication().getController('Toolbar').dlgSymbolTable || !this.getApplication().getController('Toolbar').dlgSymbolTable.isVisible()) &&
-                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
+                    !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)) ) {
 //                        this.onEditComplete(this.loadMask); //если делать фокус, то при принятии чужих изменений, заканчивается свой композитный ввод
                         this.api.asc_enableKeyEvents(true);
                 }
@@ -1232,7 +1233,6 @@ define([
                 this.appOptions.canEdit = this.appOptions.isEdit = pdfEdit;
 
                 this.appOptions.canCoEditing = false; // TODO: !(this.appOptions.isDesktopApp && this.appOptions.isOffline), switch between pdf comment/ pdf edit when false
-                this.appOptions.canSaveToFile = this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense;// && (this.permissions.comment!== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate; // TODO: this.appOptions.isDesktopApp && this.appOptions.isOffline !! online files always open in view mode
                 this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense;//(this.permissions.edit !== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
@@ -1270,6 +1270,11 @@ define([
                 this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isForm && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canFillForms;
+                this.appOptions.canSaveToFile = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline || this.appOptions.isRestrictedEdit;
+                this.appOptions.showSaveButton = this.appOptions.isEdit;
+
+                this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
+                this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
 
                 if ( !this.appOptions.canCoAuthoring ) {
                     this.appOptions.canChat = false;
@@ -1302,7 +1307,7 @@ define([
                 this.appOptions.canRename && appHeader.setCanRename(true);
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
-                this.editorConfig.customization && Common.UI.LayoutManager.init(this.editorConfig.customization.layout, this.appOptions.canBrandingExt);
+                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
                 this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
@@ -1327,6 +1332,7 @@ define([
                 }
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
+                this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
                 this.appOptions.isRestrictedEdit && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
                 this.api.asc_LoadDocument();
             },
@@ -1512,6 +1518,7 @@ define([
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
+                    me.appOptions.canSaveDocumentToBinary && me.api.asc_registerCallback('asc_onSaveDocument',_.bind(me.onSaveDocumentBinary, me));
                     /** coauthoring end **/
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
@@ -1971,7 +1978,7 @@ define([
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
                 if (toolbarView && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
                         toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
@@ -1988,7 +1995,7 @@ define([
 
                 if (toolbarView && this.api && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
-                        forcesave = this.appOptions.forcesave,
+                        forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
                         toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
@@ -2500,6 +2507,14 @@ define([
                     });
                 });
                 artStore.reset(arr);
+            },
+
+            onSaveDocumentBinary: function(data) {
+                Common.Gateway.saveDocument(data);
+            },
+
+            loadBinary: function(data) {
+                data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',

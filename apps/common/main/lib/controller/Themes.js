@@ -161,12 +161,12 @@ define([
             "canvas-high-contrast-disabled",
 
             "canvas-cell-border",
-            "canvas-cell-title",
+            "canvas-cell-title-background",
+            "canvas-cell-title-background-hover",
+            "canvas-cell-title-background-selected",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
-            "canvas-cell-title-hover",
-            "canvas-cell-title-selected",
 
             "canvas-dark-cell-title",
             "canvas-dark-cell-title-hover",
@@ -387,13 +387,13 @@ define([
             }
         }
 
-        const refresh_theme = function (force) {
+        const refresh_theme = function (force, caller) {
             if ( force || Common.localStorage.getItem('ui-theme-id') != window.uitheme.id ) {
                 const theme_id = Common.localStorage.getItem('ui-theme-id');
 
                 if ( theme_id ) {
                     apply_theme.call(this, theme_id);
-                    Common.NotificationCenter.trigger('uitheme:changed', theme_id);
+                    Common.NotificationCenter.trigger('uitheme:changed', theme_id, caller);
                 }
             }
         }
@@ -427,7 +427,7 @@ define([
                 if ( !document.body.classList.contains('theme-type-' + obj.type) )
                     document.body.classList.add('theme-type-' + obj.type);
 
-                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) && !Common.Controllers.Desktop.isActive() )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
@@ -503,7 +503,7 @@ define([
                 Common.NotificationCenter.trigger('contenttheme:dark', window.uitheme.iscontentdark);
             },
 
-            setTheme: function (obj) {
+            setTheme: function (obj, caller) {
                 if ( !obj ) return;
 
                 const id = get_ui_theme_name(obj);
@@ -512,7 +512,7 @@ define([
                         apply_theme.call(this, id);
 
                         Common.localStorage.setItem('ui-theme-id', id);
-                        Common.NotificationCenter.trigger('uitheme:changed', id);
+                        Common.NotificationCenter.trigger('uitheme:changed', id, caller);
                     }
                 }
             },

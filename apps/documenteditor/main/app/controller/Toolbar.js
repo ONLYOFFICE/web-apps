@@ -138,7 +138,7 @@ define([
                         _main.onPrintQuick();
                     },
                     'save': function (opts) {
-                        this.api.asc_Save();
+                        this.tryToSave();
                     },
                     'undo': this.onUndo,
                     'redo': this.onRedo,
@@ -147,7 +147,7 @@ define([
                         var _file_type = _main.document.fileType,
                             _format;
                         if ( !!_file_type ) {
-                            if ( /^pdf|xps|oxps|djvu/i.test(_file_type) ) {
+                            if ( /^pdf|xps|oxps|djvu/i.test(_file_type) && !_main.appOptions.isPDFForm ) {
                                 _main.api.asc_DownloadOrigin();
                                 return;
                             } else {
@@ -272,6 +272,25 @@ define([
             this.toolbar.applyLayout(mode);
         },
 
+        attachRestrictedEditFormsUIEvents: function(toolbar) {
+            toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
+            toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
+            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
+            toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
+            toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
+            toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
+            toolbar.btnRedo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'redo:disabled'));
+            toolbar.btnCopy.on('click',                                 _.bind(this.onCopyPaste, this, 'copy'));
+            toolbar.btnPaste.on('click',                                _.bind(this.onCopyPaste, this, 'paste'));
+            toolbar.btnCut.on('click',                                  _.bind(this.onCopyPaste, this, 'cut'));
+            toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
+            toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
+            toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
+            Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
+            this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
+            this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
+        },
+
         attachUIEvents: function(toolbar) {
             /**
              * UI Events
@@ -279,7 +298,7 @@ define([
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
-            toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -397,7 +416,7 @@ define([
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
-
+            Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());            
@@ -461,7 +480,14 @@ define([
                 this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObjectRestrictedEdit, this));
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onApiCoAuthoringDisconnect, this));
+                if (this.mode.isPDFForm && this.mode.canFillForms) {
+                    this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
+                    this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
+                    this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
+
+                }
             }
+            this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
@@ -549,12 +575,12 @@ define([
         onApiCanRevert: function(which, can) {
             if (which=='undo') {
                 if (this._state.can_undo !== can) {
-                    this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]});
+                    this.toolbar.btnUndo ? this.toolbar.lockToolbar(Common.enumLock.undoLock, !can, {array: [this.toolbar.btnUndo]}) : this.onBtnChangeState('undo:disabled', null, !can);
                     this._state.can_undo = can;
                 }
             } else {
                 if (this._state.can_redo !== can) {
-                    this.toolbar.lockToolbar(Common.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]});
+                    this.toolbar.btnRedo ? this.toolbar.lockToolbar(Common.enumLock.redoLock, !can, {array: [this.toolbar.btnRedo]}) : this.onBtnChangeState('redo:disabled', null, !can);
                     this._state.can_redo = can;
                 }
             }
@@ -1069,18 +1095,44 @@ define([
             this.onPrint(e);
         },
 
-        onSave: function(e) {
-            var toolbar = this.toolbar;
-            if (this.api) {
+        tryToSave: function(e) {
+            var toolbar = this.toolbar,
+                mode = toolbar.mode,
+                me = this;
+            if (!mode.canSaveToFile) {
+                var canDownload = mode.canDownload && (!mode.isDesktopApp || !mode.isOffline),
+                    saveSopy = (mode.canDownload && (!mode.isDesktopApp || !mode.isOffline)) && (mode.canRequestSaveAs || mode.saveAsUrl),
+                    saveAs = mode.canDownload && mode.isDesktopApp && mode.isOffline,
+                    buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
+                    primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
+
+                Common.UI.info({
+                    maxwidth: 500,
+                    buttons: !mode.canDownload ? ['ok'] : buttons.concat(['cancel']),
+                    primary: !mode.canDownload ? 'ok' : primary,
+                    msg: mode.canDownload ? this.txtNeedDownload : this.errorAccessDeny,
+                    callback: function(btn) {
+                        if (saveAs && btn==='copy')
+                            me.api.asc_DownloadAs();
+                        else if (btn==='copy' || btn==='download') {
+                            me.isFromFormSaveAs = (btn==='copy');
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs);
+                            options.asc_setIsSaveAs(me.isFromFormSaveAs);
+                            me.api.asc_DownloadAs(options);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', toolbar);
+                    }
+                });
+            } else if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                if (!isModified && !isSyncButton && !toolbar.mode.forcesave)
+                if (!isModified && !isSyncButton && !mode.forcesave && !mode.canSaveDocumentToBinary)
                     return;
 
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave);
+            toolbar.btnSave.setDisabled(!mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton);
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -3281,8 +3333,6 @@ define([
             else if (viewDocMode)
                 toolbar.lockToolbar(Common.enumLock.viewMode, disable);
 
-            !viewDocMode && toolbar.fireEvent('docmode:disabled', [disable]);
-
             if(disable) {
                 if (reviewmode || fillformmode || viewDocMode)
                     mask = $("<div class='toolbar-group-mask'>").appendTo(toolbar.$el.find('.toolbar'));
@@ -3388,6 +3438,15 @@ define([
             Common.Utils.injectSvgIcons();
         },
 
+        createDelayedElementsRestrictedEditForms: function() {
+            this.toolbar.createDelayedElementsRestrictedEditForms();
+            this.attachRestrictedEditFormsUIEvents(this.toolbar);
+        },
+
+        createDelayedElementsViewer: function() {
+            this.onBtnChangeState('print:disabled', null, !this.mode.canPrint);
+        },
+
         onAppShowed: function (config) {
             var me = this,
                 application = this.getApplication();
@@ -3415,7 +3474,7 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                if (!(config.customization && config.customization.compactHeader)) {
+                if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
 
@@ -3466,18 +3525,36 @@ define([
                 Array.prototype.push.apply(me.toolbar.lockControls, links.getView('Links').getButtons());
 
                 me.toolbar.lockControls.push(application.getController('Viewport').getView('Common.Views.Header').getButton('mode'));
+            } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
+                me.toolbar.setMode(config);
+
+                me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
+
+                if (!config.compactHeader) {
+                    // hide 'print' and 'save' buttons group and next separator
+                    me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
+
+                    // hide 'undo' and 'redo' buttons and retrieve parent container
+                    var $box = me.toolbar.btnUndo.$el.hide().next().hide().parent();
+
+                    // move 'paste' button to the container instead of 'undo' and 'redo'
+                    me.toolbar.btnPaste.$el.detach().appendTo($box);
+                    me.toolbar.btnPaste.$el.find('button').attr('data-hint-direction', 'bottom');
+                    me.toolbar.btnCopy.$el.removeClass('split');
+                    me.toolbar.processPanelVisible(null, true);
+                }
             }
 
             if ( config.isEdit && config.canFeatureContentControl && config.canFeatureForms || config.isRestrictedEdit && config.canFillForms ) {
                 if (config.isFormCreator) {
-                    tab = {caption: me.textTabForms, action: 'forms', dataHintTitle: 'M'};
+                    tab = {caption: config.isRestrictedEdit && config.canFillForms && config.isPDFForm ? me.toolbar.textTabHome : me.textTabForms, action: 'forms', dataHintTitle: 'M'};
                     var forms = application.getController('FormsTab');
                     forms.setApi(me.api).setConfig({toolbar: me, config: config});
                     $panel = forms.createToolbarPanel();
                     if ($panel) {
                         me.toolbar.addTab(tab, $panel, 5);
                         me.toolbar.setVisible('forms', true);
-                        config.isEdit && config.canFeatureContentControl && config.canFeatureForms && Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
+                        Array.prototype.push.apply(me.toolbar.lockControls, forms.getView('FormsTab').getButtons());
                         !compactview && (config.isFormCreator || config.isRestrictedEdit && config.canFillForms) && me.toolbar.setTab('forms');
                     }
                 }
@@ -3544,6 +3621,11 @@ define([
                     me.controllers.pageLayout.onLaunch(me.toolbar)
                         .setApi(me.api)
                         .onAppReady(config);
+                } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
+                    if (me.toolbar.btnHandTool) {
+                        me.toolbar.btnHandTool.toggle(true, true);
+                        me.api.asc_setViewerTargetType('hand');
+                    }
                 }
 
                 config.isOForm && config.canDownloadForms && Common.UI.warning({
@@ -3708,6 +3790,17 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.docLockComments, props.isCommentsOnly);
                 Common.NotificationCenter.trigger('doc:mode-changed', undefined, props.isReviewOnly);
             }
+        },
+
+        onSelectTool: function (type, btn, state, e) {
+            if (this.api && state) {
+                this.api.asc_setViewerTargetType(type);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onPluginToolbarMenu: function(data) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
@@ -4068,7 +4161,11 @@ define([
         textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
         txtUntitled: 'Untitled',
         textSavePdf: 'Save as pdf',
-        textDownloadPdf: 'Download pdf'
+        textDownloadPdf: 'Download pdf',
+        txtNeedDownload: 'PDF viewer can only save new changes in separate file copies. It doesn\'t support co-editing and other users won\'t see your changes unless you share a new file version.',
+        txtDownload: 'Download',
+        txtSaveCopy: 'Save copy',
+        errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
 
     }, DE.Controllers.Toolbar || {}));
 });

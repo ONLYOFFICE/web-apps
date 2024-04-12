@@ -241,28 +241,22 @@
 }
 
 .btn-text-default {
-    width: auto;
     &.colored {
         padding: 0 16px;
         height: 28px;
-        background-color: @background-accent-button-ie;
-        background-color: @background-accent-button;
-        border: 1px solid transparent;
-        border-radius: 3px;
-        color: @text-contrast-background-ie !important;
-        color: @text-contrast-background !important;
-        font-weight: 700;
 
-        &:hover:not(.disabled),
-        .over:not(.disabled) {
-            background-color: @highlight-accent-button-hover-ie !important;
-            background-color: @highlight-accent-button-hover !important;
-        }
+        &.gray {
+            background-color: #c0c0c0;
+            background-color: #c0c0c0;
+            &:hover:not(.disabled),
+            .over:not(.disabled) {
+                background-color: #adadad !important;
+            }
 
-        &:active:not(.disabled),
-        &.active:not(.disabled) {
-            background-color: @highlight-accent-button-pressed-ie !important;
-            background-color: @highlight-accent-button-pressed !important;
+            &:active:not(.disabled),
+            &.active:not(.disabled) {
+                background-color: #cbcbcb !important;
+            }
         }
     }
 }

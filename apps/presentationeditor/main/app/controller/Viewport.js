@@ -78,7 +78,7 @@ define([
                     'render:before' : function (toolbar) {
                         var config = PE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                        if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
                         var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
@@ -171,7 +171,7 @@ define([
                 me.viewport.vlayout.getItem('toolbar').height = _intvars.get('toolbar-height-compact');
             }
 
-            if ( config.isEdit && (!(config.customization && config.customization.compactHeader))) {
+            if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));

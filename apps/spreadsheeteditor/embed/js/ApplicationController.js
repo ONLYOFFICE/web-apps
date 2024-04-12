@@ -97,8 +97,8 @@ SSE.ApplicationController = new(function(){
                 if (config.customization.goback.requestClose)
                     console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
             }
-            if (typeof config.customization.close === 'object')
-                config.canCloseEditor  = !!config.customization.close.visible && config.canRequestClose && !config.isDesktopApp;
+            if (config.customization.close && typeof config.customization.close === 'object')
+                config.canCloseEditor  = (config.customization.close.visible!==false) && config.canRequestClose && !config.isDesktopApp;
         }
         config.canBackToFolder = !!_canback;
 
@@ -195,11 +195,37 @@ SSE.ApplicationController = new(function(){
         $box.find('li').off();
         $box.empty();
 
-        var tpl = '<li id="worksheet{index}">{title}</li>';
+        var tpl = '<li id="worksheet{index}" tabtitle="{tabtitle}" {style}>{title}</li>';
         for (var i = 0; i < maxPages; i++) {
             if (api.asc_isWorksheetHidden(i)) continue;
 
-            var item = tpl.replace(/\{index}/, i).replace(/\{title}/,api.asc_getWorksheetName(i).replace(/\s/g,'&nbsp;'));
+            var styleAttr = "";
+            var color = api.asc_getWorksheetTabColor(i);
+
+            if (color) {
+                styleAttr = 'style="box-shadow: inset 0 4px 0 rgb({r}, {g}, {b})"'
+                    .replace(/\{r}/, color.get_r())
+                    .replace(/\{g}/, color.get_g())
+                    .replace(/\{b}/, color.get_b());
+            }
+
+            // escape html
+            var name = api.asc_getWorksheetName(i).replace(/[&<>"']/g, function (match) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[match];
+            });
+
+            var item = tpl
+                .replace(/\{index}/, i)
+                .replace(/\{tabtitle}/, name)
+                .replace(/\{title}/, name)
+                .replace(/\{style}/, styleAttr);
+
             $(item).appendTo($box).on('click', handleWorksheet);
         }
 
@@ -596,6 +622,10 @@ SSE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
+            case Asc.c_oAscError.ID.EditingError:
+                message = me.errorEditingDownloadas;
+                break;
+
             default:
                 message = me.errorDefaultMessage.replace('%1', id);
                 break;
@@ -821,6 +851,7 @@ SSE.ApplicationController = new(function(){
         titleLicenseExp: 'License expired',
         titleLicenseNotActive: 'License not active',
         warnLicenseBefore: 'License not active. Please contact your administrator.',
-        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.'
+        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
+        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
     }
 })();

@@ -701,7 +701,7 @@ define([
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
 
-            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.customization && mode.customization.compactHeader && mode.isEdit) ? 'show' : 'hide']();
+            $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
