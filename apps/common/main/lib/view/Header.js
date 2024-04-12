@@ -311,6 +311,30 @@ define([
             }
         }
 
+        function onChangeQuickAccess(props) {
+            if (props.save !== undefined) {
+                this.btnSave[props.save ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-save', props.save);
+            }
+            if (props.print !== undefined) {
+                this.btnPrint[props.print ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-print', props.print);
+            }
+            if (props.quickPrint !== undefined) {
+                this.btnPrintQuick[props.quickPrint ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-quick-print', props.quickPrint);
+            }
+            if (props.undo !== undefined) {
+                this.btnUndo[props.undo ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-undo', props.undo);
+            }
+            if (props.redo !== undefined) {
+                this.btnRedo[props.redo ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-redo', props.redo);
+            }
+            Common.NotificationCenter.trigger('edit:complete');
+        }
+
         function onAppReady(mode) {
             appConfig = mode;
 
@@ -475,15 +499,15 @@ define([
                 me.btnQuickAccess.menu.on('show:before', function (menu) {
                     menu.items.forEach(function (item) {
                         if (item.value === 'save') {
-                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true));
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true), true);
                         } else if (item.value === 'print') {
-                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true));
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true), true);
                         } else if (item.value === 'quick-print') {
-                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true));
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true), true);
                         } else if (item.value === 'undo') {
-                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true));
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true), true);
                         } else if (item.value === 'redo') {
-                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true));
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true), true);
                         }
                     });
                 });
@@ -506,9 +530,9 @@ define([
                             props.redo = item.checked;
                             break;
                     }
-                    me.onChangeQuickAccess(props);
+                    onChangeQuickAccess.call(me, props);
                 });
-                Common.NotificationCenter.on('quickaccess:changed', me.onChangeQuickAccess.bind(me));
+                Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me));
             }
 
             if ( !appConfig.twoLevelHeader ) {
@@ -959,7 +983,6 @@ define([
                         cls: 'btn-header no-caret',
                         iconCls: 'toolbar__icon icon--inverse btn-more',
                         menu: true,
-                        enableToggle: true,
                         dataHint:'0',
                         dataHintDirection: config.isDesktopApp ? 'right' : 'left',
                         dataHintOffset: config.isDesktopApp ? '10, -18' : '10, 10'
@@ -1215,30 +1238,6 @@ define([
             setDocumentReadOnly: function (readonly) {
                 this.readOnly = readonly;
                 this.setDocumentCaption(this.documentCaption);
-            },
-
-            onChangeQuickAccess: function (props) {
-                if (props.save !== undefined) {
-                    this.btnSave[props.save ? 'show' : 'hide']();
-                    Common.localStorage.setBool(this.appPrefix + 'quick-access-save', props.save);
-                }
-                if (props.print !== undefined) {
-                    this.btnPrint[props.print ? 'show' : 'hide']();
-                    Common.localStorage.setBool(this.appPrefix + 'quick-access-print', props.print);
-                }
-                if (props.quickPrint !== undefined) {
-                    this.btnPrintQuick[props.quickPrint ? 'show' : 'hide']();
-                    Common.localStorage.setBool(this.appPrefix + 'quick-access-quick-print', props.quickPrint);
-                }
-                if (props.undo !== undefined) {
-                    this.btnUndo[props.undo ? 'show' : 'hide']();
-                    Common.localStorage.setBool(this.appPrefix + 'quick-access-undo', props.undo);
-                }
-                if (props.redo !== undefined) {
-                    this.btnRedo[props.redo ? 'show' : 'hide']();
-                    Common.localStorage.setBool(this.appPrefix + 'quick-access-redo', props.redo);
-                }
-                Common.NotificationCenter.trigger('edit:complete');
             },
 
             textBack: 'Go to Documents',

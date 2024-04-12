@@ -256,7 +256,7 @@
         }
     }
 
-    &:active {
+    &:active, &.active {
         &:not(.disabled) {
             background-color: @highlight-header-button-pressed-ie;
             background-color: @highlight-header-button-pressed;
@@ -527,17 +527,10 @@
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
-    z-index: @zindex-navbar + 2;
+    z-index: @zindex-navbar + 3;
 
     .btn-slot {
         display: inline-block;
-    }
-
-    .btn {
-        &.active {
-            background-color: @highlight-header-button-hover-ie;
-            background-color: @highlight-header-button-hover;
-        }
     }
 
     svg.icon {

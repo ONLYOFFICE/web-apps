@@ -3082,6 +3082,7 @@ define([
                     if (this.synchTooltip === undefined)
                         this.createSynchTip();
 
+                    this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                     this.synchTooltip.show();
                 } else {
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
@@ -3094,8 +3095,7 @@ define([
             createSynchTip: function () {
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
-                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
-                    target: this.btnCollabChanges.$el
+                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom'
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
