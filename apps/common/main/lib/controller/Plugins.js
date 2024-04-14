@@ -1198,11 +1198,19 @@ define([
             if (typeof variation.descriptionLocale == 'object')
                 description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
 
-            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
-                modes = model.get('variations'),
-                icons = variation.icons ? variation.icons : modes[model.get('currentVariation')].get('icons'),
-                parsedIcons = this.viewPlugins.parseIcons(icons),
-                icon_url = model.get('baseUrl') + parsedIcons['normal'];
+            var baseUrl = variation.baseUrl || "";
+            var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
+            var icons = variation.icons;
+
+            if (model) {
+                if ("" === baseUrl)
+                    baseUrl = model.get('baseUrl');
+                if (!icons)
+                    icons = modes[model.get('currentVariation')].get('icons');
+            }
+
+            var parsedIcons = this.viewPlugins.parseIcons(icons),
+                icon_url = baseUrl + parsedIcons['normal'];
 
             var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
                 button = new Common.UI.Button({
@@ -1222,7 +1230,7 @@ define([
                 el: '#panel-plugins-' + frameId,
                 menu: menu,
                 frameId: frameId,
-                baseUrl: model.get('baseUrl'),
+                baseUrl: baseUrl,
                 icons: icons
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));

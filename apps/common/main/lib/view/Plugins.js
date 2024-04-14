@@ -236,7 +236,9 @@ define([
 
         iconsStr2IconsObj: function(icons) {
             let result = icons;
-            if (typeof result === 'string' && result.indexOf('%') !== -1) {
+            if (typeof result === 'string') {
+                if (result.indexOf('%') === -1)
+                    return [icons, icons];
                 /*
                     valid params:
                     theme-type - {string} theme type (light|dark|common)
