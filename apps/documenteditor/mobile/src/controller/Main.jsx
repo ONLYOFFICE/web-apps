@@ -221,7 +221,9 @@ class MainController extends Component {
                 }
 
                 let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
+
                 if (type && typeof type[1] === 'string') {
+                    this.changeEditorBrandColorForPdf();
                     (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
@@ -237,8 +239,6 @@ class MainController extends Component {
                 // Document Info
 
                 const storeDocumentInfo = this.props.storeDocumentInfo;
-                // this.document
-
                 storeDocumentInfo.setDataDoc(this.document);
                 storeDocumentInfo.setDocInfo(docInfo);
 
@@ -461,6 +461,11 @@ class MainController extends Component {
         } else {
             on_script_load();
         }
+    }
+
+    changeEditorBrandColorForPdf() {
+        const bodyElement = document.body;
+        bodyElement.style.setProperty('--brand-word', 'var(--brand-form)');
     }
 
     applyMode (appOptions) {
