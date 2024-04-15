@@ -105,11 +105,13 @@
     padding: 3px 6px;
     position: absolute;
     left: 1px;
-    left: @scaled-one-px-value;
+    left: calc(@scaled-one-px-value + 0.05px);
     top: 1px;
-    top: @scaled-one-px-value;
+    top: calc(@scaled-one-px-value + 0.05px);
     width: calc(100% - 2px);
     width: calc(100% - @scaled-two-px-value);
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
     display: flex;
     align-items: center;
   
