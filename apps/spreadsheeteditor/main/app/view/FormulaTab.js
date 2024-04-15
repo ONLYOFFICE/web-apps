@@ -542,22 +542,42 @@ define([
                     formulaDialog = SSE.getController('FormulaDialog'),
                     group = me.formulasGroups.findWhere({name : name});
 
-                if (group) {
-                    var functions = group.get('functions');
+                    var functions = group ? group.get('functions') : [];
                     functions && functions.forEach(function(item) {
                         arr.push(new Common.UI.MenuItem({
                             caption: item.get('name'),
                             value: item.get('origin')
                         }));
                     });
-                    if (arr.length) {
-                        var mnu = new Common.UI.MenuItem({
-                            caption : formulaDialog['sCategory' + name] || name,
+                    var btn = this.btnMore,
+                        mnu;
+                    if (btn.menu && btn.menu.rendered) {
+                        for (var i = 0; i < btn.menu.items.length; i++) {
+                            if (btn.menu.items[i].options.value===name) {
+                                mnu = btn.menu.items[i];
+                                break;
+                            }
+                        }
+                    }
+                    if (mnu) {
+                        var menu = mnu.menu._innerMenu;
+                        if (menu) {
+                            menu.removeAll();
+                            arr.forEach(function(item){
+                                menu.addItem(item);
+                            });
+                        }
+                        mnu.setVisible(arr.length>0);
+                    } else {
+                        mnu = new Common.UI.MenuItem({
+                            caption: formulaDialog['sCategory' + name] || name,
+                            value: name,
+                            visible: arr.length>0,
                             menu: new Common.UI.Menu({
                                 menuAlign: 'tl-tr',
                                 items: [
-                                    {template: _.template('<div id="id-toolbar-formula-menu-'+ name +'" style="display: flex;" class="open"></div>')},
-                                    { caption: '--' },
+                                    {template: _.template('<div id="id-toolbar-formula-menu-' + name + '" style="display: flex;" class="open"></div>')},
+                                    {caption: '--'},
                                     {
                                         caption: me.txtAdditional,
                                         value: 'more',
@@ -572,17 +592,17 @@ define([
                         mnu.menu.on('show:after', function (menu, e) {
                             var internalMenu = menu._innerMenu;
                             internalMenu.scroller.update({alwaysVisibleY: true});
-                            _.delay(function() {
+                            _.delay(function () {
                                 menu._innerMenu && menu._innerMenu.items[0].cmpEl.find('> a').focus();
                             }, 10);
-                        }).on('keydown:before', function(menu, e) {
-                                if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
-                                    var $parent = menu.cmpEl.parent();
-                                    if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
-                                        $parent.removeClass('over');
-                                        $parent.find('> a').focus();
-                                    }
+                        }).on('keydown:before', function (menu, e) {
+                            if (e.keyCode == Common.UI.Keys.LEFT || e.keyCode == Common.UI.Keys.ESC) {
+                                var $parent = menu.cmpEl.parent();
+                                if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) { // close submenu
+                                    $parent.removeClass('over');
+                                    $parent.find('> a').focus();
                                 }
+                            }
                         });
 
                         // internal menu
@@ -590,17 +610,15 @@ define([
                             maxHeight: 300,
                             cls: 'internal-menu',
                             items: arr,
-                            outerMenu:  {menu: mnu.menu, index: 0}
+                            outerMenu: {menu: mnu.menu, index: 0}
                         });
                         menu.on('item:click', function (menu, item, e) {
                             me.fireEvent('function:apply', [{name: item.caption, origin: item.value}, false, name]);
                         });
                         mnu.menu._innerMenu = menu;
                         mnu.menu.setInnerMenu([{menu: menu, index: 0}]);
-
-                        return mnu;
                     }
-                }
+                    return mnu;
             },
 
             fillFunctions: function () {
@@ -620,16 +638,21 @@ define([
 
                     // more button
                     var me = this,
-                        morearr = [];
-                    ['Cube', 'Database', 'Engineering',  'Information', 'Statistical'].forEach(function(name) {
-                        var mnu = me.setMenuItemMenu(name);
-                        mnu && morearr.push(mnu);
+                        btn = this.btnMore,
+                        morearr = [],
+                        visiblecount = 0;
 
+                    btn.menu && btn.menu.rendered && btn.menu.removeAll();
+
+                    ['Cube', 'Database', 'Engineering',  'Information', 'Statistical', 'Custom'].forEach(function(name) {
+                        var mnu = me.setMenuItemMenu(name);
+                        if (mnu) {
+                            morearr.push(mnu);
+                            mnu.visible && (visiblecount++);
+                        }
                     });
-                    var btn = this.btnMore;
                     if (morearr.length) {
                         if (btn.menu && btn.menu.rendered) {
-                            btn.menu.removeAll();
                             morearr.forEach(function(item){
                                 btn.menu.addItem(item);
                             });
@@ -651,12 +674,29 @@ define([
                             menu.cmpEl.attr({tabindex: "-1"});
                         });
                     }
-                    Common.Utils.lockControls(Common.enumLock.noSubitems, morearr.length<1, {array: [btn]});
+                    Common.Utils.lockControls(Common.enumLock.noSubitems, visiblecount<1, {array: [btn]});
                 }
             },
 
             updateRecent: function() {
                 this.formulasGroups && this.setButtonMenu(this.btnRecent, 'Last10');
+            },
+
+            updateCustom: function() {
+                var btn = this.btnMore,
+                    mnu = this.formulasGroups ? this.setMenuItemMenu('Custom') : null;
+                if (mnu) {
+                    var hasvisible = false;
+                    if (btn.menu && btn.menu.rendered) {
+                        for (var i = 0; i < btn.menu.items.length; i++) {
+                            if (btn.menu.items[i].visible) {
+                                hasvisible = true;
+                                break;
+                            }
+                        }
+                    }
+                    Common.Utils.lockControls(Common.enumLock.noSubitems, !hasvisible, {array: [btn]});
+                }
             },
 
             setApi: function (api) {

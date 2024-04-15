@@ -674,7 +674,9 @@ define([
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                         else {
                             me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload);
+                            options.asc_setIsSaveAs(me.isFromBtnDownload);
+                            me.api.asc_DownloadAs(options);
                         }
                     }
                 });
@@ -1115,8 +1117,11 @@ define([
             var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
             if (type && typeof type[1] === 'string')
                 this.api.asc_DownloadOrigin(true);
-            else
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            else {
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadAs(options);
+            }
         },
 
         onHyperlinkClick: function(url) {

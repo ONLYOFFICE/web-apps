@@ -910,6 +910,7 @@
   "SSE.Controllers.DocumentHolder.warnFilterError": "You need at least one field in the Values area in order to apply a value filter.",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "All",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Cube",
+  "SSE.Controllers.FormulaDialog.sCategoryCustom": "Custom",
   "SSE.Controllers.FormulaDialog.sCategoryDatabase": "Database",
   "SSE.Controllers.FormulaDialog.sCategoryDateAndTime": "Date & Time",
   "SSE.Controllers.FormulaDialog.sCategoryEngineering": "Engineering",

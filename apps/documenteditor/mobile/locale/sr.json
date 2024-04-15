@@ -584,6 +584,7 @@
     "textCancel": "Otkaži",
     "textClose": "Zatvori",
     "textContactUs": "Kontakt prodaje",
+    "textConvertForm": "Preuzmi datoteku kao PDF da sačuvaš obrazac u formatu spremnom za popunjavanje.",
     "textCustomLoader": "Izvinjavamo se, nemate pravo da promenite učitavač. Kontaktirajte našu prodajnu službu kako biste dobili ponudu.",
     "textDialogProtectedChangesTracked": "Možete urediti ovaj dokument, ali sve promene će biti praćene",
     "textDialogProtectedEditComments": "Možete samo ubaciti komentare ovom dokumentu",
@@ -619,8 +620,7 @@
     "warnLicenseUsersExceeded": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte svog administratora da saznate više.",
     "warnNoLicense": "Dostigli ste limit za istovremene veze sa %1 uređivačima. Ovaj dokument će biti otvoren samo za pregled. Kontaktirajte tim za prodaju %1 za uslove lične nadogradnje.",
     "warnNoLicenseUsers": "Dostigli ste korisnički limit za %1 urednike. Kontaktirajte %1 tim za prodaju za lične uslove nadogradnje.",
-    "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl.",
-    "textConvertForm": "Download file as PDF to save the form in the format ready for filling."
+    "warnProcessRightsChange": "Nemate dozvolu da uredite ovaj fajl."
   },
   "Settings": {
     "advDRMOptions": "Zaštićen Fajl",
@@ -672,6 +672,7 @@
     "textEnableAllMacrosWithoutNotification": "Omogući makroe bez notifikacija",
     "textEncoding": "Enkodiranje",
     "textEncryptFile": "Enkriptuj fajl",
+    "textExplanationChangeDirection": "Aplikacija će biti restartovana za RTL interfejs aktivaciju",
     "textExport": "Izvoz",
     "textExportAs": "Izvezi kao",
     "textFastWV": "Brzi Mrežni Prikaz",
@@ -732,6 +733,7 @@
     "textRestartApplication": "Molimo ponovo učitajte aplikaciju da bi izmene imale efekta",
     "textRight": "Desno",
     "textRightToLeft": "Desno ka levo",
+    "textRtlInterface": "RTL Interfejs",
     "textSameAsSystem": "Isto kao sistem",
     "textSave": "Sačuvaj",
     "textSearch": "Pretraga",
@@ -783,9 +785,7 @@
     "txtScheme6": "Konkurs",
     "txtScheme7": "Ravnopravnost",
     "txtScheme8": "Tok",
-    "txtScheme9": "Foundry",
-    "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "textRtlInterface": "RTL Interface"
+    "txtScheme9": "Foundry"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Imate nesačuvane promene. Kliknite \"Ostani na ovoj Stranici\" da sačekate auto-čuvanje. Kliknite \"Izađi iz ove Stranice\" da odbacite sve nesačuvane promene.",

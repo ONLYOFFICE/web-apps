@@ -471,6 +471,7 @@
       "textBack": "Retour",
       "textCaseSensitive": "Sensible à la casse",
       "textCentimeter": "Centimètre",
+      "textClose": "Fermer",
       "textCollaboration": "Collaboration",
       "textColorSchemes": "Jeux de couleurs",
       "textComment": "Commentaire",
@@ -549,8 +550,7 @@
       "txtScheme6": "Rotonde",
       "txtScheme7": "Capitaux",
       "txtScheme8": "Flux",
-      "txtScheme9": "Fonderie",
-      "textClose": "Close"
+      "txtScheme9": "Fonderie"
     }
   }
 }

@@ -901,6 +901,7 @@
   "SSE.Controllers.DocumentHolder.warnFilterError": "Чтобы применить фильтр по значению, область значений должна содержать хотя бы одно поле.",
   "SSE.Controllers.FormulaDialog.sCategoryAll": "Все",
   "SSE.Controllers.FormulaDialog.sCategoryCube": "Аналитические",
+  "SSE.Controllers.FormulaDialog.sCategoryCustom": "Пользовательские",
   "SSE.Controllers.FormulaDialog.sCategoryDatabase": "Базы данных",
   "SSE.Controllers.FormulaDialog.sCategoryDateAndTime": "Дата и время",
   "SSE.Controllers.FormulaDialog.sCategoryEngineering": "Инженерные",

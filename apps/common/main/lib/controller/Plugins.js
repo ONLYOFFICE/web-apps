@@ -637,7 +637,7 @@ define([
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
                         langName = plugin.get_Name(lang),
-                        menu = this.isPDFEditor ? 'left' : variation.get_Menu();
+                        menu = this.isPDFEditor ? 'left' : (variation.get_Type() == Asc.PluginType.PanelRight ? 'right' : 'left');
                         !menu && (menu = 'left');
                         this.addPluginToSideMenu(plugin, langName, menu);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
@@ -1079,7 +1079,7 @@ define([
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
                 var url = variation.url, // full url
                     isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type),
-                    isPanel = variation.type === 'panel';
+                    isPanel = variation.type === 'panel' || variation.type === 'panelRight';
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
@@ -1191,7 +1191,7 @@ define([
 
         onPluginPanelShow: function (frameId, variation, lang) {
             var guid = variation.guid,
-                menu = this.isPDFEditor ? 'left' : variation.menu;
+                menu = this.isPDFEditor ? 'left' : (variation.type == 'panelRight' ? 'right' : 'left');
             !menu && (menu = 'left');
 
             var description = variation.description;
