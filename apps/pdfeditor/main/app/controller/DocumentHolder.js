@@ -186,7 +186,7 @@ define([
                     this.api.asc_registerCallback('asc_onHideEyedropper',               _.bind(this.hideEyedropper, this));
                     this.api.asc_registerCallback('asc_onShowPDFFormsActions',          _.bind(this.onShowFormsPDFActions, this));
                     this.api.asc_registerCallback('asc_onHidePdfFormsActions',          _.bind(this.onHidePdfFormsActions, this));
-
+                    this.api.asc_registerCallback('asc_onCountPages',                   _.bind(this.onCountPages, this));
                     // for text
                     this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
                     this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
@@ -338,7 +338,10 @@ define([
                 view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
                 view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
                 view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
-
+                view.mnuNewPage.on('click', _.bind(me.onNewPage, me));
+                view.mnuDeletePage.on('click', _.bind(me.onDeletePage, me));
+                view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
+                view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, 270));
             }
         },
 
@@ -527,7 +530,10 @@ define([
 
             var me = this;
             _.delay(function(){
-                me.showObjectMenu.call(me, event);
+                if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
+                    me.mode && me.mode.isEdit && me.mode.isPDFEdit && me.showPopupMenu.call(me, me.documentHolder.pageMenu, {isPageSelect: event.get_IsPageSelect()}, event);
+                } else
+                    me.showObjectMenu.call(me, event);
             },10);
         },
 
@@ -2737,6 +2743,28 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        },
+
+        onCountPages: function(count) {
+            this.documentHolder && (this.documentHolder._pagesCount = count);
+        },
+
+        onNewPage: function() {
+            this.api && this.api.asc_AddPage();
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onDeletePage: function() {
+            this.api && this.api.asc_RemovePage();
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onRotatePage: function(angle) {
+            this.api && this.api.asc_RotatePage(angle);
+
+            Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
         clearSelection: function() {

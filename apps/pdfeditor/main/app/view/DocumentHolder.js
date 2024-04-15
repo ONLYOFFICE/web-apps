@@ -66,6 +66,7 @@ define([
             this._isDisabled = false;
             this._preventCustomClick = null;
             this._hasCustomItems = false;
+            this._pagesCount = 0;
         },
 
         render: function () {
@@ -1139,6 +1140,63 @@ define([
                     /** coauthoring end **/
                     me.menuAddHyperlinkPara,
                     menuHyperlinkPara
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            me.mnuDeletePage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cc-remove',
+                caption     : me.txtDeletePage
+            });
+            me.mnuNewPage = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-add-text',
+                caption     : me.txtNewPage
+            });
+            me.mnuRotatePageRight = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-rotate-90',
+                caption     : me.txtRotateRight
+            });
+            me.mnuRotatePageLeft = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-rotate-270',
+                caption     : me.txtRotateLeft
+            });
+
+            var menuPageDelSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            var menuPageNewSeparator = new Common.UI.MenuItem({
+                caption     : '--'
+            });
+
+            me.pageMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
+                    me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
+                    me.mnuDeletePage.setVisible(value.isPageSelect===true);
+                    menuPageNewSeparator.setVisible(value.isPageSelect===true);
+                    menuPageDelSeparator.setVisible(value.isPageSelect===true);
+
+                    me.mnuDeletePage.setDisabled(me._pagesCount<2);
+                },
+                items: [
+                    me.mnuNewPage,
+                    menuPageNewSeparator,
+                    me.mnuRotatePageRight,
+                    me.mnuRotatePageLeft,
+                    menuPageDelSeparator,
+                    me.mnuDeletePage
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -2298,7 +2356,11 @@ define([
         textCropFit: 'Fit',
         textFromStorage: 'From Storage',
         textEditPoints: 'Edit Points',
-        confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?'
+        confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
+        txtDeletePage: 'Delete page',
+        txtNewPage: 'Insert blank page',
+        txtRotateRight: 'Rotate page right',
+        txtRotateLeft: 'Rotate page left'
 
     }, PDFE.Views.DocumentHolder || {}));
 });
