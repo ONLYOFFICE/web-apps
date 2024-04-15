@@ -2056,7 +2056,7 @@ define([
         },
 
         onEditTextClick: function() {
-            this.api && this.api.asc_EditText();
+            this.api && this.api.asc_EditPage();
         },
 
         onApiTextColor: function(color) {
