@@ -71,7 +71,6 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
 
             this.props = this.options.props;
-            this.canQuickPrint = this.options.canQuickPrint;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -83,21 +82,25 @@ define([
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-            this.chSave = new Common.UI.CheckBox({
-                el: $('#quick-access-chb-save'),
-                labelText: this.textSave,
-                value: this.props.save
-            });
-            this.focusedComponents.push(this.chSave);
+            if (this.options.showSave) {
+                this.chSave = new Common.UI.CheckBox({
+                    el: $('#quick-access-chb-save'),
+                    labelText: this.textSave,
+                    value: this.props.save
+                });
+                this.focusedComponents.push(this.chSave);
+            }
 
-            this.chPrint = new Common.UI.CheckBox({
-                el: $('#quick-access-chb-print'),
-                labelText: this.textPrint,
-                value: this.props.print
-            });
-            this.focusedComponents.push(this.chPrint);
+            if (this.options.showPrint) {
+                this.chPrint = new Common.UI.CheckBox({
+                    el: $('#quick-access-chb-print'),
+                    labelText: this.textPrint,
+                    value: this.props.print
+                });
+                this.focusedComponents.push(this.chPrint);
+            }
 
-            if (this.canQuickPrint) {
+            if (this.options.showQuickPrint) {
                 this.chQuickPrint = new Common.UI.CheckBox({
                     el: $('#quick-access-chb-quick-print'),
                     labelText: this.textQuickPrint,

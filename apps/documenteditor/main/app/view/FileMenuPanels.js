@@ -1094,7 +1094,9 @@ define([
         customizeQuickAccess: function () {
             if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
             this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
-                canQuickPrint: this.mode.canQuickPrint,
+                showSave: this.mode.showSaveButton,
+                showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
+                showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
                 props: {
                     save: Common.localStorage.getBool('de-quick-access-save', true),
                     print: Common.localStorage.getBool('de-quick-access-print', true),
