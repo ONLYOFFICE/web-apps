@@ -484,6 +484,14 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function() {
+                    me.btnPreview.updateHint(me.txtPreview);
+                    me.btnParameters.updateHint(me.txtParameters);
+                    me.btnAnimationPane.updateHint(me.txtAnimationPane);
+                    me.btnAddAnimation.updateHint(me.txtAddEffect);
+                    me.cmbTrigger.updateHint(me.strTrigger);
+                    me.btnMoveEarlier.updateHint(me.textMoveEarlier);
+                    me.btnMoveLater.updateHint(me.textMoveLater);
+
                     me.btnAddAnimation.setMenu( new Common.UI.Menu({
                         style: 'width: 375px;padding-top: 12px;',
                         items: [
