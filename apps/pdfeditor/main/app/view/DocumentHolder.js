@@ -574,9 +574,9 @@ define([
                         me.mnuArrangeBack,
                         me.mnuArrangeForward,
                         me.mnuArrangeBackward,
-                        {caption: '--'},
-                        me.mnuGroupImg,
-                        me.mnuUnGroupImg
+                        // {caption: '--'},
+                        // me.mnuGroupImg,
+                        // me.mnuUnGroupImg
                     ]
                 })
             });

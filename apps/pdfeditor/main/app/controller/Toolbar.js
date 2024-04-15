@@ -362,6 +362,8 @@ define([
             this.api.asc_registerCallback('asc_onVerticalTextAlign',    _.bind(this.onApiVerticalTextAlign, this));
             this.api.asc_registerCallback('asc_onTextColor',            _.bind(this.onApiTextColor, this));
             this.api.asc_registerCallback('asc_onTextHighLight',       _.bind(this.onApiTextHighlightColor, this));
+            // this.api.asc_registerCallback('asc_onCanGroup',             _.bind(this.onApiCanGroup, this));
+            // this.api.asc_registerCallback('asc_onCanUnGroup',           _.bind(this.onApiCanUnGroup, this));
         },
 
         setApi: function(api) {
@@ -1532,6 +1534,20 @@ define([
                     mnuLineSpace.items[4].setChecked(true, true);
                 else if ( Math.abs(line-3)<0.0001 )
                     mnuLineSpace.items[5].setChecked(true, true);
+            }
+        },
+
+        onApiCanGroup: function(value) {
+            if (this._state.can_group!==value) {
+                this.toolbar.mnuGroupShapes.setDisabled(!value);
+                if (this._state.activated) this._state.can_group = value;
+            }
+        },
+
+        onApiCanUnGroup: function(value) {
+            if (this._state.can_ungroup!==value) {
+                this.toolbar.mnuUnGroupShapes.setDisabled(!value);
+                if (this._state.activated) this._state.can_ungroup = value;
             }
         },
 

@@ -707,17 +707,17 @@ define([
                                 iconCls: 'menu__icon btn-arrange-backward',
                                 value: 4
                             }),
-                            {caption: '--'},
-                            this.mnuGroupShapes = new Common.UI.MenuItem({
-                                caption: this.txtGroup,
-                                iconCls: 'menu__icon btn-shape-group',
-                                value: 5
-                            }),
-                            this.mnuUnGroupShapes = new Common.UI.MenuItem({
-                                caption: this.txtUngroup,
-                                iconCls: 'menu__icon btn-shape-ungroup',
-                                value: 6
-                            })
+                            // {caption: '--'},
+                            // this.mnuGroupShapes = new Common.UI.MenuItem({
+                            //     caption: this.txtGroup,
+                            //     iconCls: 'menu__icon btn-shape-group',
+                            //     value: 5
+                            // }),
+                            // this.mnuUnGroupShapes = new Common.UI.MenuItem({
+                            //     caption: this.txtUngroup,
+                            //     iconCls: 'menu__icon btn-shape-ungroup',
+                            //     value: 6
+                            // })
                         ]
                     }),
                     dataHint: '1',
