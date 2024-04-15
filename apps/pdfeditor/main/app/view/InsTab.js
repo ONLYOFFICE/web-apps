@@ -142,7 +142,7 @@ define([
                         items: [
                             {template: _.template('<div id="id-toolbar-menu-tablepicker" class="dimension-picker" style="margin: 5px 10px;"></div>')},
                             {caption: me.mniCustomTable, value: 'custom'},
-                            {caption: me.mniInsertSSE, value: 'sse'}
+                            // {caption: me.mniInsertSSE, value: 'sse'}
                         ]
                     }),
                     dataHint: '1',
