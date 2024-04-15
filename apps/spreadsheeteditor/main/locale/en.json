@@ -4278,6 +4278,8 @@
   "SSE.Views.Toolbar.txtTime": "Time",
   "SSE.Views.Toolbar.txtUnmerge": "Unmerge cells",
   "SSE.Views.Toolbar.txtYen": "¥ Yen",
+  "SSE.Views.Toolbar.textCellAlign": "Format cell alignment",
+  "SSE.Views.Toolbar.textMoreBorders": "More borders",
   "SSE.Views.Top10FilterDialog.textType": "Show",
   "SSE.Views.Top10FilterDialog.txtBottom": "Bottom",
   "SSE.Views.Top10FilterDialog.txtBy": "by",

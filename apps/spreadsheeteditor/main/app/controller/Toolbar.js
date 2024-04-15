@@ -856,7 +856,8 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Borders');
-            }
+            } else if (item.value==='options')
+                this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
         },
 
         onBordersWidth: function(menu, item, state) {
@@ -963,6 +964,11 @@ define([
 
         onTextOrientationMenu: function(menu, item) {
                 var angle = 0;
+
+                if (item.value==='options') {
+                    this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
+                    return;
+                }
 
                 switch (item.value) {
                     case 'countcw':     angle =  45;    break;

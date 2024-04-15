@@ -449,6 +449,14 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
         },
 
+        onRightMenuOpen: function(type) {
+            if (this._settings[type]===undefined || this._settings[type].hidden || this._settings[type].btn.isDisabled() || this._settings[type].panelId===this.rightmenu.GetActivePane()) return;
+
+            this.rightmenu.SetActivePane(type, true);
+            this._settings[type].panel.ChangeSettings.call(this._settings[type].panel);
+            this.rightmenu.updateScroller();
+        },
+
         addNewPlugin: function (button, $button, $panel) {
             this.rightmenu.insertButton(button, $button);
             this.rightmenu.insertPanel($panel);

@@ -540,7 +540,8 @@ define([
                                 {caption: '1.5', value: 1.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
+                                {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'},
+                                {caption: this.textLineSpaceOptions, value: 'options'}
                             ]
                         }),
                         dataHint: '1',
@@ -3573,7 +3574,8 @@ define([
             capBtnSelect: 'Select',
             capBtnHand: 'Hand',
             tipSelectTool: 'Select tool',
-            tipHandTool: 'Hand tool'
+            tipHandTool: 'Hand tool',
+            textLineSpaceOptions: 'Line spacing options'
         }
     })(), DE.Views.Toolbar || {}));
 });

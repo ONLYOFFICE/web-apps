@@ -1162,6 +1162,7 @@ define([
                     iconCls     : 'toolbar__icon btn-text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-right',
                         items: [
                             {
                                 caption     : me.textHorizontal,
@@ -1210,7 +1211,9 @@ define([
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'rotatedown'
-                            }
+                            },
+                            {caption: '--'},
+                            {caption: this.textCellAlign, value: 'options'}
                         ]
                     }),
                     dataHint    : '1',
@@ -2530,6 +2533,7 @@ define([
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
                 this.btnBorders.setMenu( new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: [
                         {
                             caption     : this.textOutBorders,
@@ -2661,7 +2665,9 @@ define([
                                 ]
                             })
                         })
-                    ]
+                    ].concat(this.mode.isEditOle ? [] : [
+                        {caption: this.textMoreBorders, value: 'options'}
+                    ])
                 }));
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-bordercolor'),
@@ -3766,7 +3772,9 @@ define([
         textFillRight: 'Right',
         textSeries: 'Series',
         txtFillNum: 'Fill',
-        tipReplace: 'Replace'
+        tipReplace: 'Replace',
+        textCellAlign: 'Format cell alignment',
+        textMoreBorders: 'More borders'
 
     }, SSE.Views.Toolbar || {}));
 });
