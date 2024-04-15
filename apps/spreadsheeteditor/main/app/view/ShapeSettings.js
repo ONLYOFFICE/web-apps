@@ -1908,6 +1908,7 @@ define([
                     me._texturearray.push({
                         imageUrl: item.asc_getImage(),
                         name   : me.textureNames[item.asc_getId()],
+                        tip    : me.textureNames[item.asc_getId()],
                         type    : item.asc_getId(),
 //                        allowSelected : false,
                         selected: false
@@ -1943,6 +1944,7 @@ define([
                         restoreHeight: 174,
                         parentMenu: menu,
                         showLast: false,
+                        delayRenderTips: true,
                         store: new Common.UI.DataViewStore(me._texturearray || []),
                         itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                     });
