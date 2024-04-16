@@ -1211,10 +1211,11 @@ define([
                                 checkmark   : false,
                                 toggleGroup : 'textorientgroup',
                                 value       : 'rotatedown'
-                            },
+                            }
+                        ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
                             {caption: '--'},
                             {caption: this.textCellAlign, value: 'options'}
-                        ]
+                        ])
                     }),
                     dataHint    : '1',
                     dataHintDirection: 'top'
@@ -2665,7 +2666,7 @@ define([
                                 ]
                             })
                         })
-                    ].concat(this.mode.isEditOle ? [] : [
+                    ].concat(this.mode.isEditOle || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
                         {caption: this.textMoreBorders, value: 'options'}
                     ])
                 }));

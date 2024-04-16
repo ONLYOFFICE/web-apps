@@ -695,9 +695,10 @@ define([
                                 {caption: '1.5', value: 1.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
-                                {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'},
+                                {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
+                            ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
                                 {caption: this.textLineSpaceOptions, value: 'options'}
-                            ]
+                            ])
                         }),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
