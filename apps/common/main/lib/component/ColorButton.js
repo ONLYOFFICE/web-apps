@@ -69,6 +69,7 @@ define([
                 (this.options.themecolors!==undefined) && (config['themecolors'] = this.options.themecolors);
                 (this.options.effects!==undefined) && (config['effects'] = this.options.effects);
                 (this.options.colorHints!==undefined) && (config['colorHints'] = this.options.colorHints);
+                (this.options.paletteCls!==undefined) && (config['cls'] = this.options.paletteCls);
 
                 this.colorPicker = new Common.UI.ThemeColorPalette(config);
                 this.colorPicker.on('select', _.bind(this.onColorSelect, this));
@@ -95,6 +96,7 @@ define([
             if (typeof this.menu !== 'object') {
                 options = options || this.options;
                 var height = options.paletteHeight ? options.paletteHeight + 'px' : 'auto',
+                    width = options.paletteWidth ? options.paletteWidth + 'px' : '164px',
                     id = Common.UI.getId(),
                     auto = [],
                     eyedropper = [];
@@ -120,7 +122,7 @@ define([
                     cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
                     items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
-                        { template: _.template('<div id="' + id + '-color-menu" style="width: 164px; height:' + height + '; display: inline-block;"></div>') },
+                        { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') },
                         {caption: '--'}
                         ]).concat(eyedropper).concat([
                         {

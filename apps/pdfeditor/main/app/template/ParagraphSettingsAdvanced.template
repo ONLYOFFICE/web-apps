@@ -1,0 +1,128 @@
+<div id="id-adv-paragraph-indents" class="settings-panel active">
+    <div class="inner-content">
+        <div>
+            <div class="padding-large" style="display: inline-block;">
+                <label class="input-label"><%= scope.textAlign %></label>
+                <div id="paragraphadv-spin-text-alignment"></div>
+            </div>
+        </div>
+        <div class="padding-very-small"><label class="header"><%= scope.strIndent %></label></div>
+        <div>
+            <div class="padding-large margin-right-3" style="display: inline-block;">
+                <label class="input-label"><%= scope.strIndentsLeftText %></label>
+                <div id="paragraphadv-spin-indent-left"></div>
+            </div><!--
+         --><div class="padding-large margin-right-3" style="display: inline-block;">
+                <label class="input-label"><%= scope.strIndentsRightText %></label>
+                <div id="paragraphadv-spin-indent-right"></div>
+            </div><!--
+         --><div class="padding-large" style="display: inline-block;vertical-align: top">
+                <div>
+                    <label class="input-label"><%= scope.strIndentsSpecial %></label>
+                </div>
+                <div>
+                    <div id="paragraphadv-spin-special" class="margin-right-3" style="display: inline-block;"></div><!--
+                 --><div id="paragraphadv-spin-special-by" style="display: inline-block;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="padding-very-small"><label class="header"><%= scope.strSpacing %></label></div>
+        <div>
+            <div class="margin-right-3" style="display: inline-block;">
+                <label class="input-label"><%= scope.strIndentsSpacingBefore %></label>
+                <div id="paragraphadv-spin-spacing-before"></div>
+            </div><!--
+         --><div class="margin-right-3" style="display: inline-block;">
+                <label class="input-label"><%= scope.strIndentsSpacingAfter %></label>
+                <div id="paragraphadv-spin-spacing-after"></div>
+            </div><!--
+         --><div style="display: inline-block;vertical-align: top">
+                <div>
+                    <label class="input-label"><%= scope.strIndentsLineSpacing %></label>
+                </div>
+                <div>
+                    <div id="paragraphadv-spin-line-rule" class="margin-right-3" style="display: inline-block;"></div><!--
+                 --><div id="paragraphadv-spin-line-height" style="display: inline-block;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="padding-large" style="padding-top: 16px; display: none;">
+            <div style="border: 1px solid #cbcbcb; width: 350px;">
+                <div id="paragraphadv-indent-preview" style="height: 80px; position: relative;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="id-adv-paragraph-font" class="settings-panel">
+    <div class="inner-content" style="width: 100%;">
+        <div class="padding-very-small">
+            <label class="header"><%= scope.textEffects %></label>
+        </div>
+        <table cols="2">
+            <tr>
+                <td class="padding-small">
+                    <div id="paragraphadv-checkbox-strike"></div>
+                </td>
+                <td class="padding-small padding-left-40">
+                    <div id="paragraphadv-checkbox-subscript"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <div id="paragraphadv-checkbox-double-strike"></div>
+                </td>
+                <td class="padding-small padding-left-40">
+                    <div id="paragraphadv-checkbox-small-caps"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <div id="paragraphadv-checkbox-superscript"></div>
+                </td>
+                <td class="padding-large padding-left-40">
+                    <div id="paragraphadv-checkbox-all-caps"></div>
+                </td>
+            </tr>
+        </table>
+        <div class="padding-very-small">
+            <label class="header"><%= scope.textCharacterSpacing %></label>
+        </div>
+        <div class="padding-large">
+            <div style="display: inline-block;">
+                <div id="paragraphadv-spin-spacing"></div>
+            </div>
+        </div>
+        <div class="doc-content-color" style="border: 1px solid #cbcbcb;">
+            <div id="paragraphadv-font-img" style="width: 300px; height: 80px; position: relative; margin: 0 auto;"></div>
+        </div>
+    </div>
+</div>
+<div id="id-adv-paragraph-tabs" class="settings-panel">
+    <div class="inner-content">
+        <div class="padding-large">
+            <label class="input-label"><%= scope.textDefault %></label>
+            <div id="paraadv-spin-default-tab"></div>
+
+        </div>
+        <div>
+            <div class="padding-large margin-right-9" style="display: inline-block;">
+                <label class="input-label"><%= scope.textTabPosition %></label>
+                <div id="paraadv-spin-tab"></div>
+            </div>
+            <div class="padding-large margin-right-9" style=" display: inline-block;">
+                <label class="input-label"><%= scope.textAlign %></label>
+                <div id="paraadv-cmb-align"></div>
+            </div>
+        </div>
+        <div>
+            <div colspan=3 class="padding-large">
+                <div id="paraadv-list-tabs" style="width:348px; height: 116px;"></div>
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-text-default margin-right-9" id="paraadv-button-add-tab" style="width:108px; display: inline-block;"><%= scope.textSet %></button>
+            <button type="button" class="btn btn-text-default margin-right-9" id="paraadv-button-remove-tab" style="width:108px; display: inline-block;"><%= scope.textRemove %></button>
+            <button type="button" class="btn btn-text-default" id="paraadv-button-remove-all" style="width:108px;display: inline-block;"><%= scope.textRemoveAll %></button>
+        </div>
+    </div>
+</div>
