@@ -655,7 +655,7 @@ define([
                     }
                 });
                 meEl.on('mousedown', function(e){
-                    if (e.target.localName == 'canvas')
+                    if (e.target.localName == 'canvas' && $(e.target).closest('[type=menuitem]').length<1)
                         Common.UI.Menu.Manager.hideAll();
                 });
 
