@@ -2647,7 +2647,7 @@ define([
         },
 
         onBtnFontColor: function() {
-            this.documentHolder.mnuFontColorPicker.trigger('select', this.documentHolder.mnuFontColorPicker, this.documentHolder.mnuFontColorPicker.currentColor);
+            this.documentHolder.mnuFontColorPicker.trigger('select', this.documentHolder.mnuFontColorPicker, this.documentHolder.mnuFontColorPicker.currentColor  || this.documentHolder.btnFontColor.currentColor);
         },
 
         onComboBlur: function() {
