@@ -441,6 +441,7 @@ define([
                         this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("pe-hide-right-settings"));
                     this._lastVisibleSettings = undefined;
                 }
+                !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
                 Common.localStorage.setBool('pe-hidden-rightmenu', !status);
                 Common.Utils.InternalSettings.set("pe-hidden-rightmenu", !status);
             }
@@ -452,9 +453,15 @@ define([
         onRightMenuOpen: function(type) {
             if (this._settings[type]===undefined || this._settings[type].hidden || this._settings[type].btn.isDisabled() || this._settings[type].panelId===this.rightmenu.GetActivePane()) return;
 
+            this.tryToShowRightMenu();
             this.rightmenu.SetActivePane(type, true);
             this._settings[type].panel.ChangeSettings.call(this._settings[type].panel, this._settings[type].props);
             this.rightmenu.updateScroller();
+        },
+
+        tryToShowRightMenu: function() {
+            if (this.rightmenu && this.rightmenu.mode && (!this.rightmenu.mode.canBrandingExt || !this.rightmenu.mode.customization || this.rightmenu.mode.customization.rightMenu !== false) && Common.UI.LayoutManager.isElementVisible('rightMenu'))
+                this.onRightMenuHide(null, true);
         },
 
         addNewPlugin: function (button, $button, $panel) {
