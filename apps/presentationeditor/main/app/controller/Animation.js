@@ -112,6 +112,7 @@ define([
             this.api.asc_registerCallback('asc_onAnimPreviewStarted',   _.bind(this.onAnimPreviewStarted, this));
             this.api.asc_registerCallback('asc_onAnimPreviewFinished',  _.bind(this.onAnimPreviewFinished, this));
             this.api.asc_onShowAnimTab(!!this._state.onactivetab)
+            this.api.asc_registerCallback('asc_onCloseAnimPane',        _.bind(this.onCloseAnimPane, this));
             return this;
         },
 
@@ -172,7 +173,12 @@ define([
             this.addNewEffect(this._state.Effect, this._state.EffectGroup, groupName,true, this._state.EffectOption, undefined, color);
         },
 
-        onAnimationPane: function() {
+        onAnimationPane: function(btn) {
+            this.api.asc_ShowAnimPane(btn.pressed);
+        },
+
+        onCloseAnimPane: function () {
+            this.view.btnAnimationPane.toggle(false, true);
         },
 
         onAnimationAdditional: function(replace) { // replace or add new additional effect
