@@ -530,7 +530,7 @@ define([
 
             var me = this;
             _.delay(function(){
-                if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
+                if (event.get_Type() == Asc.c_oAscPdfContextMenuTypes.Thumbnails) {
                     me.mode && me.mode.isEdit && me.mode.isPDFEdit && me.showPopupMenu.call(me, me.documentHolder.pageMenu, {isPageSelect: event.get_IsPageSelect()}, event);
                 } else
                     me.showObjectMenu.call(me, event);
