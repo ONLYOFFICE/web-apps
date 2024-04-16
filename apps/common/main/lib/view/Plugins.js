@@ -399,12 +399,13 @@ define([
 
             var modes = model.get('variations'),
                 icons = modes[model.get('currentVariation')].get('icons');
+            if (icons === '') return;
             model.set('parsedIcons', this.parseIcons(icons));
             this.updatePluginButton(model);
         },
 
         updatePluginButton: function(model) {
-            if (!model.get('visible'))
+            if (!model.get('visible') || !model.get('parsedIcons'))
                 return null;
 
             var btn = model.get('button'),
@@ -452,9 +453,14 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                parsedIcons = this.parseIcons(icons),
+                icon_cls, icon_url;
+            if (icons === '') {
+                icon_cls = 'toolbar__icon btn-plugin-default'
+            } else {
+                var parsedIcons = this.parseIcons(icons);
                 icon_url = model.get('baseUrl') + parsedIcons['normal'];
-            model.set('parsedIcons', parsedIcons);
+                model.set('parsedIcons', parsedIcons);
+            }
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
                 if (variation.get('visible'))
@@ -468,6 +474,7 @@ define([
             var _set = Common.enumLock;
             var btn = new Common.UI.Button({
                 cls: 'btn-toolbar x-huge icon-top',
+                iconCls: icon_cls,
                 iconImg: icon_url,
                 caption: model.get('name'),
                 menu: _menu_items.length > 1,
