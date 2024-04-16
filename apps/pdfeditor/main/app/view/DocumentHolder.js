@@ -2038,6 +2038,7 @@ define([
                 split: true,
                 menu: true,
                 colors: config.colors,
+                color: '000000',
                 dynamiccolors: config.dynamiccolors,
                 themecolors: config.themecolors,
                 effects: config.effects,
@@ -2049,6 +2050,7 @@ define([
             textBarBtns.push(this.btnFontColor);
             this.btnFontColor.setMenu();
             this.mnuFontColorPicker = this.btnFontColor.getPicker();
+            this.btnFontColor.currentColor = this.btnFontColor.color;
 
             return container;
         },

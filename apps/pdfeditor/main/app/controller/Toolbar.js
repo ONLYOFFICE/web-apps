@@ -2098,7 +2098,7 @@ define([
         },
 
         onBtnFontColor: function() {
-            this.toolbar.mnuFontColorPicker.trigger('select', this.toolbar.mnuFontColorPicker, this.toolbar.mnuFontColorPicker.currentColor);
+            this.toolbar.mnuFontColorPicker.trigger('select', this.toolbar.mnuFontColorPicker, this.toolbar.mnuFontColorPicker.currentColor || this.toolbar.btnFontColor.currentColor);
         },
 
         onEditTextClick: function() {
