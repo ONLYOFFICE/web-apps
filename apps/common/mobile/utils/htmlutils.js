@@ -24,8 +24,18 @@ function isLocalStorageAvailable() {
     }
 }
 
+if(!window.lang) {
+    window.lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    window.lang = window.lang ? window.lang[1] : '';
+}
+
+window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
+
 if(isLocalStorageAvailable()) {
-    if(localStorage.getItem('mobile-mode-direction') === 'rtl') {
+    const modeDirection = localStorage.getItem('mobile-mode-direction');
+
+    if(modeDirection === 'rtl' || (window.lang === 'ar' && !modeDirection)) {
+        !modeDirection && localStorage.setItem('mobile-mode-direction', 'rtl');
         load_stylesheet('./css/framework7-rtl.css');
         document.body.classList.add('rtl');
     } else {

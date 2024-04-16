@@ -25,6 +25,8 @@ const PageApplicationSettings = props => {
 
     // set mode
     const appOptions = props.storeAppOptions;
+    const currentLang = appOptions.lang;
+    const isRtlLang = currentLang && /^(ar)$/i.test(currentLang);
     const colorTheme = storeThemes.colorTheme;
     const themes = storeThemes.themes;
     const typeTheme = colorTheme.type;
@@ -112,23 +114,27 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
-            <List>
-                <ListItem>
-                    <div>
-                        <span>{t("Settings.textRtlInterface")}</span>
-                        <span className="beta-badge">Beta</span>
-                    </div>
-                    <Toggle checked={directionMode !== 'ltr'}
-                            onToggleChange={() => {
-                                storeApplicationSettings.changeDirectionMode(newDirectionMode);
-                                props.changeDirectionMode(newDirectionMode);
-                            }}
-                    />
-                </ListItem>
-            </List>
-            <Block>
-                <p>{t('Settings.textExplanationChangeDirection')}</p>
-            </Block>
+            {isRtlLang &&
+                <>
+                    <List>
+                        <ListItem>
+                            <div>
+                                <span>{t("Settings.textRtlInterface")}</span>
+                                <span className="beta-badge">Beta</span>
+                            </div>
+                            <Toggle checked={directionMode !== 'ltr'}
+                                    onToggleChange={() => {
+                                        storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                        props.changeDirectionMode(newDirectionMode);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                    <Block>
+                        <p>{t('Settings.textExplanationChangeDirection')}</p>
+                    </Block>
+                </>
+            }
         </Page>
     );
 };
