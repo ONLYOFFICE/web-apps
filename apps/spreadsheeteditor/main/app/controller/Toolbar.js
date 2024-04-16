@@ -404,6 +404,7 @@ define([
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
                 toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
                 toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
+                toolbar.mnuFormatCellFill && toolbar.mnuFormatCellFill.on('click', _.bind(this.onFormatCellFill, this));
                 this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
@@ -779,6 +780,10 @@ define([
             }
 
             Common.component.Analytics.trackEvent('ToolBar', 'Background Color');
+        },
+
+        onFormatCellFill: function(picker, color) {
+            this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
         },
 
         onNewBorderColor: function(picker, color) {

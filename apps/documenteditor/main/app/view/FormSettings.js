@@ -1723,7 +1723,7 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
-                    additionalItems: [
+                    additionalItemsBefore: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
                             style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                             caption: this.textNoBorder,

@@ -1011,6 +1011,10 @@ define([
                     transparent: true,
                     menu: true,
                     eyeDropper: true,
+                    additionalItemsAfter: config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                        me.mnuFormatCellFill = new Common.UI.MenuItem({
+                            caption: me.textFormatCellFill
+                        })],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -3775,7 +3779,8 @@ define([
         txtFillNum: 'Fill',
         tipReplace: 'Replace',
         textCellAlign: 'Format cell alignment',
-        textMoreBorders: 'More borders'
+        textMoreBorders: 'More borders',
+        textFormatCellFill: 'Format cell fill'
 
     }, SSE.Views.Toolbar || {}));
 });

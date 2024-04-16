@@ -301,7 +301,7 @@ define([
                 hint        : this.txtColor,
                 menu: true,
                 takeFocusOnClose: true,
-                additionalItems: [{
+                additionalItemsBefore: [{
                         id: 'id-dlg-bullet-text-color',
                         caption: this.txtLikeText,
                         checkable: true,
