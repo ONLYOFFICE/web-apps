@@ -311,7 +311,7 @@ define([
             }
         }
 
-        function onChangeQuickAccess(props) {
+        function onChangeQuickAccess(caller, props) {
             if (props.save !== undefined) {
                 this.btnSave[props.save ? 'show' : 'hide']();
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-save', props.save);
@@ -333,6 +333,9 @@ define([
                 Common.localStorage.setBool(this.appPrefix + 'quick-access-redo', props.redo);
             }
             Common.NotificationCenter.trigger('edit:complete');
+
+            if ( caller && caller == 'header' )
+                Common.NotificationCenter.trigger('quickaccess:changed', props);
         }
 
         function onAppReady(mode) {
@@ -530,9 +533,9 @@ define([
                             props.redo = item.checked;
                             break;
                     }
-                    onChangeQuickAccess.call(me, props);
+                    onChangeQuickAccess.call(me, 'header', props);
                 });
-                Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me));
+                Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me, 'settings'));
             }
 
             if ( !appConfig.twoLevelHeader ) {

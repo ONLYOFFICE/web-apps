@@ -463,6 +463,9 @@ define([
                 if (!!header.btnRedo)
                     titlebuttons['redo'] = {btn: header.btnRedo};
 
+                if (!!header.btnQuickAccess)
+                    titlebuttons['quickaccess'] = {btn: header.btnQuickAccess};
+
                 for (var i in titlebuttons) {
                     titlebuttons[i].btn.options.signals = ['disabled'];
                     titlebuttons[i].btn.on('disabled', _onTitleButtonDisabled.bind(this, i));
@@ -517,6 +520,10 @@ define([
 
         const _onOpenRecent = function (menu, url, record) {
             console.log('open recent');
+        }
+
+        const _onChangeQuickAccess = function (props) {
+            native.execCommand("quickaccess:changed", JSON.stringify(props));
         }
 
         const _extend_menu_file = function (args) {
@@ -576,6 +583,7 @@ define([
                             }
                         },
                         'hints:show': _onHintsShow.bind(this),
+                        'quickaccess:changed': _onChangeQuickAccess.bind(this),
                     });
 
                     webapp.addListeners({
