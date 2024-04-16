@@ -486,7 +486,7 @@ define([
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
                 var guid = item.get('guid');
-                if (me.viewPlugins.pluginPanels[guid]) {
+                if (me.viewPlugins.pluginPanels[guid] && item.get('parsedIcons')) {
                     var menu = me.viewPlugins.pluginPanels[guid].menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
                     menu.push({
                         guid: guid,
@@ -496,13 +496,15 @@ define([
                 }
             });
             for (var key in this.viewPlugins.customPluginPanels) {
-                var panel = this.viewPlugins.customPluginPanels[key],
-                    menu = panel.menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
-                menu.push({
-                    guid: panel.frameId,
-                    baseUrl: panel.baseUrl,
-                    parsedIcons: this.viewPlugins.parseIcons(panel.icons)
-                });
+                var panel = this.viewPlugins.customPluginPanels[key];
+                if (panel.icons) {
+                    var menu = panel.menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
+                    menu.push({
+                        guid: panel.frameId,
+                        baseUrl: panel.baseUrl,
+                        parsedIcons: this.viewPlugins.parseIcons(panel.icons)
+                    });
+                }
             }
             if (iconsInLeftMenu.length > 0) {
                 me.viewPlugins.fireEvent('pluginsleft:updateicons', [iconsInLeftMenu]);
@@ -599,6 +601,12 @@ define([
                 model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
                 name = createUniqueName(plugin.get_Name('en'));
             model.set({menu: menu});
+            var icon_url, icon_cls;
+            if (model.get('parsedIcons')) {
+                icon_url = model.get('baseUrl') + model.get('parsedIcons')['normal'];
+            } else {
+                icon_cls = 'icon toolbar__icon btn-plugin-panel-default';
+            }
             var $button = $('<div id="slot-btn-plugins' + name + '"></div>'),
                 button = new Common.UI.Button({
                 parentEl: $button,
@@ -606,7 +614,8 @@ define([
                 hint: langName,
                 enableToggle: true,
                 toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
-                iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
+                iconCls: icon_cls,
+                iconImg: icon_url,
                 onlyIcon: true,
                 value: pluginGuid,
                 type: 'plugin'
@@ -861,11 +870,14 @@ define([
                                 b.visible = (isEdit || b.isViewer !== false);
                             });
 
+                            var icons = (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2;
+                            if (!icons) icons = '';
+
                             model.set({
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2,
+                                icons: icons,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -1201,16 +1213,23 @@ define([
             var baseUrl = variation.baseUrl || "";
             var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
             var icons = variation.icons;
+            var icon_url, icon_cls;
 
             if (model) {
                 if ("" === baseUrl)
                     baseUrl = model.get('baseUrl');
-                if (!icons)
+                if (!icons) {
+                    var modes = model.get('variations');
                     icons = modes[model.get('currentVariation')].get('icons');
+                }
             }
 
-            var parsedIcons = this.viewPlugins.parseIcons(icons),
+            if (!icons) {
+                icon_cls = 'icon toolbar__icon btn-plugin-panel-default';
+            } else {
+                var parsedIcons = this.viewPlugins.parseIcons(icons);
                 icon_url = baseUrl + parsedIcons['normal'];
+            }
 
             var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
                 button = new Common.UI.Button({
@@ -1219,6 +1238,7 @@ define([
                     hint: description,
                     enableToggle: true,
                     toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
+                    iconCls: icon_cls,
                     iconImg: icon_url,
                     onlyIcon: true,
                     value: frameId,
