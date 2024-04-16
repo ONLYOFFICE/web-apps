@@ -228,6 +228,8 @@ define([
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
+            toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
+            toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -953,6 +955,34 @@ define([
 
         onRotateClick: function(btn, e) {
             // this.api && this.api.asc_Rotate();
+        },
+
+        onBtnTextCommentClick: function(btn, e) {
+            this.onInsertTextComment(btn.options.textboxType, btn, e);
+        },
+
+        onMenuTextCommentClick: function(btn, e) {
+            var oldType = this.toolbar.btnTextComment.options.textboxType;
+            var newType = e.value;
+
+            if(newType !== oldType){
+                this.toolbar.btnTextComment.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: this.toolbar.btnTextComment.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                // this.toolbar.btnTextComment.updateHint([e.caption, this.toolbar.tipInsertText]);
+                this.toolbar.btnTextComment.updateHint(e.caption);
+                this.toolbar.btnTextComment.setCaption(e.options.captionForMainBtn);
+                this.toolbar.btnTextComment.options.textboxType = newType;
+            }
+            this.onInsertTextComment(newType, btn, e);
+        },
+
+        onInsertTextComment: function(type, btn, e) {
+            this.api && this.api.AddFreeTextAnnot(type);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar, this.toolbar.btnTextComment);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Text');
         },
 
         onFillRequiredFields: function(isFilled) {

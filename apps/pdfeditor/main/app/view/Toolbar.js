@@ -785,6 +785,20 @@ define([
                     });
                     this.toolbarControls.push(this.btnAddComment);
 
+                    this.btnTextComment = new Common.UI.Button({
+                        id: 'tlbtn-textcomment',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-text-comment',
+                        lock: [_set.disableOnStart],
+                        caption: this.capBtnTextComment,
+                        menu: true,
+                        split: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnTextComment);
+
                     this.chShowComments = new Common.UI.CheckBox({
                         lock: [_set.disableOnStart],
                         labelText: this.capBtnShowComments,
@@ -1227,6 +1241,7 @@ define([
                 _injectComponent('#slot-btn-strikeout', this.btnStrikeout);
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
+                _injectComponent('#slot-btn-text-comment', this.btnTextComment);
                 // _injectComponent('#slot-btn-rotate', this.btnRotate);
             },
 
@@ -1357,6 +1372,28 @@ define([
                         me.mnuHighlightColorPicker = arr[0];
                         me.mnuHighlightTransparent = arr[1];
                     }
+
+                    if (me.btnTextComment) {
+                        me.btnTextComment.options.textboxType = AscPDF.FREE_TEXT_INTENT_TYPE.FreeText;
+                        me.btnTextComment.setMenu(new Common.UI.Menu({
+                            items: [
+                                {
+                                    caption: me.tipInsertTextComment,
+                                    iconCls     : 'menu__icon btn-text-comment',
+                                    value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeText,
+                                    iconClsForMainBtn: 'btn-text-comment',
+                                    captionForMainBtn: me.capBtnTextComment
+                                },
+                                {
+                                    caption: me.tipInsertTextCallout,
+                                    iconCls     : 'menu__icon btn-text-callout',
+                                    value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeTextCallout,
+                                    iconClsForMainBtn: 'btn-text-callout',
+                                    captionForMainBtn: me.capBtnTextCallout
+                                },
+                            ]
+                        }));
+                    }
                 });
             },
 
@@ -1394,6 +1431,8 @@ define([
                 this.btnStrikeout.updateHint(this.textStrikeout);
                 this.btnUnderline.updateHint(this.textUnderline);
                 this.btnHighlight.updateHint(this.textHighlight);
+                // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
+                this.btnTextComment.updateHint(this.tipInsertTextComment);
                 // this.btnRotate.updateHint(this.tipRotate);
 
             },
@@ -1798,7 +1837,12 @@ define([
             txtGroup: 'Group',
             txtUngroup: 'Ungroup',
             txtDistribHor: 'Distribute Horizontally',
-            txtDistribVert: 'Distribute Vertically'
+            txtDistribVert: 'Distribute Vertically',
+            capBtnTextComment: 'Text Comment',
+            capBtnTextCallout: 'Text Callout',
+            tipInsertTextComment: 'Insert text comment',
+            tipInsertTextCallout: 'Insert text callout',
+            tipInsertText: 'Insert text'
         }
     })(), PDFE.Views.Toolbar || {}));
 });

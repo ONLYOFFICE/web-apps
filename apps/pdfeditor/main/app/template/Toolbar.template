@@ -145,6 +145,7 @@
             <section class="panel" data-tab="comment">
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-comment"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-text-comment"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
