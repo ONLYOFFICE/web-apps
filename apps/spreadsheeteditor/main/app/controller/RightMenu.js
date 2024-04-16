@@ -534,7 +534,7 @@ define([
             if (this._settings[type]===undefined || this._settings[type].hidden || this._settings[type].btn.isDisabled() || this._settings[type].panelId===this.rightmenu.GetActivePane()) return;
 
             this.rightmenu.SetActivePane(type, true);
-            this._settings[type].panel.ChangeSettings.call(this._settings[type].panel);
+            this._settings[type].panel.ChangeSettings.call(this._settings[type].panel, this._settings[type].props);
             this.rightmenu.updateScroller();
         },
 
