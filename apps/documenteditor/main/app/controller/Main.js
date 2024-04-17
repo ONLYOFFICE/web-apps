@@ -1949,12 +1949,12 @@ define([
                         me.hidePreloader();
                         me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
-
+                }
+                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm) {
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                }
-                if (!this.appOptions.isEdit)
+                } else
                     window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 
