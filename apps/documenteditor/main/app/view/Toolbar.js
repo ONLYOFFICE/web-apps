@@ -542,7 +542,11 @@ define([
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                             ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
-                                {caption: this.textLineSpaceOptions, value: 'options'}
+                                me.mnuLineSpaceOptions = new Common.UI.MenuItem({caption: this.textLineSpaceOptions, value: 'options'})
+                            ]).concat([
+                                {caption: '--'},
+                                me.mnuLineSpaceBefore = new Common.UI.MenuItem({caption: this.textAddSpaceBefore, value: 'before', action: 'add'}),
+                                me.mnuLineSpaceAfter = new Common.UI.MenuItem({caption: this.textAddSpaceAfter, value: 'after', action: 'add'})
                             ])
                         }),
                         dataHint: '1',
@@ -3576,7 +3580,11 @@ define([
             capBtnHand: 'Hand',
             tipSelectTool: 'Select tool',
             tipHandTool: 'Hand tool',
-            textLineSpaceOptions: 'Line spacing options'
+            textLineSpaceOptions: 'Line spacing options',
+            textAddSpaceBefore: 'Add space before paragraph',
+            textAddSpaceAfter: 'Add space after paragraph',
+            textRemSpaceBefore: 'Remove space before paragraph',
+            textRemSpaceAfter: 'Remove space after paragraph'
         }
     })(), DE.Views.Toolbar || {}));
 });

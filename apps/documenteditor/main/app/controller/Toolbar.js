@@ -104,6 +104,7 @@ define([
                 type_fontsize: undefined,
                 in_equation: false,
                 in_chart: false,
+                in_para: undefined,
                 linenum_apply: Asc.c_oAscSectionApplyType.All,
                 suppress_num: undefined
             };
@@ -370,11 +371,12 @@ define([
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
             toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
+            toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
-            toolbar.mnuInsertTable.on('show:after',                _.bind(this.onInsertTableShow, this));
+            toolbar.mnuInsertTable.on('show:after',                     _.bind(this.onInsertTableShow, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
@@ -901,6 +903,11 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
+
+            if (in_para !== this._state.in_para) {
+                toolbar.mnuLineSpaceOptions && toolbar.mnuLineSpaceOptions.setVisible(in_para);
+                this._state.in_para = in_para;
+            }
 
             if (toolbar.listStylesAdditionalMenuItem && (frame_pr===undefined) !== toolbar.listStylesAdditionalMenuItem.isDisabled())
                 toolbar.listStylesAdditionalMenuItem.setDisabled(frame_pr===undefined);
@@ -1650,6 +1657,23 @@ define([
             if (item.value==='options') {
                 this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Paragraph);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else if (item.value==='before') {
+                item.options.action === 'add' ? this.api.asc_addSpaceBeforeParagraph() : this.api.asc_removeSpaceBeforeParagraph();
+            } else if (item.value==='after') {
+                item.options.action === 'add' ? this.api.asc_addSpaceAfterParagraph() : this.api.asc_removeSpaceAfterParagraph();
+            }
+        },
+
+        onLineSpaceShow: function(menu) {
+            if (this.api) {
+                var toolbar = this.toolbar,
+                    before = this.api.asc_haveSpaceBeforeParagraph(),
+                    after = this.api.asc_haveSpaceAfterParagraph();
+                toolbar.mnuLineSpaceBefore.setCaption(before ? toolbar.textRemSpaceBefore : toolbar.textAddSpaceBefore);
+                toolbar.mnuLineSpaceBefore.options.action = before ? 'remove' : 'add';
+                toolbar.mnuLineSpaceAfter.setCaption(after ? toolbar.textRemSpaceAfter : toolbar.textAddSpaceAfter);
+                toolbar.mnuLineSpaceAfter.options.action = after ? 'remove' : 'add';
+
             }
         },
 
