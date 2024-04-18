@@ -465,7 +465,11 @@ class MainController extends Component {
 
     changeEditorBrandColorForPdf() {
         const bodyElement = document.body;
-        bodyElement.style.setProperty('--brand-word', 'var(--brand-form)');
+        bodyElement.classList.add('pdf-view');
+
+        if(Device.android) {
+            bodyElement.classList.add('pdf-view__android');
+        }
     }
 
     applyMode (appOptions) {
