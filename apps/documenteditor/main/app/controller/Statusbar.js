@@ -304,7 +304,7 @@ define([
             var tip = new Common.UI.SynchronizeTip({
                 target  : me.btnTurnReview.$el,
                 text    : text,
-                placement: 'top-left',
+                placement: Common.UI.isRTL() ? 'top-right' : 'top-left',
                 showLink: !!storage
             });
             tip.on({
