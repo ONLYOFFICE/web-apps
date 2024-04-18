@@ -102,15 +102,22 @@ define([
                 caption     : me.addCommentText
             });
 
+            me.menuRemoveComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cc-remove',
+                caption     : me.removeCommentText
+            });
+
             this.viewPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
                     me.menuPDFViewCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                     me.menuAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
                 },
                 items: [
                     me.menuPDFViewCopy,
-                    me.menuAddComment
+                    me.menuAddComment,
+                    me.menuRemoveComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -139,15 +146,22 @@ define([
                 caption     : me.addCommentText
             });
 
+            me.menuEditRemoveComment = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-cc-remove',
+                caption     : me.removeCommentText
+            });
+
             this.editPDFModeMenu = new Common.UI.Menu({
                 cls: 'shifted-right',
                 initMenu: function (value) {
                     me.menuPDFEditCopy.setDisabled(!(me.api && me.api.can_CopyCut()));
                     me.menuEditAddComment.setVisible(me.mode && me.mode.canComments);
+                    me.menuEditRemoveComment.setVisible(value && value.annotProps && value.annotProps.value);
                 },
                 items: [
                     me.menuPDFEditCopy,
-                    me.menuEditAddComment
+                    me.menuEditAddComment,
+                    me.menuEditRemoveComment
                 ]
             }).on('hide:after', function (menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -2362,7 +2376,8 @@ define([
         txtDeletePage: 'Delete page',
         txtNewPage: 'Insert blank page',
         txtRotateRight: 'Rotate page right',
-        txtRotateLeft: 'Rotate page left'
+        txtRotateLeft: 'Rotate page left',
+        removeCommentText: 'Remove'
 
     }, PDFE.Views.DocumentHolder || {}));
 });

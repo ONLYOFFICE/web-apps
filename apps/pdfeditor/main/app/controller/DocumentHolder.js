@@ -229,6 +229,7 @@ define([
             if (type==='pdf') {
                 view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuAddComment.on('click', _.bind(me.addComment, me));
+                view.menuRemoveComment.on('click', _.bind(me.removeComment, me));
             } else if (type==='forms') {
                 view.menuPDFFormsUndo.on('click', _.bind(me.onUndo, me));
                 view.menuPDFFormsRedo.on('click', _.bind(me.onRedo, me));
@@ -239,6 +240,7 @@ define([
             } else if (type==='edit') {
                 view.menuPDFEditCopy.on('click', _.bind(me.onCutCopyPaste, me));
                 view.menuEditAddComment.on('click', _.bind(me.addComment, me));
+                view.menuEditRemoveComment.on('click', _.bind(me.removeComment, me));
 /*
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
                 if (diagramEditor) {
@@ -395,7 +397,16 @@ define([
             var documentHolder = this.documentHolder;
             if (!documentHolder.viewPDFModeMenu)
                 documentHolder.createDelayedElementsPDFViewer();
-            return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: {}};
+
+            var menu_props = {};
+            selectedElements && _.each(selectedElements, function(element, index) {
+                if (Asc.c_oAscTypeSelectElement.Annot == element.get_ObjectType()) {
+                    menu_props.annotProps = {};
+                    menu_props.annotProps.value = element.get_ObjectValue();
+                }
+            });
+
+            return {menu_to_show: documentHolder.viewPDFModeMenu, menu_props: menu_props};
         },
 
         fillPDFEditMenuProps: function(selectedElements) {
@@ -453,6 +464,10 @@ define([
                     menu_props.mathProps = {};
                     menu_props.mathProps.value = elValue;
                     documentHolder._currentMathObj = elValue;
+                } else if (Asc.c_oAscTypeSelectElement.Annot == elType) {
+                    menu_to_show = documentHolder.editPDFModeMenu;
+                    menu_props.annotProps = {};
+                    menu_props.annotProps.value = elValue;
                 }
             });
             if (menu_to_show === null) {
@@ -515,7 +530,7 @@ define([
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
             if (me.api){
-                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps());
+                var obj = me.mode && me.mode.isRestrictedEdit ? (event.get_Type() == 0 ? me.fillFormsMenuProps(me.api.getSelectedElements()) : null) : (me.mode && me.mode.isEdit && me.mode.isPDFEdit ? me.fillPDFEditMenuProps(me.api.getSelectedElements()) : me.fillViewMenuProps(me.api.getSelectedElements()));
                 if (obj) me.showPopupMenu(obj.menu_to_show, obj.menu_props, event, docElement, eOpts);
             }
         },
@@ -1108,6 +1123,10 @@ define([
                     controller.addDummyComment();
                 }
             }
+        },
+
+        removeComment: function(item, e, eOpt){
+            this.api && this.api.asc_removeAnnot();
         },
 
         onCutCopyPaste: function(item, e) {

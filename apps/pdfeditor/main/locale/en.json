@@ -1180,6 +1180,7 @@
   "PDFE.Views.DocumentHolder.txtNewPage": "Insert blank page",
   "PDFE.Views.DocumentHolder.txtRotateRight": "Rotate page right",
   "PDFE.Views.DocumentHolder.txtRotateLeft": "Rotate page left",
+  "PDFE.Views.DocumentHolder.removeCommentText": "Remove",
   "PDFE.Views.FileMenu.btnBackCaption": "Open File Location",
   "PDFE.Views.FileMenu.btnCloseEditor": "Close File",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",
