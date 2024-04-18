@@ -18,6 +18,10 @@ require([
     'common/main/lib/view/OpenDialog',
     'common/main/lib/view/UserNameDialog',
     'common/main/lib/view/SearchDialog',
+    'common/main/lib/view/PluginDlg',
+    'common/main/lib/view/PluginPanel',
+    'common/main/lib/view/ExtendedColorDialog',
+    'common/main/lib/view/RenameDialog',
 
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',

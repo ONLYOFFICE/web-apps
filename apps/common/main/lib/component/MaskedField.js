@@ -32,9 +32,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/BaseView'
-], function () {
+define([], function () {
     'use strict';
 
     Common.UI.MaskedField = Common.UI.BaseView.extend({
