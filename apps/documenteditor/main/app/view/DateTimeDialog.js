@@ -109,12 +109,21 @@ define([
                 this.updateFormats(record.value);
             }, this));
 
+            var value = Common.Utils.InternalSettings.get("de-date-auto-update");
+            if (value==null || value==undefined) {
+                value = Common.localStorage.getBool("de-date-auto-update");
+                Common.Utils.InternalSettings.set("de-date-auto-update", value);
+            }
+
             this.chUpdate = new Common.UI.CheckBox({
                 el: $('#datetime-dlg-update'),
-                labelText: this.textUpdate
+                labelText: this.textUpdate,
+                value: !!value
             });
             this.chUpdate.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 this.onSelectFormat(this.listFormats, null, this.listFormats.getSelectedRec());
+                Common.localStorage.setBool("de-date-auto-update", newValue==='checked');
+                Common.Utils.InternalSettings.set("de-date-auto-update", newValue==='checked');
             }, this));
 
             this.listFormats = new Common.UI.ListView({
