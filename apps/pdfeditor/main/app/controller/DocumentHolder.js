@@ -1126,7 +1126,7 @@ define([
         },
 
         removeComment: function(item, e, eOpt){
-            this.api && this.api.asc_removeAnnot();
+            this.api && this.api.asc_remove();
         },
 
         onCutCopyPaste: function(item, e) {
