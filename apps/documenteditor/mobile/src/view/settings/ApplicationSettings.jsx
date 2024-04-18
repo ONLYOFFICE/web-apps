@@ -25,8 +25,6 @@ const PageApplicationSettings = props => {
 
     // set mode
     const appOptions = props.storeAppOptions;
-    const currentLang = appOptions.lang;
-    const isRtlLang = currentLang && /^(ar)$/i.test(currentLang);
     const colorTheme = storeThemes.colorTheme;
     const themes = storeThemes.themes;
     const typeTheme = colorTheme.type;
@@ -114,7 +112,7 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
-            {isRtlLang &&
+            {Common.Locale.isCurrentLangRtl &&
                 <>
                     <List>
                         <ListItem>

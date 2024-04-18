@@ -24,18 +24,22 @@ function isLocalStorageAvailable() {
     }
 }
 
-if(!window.lang) {
-    window.lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
-    window.lang = window.lang ? window.lang[1] : '';
+{
+    let lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    lang = ((lang && lang[1]) || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
+    Common.Locale.currentLang = lang;
+    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0;
 }
 
-window.lang && (window.lang = window.lang.split(/[\-\_]/)[0].toLowerCase());
-
 if(isLocalStorageAvailable()) {
-    const modeDirection = localStorage.getItem('mobile-mode-direction');
+    let modeDirection = localStorage.getItem('mobile-mode-direction');
 
-    if(modeDirection === 'rtl' || (window.lang === 'ar' && !modeDirection)) {
-        !modeDirection && localStorage.setItem('mobile-mode-direction', 'rtl');
+    if( !modeDirection && Common.Locale.isCurrentLangRtl ) {
+        localStorage.setItem('mobile-mode-direction', 'rtl');
+        modeDirection = 'rtl';
+    }
+
+    if(modeDirection === 'rtl') {
         load_stylesheet('./css/framework7-rtl.css');
         document.body.classList.add('rtl');
     } else {
