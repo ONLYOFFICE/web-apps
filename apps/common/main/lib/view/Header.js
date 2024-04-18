@@ -773,7 +773,7 @@ define([
 
                     if (isPDFEditor && config.isEdit && config.canSwitchMode) {
                         me.btnPDFMode = new Common.UI.Button({
-                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            cls: 'btn-header btn-header-pdf-mode',
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
                             caption: me.textView,
                             menu: true,
@@ -785,7 +785,7 @@ define([
                         changePDFMode.call(me, config);
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
                         me.btnDocMode = new Common.UI.Button({
-                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            cls: 'btn-header btn-header-pdf-mode ',
                             iconCls: 'toolbar__icon icon--inverse ' + (config.isReviewOnly ? 'btn-ic-review' : 'btn-edit'),
                             caption: config.isReviewOnly ? me.textReview : me.textEdit,
                             menu: true,
