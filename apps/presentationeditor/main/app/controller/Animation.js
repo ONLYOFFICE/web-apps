@@ -630,6 +630,22 @@ define([
 
         updateThemeColors: function (){
             this.view.updateColors();
+        },
+
+        getAnimationPanelTip: function (effect) {
+            var result;
+            if (effect) {
+                var nodeType = effect[0] === AscFormat.NODE_TYPE_CLICKEFFECT ? this.view.textStartOnClick :
+                    (effect[0] === AscFormat.NODE_TYPE_WITHEFFECT ? this.view.textStartWithPrevious :
+                        (effect[0] === AscFormat.NODE_TYPE_AFTEREFFECT ? this.view.textStartAfterPrevious : ''));
+                var presetClass = _.findWhere(Common.define.effectData.getEffectGroupData(), {value: effect[1]});
+                presetClass = presetClass ? presetClass.caption : '';
+                var preset = _.findWhere(Common.define.effectData.getEffectData(), {value: effect[2]});
+                preset = preset ? preset.displayValue : '';
+                var name = effect[3] || '';
+                result = nodeType + '\n' + presetClass + '\n' + preset + ' : ' + name;
+            }
+            return result;
         }
 
     }, PE.Controllers.Animation || {}));
