@@ -313,7 +313,17 @@ define([
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                    if (this._state.FillType !== Asc.c_oAscFill.FILL_TYPE_BLIP && !this._noApply && this._texturearray && this._texturearray.length>0) {
+                        this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP
+                        var props = new Asc.CAscSlideProps();
+                        var fill = new Asc.asc_CShapeFill();
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                        fill.put_fill( new Asc.asc_CFillBlip());
+                        fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
+                        fill.get_fill().put_texture_id(this._texturearray[0].type);
+                        props.put_background(fill);
+                        this.api.SetSlideProps(props);
+                    }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
