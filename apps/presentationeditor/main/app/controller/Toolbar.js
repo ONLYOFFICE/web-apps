@@ -353,6 +353,7 @@ define([
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.btnLineSpace.menu.on('item:toggle',                 _.bind(this.onLineSpaceToggle, this));
+            toolbar.btnLineSpace.menu.on('item:click',                  _.bind(this.onLineSpaceClick, this));
             toolbar.btnColumns.menu.on('item:click',                    _.bind(this.onColumnsSelect, this));
             toolbar.btnColumns.menu.on('show:before',                   _.bind(this.onBeforeColumns, this));
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
@@ -809,6 +810,7 @@ define([
                 no_drawing_objects = this.api.asc_getSelectedDrawingObjectsCount()<1,
                 in_equation = false,
                 in_chart = false,
+                in_para = false,
                 layout_index = -1,
                 no_columns = false,
                 in_smartart = false,
@@ -821,6 +823,7 @@ define([
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
                     no_text = false;
+                    in_para = true;
                 } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
@@ -863,6 +866,8 @@ define([
                 this.toolbar.btnInsertChart.updateHint(in_chart ? this.toolbar.tipChangeChart : this.toolbar.tipInsertChart);
                 this._state.in_chart = in_chart;
             }
+
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;
@@ -1568,6 +1573,13 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Line Spacing');
+            }
+        },
+
+        onLineSpaceClick: function(menu, item) {
+            if (item.value==='options') {
+                this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Paragraph);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
         },
 

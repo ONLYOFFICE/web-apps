@@ -104,7 +104,7 @@ define([
 
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-role-color'),
-                additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
+                additionalItemsBefore: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
                                       id: 'id-dlg-role-menu-no-highlight',
                                       caption: this.textNoHighlight,
                                       checkable: true,

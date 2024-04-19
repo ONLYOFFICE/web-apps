@@ -1011,6 +1011,10 @@ define([
                     transparent: true,
                     menu: true,
                     eyeDropper: true,
+                    additionalItemsAfter: config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                        me.mnuFormatCellFill = new Common.UI.MenuItem({
+                            caption: me.textFormatCellFill
+                        })],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1162,6 +1166,7 @@ define([
                     iconCls     : 'toolbar__icon btn-text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-right',
                         items: [
                             {
                                 caption     : me.textHorizontal,
@@ -1211,7 +1216,10 @@ define([
                                 toggleGroup : 'textorientgroup',
                                 value       : 'rotatedown'
                             }
-                        ]
+                        ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                            {caption: '--'},
+                            {caption: this.textCellAlign, value: 'options'}
+                        ])
                     }),
                     dataHint    : '1',
                     dataHintDirection: 'top'
@@ -2530,6 +2538,7 @@ define([
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
                 this.btnBorders.setMenu( new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: [
                         {
                             caption     : this.textOutBorders,
@@ -2661,7 +2670,9 @@ define([
                                 ]
                             })
                         })
-                    ]
+                    ].concat(this.mode.isEditOle || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                        {caption: this.textMoreBorders, value: 'options'}
+                    ])
                 }));
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-bordercolor'),
@@ -3767,7 +3778,10 @@ define([
         textFillRight: 'Right',
         textSeries: 'Series',
         txtFillNum: 'Fill',
-        tipReplace: 'Replace'
+        tipReplace: 'Replace',
+        textCellAlign: 'Format cell alignment',
+        textMoreBorders: 'More borders',
+        textFormatCellFill: 'Format cell fill'
 
     }, SSE.Views.Toolbar || {}));
 });

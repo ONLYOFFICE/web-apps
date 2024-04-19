@@ -503,7 +503,7 @@ define([
                     //     lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart],
                     //     caption     : this.textHighlight,
                     //     menu        : true,
-                    //     additionalItems: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
+                    //     additionalItemsBefore: [ this.mnuNoFormsColor = new Common.UI.MenuItem({
                     //                           id: 'id-toolbar-menu-no-highlight-form',
                     //                           caption: this.textNoHighlight,
                     //                           checkable: true,

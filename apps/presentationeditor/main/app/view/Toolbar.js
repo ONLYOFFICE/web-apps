@@ -101,7 +101,8 @@ define([
         noAnimationDuration: 'no-animation-duration',
         timingLock: 'timing-lock',
         copyLock:   'can-copy',
-        fileMenuOpened: 'file-menu-opened'
+        fileMenuOpened: 'file-menu-opened',
+        noParagraphObject:  'no-paragraph-obj',
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -686,7 +687,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-linespace',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noParagraphObject],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -696,7 +697,9 @@ define([
                                 {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
-                            ]
+                            ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                                me.mnuLineSpaceOptions = new Common.UI.MenuItem({caption: me.textLineSpaceOptions, value: 'options'})
+                            ])
                         }),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -2392,7 +2395,8 @@ define([
             textYen: 'Yen Sign',
             capBtnInsHeaderFooter: 'Header & Footer',
             tipEditHeaderFooter: 'Edit header or footer',
-            tipReplace: 'Replace'
+            tipReplace: 'Replace',
+            textLineSpaceOptions: 'Line spacing options'
         }
     }()), PE.Views.Toolbar || {}));
 });

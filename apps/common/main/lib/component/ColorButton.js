@@ -121,7 +121,7 @@ define([
                     id: id,
                     cls: 'color-menu ' + (options.eyeDropper ? 'shifted-right' : 'shifted-left'),
                     additionalAlign: options.additionalAlign,
-                    items: (options.additionalItems ? options.additionalItems : []).concat(auto).concat([
+                    items: (options.additionalItemsBefore ? options.additionalItemsBefore : []).concat(auto).concat([
                         { template: _.template('<div id="' + id + '-color-menu" style="width: ' + width + '; height:' + height + '; display: inline-block;"></div>') },
                         {caption: '--'}
                         ]).concat(eyedropper).concat([
@@ -129,14 +129,14 @@ define([
                             id: id + '-color-new',
                             template: _.template('<a tabindex="-1" type="menuitem" style="">' + this.textNewColor + '</a>')
                         }
-                    ])
+                    ]).concat(options.additionalItemsAfter ? options.additionalItemsAfter : [])
                 });
                 this.initInnerMenu();
                 var me = this;
                 menu.on('show:after', function(menu) {
                     me.colorPicker && _.delay(function() {
                         me.colorPicker.showLastSelected();
-                        !(options.additionalItems || options.auto) && me.colorPicker.focus();
+                        !(options.additionalItemsBefore || options.auto) && me.colorPicker.focus();
                     }, 10);
                 });
                 return menu;
@@ -147,7 +147,7 @@ define([
         initInnerMenu: function() {
             if (!this.colorPicker || typeof this.menu !== 'object') return;
 
-            var index = (this.options.additionalItems || []).length + (this.options.auto ? 2 : 0);
+            var index = (this.options.additionalItemsBefore || []).length + (this.options.auto ? 2 : 0);
             this.colorPicker.outerMenu = {menu: this.menu, index: index};
             this.menu.setInnerMenu([{menu: this.colorPicker, index: index}]);
         },
