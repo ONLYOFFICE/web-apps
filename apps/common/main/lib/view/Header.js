@@ -264,9 +264,9 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate ? 'btn-menu-comments' : 'btn-sheet-view')));
-            me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate ? me.textComment : me.textView));
-            me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate ? me.tipComment : me.tipView));
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate && config.canCoEditing ? 'btn-menu-comments' : 'btn-sheet-view')));
+            me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate && config.canCoEditing ? me.textComment : me.textView));
+            me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate && config.canCoEditing ? me.tipComment : me.tipView));
         }
 
         function changeDocMode(type, lockEditing) {
@@ -459,18 +459,18 @@ define([
                     caption: me.textEdit,
                     iconCls : 'menu__icon btn-edit',
                     template: menuTemplate,
-                    description: me.textEditDesc,
+                    description: appConfig.canCoEditing ? me.textEditDesc : me.textEditDescNoCoedit,
                     value: 'edit'
                 });
                 arr.push({
-                    caption: me.textComment,
-                    iconCls : 'menu__icon btn-menu-comments',
+                    caption: appConfig.canCoEditing ? me.textComment : me.textView,
+                    iconCls : 'menu__icon ' + (appConfig.canCoEditing ? 'btn-menu-comments' : 'btn-sheet-view'),
                     template: menuTemplate,
-                    description: me.textCommentDesc,
+                    description: appConfig.canCoEditing ? me.textCommentDesc : me.textViewDescNoCoedit,
                     value: 'comment',
                     disabled: !appConfig.canPDFAnnotate
                 });
-                arr.push({
+                appConfig.canCoEditing && arr.push({
                     caption: me.textView,
                     iconCls : 'menu__icon btn-sheet-view',
                     template: menuTemplate,
@@ -771,9 +771,9 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor && config.isEdit && !config.isOffline && config.canSwitchMode) {
+                    if (isPDFEditor && config.isEdit && config.canSwitchMode) {
                         me.btnPDFMode = new Common.UI.Button({
-                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            cls: 'btn-header btn-header-pdf-mode',
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
                             caption: me.textView,
                             menu: true,
@@ -785,7 +785,7 @@ define([
                         changePDFMode.call(me, config);
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
                         me.btnDocMode = new Common.UI.Button({
-                            cls: 'btn-header btn-header-pdf-mode no-caret',
+                            cls: 'btn-header btn-header-pdf-mode ',
                             iconCls: 'toolbar__icon icon--inverse ' + (config.isReviewOnly ? 'btn-ic-review' : 'btn-edit'),
                             caption: config.isReviewOnly ? me.textReview : me.textEdit,
                             menu: true,
@@ -1146,6 +1146,8 @@ define([
             textViewDesc: 'All changes will be saved locally',
             textCommentDesc: 'All changes will be saved to the file. Real time collaboration',
             textEditDesc: 'All changes will be saved to the file. Real time collaboration',
+            textViewDescNoCoedit: 'View or annotate',
+            textEditDescNoCoedit: 'Add or edit text, shapes, images etc.',
             tipView: 'Viewing',
             tipComment: 'Commenting',
             tipEdit: 'Editing',

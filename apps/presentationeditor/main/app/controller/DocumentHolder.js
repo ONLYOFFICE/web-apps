@@ -457,6 +457,8 @@ define([
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+            view.timelineZoomMenu.on('item:click', _.bind(me.onTimelineZoom, me));
+            view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
         },
 
         getView: function (name) {
@@ -488,6 +490,20 @@ define([
 
                     menu.render(menuContainer);
                     menu.cmpEl.attr({tabindex: "-1"});
+                }
+
+                if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
+                    if (event.get_ButtonWidth()) {
+                        showPoint[0] += event.get_ButtonWidth() + 2;
+                        showPoint[1] += event.get_ButtonHeight() + 2;
+                        menu.menuAlign = 'tr-br';
+                        if (me.documentHolder.cmpEl.offset().top + showPoint[1] + menu.menuRoot.outerHeight() > Common.Utils.innerHeight() - 10) {
+                            showPoint[1] -= event.get_ButtonHeight() + 4;
+                            menu.menuAlign = 'br-tr';
+                        }
+                    } else {
+                        menu.menuAlign = 'tl-tr';
+                    }
                 }
 
                 menuContainer.css({
@@ -624,6 +640,10 @@ define([
             _.delay(function(){
                 if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                     me.showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.documentHolder.slideMenu : me.documentHolder.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
+                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.TimelineZoom) {
+                    me.showPopupMenu.call(me, me.documentHolder.timelineZoomMenu, undefined, event);
+                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
+                    me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
                 } else {
                     me.showObjectMenu.call(me, event);
                 }
@@ -894,7 +914,7 @@ define([
                 var showPoint, ToolTip = '',
                     type = moveData.get_Type();
 
-                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder) {
+                if (type===Asc.c_oAscMouseMoveDataTypes.Hyperlink || type===Asc.c_oAscMouseMoveDataTypes.Placeholder || type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
                     if (me.isTooltipHiding) {
                         me.mouseMoveData = moveData;
                         return;
@@ -931,6 +951,12 @@ define([
                                 ToolTip = me.documentHolder.txtInsSmartArt;
                                 break;
                         }
+                    } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
+                        var tip = moveData.get_EffectText();
+                        if (!tip) {
+                            tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';
+                        }
+                        ToolTip = tip;
                     }
                     var recalc = false;
                     screenTip.isHidden = false;
@@ -2744,6 +2770,22 @@ define([
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        onTimelineZoom: function (menu, item) {
+            if (item.value === 'zoom-in') {
+                this.api.asc_ZoomInTimeline();
+            } else {
+                this.api.asc_ZoomOutTimeline();
+            }
+        },
+
+        onAnimEffect: function (menu, item) {
+            if (item.value === 'remove') {
+                this.api.asc_RemoveSelectedAnimEffects();
+            } else {
+                this.api.asc_SetSelectedAnimEffectsStartType(item.value);
+            }
         }
     });
 });

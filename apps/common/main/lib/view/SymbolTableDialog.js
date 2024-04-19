@@ -43,6 +43,7 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/util/character',
     'common/main/lib/component/InputField',
+    'common/main/lib/component/ListView',
     'common/main/lib/component/Window'
 ], function () { 'use strict';
 
