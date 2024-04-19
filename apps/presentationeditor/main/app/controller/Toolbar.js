@@ -112,8 +112,7 @@ define([
                 clrhighlight: undefined,
                 can_copycut: undefined,
                 needCallApiBullets: undefined,
-                isLockedSlideHeaderAppyToAll: false,
-                in_para: undefined
+                isLockedSlideHeaderAppyToAll: false
             };
             this._isAddingShape = false;
             this.slideSizeArr = [
@@ -868,10 +867,7 @@ define([
                 this._state.in_chart = in_chart;
             }
 
-            if (in_para !== this._state.in_para) {
-                this.toolbar.mnuLineSpaceOptions && this.toolbar.mnuLineSpaceOptions.setVisible(in_para);
-                this._state.in_para = in_para;
-            }
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphObject, !in_para, {array: [me.toolbar.btnLineSpace]});
 
             if (this._state.prcontrolsdisable !== paragraph_locked) {
                 if (this._state.activated) this._state.prcontrolsdisable = paragraph_locked;

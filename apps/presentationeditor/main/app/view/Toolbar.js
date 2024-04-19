@@ -101,7 +101,8 @@ define([
         noAnimationDuration: 'no-animation-duration',
         timingLock: 'timing-lock',
         copyLock:   'can-copy',
-        fileMenuOpened: 'file-menu-opened'
+        fileMenuOpened: 'file-menu-opened',
+        noParagraphObject:  'no-paragraph-obj',
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -686,7 +687,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-linespace',
-                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                        lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noParagraphObject],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
