@@ -314,11 +314,8 @@ define([
                 case 'ren':
                     this.renameWorksheet();
                     break;
-                case 'copy':
-                    this.moveWorksheet(arrIndex, false);
-                    break;
-                case 'move':
-                    this.moveWorksheet(arrIndex, true);
+                case 'move-copy':
+                    this.moveWorksheet(arrIndex);
                     break;
                 case 'hide':
                     setTimeout(function () {
@@ -501,12 +498,12 @@ define([
             }
 
             (new SSE.Views.Statusbar.CopyDialog({
-                title   : cut ? me.statusbar.itemMove : me.statusbar.itemCopy,
-                ismove  : cut,
+                title   : me.statusbar.itemMoveOrCopy,
                 names   : items,
-                handler : function(btn, i) {
+                isDesktopApp: true,//me.statusbar.mode.isDesktopApp,
+                handler : function(btn, i, copy) {
                     if (btn == 'ok') {
-                        if (cut) {
+                        if (!copy) {
                             me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex);
                         } else {
                             var arrNames = [];

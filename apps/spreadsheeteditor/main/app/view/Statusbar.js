@@ -341,8 +341,7 @@ define([
                         {caption: this.itemInsert,  value: 'ins'},
                         {caption: this.itemDelete,  value: 'del'},
                         {caption: this.itemRename,  value: 'ren'},
-                        {caption: this.itemCopy,    value: 'copy'},
-                        {caption: this.itemMove,    value: 'move'},
+                        {caption: this.itemMoveOrCopy, value: 'move-copy'},
                         {caption: this.itemHide,    value: 'hide'},
                         {
                             caption: this.itemHidden,
@@ -532,8 +531,8 @@ define([
                 var me = this;
 
                 this.tabbar.empty(true);
-                this.tabMenu.items[6].menu.removeAll();
-                this.tabMenu.items[6].hide();
+                this.tabMenu.items[5].menu.removeAll();
+                this.tabMenu.items[5].hide();
                 this.btnAddWorksheet.setDisabled(true);
                 this.sheetListMenu.removeAll();
 
@@ -564,13 +563,13 @@ define([
 
                     if (hidentems.length) {
                         hidentems.forEach(function(item){
-                            me.tabMenu.items[6].menu.addItem(new Common.UI.MenuItem({
+                            me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
                                 style: 'white-space: pre-wrap',
                                 caption: item.label,
                                 value: item.sheetindex
                             }));
                         });
-                        this.tabMenu.items[6].show();
+                        this.tabMenu.items[5].show();
                     }
 
                     this.tabbar.add(items);
@@ -737,22 +736,21 @@ define([
                         this.tabMenu.items[2].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[3].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[4].setDisabled(issheetlocked || isdocprotected);
-                        this.tabMenu.items[5].setDisabled(issheetlocked || isdocprotected);
-                        this.tabMenu.items[6].setDisabled(isdoclocked || isdocprotected);
-                        this.tabMenu.items[7].setDisabled(select.length>1);
-                        this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[5].setDisabled(isdoclocked || isdocprotected);
+                        this.tabMenu.items[6].setDisabled(select.length>1);
+                        this.tabMenu.items[7].setDisabled(issheetlocked || isdocprotected);
 
-                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle && this.mode.canProtect);
-                        this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
+                        this.tabMenu.items[6].setVisible(!this.mode.isEditOle && this.mode.canProtect);
+                        this.tabMenu.items[6].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
-                            this.tabMenu.items[11].hide();
+                            this.tabMenu.items[10].hide();
                         } else {
-                            this.tabMenu.items[11].show();
+                            this.tabMenu.items[10].show();
                         }
 
+                        this.tabMenu.items[9].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[10].setDisabled(issheetlocked || isdocprotected);
-                        this.tabMenu.items[11].setDisabled(issheetlocked || isdocprotected);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -1061,8 +1059,7 @@ define([
             itemInsert          : 'Insert',
             itemDelete          : 'Delete',
             itemRename          : 'Rename',
-            itemCopy            : 'Copy',
-            itemMove            : 'Move',
+            itemMoveOrCopy      : 'Move or copy',
             itemHide            : 'Hide',
             itemHidden          : 'Hidden',
             itemTabColor        : 'Tab Color',
@@ -1212,15 +1209,23 @@ define([
             },
 
             template:   '<div class="box">' +
+                            '<% if (isDesktopApp) { %>' +
                             '<div class="input-row">' +
-                                '<label><%= label %></label>' +
+                                '<label><%= labelSpreadsheet %></label>' +
                             '</div>' +
-                            '<div id="status-list-names" style="height: 162px;"></div>' +
+                            '<div id="status-cmb-spreadsheet" style="padding-bottom: 12px;"></div>' +
+                            '<% } %>' +
+                            '<div class="input-row">' +
+                                '<label><%= labelMoveBefore %></label>' +
+                            '</div>' +
+                            '<div id="status-list-names" style="height: 178px;padding-bottom: 16px;"></div>' +
+                            '<div id="status-ch-create-copy"></div>' +
                         '</div>',
 
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
-                    label: options.ismove ? this.textMoveBefore : this.textCopyBefore
+                    labelSpreadsheet: this.textSpreadsheet,
+                    labelMoveBefore: this.textMoveBefore
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
@@ -1233,6 +1238,14 @@ define([
                 var $window = this.getChild();
                 $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+                this.cmbSpreadsheet = new Common.UI.ComboBox({
+                    el: $('#status-cmb-spreadsheet', this.$window),
+                    menuStyle: 'min-width: 100%;',
+                    cls: 'input-group-nr',
+                    data: [],
+                    editable: false
+                });
+
                 var pages = [];
                 this.options.names.forEach(function(item){
                     pages.push(new Common.UI.DataViewModel(item));
@@ -1240,7 +1253,7 @@ define([
 
                 if (pages.length) {
                     pages.push(new Common.UI.DataViewModel({
-                        value       : this.options.ismove ? this.itemMoveToEnd : this.itemCopyToEnd,
+                        value       : this.itemMoveToEnd,
                         inindex     : -255
                     }));
                 }
@@ -1256,6 +1269,12 @@ define([
                 this.listNames.selectByIndex(0);
                 this.listNames.on('entervalue', _.bind(this.onPrimary, this));
                 this.listNames.on('item:dblclick', _.bind(this.onPrimary, this));
+
+                this.chCreateCopy = new Common.UI.CheckBox({
+                    el: $('#status-ch-create-copy', $window),
+                    labelText: this.textCreateCopy,
+                    value: false
+                });
 
                 this.mask = $('.modals-mask');
                 this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
@@ -1288,7 +1307,7 @@ define([
 
                 if (this.options.handler) {
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, active.get('inindex'));
+                        event.currentTarget.attributes['result'].value, active.get('inindex'), this.chCreateCopy.getValue()==='checked');
                 }
 
                 this.close();
@@ -1296,7 +1315,7 @@ define([
 
             onPrimary: function() {
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'));
+                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'), this.chCreateCopy.getValue()==='checked');
                 }
 
                 this.close();
@@ -1308,10 +1327,10 @@ define([
                 }, 100, this);
             },
 
-            itemCopyToEnd   : '(Copy to end)',
             itemMoveToEnd   : '(Move to end)',
-            textCopyBefore  : 'Copy before sheet',
-            textMoveBefore  : 'Move before sheet'
+            textMoveBefore  : 'Move before sheet',
+            textCreateCopy  : 'Create a copy',
+            textSpreadsheet : 'Spreadsheet'
         }, CopyDialog||{}));
 
     }
