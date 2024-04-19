@@ -493,12 +493,16 @@ define([
                 }
 
                 if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
-                    showPoint[0] += event.get_ButtonWidth() + 2;
-                    showPoint[1] += event.get_ButtonHeight() + 2;
-                    menu.menuAlign = 'tr-br';
-                    if (me.documentHolder.cmpEl.offset().top + showPoint[1] + menu.menuRoot.outerHeight() > Common.Utils.innerHeight() - 10) {
-                        showPoint[1] -= event.get_ButtonHeight() + 4;
-                        menu.menuAlign = 'br-tr';
+                    if (event.get_ButtonWidth()) {
+                        showPoint[0] += event.get_ButtonWidth() + 2;
+                        showPoint[1] += event.get_ButtonHeight() + 2;
+                        menu.menuAlign = 'tr-br';
+                        if (me.documentHolder.cmpEl.offset().top + showPoint[1] + menu.menuRoot.outerHeight() > Common.Utils.innerHeight() - 10) {
+                            showPoint[1] -= event.get_ButtonHeight() + 4;
+                            menu.menuAlign = 'br-tr';
+                        }
+                    } else {
+                        menu.menuAlign = 'tl-tr';
                     }
                 }
 
@@ -948,7 +952,11 @@ define([
                                 break;
                         }
                     } else if (type===Asc.c_oAscMouseMoveDataTypes.EffectInfo) {
-                        ToolTip = moveData.get_Info();
+                        var tip = moveData.get_EffectText();
+                        if (!tip) {
+                            tip = me.getApplication().getController('Animation').getAnimationPanelTip(moveData.get_EffectDescription()) || '';
+                        }
+                        ToolTip = tip;
                     }
                     var recalc = false;
                     screenTip.isHidden = false;
