@@ -352,7 +352,7 @@ define([
                     }
                 }
                 if (props) {
-                    win = new PE.Views.HyperlinkSettingsDialog({
+                    win = new PDFE.Views.HyperlinkSettingsDialog({
                         api: me.api,
                         appOptions: me.appOptions,
                         handler: handlerDlg,
@@ -563,7 +563,7 @@ define([
             } else if (in_text && type=='datetime') {
                 //insert date time
                 var me = this;
-                (new PE.Views.DateTimeDialog({
+                (new PDFE.Views.DateTimeDialog({
                     api: this.api,
                     lang: this._state.lang,
                     handler: function(result, value) {

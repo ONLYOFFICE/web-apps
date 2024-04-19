@@ -1603,7 +1603,7 @@ define([
                                         }
                                     });
                                 win.show();
-                                win.setActiveCategory(4);
+                                win.setActiveCategory(5);
                                 break;
                             }
                         }

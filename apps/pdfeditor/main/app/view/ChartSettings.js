@@ -766,7 +766,7 @@ define([
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
                         if (Asc.c_oAscTypeSelectElement.Chart == elType) {
-                            (new PE.Views.ChartSettingsAdvanced(
+                            (new PDFE.Views.ChartSettingsAdvanced(
                                 {
                                     chartProps: elValue,
                                     slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},

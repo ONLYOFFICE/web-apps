@@ -803,6 +803,8 @@ define([
             var me = this;
             me.turnOnSelectTool();
             me.turnOnShowComments();
+            me.api.asc_StopInkDrawer();
+
             if (h === 'menu') {
                 me._state.clrstrike = undefined;
                 // me.onApiHighlightColor();
@@ -825,7 +827,6 @@ define([
                 me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 me.toolbar.mnuStrikeoutTransparent.setChecked(false, true);
             }
-            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
         },
 
@@ -850,6 +851,8 @@ define([
             var me = this;
             me.turnOnSelectTool();
             me.turnOnShowComments();
+            me.api.asc_StopInkDrawer();
+
             if (h === 'menu') {
                 me._state.clrunderline = undefined;
                 // me.onApiHighlightColor();
@@ -872,7 +875,6 @@ define([
                 me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 me.toolbar.mnuUnderlineTransparent.setChecked(false, true);
             }
-            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
         },
 
@@ -897,6 +899,8 @@ define([
             var me = this;
             me.turnOnSelectTool();
             me.turnOnShowComments();
+            me.api.asc_StopInkDrawer();
+
             if (h === 'menu') {
                 me._state.clrhighlight = undefined;
                 // me.onApiHighlightColor();
@@ -919,7 +923,6 @@ define([
                 me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
                 me.toolbar.mnuHighlightTransparent.setChecked(false, true);
             }
-            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
         },
 
@@ -1750,6 +1753,7 @@ define([
                     api: me.api,
                     props: props,
                     type: type,
+                    colorConfig: Common.define.simpleColorsConfig,
                     storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                     interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {
@@ -1944,10 +1948,10 @@ define([
                             elType = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
                             if (Asc.c_oAscTypeSelectElement.Shape == elType) {
-                                var win = new PE.Views.ShapeSettingsAdvanced(
+                                var win = new PDFE.Views.ShapeSettingsAdvanced(
                                     {
                                         shapeProps: elValue,
-                                        slideSize: PE.getController('Toolbar').currentPageSize,
+                                        slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {
@@ -1958,7 +1962,7 @@ define([
                                         }
                                     });
                                 win.show();
-                                win.setActiveCategory(4);
+                                win.setActiveCategory(5);
                                 break;
                             }
                         }
@@ -2174,6 +2178,7 @@ define([
 
         _setMarkerColor: function(strcolor, h) {
             var me = this;
+            me.api.asc_StopInkDrawer();
 
             if (h === 'menu') {
                 me._state.textclrhighlight = undefined;
@@ -2194,7 +2199,6 @@ define([
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(undefined, true, true, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
             }
-            me.api.asc_StopInkDrawer();
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnTextHighlightColor);
             Common.component.Analytics.trackEvent('ToolBar', 'Highlight Color');
         },
