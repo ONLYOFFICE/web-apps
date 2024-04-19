@@ -3092,9 +3092,10 @@ define([
             },
 
             createSynchTip: function () {
+                var direction = Common.UI.isRTL() ? 'left' : 'right';
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
-                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
+                    placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
                     target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {

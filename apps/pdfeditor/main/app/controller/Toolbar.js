@@ -1222,7 +1222,7 @@ define([
                     if (!Common.localStorage.getItem("pdfe-embed-hide-submittip")) {
                         me.requiredTooltip = new Common.UI.SynchronizeTip({
                             extCls: 'colored',
-                            placement: 'bottom-right',
+                            placement: Common.UI.isRTL() ? 'bottom-left' : 'bottom-right',
                             target: me.toolbar.btnSubmit.$el,
                             text: me.textRequired,
                             showLink: false,
