@@ -1945,10 +1945,10 @@ define([
                             elType = selectedElements[i].get_ObjectType();
                             elValue = selectedElements[i].get_ObjectValue();
                             if (Asc.c_oAscTypeSelectElement.Shape == elType) {
-                                var win = new PE.Views.ShapeSettingsAdvanced(
+                                var win = new PDFE.Views.ShapeSettingsAdvanced(
                                     {
                                         shapeProps: elValue,
-                                        slideSize: PE.getController('Toolbar').currentPageSize,
+                                        slideSize: {width: me.api.get_PageWidth(), height: me.api.get_PageHeight()},
                                         handler: function(result, value) {
                                             if (result == 'ok') {
                                                 if (me.api) {
@@ -1959,7 +1959,7 @@ define([
                                         }
                                     });
                                 win.show();
-                                win.setActiveCategory(4);
+                                win.setActiveCategory(5);
                                 break;
                             }
                         }
