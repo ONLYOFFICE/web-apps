@@ -49,9 +49,11 @@ const AddLayoutContent = ({ tabs }) => {
     )
 };
 
-const AddingPage = inject("storeFocusObjects", "storeTableSettings")(observer(props => {
+const AddingPage = inject("storeFocusObjects", "storeTableSettings", "storeApplicationSettings")(observer(props => {
     const mainContext = useContext(MainContext);
     const showPanels = mainContext.showPanels;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const directionMode = storeApplicationSettings.directionMode;
     const storeFocusObjects = props.storeFocusObjects;
     const storeTableSettings = props.storeTableSettings;
     const { t } = useTranslation();
@@ -64,6 +66,12 @@ const AddingPage = inject("storeFocusObjects", "storeTableSettings")(observer(pr
     useEffect(() => {
         f7.tab.show('#add-other', false);
     }, []);
+
+    useEffect(() => {
+        if(directionMode === 'rtl') {
+            tabs.reverse();
+        }
+    }, [directionMode])
 
     let needDisable = false,
         canAddTable = true,
