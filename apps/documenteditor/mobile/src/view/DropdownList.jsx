@@ -106,15 +106,15 @@ const PageDropdownList = props => {
                 </Navbar>
                 {props.isComboBox ?
                     <>
-                        <List>
-                            <ListItem radio checked={enteredValue} title={enteredValue || t('Edit.textEnterYourOption')} onClick={customOptionClickHandler}></ListItem>
+                        <List className="dropdown-list">
+                            <ListItem radio radioIcon="end" checked={enteredValue.length} title={enteredValue || t('Edit.textEnterYourOption')} name="custom-option" onClick={customOptionClickHandler}></ListItem> 
                         </List>
                         <BlockTitle>{t('Edit.textChooseAnItem')}</BlockTitle>
                     </>
                 : null}
                 <List className="dropdown-list">
                     {listItems.length && listItems.map((item, index) => (
-                        <ListItem radio checked={item.value === curValue && !enteredValue} key={index} className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={item.caption} onClick={() => props.onChangeItemList(item.value)}></ListItem>
+                        <ListItem radioIcon="end" radio checked={item.value === curValue && !enteredValue} key={index} name="dropdown-option" className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={item.caption} onClick={() => props.onChangeItemList(item.value)}></ListItem>
                     ))}
                 </List>
             </Page>
