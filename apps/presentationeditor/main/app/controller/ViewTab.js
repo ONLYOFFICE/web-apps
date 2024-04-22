@@ -91,6 +91,8 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
+                    'mode:normal': _.bind(this.onChangePresentationViewMode, this, 'normal'),
+                    'mode:master': _.bind(this.onChangePresentationViewMode, this, 'master'),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -390,7 +392,21 @@ define([
 
         unitsChanged: function(m) {
             this._state.unitsChanged = true;
-        }
+        },
+
+        onChangePresentationViewMode: function (m, state) {
+            var mode;
+            if (m === 'master') {
+                mode = Asc.c_oAscPresentationViewMode.masterSlide;
+                this.view.btnSlideMaster.toggle(state, true);
+                this.view.btnNormal.toggle(!state, true);
+            } else {
+                mode = Asc.c_oAscPresentationViewMode.normal;
+                this.view.btnSlideMaster.toggle(!state, true);
+                this.view.btnNormal.toggle(state, true);
+            } // Asc.c_oAscPresentationViewMode.sorter;
+            this.api.asc_changePresentationViewMode(mode);
+        },
 
     }, PE.Controllers.ViewTab || {}));
 });

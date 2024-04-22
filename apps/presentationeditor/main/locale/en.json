@@ -2739,6 +2739,10 @@
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
   "PE.Views.Toolbar.txtUngroup": "Ungroup",
   "PE.Views.Toolbar.textLineSpaceOptions": "Line spacing options",
+  "PE.Views.Toolbar.capAddSlideMaster": "Add Slide Master",
+  "PE.Views.Toolbar.capAddLayout": "Add Layout",
+  "PE.Views.Toolbar.tipAddSlideMaster": "Add slide master",
+  "PE.Views.Toolbar.tipAddLayout": "Add layout",
   "PE.Views.Transitions.strDelay": "Delay",
   "PE.Views.Transitions.strDuration": "Duration",
   "PE.Views.Transitions.strStartOnClick": "Start On Click",
@@ -2804,5 +2808,9 @@
   "PE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "PE.Views.ViewTab.tipGridlines": "Show gridlines",
   "PE.Views.ViewTab.tipGuides": "Show guides",
-  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PE.Views.ViewTab.textNormal": "Normal",
+  "PE.Views.ViewTab.textSlideMaster": "Slide Master",
+  "PE.Views.ViewTab.tipNormal": "Normal",
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
 }

@@ -749,6 +749,30 @@ define([
                     });
                     me.paragraphControls.push(me.btnColumns);
 
+                    me.btnInsertSlideMaster = new Common.UI.Button({
+                        id: 'tlbtn-insertslidemaster',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-add-slide-master',
+                        caption: me.capAddSlideMaster,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    me.slideOnlyControls.push(me.btnInsertSlideMaster);
+
+                    me.btnInsertLayout = new Common.UI.Button({
+                        id: 'tlbtn-insertlayout',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-add-layout',
+                        caption: me.capAddLayout,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    me.slideOnlyControls.push(me.btnInsertLayout);
+
                     me.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1492,6 +1516,8 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnInsertSlideMaster.updateHint(this.tipAddSlideMaster);
+                this.btnInsertLayout.updateHint(this.tipAddLayout);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -2396,7 +2422,11 @@ define([
             capBtnInsHeaderFooter: 'Header & Footer',
             tipEditHeaderFooter: 'Edit header or footer',
             tipReplace: 'Replace',
-            textLineSpaceOptions: 'Line spacing options'
+            textLineSpaceOptions: 'Line spacing options',
+            capAddSlideMaster: 'Add Slide Master',
+            capAddLayout: 'Add Layout',
+            tipAddSlideMaster: 'Add slide master',
+            tipAddLayout: 'Add layout'
         }
     }()), PE.Views.Toolbar || {}));
 });
