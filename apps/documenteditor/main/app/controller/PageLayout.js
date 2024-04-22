@@ -189,7 +189,8 @@ define([
                 me.toolbar.lockToolbar(Common.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
                 me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
                 me.toolbar.lockToolbar(Common.enumLock.cantArrange, disable.arrange, {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
-                me.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [me.toolbar.numIndentsLeft, me.toolbar.numIndentsRight, me.toolbar.lblIndentsLeft, me.toolbar.lblIndentsRight]});
+                me.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [me.toolbar.numIndentsLeft, me.toolbar.numIndentsRight, me.toolbar.lblIndentsLeft, me.toolbar.lblIndentsRight,
+                                                                                               me.toolbar.numSpacingAfter, me.toolbar.numSpacingBefore, me.toolbar.lblSpacingAfter, me.toolbar.lblSpacingBefore ]});
                 me.ChangeSettingsPara(paraProps);
             },
 
