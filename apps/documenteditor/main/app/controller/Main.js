@@ -573,9 +573,7 @@ define([
 
                 var type = data.doc ? /^(?:(docxf|oform)|(pdf))$/.exec(data.doc.fileType) : false;
                 this.appOptions.isFormCreator = !!(type && (typeof type[1] === 'string' || typeof type[2] === 'string' && this.appOptions.isPDFForm)) && this.appOptions.canFeatureForms; // show forms only for docxf or oform
-
-                type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isOForm = !!(type && typeof type[1] === 'string');
+                this.appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
