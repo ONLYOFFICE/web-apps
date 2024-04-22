@@ -818,10 +818,11 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
+                        hideColorLine: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'},
+                        penOptions: {color: 'D43230'},
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
 
@@ -834,10 +835,11 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
+                        hideColorLine: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'},
+                        penOptions: {color: '3D8A44'},
                         type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
 
