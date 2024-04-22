@@ -424,8 +424,12 @@ DE.ApplicationController = new(function(){
 
         if ( !appOptions.canFillForms || permissions.download === false) {
             $('#idt-download-docx').hide();
+            itemsCount --;
+        }
+
+        if ( !appOptions.canFillForms && !appOptions.isOForm || permissions.download === false) {
             $('#idt-download-pdf').hide();
-            itemsCount -= 2;
+            itemsCount --;
         }
 
         if ( !embedConfig.shareUrl || appOptions.canFillForms) {
@@ -627,6 +631,17 @@ DE.ApplicationController = new(function(){
                 }, 2000);
             }
         });
+
+        if (appOptions.isOForm && permissions.download!==false) {
+            $('#id-critical-error-title').text(me.notcriticalErrorTitle);
+            $('#id-critical-error-message').html(me.textConvertFormDownload);
+            $('#id-critical-error-close').text(me.textDownloadPdf).off().on('click', function(){
+                downloadAs(Asc.c_oAscFileType.PDF);
+                $('#id-critical-error-dialog').modal('hide');
+            });
+            $('#id-critical-error-dialog').modal('show');
+        }
+
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
@@ -638,6 +653,7 @@ DE.ApplicationController = new(function(){
             $('#id-critical-error-title').text(Asc.c_oLicenseResult.NotBefore === licType ? me.titleLicenseNotActive : me.titleLicenseExp);
             $('#id-critical-error-message').html(Asc.c_oLicenseResult.NotBefore === licType ? me.warnLicenseBefore : me.warnLicenseExp);
             $('#id-critical-error-close').parent().remove();
+            $('#id-critical-error-dialog button.close').remove();
             $('#id-critical-error-dialog').css('z-index', 20002).modal({backdrop: 'static', keyboard: false, show: true});
             return;
         }
@@ -647,6 +663,9 @@ DE.ApplicationController = new(function(){
         appOptions.canSubmitForms = appOptions.canLicense && (typeof (config.customization) == 'object') && !!config.customization.submitForm;
         appOptions.canBranding  = params.asc_getCustomization();
         appOptions.canBranding && setBranding(config.customization);
+
+        var type = /^(?:(docxf|oform))$/.exec(docConfig.fileType);
+        appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
         api.asc_setViewMode(!appOptions.canFillForms);
 
@@ -736,6 +755,7 @@ DE.ApplicationController = new(function(){
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
+            $('#id-critical-error-dialog button.close').remove();
             $('#id-critical-error-dialog').css('z-index', 20002).modal('show');
             return;
         }
@@ -841,6 +861,7 @@ DE.ApplicationController = new(function(){
             $('#id-critical-error-close').text(me.txtClose).off().on('click', function(){
                 window.location.reload();
             });
+            $('#id-critical-error-dialog button.close').remove();
         }
         else {
             Common.Gateway.reportWarning(id, message);
@@ -1060,6 +1081,8 @@ DE.ApplicationController = new(function(){
         titleLicenseExp: 'License expired',
         titleLicenseNotActive: 'License not active',
         warnLicenseBefore: 'License not active. Please contact your administrator.',
-        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.'
+        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
+        textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
+        textDownloadPdf: 'Download pdf'
     }
 })();

@@ -42,11 +42,11 @@ define([
         render: function(parentEl) {
             Common.UI.Button.prototype.render.call(this, parentEl);
 
-            if (/huge/.test(this.options.cls) &&  this.options.split === true ) {
+            if (/huge/.test(this.options.cls) &&  this.options.split === true && !this.options.hideColorLine) {
                 var btnEl = $('button', this.cmpEl),
                     btnMenuEl = $(btnEl[1]);
                 btnMenuEl && btnMenuEl.append( $('<div class="btn-color-value-line"></div>'));
-            } else
+            } else if (!this.options.hideColorLine)
                 $('button:first-child', this.cmpEl).append( $('<div class="btn-color-value-line"></div>'));
             this.colorEl = this.cmpEl.find('.btn-color-value-line');
 
