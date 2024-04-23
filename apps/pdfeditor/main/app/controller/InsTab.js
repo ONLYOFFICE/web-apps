@@ -492,7 +492,7 @@ define([
             btn.toggle(true);
             if(newType != oldType){
                 this.view.btnsInsertText.forEach(function(button) {
-                    button.updateHint([e.caption, self.views.Toolbar.prototype.tipInsertText]);
+                    button.updateHint([e.caption, self.views.tipInsertText]);
                     button.changeIcon({
                         next: e.options.iconClsForMainBtn,
                         curr: button.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
@@ -1495,6 +1495,7 @@ define([
         txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
         txtMatrix_Flat_Square                      : 'Sparse Matrix',
+        textInsert: 'Insert'
 
     }, PDFE.Controllers.InsTab || {}));
 });

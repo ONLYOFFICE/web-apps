@@ -820,6 +820,7 @@
   "PDFE.Controllers.InsTab.txtSymbol_vdots": "Vertical ellipsis",
   "PDFE.Controllers.InsTab.txtSymbol_xsi": "Xi",
   "PDFE.Controllers.InsTab.txtSymbol_zeta": "Zeta",
+  "PDFE.Controllers.InsTab.textInsert": "Insert",
   "PDFE.Controllers.LeftMenu.leavePageText": "All unsaved changes in this document will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
   "PDFE.Controllers.LeftMenu.newDocumentTitle": "Unnamed document",
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Warning",
