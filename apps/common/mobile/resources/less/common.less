@@ -22,14 +22,17 @@
 
 .navbar.main-navbar {
     height: 0;
+
     &.navbar-with-logo {
         height: 26px;
     }
+
     .navbar-inner {
         display: flex;
         justify-content: center;
-        padding-top: 7px;
+        padding: 0;
     }
+
     .navbar-bg {
         &:before, &:after {
             content: none;
@@ -55,9 +58,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
 
     .custom-logo-image {
-        max-height: 14px;
+        max-height: 20px;
         height: auto;
         width: auto;
     }
