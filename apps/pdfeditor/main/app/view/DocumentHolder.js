@@ -347,10 +347,6 @@ define([
                 })
             });
 
-            var menuHyperlinkSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.menuAddCommentTable = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
@@ -454,7 +450,6 @@ define([
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
-                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
 
@@ -470,7 +465,6 @@ define([
                     }
 
                     me.menuAddCommentTable.setVisible(me.mode && me.mode.canComments);
-                    menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() || me.menuAddCommentTable.isVisible());
 
                     //equation menu
                     var eqlen = 0;
@@ -520,8 +514,7 @@ define([
                     me.menuAddCommentTable,         //23
                     /** coauthoring end **/
                     me.menuAddHyperlinkTable,       //24
-                    menuHyperlinkTable,             //25
-                    menuHyperlinkSeparator         //26
+                    menuHyperlinkTable
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
