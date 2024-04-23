@@ -354,7 +354,7 @@ define([
                 if (props) {
                     win = new PDFE.Views.HyperlinkSettingsDialog({
                         api: me.api,
-                        appOptions: me.appOptions,
+                        appOptions: me.mode,
                         handler: handlerDlg,
                         slides: _arr
                     });
