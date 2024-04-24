@@ -96,6 +96,7 @@ define([
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
             me.lastTextBarBounds = [];
+            me.lastAnnotBarBounds = [];
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -191,6 +192,8 @@ define([
                     // for text
                     this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
                     this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
+                    this.api.asc_registerCallback('asc_onShowAnnotTrack',               _.bind(this.onShowAnnotBar, this));
+                    this.api.asc_registerCallback('asc_onHideAnnotTrack',               _.bind(this.onHideAnnotBar, this));
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
@@ -2787,9 +2790,105 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
+        onShowAnnotBar: function(bounds) {
+            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
+
+            this.lastAnnotBarBounds = bounds;
+            if (bounds[3] < 0) {
+                this.onHideAnnotBar();
+                return;
+            }
+            var me = this,
+                documentHolder = me.documentHolder,
+                textContainer = documentHolder.cmpEl.find('#annot-bar-container');
+
+            // Prepare menu container
+            if (textContainer.length < 1) {
+                me.annotBarBtns = [];
+                textContainer = documentHolder.createAnnotBar(me.annotBarBtns);
+                documentHolder.cmpEl.append(textContainer);
+
+                var bringForward = function (menu) {
+                    textContainer.addClass('has-open-menu');
+                };
+                var sendBackward = function (menu) {
+                    textContainer.removeClass('has-open-menu');
+                };
+                me.annotBarBtns.forEach(function(item){
+                    if (item && item.menu) {
+                        item.menu.on('show:before', bringForward);
+                        item.menu.on('hide:after', sendBackward);
+                    }
+                });
+                // annotation text bar
+                documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy'}));
+                documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this));
+                documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
+
+                this.api.UpdateInterfaceState();
+            }
+
+            var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, bounds[1] - textContainer.outerHeight() - 10];
+            (showPoint[0]<0) && (showPoint[0] = 0);
+            if (showPoint[1]<0) {
+                showPoint[1] = bounds[3] + 10;
+            }
+            showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
+            textContainer.css({left: showPoint[0], top : showPoint[1]});
+
+            if (_.isUndefined(me._XY)) {
+                me._XY = [
+                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                me._Width       = documentHolder.cmpEl.width();
+                me._Height      = documentHolder.cmpEl.height();
+                me._BodyWidth   = $('body').width();
+            }
+
+            var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
+                diffUp = me._XY[1] + showPoint[1],
+                menuAlign = (diffDown < 220 && diffDown < diffUp*0.9) ? 'bl-tl' : 'tl-bl';
+            if (Common.UI.isRTL()) {
+                menuAlign = menuAlign === 'bl-tl' ? 'br-tr' : 'tr-br';
+            }
+            me.annotBarBtns.forEach(function(item){
+                item && item.menu && (item.menu.menuAlign = menuAlign);
+            });
+            if (!textContainer.is(':visible')) {
+                textContainer.show();
+            }
+            me.disableAnnotBar();
+        },
+
+        onHideAnnotBar: function() {
+            if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            var textContainer = this.documentHolder.cmpEl.find('#annot-bar-container');
+            if (textContainer.is(':visible')) {
+                textContainer.hide();
+            }
+        },
+
+        disableAnnotBar: function() {
+            var textContainer = this.documentHolder.cmpEl.find('#annot-bar-container'),
+                disabled = this._isDisabled;
+
+            if (textContainer.length>0 && textContainer.is(':visible')) {
+                this.annotBarBtns.forEach(function(item){
+                    item && item.setDisabled(!!disabled);
+                });
+                this.documentHolder.btnCopy && this.documentHolder.btnCopy.setDisabled(!this.api.can_CopyCut() || !!disabled);
+            }
+        },
+
+        editText: function() {
+            this.api && this.api.asc_EditPage();
+        },
+
         clearSelection: function() {
             this.onHideMathTrack();
             this.onHideTextBar();
+            this.onHideAnnotBar();
         },
 
         editComplete: function() {

@@ -825,6 +825,7 @@ define([
                         penOptions: {color: 'D43230'},
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
+                    this.btnsStrikeout = [this.btnStrikeout];
 
                     this.btnUnderline = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-underline',
@@ -842,6 +843,7 @@ define([
                         penOptions: {color: '3D8A44'},
                         type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
+                    this.btnsUnderline = [this.btnUnderline];
 
                     this.btnHighlight = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
@@ -861,6 +863,7 @@ define([
                                 '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                             ]}
                     });
+                    this.btnsHighlight = [this.btnHighlight];
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
@@ -1362,17 +1365,20 @@ define([
                     if (me.btnStrikeout && me.btnStrikeout.menu) {
                         var arr = me.createPen(me.btnStrikeout, 'strikeout', false, '-draw');
                         me.mnuStrikeoutColorPicker = arr[0];
-                        me.mnuStrikeoutTransparent = arr[1];
+                        me.mnusStrikeoutColorPicker = [me.mnuStrikeoutColorPicker];
+                        // me.mnuStrikeoutTransparent = arr[1];
                     }
                     if (me.btnUnderline && me.btnUnderline.menu) {
                         var arr = me.createPen(me.btnUnderline, 'underline', false, '-draw');
                         me.mnuUnderlineColorPicker = arr[0];
-                        me.mnuUnderlineTransparent = arr[1];
+                        me.mnusUnderlineColorPicker = [me.mnuUnderlineColorPicker];
+                        // me.mnuUnderlineTransparent = arr[1];
                     }
                     if (me.btnHighlight && me.btnHighlight.menu) {
                         var arr = me.createPen(me.btnHighlight, 'highlight', false, '-draw');
                         me.mnuHighlightColorPicker = arr[0];
-                        me.mnuHighlightTransparent = arr[1];
+                        me.mnusHighlightColorPicker = [me.mnuHighlightColorPicker];
+                        // me.mnuHighlightTransparent = arr[1];
                     }
 
                     if (me.btnTextComment) {
