@@ -773,6 +773,37 @@ define([
                     });
                     me.slideOnlyControls.push(me.btnInsertLayout);
 
+                    me.btnInsertPlaceholder = new Common.UI.Button({
+                        id: 'tlbtn-insertplaceholder',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-insert-placeholder',
+                        caption: me.capInsertPlaceholder,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    me.slideOnlyControls.push(me.btnInsertPlaceholder);
+
+                    this.chTitle = new Common.UI.CheckBox({
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        labelText: this.textTitle,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
+                    });
+                    this.slideOnlyControls.push(this.chTitle);
+
+                    this.chFooters = new Common.UI.CheckBox({
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        labelText: this.textFooters,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
+                    });
+                    this.slideOnlyControls.push(this.chFooters);
+
                     me.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1204,7 +1235,8 @@ define([
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart, this.btnInsertSmartArt,
-                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape
+                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape,
+                        this.btnInsertSlideMaster, this.btnInsertLayout, this.btnInsertPlaceholder, this.chTitle, this.chFooters
                     ];
 
                     // Disable all components before load document
@@ -1344,6 +1376,11 @@ define([
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
                 _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
+                _injectComponent('#slot-btn-insslidemaster', this.btnInsertSlideMaster);
+                _injectComponent('#slot-btn-inslayout', this.btnInsertLayout);
+                _injectComponent('#slot-btn-insplaceholder', this.btnInsertPlaceholder);
+                _injectComponent('#slot-chk-title', this.chTitle);
+                _injectComponent('#slot-chk-footers', this.chFooters);
 
                 this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
                 this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
@@ -1467,7 +1504,20 @@ define([
                                 {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')},
                                 {caption: '--'},
                                 {
+                                    caption: me.textInsertSlideMaster,
+                                    iconCls: 'menu__icon btn-ins-slide-master',
+                                    value: 'slide-master',
+                                    visible: false
+                                },
+                                {
+                                    caption: me.textInsertLayout,
+                                    iconCls: 'menu__icon btn-ins-layout',
+                                    value: 'layout',
+                                    visible: false
+                                },
+                                {
                                     caption: me.txtDuplicateSlide,
+                                    iconCls: 'menu__icon btn-duplicate-slide',
                                     value: 'duplicate'
                                 }
                             ]
@@ -1518,6 +1568,7 @@ define([
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnInsertSlideMaster.updateHint(this.tipAddSlideMaster);
                 this.btnInsertLayout.updateHint(this.tipAddLayout);
+                this.btnInsertPlaceholder.updateHint(this.tipInsertPlaceholder);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -1811,6 +1862,62 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
+
+                this.btnInsertPlaceholder.setMenu(
+                    new Common.UI.Menu({
+                        style: 'min-width: auto;',
+                        items: [
+                            new Common.UI.MenuItem({
+                                caption: me.textContent,
+                                iconCls: 'menu__icon btn-ins-content-placeholder',
+                                value: 1
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textText,
+                                iconCls: 'menu__icon btn-ins-text-placeholder',
+                                value: 2
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textPicture,
+                                iconCls: 'menu__icon btn-ins-picture-placeholder',
+                                value: 3
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textChart,
+                                iconCls: 'menu__icon btn-ins-chart-placeholder',
+                                value: 4
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textTable,
+                                iconCls: 'menu__icon btn-ins-table-placeholder',
+                                value: 5
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textSmartArt,
+                                iconCls: 'menu__icon btn-ins-smartart-placeholder',
+                                value: 6
+                            })
+                        ]
+                    }).on('item:click', function (menu, item, e) {
+                        me.fireEvent('insert:placeholder', [item.value]);
+                    })
+                );
+
+                me.btnInsertSlideMaster.on('click', function (btn, e) {
+                    me.fireEvent('insert:slide-master', [btn, e]);
+                });
+
+                me.btnInsertLayout.on('click', function (btn, e) {
+                    me.fireEvent('insert:layout', [btn, e]);
+                });
+
+                me.chTitle.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('title:hide', [me.chTitle, state === 'checked']);
+                }, me));
+
+                me.chFooters.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('footers:hide', [me.chFooters, state === 'checked']);
+                }, me));
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
@@ -2425,8 +2532,20 @@ define([
             textLineSpaceOptions: 'Line spacing options',
             capAddSlideMaster: 'Add Slide Master',
             capAddLayout: 'Add Layout',
+            capInsertPlaceholder: 'Insert Placeholder',
             tipAddSlideMaster: 'Add slide master',
-            tipAddLayout: 'Add layout'
+            tipAddLayout: 'Add layout',
+            tipInsertPlaceholder: 'Insert placeholder',
+            textContent: 'Content',
+            textText: 'Text',
+            textPicture: 'Picture',
+            textChart: 'Chart',
+            textTable: 'Table',
+            textSmartArt: 'SmartArt',
+            textTitle: 'Title',
+            textFooters: 'Footers',
+            textInsertSlideMaster: 'Insert slide master',
+            textInsertLayout: 'Insert layout'
         }
     }()), PE.Views.Toolbar || {}));
 });

@@ -120,15 +120,15 @@
                 </div>
             </section>
             <section class="panel" data-tab="ins">
-                <div class="group master-slide">
+                <div class="group master-slide-mode" style="display:none;">
                     <span class="btn-slot text x-huge" id="slot-btn-insslidemaster"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inslayout"></span>
                 </div>
-                <div class="separator long master-slide"></div>
-                <div class="group master-slide">
+                <div class="separator long master-slide-mode" style="display:none;"></div>
+                <div class="group master-slide-mode" style="display:none;">
                     <span class="btn-slot text x-huge" id="slot-btn-insplaceholder"></span>
                 </div>
-                <div class="group master-slide">
+                <div class="group master-slide-mode" style="display:none;">
                     <div class="elset">
                         <span class="btn-slot text x-huge" id="slot-chk-title"></span>
                     </div>
@@ -136,7 +136,7 @@
                         <span class="btn-slot text x-huge" id="slot-chk-footers"></span>
                     </div>
                 </div>
-                <div class="group normal-slide">
+                <div class="group normal-mode">
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
                 <div class="group" style="display:none;"></div>

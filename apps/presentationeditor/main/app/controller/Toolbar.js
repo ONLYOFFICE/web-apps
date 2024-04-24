@@ -144,6 +144,11 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'insert:slide-master': this.onInsertSlideMaster,
+                    'insert:layout'      : this.onInsertLayout,
+                    'insert:placeholder' : this.onInsertPlaceholder,
+                    'title:hide'         : this.onTitleHide,
+                    'footers:hide'       : this.onFootersHide
                 },
                 'DocumentHolder': {
                     'smartart:mouseenter': this.mouseenterSmartArt,
@@ -196,7 +201,8 @@ define([
                     }
                 },
                 'ViewTab': {
-                    'toolbar:setcompact': this.onChangeCompactView.bind(this)
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
+                    'viewmode:change': this.onChangeViewMode.bind(this)
                 }
             });
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
@@ -2939,6 +2945,37 @@ define([
 
         onPluginToolbarMenu: function(data) {
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+        },
+
+        onChangeViewMode: function (mode) { // master or normal
+            this.toolbar.$el.find('.master-slide-mode')[mode==='master'?'show':'hide']();
+            this.toolbar.$el.find('.normal-mode')[mode==='normal'?'show':'hide']();
+            this.toolbar.btnsAddSlide.forEach(function (btn, index) {
+                btn.menu.items[0].setVisible(mode==='normal');
+                btn.menu.items[1].setVisible(mode==='normal');
+                btn.menu.items[2].setVisible(mode==='master');
+                btn.menu.items[3].setVisible(mode==='master');
+            });
+        },
+
+        onInsertSlideMaster: function () {
+            console.log('insert slide master');
+        },
+
+        onInsertLayout: function () {
+            console.log('insert layout');
+        },
+
+        onInsertPlaceholder: function (value) {
+            console.log('insert placeholder', value);
+        },
+
+        onTitleHide: function (view, status) {
+            console.log('title', view, status);
+        },
+
+        onFootersHide: function (view, status) {
+            console.log('footers', view, status);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

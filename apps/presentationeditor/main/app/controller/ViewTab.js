@@ -397,15 +397,16 @@ define([
         onChangePresentationViewMode: function (m, state) {
             var mode;
             if (m === 'master') {
-                mode = Asc.c_oAscPresentationViewMode.masterSlide;
+                mode = state ? 'master' : 'normal';
                 this.view.btnSlideMaster.toggle(state, true);
                 this.view.btnNormal.toggle(!state, true);
             } else {
-                mode = Asc.c_oAscPresentationViewMode.normal;
+                mode = state ? 'normal' : 'master';
                 this.view.btnSlideMaster.toggle(!state, true);
                 this.view.btnNormal.toggle(state, true);
             } // Asc.c_oAscPresentationViewMode.sorter;
-            this.api.asc_changePresentationViewMode(mode);
+            //this.api.asc_changePresentationViewMode(mode === 'master' ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
+            this.view.fireEvent('viewmode:change', [mode]);
         },
 
     }, PE.Controllers.ViewTab || {}));
