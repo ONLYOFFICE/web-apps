@@ -109,23 +109,27 @@ const PageApplicationSettings = props => {
                         onChangeMacrosSettings: props.onChangeMacrosSettings
                     }}></ListItem>
                 </List>
-                <List>
-                    <ListItem>
-                        <div>
-                            <span>{t("View.Settings.textRtlInterface")}</span>
-                            <span className="beta-badge">Beta</span>
-                        </div>
-                        <Toggle checked={directionMode !== 'ltr'}
-                                onToggleChange={() => {
-                                    storeApplicationSettings.changeDirectionMode(newDirectionMode);
-                                    props.changeDirectionMode(newDirectionMode);
-                                }}
-                        />
-                    </ListItem>
-                </List>
-                <Block>
-                    <p>{t('View.Settings.textExplanationChangeDirection')}</p>
-                </Block>
+                {Common.Locale.isCurrentLangRtl &&
+                    <>
+                        <List>
+                            <ListItem>
+                                <div>
+                                    <span>{t("View.Settings.textRtlInterface")}</span>
+                                    <span className="beta-badge">Beta</span>
+                                </div>
+                                <Toggle checked={directionMode !== 'ltr'}
+                                        onToggleChange={() => {
+                                            storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                            props.changeDirectionMode(newDirectionMode);
+                                        }}
+                                />
+                            </ListItem>
+                        </List>
+                        <Block>
+                            <p>{t('View.Settings.textExplanationChangeDirection')}</p>
+                        </Block>
+                    </>
+                }
         </Page>
     );
 };
