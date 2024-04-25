@@ -404,6 +404,7 @@ define([
                 toolbar.btnBackColor.on('color:select',                     _.bind(this.onBackColorSelect, this));
                 toolbar.btnBackColor.on('eyedropper:start',                 _.bind(this.onEyedropperStart, this));
                 toolbar.btnBackColor.on('eyedropper:end',                  _.bind(this.onEyedropperEnd, this));
+                toolbar.mnuFormatCellFill && toolbar.mnuFormatCellFill.on('click', _.bind(this.onFormatCellFill, this));
                 this.mode.isEdit && Common.NotificationCenter.on('eyedropper:start', _.bind(this.eyedropperStart, this));
                 toolbar.btnBorders.on('click',                              _.bind(this.onBorders, this));
                 if (toolbar.btnBorders.rendered) {
@@ -781,6 +782,10 @@ define([
             Common.component.Analytics.trackEvent('ToolBar', 'Background Color');
         },
 
+        onFormatCellFill: function(picker, color) {
+            this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
+        },
+
         onNewBorderColor: function(picker, color) {
             this.toolbar.btnBorders.menu.hide();
             this.toolbar.btnBorders.toggle(false, true);
@@ -856,7 +861,8 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 Common.component.Analytics.trackEvent('ToolBar', 'Borders');
-            }
+            } else if (item.value==='options')
+                this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
         },
 
         onBordersWidth: function(menu, item, state) {
@@ -963,6 +969,11 @@ define([
 
         onTextOrientationMenu: function(menu, item) {
                 var angle = 0;
+
+                if (item.value==='options') {
+                    this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
+                    return;
+                }
 
                 switch (item.value) {
                     case 'countcw':     angle =  45;    break;

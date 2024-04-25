@@ -643,6 +643,7 @@
     "textChooseEncoding": "Escolha a codificação",
     "textChooseTxtOptions": "Escolha Opções de TXT",
     "textClearAllFields": "Limpar todos os campos",
+    "textClose": "Fechar",
     "textCollaboration": "Colaboração",
     "textColorSchemes": "Esquemas de cor",
     "textComment": "Comentário",
@@ -784,8 +785,7 @@
     "txtScheme6": "Concurso",
     "txtScheme7": "Patrimônio Líquido",
     "txtScheme8": "Fluxo",
-    "txtScheme9": "Fundição",
-    "textClose": "Close"
+    "txtScheme9": "Fundição"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

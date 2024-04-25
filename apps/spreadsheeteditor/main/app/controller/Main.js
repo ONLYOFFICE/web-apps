@@ -463,7 +463,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
@@ -821,8 +821,8 @@ define([
                     }
 
                     if (type == Asc.c_oAscAsyncActionType.BlockInteraction && !( (id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] ||
-                                                                                  id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage']) &&
-                        (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl) ))
+                                                                                  id == Asc.c_oAscAsyncAction['LoadImage'] || id == Asc.c_oAscAsyncAction['UploadImage'])
+                        /* && (this.dontCloseDummyComment || this.inTextareaControl || Common.Utils.ModalWindow.isVisible() || this.inFormControl)*/ ))
                         this.onEditComplete(this.loadMask, {restorefocus:true});
                 }
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {

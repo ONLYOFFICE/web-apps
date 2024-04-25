@@ -369,11 +369,13 @@ define([
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
+            toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
+            toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
-            toolbar.mnuInsertTable.on('show:after',                _.bind(this.onInsertTableShow, this));
+            toolbar.mnuInsertTable.on('show:after',                     _.bind(this.onInsertTableShow, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
@@ -897,7 +899,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
-            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
@@ -1642,6 +1644,30 @@ define([
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Line Spacing');
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onLineSpaceClick: function(menu, item) {
+            if (item.value==='options') {
+                this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Paragraph);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else if (item.value==='before') {
+                item.options.action === 'add' ? this.api.asc_addSpaceBeforeParagraph() : this.api.asc_removeSpaceBeforeParagraph();
+            } else if (item.value==='after') {
+                item.options.action === 'add' ? this.api.asc_addSpaceAfterParagraph() : this.api.asc_removeSpaceAfterParagraph();
+            }
+        },
+
+        onLineSpaceShow: function(menu) {
+            if (this.api) {
+                var toolbar = this.toolbar,
+                    before = this.api.asc_haveSpaceBeforeParagraph(),
+                    after = this.api.asc_haveSpaceAfterParagraph();
+                toolbar.mnuLineSpaceBefore.setCaption(before ? toolbar.textRemSpaceBefore : toolbar.textAddSpaceBefore);
+                toolbar.mnuLineSpaceBefore.options.action = before ? 'remove' : 'add';
+                toolbar.mnuLineSpaceAfter.setCaption(after ? toolbar.textRemSpaceAfter : toolbar.textAddSpaceAfter);
+                toolbar.mnuLineSpaceAfter.options.action = after ? 'remove' : 'add';
+
             }
         },
 
@@ -3628,7 +3654,7 @@ define([
                     }
                 }
 
-                config.isOForm && config.canDownloadForms && Common.UI.warning({
+                config.isOForm && config.canDownload && Common.UI.warning({
                     msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
                     buttons: [{value: 'ok', caption: config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textSavePdf : me.textDownloadPdf}, 'cancel'],
                     callback: function(btn){

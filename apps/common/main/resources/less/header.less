@@ -229,6 +229,19 @@
                 opacity: @header-component-hover-icon-opacity;
             }
         }
+
+        .caret {
+            border-color: @icon-toolbar-header-ie;
+            border-color: @icon-toolbar-header;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled){
+            .caret {
+                border-color: @icon-toolbar-header-ie;
+                border-color: @icon-toolbar-header;
+            }
+        }
     }
 
     svg.icon {
@@ -349,7 +362,7 @@
     width: auto;
 
     .caption {
-        margin: 2px 0 0 2px;
+        margin: 2px 4px 0 2px;
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
     }

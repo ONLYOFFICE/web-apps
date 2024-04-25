@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import { f7, Page, Navbar, List, ListItem, Popover, View, Link, Sheet, Icon, NavRight, BlockTitle, NavLeft } from "framework7-react";
+import { f7, Page, Navbar, List, ListItem, Popover, View, Link, Sheet, Icon, NavRight, BlockTitle, NavLeft, Popup } from "framework7-react";
 import { Device } from '../../../../common/mobile/utils/device';
 import { useTranslation } from 'react-i18next';
 
@@ -27,13 +27,6 @@ const PageCustomOptionList = props => {
         </Page>
     )
 }
-
-const routes = [
-    {
-        path: '/custom-option/',
-        component: PageCustomOptionList
-    }
-]
 
 const PageDropdownList = props => {
     const listItems = props.listItems;
@@ -106,21 +99,28 @@ const PageDropdownList = props => {
                 </Navbar>
                 {props.isComboBox ?
                     <>
-                        <List>
-                            <ListItem radio checked={enteredValue} title={enteredValue || t('Edit.textEnterYourOption')} onClick={customOptionClickHandler}></ListItem>
+                        <List className="dropdown-list">
+                            <ListItem radio radioIcon="end" checked={enteredValue.length} title={enteredValue || t('Edit.textEnterYourOption')} name="custom-option" onClick={customOptionClickHandler}></ListItem> 
                         </List>
                         <BlockTitle>{t('Edit.textChooseAnItem')}</BlockTitle>
                     </>
                 : null}
                 <List className="dropdown-list">
                     {listItems.length && listItems.map((item, index) => (
-                        <ListItem radio checked={item.value === curValue && !enteredValue} key={index} className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={item.caption} onClick={() => props.onChangeItemList(item.value)}></ListItem>
+                        <ListItem radioIcon="end" radio checked={item.value === curValue && !enteredValue} key={index} name="dropdown-option" className={'no-indicator ' + (index === 0 ? 'dropdown-list__placeholder' : '')} title={item.caption} onClick={() => props.onChangeItemList(item.value)}></ListItem>
                     ))}
                 </List>
             </Page>
         </View>
     );
 };
+
+const routes = [
+    {
+        path: '/custom-option/',
+        component: PageCustomOptionList
+    }
+]
 
 class DropdownListView extends Component {
     constructor(props) {
@@ -130,7 +130,7 @@ class DropdownListView extends Component {
     render() {
         return (
             Device.isPhone ? 
-                <Sheet id="dropdown-list-sheet" closeByBackdropClick={true} swipeToClose={true} onSheetClosed={() => this.props.closeModal()}> 
+                <Popup id="dropdown-list-popup" className="dropdown-list-popup" closeByOutsideClick={true} swipeToClose={true} onPopupClosed={() => this.props.closeModal()}> 
                     <PageDropdownList
                         listItems={this.props.listItems}
                         onChangeItemList={this.props.onChangeItemList}
@@ -139,8 +139,9 @@ class DropdownListView extends Component {
                         onAddItem={this.props.onAddItem}
                         curValue={this.props.curValue}
                         enteredValue={this.props.enteredValue}
+                        style={{height: '260px'}}
                     />
-                </Sheet>
+                </Popup>
             : 
                 <Popover id="dropdown-list-popover" className="popover__titled" closeByOutsideClick={true} onPopoverClosed={() => this.props.closeModal()}>
                     <PageDropdownList
@@ -163,7 +164,7 @@ class DropdownListView extends Component {
 const DropdownList = props => {
     useEffect(() => {
         if(Device.isPhone) {
-            f7.sheet.open('#dropdown-list-sheet', true);
+            f7.popup.open('#dropdown-list-popup', true);
         } else {
             f7.popover.open('#dropdown-list-popover', '#dropdown-list-target');
         }

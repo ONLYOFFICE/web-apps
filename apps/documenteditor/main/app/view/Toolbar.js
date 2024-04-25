@@ -50,6 +50,7 @@ define([
     'common/main/lib/collection/Fonts',
     'common/main/lib/component/Button',
     'common/main/lib/component/ComboBox',
+    'common/main/lib/component/Label',
     'common/main/lib/component/DataView',
     'common/main/lib/component/ColorPalette',
     'common/main/lib/component/ThemeColorPalette',
@@ -158,6 +159,7 @@ define([
                 this.paragraphControls = [];
                 this.toolbarControls = [];
                 this.textOnlyControls = [];
+                this.spinners = [];
                 this._state = {
                     hasCollaborativeChanges: undefined,
                     previewmode: false
@@ -531,7 +533,7 @@ define([
                         id: 'id-toolbar-btn-linespace',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-linespace',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         menu: new Common.UI.Menu({
                             style: 'min-width: 60px;',
                             items: [
@@ -541,13 +543,111 @@ define([
                                 {caption: '2.0', value: 2.0, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '2.5', value: 2.5, checkable: true, toggleGroup: 'linesize'},
                                 {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
-                            ]
+                            ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                                me.mnuLineSpaceOptions = new Common.UI.MenuItem({caption: this.textLineSpaceOptions, value: 'options'})
+                            ]).concat([
+                                {caption: '--'},
+                                me.mnuLineSpaceBefore = new Common.UI.MenuItem({caption: this.textAddSpaceBefore, value: 'before', action: 'add'}),
+                                me.mnuLineSpaceAfter = new Common.UI.MenuItem({caption: this.textAddSpaceAfter, value: 'after', action: 'add'})
+                            ])
                         }),
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
                     });
                     this.paragraphControls.push(this.btnLineSpace);
+
+                    this.numIndentsLeft = new Common.UI.MetricSpinner({
+                        step: .1,
+                        width: 70,
+                        defaultUnit : "cm",
+                        defaultValue : 0,
+                        value: '0 cm',
+                        maxValue: 55.87,
+                        minValue: -55.87,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.numIndentsLeft);
+                    this.spinners.push({cmp: this.numIndentsLeft, step: .1});
+
+                    this.lblIndentsLeft = new Common.UI.Label({
+                        caption: this.textIndLeft,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                    });
+                    this.paragraphControls.push(this.lblIndentsLeft);
+
+                    this.numIndentsRight = new Common.UI.MetricSpinner({
+                        step: .1,
+                        width: 70,
+                        defaultUnit : "cm",
+                        defaultValue : 0,
+                        value: '0 cm',
+                        maxValue: 55.87,
+                        minValue: -55.87,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'big'
+                    });
+                    this.paragraphControls.push(this.numIndentsRight);
+                    this.spinners.push({cmp: this.numIndentsRight, step: .1});
+
+                    this.lblIndentsRight = new Common.UI.Label({
+                        caption: this.textIndRight,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                    });
+                    this.paragraphControls.push(this.lblIndentsRight);
+
+                    this.numSpacingBefore = new Common.UI.MetricSpinner({
+                        step: .01,
+                        width: 70,
+                        defaultUnit : "cm",
+                        defaultValue : 0,
+                        value: '0 cm',
+                        maxValue: 55.87,
+                        minValue: 0,
+                        allowAuto   : true,
+                        autoText    : this.txtAutoText,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'big'
+                    });
+                    this.paragraphControls.push(this.numSpacingBefore);
+                    this.spinners.push({cmp: this.numSpacingBefore, step: .01});
+
+                    this.lblSpacingBefore = new Common.UI.Label({
+                        caption: this.textSpaceBefore,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                    });
+                    this.paragraphControls.push(this.lblSpacingBefore);
+
+                    this.numSpacingAfter = new Common.UI.MetricSpinner({
+                        step: .01,
+                        width: 70,
+                        defaultUnit : "cm",
+                        defaultValue : 0,
+                        value: '0 cm',
+                        maxValue: 55.87,
+                        minValue: 0,
+                        allowAuto   : true,
+                        autoText    : this.txtAutoText,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
+                        dataHint: '1',
+                        dataHintDirection: 'top',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.numSpacingAfter);
+                    this.spinners.push({cmp: this.numSpacingAfter, step: .01});
+
+                    this.lblSpacingAfter = new Common.UI.Label({
+                        caption: this.textSpaceAfter,
+                        lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode]
+                    });
+                    this.paragraphControls.push(this.lblSpacingAfter);
 
                     this.btnShowHidenChars = new Common.UI.Button({
                         id: 'id-toolbar-btn-hidenchars',
@@ -1935,6 +2035,14 @@ define([
                 _injectComponent('#slot-img-wrapping', this.btnImgWrapping);
                 _injectComponent('#slot-btn-watermark', this.btnWatermark);
                 _injectComponent('#slot-btn-hyphenation', this.btnHyphenation);
+                _injectComponent('#slot-spin-ind-left', this.numIndentsLeft);
+                _injectComponent('#slot-spin-ind-right', this.numIndentsRight);
+                _injectComponent('#slot-lbl-ind-left', this.lblIndentsLeft);
+                _injectComponent('#slot-lbl-ind-right', this.lblIndentsRight);
+                _injectComponent('#slot-spin-space-before', this.numSpacingBefore);
+                _injectComponent('#slot-spin-space-after', this.numSpacingAfter);
+                _injectComponent('#slot-lbl-space-before', this.lblSpacingBefore);
+                _injectComponent('#slot-lbl-space-after', this.lblSpacingAfter);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
@@ -2980,6 +3088,13 @@ define([
                         if (checked) mnu.setChecked(checked);
                     }
                 }
+                if (this.spinners) {
+                    for (var i=0; i<this.spinners.length; i++) {
+                        var spinner = this.spinners[i].cmp;
+                        spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
+                        spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : this.spinners[i].step);
+                    }
+                }
             },
 
             setApi: function (api) {
@@ -3093,9 +3208,10 @@ define([
             },
 
             createSynchTip: function () {
+                var direction = Common.UI.isRTL() ? 'left' : 'right';
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
-                    placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom'
+                    placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
@@ -3573,7 +3689,17 @@ define([
             capBtnSelect: 'Select',
             capBtnHand: 'Hand',
             tipSelectTool: 'Select tool',
-            tipHandTool: 'Hand tool'
+            tipHandTool: 'Hand tool',
+            textLineSpaceOptions: 'Line spacing options',
+            textAddSpaceBefore: 'Add space before paragraph',
+            textAddSpaceAfter: 'Add space after paragraph',
+            textRemSpaceBefore: 'Remove space before paragraph',
+            textRemSpaceAfter: 'Remove space after paragraph',
+            textIndLeft: 'Left indent',
+            textIndRight: 'Right indent',
+            textSpaceBefore: 'Space before',
+            textSpaceAfter: 'Space after',
+            txtAutoText: 'Auto'
         }
     })(), DE.Views.Toolbar || {}));
 });

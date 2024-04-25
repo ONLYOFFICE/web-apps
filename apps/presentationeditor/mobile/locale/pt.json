@@ -471,6 +471,7 @@
       "textBack": "Voltar",
       "textCaseSensitive": "Maiúsculas e Minúsculas",
       "textCentimeter": "Centímetro",
+      "textClose": "Fechar",
       "textCollaboration": "Colaboração",
       "textColorSchemes": "Esquemas de cor",
       "textComment": "Comente",
@@ -549,8 +550,7 @@
       "txtScheme6": "Concurso",
       "txtScheme7": "Patrimônio Líquido",
       "txtScheme8": "Fluxo",
-      "txtScheme9": "Fundição",
-      "textClose": "Close"
+      "txtScheme9": "Fundição"
     }
   }
 }

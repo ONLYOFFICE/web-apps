@@ -313,7 +313,17 @@ define([
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                    if (this._state.FillType !== Asc.c_oAscFill.FILL_TYPE_BLIP && !this._noApply && this._texturearray && this._texturearray.length>0) {
+                        this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP
+                        var props = new Asc.CAscSlideProps();
+                        var fill = new Asc.asc_CShapeFill();
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                        fill.put_fill( new Asc.asc_CFillBlip());
+                        fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
+                        fill.get_fill().put_texture_id(this._texturearray[0].type);
+                        props.put_background(fill);
+                        this.api.SetSlideProps(props);
+                    }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
@@ -1036,6 +1046,7 @@ define([
                     me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
+                        tip   : me.textureNames[item.get_id()],
                         type    : item.get_id(),
 //                        allowSelected : false,
                         selected: false
@@ -1071,6 +1082,7 @@ define([
                         restoreHeight: 174,
                         parentMenu: menu,
                         showLast: false,
+                        delayRenderTips: true,
                         store: new Common.UI.DataViewStore(me._texturearray || []),
                         itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                     });

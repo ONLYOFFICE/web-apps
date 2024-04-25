@@ -1076,15 +1076,18 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null;
-        if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
+        var type = config.document ? /^(?:(pdf)|(oform|docxf))$/.exec(config.document.fileType) : null,
+            isPdf = type && typeof type[1] === 'string',
+            oldForm = type && typeof type[2] === 'string';
+
+        if (!(isPdf || oldForm) && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
-        if (type && typeof type[1] === 'string' && (config.document && config.document.permissions && config.document.permissions.edit === false || config.editorConfig && config.editorConfig.mode == 'view'))
+        if ((isPdf || oldForm) && (config.document && config.document.permissions && config.document.permissions.edit === false || config.editorConfig && config.editorConfig.mode == 'view'))
             params += "&mode=fillforms";
 
         if (config.document) {
-            config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+            config.document.isForm = isPdf ? config.document.isForm : oldForm;
             (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
         }
 

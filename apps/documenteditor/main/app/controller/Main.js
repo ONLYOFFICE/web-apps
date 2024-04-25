@@ -461,7 +461,7 @@ define([
                 this.appOptions.canFeatureContentControl = true;
                 this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
                 this.appOptions.isPDFForm = !!window.isPDFForm;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
@@ -573,9 +573,7 @@ define([
 
                 var type = data.doc ? /^(?:(docxf|oform)|(pdf))$/.exec(data.doc.fileType) : false;
                 this.appOptions.isFormCreator = !!(type && (typeof type[1] === 'string' || typeof type[2] === 'string' && this.appOptions.isPDFForm)) && this.appOptions.canFeatureForms; // show forms only for docxf or oform
-
-                type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isOForm = !!(type && typeof type[1] === 'string');
+                this.appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
@@ -1949,12 +1947,12 @@ define([
                         me.hidePreloader();
                         me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                     }
-
+                }
+                if (this.appOptions.isEdit || this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm) {
                     // Message on window close
                     window.onbeforeunload = _.bind(me.onBeforeUnload, me);
                     window.onunload = _.bind(me.onUnload, me);
-                }
-                if (!this.appOptions.isEdit)
+                } else
                     window.onbeforeunload = _.bind(me.onBeforeUnloadView, me);
             },
 

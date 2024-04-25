@@ -203,7 +203,18 @@ define([
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                    if (this._state.FillType !== Asc.c_oAscFill.FILL_TYPE_BLIP && !this._noApply && this._texturearray && this._texturearray.length>0) {
+                        this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP
+                        var props = new Asc.asc_TextArtProperties();
+                        var fill = new Asc.asc_CShapeFill();
+                        fill.asc_putType(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                        fill.asc_putFill( new Asc.asc_CFillBlip());
+                        fill.asc_getFill().asc_putType(Asc.c_oAscFillBlipType.TILE);
+                        fill.asc_getFill().asc_putTextureId(this._texturearray[0].type);
+                        props.asc_putFill(fill);
+                        this.shapeprops.put_TextArtProperties(props);
+                        this.api.asc_setGraphicObjectProps(this.imgprops);
+                    }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
@@ -1601,6 +1612,7 @@ define([
                     me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
+                        tip   : me.textureNames[item.get_id()],
                         type    : item.get_id(),
 //                        allowSelected : false,
                         selected: false
@@ -1636,6 +1648,7 @@ define([
                         restoreHeight: 174,
                         parentMenu: menu,
                         showLast: false,
+                        delayRenderTips: true,
                         store: new Common.UI.DataViewStore(me._texturearray || []),
                         itemTemplate: _.template('<div><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                     });

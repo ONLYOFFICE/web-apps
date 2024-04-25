@@ -244,6 +244,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.slideSettings && this.slideSettings.setMode(mode);

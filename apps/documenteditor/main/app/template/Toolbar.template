@@ -140,6 +140,27 @@
                     <span class="btn-slot text x-huge" id="slot-btn-hyphenation"></span>
                 </div>
                 <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-ind-left" style="flex-grow:1;"></span>
+                        <span id="slot-spin-ind-left"  class="btn-slot text spinner"></span>
+                    </div>
+                    <div class="elset" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-ind-right" style="flex-grow:1;"></span>
+                        <span id="slot-spin-ind-right" class="btn-slot text spinner"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset margin-left-6" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-space-before" style="flex-grow:1;"></span>
+                        <span id="slot-spin-space-before"  class="btn-slot text spinner"></span>
+                    </div>
+                    <div class="elset margin-left-6" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-space-after" style="flex-grow:1;"></span>
+                        <span id="slot-spin-space-after" class="btn-slot text spinner"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>

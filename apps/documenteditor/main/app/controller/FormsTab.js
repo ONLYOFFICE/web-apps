@@ -643,8 +643,8 @@ define([
         onCurrentPage: function(value) {
             if (this.view && this.view.fieldPages) {
                 this.view.fieldPages.setValue(value + 1);
-                Common.Utils.lockControls(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
-                Common.Utils.lockControls(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+                Common.Utils.lockControls(Common.enumLock.firstPage, value<1, {array: [this.view.btnFirstPage, this.view.btnPrevPage]});
+                Common.Utils.lockControls(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.view.btnLastPage, this.view.btnNextPage]});
             }
         },
 
