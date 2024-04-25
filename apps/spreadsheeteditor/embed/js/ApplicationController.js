@@ -503,8 +503,6 @@ SSE.ApplicationController = new(function(){
             }
         });
 
-        // setupScrollButtons();
-
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
