@@ -121,6 +121,12 @@ define([
                             if ( !$.isEmptyObject(titlebuttons) ) {
                                 var header = webapp.getController('Viewport').getView('Common.Views.Header');
                                 if (header) {
+                                    if ( native.getViewportSettings ) {
+                                        const viewport = native.getViewportSettings();
+                                        if ( viewport.widgetType == 'window' && titlebuttons.home )
+                                            titlebuttons.home.btn.setVisible(true);
+                                    }
+
                                     for (var i in titlebuttons) {
                                         opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
                                     }
@@ -225,7 +231,7 @@ define([
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
                 disabled: config.btn.isDisabled(),
-                visible: config.visible,
+                visible: config.btn.isVisible(),
             };
         };
 
@@ -408,10 +414,15 @@ define([
                 var header = webapp.getController('Viewport').getView('Common.Views.Header');
 
                 {
+                    let viewport;
+                    if ( native.getViewportSettings ) {
+                        viewport = native.getViewportSettings();
+                    }
+
                     header.btnHome = (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: 'toolbar__icon icon--inverse btn-home',
-                        visible: false,
+                        visible: viewport && viewport.widgetType == 'window',
                         hint: Common.Locale.get('hintBtnHome', {name:"Common.Controllers.Desktop", default: 'Show Main window'}),
                         dataHint:'0',
                         dataHintDirection: 'right',
@@ -462,6 +473,9 @@ define([
 
                 if (!!header.btnRedo)
                     titlebuttons['redo'] = {btn: header.btnRedo};
+
+                if (!!header.btnQuickAccess)
+                    titlebuttons['quickaccess'] = {btn: header.btnQuickAccess};
 
                 for (var i in titlebuttons) {
                     titlebuttons[i].btn.options.signals = ['disabled'];
@@ -517,6 +531,10 @@ define([
 
         const _onOpenRecent = function (menu, url, record) {
             console.log('open recent');
+        }
+
+        const _onChangeQuickAccess = function (props) {
+            native.execCommand("quickaccess:changed", JSON.stringify(props));
         }
 
         const _extend_menu_file = function (args) {
@@ -576,6 +594,7 @@ define([
                             }
                         },
                         'hints:show': _onHintsShow.bind(this),
+                        'quickaccess:changed': _onChangeQuickAccess.bind(this),
                     });
 
                     webapp.addListeners({
