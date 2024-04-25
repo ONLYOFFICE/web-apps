@@ -220,11 +220,19 @@ class MainController extends Component {
                     }
                 }
 
-                let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
+                const fileType = data?.doc.fileType;
+                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
+                const isPDF = fileType === 'pdf';
 
-                if (type && typeof type[1] === 'string') {
+                if(isFormType) {
                     this.changeEditorBrandColorForPdf();
-                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                }
+
+                if(isPDF) {
+                    if(this.permissions.fillForms === undefined) {
+                        this.permissions.fillForms = this.permissions.edit !== false;
+                    }
+
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
 

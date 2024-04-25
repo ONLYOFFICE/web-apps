@@ -72,7 +72,7 @@ class DropdownListController extends Component {
 
     closeModal() {
         if(Device.isPhone) {
-            f7.sheet.close('#dropdown-list-sheet', true);
+            f7.popup.close('#dropdown-list-popup', true);
         } else {
             f7.popover.close('#dropdown-list-popover', true);
         }
