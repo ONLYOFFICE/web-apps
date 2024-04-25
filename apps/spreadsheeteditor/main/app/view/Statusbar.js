@@ -1229,25 +1229,52 @@ define([
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
+                if (this.options.isDesktopApp) {
+                    this.spreadsheets = {
+                        data: [
+                            {displayValue: this.options.spreadsheetName, value: 'current', index: 0},
+                            {displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1}
+                        ],
+                        changed: false,
+                        opened: false
+                    };
+                }
+
+                this.sheets = [this.options.sheets];
+
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },
 
             render: function() {
+                var me = this;
                 Common.UI.Window.prototype.render.call(this);
 
                 var $window = this.getChild();
                 $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-                this.cmbSpreadsheet = new Common.UI.ComboBox({
-                    el: $('#status-cmb-spreadsheet', this.$window),
-                    menuStyle: 'min-width: 100%;',
-                    cls: 'input-group-nr',
-                    data: [],
-                    editable: false
-                });
+                if (this.options.isDesktopApp) {
+                    this.cmbSpreadsheet = new Common.UI.ComboBox({
+                        el: $('#status-cmb-spreadsheet', this.$window),
+                        menuStyle: 'min-width: 100%;',
+                        data: this.spreadsheets.data,
+                        cls: 'input-group-nr',
+                        editable: false
+                    });
+                    this.cmbSpreadsheet.setValue('current');
+                    var showBefore = function () {
+                        me.spreadsheets.opened = true;
+                        if (me.spreadsheets.changed) {
+                            me.cmbSpreadsheet.setData(me.spreadsheets.data)
+                            me.cmbSpreadsheet.setValue('current');
+                        }
+                        me.cmbSpreadsheet.off('show:before', showBefore);
+                    };
+                    this.cmbSpreadsheet.on('show:before', showBefore);
+                    this.cmbSpreadsheet.on('selected', _.bind(this.onChangeSpreadsheet, this));
+                }
 
                 var pages = [];
-                this.options.names.forEach(function(item){
+                this.sheets[0].forEach(function(item){
                     pages.push(new Common.UI.DataViewModel(item));
                 }, this);
 
@@ -1280,6 +1307,54 @@ define([
                 this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
             },
 
+            changeSpreadsheets: function (workbooks) {
+                this.spreadsheets.changed = true;
+                var me = this,
+                    data = this.spreadsheets.data,
+                    arr = data.slice(0,data.length-1),
+                    ind = arr.length;
+                workbooks.forEach(function (workbook, index) {
+                    arr.push({displayValue: workbook.asc_getName(), value: workbook.asc_getId(), index: ind+index});
+                    var sheets = workbook.asc_getSheets(),
+                        arrSheets = [];
+                    sheets.forEach(function (sheet) {
+                        arrSheets.push({
+                            value: sheet.asc_getName(),
+                            inindex: sheet.asc_getIndex()
+                        })
+                    });
+                    me.sheets[ind+index] = arrSheets;
+                });
+                arr.push(data[data.length-1]);
+                this.spreadsheets.data = arr;
+                if (this.spreadsheets.opened) {
+                    this.cmbSpreadsheet.setData(this.spreadsheets.data);
+                    this.cmbSpreadsheet.setValue('current');
+                }
+            },
+
+            onChangeSpreadsheet: function (combo, record) {
+                var index = record.index,
+                    sheets = this.sheets[index];
+                if (sheets) {
+                    var pages = [];
+                    sheets.forEach(function(item){
+                        pages.push(new Common.UI.DataViewModel(item));
+                    }, this);
+
+                    if (pages.length) {
+                        pages.push(new Common.UI.DataViewModel({
+                            value: this.itemMoveToEnd,
+                            inindex: -255
+                        }));
+                    }
+                    this.listNames.store.reset(pages);
+                    this.listNames.selectByIndex(0);
+                } else {
+                    this.listNames.store.reset([]);
+                }
+            },
+
             getFocusedComponents: function() {
                 return [this.listNames].concat(this.getFooterButtons());
             },
@@ -1303,19 +1378,23 @@ define([
             },
 
             onBtnClick: function(event) {
-                var active = this.listNames.getSelectedRec();
+                var active = this.listNames.getSelectedRec(),
+                    index = active ? active.get('inindex') : 0;
 
                 if (this.options.handler) {
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, active.get('inindex'), this.chCreateCopy.getValue()==='checked');
+                        event.currentTarget.attributes['result'].value, index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet && this.cmbSpreadsheet.getSelectedRecord().value);
                 }
 
                 this.close();
             },
 
             onPrimary: function() {
+                var active = this.listNames.getSelectedRec(),
+                    index = active ? active.get('inindex') : 0;
+
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'), this.chCreateCopy.getValue()==='checked');
+                    this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet && this.cmbSpreadsheet.getSelectedRecord().value);
                 }
 
                 this.close();
@@ -1330,7 +1409,8 @@ define([
             itemMoveToEnd   : '(Move to end)',
             textMoveBefore  : 'Move before sheet',
             textCreateCopy  : 'Create a copy',
-            textSpreadsheet : 'Spreadsheet'
+            textSpreadsheet : 'Spreadsheet',
+            textCreateNewSpreadsheet: '(Create new spreadsheet)'
         }, CopyDialog||{}));
 
     }

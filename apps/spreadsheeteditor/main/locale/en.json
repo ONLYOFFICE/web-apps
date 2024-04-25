@@ -3813,6 +3813,7 @@
   "SSE.Views.Statusbar.CopyDialog.textMoveBefore": "Move before sheet",
   "SSE.Views.Statusbar.CopyDialog.textCreateCopy": "Create a copy",
   "SSE.Views.Statusbar.CopyDialog.textSpreadsheet": "Spreadsheet",
+  "SSE.Views.Statusbar.CopyDialog.textCreateNewSpreadsheet": "(Create new spreadsheet)",
   "SSE.Views.Statusbar.filteredRecordsText": "{0} of {1} records filtered",
   "SSE.Views.Statusbar.filteredText": "Filter mode",
   "SSE.Views.Statusbar.itemAverage": "Average",

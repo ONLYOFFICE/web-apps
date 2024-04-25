@@ -497,25 +497,50 @@ define([
                 return;
             }
 
-            (new SSE.Views.Statusbar.CopyDialog({
+            var copyDialog = new SSE.Views.Statusbar.CopyDialog({
                 title   : me.statusbar.itemMoveOrCopy,
-                names   : items,
-                isDesktopApp: true,//me.statusbar.mode.isDesktopApp,
-                handler : function(btn, i, copy) {
+                sheets  : items,
+                spreadsheetName: me.statusbar.mode.isDesktopApp && me.api.asc_getDocumentName(),
+                isDesktopApp: me.statusbar.mode.isDesktopApp,
+                handler : function(btn, i, copy, workbook) {
                     if (btn == 'ok') {
+                        var arrBooks,
+                            arrNames;
+                        if (workbook) {
+                            if (workbook === 'new')
+                                arrBooks = [];
+                            else if (workbook !== 'current')
+                                arrBooks = [workbook];
+                            if (workbook !== 'current') {
+                                arrNames = [];
+                                arrIndex.forEach(function (item) {
+                                    arrNames.push(me.api.asc_getWorksheetName(item));
+                                });
+                            }
+                        }
                         if (!copy) {
-                            me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex);
+                            me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex, arrNames, arrBooks);
                         } else {
-                            var arrNames = [];
+                            arrNames = [];
                             arrIndex.forEach(function (item) {
                                 arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
                             });
-                            me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex);
+                            me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex, arrBooks);
                         }
                     }
                     me.api.asc_enableKeyEvents(true);
                 }
-            })).show();
+            });
+            copyDialog.show();
+
+            if (me.statusbar.mode.isDesktopApp) {
+                var callback = function (workbooks) {
+                    if (workbooks) {
+                        copyDialog.changeSpreadsheets(workbooks);
+                    }
+                };
+                me.api.asc_getOpeningDocumentsList(callback);
+            }
         },
 
         onAddWorksheetClick: function(o, index, opts) {
