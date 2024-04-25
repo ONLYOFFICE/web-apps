@@ -34,7 +34,7 @@ function isLocalStorageAvailable() {
 if(isLocalStorageAvailable()) {
     let modeDirection = localStorage.getItem('mobile-mode-direction');
 
-    if( !modeDirection && Common.Locale.isCurrentLangRtl ) {
+    if(!modeDirection && Common.Locale.isCurrentLangRtl) {
         localStorage.setItem('mobile-mode-direction', 'rtl');
         modeDirection = 'rtl';
     }

@@ -19,8 +19,6 @@ const PageApplicationSettings = props => {
 
     // set mode
     const appOptions = props.storeAppOptions;
-    const currentLang = appOptions.lang;
-    const isRtlLang = currentLang && /^(ar)$/i.test(currentLang);
     const storeThemes = props.storeThemes;
     const colorTheme = storeThemes.colorTheme;
     const themes = storeThemes.themes;
@@ -28,7 +26,6 @@ const PageApplicationSettings = props => {
     const isConfigSelectTheme = storeThemes.isConfigSelectTheme;
     const _isEdit = appOptions.isEdit;
     // const _isShowMacros = (!appOptions.isDisconnected && appOptions.customization) ? appOptions.customization.macros !== false : true;
-
 
     return (
         <Page>
@@ -68,7 +65,7 @@ const PageApplicationSettings = props => {
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>
             </List>
-            {isRtlLang &&
+            {Common.Locale.isCurrentLangRtl &&
                 <>
                     <List>
                         <ListItem>
