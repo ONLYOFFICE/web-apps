@@ -19,27 +19,11 @@
 
     .worksheet-list-buttons {
       display: flex;
-      padding: 2px 12px 0 10px;
+      padding: 1px 12px;
       height: 24px;
       position: fixed;
       background: #f7f7f7;
-
-      button {
-        display: inline-block;
-        position: relative;
-        border: 0;
-        min-width: 20px;
-        border-radius: 1px;
-
-        &:disabled {
-          opacity: 0.4;
-          cursor: default;
-        }
-      }
-
-      button:hover:not(:disabled) {
-        background-color: #e8e8e8;
-      }
+      border-right: 1px solid #c0c0cd;
     }
 
     @media screen and (min--moz-device-pixel-ratio:0) {
@@ -121,7 +105,7 @@
     padding: 0;
     margin: 0;
     white-space: nowrap;
-    margin-left: 62px;
+    margin-left: 68px;
 
     li {
       display: inline-block;

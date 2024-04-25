@@ -229,11 +229,16 @@ SSE.ApplicationController = new(function(){
             $(item).appendTo($box).on('click', handleWorksheet);
         }
 
+        setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
+    }
+
+    function setupScrollButtons() {
         var $container = $('#worksheet-container');
         var $prevButton = $('#worksheet-list-button-prev');
         var $nextButton = $('#worksheet-list-button-next');
+        var $box = $('#worksheets');
 
-        var handleScroll = function() {
+        var handleScrollButtonsState = function() {
             if ($container[0].scrollWidth > $container[0].clientWidth) {
                 var scrollLeft = $container.scrollLeft();
                 var scrollWidth = $container[0].scrollWidth;
@@ -255,17 +260,22 @@ SSE.ApplicationController = new(function(){
             }
         };
 
-        $container.on('scroll', handleScroll);
-        $(window).on('resize', handleScroll);
+        $container.on('scroll', handleScrollButtonsState);
+        $(window).on('resize', handleScrollButtonsState);
 
-        handleScroll();
+        handleScrollButtonsState();
+
+        var buttonWidth = $('.worksheet-list-buttons').outerWidth();
 
         $prevButton.on('click', function() {
             $($box.children().get().reverse()).each(function () {
                 var $tab = $(this);
-                var left = $tab.position().left - 62;
+
+                var offsetAdjust =  $tab.outerWidth() * buttonWidth / $box.outerWidth() * 0.05;
+                var left = $tab.position().left - buttonWidth;
+
                 if (left < 0) {
-                    $container.scrollLeft($container.scrollLeft() + left - 26);
+                    $container.scrollLeft($container.scrollLeft() + left + offsetAdjust);
                     return false;
                 }
             });
@@ -275,15 +285,16 @@ SSE.ApplicationController = new(function(){
             var rightBound = $container.width();
             $box.children().each(function () {
                 var $tab = $(this);
+
+                var offsetAdjust = $tab.outerWidth() * rightBound / $box.outerWidth() * 0.05;
                 var right = $tab.position().left + $tab.outerWidth();
+
                 if (right > rightBound) {
-                    $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                    $container.scrollLeft($container.scrollLeft() + right - rightBound + offsetAdjust);
                     return false;
                 }
             });
         });
-
-        setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
     }
 
     function onDownloadUrl(url, fileType) {
@@ -492,6 +503,8 @@ SSE.ApplicationController = new(function(){
             }
         });
 
+        // setupScrollButtons();
+
         Common.Gateway.documentReady();
         Common.Analytics.trackEvent('Load', 'Complete');
     }
@@ -564,6 +577,7 @@ SSE.ApplicationController = new(function(){
 
                     onDocumentContentReady();
                     onSheetsChanged();
+                    setupScrollButtons();
                     break;
             }
 
