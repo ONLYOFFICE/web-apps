@@ -2791,7 +2791,7 @@ define([
         },
 
         onShowAnnotBar: function(bounds) {
-            if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
+            if (this.mode && !this.mode.isEdit) return;
 
             this.lastAnnotBarBounds = bounds;
             if (bounds[3] < 0) {
