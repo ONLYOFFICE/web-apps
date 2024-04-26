@@ -1229,12 +1229,14 @@ define([
 
                 this.spreadsheets = {
                     data: [
-                        {displayValue: this.options.spreadsheetName, value: 'current', index: 0},
-                        {displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1}
+                        {displayValue: this.options.spreadsheetName, value: 'current', index: 0}
                     ],
                     changed: false,
                     opened: false
                 };
+                if (this.options.isDesktopApp) {
+                    this.spreadsheets.data.push({displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1});
+                }
 
                 this.sheets = [this.options.sheets];
 
@@ -1305,7 +1307,7 @@ define([
                 this.spreadsheets.changed = true;
                 var me = this,
                     data = this.spreadsheets.data,
-                    arr = data.slice(0,data.length-1),
+                    arr = this.options.isDesktopApp ? data.slice(0,data.length-1) : data,
                     ind = arr.length;
                 workbooks.forEach(function (workbook, index) {
                     arr.push({displayValue: workbook.asc_getName(), value: workbook.asc_getId(), index: ind+index});
@@ -1319,7 +1321,7 @@ define([
                     });
                     me.sheets[ind+index] = arrSheets;
                 });
-                arr.push(data[data.length-1]);
+                this.options.isDesktopApp && arr.push(data[data.length-1]);
                 this.spreadsheets.data = arr;
                 if (this.spreadsheets.opened) {
                     this.cmbSpreadsheet.setData(this.spreadsheets.data);
