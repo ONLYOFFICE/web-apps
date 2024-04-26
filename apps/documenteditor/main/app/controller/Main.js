@@ -548,6 +548,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
