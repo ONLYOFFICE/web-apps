@@ -500,7 +500,7 @@ define([
             var copyDialog = new SSE.Views.Statusbar.CopyDialog({
                 title   : me.statusbar.itemMoveOrCopy,
                 sheets  : items,
-                spreadsheetName: me.statusbar.mode.isDesktopApp && me.api.asc_getDocumentName(),
+                spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
                 handler : function(btn, i, copy, workbook) {
                     if (btn == 'ok') {
@@ -533,14 +533,12 @@ define([
             });
             copyDialog.show();
 
-            if (me.statusbar.mode.isDesktopApp) {
-                var callback = function (workbooks) {
-                    if (workbooks) {
-                        copyDialog.changeSpreadsheets(workbooks);
-                    }
-                };
-                me.api.asc_getOpeningDocumentsList(callback);
-            }
+            var callback = function (workbooks) {
+                if (workbooks) {
+                    copyDialog.changeSpreadsheets(workbooks);
+                }
+            };
+            me.api.asc_getOpeningDocumentsList(callback);
         },
 
         onAddWorksheetClick: function(o, index, opts) {

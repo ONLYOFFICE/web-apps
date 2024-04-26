@@ -1209,12 +1209,10 @@ define([
             },
 
             template:   '<div class="box">' +
-                            '<% if (isDesktopApp) { %>' +
                             '<div class="input-row">' +
                                 '<label><%= labelSpreadsheet %></label>' +
                             '</div>' +
                             '<div id="status-cmb-spreadsheet" style="padding-bottom: 12px;"></div>' +
-                            '<% } %>' +
                             '<div class="input-row">' +
                                 '<label><%= labelMoveBefore %></label>' +
                             '</div>' +
@@ -1229,16 +1227,14 @@ define([
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
-                if (this.options.isDesktopApp) {
-                    this.spreadsheets = {
-                        data: [
-                            {displayValue: this.options.spreadsheetName, value: 'current', index: 0},
-                            {displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1}
-                        ],
-                        changed: false,
-                        opened: false
-                    };
-                }
+                this.spreadsheets = {
+                    data: [
+                        {displayValue: this.options.spreadsheetName, value: 'current', index: 0},
+                        {displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1}
+                    ],
+                    changed: false,
+                    opened: false
+                };
 
                 this.sheets = [this.options.sheets];
 
@@ -1252,26 +1248,24 @@ define([
                 var $window = this.getChild();
                 $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
-                if (this.options.isDesktopApp) {
-                    this.cmbSpreadsheet = new Common.UI.ComboBox({
-                        el: $('#status-cmb-spreadsheet', this.$window),
-                        menuStyle: 'min-width: 100%;',
-                        data: this.spreadsheets.data,
-                        cls: 'input-group-nr',
-                        editable: false
-                    });
-                    this.cmbSpreadsheet.setValue('current');
-                    var showBefore = function () {
-                        me.spreadsheets.opened = true;
-                        if (me.spreadsheets.changed) {
-                            me.cmbSpreadsheet.setData(me.spreadsheets.data)
-                            me.cmbSpreadsheet.setValue('current');
-                        }
-                        me.cmbSpreadsheet.off('show:before', showBefore);
-                    };
-                    this.cmbSpreadsheet.on('show:before', showBefore);
-                    this.cmbSpreadsheet.on('selected', _.bind(this.onChangeSpreadsheet, this));
-                }
+                this.cmbSpreadsheet = new Common.UI.ComboBox({
+                    el: $('#status-cmb-spreadsheet', this.$window),
+                    menuStyle: 'min-width: 100%;',
+                    data: this.spreadsheets.data,
+                    cls: 'input-group-nr',
+                    editable: false
+                });
+                this.cmbSpreadsheet.setValue('current');
+                var showBefore = function () {
+                    me.spreadsheets.opened = true;
+                    if (me.spreadsheets.changed) {
+                        me.cmbSpreadsheet.setData(me.spreadsheets.data)
+                        me.cmbSpreadsheet.setValue('current');
+                    }
+                    me.cmbSpreadsheet.off('show:before', showBefore);
+                };
+                this.cmbSpreadsheet.on('show:before', showBefore);
+                this.cmbSpreadsheet.on('selected', _.bind(this.onChangeSpreadsheet, this));
 
                 var pages = [];
                 this.sheets[0].forEach(function(item){
@@ -1383,7 +1377,7 @@ define([
 
                 if (this.options.handler) {
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet && this.cmbSpreadsheet.getSelectedRecord().value);
+                        event.currentTarget.attributes['result'].value, index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet.getSelectedRecord().value);
                 }
 
                 this.close();
@@ -1394,7 +1388,7 @@ define([
                     index = active ? active.get('inindex') : 0;
 
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet && this.cmbSpreadsheet.getSelectedRecord().value);
+                    this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet.getSelectedRecord().value);
                 }
 
                 this.close();
