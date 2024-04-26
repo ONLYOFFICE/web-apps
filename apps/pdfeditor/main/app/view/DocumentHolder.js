@@ -2176,7 +2176,7 @@ define([
             this.btnEditText = new Common.UI.Button({
                 parentEl: $('#annot-bar-edit-text', container),
                 cls: 'btn-toolbar',
-                iconCls: 'toolbar__icon btn-edit',
+                iconCls: 'toolbar__icon btn-magic-wand',
                 caption: this.textRecognize,
                 hint: this.tipRecognize
             });
