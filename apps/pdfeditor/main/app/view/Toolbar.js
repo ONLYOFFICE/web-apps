@@ -776,7 +776,7 @@ define([
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-comment',
+                        iconCls: 'toolbar__icon btn-big-add-comment',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnComment,
                         dataHint: '1',
@@ -788,7 +788,7 @@ define([
                     this.btnTextComment = new Common.UI.Button({
                         id: 'tlbtn-textcomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text-comment',
+                        iconCls: 'toolbar__icon btn-big-text-comment',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnTextComment,
                         menu: true,
@@ -1383,14 +1383,14 @@ define([
                                     caption: me.tipInsertTextComment,
                                     iconCls     : 'menu__icon btn-text-comment',
                                     value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeText,
-                                    iconClsForMainBtn: 'btn-text-comment',
+                                    iconClsForMainBtn: 'btn-big-text-comment',
                                     captionForMainBtn: me.capBtnTextComment
                                 },
                                 {
                                     caption: me.tipInsertTextCallout,
                                     iconCls     : 'menu__icon btn-text-callout',
                                     value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeTextCallout,
-                                    iconClsForMainBtn: 'btn-text-callout',
+                                    iconClsForMainBtn: 'btn-big-text-callout',
                                     captionForMainBtn: me.capBtnTextCallout
                                 },
                             ]
