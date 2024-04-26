@@ -834,7 +834,7 @@ define([
                     me.btnInsertHyperlink = new Common.UI.Button({
                         id: 'tlbtn-insertlink',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-inserthyperlink',
+                        iconCls: 'toolbar__icon btn-big-inserthyperlink',
                         caption: me.capInsertHyperlink,
                         lock: [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
                         dataHint: '1',

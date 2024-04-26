@@ -1246,7 +1246,7 @@ define([
                 me.btnInsertHyperlink = new Common.UI.Button({
                     id          : 'tlbtn-insertlink',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-inserthyperlink',
+                    iconCls     : 'toolbar__icon btn-big-inserthyperlink',
                     caption     : me.capInsertHyperlink,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
                     dataHint    : '1',
