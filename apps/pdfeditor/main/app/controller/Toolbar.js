@@ -222,7 +222,7 @@ define([
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
             toolbar.btnEditMode.on('click', function (btn, e) {
-                Common.NotificationCenter.trigger('pdf:mode-apply', btn.pressed ? 'edit' : 'view');
+                Common.NotificationCenter.trigger('pdf:mode-apply', btn.pressed ? 'edit' : 'comment');
             });
             Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.changePDFMode, this));
             toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));

@@ -31,12 +31,10 @@ function isLocalStorageAvailable() {
     Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0;
 }
 
-if(isLocalStorageAvailable()) {
-    let modeDirection = localStorage.getItem('mobile-mode-direction');
-
-    if(!modeDirection && Common.Locale.isCurrentLangRtl) {
-        localStorage.setItem('mobile-mode-direction', 'rtl');
-        modeDirection = 'rtl';
+{
+    let modeDirection = 'ltr';
+    if ( Common.Locale.isCurrentLangRtl ) {
+            modeDirection = (isLocalStorageAvailable() && localStorage.getItem('mobile-mode-direction')) || 'rtl';
     }
 
     if(modeDirection === 'rtl') {
@@ -45,8 +43,6 @@ if(isLocalStorageAvailable()) {
     } else {
         load_stylesheet('./css/framework7.css')
     }
-} else {
-    load_stylesheet('./css/framework7.css')
 }
 
 let obj = !isLocalStorageAvailable() ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme"));
