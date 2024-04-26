@@ -497,6 +497,7 @@ define([
                 menu: item.get('isCurrent') ? false : new Common.UI.Menu({
                     style: 'min-width: auto;',
                     cls: 'menu-absolute',
+                    additionalAlign: this.menuAddAlign,
                     items: item.get('isAnyone') ? [
                         {
                             caption: this.textCanView,

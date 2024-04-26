@@ -1926,5 +1926,9 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Fit to page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PDFE.Views.ViewTab.textEditMode": "Edit PDF",
+  "PDFE.Views.ViewTab.tipEditMode": "Add or edit text, shapes, images etc.",
+  "PDFE.Views.ViewTab.capBtnRecognize": "Recognize Page",
+  "PDFE.Views.ViewTab.tipRecognize": "Recognize page"
 }

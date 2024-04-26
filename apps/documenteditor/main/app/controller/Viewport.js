@@ -71,7 +71,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    'settings:apply': me.applySettings.bind(me)
+                    //'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -80,10 +80,10 @@ define([
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
-                        var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+                        /*var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
-                            me.header.btnPrintQuick[value ? 'show' : 'hide']();
+                            me.header.btnPrintQuick[value ? 'show' : 'hide']();*/
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
@@ -261,12 +261,12 @@ define([
             me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
-        applySettings: function () {
+        /*applySettings: function () {
             var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
             Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
             if (this.header && this.header.btnPrintQuick)
                 this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },
+        },*/
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {

@@ -149,6 +149,7 @@ define([
                                     '<div class="btn-slot" id="slot-btn-dt-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-undo"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-redo"></div>' +
+                                    '<div class="btn-slot" id="slot-btn-dt-quick-access"></div>' +
                                 '</div>' +
                                 '<div class="lr-separator" id="id-box-doc-name">' +
                                     // '<label id="title-doc-name" /></label>' +
@@ -310,6 +311,33 @@ define([
             }
         }
 
+        function onChangeQuickAccess(caller, props) {
+            if (props.save !== undefined) {
+                this.btnSave[props.save ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-save', props.save);
+            }
+            if (props.print !== undefined) {
+                this.btnPrint[props.print ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-print', props.print);
+            }
+            if (props.quickPrint !== undefined) {
+                this.btnPrintQuick[props.quickPrint ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-quick-print', props.quickPrint);
+            }
+            if (props.undo !== undefined) {
+                this.btnUndo[props.undo ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-undo', props.undo);
+            }
+            if (props.redo !== undefined) {
+                this.btnRedo[props.redo ? 'show' : 'hide']();
+                Common.localStorage.setBool(this.appPrefix + 'quick-access-redo', props.redo);
+            }
+            Common.NotificationCenter.trigger('edit:complete');
+
+            if ( caller && caller == 'header' )
+                Common.NotificationCenter.trigger('quickaccess:changed', props);
+        }
+
         function onAppReady(mode) {
             appConfig = mode;
 
@@ -427,6 +455,89 @@ define([
                 });
             }
 
+            if (me.btnQuickAccess) {
+                me.btnQuickAccess.updateHint(me.tipCustomizeQuickAccessToolbar);
+                var arr = [];
+                if (me.btnSave) {
+                    arr.push({
+                        caption: me.tipSave,
+                        value: 'save',
+                        checkable: true
+                    });
+                }
+                if (me.btnPrint) {
+                    arr.push({
+                        caption: me.textPrint,
+                        value: 'print',
+                        checkable: true
+                    });
+                }
+                if (me.btnPrintQuick) {
+                    arr.push({
+                        caption: me.tipPrintQuick,
+                        value: 'quick-print',
+                        checkable: true
+                    });
+                }
+                if (me.btnUndo) {
+                    arr.push({
+                        caption: me.tipUndo,
+                        value: 'undo',
+                        checkable: true
+                    });
+                }
+                if (me.btnRedo) {
+                    arr.push({
+                        caption: me.tipRedo,
+                        value: 'redo',
+                        checkable: true
+                    });
+                }
+                me.btnQuickAccess.setMenu(new Common.UI.Menu({
+                    cls: 'ppm-toolbar',
+                    style: 'min-width: 110px;',
+                    menuAlign: 'tl-bl',
+                    items: arr
+                }));
+                me.btnQuickAccess.menu.on('show:before', function (menu) {
+                    menu.items.forEach(function (item) {
+                        if (item.value === 'save') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true), true);
+                        } else if (item.value === 'print') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true), true);
+                        } else if (item.value === 'quick-print') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true), true);
+                        } else if (item.value === 'undo') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true), true);
+                        } else if (item.value === 'redo') {
+                            item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true), true);
+                        }
+                    });
+                });
+                me.btnQuickAccess.menu.on('item:click', function (menu, item) {
+                    var props = {};
+                    switch (item.value) {
+                        case 'save':
+                            props.save = item.checked;
+                            break;
+                        case 'print':
+                            props.print = item.checked;
+                            break;
+                        case 'quick-print':
+                            props.quickPrint = item.checked;
+                            break;
+                        case 'undo':
+                            props.undo = item.checked;
+                            break;
+                        case 'redo':
+                            props.redo = item.checked;
+                            break;
+                    }
+                    onChangeQuickAccess.call(me, 'header', props);
+                });
+                Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me, 'settings'));
+            }
+
             if ( !appConfig.twoLevelHeader ) {
                 if ( me.btnDownload ) {
                     me.btnDownload.updateHint(me.tipDownload);
@@ -484,7 +595,7 @@ define([
                     items: arr
                 }));
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
-                    Common.NotificationCenter.trigger('pdf:mode', item.value, _.bind(changePDFMode, me));
+                    Common.NotificationCenter.trigger('pdf:mode-apply', item.value);
                 });
             } else if (me.btnDocMode) {
                 var arr = [];
@@ -605,6 +716,9 @@ define([
                 this.documentCaption = this.options.documentCaption;
                 this.branding = this.options.customization;
                 this.isModified = false;
+
+                var filter = Common.localStorage.getKeysFilter();
+                this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
                 me.btnGoBack = new Common.UI.Button({
                     id: 'btn-go-back',
@@ -783,6 +897,7 @@ define([
                         });
                         me.btnPDFMode.render($html.find('#slot-btn-edit-mode'));
                         changePDFMode.call(me, config);
+                        Common.NotificationCenter.on('pdf:mode-changed', _.bind(changePDFMode, me));
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
                         me.btnDocMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode ',
@@ -852,16 +967,31 @@ define([
 
                     if ( config.canPrint && config.twoLevelHeader ) {
                         me.btnPrint = createTitleButton('toolbar__icon icon--inverse btn-print', $html.findById('#slot-btn-dt-print'), true, undefined, undefined, 'P');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-print', true) && me.btnPrint.hide();
                     }
-                    if ( config.canQuickPrint && config.twoLevelHeader )
+                    if ( config.canQuickPrint && config.twoLevelHeader ) {
                         me.btnPrintQuick = createTitleButton('toolbar__icon icon--inverse btn-quick-print', $html.findById('#slot-btn-dt-print-quick'), true, undefined, undefined, 'Q');
-
-                    if (config.showSaveButton)
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-quick-print', true) && me.btnPrintQuick.hide();
+                    }
+                    if (config.showSaveButton) {
                         me.btnSave = createTitleButton('toolbar__icon icon--inverse btn-save', $html.findById('#slot-btn-dt-save'), true, undefined, undefined, 'S');
+                        !Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true) && me.btnSave.hide();
+                    }
                     me.btnUndo = createTitleButton('toolbar__icon icon--inverse btn-undo', $html.findById('#slot-btn-dt-undo'), true, undefined, undefined, 'Z',
                                                     [Common.enumLock.undoLock, Common.enumLock.fileMenuOpened]);
+                    !Common.localStorage.getBool(me.appPrefix + 'quick-access-undo', true) && me.btnUndo.hide();
                     me.btnRedo = createTitleButton('toolbar__icon icon--inverse btn-redo', $html.findById('#slot-btn-dt-redo'), true, undefined, undefined, 'Y',
                                                     [Common.enumLock.redoLock, Common.enumLock.fileMenuOpened]);
+                    !Common.localStorage.getBool(me.appPrefix + 'quick-access-redo', true) && me.btnRedo.hide();
+                    me.btnQuickAccess = new Common.UI.Button({
+                        cls: 'btn-header no-caret',
+                        iconCls: 'toolbar__icon icon--inverse btn-more',
+                        menu: true,
+                        dataHint:'0',
+                        dataHintDirection: config.isDesktopApp ? 'right' : 'left',
+                        dataHintOffset: config.isDesktopApp ? '10, -18' : '10, 10'
+                    });
+                    me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
 
                     return $html;
                 }
@@ -1159,7 +1289,9 @@ define([
             textReviewDesc: 'Suggest changes',
             tipReview: 'Reviewing',
             textClose: 'Close file',
-            textStartFill: 'Start filling'
+            textStartFill: 'Start filling',
+            tipCustomizeQuickAccessToolbar: 'Customize Quick Access Toolbar',
+            textPrint: 'Print'
         }
     }(), Common.Views.Header || {}))
 });

@@ -196,7 +196,7 @@ define([
         '<i class="caret"></i>';
 
     var templateHugeCaption =
-            '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
+            '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
@@ -737,9 +737,9 @@ define([
         },
 
         setIconCls: function(cls) {
-            var btnIconEl = $(this.el).find('.icon'),
+            var btnIconEl = $(this.el).find('i.icon'),
                 oldCls = this.iconCls,
-                svgIcon = btnIconEl.find('use.zoom-int');
+                svgIcon = $(this.el).find('.icon use.zoom-int');
 
             this.iconCls = cls;
             if (/svgicon/.test(this.iconCls)) {
@@ -760,9 +760,9 @@ define([
 
         changeIcon: function(opts) {
             var me = this,
-                btnIconEl = $(this.el).find('.icon');
+                btnIconEl = $(this.el).find('i.icon');
             if (opts && (opts.curr || opts.next) && btnIconEl) {
-                var svgIcon = btnIconEl.find('use.zoom-int');
+                var svgIcon = $(this.el).find('.icon use.zoom-int');
                 !!opts.curr && (btnIconEl.removeClass(opts.curr));
                 !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
                 svgIcon.length && !!opts.next && svgIcon.attr('href', '#' + opts.next);
