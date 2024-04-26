@@ -218,6 +218,10 @@ define([
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
+            toolbar.btnEditMode.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('pdf:mode-apply', btn.pressed ? 'edit' : 'view');
+            });
+            Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.changePDFMode, this));
             toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
             toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
             toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
@@ -2219,6 +2223,10 @@ define([
 
         onTextHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
+        },
+
+        changePDFMode: function(data) {
+            this.toolbar && this.toolbar.btnEditMode && this.toolbar.btnEditMode.toggle(!!this.mode.isPDFEdit, true);
         },
 
         onPluginToolbarMenu: function(data) {

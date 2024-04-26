@@ -143,7 +143,7 @@ define([
                     cls: 'btn-toolbar x-huge icon-top',
                     iconCls: 'toolbar__icon btn-edit-text',
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.capBtnEditText,
+                    caption: this.capBtnRecognize,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -862,6 +862,19 @@ define([
                             ]}
                     });
 
+                    this.btnEditMode = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-edit-text',
+                        style: 'min-width: 45px;',
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        caption: this.textEditMode,
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnEditMode);
+
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
@@ -1244,6 +1257,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
+                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
                 // _injectComponent('#slot-btn-rotate', this.btnRotate);
             },
 
@@ -1435,6 +1449,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
+                this.btnEditMode.updateHint(this.tipEditMode);
                 // this.btnRotate.updateHint(this.tipRotate);
 
             },
@@ -1443,7 +1458,7 @@ define([
                 if (!this.mode.isPDFEdit) return;
 
                 this.updateMetricUnit();
-                this.btnEditText.updateHint(this.tipEditText);
+                this.btnEditText.updateHint(this.tipRecognize);
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -1845,7 +1860,11 @@ define([
             capBtnTextCallout: 'Text Callout',
             tipInsertTextComment: 'Insert text comment',
             tipInsertTextCallout: 'Insert text callout',
-            tipInsertText: 'Insert text'
+            tipInsertText: 'Insert text',
+            textEditMode: 'Edit PDF',
+            tipEditMode: 'Add or edit text, shapes, images etc.',
+            capBtnRecognize: 'Recognize Page',
+            tipRecognize: 'Recognize page',
         }
     })(), PDFE.Views.Toolbar || {}));
 });
