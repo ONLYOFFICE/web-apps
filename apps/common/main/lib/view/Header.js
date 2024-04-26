@@ -595,7 +595,7 @@ define([
                     items: arr
                 }));
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
-                    Common.NotificationCenter.trigger('pdf:mode', item.value, _.bind(changePDFMode, me));
+                    Common.NotificationCenter.trigger('pdf:mode-apply', item.value);
                 });
             } else if (me.btnDocMode) {
                 var arr = [];
@@ -897,6 +897,7 @@ define([
                         });
                         me.btnPDFMode.render($html.find('#slot-btn-edit-mode'));
                         changePDFMode.call(me, config);
+                        Common.NotificationCenter.on('pdf:mode-changed', _.bind(changePDFMode, me));
                     } else if (isDocEditor && config.isEdit && config.canSwitchMode) {
                         me.btnDocMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode ',
