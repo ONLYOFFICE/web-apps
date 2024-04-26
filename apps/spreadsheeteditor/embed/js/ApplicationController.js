@@ -146,6 +146,7 @@ SSE.ApplicationController = new(function(){
             docInfo.put_EncryptedInfo(config.encryptionKeys);
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
+            docInfo.put_Wopi(config.wopi);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
