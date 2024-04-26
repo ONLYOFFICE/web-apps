@@ -497,7 +497,7 @@ define([
                 return;
             }
 
-            var copyDialog = new SSE.Views.Statusbar.CopyDialog({
+            me.copyDialog = new SSE.Views.Statusbar.CopyDialog({
                 title   : me.statusbar.itemMoveOrCopy,
                 sheets  : items,
                 spreadsheetName: me.api.asc_getDocumentName(),
@@ -531,11 +531,11 @@ define([
                     me.api.asc_enableKeyEvents(true);
                 }
             });
-            copyDialog.show();
+            me.copyDialog.show();
 
             var callback = function (workbooks) {
                 if (workbooks) {
-                    copyDialog.changeSpreadsheets(workbooks);
+                    me.copyDialog.changeSpreadsheets(workbooks);
                 }
             };
             me.api.asc_getOpeningDocumentsList(callback);
