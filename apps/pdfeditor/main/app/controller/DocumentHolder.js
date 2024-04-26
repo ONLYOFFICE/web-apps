@@ -2882,6 +2882,7 @@ define([
         },
 
         editText: function() {
+            this.mode && !this.mode.isPDFEdit && Common.NotificationCenter.trigger('pdf:mode-apply', 'edit');
             this.api && this.api.asc_EditPage();
         },
 

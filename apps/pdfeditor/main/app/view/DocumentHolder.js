@@ -2177,8 +2177,8 @@ define([
                 parentEl: $('#annot-bar-edit-text', container),
                 cls: 'btn-toolbar',
                 iconCls: 'toolbar__icon btn-edit',
-                caption: toolbar.capBtnEditText,
-                hint: toolbar.tipEditText
+                caption: this.textRecognize,
+                hint: this.tipRecognize
             });
             annotBarBtns.push(this.btnEditText);
             this.fireEvent('annotbar:create', [this.btnStrikeout, this.mnuStrikeoutColorPicker, this.btnUnderline, this.mnuUnderlineColorPicker, this.btnHighlight, this.mnuHighlightColorPicker]);
@@ -2494,7 +2494,9 @@ define([
         txtNewPage: 'Insert blank page',
         txtRotateRight: 'Rotate page right',
         txtRotateLeft: 'Rotate page left',
-        removeCommentText: 'Remove'
+        removeCommentText: 'Remove',
+        textRecognize: 'Recognize text',
+        tipRecognize: 'Recognize text'
 
     }, PDFE.Views.DocumentHolder || {}));
 });
