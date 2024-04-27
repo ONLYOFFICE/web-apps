@@ -554,6 +554,8 @@
   "Common.Views.AutoCorrectDialog.warnReplace": "Элемент автозамены для %1 уже существует. Вы хотите заменить его?",
   "Common.Views.AutoCorrectDialog.warnReset": "Все добавленные вами автозамены будут удалены, а для измененных будут восстановлены исходные значения. Вы хотите продолжить?",
   "Common.Views.AutoCorrectDialog.warnRestore": "Элемент автозамены для %1 будет сброшен на исходное значение. Вы хотите продолжить?",
+  "Common.Views.Chat.textChat": "Чат",
+  "Common.Views.Chat.textClosePanel": "Закрыть чат",
   "Common.Views.Chat.textSend": "Отправить",
   "Common.Views.Comments.mniAuthorAsc": "По автору от А до Я",
   "Common.Views.Comments.mniAuthorDesc": "По автору от Я до А",

@@ -345,6 +345,7 @@ define([
                 view.mnuDeletePage.on('click', _.bind(me.onDeletePage, me));
                 view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
                 view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, 270));
+                view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             }
         },
 

@@ -763,8 +763,14 @@ define([
                 btnIconEl = $(this.el).find('i.icon');
             if (opts && (opts.curr || opts.next) && btnIconEl) {
                 var svgIcon = $(this.el).find('.icon use.zoom-int');
-                !!opts.curr && (btnIconEl.removeClass(opts.curr));
-                !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                if (opts.curr) {
+                    btnIconEl.removeClass(opts.curr);
+                    me.iconCls = me.iconCls.replace(opts.curr, '').trim();
+                }
+                if (opts.next) {
+                    !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                    (me.iconCls.indexOf(opts.next)<0) && (me.iconCls += ' ' + opts.next);
+                }
                 svgIcon.length && !!opts.next && svgIcon.attr('href', '#' + opts.next);
 
                 if ( !!me.options.signals ) {
