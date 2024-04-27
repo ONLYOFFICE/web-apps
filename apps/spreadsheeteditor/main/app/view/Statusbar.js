@@ -1351,8 +1351,18 @@ define([
                 }
             },
 
+            getSheetNames: function (sheets) {
+                if (sheets) {
+                    var names = [];
+                    sheets.forEach(function (item) {
+                        names.push(item.value);
+                    });
+                    return names;
+                }
+            },
+
             getFocusedComponents: function() {
-                return [this.listNames].concat(this.getFooterButtons());
+                return [this.cmbSpreadsheet, this.listNames, this.chCreateCopy].concat(this.getFooterButtons());
             },
 
             getDefaultFocusableComponent: function () {
@@ -1378,8 +1388,12 @@ define([
                     index = active ? active.get('inindex') : 0;
 
                 if (this.options.handler) {
+                    var record = this.cmbSpreadsheet.getSelectedRecord(),
+                        sheetNames;
+                    if (record.value !== 'current' && record.value !== 'new')
+                        sheetNames = this.getSheetNames(this.sheets[record.index]);
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet.getSelectedRecord().value);
+                        event.currentTarget.attributes['result'].value, index, this.chCreateCopy.getValue()==='checked', record.value, sheetNames);
                 }
 
                 this.close();
@@ -1390,7 +1404,11 @@ define([
                     index = active ? active.get('inindex') : 0;
 
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', this.cmbSpreadsheet.getSelectedRecord().value);
+                    var record = this.cmbSpreadsheet.getSelectedRecord(),
+                        sheetNames;
+                    if (record.value !== 'current' && record.value !== 'new')
+                        sheetNames = this.getSheetNames(this.sheets[record.index]);
+                    this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', record.value, sheetNames);
                 }
 
                 this.close();

@@ -355,25 +355,23 @@ define([
             return name;
         },
 
-        createCopyName: function(orig, curArrNames) {
-            var wc = this.api.asc_getWorksheetsCount(), names = [];
-            while (wc--) {
-                names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
-            }
-
+        createCopyName: function(copy, orig, curNames, names) {
             var re = /^(.*)\((\d)\)$/.exec(orig);
             var first = re ? re[1] : orig + ' ';
 
-            var index = 1, name;
-            while(true) {
+            var index = 1, name = orig;
+            if (copy) {
                 index++;
                 name = first + '(' + index + ')';
-                if (names.indexOf(name.toLowerCase()) < 0) break;
+            }
+            while(names.indexOf(name.toLowerCase()) !== -1) {
+                index++;
+                name = first + '(' + index + ')';
             }
 
-            if (curArrNames && curArrNames.length > 0) {
+            if (curNames && curNames.length > 0) {
                 var arr = [];
-                curArrNames.forEach(function (item) {
+                curNames.forEach(function (item) {
                     arr.push(item.toLowerCase());
                 });
                 while(arr.indexOf(name.toLowerCase()) !== -1) {
@@ -383,6 +381,26 @@ define([
             }
 
             return name;
+        },
+
+        generateSheetNames: function (copy, sheetIndexes, otherWorksheetNames) {
+            var me = this,
+                names = [];
+            if (copy) {
+                var wc = this.api.asc_getWorksheetsCount();
+                while (wc--) {
+                    names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
+                }
+            }
+            otherWorksheetNames && otherWorksheetNames.forEach(function (item) {
+                names.push(item.toLowerCase());
+            });
+
+            var newNames = [];
+            sheetIndexes.forEach(function (item) {
+                newNames.push(me.createCopyName(copy, me.api.asc_getWorksheetName(item), newNames, names));
+            });
+            return newNames;
         },
 
         deleteWorksheet: function(selectTabs) {
@@ -488,10 +506,7 @@ define([
                     me.api.asc_moveWorksheet(indTo, arrIndex);
                     me.api.asc_enableKeyEvents(true);
                 } else {
-                    var arrNames = [];
-                    arrIndex.forEach(function (item) {
-                        arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
-                    });
+                    var arrNames = me.generateSheetNames(!cut, arrIndex);
                     me.api.asc_copyWorksheet(indTo, arrNames, arrIndex);
                 }
                 return;
@@ -502,7 +517,7 @@ define([
                 sheets  : items,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
-                handler : function(btn, i, copy, workbook) {
+                handler : function(btn, i, copy, workbook, names) {
                     if (btn == 'ok') {
                         var arrBooks,
                             arrNames;
@@ -512,19 +527,13 @@ define([
                             else if (workbook !== 'current')
                                 arrBooks = [workbook];
                             if (workbook !== 'current') {
-                                arrNames = [];
-                                arrIndex.forEach(function (item) {
-                                    arrNames.push(me.api.asc_getWorksheetName(item));
-                                });
+                                arrNames = me.generateSheetNames(copy, arrIndex, names);
                             }
                         }
                         if (!copy) {
                             me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex, arrNames, arrBooks);
                         } else {
-                            arrNames = [];
-                            arrIndex.forEach(function (item) {
-                                arrNames.push(me.createCopyName(me.api.asc_getWorksheetName(item), arrNames));
-                            });
+                            arrNames = me.generateSheetNames(copy, arrIndex, names);
                             me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex, arrBooks);
                         }
                     }
