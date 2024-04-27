@@ -540,6 +540,9 @@ define([
                     me.api.asc_enableKeyEvents(true);
                 }
             });
+            me.copyDialog.on('close', function () {
+                me.copyDialog = undefined;
+            });
             me.copyDialog.show();
 
             var callback = function (workbooks) {

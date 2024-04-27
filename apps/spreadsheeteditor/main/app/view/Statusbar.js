@@ -1384,10 +1384,12 @@ define([
             },
 
             onBtnClick: function(event) {
-                var active = this.listNames.getSelectedRec(),
-                    index = active ? active.get('inindex') : 0;
-
                 if (this.options.handler) {
+                    var active = this.listNames.getSelectedRec(),
+                        index = active ? active.get('inindex') : 0;
+                    if (index === -255)
+                        index = this.listNames.store.length - 1;
+
                     var record = this.cmbSpreadsheet.getSelectedRecord(),
                         sheetNames;
                     if (record.value !== 'current' && record.value !== 'new')
@@ -1400,10 +1402,12 @@ define([
             },
 
             onPrimary: function() {
-                var active = this.listNames.getSelectedRec(),
-                    index = active ? active.get('inindex') : 0;
-
                 if (this.options.handler) {
+                    var active = this.listNames.getSelectedRec(),
+                        index = active ? active.get('inindex') : 0;
+                    if (index === -255)
+                        index = this.listNames.store.length - 1;
+
                     var record = this.cmbSpreadsheet.getSelectedRecord(),
                         sheetNames;
                     if (record.value !== 'current' && record.value !== 'new')
