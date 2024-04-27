@@ -1183,6 +1183,8 @@
   "PDFE.Views.DocumentHolder.txtWarnUrl": "Clicking this link can be harmful to your device and data.<br>Are you sure you want to continue?",
   "PDFE.Views.DocumentHolder.unicodeText": "Unicode",
   "PDFE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
+  "PDFE.Views.DocumentHolder.textRecognize": "Recognize",
+  "PDFE.Views.DocumentHolder.tipRecognize": "Recognize text",
   "PDFE.Views.FileMenu.btnBackCaption": "Open File Location",
   "PDFE.Views.FileMenu.btnCloseEditor": "Close File",
   "PDFE.Views.FileMenu.btnCloseMenuCaption": "Close Menu",
