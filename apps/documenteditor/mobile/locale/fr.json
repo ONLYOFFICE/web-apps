@@ -223,7 +223,7 @@
     "textDoNotShowAgain": "Ne plus afficher",
     "textNumberingValue": "Valeur de numérotation",
     "textOk": "Ok",
-    "textRefreshEntireTable": "Actualiser le tableau entier",
+    "textRefreshEntireTable": "Actualiser tout",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
     "textRows": "Lignes",
     "txtWarnUrl": "Cliquer sur ce lien peut être dangereux pour votre appareil et vos données. <br>Êtes-vous sûr de vouloir continuer ?"
@@ -353,7 +353,7 @@
     "textPt": "pt",
     "textRecommended": "Recommandations",
     "textRefresh": "Actualiser",
-    "textRefreshEntireTable": "Actualiser le tableau entier",
+    "textRefreshEntireTable": "Actualiser tout",
     "textRefreshPageNumbersOnly": "Actualiser les numéros de page uniquement",
     "textRemoveChart": "Supprimer le graphique",
     "textRemoveShape": "Supprimer la forme",

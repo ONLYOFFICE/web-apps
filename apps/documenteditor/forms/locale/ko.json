@@ -113,7 +113,7 @@
   "DE.Controllers.ApplicationController.errorUpdateVersion": "파일 버전이 변경되었습니다. 페이지가 다시로드됩니다.",
   "DE.Controllers.ApplicationController.errorUpdateVersionOnDisconnect": "네트워크 연결이 복원되었으며 파일 버전이 변경되었습니다. <br>계속 작업하기 전에 데이터 손실을 방지하기 위해 파일을 다운로드하거나 내용을 복사한 다음 이 페이지를 새로 고쳐야 합니다.",
   "DE.Controllers.ApplicationController.errorUserDrop": "파일에 지금 액세스 할 수 없습니다.",
-  "DE.Controllers.ApplicationController.errorViewerDisconnect": "연결이 끊어졌습니다. 문서를 볼 수는 <br> <br>하지만 연결이 복원 될 때까지 다운로드하거나 인쇄 할 수 없습니다.",
+  "DE.Controllers.ApplicationController.errorViewerDisconnect": "연결이 끊어졌습니다. 문서를 계속 볼 수 있지만,<br>연결이 복원되고 페이지가 다시 로드 될 때까지 문서를 다운로드하거나 인쇄할 수 없습니다.",
   "DE.Controllers.ApplicationController.mniImageFromFile": "그림 파일에서",
   "DE.Controllers.ApplicationController.mniImageFromStorage": "스토리지에서 불러오기",
   "DE.Controllers.ApplicationController.mniImageFromUrl": "URL에서 불러오기",
