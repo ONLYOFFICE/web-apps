@@ -55,8 +55,7 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
@@ -122,10 +121,6 @@ define([
                 ]];
             }
 
-            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 1); // remove docxf
-            }
-
             this.$el.html(this.template({rows:this.formats,
                 fileType: (this.fileType || 'docx').toLowerCase(),
                 header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'DE.Views.FileMenu', default:this.textDownloadAs})}));
@@ -179,8 +174,7 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
@@ -245,10 +239,6 @@ define([
                     {name: 'DJVU',  imgCls: 'djvu',  type: '', ext: true}, // original djvu
                     {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
                 ]];
-            }
-
-            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 1); // remove docxf
             }
 
             this.$el.html(this.template({rows:this.formats,
