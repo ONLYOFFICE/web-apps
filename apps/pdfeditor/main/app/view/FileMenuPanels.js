@@ -118,7 +118,7 @@ define([
 
             this.$el.html(this.template({rows:this.formats,
                 fileType: (this.fileType || 'docx').toLowerCase(),
-                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'DE.Views.FileMenu', default:this.textDownloadAs})}));
+                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'PDFE.Views.FileMenu', default:this.textDownloadAs})}));
 
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -236,7 +236,7 @@ define([
 
             this.$el.html(this.template({rows:this.formats,
                 fileType: (this.fileType || 'docx').toLowerCase(),
-                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'DE.Views.FileMenu', default:this.textSaveCopyAs})}));
+                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'PDFE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
