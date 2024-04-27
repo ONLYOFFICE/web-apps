@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Spreadsheet yükleniyor...",
   "SSE.ApplicationController.errorAccessDeny": "Hakkınız olmayan bir eylem gerçekleştirmeye çalışıyorsunuz.<br>Lütfen Belge Sunucu yöneticinize başvurun.",
   "SSE.ApplicationController.errorDefaultMessage": "Hata kodu: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "Belge ile çalışma sırasında bir hata oluştu.<br>Dosya yedek kopyasını bir sürücüye kaydetmek için 'Farklı Kaydet' seçeneğini kullanın.",
   "SSE.ApplicationController.errorFilePassProtect": "Döküman şifre korumalı ve açılamadı",
   "SSE.ApplicationController.errorFileSizeExceed": "Dosya boyutu, sunucunuz için belirlenen limiti aşıyor.<br>Ayrıntılar için lütfen Doküman Sunucusu yöneticinizle iletişime geçin.",
   "SSE.ApplicationController.errorForceSave": "Dosya kaydedilirken bir hata oluştu. Dosyayı bilgisayarınıza kaydetmek için lütfen 'Farklı Kaydet' seçeneğini kullanın veya daha sonra tekrar deneyin.",
@@ -47,6 +48,6 @@
   "SSE.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "SSE.ApplicationView.txtFullScreen": "Tam Ekran",
   "SSE.ApplicationView.txtPrint": "Yazdır",
-  "SSE.ApplicationView.txtSearch": "Arama",
+  "SSE.ApplicationView.txtSearch": "Bul",
   "SSE.ApplicationView.txtShare": "Paylaş"
 }

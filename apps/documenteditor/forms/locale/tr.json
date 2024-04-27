@@ -163,6 +163,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "%1 düzenleyici için kullanıcı sınırına ulaştınız. Kişisel yükseltme koşulları için %1 satış ekibiyle iletişime geçin.",
   "DE.Views.ApplicationView.textClear": "Tüm alanları temizle",
   "DE.Views.ApplicationView.textClearField": "Alanı temizle",
+  "DE.Views.ApplicationView.textClose": "Dosyayı Kapat",
   "DE.Views.ApplicationView.textCopy": "Kopyala",
   "DE.Views.ApplicationView.textCut": "Kes",
   "DE.Views.ApplicationView.textFitToPage": "Sayfaya Sığdır",
