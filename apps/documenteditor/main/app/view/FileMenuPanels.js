@@ -110,8 +110,10 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
-                this.formats[1].splice(2, 1); // remove pdfa
+                if (!(this.mode && this.mode.isPDFForm)) {
+                    this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                    this.formats[1].splice(2, 1); // remove pdfa
+                }
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
@@ -230,8 +232,10 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
-                this.formats[1].splice(2, 1); // remove pdfa
+                if (!(this.mode && this.mode.isPDFForm)) {
+                    this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                    this.formats[1].splice(2, 1); // remove pdfa
+                }
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
