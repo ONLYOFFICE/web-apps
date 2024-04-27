@@ -55,8 +55,7 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM},
@@ -111,8 +110,10 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
-                this.formats[1].splice(2, 1); // remove pdfa
+                if (!(this.mode && this.mode.isPDFForm)) {
+                    this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: ''}); // remove pdf
+                    this.formats[1].splice(2, 1); // remove pdfa
+                }
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: ''}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
@@ -120,10 +121,6 @@ define([
                     {name: 'DJVU',  imgCls: 'djvu',  type: ''}, // original djvu
                     {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF}
                 ]];
-            }
-
-            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 1); // remove docxf
             }
 
             this.$el.html(this.template({rows:this.formats,
@@ -179,8 +176,7 @@ define([
         formats: [[
             {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX, ext: '.docx'},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'},
-            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'},
-            {name: 'DOCXF',  imgCls: 'docxf',  type: Asc.c_oAscFileType.DOCXF, ext: '.docxf'}
+            {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT, ext: '.odt'}
         ],[
             {name: 'DOTX',  imgCls: 'dotx',  type: Asc.c_oAscFileType.DOTX, ext: '.dotx'},
             {name: 'DOCM',  imgCls: 'docm',  type: Asc.c_oAscFileType.DOCM, ext: '.docm'},
@@ -236,8 +232,10 @@ define([
 
         render: function() {
             if (/^pdf$/.test(this.fileType)) {
-                !(this.mode && this.mode.isPDFForm) && this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
-                this.formats[1].splice(2, 1); // remove pdfa
+                if (!(this.mode && this.mode.isPDFForm)) {
+                    this.formats[0].splice(1, 1, {name: 'PDF',  imgCls: 'pdf', type: '', ext: true}); // remove pdf
+                    this.formats[1].splice(2, 1); // remove pdfa
+                }
             } else if (/^xps|oxps$/.test(this.fileType)) {
                 this.formats[0].push({name: this.fileType.toUpperCase(),  imgCls: this.fileType, type: '', ext: true}); // original xps/oxps
             } else if (/^djvu$/.test(this.fileType)) {
@@ -245,10 +243,6 @@ define([
                     {name: 'DJVU',  imgCls: 'djvu',  type: '', ext: true}, // original djvu
                     {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF, ext: '.pdf'}
                 ]];
-            }
-
-            if (this.mode && !this.mode.canFeatureForms && this.formats.length>2) {
-                this.formats[0].splice(3, 1); // remove docxf
             }
 
             this.$el.html(this.template({rows:this.formats,
