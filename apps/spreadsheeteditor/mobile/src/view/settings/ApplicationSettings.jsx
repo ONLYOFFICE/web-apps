@@ -7,6 +7,7 @@ const PageApplicationSettings = props => {
     const { t } = useTranslation();
     const _t = t("View.Settings", { returnObjects: true });
     const storeApplicationSettings = props.storeApplicationSettings;
+    const isSamsungInternetBrowser = props.isSamsungInternetBrowser;
     const unitMeasurement = storeApplicationSettings.unitMeasurement;
     const formulaLang = storeApplicationSettings.formulaLang;
     const regData = storeApplicationSettings.regData;
@@ -97,7 +98,7 @@ const PageApplicationSettings = props => {
                         />
                     </ListItem>
                 </List>
-                {!!isConfigSelectTheme &&
+                {(!!isConfigSelectTheme && !isSamsungInternetBrowser) &&
                     <List mediaList>
                         <ListItem title={t("Common.Themes.textTheme")} after={themes[typeTheme].text} link="/theme-settings/" routeProps={{
                             changeTheme: props.changeTheme,

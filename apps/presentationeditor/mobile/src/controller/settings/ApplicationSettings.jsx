@@ -57,6 +57,7 @@ class ApplicationSettingsController extends Component {
                 switchSpellCheck={this.switchSpellCheck} 
                 setMacrosSettings={this.setMacrosSettings}
                 changeTheme={this.context.changeTheme}
+                isSamsungInternetBrowser={this.context.isSamsungInternetBrowser}
                 changeDirectionMode={this.changeDirectionMode}
             />
         )

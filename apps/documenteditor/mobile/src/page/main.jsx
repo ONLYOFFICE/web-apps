@@ -229,7 +229,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     };
 
     return (
-        <Themes fileType={docExt}>
+        <Themes>
             <MainContext.Provider value={{
                 openOptions: handleClickToOpenOptions,
                 closeOptions: handleOptionsViewClosed,

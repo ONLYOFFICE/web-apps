@@ -153,6 +153,7 @@ class ApplicationSettingsController extends Component {
                 onRegSettings={this.onRegSettings}   
                 changeDirectionMode={this.changeDirectionMode}
                 changeTheme={this.context.changeTheme}
+                isSamsungInternetBrowser={this.context.isSamsungInternetBrowser}
             />
         )
     }

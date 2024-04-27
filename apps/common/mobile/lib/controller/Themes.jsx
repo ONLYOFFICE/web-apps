@@ -9,6 +9,7 @@ export const ThemesProvider = props => {
     const storeThemes = props.storeThemes;
     const themes = storeThemes.themes;
     const nameColors = storeThemes.nameColors;
+    const isSamsungInternetBrowser = navigator.userAgent.includes("SamsungBrowser");
 
     useEffect(() => {
         initTheme();
@@ -31,11 +32,13 @@ export const ThemesProvider = props => {
     }
 
     const initTheme = () => {
-        const clientTheme = LocalStorage.getItem("ui-theme");
-        const editorConfig = window.native?.editorConfig;
+        if(!isSamsungInternetBrowser) {
+            const clientTheme = LocalStorage.getItem("ui-theme");
+            const editorConfig = window.native?.editorConfig;
 
-        storeThemes.setConfigSelectTheme(editorConfig?.theme?.select != false);
-        setUITheme(clientTheme ? JSON.parse(clientTheme).type : editorConfig?.theme?.type);
+            storeThemes.setConfigSelectTheme(editorConfig?.theme?.select != false);
+            setUITheme(clientTheme ? JSON.parse(clientTheme).type : editorConfig?.theme?.type);
+        } 
 
         applyTheme();
     }
@@ -89,12 +92,16 @@ export const ThemesProvider = props => {
 
     const applyTheme = () => {
         const $body = $$('body');
-
         let theme = storeThemes.systemColorTheme;
         if(!theme) theme = storeThemes.colorTheme;
-    
-        $body.attr('class') && $body.attr('class', $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
-        $body.addClass(`theme-type-${theme.type}`);
+
+        if(!isSamsungInternetBrowser) {
+            $body.attr('class') && $body.attr('class', $body.attr('class').replace(/\s?theme-type-(?:dark|light)/, ''));
+            $body.addClass(`theme-type-${theme.type}`);
+        } else {
+            $body.addClass('theme-type-light');
+            theme = storeThemes.themes.light
+        }
 
         const onEngineCreated = api => {
             let obj = getCurrentThemeColors(nameColors);
@@ -110,7 +117,7 @@ export const ThemesProvider = props => {
     }
 
     return (
-        <ThemesContext.Provider value={{ changeTheme }}>
+        <ThemesContext.Provider value={{ changeTheme, isSamsungInternetBrowser }}>
             {props.children}
         </ThemesContext.Provider>
     )

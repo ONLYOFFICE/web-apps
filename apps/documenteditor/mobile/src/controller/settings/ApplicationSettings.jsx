@@ -99,6 +99,7 @@ class ApplicationSettingsController extends Component {
                 setMacrosSettings={this.setMacrosSettings}  
                 changeDirectionMode={this.changeDirectionMode}      
                 changeTheme={this.context.changeTheme}
+                isSamsungInternetBrowser={this.context.isSamsungInternetBrowser}
             />
         )
     }
