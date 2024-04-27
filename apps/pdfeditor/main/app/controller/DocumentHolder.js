@@ -192,8 +192,8 @@ define([
                     // for text
                     this.api.asc_registerCallback('asc_onShowAnnotTextPrTrack',         _.bind(this.onShowTextBar, this));
                     this.api.asc_registerCallback('asc_onHideAnnotTextPrTrack',         _.bind(this.onHideTextBar, this));
-                    this.api.asc_registerCallback('asc_onShowAnnotTrack',               _.bind(this.onShowAnnotBar, this));
-                    this.api.asc_registerCallback('asc_onHideAnnotTrack',               _.bind(this.onHideAnnotBar, this));
+                    this.api.asc_registerCallback('asc_onShowTextSelectTrack',          _.bind(this.onShowAnnotBar, this));
+                    this.api.asc_registerCallback('asc_onHideTextSelectTrack',          _.bind(this.onHideAnnotBar, this));
                 }
                 if (this.mode.isRestrictedEdit) {
                     this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
