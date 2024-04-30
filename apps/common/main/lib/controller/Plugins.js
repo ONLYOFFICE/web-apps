@@ -848,7 +848,8 @@ define([
                         isBackgroundPlugin = false,
                         isSystem;
                     item.variations.forEach(function(itemVar, itemInd){
-                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
+                        var variationType = Asc.PluginType.getType(itemVar.type);
+                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === variationType);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
@@ -885,7 +886,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : false;
+                                isBackgroundPlugin = itemVar.type ? variationType === Asc.PluginType.Background : false;
                             }
                         }
                     });
@@ -1089,9 +1090,10 @@ define([
                 if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
+                var variationType = Asc.PluginType.getType(variation.type);
                 var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type),
-                    isPanel = variation.type === 'panel' || variation.type === 'panelRight';
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
+                    isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
