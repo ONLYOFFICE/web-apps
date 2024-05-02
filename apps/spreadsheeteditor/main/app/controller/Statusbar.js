@@ -110,6 +110,9 @@ define([
             this.api.asc_registerCallback('asc_onFilterInfo',   _.bind(this.onApiFilterInfo , this));
             this.api.asc_registerCallback('asc_onActiveSheetChanged', _.bind(this.onApiActiveSheetChanged, this));
             this.api.asc_registerCallback('asc_onRefreshNamedSheetViewList', _.bind(this.onRefreshNamedSheetViewList, this));
+            this.api.asc_registerCallback('asc_generateNewSheetNames', _.bind(function (arrNames, callback) {
+                callback(this.generateSheetNames(false, undefined, arrNames));
+            }, this));
 
             this.statusbar.setApi(api);
         },
@@ -383,7 +386,7 @@ define([
             return name;
         },
 
-        generateSheetNames: function (copy, sheetIndexes, otherWorksheetNames) {
+        generateSheetNames: function (copy, arrIndexes, arrNames) {
             var me = this,
                 names = [];
             if (copy) {
@@ -392,14 +395,17 @@ define([
                     names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
                 }
             }
-            otherWorksheetNames && otherWorksheetNames.forEach(function (item) {
-                names.push(item.toLowerCase());
-            });
 
             var newNames = [];
-            sheetIndexes.forEach(function (item) {
-                newNames.push(me.createCopyName(copy, me.api.asc_getWorksheetName(item), newNames, names));
-            });
+            if (arrIndexes) {
+                arrIndexes.forEach(function (item) {
+                    newNames.push(me.createCopyName(copy, me.api.asc_getWorksheetName(item), newNames, names));
+                });
+            } else if (arrNames) {
+                arrNames.forEach(function (item) {
+                    newNames.push(me.createCopyName(copy, item, newNames, names));
+                });
+            }
             return newNames;
         },
 
@@ -517,7 +523,7 @@ define([
                 sheets  : items,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
-                handler : function(btn, i, copy, workbook, names) {
+                handler : function(btn, i, copy, workbook) {
                     if (btn == 'ok') {
                         var arrBooks,
                             arrNames;
@@ -527,13 +533,13 @@ define([
                             else if (workbook !== 'current')
                                 arrBooks = [workbook];
                             if (workbook !== 'current') {
-                                arrNames = me.generateSheetNames(copy, arrIndex, names);
+                                arrNames = me.generateSheetNames(copy, arrIndex);
                             }
                         }
                         if (!copy) {
                             me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex, arrNames, arrBooks);
                         } else {
-                            arrNames = me.generateSheetNames(copy, arrIndex, names);
+                            arrNames = me.generateSheetNames(copy, arrIndex);
                             me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex, arrBooks);
                         }
                     }
