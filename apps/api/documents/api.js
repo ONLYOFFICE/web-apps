@@ -1088,7 +1088,7 @@
             params += "&mode=fillforms";
 
         if (config.document) {
-            config.document.isForm = isPdf ? config.document.isForm : oldForm;
+            config.document.isForm = isPdf ? config.document.isForm : !!oldForm;
             (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
         }
 
