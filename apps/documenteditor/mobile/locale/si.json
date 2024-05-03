@@ -643,6 +643,7 @@
     "textChooseEncoding": "ආකේතනය තෝරන්න",
     "textChooseTxtOptions": "TXT විකල්ප තෝරන්න",
     "textClearAllFields": "සියළු ක්‍ෂේත්‍ර හිස්කරන්න",
+    "textClose": "වසන්න",
     "textCollaboration": "සහයෝගිත්‍වය",
     "textColorSchemes": "වර්ණාවලි",
     "textComment": "අදහස",
@@ -784,8 +785,7 @@
     "txtScheme6": "ජනසමූහය",
     "txtScheme7": "සමකොටස්",
     "txtScheme8": "ගලායාම",
-    "txtScheme9": "වාත්තු පොළ",
-    "textClose": "Close"
+    "txtScheme9": "වාත්තු පොළ"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ස්වයං සුරැකීම සඳහා රැඳෙන්න 'මෙම පිටුවෙහි රැඳී සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවත දැමීමට 'මෙම පිටුවෙන් ඉවත් වන්න' ඔබන්න.",

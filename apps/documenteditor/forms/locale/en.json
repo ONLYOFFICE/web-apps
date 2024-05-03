@@ -136,7 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Save as PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Save as...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Form submitted successfully</b><br>Click to close the tip",
-  "DE.Controllers.ApplicationController.textSubmitOk": "Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Your PDF form has been saved in the Complete section.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "License expired",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "License not active",
   "DE.Controllers.ApplicationController.titleServerVersion": "Editor updated",

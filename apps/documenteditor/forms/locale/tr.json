@@ -36,7 +36,7 @@
   "Common.UI.SearchBar.tipCloseSearch": "Aramayı kapat",
   "Common.UI.SearchBar.tipNextResult": "Sonraki sonuç",
   "Common.UI.SearchBar.tipPreviousResult": "Önceki sonuç",
-  "Common.UI.Themes.txtThemeClassicLight": "Açık mod",
+  "Common.UI.Themes.txtThemeClassicLight": "Klasik Aydınlık",
   "Common.UI.Themes.txtThemeContrastDark": "Zıt koyu",
   "Common.UI.Themes.txtThemeDark": "Karanlık",
   "Common.UI.Themes.txtThemeLight": "Açık",
@@ -185,7 +185,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Dosya konumunu aç",
   "DE.Views.ApplicationView.txtFullScreen": "Tam Ekran",
   "DE.Views.ApplicationView.txtPrint": "Yazdır",
-  "DE.Views.ApplicationView.txtSearch": "Arama",
+  "DE.Views.ApplicationView.txtSearch": "Bul",
   "DE.Views.ApplicationView.txtShare": "Paylaş",
   "DE.Views.ApplicationView.txtTheme": "Arayüz teması"
 }
