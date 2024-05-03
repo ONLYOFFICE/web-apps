@@ -1827,12 +1827,17 @@ define([
                         header: {docmode: !!disableModeButton}
                     }, 'view');
 
+                    if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {
+                        var forms = this.getApplication().getController('FormsTab');
+                        forms && forms.changeViewFormMode(mode==='view-form');
+                    }
+
                     if (mode==='edit') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', false);
                     } else if (mode==='review') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', true);
                     }
-                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.None);
+                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : mode==='view-form' ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
                 }
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },

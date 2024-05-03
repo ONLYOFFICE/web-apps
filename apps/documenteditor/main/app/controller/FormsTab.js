@@ -304,6 +304,7 @@ define([
                 this.toolbar.toolbar.clearActiveData();
                 this.toolbar.toolbar.processPanelVisible(null, true);
             }
+            Common.NotificationCenter.trigger('doc:mode-changed', state ? 'view-form' : undefined);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -438,7 +439,7 @@ define([
                     toolbar: true,
                     plugins: true,
                     protect: true,
-                    header: {docmode: true}
+                    header: {docmode: false}
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
