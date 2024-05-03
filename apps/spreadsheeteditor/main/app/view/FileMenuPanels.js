@@ -391,6 +391,17 @@ define([
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-date-1904"></span></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><span id="fms-chb-iterative-calc"></span></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strMaxIterations %></label></td>',
+                    '<td><div id="fms-max-iterations"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strMaxChange %></label></td>',
+                    '<td><div id="fms-max-change"></div></td>',
+                '</tr>',
                 '<tr class ="edit divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
                     '<td style="padding-top:15px; padding-bottom: 15px;"><button class="btn normal dlg-btn primary" data-hint="3" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button></td>',
@@ -803,6 +814,42 @@ define([
                 me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
             });
 
+            this.chIterative = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-iterative-calc'),
+                labelText: this.strEnableIterative,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.inputMaxChange = new Common.UI.InputField({
+                el: $markup.findById('#fms-max-change'),
+                style: 'width: 60px;',
+                validateOnBlur: false,
+                maskExp:  /[0-9,\.]/,
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small',
+                validation: function(value) {
+                    return !_.isEmpty(value) && (!/^(\d*(\.|,)?\d+)$|^(\d+(\.|,)?\d*)$/.test(value) || isNaN(Common.Utils.String.parseFloat(value))) ? me.txtErrorNumber : true;
+                }
+            });
+
+            this.spnMaxIterations = new Common.UI.MetricSpinner({
+                el: $markup.findById('#fms-max-iterations'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 100,
+                maxValue: 32767,
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
             this.pnlTable = this.pnlSettings.find('table');
@@ -968,6 +1015,13 @@ define([
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
+            value = this.api.asc_GetCalcSettings();
+            if (value) {
+                this.chIterative.setValue(!!value.asc_getIterativeCalc());
+                this.spnMaxIterations.setValue(value.asc_getMaxIterations());
+                this.inputMaxChange.setValue(value.asc_getMaxChange());
+            }
+
             var data = [];
             for (var t in Common.UI.Themes.map()) {
                 data.push({value: t, displayValue: Common.UI.Themes.get(t).text});
@@ -1021,7 +1075,20 @@ define([
             }
         },
 
+        isValid: function() {
+            if (this.mode.isEdit) {
+                if (this.inputMaxChange.checkValidate() !== true) {
+                    this.inputMaxChange.focus();
+                    return;
+                }
+            }
+            return true;
+        },
+
         applySettings: function() {
+            if (!this.isValid())
+                return;
+
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             Common.localStorage.setItem("sse-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", Common.localStorage.getBool("sse-settings-show-alt-hints"));
@@ -1105,8 +1172,17 @@ define([
                 }
             }
 
-            if (this.mode.isEdit)
+            if (this.mode.isEdit) {
                 this.api.asc_setDate1904(this.chDateSystem.isChecked());
+
+                value = this.api.asc_GetCalcSettings();
+                if (value) {
+                    value.asc_setIterativeCalc(this.chIterative.isChecked());
+                    value.asc_setMaxIterations(this.spnMaxIterations.getNumberValue());
+                    this.inputMaxChange.getValue() && value.asc_setMaxChange(Common.Utils.String.parseFloat(this.inputMaxChange.getValue()));
+                    this.api.asc_UpdateCalcSettings(value);
+                }
+            }
 
             if (isRtlChanged) {
                 var config = {
@@ -1281,7 +1357,11 @@ define([
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
-        txtScreenReader: 'Turn on screen reader support'
+        txtScreenReader: 'Turn on screen reader support',
+        strMaxIterations: 'Maximum iterations',
+        strMaxChange: 'Maximum change',
+        strEnableIterative: 'Enable iterative calculation',
+        txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
