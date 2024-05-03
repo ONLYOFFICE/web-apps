@@ -554,6 +554,8 @@
   "Common.Views.AutoCorrectDialog.warnReplace": "Ce symbol d'autocorrection pour 1% existe déjà. Voulez-vous le remplacer ?",
   "Common.Views.AutoCorrectDialog.warnReset": "Toutes les autocorrections que vous avez ajouté seront supprimées et celles que vous avez modifiées seront réinitialisées à leurs valeurs originales. Voulez-vous continuer ?",
   "Common.Views.AutoCorrectDialog.warnRestore": "Ce symbol d'autocorrection pour 1% sera réinitialisé à sa valeur initiale. Voulez-vous continuer ?",
+  "Common.Views.Chat.textChat": "Chat",
+  "Common.Views.Chat.textClosePanel": "Fermer le chat",
   "Common.Views.Chat.textSend": "Envoyer",
   "Common.Views.Comments.mniAuthorAsc": "Auteur de A à Z",
   "Common.Views.Comments.mniAuthorDesc": "Auteur de Z à A",

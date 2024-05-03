@@ -554,6 +554,8 @@
   "Common.Views.AutoCorrectDialog.warnReplace": "Es gibt schon einen Autokorrektur-Eintrag für %1. Möchten Sie dieses ersetzen?",
   "Common.Views.AutoCorrectDialog.warnReset": "Hinzugefügte Autokorrektur wird entfernt und geänderte Autokorrektur wird zurückgestellt. Möchten Sie trotzdem fortsetzen?",
   "Common.Views.AutoCorrectDialog.warnRestore": "Der Autokorrektur-Eintrag für %1 wird zurückgestellt. Möchten Sie fortsetzen?",
+  "Common.Views.Chat.textChat": "Chat",
+  "Common.Views.Chat.textClosePanel": "Chat schließen",
   "Common.Views.Chat.textSend": "Senden",
   "Common.Views.Comments.mniAuthorAsc": "Verfasser (A-Z)",
   "Common.Views.Comments.mniAuthorDesc": "Verfasser (Z-A)",

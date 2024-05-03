@@ -136,7 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Als PDF speichern",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Speichern als...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Das Formular wurde erfolgreich abgesendet</b><br>Klicken Sie hier, um den Tipp auszublenden",
-  "DE.Controllers.ApplicationController.textSubmitOk": "Ihr PDF-Formular wurde im Abschnitt \"Fertiggestellt\" gespeichert. Sie können dieses Formular erneut ausfüllen und ein weiteres Ergebnis übermitteln.",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Ihr PDF-Formular wurde im Abschnitt \"Fertiggestellt\" gespeichert.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "Lizenz ist abgelaufen",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "Lizenz nicht aktiv",
   "DE.Controllers.ApplicationController.titleServerVersion": "Editor wurde aktualisiert",

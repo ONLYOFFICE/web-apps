@@ -136,7 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "PDFとして保存",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "名前を付けて保存",
   "DE.Controllers.ApplicationController.textSubmited": "<b>フォームが正常に送信されました。</b><br>クリックしてヒントを閉じます。",
-  "DE.Controllers.ApplicationController.textSubmitOk": "PDFフォームが「完成」セクションに保存されました。このフォームに再度記入して、別の結果を送信することができます。",
+  "DE.Controllers.ApplicationController.textSubmitOk": "PDFフォームが「完成」セクションに保存されました。",
   "DE.Controllers.ApplicationController.titleLicenseExp": "ライセンスの有効期限が切れています",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "ライセンスが無効になっています",
   "DE.Controllers.ApplicationController.titleServerVersion": "編集者が更新されました",
