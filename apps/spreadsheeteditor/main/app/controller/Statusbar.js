@@ -606,19 +606,21 @@ define([
                     if (btn == 'ok') {
                         var arrBooks,
                             arrNames;
-                        if (workbook) {
-                            if (workbook === 'new')
-                                arrBooks = [];
-                            else if (workbook !== 'current')
-                                arrBooks = [workbook];
-                            if (workbook !== 'current') {
-                                arrNames = me.generateSheetNames(copy, arrIndex);
-                            }
+                        if (workbook === 'new')
+                            arrBooks = [];
+                        else if (workbook !== 'current')
+                            arrBooks = [workbook];
+                        if (workbook !== 'current') {
+                            arrNames = [];
+                            arrIndex.forEach(function (item) {
+                                arrNames.push(me.api.asc_getWorksheetName(item));
+                            });
                         }
                         if (!copy) {
                             me.api.asc_moveWorksheet(i == -255 ? wc : i, arrIndex, arrNames, arrBooks);
                         } else {
-                            arrNames = me.generateSheetNames(copy, arrIndex);
+                            if (!arrNames)
+                                arrNames = me.generateSheetNames(copy, arrIndex);
                             me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex, arrBooks);
                         }
                     }
