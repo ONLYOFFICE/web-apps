@@ -279,14 +279,21 @@ define([
             }
 
             var show = type!==undefined;
-            if (type===undefined)
-                type = appConfig.isReviewOnly ? 'review' : 'edit';
+            if (type===undefined) {
+                if (appConfig.isReviewOnly)
+                    type = 'review';
+                else {
+                    var review = Common.Utils.InternalSettings.get(this.appPrefix + "track-changes");
+                    type = (review===0 || review===2) ? 'review' : 'edit';
+                }
+            }
 
             var isEdit = type==='edit',
-                isReview = type==='review';
+                isReview = type==='review',
+                isViewForm = type==='view-form';
             this.btnDocMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isReview ? 'btn-ic-review' : 'btn-sheet-view')));
-            this.btnDocMode.setCaption(isEdit ? this.textEdit : (isReview ? this.textReview : this.textView));
-            this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : (isReview ? this.tipReview : this.tipDocView));
+            this.btnDocMode.setCaption(isEdit ? this.textEdit : isReview ? this.textReview : isViewForm ? this.textViewForm : this.textView);
+            this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : isReview ? this.tipReview : isViewForm ? this.tipDocViewForm : this.tipDocView);
             show && !this.btnDocMode.isVisible() && this.btnDocMode.setVisible(true);
         }
 
@@ -613,7 +620,13 @@ define([
                     description: me.textReviewDesc,
                     value: 'review'
                 });
-                arr.push({
+                appConfig.isPDFForm && appConfig.isFormCreator ? arr.push({
+                    caption: me.textViewForm,
+                    iconCls : 'menu__icon btn-sheet-view',
+                    template: menuTemplate,
+                    description: me.textDocViewFormDesc,
+                    value: 'view-form'
+                }) : arr.push({
                     caption: me.textView,
                     iconCls : 'menu__icon btn-sheet-view',
                     template: menuTemplate,
@@ -905,7 +918,7 @@ define([
                             caption: config.isReviewOnly ? me.textReview : me.textEdit,
                             menu: true,
                             visible: config.isReviewOnly || !config.canReview,
-                            lock: [Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockView, Common.enumLock.docLockComments, Common.enumLock.docLockForms, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
+                            lock: [Common.enumLock.previewReviewMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockView, Common.enumLock.docLockComments, Common.enumLock.docLockForms, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -1291,7 +1304,10 @@ define([
             textClose: 'Close file',
             textStartFill: 'Start filling',
             tipCustomizeQuickAccessToolbar: 'Customize Quick Access Toolbar',
-            textPrint: 'Print'
+            textPrint: 'Print',
+            textViewForm: 'Viewing form',
+            tipDocViewForm: 'Viewing form',
+            textDocViewFormDesc: 'See how the form will look like when filling out'
         }
     }(), Common.Views.Header || {}))
 });
