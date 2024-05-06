@@ -597,12 +597,14 @@ define([
                 return;
             }
 
+            var btn;
             me.copyDialog = new SSE.Views.Statusbar.CopyDialog({
                 title   : me.statusbar.itemMoveOrCopy,
                 sheets  : items,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
-                handler : function(btn, i, copy, workbook) {
+                handler : function(result, i, copy, workbook) {
+                    btn = result;
                     if (btn == 'ok') {
                         var arrBooks,
                             arrNames;
@@ -623,11 +625,14 @@ define([
                                 arrNames = me.generateSheetNames(copy, arrIndex);
                             me.api.asc_copyWorksheet(i == -255 ? wc : i, arrNames, arrIndex, arrBooks);
                         }
+                    } else {
+                        me.api.asc_cancelMoveCopyWorksheet();
                     }
                     me.api.asc_enableKeyEvents(true);
                 }
             });
             me.copyDialog.on('close', function () {
+                if (!btn) me.api.asc_cancelMoveCopyWorksheet();
                 me.copyDialog = undefined;
             });
             me.copyDialog.show();
