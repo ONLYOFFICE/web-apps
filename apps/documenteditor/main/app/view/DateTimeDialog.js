@@ -131,7 +131,8 @@ define([
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
                 scrollAlwaysVisible: true,
-                cls: 'dbl-clickable'
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item"><span dir="ltr"><%= value %></span></div>')
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
