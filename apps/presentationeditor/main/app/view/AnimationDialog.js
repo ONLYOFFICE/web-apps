@@ -73,11 +73,6 @@ define([
                 this._state.activeGroupValue = this.options.groupValue;
                 var group = _.findWhere(this.EffectGroupData, {value: this._state.activeGroupValue})
                 this._state.activeGroup = group.id;
-                var itemEffect = _.findWhere(this.allEffects, {
-                    group: this._state.activeGroup,
-                    value: this._state.activeEffect
-                });
-
             }
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -102,7 +97,6 @@ define([
             this.pickerEffectList = new Common.UI.DataView({
                 el: $('#animation-picker'),
                 cls: 'bordered',
-                restoreHeight: 380,
                 store : new Common.UI.DataViewStore(),
                 groups: new Common.UI.DataViewGroupStore(),
                 style: 'max-height: 380px;',
@@ -113,9 +107,6 @@ define([
                     '</div>'
                 ].join('')),
                 delayRenderTips: true,
-                dataHint: '1',
-                dataHintDirection: 'bottom',
-                dataHintOffset: '-16, 0',
                 tabindex: 1
             });
             this.pickerEffectList.on('item:select', _.bind(this.onEffectListItem,this));
@@ -174,6 +165,7 @@ define([
                     group: el.level,
                     iconCls: el.iconCls,
                     value: el.value,
+                    disabled: el.disabled,
                     tip: el.displayValue
                 }
             });
