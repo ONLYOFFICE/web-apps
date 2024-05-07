@@ -374,8 +374,9 @@ define([
             this.cmbFormat = new Common.UI.ComboBox({
                 el          : $('#headerfooter-combo-format'),
                 cls: 'input-group-nr',
-                menuCls     : 'menu-aligned',
                 menuStyle: 'min-width: 100%;max-height: 220px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 100,
                 style       : "width: 150px;",
                 editable    : false,
                 data        : [],
