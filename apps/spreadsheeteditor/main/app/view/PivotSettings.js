@@ -351,13 +351,12 @@ define([
                                 this.onMove(2, this.itemIndex, _.isNumber(this.indexMoveTo) ? (this.indexMoveTo !== 0 && this.itemIndex < this.indexMoveTo ? this.indexMoveTo - 1 : this.indexMoveTo) : this.valuesList.store.length - 1);
                                 break;
                         }
-                    } else {
-                        $(this.el).find('.item').removeClass('insert last');
                     }
                     this.itemIndex = undefined;
                     this.indexMoveTo = undefined;
                 }
             }
+            $(this.el).find('.item').removeClass('insert last');
         },
 
         openAdvancedSettings: function(e) {
