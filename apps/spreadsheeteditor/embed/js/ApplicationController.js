@@ -270,12 +270,10 @@ SSE.ApplicationController = new(function(){
         $prevButton.on('click', function() {
             $($box.children().get().reverse()).each(function () {
                 var $tab = $(this);
-
-                var offsetAdjust =  $tab.outerWidth() * buttonWidth / $box.outerWidth() * 0.05;
                 var left = $tab.position().left - buttonWidth;
 
                 if (left < 0) {
-                    $container.scrollLeft($container.scrollLeft() + left + offsetAdjust);
+                    $container.scrollLeft($container.scrollLeft() + left - 26);
                     return false;
                 }
             });
@@ -285,12 +283,10 @@ SSE.ApplicationController = new(function(){
             var rightBound = $container.width();
             $box.children().each(function () {
                 var $tab = $(this);
-
-                var offsetAdjust = $tab.outerWidth() * rightBound / $box.outerWidth() * 0.05;
                 var right = $tab.position().left + $tab.outerWidth();
 
                 if (right > rightBound) {
-                    $container.scrollLeft($container.scrollLeft() + right - rightBound + offsetAdjust);
+                    $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
                     return false;
                 }
             });
