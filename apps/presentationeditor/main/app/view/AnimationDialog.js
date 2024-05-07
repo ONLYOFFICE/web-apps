@@ -110,6 +110,7 @@ define([
                 tabindex: 1
             });
             this.pickerEffectList.on('item:select', _.bind(this.onEffectListItem,this));
+            this.pickerEffectList.on('item:dblclick', _.bind(this.onPrimary, this));
             this.pickerEffectList.on('entervalue', _.bind(this.onPrimary, this));
 
 
