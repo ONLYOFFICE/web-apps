@@ -2416,6 +2416,7 @@ define([
                 me.textBarBtns = [];
                 textContainer = documentHolder.createTextBar(me.textBarBtns);
                 documentHolder.cmpEl.append(textContainer);
+                documentHolder.cmbFontSize.options.menuAlignEl = documentHolder.cmbFontName.options.menuAlignEl = documentHolder.cmpEl;
 
                 var bringForward = function (menu) {
                     textContainer.addClass('has-open-menu');

@@ -376,7 +376,7 @@ define([
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;max-height: 220px;',
                 menuAlignEl: $(this.el).parent(),
-                restoreMenuHeightAndTop: 100,
+                restoreMenuHeightAndTop: 110,
                 style       : "width: 150px;",
                 editable    : false,
                 data        : [],

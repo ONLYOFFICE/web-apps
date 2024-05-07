@@ -319,24 +319,31 @@ define([
                     }
                 }
 
-                var $list = this.cmpEl.find('ul');
-                if ($list.hasClass('menu-absolute')) {
-                    var offset = this.cmpEl.offset();
-                    var left = offset.left;
-                    if (left + $list.outerWidth()>Common.Utils.innerWidth())
-                        left += (this.cmpEl.outerWidth() - $list.outerWidth());
-                    $list.css({left: left, top: offset.top + this.cmpEl.outerHeight() + 2});
-                }
-
-                if (this.options.restoreMenuHeightAndTop) { // show menu at top
+                var $list = this.cmpEl.find('ul'),
+                    isMenuAbsolute = $list.hasClass('menu-absolute');
+                if (this.options.restoreMenuHeightAndTop || isMenuAbsolute) {
                     var offset = this.cmpEl.offset(),
                         parentTop = this.options.menuAlignEl ? this.options.menuAlignEl.offset().top : 0,
-                        parentHeight = this.options.menuAlignEl ? this.options.menuAlignEl.outerHeight() : Common.Utils.innerHeight() - 10,
-                        diff = typeof this.options.restoreMenuHeightAndTop === "number" ? this.options.restoreMenuHeightAndTop : 100000,
                         marginTop = parseInt($list.css('margin-top')),
-                        menuTop = offset.top - parentTop + this.cmpEl.outerHeight() + marginTop;
-                    // if menu height less than restoreMenuHeightAndTop - show menu at top, if greater - try to change menu height + compare available space at top and bottom of combobox
-                    $list.toggleClass('show-top', (menuTop + $list.outerHeight() > parentHeight) && (menuTop + diff > parentHeight) && (offset.top - parentTop > parentHeight - menuTop));
+                        menuTop = offset.top - parentTop + this.cmpEl.outerHeight() + marginTop,
+                        menuLeft = offset.left;
+
+                    if (this.options.restoreMenuHeightAndTop) { // show menu at top
+                        var parentHeight = this.options.menuAlignEl ? this.options.menuAlignEl.outerHeight() : Common.Utils.innerHeight() - 10,
+                            diff = typeof this.options.restoreMenuHeightAndTop === "number" ? this.options.restoreMenuHeightAndTop : 100000;
+
+                        var showAtTop = (menuTop + $list.outerHeight() > parentHeight) && (menuTop + diff > parentHeight) && ((offset.top - parentTop)*0.9 > parentHeight - menuTop);
+                        // if menu height less than restoreMenuHeightAndTop - show menu at top, if greater - try to change menu height + compare available space at top and bottom of combobox
+                        if (!isMenuAbsolute)
+                            $list.toggleClass('show-top', showAtTop);
+                        else if (showAtTop)
+                            menuTop = offset.top - parentTop - $list.outerHeight();
+                    }
+                    if (isMenuAbsolute) {
+                        if (menuLeft + $list.outerWidth()>Common.Utils.innerWidth())
+                            menuLeft += (this.cmpEl.outerWidth() - $list.outerWidth());
+                        $list.css({left: menuLeft, top: menuTop + parentTop});
+                    }
                 }
             },
 
@@ -389,8 +396,8 @@ define([
                     if (menuH < this.restoreMenuHeight)
                         newH = this.restoreMenuHeight;
 
-                    if ($list.hasClass('show-top')) {
-                        var offset = this.cmpEl.offset();
+                    var offset = this.cmpEl.offset();
+                    if (menuTop<offset.top) { // menu is shown at top
                         if (offset.top - parentTop < newH)
                             newH = offset.top - parentTop;
                     } else {
@@ -398,9 +405,10 @@ define([
                             newH = parentHeight + parentTop - menuTop;
                     }
 
-
-                    if (newH !== menuH)
+                    if (newH !== menuH) {
                         $list.css('max-height', newH + 'px');
+                        $list.hasClass('menu-absolute') && (menuTop<offset.top) && $list.css({top: offset.top - $list.outerHeight()});
+                    }
                 }
             },
 

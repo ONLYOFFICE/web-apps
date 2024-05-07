@@ -1945,6 +1945,7 @@ define([
                 style       : 'width: 100px;',
                 menuCls     : 'scrollable-menu menu-absolute',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
+                restoreMenuHeightAndTop: 220,
                 store       : new Common.Collections.Fonts(),
                 hint        : toolbar.tipFontName
             });
@@ -1957,6 +1958,7 @@ define([
                 style: 'width: 45px;',
                 menuCls     : 'scrollable-menu menu-absolute',
                 menuStyle: 'min-width: 45px;max-height: 270px;',
+                restoreMenuHeightAndTop: 220,
                 hint: toolbar.tipFontSize,
                 data: [
                     {value: 8, displayValue: "8"},
