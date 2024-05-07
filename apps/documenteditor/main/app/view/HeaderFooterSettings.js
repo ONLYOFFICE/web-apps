@@ -156,11 +156,11 @@ define([
                     this._state.Numbering=value;
                 }
 
-                // value = prop.get_NumberFormat();
-                // if ( this._state.NumFormat!==value ) {
-                //     this.fillFormatCombo(value);
-                //     this._state.NumFormat = value;
-                // }
+                value = prop.get_NumFormat();
+                if ( this._state.NumFormat!==value ) {
+                    this.fillFormatCombo(value);
+                    this._state.NumFormat = value;
+                }
             }
         },
 
@@ -485,7 +485,6 @@ define([
                     handler: function(result, value) {
                         if (result == 'ok') {
                             me.api && me.api.asc_SetSectionPageNumFormat(value);
-                            me.fillFormatCombo(value); // TODO: remove when add 'get format' method to header props
                         }
                         me.fireEvent('editcomplete', me);
                     }
