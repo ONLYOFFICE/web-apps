@@ -2352,6 +2352,8 @@
   "DE.Views.HeaderFooterSettings.textTopLeft": "Top left",
   "DE.Views.HeaderFooterSettings.textTopPage": "Top of page",
   "DE.Views.HeaderFooterSettings.textTopRight": "Top right",
+  "DE.Views.HeaderFooterSettings.textNumFormat": "Number format",
+  "DE.Views.HeaderFooterSettings.txtMoreTypes": "More types",
   "DE.Views.HyperlinkSettingsDialog.textDefault": "Selected text fragment",
   "DE.Views.HyperlinkSettingsDialog.textDisplay": "Display",
   "DE.Views.HyperlinkSettingsDialog.textExternal": "External link",

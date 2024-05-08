@@ -346,7 +346,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     menuStyle   : 'min-width:100%;',
                     editable    : false,
                     takeFocusOnClose : true,
-                    menuCls     : 'menu-aligned',
+                    restoreMenuHeightAndTop: true,
                     cls         : 'input-group-nr',
                     dataHintDirection: 'bottom',
                     data        : _exciptionsLangs.map(function(lang){

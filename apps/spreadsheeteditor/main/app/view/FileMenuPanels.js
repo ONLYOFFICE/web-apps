@@ -499,7 +499,7 @@ define([
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
@@ -534,7 +534,7 @@ define([
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%;',
                 itemsTemplate: itemsTemplate,
@@ -574,7 +574,7 @@ define([
                 el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -604,7 +604,7 @@ define([
                 style       : 'width: 200px;',
                 menuStyle   : 'min-width:100%; max-height: 185px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 cls         : 'input-group-nr',
                 data        : formula_arr,
                 dataHint    : '2',
@@ -627,7 +627,7 @@ define([
                 el          : $markup.findById('#fms-cmb-reg-settings'),
                 style       : 'width: 200px;',
                 menuStyle   : 'min-width:100%; max-height: 185px;',
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : regdata
@@ -701,7 +701,7 @@ define([
                 el          : $markup.findById('#fms-cmb-macros'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -738,7 +738,7 @@ define([
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 dataHint    : '2',
@@ -751,7 +751,7 @@ define([
                 cls: 'input-group-nr',
                 style: 'width: 200px;',
                 editable: false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -856,6 +856,14 @@ define([
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+                this.cmbZoom.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbUnit.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFontRender.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbMacros.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFuncLocale.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbRegSettings.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbDictionaryLanguage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
