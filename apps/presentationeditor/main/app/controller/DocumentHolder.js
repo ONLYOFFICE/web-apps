@@ -75,6 +75,11 @@ var c_paragraphSpecial = {
     HANGING: 2
 };
 
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
+};
+
 define([
     'core',
     'presentationeditor/main/app/view/DocumentHolder'
@@ -1136,7 +1141,7 @@ define([
             }
         },
 
-        onDialogAddHyperlink: function() {
+        onDialogAddHyperlink: function(isButton) {
             var win, props, text;
             var me = this;
             if (me.api && me.mode.isEdit && !me._isDisabled && !PE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
@@ -1165,11 +1170,16 @@ define([
                         api: me.api,
                         appOptions: me.mode,
                         handler: handlerDlg,
+                        type: isButton===true ? c_oHyperlinkType.InternalLink : undefined,
                         slides: _arr
                     });
 
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
+                    if (isButton && (isButton instanceof Asc.CHyperlinkProperty))
+                        props = isButton;
+                    else {
+                        props = new Asc.CHyperlinkProperty()
+                        props.put_Text(text);
+                    }
 
                     win.show();
                     win.setSettings(props);
