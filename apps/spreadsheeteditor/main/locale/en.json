@@ -664,6 +664,7 @@
   "Common.Views.SearchPanel.textWorkbook": "Workbook",
   "Common.Views.SearchPanel.tipNextResult": "Next result",
   "Common.Views.SearchPanel.tipPreviousResult": "Previous result",
+  "Common.Views.SearchPanel.textSearchResultsTable": "Search results",
   "Common.Views.SelectFileDlg.textLoading": "Loading",
   "Common.Views.SelectFileDlg.textTitle": "Select data source",
   "Common.Views.SignDialog.textBold": "Bold",
