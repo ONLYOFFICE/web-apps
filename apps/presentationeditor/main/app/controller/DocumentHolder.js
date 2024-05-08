@@ -1144,12 +1144,16 @@ define([
                         api: me.api,
                         appOptions: me.mode,
                         handler: handlerDlg,
-                        type: isButton ? c_oHyperlinkType.InternalLink : undefined,
+                        type: isButton===true ? c_oHyperlinkType.InternalLink : undefined,
                         slides: _arr
                     });
 
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
+                    if (isButton && (isButton instanceof Asc.CHyperlinkProperty))
+                        props = isButton;
+                    else {
+                        props = new Asc.CHyperlinkProperty()
+                        props.put_Text(text);
+                    }
 
                     win.show();
                     win.setSettings(props);
