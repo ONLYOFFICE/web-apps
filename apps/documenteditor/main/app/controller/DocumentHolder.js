@@ -196,9 +196,10 @@ define([
                     me.hideTips();
                     me.hideEyedropper();
                     me.onDocumentHolderResize();
-                }
+                },
             });
             Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(o) {
@@ -261,28 +262,11 @@ define([
             this.documentHolder.setMode(m);
         },
 
-        createDelayedElements: function(view, type) {
-            var me = this,
-                view = me.documentHolder;
-
-            if (type=='view') {
-                view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuViewPaste.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuViewCut.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
-                view.menuViewAddComment.on('click', _.bind(me.addComment, me));
-                view.menuSignatureViewSign.on('click', _.bind(me.onSignatureClick, me));
-                view.menuSignatureDetails.on('click', _.bind(me.onSignatureClick, me));
-                view.menuSignatureViewSetup.on('click', _.bind(me.onSignatureClick, me));
-                view.menuSignatureRemove.on('click', _.bind(me.onSignatureClick, me));
-                view.menuViewPrint.on('click', _.bind(me.onPrintSelection, me));
-                return;
-            } else if (type=='pdf') {
-                view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+        createPostLoadElements: function() {
+            var me = this;
+            if (!me.mode.isEdit) {
                 return;
             }
-
-            // type == 'edit'
 
             var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
@@ -345,6 +329,29 @@ define([
                     }, 10);
                 }, this));
             }
+        },
+
+        createDelayedElements: function(view, type) {
+            var me = this, view = me.documentHolder;
+
+            if (type=='view') {
+                view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewPaste.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
+                view.menuViewAddComment.on('click', _.bind(me.addComment, me));
+                view.menuSignatureViewSign.on('click', _.bind(me.onSignatureClick, me));
+                view.menuSignatureDetails.on('click', _.bind(me.onSignatureClick, me));
+                view.menuSignatureViewSetup.on('click', _.bind(me.onSignatureClick, me));
+                view.menuSignatureRemove.on('click', _.bind(me.onSignatureClick, me));
+                view.menuViewPrint.on('click', _.bind(me.onPrintSelection, me));
+                return;
+            } else if (type=='pdf') {
+                view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                return;
+            }
+
+            // type == 'edit'
 
             view.menuInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuEquationInsertCaption.on('click', _.bind(me.onInsertCaption, me));

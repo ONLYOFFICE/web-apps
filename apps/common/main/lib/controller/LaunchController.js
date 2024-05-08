@@ -18,7 +18,9 @@ define([
             require(app.postLaunchScripts, function () {
                 Common.UI.ScreenReaderFocusManager.init(me.api);
 
-                Common.NotificationCenter.trigger('script:loaded');
+                if ( !!window.less ) {                                      // detect development mode
+                    Common.NotificationCenter.trigger('script:loaded');
+                }
             });
         }
 

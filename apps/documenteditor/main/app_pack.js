@@ -22,6 +22,8 @@ require([
     'common/main/lib/view/PluginPanel',
     'common/main/lib/view/ExtendedColorDialog',
     'common/main/lib/view/RenameDialog',
+    'common/main/lib/view/ExternalEditor',
+    'common/main/lib/view/ExternalDiagramEditor',
 
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',
@@ -59,4 +61,5 @@ require([
     'documenteditor/main/app/view/ProtectDialog',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
+    Common.NotificationCenter.trigger('script:loaded');
 });
