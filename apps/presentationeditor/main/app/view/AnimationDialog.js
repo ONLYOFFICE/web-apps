@@ -101,7 +101,7 @@ define([
                 groups: new Common.UI.DataViewGroupStore(),
                 style: 'max-height: 380px;',
                 itemTemplate: _.template([
-                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + 88 + 'px;height: ' + 40 + 'px;">',
+                    '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + 88 + 'px;height: ' + 40 + 'px; pointer-events:none;">',
                         '<div class = "icon <% if (iconCls) { %>' +'toolbar__icon' +'<% } %>' + ' <%= iconCls %>"></div>',
                         '<div class = "caption"><%= displayValue %></div>',
                     '</div>'
