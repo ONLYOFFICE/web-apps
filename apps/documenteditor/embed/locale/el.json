@@ -34,7 +34,9 @@
   "DE.ApplicationController.scriptLoadError": "Η σύνδεση είναι πολύ αργή, δεν ήταν δυνατή η φόρτωση ορισμένων στοιχείων. Φορτώστε ξανά τη σελίδα.",
   "DE.ApplicationController.textAnonymous": "Ανώνυμος",
   "DE.ApplicationController.textClear": "Εκκαθάριση όλων των πεδίων",
+  "DE.ApplicationController.textConvertFormDownload": "Κατεβάστε το αρχείο ως συμπληρώσιμο PDF για να μπορείτε να το συμπληρώσετε.",
   "DE.ApplicationController.textCtrl": "Ctrl",
+  "DE.ApplicationController.textDownloadPdf": "Λήψη PDF",
   "DE.ApplicationController.textGotIt": "Ελήφθη",
   "DE.ApplicationController.textGuest": "Επισκέπτης",
   "DE.ApplicationController.textLoadingDocument": "Φόρτωση εγγράφου",
@@ -60,6 +62,6 @@
   "DE.ApplicationView.txtFileLocation": "Άνοιγμα θέσης αρχείου",
   "DE.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "DE.ApplicationView.txtPrint": "Εκτύπωση",
-  "DE.ApplicationView.txtSearch": "Αναζήτηση",
+  "DE.ApplicationView.txtSearch": "Εύρεση",
   "DE.ApplicationView.txtShare": "Διαμοιρασμός"
 }
