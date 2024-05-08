@@ -554,6 +554,8 @@
   "Common.Views.AutoCorrectDialog.warnReplace": "Intrare de autocorectare pentru %1 deja existentă. Doriți să o înlocuiți?",
   "Common.Views.AutoCorrectDialog.warnReset": "Corectare automată va fi dezactivată și fișierul va fi restabilit la valori inițiale. Doriți să continuați?",
   "Common.Views.AutoCorrectDialog.warnRestore": "Intrare de autocorectare pentru %1 va fi restabilită la valorile inițiale. Doriți să continuați?",
+  "Common.Views.Chat.textChat": "Chat",
+  "Common.Views.Chat.textClosePanel": "Închide chat-ul",
   "Common.Views.Chat.textSend": "Trimitere",
   "Common.Views.Comments.mniAuthorAsc": "Autor de la A la Z",
   "Common.Views.Comments.mniAuthorDesc": "Autor de la Z la A",
