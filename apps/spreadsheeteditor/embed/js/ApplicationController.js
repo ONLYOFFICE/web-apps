@@ -180,17 +180,17 @@ SSE.ApplicationController = new(function(){
     function onSheetsChanged(){
         maxPages = api.asc_getWorksheetsCount();
 
-            var handleWorksheet = function(e){
-                var $worksheet = $(this);
-                var index = $worksheet.attr('id').match(/\d+$/);
+        var handleWorksheet = function(e){
+            var $worksheet = $(this);
+            var index = $worksheet.attr('id').match(/\d+$/);
 
-                if (index.length > 0) {
-                    index = parseInt(index[0]);
+            if (index.length > 0) {
+                index = parseInt(index[0]);
 
-                    if (index > -1 && index < maxPages)
-                        setActiveWorkSheet(index);
-                }
-            };
+                if (index > -1 && index < maxPages)
+                    setActiveWorkSheet(index);
+            }
+        };
 
         var $box = $('#worksheets');
         $box.find('li').off();
@@ -231,6 +231,67 @@ SSE.ApplicationController = new(function(){
         }
 
         setActiveWorkSheet(api.asc_getActiveWorksheetIndex());
+    }
+
+    function setupScrollButtons() {
+        var $container = $('#worksheet-container');
+        var $prevButton = $('#worksheet-list-button-prev');
+        var $nextButton = $('#worksheet-list-button-next');
+        var $box = $('#worksheets');
+
+        var handleScrollButtonsState = function() {
+            if ($container[0].scrollWidth > $container[0].clientWidth) {
+                var scrollLeft = $container.scrollLeft();
+                var scrollWidth = $container[0].scrollWidth;
+                var containerWidth = $container.innerWidth();
+
+                if (scrollLeft === 0) {
+                    $prevButton.prop('disabled', true);
+                    $nextButton.prop('disabled', false);
+                } else if (scrollLeft + containerWidth >= scrollWidth) {
+                    $prevButton.prop('disabled', false);
+                    $nextButton.prop('disabled', true);
+                } else {
+                    $prevButton.prop('disabled', false);
+                    $nextButton.prop('disabled', false);
+                }
+            } else {
+                $prevButton.prop('disabled', true);
+                $nextButton.prop('disabled', true);
+            }
+        };
+
+        $container.on('scroll', handleScrollButtonsState);
+        $(window).on('resize', handleScrollButtonsState);
+
+        handleScrollButtonsState();
+
+        var buttonWidth = $('.worksheet-list-buttons').outerWidth();
+
+        $prevButton.on('click', function() {
+            $($box.children().get().reverse()).each(function () {
+                var $tab = $(this);
+                var left = $tab.position().left - buttonWidth;
+
+                if (left < 0) {
+                    $container.scrollLeft($container.scrollLeft() + left - 26);
+                    return false;
+                }
+            });
+        });
+
+        $nextButton.on('click', function() {
+            var rightBound = $container.width();
+            $box.children().each(function () {
+                var $tab = $(this);
+                var right = $tab.position().left + $tab.outerWidth();
+
+                if (right > rightBound) {
+                    $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
+                    return false;
+                }
+            });
+        });
     }
 
     function onDownloadUrl(url, fileType) {
@@ -511,6 +572,7 @@ SSE.ApplicationController = new(function(){
 
                     onDocumentContentReady();
                     onSheetsChanged();
+                    setupScrollButtons();
                     break;
             }
 

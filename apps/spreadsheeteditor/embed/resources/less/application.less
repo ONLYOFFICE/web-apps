@@ -12,15 +12,19 @@
     flex-grow: 1;
   }
 
-  ul.worksheet-list {
-    background-color: #F7F7F7;
+  .worksheet-list-container {
     display: flex;
-    padding: 0;
-    margin: 0;
-    white-space: nowrap;
-    box-shadow: inset 0 1px 0 #cacaca;
-    overflow-x: auto;
-    overflow-y: hidden;
+    border-top: 1px solid #cacaca;
+    background-color: #f7f7f7;
+
+    .worksheet-list-buttons {
+      display: flex;
+      padding: 1px 12px;
+      height: 24px;
+      position: fixed;
+      background: #f7f7f7;
+      border-right: 1px solid #c0c0cd;
+    }
 
     @media screen and (min--moz-device-pixel-ratio:0) {
       scrollbar-color: #e8e8e8 #eeeeee;
@@ -58,6 +62,9 @@
       background-color: #eeeeee;
     }
 
+    overflow-x: auto;
+    overflow-y: hidden;
+
     &::-webkit-scrollbar-button:single-button {
       height: 14px;
       width: 16px;
@@ -90,6 +97,15 @@
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges' width='4' height='8px' fill='rgb(247, 247, 247)'><polygon points='0,3.5 4,7 4,0'/></svg>");
       }
     }
+  }
+
+  ul.worksheet-list {
+    background-color: #F7F7F7;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    margin-left: 68px;
 
     li {
       display: inline-block;
