@@ -142,7 +142,7 @@ define([
             var el = this.$el || $(this.el);
 
             el.html(this.template(this.model.toJSON()));
-            el.addClass('item');
+            el.addClass('item canfocused');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
             el.attr('tabindex', 0);
             el.attr('role', this.options.role ? this.options.role : 'listitem');
@@ -965,8 +965,8 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
+                        this.dataViewItems[idx] && this.dataViewItems[idx].$el.focus();
                         this._fromKeyDown = false;
-                        $('#' + rec.get('id')).parent().focus();
                     }
                 }
             } else {
@@ -1482,6 +1482,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
+                        this.dataViewItems[idx] && $(this.dataViewItems[idx].el).focus();
                         this._fromKeyDown = false;
                     }
                 }
