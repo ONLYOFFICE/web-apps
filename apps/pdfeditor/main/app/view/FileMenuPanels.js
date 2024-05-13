@@ -1370,6 +1370,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1397,6 +1398,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1447,6 +1449,7 @@ define([
                     value = new Date(value);
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1461,6 +1464,7 @@ define([
                     value = new Date(value);
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
