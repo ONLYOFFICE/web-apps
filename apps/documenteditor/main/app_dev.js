@@ -227,6 +227,8 @@ require([
                     'common/main/lib/view/RenameDialog',
                     'common/main/lib/view/ExternalEditor',
                     'common/main/lib/view/ExternalDiagramEditor',
+                    'common/main/lib/view/ExternalMergeEditor',
+                    'common/main/lib/view/ExternalOleEditor',
 
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',

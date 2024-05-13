@@ -37,9 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/view/ExternalEditor'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.ExternalOleEditor = Common.Views.ExternalEditor.extend(_.extend({
         initialize : function(options) {
