@@ -316,7 +316,8 @@
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有上传图片",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
   },
   "LongActions": {
     "advDRMPassword": "密码",
