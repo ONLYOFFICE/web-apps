@@ -343,6 +343,7 @@ define([
 
             if ( caller && caller == 'header' )
                 Common.NotificationCenter.trigger('quickaccess:changed', props);
+            updateDocNamePosition();
         }
 
         function onAppReady(mode) {
