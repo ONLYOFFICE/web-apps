@@ -782,7 +782,7 @@ define([
             }
         },
 
-        onDblClickItem: function(view, record, e) {
+        onDblClickItem: function(view, record, e) { // item inner element must have css props: pointer-events: none;
             if ( this.disabled ) return;
 
             window._event = e;  //  for FireFox only
