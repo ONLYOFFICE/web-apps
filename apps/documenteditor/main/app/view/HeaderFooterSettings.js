@@ -157,7 +157,7 @@ define([
                 }
 
                 value = prop.get_NumFormat();
-                if ( this._state.NumFormat!==value ) {
+                if ( this._state.NumFormat!==value || this.cmbFormat.getValue()===-2) {
                     this.fillFormatCombo(value);
                     this._state.NumFormat = value;
                 }
@@ -418,7 +418,7 @@ define([
             var store = [].concat(this._arrNumbers),
                 me = this;
             this.recentNumTypes.forEach(function(item) {
-                if (item) {
+                if (item!==null && item!==undefined) {
                     item = parseInt(item);
                     store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.mode.lang) + ',...', value: item });
                 }
