@@ -248,6 +248,7 @@ define([
                 break;
                 case 'history':
                     if (!this.leftMenu.panelHistory.isVisible()) {
+                        Common.NotificationCenter.trigger('animpane:close');
                         if (this.api.isDocumentModified()) {
                             var me = this;
                             this.api.asc_stopSaving();

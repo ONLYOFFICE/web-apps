@@ -112,7 +112,9 @@ define([
             this.api.asc_registerCallback('asc_onAnimPreviewStarted',   _.bind(this.onAnimPreviewStarted, this));
             this.api.asc_registerCallback('asc_onAnimPreviewFinished',  _.bind(this.onAnimPreviewFinished, this));
             this.api.asc_onShowAnimTab(!!this._state.onactivetab)
-            this.api.asc_registerCallback('asc_onCloseAnimPane',        _.bind(this.onCloseAnimPane, this));
+            this.api.asc_registerCallback('asc_onCloseAnimPane',        _.bind(this.onApiCloseAnimPane, this));
+
+            Common.NotificationCenter.on('animpane:close',              _.bind(this.onCloseAnimPane, this));
             return this;
         },
 
@@ -174,11 +176,21 @@ define([
         },
 
         onAnimationPane: function(btn) {
+            this._state.isAnimPaneVisible = btn.pressed;
             this.api.asc_ShowAnimPane(btn.pressed);
         },
 
-        onCloseAnimPane: function () {
+        onApiCloseAnimPane: function () {
+            this._state.isAnimPaneVisible = false;
             this.view.btnAnimationPane.toggle(false, true);
+        },
+
+        onCloseAnimPane: function () {
+            if (this._state.isAnimPaneVisible) {
+                this._state.isAnimPaneVisible = false;
+                this.api.asc_ShowAnimPane(false);
+                this.view.btnAnimationPane.toggle(false, true);
+            }
         },
 
         onAnimationAdditional: function(replace) { // replace or add new additional effect
