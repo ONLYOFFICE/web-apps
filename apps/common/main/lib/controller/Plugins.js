@@ -116,12 +116,15 @@ define([
             this.autostart = [];
             this.customPluginsDlg = [];
 
+            this.newInstalledBackgroundPlugins = [];
+
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
+            Common.NotificationCenter.on('modal:close', this.onModalClose.bind(this));
         },
 
         loadConfig: function(data) {
@@ -817,6 +820,7 @@ define([
         },
 
         parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
+            this.newInstalledBackgroundPlugins.length = 0;
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -916,6 +920,12 @@ define([
                             tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
+                        if (!updatedItem && props.isBackgroundPlugin) {
+                            me.newInstalledBackgroundPlugins.push({
+                                name: name,
+                                guid: item.guid
+                            });
+                        }
                     }
                 });
 
@@ -1259,7 +1269,40 @@ define([
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
                 this.api.asc_pluginButtonClick(-1, guid, frameId);
-        }
+        },
+
+        onModalClose: function () {
+            var plugins = this.newInstalledBackgroundPlugins;
+            if (plugins && plugins.length > 0) {
+                var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
+                    Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
+                this.backgroundPluginsTip = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    placement: 'bottom',
+                    target: this.viewPlugins.backgroundBtn.$el,
+                    text: text,
+                    showLink: true,
+                    textLink: plugins.length > 1 ? this.textRunInstalledPlugins : this.textRunPlugin
+                });
+                this.backgroundPluginsTip.on('dontshowclick', function() {
+                    this.backgroundPluginsTip.hide();
+                    this.newInstalledBackgroundPlugins.forEach(_.bind(function (item) {
+                        this.api.asc_pluginRun(item.guid, 0, '');
+                    }, this));
+                    this.newInstalledBackgroundPlugins.length = 0;
+                }, this);
+                this.backgroundPluginsTip.on('closeclick', function () {
+                    this.backgroundPluginsTip.hide();
+                    this.newInstalledBackgroundPlugins.length = 0;
+                }, this);
+                this.backgroundPluginsTip.show();
+            }
+        },
+
+        textRunPlugin: 'Run plugin',
+        textRunInstalledPlugins: 'Run installed plugins',
+        textPluginSuccessfullyInstalled: '<b>{0}</b> is successfully installed. You can access all background plugins here.',
+        textPluginsSuccessfullyInstalled: 'Plugins are successfully installed. You can access all background plugins here.'
 
     }, Common.Controllers.Plugins || {}));
 });
