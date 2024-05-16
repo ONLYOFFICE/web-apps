@@ -278,7 +278,7 @@ define([
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
-                    !fromApiEvent && me.fullScreen(document.documentElement);
+                    !fromApiEvent && me.fullScreen(document.getElementById("presentation-preview"));
                     setTimeout(function(){
                         _onWindowResize();
                     }, 100);
