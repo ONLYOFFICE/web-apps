@@ -182,23 +182,28 @@ define([
             });
             if (this.btnViewFormRoles) {
                 this.btnViewFormRoles.on('click', function (b, e) {
-                    var item = b.menu.getChecked();
-                    if (item) {
-                        item = item.caption;
-                    } else if (me._state.roles && me._state.roles.length>0) {
-                        item = me._state.roles[0].asc_getSettings().asc_getName();
+                    var item;
+                    if (b.menu) {
+                        item = b.menu.getChecked();
+                        if (item) {
+                            item = item.caption;
+                        } else if (me._state.roles && me._state.roles.length>0) {
+                            item = me._state.roles[0].asc_getSettings().asc_getName();
+                        }
                     }
                     me.fireEvent('forms:mode', [b.pressed, item]);
                 });
-                this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
-                    if (!!item.checked) {
-                        me.btnViewFormRoles.toggle(true, true);
-                        me.fireEvent('forms:mode', [true, item.caption]);
-                    }
-                }, me));
-                this.btnViewFormRoles.menu.on('show:after',  function (menu) {
-                    me.fillRolesMenu();
-                });
+                if (this.btnViewFormRoles.menu) {
+                    this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                        if (!!item.checked) {
+                            me.btnViewFormRoles.toggle(true, true);
+                            me.fireEvent('forms:mode', [true, item.caption]);
+                        }
+                    }, me));
+                    this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                        me.fillRolesMenu();
+                    });
+                }
             }
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
@@ -406,6 +411,7 @@ define([
                         iconCls: 'toolbar__icon btn-ic-sharing',
                         lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnManager,
+                        visible: Common.UI.FeaturesManager.isFeatureEnabled('roles'),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -483,13 +489,13 @@ define([
                         iconCls: 'toolbar__icon btn-big-sheet-view',
                         lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnView,
-                        split: true,
-                        menu: new Common.UI.Menu({
+                        split: Common.UI.FeaturesManager.isFeatureEnabled('roles'),
+                        menu: Common.UI.FeaturesManager.isFeatureEnabled('roles') ? new Common.UI.Menu({
                             cls: 'menu-roles',
                             maxHeight: 270,
                             style: 'max-width: 400px;',
                             items: []
-                        }),
+                        }) : false,
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -605,7 +611,7 @@ define([
 
                 return this;
             },
-            
+
             onAppReady: function (config) {
                 var me = this;
                 (new Promise(function (accept, reject) {
@@ -716,6 +722,7 @@ define([
                     this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
 
                     $host.find('.forms-buttons').show();
+                    !Common.UI.FeaturesManager.isFeatureEnabled('roles') && this.btnManager.cmpEl.parents('.group').hide().prev('.separator').hide();
                 }
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));

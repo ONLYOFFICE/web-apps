@@ -182,6 +182,7 @@
                         header: {
                             users: false/true // users list button
                             save: false/true // save button
+                            editMode: false/true // change mode button
                         },
                         leftMenu: {
                             navigation: false/true,
@@ -202,6 +203,7 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                        roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
                     },
                     font: {
                         name: "Arial",
