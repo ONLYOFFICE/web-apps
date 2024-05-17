@@ -95,7 +95,7 @@ define([
                                     '<div class="btn-slot" id="slot-hbtn-print-quick"></div>' +
                                     '<div class="btn-slot" id="slot-hbtn-download"></div>' +
                                 '</div>' +
-                                '<div class="hedset">' +
+                                '<div class="hedset" data-layout-name="header-editMode">' +
                                     '<div class="btn-slot" id="slot-btn-edit-mode"></div>' +
                                 '</div>' +
                                 '<div class="hedset" data-layout-name="header-users">' +
