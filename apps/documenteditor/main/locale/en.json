@@ -3519,6 +3519,8 @@
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
   "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.textEditMode": "Edit PDF",
+  "DE.Views.Toolbar.tipEditMode": "Edit current file.<br>The page will be reloaded.",
   "DE.Views.ViewTab.textAlwaysShowToolbar": "Always Show Toolbar",
   "DE.Views.ViewTab.textDarkDocument": "Dark Document",
   "DE.Views.ViewTab.textFitToPage": "Fit To Page",
