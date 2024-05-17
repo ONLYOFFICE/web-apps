@@ -580,9 +580,8 @@ define([
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
                         });
-                        this.paragraphControls.push(this.btnSubmit);
                     }
-
+                    this.paragraphControls.push(this.btnSubmit);
                 } else if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
