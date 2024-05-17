@@ -70,7 +70,8 @@ define([
                             me.toolbar = toolbar;
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, Common.UI.LayoutManager.lastTabIdx);     // TODO: clear plugins list in left panel
                         }
-                    }
+                    },
+                    'tab:active': this.onActiveTab
                 },
                 'Common.Views.Plugins': {
                     'plugin:select': function(guid, type, isRun, closePanel) {
@@ -779,9 +780,9 @@ define([
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
-        onPluginsInit: function(pluginsdata) {
+        onPluginsInit: function(pluginsdata, fromManager) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata, false, true)
+            this.parsePlugins(pluginsdata, false, true, fromManager);
         },
 
         onPluginShowButton: function(id, toRight) {
@@ -819,7 +820,7 @@ define([
             });
         },
 
-        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
+        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate, fromManager) {
             this.newInstalledBackgroundPlugins.length = 0;
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
@@ -920,7 +921,7 @@ define([
                             tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
-                        if (!updatedItem && props.isBackgroundPlugin) {
+                        if (fromManager && !updatedItem && props.isBackgroundPlugin) {
                             me.newInstalledBackgroundPlugins.push({
                                 name: name,
                                 guid: item.guid
@@ -1285,17 +1286,27 @@ define([
                     textLink: plugins.length > 1 ? this.textRunInstalledPlugins : this.textRunPlugin
                 });
                 this.backgroundPluginsTip.on('dontshowclick', function() {
-                    this.backgroundPluginsTip.hide();
+                    this.backgroundPluginsTip.close();
+                    this.backgroundPluginsTip = undefined;
                     this.newInstalledBackgroundPlugins.forEach(_.bind(function (item) {
                         this.api.asc_pluginRun(item.guid, 0, '');
                     }, this));
                     this.newInstalledBackgroundPlugins.length = 0;
                 }, this);
                 this.backgroundPluginsTip.on('closeclick', function () {
-                    this.backgroundPluginsTip.hide();
+                    this.backgroundPluginsTip.close();
+                    this.backgroundPluginsTip = undefined;
                     this.newInstalledBackgroundPlugins.length = 0;
                 }, this);
                 this.backgroundPluginsTip.show();
+            }
+        },
+
+        onActiveTab: function (tab) {
+            if (tab !== 'plugins' && this.backgroundPluginsTip) {
+                this.backgroundPluginsTip.close();
+                this.backgroundPluginsTip = undefined;
+                this.newInstalledBackgroundPlugins.length = 0;
             }
         },
 
