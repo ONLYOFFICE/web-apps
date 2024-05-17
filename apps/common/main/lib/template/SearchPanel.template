@@ -5,7 +5,7 @@
     </div>
     <div id="search-container">
     <div id="search-adv-settings">
-        <table cols="1">
+        <table cols="1" role="presentation">
             <tbody>
                 <tr>
                     <td class="padding-small"><div id="search-adv-text"></div></td>

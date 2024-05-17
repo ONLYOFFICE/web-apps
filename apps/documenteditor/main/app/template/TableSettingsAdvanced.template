@@ -1,6 +1,6 @@
 <div id="id-adv-table-width" class="settings-panel active">
     <div class="inner-content">
-        <table cols="3">
+        <table cols="3" role="presentation">
             <tr>
                 <td colspan="3" class="padding-small">
                     <label class="header"><%= scope.textTableSize %></label>
@@ -26,7 +26,7 @@
             </tr>
         </table>
         <div class="padding-small"></div>
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textDefaultMargins %></label>
@@ -54,7 +54,7 @@
             </tr>
         </table>
         <div class="padding-small"></div>
-        <table cols="2">
+        <table cols="2" role="presentation">
             <tr>
                 <td colspan="2" class="padding-small">
                     <label class="header"><%= scope.textOptions %></label>
@@ -76,7 +76,7 @@
 </div>
 <div id="id-adv-table-cell-props" class="settings-panel">
     <div class="inner-content">
-        <table cols="3">
+        <table cols="3" role="presentation">
             <tr>
                 <td colspan="3" class="padding-small">
                     <label class="header"><%= scope.textCellSize %></label>
@@ -97,7 +97,7 @@
             </tr>
         </table>
         <div class="padding-small"></div>
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textMargins %></label>
@@ -165,7 +165,7 @@
             </div>
         </div>
         <div id="tableadv-panel-distance" class="settings-hidden" style="width: 100%;">
-            <table cols="2" style="width: 100%;">
+            <table cols="2" style="width: 100%;" role="presentation">
                 <tr>
                     <td colspan=2 class="padding-small">
                         <label class="header"><%= scope.textDistance %></label>
@@ -244,7 +244,7 @@
 </div>
 <div id="id-adv-table-position" class="settings-panel">
     <div class="inner-content">
-        <table cols="3" style="width: 100%;">
+        <table cols="3" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="3" class="padding-small">
                     <label class="header"><%= scope.textHorizontal %></label>
@@ -311,7 +311,7 @@
     </div>
     <div class="separator horizontal padding-large"></div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="2" class="padding-small">
                     <label class="header"><%= scope.textOptions %></label>
@@ -330,7 +330,7 @@
 </div>
 <div id="id-adv-table-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

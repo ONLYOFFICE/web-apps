@@ -1,4 +1,4 @@
-<table cols="3">
+<table cols="3" role="presentation">
     <tr>
         <td colspan=3>
             <label class="header"><%= scope.textSize %></label>
@@ -18,7 +18,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -50,7 +50,7 @@
         </td>
     </tr>
 </table>
-<table cols="1" id="chart-panel-3d-rotate">
+<table cols="1" id="chart-panel-3d-rotate" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -113,7 +113,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>

@@ -1,6 +1,6 @@
 <div id="id-adv-table-alttext" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

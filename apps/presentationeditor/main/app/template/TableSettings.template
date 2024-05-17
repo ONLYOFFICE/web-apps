@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td width="50%">
             <label class="header"><%= scope.textRows %></label>

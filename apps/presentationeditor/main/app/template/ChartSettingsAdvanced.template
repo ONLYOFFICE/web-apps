@@ -1,6 +1,6 @@
 <div id="id-adv-chart-general" class="settings-panel active">
     <div class="inner-content">
-    <table cols="1" width="100%">
+    <table cols="1" width="100%" role="presentation">
         <tr>
             <td class="padding-large">
                 <label class="header"><%= scope.textChartName %></label>
@@ -12,7 +12,7 @@
 </div>
 <div  id="id-adv-chart-placement" class="settings-panel active">
     <div class="inner-content">
-        <table cols="3">
+        <table cols="3" role="presentation">
             <tr>
                 <td colspan="4" width="88px" class="padding-small">
                     <label class="header"><%= scope.textSize %></label>
@@ -34,7 +34,7 @@
         </table>
     </div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="4" width="88px" class="padding-small">
                     <label class="header"><%= scope.textPosition %></label>
@@ -65,7 +65,7 @@
 </div>
 <div id="id-adv-chart-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

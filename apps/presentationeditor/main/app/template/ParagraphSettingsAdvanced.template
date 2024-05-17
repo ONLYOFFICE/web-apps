@@ -58,7 +58,7 @@
         <div class="padding-very-small">
             <label class="header"><%= scope.textEffects %></label>
         </div>
-        <table cols="2">
+        <table cols="2" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-strike"></div>

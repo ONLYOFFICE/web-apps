@@ -75,7 +75,7 @@
 </div>
 <div id="id-adv-slicer-snap" class="settings-panel">
     <div class="inner-content">
-        <table cols="1">
+        <table cols="1" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="slicer-advanced-radio-twocell"></div>
@@ -96,7 +96,7 @@
 </div>
 <div id="id-adv-slicer-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td>
             <label class="header padding-small" id="form-settings-name"><%= scope.textField %></label>
@@ -103,7 +103,7 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="2" role="presentation">
     <tr class="form-list">
         <td colspan="2" class="padding-small">
             <div class="separator horizontal"></div>
@@ -133,7 +133,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr class="form-datetime">
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -152,7 +152,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr class="form-checkbox">
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -195,7 +195,7 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="2" role="presentation">
     <tr class="form-textfield">
         <td colspan=2 class="padding-left-22">
             <label class="input-label"><%= scope.textWidth %></label>
@@ -210,7 +210,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr class="form-image">
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -249,7 +249,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
@@ -268,7 +268,7 @@
         </td>
     </tr>
 </table>
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td class="padding-small">
             <div class="separator horizontal"></div>
