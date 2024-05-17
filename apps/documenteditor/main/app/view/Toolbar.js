@@ -1873,6 +1873,18 @@ define([
                         });
                         this.toolbarControls.push(this.btnHandTool);
 
+                        this.btnEditMode = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-edit-text',
+                            style: 'min-width: 45px;',
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            caption: this.textEditMode,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnEditMode);
+
                         this.lockControls = this.toolbarControls.concat(this.paragraphControls);
                         this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
                     }
@@ -1961,6 +1973,7 @@ define([
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
                 _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
+                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
 
                 return $host;
             },
@@ -2377,6 +2390,7 @@ define([
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
+                this.btnEditMode.updateHint(this.tipEditMode, true);
             },
 
             createDelayedElements: function () {
@@ -3699,7 +3713,9 @@ define([
             textIndRight: 'Right indent',
             textSpaceBefore: 'Space before',
             textSpaceAfter: 'Space after',
-            txtAutoText: 'Auto'
+            txtAutoText: 'Auto',
+            textEditMode: 'Edit PDF',
+            tipEditMode: 'Edit current file.<br>The page will be reloaded.',
         }
     })(), DE.Views.Toolbar || {}));
 });
