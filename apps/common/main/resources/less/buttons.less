@@ -115,29 +115,16 @@
 
     &.notify {
         .icon {
-            &::after {
-                content: ' ';
-                position: absolute;
-                border: 1px solid @icon-notification-badge-ie;
-                border: 1px solid @icon-notification-badge;
-                border-left: 0 none;
-                border-right: 0 none;
-                width: 6px;
-                height: 3px;
-                bottom: 4px;
-                right: 2px;
-            }
-
             &::before {
                 content: ' ';
                 position: absolute;
-                width: 10px;
-                height: 7px;
+                width: 8px;
+                height: 8px;
                 bottom: 2px;
                 background-color: @background-notification-badge-ie;
                 background-color: @background-notification-badge;
-                border-radius: 2px;
-                right: 0;
+                border-radius: 4px;
+                right: 2px;
             }
         }
     }
