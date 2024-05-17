@@ -278,26 +278,12 @@ define([
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
-                    !fromApiEvent && me.fullScreen(document.documentElement);
+                    !fromApiEvent && Common.Utils.startFullscreenForElement($("#pe-preview").get(0));
                     setTimeout(function(){
                         _onWindowResize();
                     }, 100);
                 } else
                     _onWindowResize();
-            }
-        },
-
-        fullScreen: function(element) {
-            if (element) {
-                if(element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if(element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if(element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if(element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
             }
         },
 

@@ -1049,6 +1049,32 @@ Common.Utils.injectComponent = function ($slot, cmp) {
     }
 };
 
+Common.Utils.startFullscreenForElement = function (element) {
+    if (element) {
+        if(element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if(element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if(element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    }
+}
+
+Common.Utils.cancelFullscreen = function () {
+    if(document.cancelFullScreen) {
+        document.cancelFullScreen();
+    } else if(document.webkitCancelFullScreen ) {
+        document.webkitCancelFullScreen();
+    } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if(document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
 Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )
         opts.disablefunc(true);
