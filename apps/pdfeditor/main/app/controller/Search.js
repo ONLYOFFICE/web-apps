@@ -359,6 +359,7 @@ define([
                             innerHtml += Common.Utils.String.htmlEncode(item[1][i]);
                     }
                     el.innerHTML = innerHtml.trim();
+                    el.setAttribute('role', 'listitem');
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');

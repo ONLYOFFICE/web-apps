@@ -77,7 +77,7 @@ define([
                 handleSelect: false,
                 scrollable: true,
                 listenStoreEvents: false,
-                template: _.template('<div class="dataview-ct inner"></div>')
+                template: _.template('<div class="dataview-ct inner" role="list"></div>')
             },
 
             getTextBox: function () {

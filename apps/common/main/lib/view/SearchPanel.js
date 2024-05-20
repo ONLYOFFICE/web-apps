@@ -285,6 +285,8 @@ define([
                     });
                     this.$resultsTable = this.$resultsContainer.find('.search-table');
                 } else {
+                    this.$resultsContainer.attr('role', 'list');
+                    this.$resultsContainer.attr('aria-label', this.textSearchResultsTable);
                     this.$resultsContainer.scroller = new Common.UI.Scroller({
                         el: this.$resultsContainer,
                         includePadding: true,
