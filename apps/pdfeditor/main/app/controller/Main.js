@@ -389,6 +389,7 @@ define([
                 this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
+                this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
@@ -430,8 +431,7 @@ define([
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 this.appOptions.wopi = this.editorConfig.wopi;
                 appHeader.setWopi(this.appOptions.wopi);
@@ -1378,6 +1378,31 @@ define([
 
                 Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fastCoauth);
                 Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave);
+            },
+
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             onPdfModeChange: function(mode, callback) {
