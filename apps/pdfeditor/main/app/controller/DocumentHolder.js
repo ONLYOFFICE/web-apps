@@ -347,7 +347,7 @@ define([
                 view.mnuNewPage.on('click', _.bind(me.onNewPage, me));
                 view.mnuDeletePage.on('click', _.bind(me.onDeletePage, me));
                 view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
-                view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, 270));
+                view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, -90));
                 view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             }
         },
@@ -551,7 +551,7 @@ define([
             var me = this;
             _.delay(function(){
                 if (event.get_Type() == Asc.c_oAscPdfContextMenuTypes.Thumbnails) {
-                    me.mode && me.mode.isEdit && me.mode.isPDFEdit && me.showPopupMenu.call(me, me.documentHolder.pageMenu, {isPageSelect: event.get_IsPageSelect()}, event);
+                    me.mode && me.mode.isEdit && me.mode.isPDFEdit && me.showPopupMenu.call(me, me.documentHolder.pageMenu, {isPageSelect: event.get_IsPageSelect(), pageNum: event.get_PageNum()}, event);
                 } else
                     me.showObjectMenu.call(me, event);
             },10);
@@ -2786,8 +2786,8 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
 
-        onRotatePage: function(angle) {
-            this.api && this.api.asc_RotatePage(angle);
+        onRotatePage: function(angle, item) {
+            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(item.options.value) + angle);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },

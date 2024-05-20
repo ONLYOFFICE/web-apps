@@ -1189,6 +1189,7 @@ define([
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
+                    me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
                     me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
                     me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
                     me.mnuDeletePage.setVisible(value.isPageSelect===true);
