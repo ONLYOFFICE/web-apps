@@ -559,7 +559,7 @@ define([
         },
 
         onRefreshRolesList: function(roles) {
-            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles')) return;
+            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles', true)) return;
 
             if (!roles) {
                 var oform = this.api.asc_GetOForm();
@@ -584,7 +584,7 @@ define([
         },
 
         showRolesList: function(callback) {
-            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles')) {
+            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles', true)) {
                 callback.call(this);
                 return;
             }
