@@ -411,7 +411,7 @@ define([
                         iconCls: 'toolbar__icon btn-ic-sharing',
                         lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnManager,
-                        visible: Common.UI.FeaturesManager.isFeatureEnabled('roles'),
+                        visible: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -489,8 +489,8 @@ define([
                         iconCls: 'toolbar__icon btn-big-sheet-view',
                         lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnView,
-                        split: Common.UI.FeaturesManager.isFeatureEnabled('roles'),
-                        menu: Common.UI.FeaturesManager.isFeatureEnabled('roles') ? new Common.UI.Menu({
+                        split: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
+                        menu: Common.UI.FeaturesManager.isFeatureEnabled('roles', true) ? new Common.UI.Menu({
                             cls: 'menu-roles',
                             maxHeight: 270,
                             style: 'max-width: 400px;',
@@ -722,7 +722,7 @@ define([
                     this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
 
                     $host.find('.forms-buttons').show();
-                    !Common.UI.FeaturesManager.isFeatureEnabled('roles') && this.btnManager.cmpEl.parents('.group').hide().prev('.separator').hide();
+                    !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && this.btnManager.cmpEl.parents('.group').hide().prev('.separator').hide();
                 }
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));

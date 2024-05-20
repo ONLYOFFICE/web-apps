@@ -112,7 +112,7 @@ define([
             this.DefValueText = el.find('#form-txt-def-value').closest('tr');
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
 
-            !Common.UI.FeaturesManager.isFeatureEnabled('roles') && el.find('#form-combo-roles').closest('tr').hide();
+            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
         },
 
         createDelayedElements: function() {
