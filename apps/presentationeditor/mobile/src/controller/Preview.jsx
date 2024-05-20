@@ -17,13 +17,14 @@ const PreviewController = props => {
         };
 
         ContextMenu.closeContextMenu();
-        show();
-        onDocumentReady();
 
         _view = $$('#pe-preview');
         _view.on('touchstart', onTouchStart);
         _view.on('touchmove', onTouchMove);
         _view.on('touchend', onTouchEnd);
+
+        show();
+        onDocumentReady();
 
         return () => {
             const api = Common.EditorApi.get();
@@ -49,10 +50,10 @@ const PreviewController = props => {
     }
 
     const exitFullScreen = () => {
-        const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+        const requestExitFullScreen = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
     
-        if (exitFullscreen) {
-            exitFullscreen.call(document).catch(err => {
+        if (requestExitFullScreen) {
+            requestExitFullScreen.call(document).catch(err => {
                 console.error(`Error attempting to exit full screen mode: ${err.message} (${err.name})`);
             });
         } else {
@@ -62,8 +63,9 @@ const PreviewController = props => {
 
     const show = () => {
         const api = Common.EditorApi.get();
+
         api.StartDemonstration('presentation-preview', api.getCurrentPage());
-        enterFullScreen(document.documentElement);
+        enterFullScreen(_view[0]);
     };
 
     const onTouchStart = e => {
@@ -109,7 +111,7 @@ const PreviewController = props => {
 
     const onEndDemonstration = () => {
         props.closeOptions('preview');
-        exitFullScreen(document.documentElement);
+        exitFullScreen();
     };
 
     return (
