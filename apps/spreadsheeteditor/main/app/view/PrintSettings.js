@@ -163,7 +163,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                     {value:'297|420',        displayValue:'A3 (29,7 cm x 42 cm)', caption: 'A3'},
                     {value:'296.9|457.2',    displayValue:'Tabloid Oversize (29,69 cm x 45,72 cm)', caption: 'Tabloid Oversize'},
                     {value:'196.8|273',      displayValue:'ROC 16K (19,68 cm x 27,3 cm)', caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99 cm x 23,49 cm)', caption: 'Envelope Choukei 3'},
+                    {value:'120|235',    displayValue:'Envelope Choukei 3 (12 cm x 23,5 cm)', caption: 'Envelope Choukei 3'},
                     {value:'305|487',    displayValue:'Super B/A3 (30,5 cm x 48,7 cm)', caption: 'Super B/A3'}
                 ]
             });
