@@ -1982,11 +1982,11 @@ define([
                             },
                             {
                                 caption: 'Tabloid Oversize',
-                                subtitle: '30,48cm x 45,71cm',
+                                subtitle: '29,69cm x 45,72cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [304.8, 457.1]
+                                value: [296.9, 457.2]
                             },
                             {
                                 caption: 'ROC 16K',
@@ -1998,19 +1998,19 @@ define([
                             },
                             {
                                 caption: 'Envelope Choukei 3',
-                                subtitle: '11,99cm x 23,49cm',
+                                subtitle: '12cm x 23,5cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [119.9, 234.9]
+                                value: [120, 235]
                             },
                             {
                                 caption: 'Super B/A3',
-                                subtitle: '33,02cm x 48,25cm',
+                                subtitle: '30,5cm x 48,7cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [330.2, 482.5]
+                                value: [305, 487]
                             }
                         ]
                     }),
