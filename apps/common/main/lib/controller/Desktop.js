@@ -265,11 +265,11 @@ define([
 
             if ( !!titlebuttons ) {
                 info.hints = {};
-                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title-lang'));
             }
 
             native.execCommand('althints:show', JSON.stringify(info));

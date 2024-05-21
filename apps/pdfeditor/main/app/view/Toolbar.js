@@ -820,7 +820,7 @@ define([
                         menu: true,
                         hideColorLine: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
                         penOptions: {color: 'D43230'},
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
@@ -856,7 +856,7 @@ define([
                         menu: true,
                         type: AscPDF.ANNOTATIONS_TYPES.Highlight,
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
                         penOptions: {color: 'FFFC54', colors: [
                                 'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
