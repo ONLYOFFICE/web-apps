@@ -2126,7 +2126,7 @@ define([
                     { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
                     { value: 9, displayValue: ['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize', size: [304.8, 457.1]},
                     { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue: ['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
+                    { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
                     { value: 12, displayValue: ['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3', size: [330.2, 482.5]},
                     { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
                     { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},

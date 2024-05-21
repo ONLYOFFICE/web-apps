@@ -1990,11 +1990,11 @@ define([
                             },
                             {
                                 caption: 'Envelope Choukei 3',
-                                subtitle: '11,99cm x 23,49cm',
+                                subtitle: '12cm x 23,5cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [119.9, 234.9]
+                                value: [120, 235]
                             },
                             {
                                 caption: 'Super B/A3',
