@@ -259,7 +259,7 @@ define([
                     lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     enableToggle: true,
                     dataHint: '1',
-                    dataHintDirection: 'top'
+                    dataHintDirection: 'bottom'
                 });
                 this.paragraphControls.push(this.btnTextStrikeout);
                 arr.push(this.btnTextStrikeout);
