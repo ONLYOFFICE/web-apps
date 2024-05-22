@@ -40,10 +40,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'common/main/lib/view/SearchBar',
     'spreadsheeteditor/main/app/view/Toolbar',
@@ -51,21 +47,11 @@ define([
     'spreadsheeteditor/main/app/controller/PivotTable',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/TableOptionsDialog',
-    'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
-    'spreadsheeteditor/main/app/view/NamedRangePasteDlg',
-    'spreadsheeteditor/main/app/view/NameManagerDlg',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog',
     'spreadsheeteditor/main/app/view/PageMarginsDialog',
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
-    'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
-    'spreadsheeteditor/main/app/view/SlicerAddDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
-    'spreadsheeteditor/main/app/view/CreateSparklineDialog',
-    'spreadsheeteditor/main/app/view/ChartTypeDialog',
-    'spreadsheeteditor/main/app/view/ChartWizardDialog',
-    'spreadsheeteditor/main/app/view/FillSeriesDialog'
 ], function () { 'use strict';
 
     SSE.Controllers.Toolbar = Backbone.Controller.extend(_.extend({
@@ -4085,6 +4071,7 @@ define([
 
         onInsertSymbolClickCallback: function() {
             if (this.api) {
+                console.log('init')
                 var me = this,
                     selected = me.api.asc_GetSelectedText(),
                     win = new Common.Views.SymbolTableDialog({

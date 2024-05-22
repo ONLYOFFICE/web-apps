@@ -44,10 +44,7 @@ define([
     'backbone',
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboDataView',
-    'spreadsheeteditor/main/app/view/ChartSettingsDlg',
-    'spreadsheeteditor/main/app/view/ChartDataDialog',
-    'spreadsheeteditor/main/app/view/ChartWizardDialog'
+    'common/main/lib/component/ComboDataView'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

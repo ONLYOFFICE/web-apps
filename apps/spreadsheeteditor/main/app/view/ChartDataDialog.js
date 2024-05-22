@@ -38,13 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/view/AdvancedSettingsWindow'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.ChartDataDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

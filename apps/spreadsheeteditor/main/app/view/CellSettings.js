@@ -45,8 +45,7 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ComboBorderSize',
-    'common/main/lib/view/OpenDialog'
+    'common/main/lib/component/ComboBorderSize'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

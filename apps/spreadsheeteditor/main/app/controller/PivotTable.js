@@ -39,8 +39,7 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/PivotTable',
-    'spreadsheeteditor/main/app/view/CreatePivotDialog'
+    'spreadsheeteditor/main/app/view/PivotTable'
 ], function () {
     'use strict';
 

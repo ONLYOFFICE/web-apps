@@ -40,8 +40,7 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/ViewTab',
-    'spreadsheeteditor/main/app/view/ViewManagerDlg'
+    'spreadsheeteditor/main/app/view/ViewTab'
 ], function () {
     'use strict';
 

@@ -38,11 +38,8 @@
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/NameManagerDlg.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField'
+define([
+    'text!spreadsheeteditor/main/app/template/NameManagerDlg.template'
 ], function (contentTemplate) {
     'use strict';
 

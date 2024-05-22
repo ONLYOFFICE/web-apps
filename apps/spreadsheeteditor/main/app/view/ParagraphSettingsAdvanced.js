@@ -37,12 +37,8 @@
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/ListView'
+define([
+    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.template'
 ], function (contentTemplate) {
     'use strict';
 

@@ -42,7 +42,6 @@ define([
     'common/main/lib/view/Chat',
     'common/main/lib/view/History',
     /** coauthoring end **/
-    'common/main/lib/view/SearchDialog',
     'common/main/lib/view/Plugins',
     'spreadsheeteditor/main/app/view/FileMenu'
 ], function (menuTemplate, $, _, Backbone) {

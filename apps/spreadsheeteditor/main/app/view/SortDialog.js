@@ -38,11 +38,8 @@
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'spreadsheeteditor/main/app/view/SortOptionsDialog'
+define([
+    'text!spreadsheeteditor/main/app/template/SortDialog.template',
 ], function (contentTemplate) {
     'use strict';
 

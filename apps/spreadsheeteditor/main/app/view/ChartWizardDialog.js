@@ -36,10 +36,7 @@
  *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
  *
  */
-define(['common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/DataView'
-], function () {
+define([], function () {
     'use strict';
 
     var _CustomItem = Common.UI.DataViewItem.extend({

@@ -37,9 +37,8 @@
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/InputField'
+define([
+    'text!spreadsheeteditor/main/app/template/TableSettingsAdvanced.template'
 ], function (contentTemplate) {
     'use strict';
 

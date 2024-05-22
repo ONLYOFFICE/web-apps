@@ -38,13 +38,8 @@
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
+define([
+    'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.template',
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.FieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

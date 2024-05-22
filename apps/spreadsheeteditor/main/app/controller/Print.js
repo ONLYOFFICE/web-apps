@@ -30,9 +30,7 @@
  *
  */
 define([
-    'core',
-    'spreadsheeteditor/main/app/view/FileMenuPanels',
-    'spreadsheeteditor/main/app/view/PrintSettings'
+    'core'
 ], function () {
     'use strict';
 

@@ -61,20 +61,11 @@ define([
     'core',
     'common/main/lib/util/utils',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/ListSettingsDialog',
     'spreadsheeteditor/main/app/view/DocumentHolder',
     'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
-    'spreadsheeteditor/main/app/view/SpecialPasteDialog',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog',
-    'spreadsheeteditor/main/app/view/MacroDialog',
-    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
-    'spreadsheeteditor/main/app/view/FillSeriesDialog'
+    'spreadsheeteditor/main/app/view/PivotGroupDialog'
 ], function () {
     'use strict';
 
@@ -147,6 +138,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
             Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', Common.localStorage.getBool('sse-equation-toolbar-hide'));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onLaunch: function() {
@@ -198,6 +190,8 @@ define([
 
         onCreateDelayedElements: function(view, type) {
             var me = this;
+            me.type = type;
+
             if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
@@ -286,29 +280,6 @@ define([
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
                 view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
                 view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
-
-                if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
-                    var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-                    if (oleEditor) {
-                        oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                            var command = message.data.command;
-                            var data = message.data.data;
-                            if (me.api) {
-                                if (oleEditor.isEditMode())
-                                    me.api.asc_editTableOleObject(data);
-                            }
-                        }, me));
-                        oleEditor.on('hide', _.bind(function(cmp, message) {
-                            if (me.api) {
-                                me.api.asc_enableKeyEvents(true);
-                                me.api.asc_onCloseChartFrame();
-                            }
-                            setTimeout(function(){
-                                view.fireEvent('editcomplete', view);
-                            }, 10);
-                        }, me));
-                    }
-                }
             } else {
                 view.menuViewCopy.on('click',                       _.bind(me.onCopyPaste, me));
                 view.menuViewUndo.on('click',                       _.bind(me.onUndo, me));
@@ -358,6 +329,36 @@ define([
             Common.Utils.isChrome ? addEvent(document, 'mousewheel', _.bind(this.onDocumentWheel,this), { passive: false } ) :
                                     $(document).on('mousewheel',    _.bind(this.onDocumentWheel, this));
             this.onChangeProtectSheet();
+        },
+
+        createPostLoadElements: function() {
+            var me = this;
+            if (!me.type !== 'edit') {
+                return;
+            }
+
+            if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
+                var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                if (oleEditor) {
+                    oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                        var command = message.data.command;
+                        var data = message.data.data;
+                        if (me.api) {
+                            if (oleEditor.isEditMode())
+                                me.api.asc_editTableOleObject(data);
+                        }
+                    }, me));
+                    oleEditor.on('hide', _.bind(function(cmp, message) {
+                        if (me.api) {
+                            me.api.asc_enableKeyEvents(true);
+                            me.api.asc_onCloseChartFrame();
+                        }
+                        setTimeout(function(){
+                            view.fireEvent('editcomplete', view);
+                        }, 10);
+                    }, me));
+                }
+            }
         },
 
         loadConfig: function(data) {

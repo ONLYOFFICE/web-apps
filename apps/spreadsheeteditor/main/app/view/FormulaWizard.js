@@ -37,10 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

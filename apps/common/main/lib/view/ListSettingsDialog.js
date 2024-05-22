@@ -41,13 +41,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/view/SymbolTableDialog'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     var _BulletTypes = {};
     _BulletTypes.none = -1;

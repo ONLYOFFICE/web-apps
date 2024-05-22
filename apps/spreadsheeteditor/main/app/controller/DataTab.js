@@ -40,14 +40,7 @@
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/DataTab',
-    'spreadsheeteditor/main/app/view/SortDialog',
-    'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
-    'spreadsheeteditor/main/app/view/DataValidationDialog',
-    'spreadsheeteditor/main/app/view/ExternalLinksDlg',
-    'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
-    'spreadsheeteditor/main/app/view/GoalSeekDlg',
-    'spreadsheeteditor/main/app/view/GoalSeekStatusDlg'
+    'spreadsheeteditor/main/app/view/DataTab'
 ], function () {
     'use strict';
 

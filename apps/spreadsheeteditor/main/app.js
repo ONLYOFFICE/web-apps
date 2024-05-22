@@ -196,8 +196,6 @@ require([
             // 'spreadsheeteditor/main/app/view/ShapeSettings',
             // 'spreadsheeteditor/main/app/view/TextArtSettings',
             // 'spreadsheeteditor/main/app/view/PivotSettings',
-            'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-            'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
             // 'spreadsheeteditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
             'common/main/lib/controller/Fonts',

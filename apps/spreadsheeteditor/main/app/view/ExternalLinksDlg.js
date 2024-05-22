@@ -38,10 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views = SSE.Views || {};
