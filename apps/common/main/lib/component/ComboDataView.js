@@ -59,6 +59,7 @@ define([
             enableKeyEvents     : false,
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
+            fillOnChangeVisibility: false,
             showLast: true,
             minWidth: -1,
             dataHint: '',
@@ -95,6 +96,7 @@ define([
             this.minWidth    = this.options.minWidth;
             this.autoWidth   = this.initAutoWidth = (Common.Utils.isIE10 || Common.Utils.isIE11) ? false : this.options.autoWidth;
             this.delayRenderTips = this.options.delayRenderTips || false;
+            this.fillOnChangeVisibility = this.options.fillOnChangeVisibility || false;
             this.itemTemplate   = this.options.itemTemplate || _.template([
                 '<div class="style" id="<%= id %>">',
                     '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '" + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
@@ -233,6 +235,20 @@ define([
 
         onTabActive: function() {
             this.startCheckSize();
+        },
+
+        checkVisibility: function() {
+            var me = this;
+            if (!me._timer_visibility) {
+                me._timer_visibility =  setInterval(function() {
+                    if (me.isVisible()) {
+                        clearInterval(me._timer_visibility);
+                        delete me._timer_visibility;
+                        var record = me.menuPicker.getSelectedRec();
+                        record && me.fillComboView(record, !!record, true);
+                    }
+                }, 500);
+            }
         },
 
         startCheckSize: function() {
@@ -562,6 +578,7 @@ define([
                             me.resumeEvents();
                         }
                     }
+                    me.fillOnChangeVisibility && !me.isVisible() && me.checkVisibility();
                     return me.fieldPicker.store.models; // return list of visible items
                 }
             }

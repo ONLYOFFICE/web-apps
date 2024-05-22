@@ -680,7 +680,8 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
-                    delayRenderTips: true
+                    delayRenderTips: true,
+                    fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({

@@ -140,6 +140,7 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: '-10, 0',
                 delayRenderTips: true,
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="item-icon-box" id="<%= id %>" style="">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
