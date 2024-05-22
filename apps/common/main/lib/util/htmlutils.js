@@ -63,9 +63,11 @@ if ( window.nativeprocvars && window.nativeprocvars.rtl !== undefined ) {
 
 if ( ui_rtl && !isIE ) {
     document.body.setAttribute('dir', 'rtl');
-    document.body.classList.add('rtl', 'rtl-font');
+    document.body.classList.add('rtl');
 }
-
+if ( isLangRtl(lang) ) {
+    document.body.classList.add('rtl-font');
+}
 
 function checkScaling() {
     var matches = {
