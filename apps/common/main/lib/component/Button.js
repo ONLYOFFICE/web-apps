@@ -630,6 +630,7 @@ define([
 
                 if (me.menu) {
                     $('[data-toggle^=dropdown]', el).attr('aria-haspopup', 'menu');
+                    $('[data-toggle^=dropdown]', el).attr('aria-expanded', false);
                 }
 
                 if (!me.caption && me.options.hint) {

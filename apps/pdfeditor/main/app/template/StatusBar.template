@@ -23,8 +23,8 @@
         <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar margin-top-small" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtopage">&nbsp;</i></button>
         <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar margin-top-small" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
         <button id="btn-zoom-down" type="button" class="btn small btn-toolbar margin-top-small"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
-        <div class="cnt-zoom" role="button" aria-haspopup="menu">
-            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
+        <div class="cnt-zoom">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" role="button" aria-haspopup="menu" aria-expanded="false">
                 <label id="label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>
