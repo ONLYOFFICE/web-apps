@@ -49,7 +49,7 @@ define([
         template: _.template([
             '<div id="navigation-box" class="layout-ct vbox">',
             '<div id="navigation-header" className="">',
-                '<label><%= scope.strNavigate%></label>',
+                '<label role="heading"><%= scope.strNavigate%></label>',
                 '<div id="navigation-btn-close" class="float-right margin-left-4"></div>',
                 '<div id="navigation-btn-settings" class="float-right"></div>',
             '</div>',

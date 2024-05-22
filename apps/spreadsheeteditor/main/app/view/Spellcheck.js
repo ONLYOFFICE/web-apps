@@ -70,7 +70,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div id="spellcheck-header">',
-                    '<label><%= scope.txtSpelling %></label>',
+                    '<label role="heading"><%= scope.txtSpelling %></label>',
                     '<div id="spellcheck-btn-close" class="float-right margin-left-4"></div>',
                 '</div>',
             '</div>'
