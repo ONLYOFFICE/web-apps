@@ -120,7 +120,7 @@ define([
 
         render: function(el) {
             el = el || this.el;
-            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength, textChat: this.textChat }));
+            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength, textChat: this.textChat, textEnterMessage: this.textEnterMessage }));
 
             this.panelBox       = $('#chat-box', this.el);
             this.panelUsers     = $('#chat-users', this.el);
@@ -460,7 +460,8 @@ define([
 
         textSend: "Send",
         textChat: "Chat",
-        textClosePanel: "Close chat"
+        textClosePanel: "Close chat",
+        textEnterMessage: "Enter your message here"
 
     }, Common.Views.Chat || {}))
 });

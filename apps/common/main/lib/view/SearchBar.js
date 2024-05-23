@@ -62,7 +62,7 @@ define([
             this.template = [
                 '<div class="box" role="search">',
                     '<div class="search-input-group">',
-                        '<input type="search" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off">',
+                        '<input type="search" id="search-bar-text" class="input-field form-control" maxlength="255" placeholder="'+this.textFind+'" autocomplete="off" aria-label="'+this.textFind+'">',
                         '<div id="search-bar-results">0/0</div>',
                     '</div>',
                     '<div class="tools">',

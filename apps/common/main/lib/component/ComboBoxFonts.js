@@ -308,10 +308,10 @@ define([
         return {
             template: _.template([
                 '<div class="input-group combobox fonts <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                    '<input dir="ltr" type="text" class="form-control" spellcheck="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-move-focus-only-tab="true"> ',
+                    '<input dir="ltr" type="text" class="form-control" spellcheck="false" role="combobox" aria-controls="<%= id %>-menu" aria-expanded="false" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-move-focus-only-tab="true"> ',
                     '<div style="display: table-cell;"></div>',
                     '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>',
-                    '<ul class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
+                    '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
                         '<li id="<%= item.id %>">',
@@ -671,6 +671,8 @@ define([
                     this.flushVisibleFontsTiles();
                     this.updateVisibleFontsTiles(null, 0);
                     Common.Utils.isGecko && this.scroller && this.scroller.update();
+
+                    this._input.attr('aria-expanded', 'true');
                 } else {
                     Common.UI.ComboBox.prototype.onAfterShowMenu.apply(this, arguments);
                 }

@@ -254,8 +254,9 @@ define([
 
                     this.listenTo(this.store, 'reset',  this.onResetItems);
 
-                    if (this.options.ariaLabel)
-                        this.cmpEl.find('.form-control').attr('aria-label', this.options.ariaLabel);
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.options.hint;
+                    if (ariaLabel)
+                        this.cmpEl.find('.form-control').attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;

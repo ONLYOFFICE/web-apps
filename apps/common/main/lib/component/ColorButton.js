@@ -279,6 +279,9 @@ define([
 
             if (this.options.color!==undefined)
                 this.setColor(this.options.color);
+
+            if (this.options.ariaLabel)
+                $('button', this.cmpEl).attr('aria-label', this.options.ariaLabel);
         },
 
         setColor: function(color) {

@@ -263,6 +263,7 @@ define([
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
+                                textComment: me.textComment,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
                                 textMentionComment: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textEnterComment
                             })
@@ -1317,6 +1318,7 @@ define([
         txtAccept: 'Accept',
         txtReject: 'Reject',
         txtEditTip: 'Edit',
-        txtDeleteTip: 'Delete'
+        txtDeleteTip: 'Delete',
+        textComment: 'Comment'
     }, Common.Views.ReviewPopover || {}))
 });

@@ -178,8 +178,9 @@ define([
                         };
                         Common.NotificationCenter.on({'modal:close': onModalClose});
 
-                    if (this.options.ariaLabel)
-                        this._input.attr('aria-label', this.options.ariaLabel);
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -509,6 +510,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                     Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;

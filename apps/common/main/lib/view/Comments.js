@@ -479,6 +479,7 @@ define([
                         textEdit: me.textEdit,
                         textReply: me.textReply,
                         textClose: me.textClose,
+                        textComment: me.textComment,
                         maxCommLength: Asc.c_oAscMaxCellOrCommentLength
                     })),
                     emptyText: me.txtEmpty
@@ -926,6 +927,7 @@ define([
         textOpenAgain           : "Open Again",
         textHintAddComment      : 'Add Comment',
         textSort: 'Sort comments',
+        textComment             : 'Comment',
         mniPositionAsc: 'From top',
         mniPositionDesc: 'From bottom',
         mniAuthorAsc: 'Author A to Z',
