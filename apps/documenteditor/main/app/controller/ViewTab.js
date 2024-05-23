@@ -298,7 +298,14 @@ define([
         },
 
         onChangeDarkMode: function () {
-            Common.UI.Themes.toggleContentTheme();
+            if (!this._darkModeTimer) {
+                var me = this;
+                me._darkModeTimer = setTimeout(function() {
+                    me._darkModeTimer = undefined;
+                }, 500);
+                Common.UI.Themes.toggleContentTheme();
+            } else
+                this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
 
         onContentThemeChangedToDark: function (isdark) {
