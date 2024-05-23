@@ -3021,7 +3021,7 @@ define([
                     }
                     if (data.token)
                         docInfo.put_Token(data.token);
-                    this.api.asc_setDocInfo(docInfo);
+                    this.api.asc_refreshFile(docInfo);
                 }
             },
 
