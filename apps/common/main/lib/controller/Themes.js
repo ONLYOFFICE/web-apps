@@ -482,10 +482,11 @@ define([
             setContentTheme: function (mode, force) {
                 var set_dark = mode == 'dark';
                 if ( set_dark != window.uitheme.iscontentdark || force ) {
+                    window.uitheme.iscontentdark = set_dark;
+
                     if ( this.isDarkTheme() )
                         this.api.asc_setContentDarkMode(set_dark);
 
-                    window.uitheme.iscontentdark = mode;
                     if ( Common.localStorage.getItem('content-theme') != mode )
                         Common.localStorage.setItem('content-theme', mode);
 
