@@ -20,7 +20,7 @@
   "DE.ApplicationController.errorFileSizeExceed": "Veličina fajla prevazilazi granice postavljene za vaš server.<br>Molimo vas kontaktirajte vašeg Dokument Server administratora za detalje.",
   "DE.ApplicationController.errorForceSave": "Greška se pojavila u toku čuvanja fajla. Molimo koristite \"Preuzmi kao\" opciju da sačuvate fajl na hard drajv vašeg kompjutera ili pokušajte ponovo kasnije.",
   "DE.ApplicationController.errorInconsistentExt": "Greška se pojavila u toku otvaranja fajla.<br>Sadržaj fajla se ne poklapa sa fajl ekstenzijom.",
-  "DE.ApplicationController.errorInconsistentExtDocx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara proračunskim tabelama (npr docx), ali fajl ima nedoslednu ekstenziju: %1.",
+  "DE.ApplicationController.errorInconsistentExtDocx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara tekstualnim dokumentima (npr docx), ali fajl ima nedoslednu ekstenziju: %1.",
   "DE.ApplicationController.errorInconsistentExtPdf": "Pojavila se greška pri otvaranju fajla.<br>Sadržaj fajla odgovara jednom od sledećih formata: pdf/djvu/xps/oxps, ali fajl ima nedoslednu ekstenziju: %1",
   "DE.ApplicationController.errorInconsistentExtPptx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara prezentacijama (npr pptx), ali fajl ima nedoslednu ekstenziju: %1",
   "DE.ApplicationController.errorInconsistentExtXlsx": "Greška se pojavila prilikom otvaranja fajla.<br>Sadržaj fajla odgovara proračunskim tabelama (npr xlsx), ali fajl ima nedoslednu ekstenziju: %1.",
