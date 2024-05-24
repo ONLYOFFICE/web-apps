@@ -144,7 +144,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textWidth
             });
             this.spinners.push(this.spnWidth);
             this.sizeControls.push(this.spnWidth);
@@ -159,7 +160,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textHeight
             });
             this.spinners.push(this.spnHeight);
             this.sizeControls.push(this.spnHeight);
@@ -205,7 +207,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition + ' ' + this.textHor
             });
             this.spinners.push(this.spnHor);
             this.sizeControls.push(this.spnHor);
@@ -220,7 +223,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition + ' ' + this.textVert
             });
             this.spinners.push(this.spnVert);
             this.sizeControls.push(this.spnVert);
@@ -251,7 +255,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textColumns + ' ' + this.textWidth
             });
             this.spinners.push(this.spnColWidth);
             this.sizeControls.push(this.spnColWidth);
@@ -266,7 +271,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textColumns + ' ' + this.textHeight
             });
             this.spinners.push(this.spnColHeight);
             this.sizeControls.push(this.spnColHeight);
@@ -283,7 +289,8 @@ define([
                 minValue: 1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textColumns
             });
             this.sizeControls.push(this.numCols);
 
@@ -696,7 +703,8 @@ define([
                     cls: 'combo-slicer-style',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.textStyle
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));
                 this.btnSlicerStyle.openButton.menu.cmpEl.css({

@@ -256,7 +256,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition + ' ' + this.textHeaderFromTop
             });
             this.spinners.push(this.numPosition);
             this.lockedControls.push(this.numPosition);
@@ -333,7 +334,8 @@ define([
                 allowDecimal: false,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textFrom
             });
             this.lockedControls.push(this.numFrom);
             this.numFrom.on('change', _.bind(this.onNumFromChange, this));

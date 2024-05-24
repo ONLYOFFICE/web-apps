@@ -133,7 +133,8 @@ define([
                 disabled: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strFill
             });
             this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_SOLID);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -147,7 +148,8 @@ define([
                 eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strColor
             });
             this.FillItems.push(this.btnBackColor);
 
@@ -162,7 +164,8 @@ define([
                 disabled: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -759,7 +762,8 @@ define([
                         'width="' + itemWidth + '" height="' + itemHeight + '" ',
                         'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#slide-combo-pattern'));
             this.cmbPattern.openButton.menu.cmpEl.css({
@@ -823,7 +827,8 @@ define([
                 data: this._arrGradType,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textStyle
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -860,7 +865,8 @@ define([
                 }),
                 dataHint    : '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textDirection
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -940,7 +946,8 @@ define([
                 disabled: this._locked.background,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition
             });
             this.FillItems.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -982,7 +989,8 @@ define([
                 disabled: this._locked.background,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textAngle
             });
             this.FillItems.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1055,7 +1063,8 @@ define([
                             '<span class="caret"></span>',
                         '</button>',
                         '</div>'
-                    ].join(''))
+                    ].join('')),
+                    ariaLabel: this.textTexture
                 });
                 this.textureMenu = new Common.UI.Menu({
                     items: [
@@ -1148,7 +1157,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strForeground
                 });
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
@@ -1162,7 +1172,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strBackground
                 });
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
@@ -1176,7 +1187,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strColor
                 });
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();

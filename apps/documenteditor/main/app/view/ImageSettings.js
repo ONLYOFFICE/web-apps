@@ -144,7 +144,8 @@ define([
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
                             'class="combo-wrap-item options__icon options__icon-huge <%= icon %>"',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#image-combo-wrap'));
             this.cmbWrapType.openButton.menu.cmpEl.css({
@@ -286,7 +287,8 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textCrop
             });
             this.btnCrop.on('click', _.bind(this.onCrop, this));
             this.btnCrop.menu.on('item:click', _.bind(this.onCropMenu, this));

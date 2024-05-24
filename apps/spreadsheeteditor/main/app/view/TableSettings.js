@@ -531,6 +531,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
+                    ariaLabel: this.textTemplate
                 });
                 this.btnTableTemplate.on('render:after', function(btn) {
                     self.mnuTableTemplatePicker = new Common.UI.DataView({

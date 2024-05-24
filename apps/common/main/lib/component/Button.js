@@ -633,8 +633,9 @@ define([
                     $('[data-toggle^=dropdown]', el).attr('aria-expanded', false);
                 }
 
-                if (!me.caption && me.options.hint) {
-                    $btn.attr('aria-label', (typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
+                if ((!me.caption && me.options.hint) || me.options.ariaLabel) {
+                    var ariaLabel = me.options.ariaLabel ? me.options.ariaLabel : ((typeof me.options.hint == 'string') ? me.options.hint : me.options.hint[0]);
+                    $btn.attr('aria-label', ariaLabel);
                 }
             }
 
