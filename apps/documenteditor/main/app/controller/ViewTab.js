@@ -297,13 +297,13 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onChangeDarkMode: function () {
+        onChangeDarkMode: function (isdarkmode) {
             if (!this._darkModeTimer) {
                 var me = this;
                 me._darkModeTimer = setTimeout(function() {
                     me._darkModeTimer = undefined;
                 }, 500);
-                Common.UI.Themes.toggleContentTheme();
+                Common.UI.Themes.setContentTheme(isdarkmode?'dark':'light');
             } else
                 this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
