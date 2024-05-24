@@ -40,7 +40,7 @@ Common.Locale = new(function() {
         apply = false,
         defLang = '{{DEFAULT_LANG}}',
         currentLang = defLang,
-        _4letterLangs = ['pt-pt', 'zh-tw'];
+        _4letterLangs = ['pt-pt', 'zh-tw', 'sr-cyrl'];
 
     var _applyLocalization = function(callback) {
         try {
