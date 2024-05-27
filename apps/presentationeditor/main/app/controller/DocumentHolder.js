@@ -174,8 +174,7 @@ define([
             var me = this;
             Common.NotificationCenter.on({
                 'window:show': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreenTip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -186,8 +185,7 @@ define([
                     me.hideTips();
                 },
                 'layout:changed': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreenTip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -777,6 +775,11 @@ define([
                 me.slideNumDiv.remove();
                 me.slideNumDiv = undefined;
             }
+        },
+
+        hideScreenTip: function() {
+            this.screenTip.toolTip.hide();
+            this.screenTip.isVisible = false;
         },
 
         getUserName: function(id){
@@ -1642,12 +1645,20 @@ define([
         },
 
         onInsertImage: function(placeholder, obj, x, y) {
+            if (placeholder) {
+                this.hideScreenTip();
+                this.onHidePlaceholderActions();
+            }
             if (this.api)
                 (placeholder) ? this.api.asc_addImage(obj) : this.api.ChangeImageFromFile();
             this.editComplete();
         },
 
         onInsertImageUrl: function(placeholder, obj, x, y) {
+            if (placeholder) {
+                this.hideScreenTip();
+                this.onHidePlaceholderActions();
+            }
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
                 handler: function(result, value) {
@@ -1897,6 +1908,8 @@ define([
 
         onClickPlaceholder: function(type, obj, x, y) {
             if (!this.api) return;
+            this.hideScreenTip();
+            this.onHidePlaceholderActions();
             if (type == AscCommon.PlaceholderButtonType.Video) {
                 this.api.asc_AddVideo(obj);
             } else if (type == AscCommon.PlaceholderButtonType.Audio) {
