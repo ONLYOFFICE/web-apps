@@ -122,7 +122,8 @@ define([
                 }),
                 dataHint: this.options.dataHint,
                 dataHintDirection: this.options.dataHintDirection,
-                dataHintOffset: this.options.dataHintOffset
+                dataHintOffset: this.options.dataHintOffset,
+                ariaLabel: this.options.ariaLabel
             });
 
             this.menuPicker  = new Common.UI.DataView({

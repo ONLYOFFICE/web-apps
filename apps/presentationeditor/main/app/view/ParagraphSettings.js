@@ -272,7 +272,8 @@ define([
                 data: this._arrLineRule,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strLineHeight
             });
             this.cmbLineRule.setValue(c_paragraphLinerule.LINERULE_AUTO);
             this.lockedControls.push(this.cmbLineRule);
@@ -287,7 +288,8 @@ define([
                 minValue: 0.5,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strLineHeight
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -303,7 +305,8 @@ define([
                 autoText    : this.txtAutoText,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strParagraphSpacing + ' ' + this.strSpacingBefore
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -320,7 +323,8 @@ define([
                 autoText    : this.txtAutoText,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strParagraphSpacing + ' ' + this.strSpacingAfter
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);
