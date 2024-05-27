@@ -89,6 +89,7 @@ DE.ApplicationController = new(function(){
             ttOffset[1] = 40;
         }
 
+        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
