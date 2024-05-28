@@ -102,6 +102,7 @@
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-percents"></span>
+                        <span class="btn-slot split" id="slot-btn-comma"></span>
                         <span class="btn-slot split" id="slot-btn-currency"></span>
                         <span class="btn-slot split" id="slot-btn-digit-dec"></span>
                         <span class="btn-slot" id="slot-btn-digit-inc"></span>

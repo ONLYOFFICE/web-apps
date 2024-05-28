@@ -1473,7 +1473,7 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
-                    style       : 'width: 113px;',
+                    style       : 'width: 144px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
@@ -1496,6 +1496,16 @@ define([
                     iconCls     : 'toolbar__icon btn-percent-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName   : 'Percent',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom'
+                });
+
+                me.btnCommaStyle = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-comma-style',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-percent-style',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
+                    styleName   : 'Comma',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
@@ -2215,7 +2225,7 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
@@ -2393,6 +2403,7 @@ define([
             _injectComponent('#slot-btn-cell-style',     this.btnCellStyle);
             _injectComponent('#slot-btn-format',         this.cmbNumberFormat);
             _injectComponent('#slot-btn-percents',       this.btnPercentStyle);
+            _injectComponent('#slot-btn-comma',          this.btnCommaStyle);
             _injectComponent('#slot-btn-currency',       this.btnCurrencyStyle);
             _injectComponent('#slot-btn-digit-dec',      this.btnDecDecimal);
             _injectComponent('#slot-btn-digit-inc',      this.btnIncDecimal);
@@ -2501,6 +2512,7 @@ define([
             _updateHint(this.btnTableTemplate, this.txtTableTemplate);
             _updateHint(this.btnCellStyle, this.txtCellStyle);
             _updateHint(this.btnPercentStyle, this.tipDigStylePercent);
+            _updateHint(this.btnCommaStyle, this.tipDigStyleComma);
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
@@ -3538,6 +3550,7 @@ define([
         tipInsertTextart:   'Insert Text Art',
         tipInsertShape:     'Insert Autoshape',
         tipDigStylePercent: 'Percent Style',
+        tipDigStyleComma: 'Comma Style',
 //        tipDigStyleCurrency:'Currency Style',
         tipDigStyleAccounting: 'Accounting Style',
         tipTextOrientation: 'Orientation',
