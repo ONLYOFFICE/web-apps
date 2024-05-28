@@ -55,12 +55,12 @@ define([
                 headers: [],            //{name: 'string', width: 'number'(optional for last), sortType: 'string'(optional), style: 'string'(optional)} ---> example {name:text, width: 100, sortType: name, style: 'margin-left:10px;} 
                 initSort: null,         //{type: 'string', direction: -1 or 1} ---> example {type:name, direction:1}
                 keyMoveDirection: 'vertical',
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style=""><%= value %></div>'),
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="" role="listitem"><%= value %></div>'),
                 cls: ''
             },
 
             template: _.template([
-                '<div class="listview inner <%= cls %>" <% if (options.dataHint) { %> data-hint="<%= options.dataHint %>" <% } if (options.dataHintDirection) { %> data-hint-direction="<%= options.dataHintDirection %>" <% } if (options.dataHintOffset) { %> data-hint-offset="<%= options.dataHintOffset %>" <% } %>>',
+                '<div role="list" class="listview inner <%= cls %>" <% if (options.dataHint) { %> data-hint="<%= options.dataHint %>" <% } if (options.dataHintDirection) { %> data-hint-direction="<%= options.dataHintDirection %>" <% } if (options.dataHintOffset) { %> data-hint-offset="<%= options.dataHintOffset %>" <% } %>>',
                 '</div>'
             ].join('')),
 

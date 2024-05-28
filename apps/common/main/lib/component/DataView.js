@@ -264,7 +264,7 @@ define([
             showLast: true,
             useBSKeydown: false,
             cls: '',
-            role: 'listbox'
+            role: 'list'
         },
 
         template: _.template([
@@ -1125,7 +1125,7 @@ define([
         },
 
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>" role="listbox">',
+            '<div class="dataview inner" style="<%= style %>" role="list">',
             '<% _.each(items, function(item) { %>',
                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
                 '<div class="item" role="listitem" tabindex="0" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
@@ -1610,7 +1610,7 @@ define([
 
     Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>" role="listbox">',
+            '<div class="dataview inner" style="<%= style %>" role="list">',
                 '<% _.each(options.groupsWithRecent, function(group, index) { %>',
                     '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" >',
                         '<% if (!_.isEmpty(group.groupName)) { %>',
