@@ -246,7 +246,9 @@ define([
                 } else { // date
                     var direction = (type=='date-asc') ? 1 : -1;
                     this.collection.comparator = function (collection) {
-                        return direction * collection.get('time');
+                        return collection.get('time') === null
+                            ? new Date().getTime()
+                            : direction * collection.get('time');
                     };
                 }
                 sort && this.updateComments(true);
@@ -1381,7 +1383,7 @@ define([
         readSDKComment: function (id, data, requestObj) {
             requestObj && !requestObj.arrIds && (requestObj.arrIds = []);
             var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
-                ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+                ((data.asc_getTime() == '') ? null : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
             var userid = data.asc_getUserId(),
                 user = this.userCollection.findOriginalUser(userid),
                 groupname = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/),
@@ -1397,14 +1399,14 @@ define([
                 parsedGroups        : AscCommon.UserInfoParser.getParsedGroups(data.asc_getUserName()),
                 usercolor           : (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(userid || data.asc_getUserName()),
                 avatar              : avatar,
-                date                : this.dateToLocaleTimeString(date),
+                date                : date ? this.dateToLocaleTimeString(date) : null,
                 quote               : data.asc_getQuoteText(),
                 comment             : data.asc_getText(),
                 resolved            : data.asc_getSolved(),
                 unattached          : !_.isUndefined(data.asc_getDocumentFlag) ? data.asc_getDocumentFlag() : false,
                 userdata            : data.asc_getUserData(),
                 id                  : Common.UI.getId(),
-                time                : date.getTime(),
+                time                : date ? date.getTime() : null,
                 showReply           : false,
                 editText            : false,
                 last                : undefined,

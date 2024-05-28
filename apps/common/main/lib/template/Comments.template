@@ -13,7 +13,9 @@
             ><% if (!avatar) { %><%-initials%><% } %></div>
             <div class="user-info-text">
                 <div class="user-name"><%= scope.getEncodedName(parsedName) %></div>
-                <div class="user-date"><%=date%></div>
+                <% if (date!==null) { %>
+                    <div class="user-date"><%=date%></div>
+                <% } %>
             </div>
         </div>
         <% if (quote!==null && quote!=='') { %>
