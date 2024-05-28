@@ -102,7 +102,7 @@ define([
                     '</button>',
                     '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%- item.value %>" role="option"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>" role="menuitem" aria-checked="false"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -749,7 +749,7 @@ define([
                 } else {
                     $(this.el).find('ul').html(_.template([
                         '<% _.each(items, function(item) { %>',
-                           '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                           '<li id="<%= item.id %>" data-value="<%- item.value %>" role="menuitem" aria-checked="false"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>'
                     ].join(''))({
                         items: this.store.toJSON(),

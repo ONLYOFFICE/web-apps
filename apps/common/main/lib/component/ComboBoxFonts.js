@@ -314,7 +314,7 @@ define([
                     '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>">',
+                        '<li id="<%= item.id %>" role="menuitem">',
                             '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                         '</li>',
                     '<% }); %>',
