@@ -136,8 +136,11 @@ define([
                 id: el.attr('id')
             });
             if (this._selectedItem) {
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 el.addClass('selected');
+                el.attr('aria-checked', true);
                 this.updateFormControl(this._selectedItem);
 
                 this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -168,11 +171,15 @@ define([
                 }
             });
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             if (this._selectedItem) {
                 this.updateFormControl(this._selectedItem);
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             } else {
                 $(this.el).find('.form-control > .text').text("").show();
             }
@@ -319,10 +326,16 @@ define([
                 }
             });
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             this.updateFormControl(this._selectedItem);
-            this._selectedItem && $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+            if (this._selectedItem) {
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
+            }
         }
     }, Common.UI.ComboBorderType || {}));
 
@@ -363,8 +376,11 @@ define([
                 id: el.attr('id')
             });
             if (this._selectedItem) {
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 el.addClass('selected');
+                el.attr('aria-checked', true);
                 this.updateFormControl(this._selectedItem);
 
                 this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -389,11 +405,15 @@ define([
             var obj;
             this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             if (this._selectedItem) {
                 this.updateFormControl(this._selectedItem);
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             } else {
                 var formcontrol = $(this.el).find('.form-control > div');
                 formcontrol[0].innerHTML = value;
@@ -508,8 +528,11 @@ define([
                 id: el.attr('id')
             });
             if (this._selectedItem) {
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 el.addClass('selected');
+                el.attr('aria-checked', true);
                 this.updateFormControl(this._selectedItem);
 
                 this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -537,11 +560,15 @@ define([
             var obj;
             this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-            $('.selected', $(this.el)).removeClass('selected');
+            var $selectedItems = $('.selected', $(this.el));
+            $selectedItems.removeClass('selected');
+            $selectedItems.attr('aria-checked', false);
 
             if (this._selectedItem) {
                 this.updateFormControl(this._selectedItem);
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             } else {
                 var formcontrol = $(this.el).find('.form-control > div');
                 formcontrol[0].innerHTML = value;

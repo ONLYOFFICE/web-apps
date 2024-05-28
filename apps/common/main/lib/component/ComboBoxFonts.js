@@ -597,7 +597,9 @@ define([
                         name: name
                     });
 
-                    $('.selected', $(this.el)).removeClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.attr('aria-checked', false);
 
                     if (record) {
                         this.setRawValue(record.get(this.displayField));
@@ -606,6 +608,7 @@ define([
 
                         if (itemNode && menuNode) {
                             itemNode.addClass('selected');
+                            itemNode.attr('aria-checked', true);
                             if (this.recent<=0)
                                 menuNode.scrollTop(itemNode.offset().top - menuNode.offset().top);
                         }
@@ -729,7 +732,9 @@ define([
                 } else
                     this._selectedItem = null;
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     var itemNode = $('#' + this._selectedItem.get('id'), $(this.el)),
@@ -737,6 +742,7 @@ define([
 
                     if (itemNode.length > 0 && menuEl.length > 0) {
                         itemNode.addClass('selected');
+                        itemNode.attr('aria-checked', true);
 
                         var itemTop = itemNode.position().top,
                             menuTop = menuEl.scrollTop();

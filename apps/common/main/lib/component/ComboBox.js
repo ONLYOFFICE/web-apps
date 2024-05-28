@@ -562,8 +562,12 @@ define([
 
                 if (this._selectedItem) {
                     record = this._selectedItem.toJSON();
-                    $('.selected', $(this.el)).removeClass('selected');
-                    $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.attr('aria-checked', false);
+                    var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                    $newSelectedItem.addClass('selected');
+                    $newSelectedItem.attr('aria-checked', true);
                 }
 
                 // trigger changed event
@@ -612,8 +616,12 @@ define([
                     this._selectedItem = this.store.findWhere((obj={}, obj[this.displayField]=val, obj));
 
                     if (this._selectedItem) {
-                        $('.selected', $(this.el)).removeClass('selected');
-                        $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                        var $selectedItems = $('.selected', $(this.el)),
+                            $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                        $selectedItems.removeClass('selected');
+                        $selectedItems.attr('aria-checked', false);
+                        $newSelectedItem.addClass('selected');
+                        $newSelectedItem.attr('aria-checked', true);
                     }
                 }
             },
@@ -655,11 +663,15 @@ define([
                 var obj;
                 this._selectedItem = this.store.findWhere((obj={}, obj[this.valueField]=value, obj));
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     this.setRawValue(this._selectedItem.get(this.displayField));
-                    $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                    var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                    $newSelectedItem.addClass('selected');
+                    $newSelectedItem.attr('aria-checked', true);
                 } else {
                     this.setRawValue((defValue!==undefined) ? defValue : value);
                 }
@@ -697,13 +709,19 @@ define([
 
                 this._selectedItem = record;
 
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 this.setRawValue(this._selectedItem.get(this.displayField));
-                $('#' + this._selectedItem.get('id'), $(this.el)).addClass('selected');
+                var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
+                $newSelectedItem.addClass('selected');
+                $newSelectedItem.attr('aria-checked', true);
             },
 
             clearSelection: function (){
-                $('.selected', $(this.el)).removeClass('selected');
+                var $selectedItems = $('.selected', $(this.el));
+                $selectedItems.removeClass('selected');
+                $selectedItems.attr('aria-checked', false);
                 this._selectedItem = null;
             },
 
@@ -719,8 +737,11 @@ define([
                     this.lastValue = this._selectedItem.get(this.displayField);
                     this._input.val(this.lastValue).trigger('change', { synthetic: true });
 
-                    $('.selected', $(this.el)).removeClass('selected');
+                    var $selectedItems = $('.selected', $(this.el));
+                    $selectedItems.removeClass('selected');
+                    $selectedItems.attr('aria-checked', false);
                     el.addClass('selected');
+                    el.attr('aria-checked', true);
 
                     // trigger changed event
                     this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
