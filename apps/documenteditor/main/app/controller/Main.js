@@ -105,7 +105,8 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                                  'Caption', 'endnote text'],
+                                  'Caption', 'endnote text', 'Default Paragraph Font', 'No List', 'Intense Emphasis', 'Intense Reference',  'Subtle Emphasis', 'Emphasis',
+                                  'Strong', 'Subtle Reference', 'Book Title',  'footnote reference', 'endnote reference'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -3600,7 +3601,18 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            txtStyle_Default_Paragraph_Font: 'Default paragraph font',
+            txtStyle_No_List: 'No list',
+            txtStyle_Intense_Emphasis: 'Intense emphasis',
+            txtStyle_Intense_Reference: 'Intense reference',
+            txtStyle_Subtle_Emphasis: 'Subtle emphasis',
+            txtStyle_Emphasis: 'Emphasis',
+            txtStyle_Strong: 'Strong',
+            txtStyle_Subtle_Reference: 'Subtle reference',
+            txtStyle_Book_Title: 'Book Title',
+            txtStyle_footnote_reference: 'Footnote reference',
+            txtStyle_endnote_reference: 'Endnote reference'
         }
     })(), DE.Controllers.Main || {}))
 });

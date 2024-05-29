@@ -105,7 +105,18 @@ class MainController extends Component {
             "X Axis": "X Axis XAS",
             "Y Axis": "Y Axis",
             "Your text here": "Your text here",
-            "Zero Divide": "Zero Divide"
+            "Zero Divide": "Zero Divide",
+            "Default Paragraph Font": "Default Paragraph Font",
+            "No List": "No list",
+            "Intense Emphasis": "Intense Emphasis",
+            "Intense Reference": "Intense Reference",
+            "Subtle Emphasis": "Subtle Emphasis",
+            "Emphasis": "Emphasis",
+            "Strong": "Strong",
+            "Subtle Reference": "Subtle Reference",
+            "Book Title":"Book Title",
+            "footnote reference": "Footnote reference",
+            "endnote reference": "Endnote reference"
         }
 
         this._state = {

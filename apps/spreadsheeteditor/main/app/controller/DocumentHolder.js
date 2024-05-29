@@ -3502,9 +3502,16 @@ define([
                     functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
-
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
-                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    hint = '';
+                if (funcdesc && funcdesc[name]) {
+                    hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
+                    hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                } else {
+                    var custom = this.api.asc_getCustomFunctionInfo(name),
+                        arr_args = custom ? custom.asc_getArg() || [] : [];
+                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
 
                 if (functip.ref && functip.ref.isVisible()) {
                     if (functip.text != hint) {
