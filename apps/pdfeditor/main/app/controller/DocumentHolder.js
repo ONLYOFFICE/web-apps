@@ -344,7 +344,8 @@ define([
                 view.menuTableDeleteText.menu.on('item:click', _.bind(me.tableDeleteText, me));
                 view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
                 view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
-                view.mnuNewPage.on('click', _.bind(me.onNewPage, me));
+                view.mnuNewPageBefore.on('click', _.bind(me.onNewPage, me));
+                view.mnuNewPageAfter.on('click', _.bind(me.onNewPage, me));
                 view.mnuDeletePage.on('click', _.bind(me.onDeletePage, me));
                 view.mnuRotatePageRight.on('click', _.bind(me.onRotatePage, me, 90));
                 view.mnuRotatePageLeft.on('click', _.bind(me.onRotatePage, me, -90));
@@ -2774,8 +2775,8 @@ define([
             this.documentHolder && (this.documentHolder._pagesCount = count);
         },
 
-        onNewPage: function() {
-            this.api && this.api.asc_AddPage();
+        onNewPage: function(item) {
+            this.api && this.api.asc_AddPage(item.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
         },
