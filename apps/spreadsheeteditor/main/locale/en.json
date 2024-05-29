@@ -4157,6 +4157,7 @@
   "SSE.Views.Toolbar.tipDigStyleAccounting": "Accounting style",
   "SSE.Views.Toolbar.tipDigStyleCurrency": "Currency style",
   "SSE.Views.Toolbar.tipDigStylePercent": "Percent style",
+  "SSE.Views.Toolbar.tipDigStyleComma": "Comma style",
   "SSE.Views.Toolbar.tipEditChart": "Edit chart",
   "SSE.Views.Toolbar.tipEditChartData": "Select data",
   "SSE.Views.Toolbar.tipEditChartType": "Change chart type",
