@@ -259,11 +259,17 @@ define([
                     origin = this.api.asc_getFormulaNameByLocale(name),
                     descrarr = this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
                     custom = this.api.asc_getCustomFunctionInfo(origin),
-                    funcprops = {
+                    args = '';
+                if (custom) {
+                    var arr_args = custom.asc_getArg() || [];
+                    args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
+                var funcprops = {
                         name: name,
                         origin: origin,
-                        args: ((descrarr && descrarr[origin]) ? descrarr[origin].a : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()),
-                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : custom ? custom.asc_getDescription() || '' : ''
+                        args: (descrarr && descrarr[origin]) ? descrarr[origin].a.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator()) : args,
+                        desc: (descrarr && descrarr[origin]) ? descrarr[origin].d : custom ? custom.asc_getDescription() || '' : '',
+                        custom: !!custom
                     };
 
                 (new SSE.Views.FormulaWizard({
@@ -315,8 +321,12 @@ define([
             for (var j = 0; j < arr.length; j++) {
                 var funcname = arr[j],
                     custom = descrarr && descrarr[funcname] ? null : this.api.asc_getCustomFunctionInfo(funcname),
-                    desc = (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : '';
-
+                    desc = (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : '',
+                    args = '';
+                if (custom) {
+                    var arr_args = custom.asc_getArg() || [];
+                    args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
                 if (!desc && allFunctions && !_.find(allFunctions, function(item){ return item.get('origin')===funcname; }))
                     continue;
                 functions.push(new SSE.Models.FormulaModel({
@@ -324,7 +334,7 @@ define([
                     group : 'Last10',
                     name  : this.api.asc_getFormulaLocaleName(funcname),
                     origin: funcname,
-                    args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
+                    args  : (descrarr && descrarr[funcname]) ? descrarr[funcname].a.replace(/[,;]/g, separator) : args,
                     desc  : desc
                 }));
             }
@@ -391,13 +401,19 @@ define([
 
                         for (j = 0; j < ascFunctions.length; j += 1) {
                             var funcname = ascFunctions[j].asc_getName(),
-                                custom = descrarr && descrarr[funcname] ? null : this.api.asc_getCustomFunctionInfo(funcname);
+                                custom = descrarr && descrarr[funcname] ? null : this.api.asc_getCustomFunctionInfo(funcname),
+                                args = '';
+                            if (custom) {
+                                var arr_args = custom.asc_getArg() || [];
+                                args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                            }
+
                             var func = new SSE.Models.FormulaModel({
                                 index : funcInd,
                                 group : ascGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
                                 origin: funcname,
-                                args  : ((descrarr && descrarr[funcname]) ? descrarr[funcname].a : '').replace(/[,;]/g, separator),
+                                args  : (descrarr && descrarr[funcname]) ? descrarr[funcname].a.replace(/[,;]/g, separator) : args,
                                 desc  : (descrarr && descrarr[funcname]) ? descrarr[funcname].d : custom ? custom.asc_getDescription() || '' : ''
                             });
 
@@ -463,13 +479,18 @@ define([
                         ascFunctions = info[i].asc_getFormulasArray();
                         for (j = 0; j < ascFunctions.length; j += 1) {
                             var funcname = ascFunctions[j].asc_getName(),
-                                custom = this.api.asc_getCustomFunctionInfo(funcname);
+                                custom = this.api.asc_getCustomFunctionInfo(funcname),
+                                args = '';
+                            if (custom) {
+                                var arr_args = custom.asc_getArg() || [];
+                                args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                            }
                             var func = new SSE.Models.FormulaModel({
                                 index : funcInd,
                                 group : customGroupName,
                                 name  : ascFunctions[j].asc_getLocaleName(),
                                 origin: funcname,
-                                args  : '',
+                                args  : args,
                                 desc  : custom ? custom.asc_getDescription() || '' : ''
                             });
 
@@ -484,6 +505,10 @@ define([
                     }
                 }
                 this.formulaTab && this.formulaTab.updateCustom();
+
+                var group = this.formulasGroups.findWhere({name : 'Last10'});
+                group && group.set('functions', this.loadingLast10Formulas(this.getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale"))));
+                this.formulaTab && this.formulaTab.updateRecent();
             }
         },
 
