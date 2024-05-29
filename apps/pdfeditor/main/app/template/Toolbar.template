@@ -132,6 +132,7 @@
                 </div>
                 <div class="separator long pdfedit"></div>
                 <div class="group pdfedit">
+                    <span class="btn-slot text x-huge slot-inspage"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-deletepage"></span>
                 </div>
