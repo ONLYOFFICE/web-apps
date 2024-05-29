@@ -38,24 +38,30 @@ const PreviewController = props => {
     }, []);
 
     const enterFullScreen = element => {
-        const requestFullScreen = element.requestFullscreen || element.webkitRequestFullscreen || element.mozRequestFullScreen || element.msRequestFullscreen;
-    
-        if (requestFullScreen) {
-            requestFullScreen.call(element).catch(err => {
-                console.error(`Error attempting to enter full screen mode: ${err.message} (${err.name})`);
-            });
-        } else {
-            console.error('Full screen API is not supported in this browser.');
+        if(element) {
+            if(element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            } else {
+                console.error('Full screen API is not supported in this browser.');
+            }
         }
     }
 
     const exitFullScreen = () => {
-        const requestExitFullScreen = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
-    
-        if (requestExitFullScreen) {
-            requestExitFullScreen.call(document).catch(err => {
-                console.error(`Error attempting to exit full screen mode: ${err.message} (${err.name})`);
-            });
+        if(document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if(document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if(document.msExitFullscreen) {
+            document.msExitFullscreen();
         } else {
             console.error('Full screen exit API is not supported in this browser.');
         }
