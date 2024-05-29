@@ -70,6 +70,7 @@ define([
                 clrunderline: undefined,
                 clrhighlight: undefined,
                 pageCount: 1,
+                currentPage: 0,
                 bullets: {type:undefined, subtype:undefined},
                 linespace: undefined,
                 pralign: undefined,
@@ -317,6 +318,9 @@ define([
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
+            toolbar.btnRotatePage.menu.on('item:click',                 _.bind(this.onRotatePageMenu, this));
+            toolbar.btnRotatePage.on('click',                           _.bind(this.onRotatePage, this));
+            toolbar.btnDelPage.on('click',                              _.bind(this.onDelPage, this));
 
         },
 
@@ -436,9 +440,11 @@ define([
         onCountPages: function(count) {
             this._state.pageCount = count;
             this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setFixedValue('/ ' + count);
+            this.toolbar.lockToolbar(Common.enumLock.singlePage, count<2, {array: [this.toolbar.btnDelPage]});
         },
 
         onCurrentPage: function(value) {
+            this._state.currentPage = value;
             if (this.toolbar) {
                 this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
                 this.toolbar.lockToolbar(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
@@ -1255,6 +1261,7 @@ define([
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.onCountPages(me._state.pageCount);
                     me.onApiFocusObject([]);
                     me.api.UpdateInterfaceState();
                 }, 50);
@@ -2134,6 +2141,21 @@ define([
                 }
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }
+        },
+
+        onDelPage: function() {
+            this.api && this.api.asc_RemovePage();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRotatePage: function() {
+            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(this._state.currentPage) + 90);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRotatePageMenu: function(menu, item) {
+            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(this._state.currentPage) + item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
         _clearBullets: function() {

@@ -94,7 +94,8 @@ define([
         inSmartart: 'in-smartart',
         inSmartartInternal: 'in-smartart-internal',
         inEquation: 'in-equation',
-        inAnnotation: 'in-annotation'
+        inAnnotation: 'in-annotation',
+        singlePage: 'single-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -727,6 +728,37 @@ define([
                 this.shapeControls.push(this.btnShapeArrange);
                 arr.push(this.btnShapeArrange);
 
+                this.btnDelPage = new Common.UI.Button({
+                    id: 'id-toolbar-btn-delpage',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-rem-comment',
+                    lock: [_set.lostConnect, _set.disableOnStart, _set.singlePage],
+                    caption: this.capBtnDelPage,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                arr.push(this.btnDelPage);
+
+                this.btnRotatePage = new Common.UI.Button({
+                    id: 'tlbtn-rotate',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    caption: this.capBtnRotatePage,
+                    split: true,
+                    iconCls: 'toolbar__icon btn-update',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.txtRotateRight, iconCls: 'menu__icon btn-rotate-90', value: 90},
+                            {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
+                        ]
+                    }),
+                });
+                arr.push(this.btnRotatePage);
+
                 return arr;
             },
 
@@ -760,18 +792,6 @@ define([
                     });
                     this.toolbarControls.push(this.btnSave);
                     this.btnCollabChanges = this.btnSave;
-
-                    // this.btnRotate = new Common.UI.Button({
-                    //     id: 'tlbtn-rotate',
-                    //     cls: 'btn-toolbar x-huge icon-top',
-                    //     iconCls: 'toolbar__icon btn-update',
-                    //     lock: [_set.disableOnStart],
-                    //     caption: this.capBtnRotate,
-                    //     dataHint: '1',
-                    //     dataHintDirection: 'bottom',
-                    //     dataHintOffset: 'small'
-                    // });
-                    // this.toolbarControls.push(this.btnRotate);
 
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
@@ -1249,6 +1269,8 @@ define([
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
+                _injectComponent('#slot-btn-rotate', this.btnRotatePage);
+                _injectComponent('#slot-btn-deletepage', this.btnDelPage);
             },
 
             rendererComponentsAnnotate: function($host) {
@@ -1261,7 +1283,6 @@ define([
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
                 _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
-                // _injectComponent('#slot-btn-rotate', this.btnRotate);
             },
 
             rendererComponentsCommon: function($host) {
@@ -1456,8 +1477,6 @@ define([
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
                 this.btnEditMode.updateHint(this.tipEditMode);
-                // this.btnRotate.updateHint(this.tipRotate);
-
             },
 
             createDelayedElementsPDFEdit: function() {
@@ -1487,6 +1506,8 @@ define([
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
+                this.btnRotatePage.updateHint([this.txtRotatePageRight, this.txtRotatePage]);
+                this.btnDelPage.updateHint(this.tipDelPage);
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
@@ -1871,6 +1892,13 @@ define([
             tipEditMode: 'Add or edit text, shapes, images etc.',
             capBtnRecognize: 'Recognize Page',
             tipRecognize: 'Recognize page',
+            tipDelPage: 'Delete page',
+            capBtnDelPage: 'Delete Page',
+            capBtnRotatePage: 'Rotate Page',
+            txtRotateRight: 'Rotate right',
+            txtRotateLeft: 'Rotate left',
+            txtRotatePage: 'Rotate page',
+            txtRotatePageRight: 'Rotate page right',
         }
     })(), PDFE.Views.Toolbar || {}));
 });
