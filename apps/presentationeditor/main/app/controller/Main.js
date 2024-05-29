@@ -3261,7 +3261,7 @@ define([
             textObject: 'Object',
             txtScheme_Aspect: 'Aspect',
             txtScheme_Blue_Green: 'Blue Green',
-            txtScheme_Blu_II: 'Blue II',
+            txtScheme_Blue_II: 'Blue II',
             txtScheme_Blue_Warm: 'Blue Warm',
             txtScheme_Blue: 'Blue',
             txtScheme_Grayscale: 'Grayscale',
