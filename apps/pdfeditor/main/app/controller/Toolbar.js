@@ -1275,7 +1275,6 @@ define([
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
-            this.mode.isPDFEdit && me.turnOnSelectTool();
         },
         
         onAppReady: function (config) {
