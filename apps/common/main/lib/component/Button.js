@@ -761,6 +761,7 @@ define([
         changeIcon: function(opts) {
             var me = this,
                 btnIconEl = $(this.el).find('.icon');
+            if (btnIconEl.length > 1) btnIconEl = $(btnIconEl[0]);
             if (opts && (opts.curr || opts.next) && btnIconEl) {
                 var svgIcon = btnIconEl.find('use.zoom-int');
                 !!opts.curr && (btnIconEl.removeClass(opts.curr));

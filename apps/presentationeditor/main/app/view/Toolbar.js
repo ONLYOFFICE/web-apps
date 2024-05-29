@@ -776,10 +776,12 @@ define([
                     me.btnInsertPlaceholder = new Common.UI.Button({
                         id: 'tlbtn-insertplaceholder',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-insert-placeholder',
+                        iconCls: 'toolbar__icon btn-ins-content-placeholder',
                         caption: me.capInsertPlaceholder,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: true,
+                        split: true,
+                        currentType: 1,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -1505,19 +1507,16 @@ define([
                                 {caption: '--'},
                                 {
                                     caption: me.textInsertSlideMaster,
-                                    iconCls: 'menu__icon btn-ins-slide-master',
                                     value: 'slide-master',
                                     visible: false
                                 },
                                 {
                                     caption: me.textInsertLayout,
-                                    iconCls: 'menu__icon btn-ins-layout',
                                     value: 'layout',
                                     visible: false
                                 },
                                 {
                                     caption: me.txtDuplicateSlide,
-                                    iconCls: 'menu__icon btn-duplicate-slide',
                                     value: 'duplicate'
                                 }
                             ]
@@ -1568,7 +1567,7 @@ define([
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnInsertSlideMaster.updateHint(this.tipAddSlideMaster);
                 this.btnInsertLayout.updateHint(this.tipAddLayout);
-                this.btnInsertPlaceholder.updateHint(this.tipInsertPlaceholder);
+                this.btnInsertPlaceholder.updateHint(this.tipInsertContentPlaceholder);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -1865,41 +1864,67 @@ define([
 
                 this.btnInsertPlaceholder.setMenu(
                     new Common.UI.Menu({
-                        style: 'min-width: auto;',
+                        cls: 'menu-insert-placeholder',
                         items: [
                             new Common.UI.MenuItem({
                                 caption: me.textContent,
-                                iconCls: 'menu__icon btn-ins-content-placeholder',
+                                iconCls: 'icon toolbar__icon btn-ins-content-placeholder',
+                                iconClsForMainBtn: 'btn-ins-content-placeholder',
+                                hintForMainBtn: me.tipInsertContentPlaceholder,
                                 value: 1
                             }),
                             new Common.UI.MenuItem({
-                                caption: me.textText,
-                                iconCls: 'menu__icon btn-ins-text-placeholder',
+                                caption: me.textContentVertical,
+                                iconCls: 'icon toolbar__icon btn-ins-vertical-content-placeholder',
+                                iconClsForMainBtn: 'btn-ins-vertical-content-placeholder',
+                                hintForMainBtn: me.tipInsertContentVerticalPlaceholder,
                                 value: 2
                             }),
                             new Common.UI.MenuItem({
-                                caption: me.textPicture,
-                                iconCls: 'menu__icon btn-ins-picture-placeholder',
+                                caption: me.textText,
+                                iconCls: 'icon toolbar__icon btn-ins-text-placeholder',
+                                iconClsForMainBtn: 'btn-ins-text-placeholder',
+                                hintForMainBtn: me.tipInsertTextPlaceholder,
                                 value: 3
                             }),
                             new Common.UI.MenuItem({
-                                caption: me.textChart,
-                                iconCls: 'menu__icon btn-ins-chart-placeholder',
+                                caption: me.textTextVertical,
+                                iconCls: 'icon toolbar__icon btn-ins-vertical-text-placeholder',
+                                iconClsForMainBtn: 'btn-ins-vertical-text-placeholder',
+                                hintForMainBtn: me.tipInsertTextVerticalPlaceholder,
                                 value: 4
                             }),
                             new Common.UI.MenuItem({
-                                caption: me.textTable,
-                                iconCls: 'menu__icon btn-ins-table-placeholder',
+                                caption: me.textPicture,
+                                iconCls: 'icon toolbar__icon btn-ins-picture-placeholder',
+                                iconClsForMainBtn: 'btn-ins-picture-placeholder',
+                                hintForMainBtn: me.tipInsertPicturePlaceholder,
                                 value: 5
                             }),
                             new Common.UI.MenuItem({
-                                caption: me.textSmartArt,
-                                iconCls: 'menu__icon btn-ins-smartart-placeholder',
+                                caption: me.textChart,
+                                iconCls: 'icon toolbar__icon btn-ins-chart-placeholder',
+                                iconClsForMainBtn: 'btn-ins-chart-placeholder',
+                                hintForMainBtn: me.tipInsertChartPlaceholder,
                                 value: 6
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textTable,
+                                iconCls: 'icon toolbar__icon btn-ins-table-placeholder',
+                                iconClsForMainBtn: 'btn-ins-table-placeholder',
+                                hintForMainBtn: me.tipInsertTablePlaceholder,
+                                value: 7
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textSmartArt,
+                                iconCls: 'icon toolbar__icon btn-ins-smartart-placeholder',
+                                iconClsForMainBtn: 'btn-ins-smartart-placeholder',
+                                hintForMainBtn: me.tipInsertSmartArtPlaceholder,
+                                value: 8
                             })
                         ]
-                    }).on('item:click', function (menu, item, e) {
-                        me.fireEvent('insert:placeholder', [item.value]);
+                    }).on('item:click', function (btn, e) {
+                        me.fireEvent('insert:placeholder', [me.btnInsertPlaceholder, e]);
                     })
                 );
 
@@ -2535,9 +2560,10 @@ define([
             capInsertPlaceholder: 'Insert Placeholder',
             tipAddSlideMaster: 'Add slide master',
             tipAddLayout: 'Add layout',
-            tipInsertPlaceholder: 'Insert placeholder',
             textContent: 'Content',
+            textContentVertical: 'Content (Vertical)',
             textText: 'Text',
+            textTextVertical: 'Text (Vertical)',
             textPicture: 'Picture',
             textChart: 'Chart',
             textTable: 'Table',
@@ -2545,7 +2571,15 @@ define([
             textTitle: 'Title',
             textFooters: 'Footers',
             textInsertSlideMaster: 'Insert slide master',
-            textInsertLayout: 'Insert layout'
+            textInsertLayout: 'Insert layout',
+            tipInsertContentPlaceholder: 'Insert content placeholder',
+            tipInsertContentVerticalPlaceholder: 'Insert content (vertical) placeholder',
+            tipInsertTextPlaceholder: 'Insert text placeholder',
+            tipInsertTextVerticalPlaceholder: 'Insert text (vertical) placeholder',
+            tipInsertPicturePlaceholder: 'Insert picture placeholder',
+            tipInsertChartPlaceholder: 'Insert chart placeholder',
+            tipInsertTablePlaceholder: 'Insert table placeholder',
+            tipInsertSmartArtPlaceholder: 'Insert smartArt placeholder'
         }
     }()), PE.Views.Toolbar || {}));
 });

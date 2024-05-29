@@ -2966,8 +2966,18 @@ define([
             console.log('insert layout');
         },
 
-        onInsertPlaceholder: function (value) {
-            console.log('insert placeholder', value);
+        onInsertPlaceholder: function (btn, e) {
+            var oldType = btn.options.currentType;
+            var newType = e.value;
+
+            if(newType != oldType){
+                btn.updateHint([e.options.hintForMainBtn, this.views.Toolbar.prototype.tipInsertPlaceholder]);
+                btn.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: btn.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                btn.options.currentType = newType;
+            }
         },
 
         onTitleHide: function (view, status) {
