@@ -112,9 +112,9 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 854px;
-            width: 670px;
-            height: 44px;
+            left: 884px;
+            width: 690px;
+            height: 45px;
         }
         .rtl .loadmask > .sktoolbar li.fat {
             right: 854px;
@@ -287,8 +287,8 @@
             <div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 244px;"/><li class="space"/><li style="width: 118px;"/><li class="fat"/></ul>
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 244px;"/><li class="space"/><li style="width: 118px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 140px;"/><li class="space"/><li style="width: 155px;"/><li class="space"/><li style="width: 85px;"/><li class="fat"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li style="width: 223px;"/><li class="space"/><li style="width: 146px;"/><li class="space"/><li style="width: 140px;"/><li class="space"/><li style="width: 155px;"/><li class="space"/><li style="width: 85px;"/></ul>
         </div>
         <div class="skformula" style="display: none;">
             <ul><li/><li/></ul>
