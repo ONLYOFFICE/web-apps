@@ -114,7 +114,8 @@ define([
                                                             callback: function() {
                                                                 me.api.asc_MoveToFillingForm(true, true, true);
                                                                 me.view.btnSubmit.updateHint(me.view.textRequired);
-                                                            }} : undefined
+                                                            }} : undefined,
+                'submit-required': this.appConfig.isRestrictedEdit ? {placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit'} : undefined
             };
             !Common.localStorage.getItem(this._helpTips['key'].name) && this.addListeners({'RightMenu': {'rightmenuclick': this.onRightMenuClick}});
             this.addListeners({
@@ -346,14 +347,17 @@ define([
 
         onSubmitClick: function() {
             if (!this.api.asc_IsAllRequiredFormsFilled()) {
-                var me = this;
-                Common.UI.warning({
-                    msg: this.view.textRequired,
-                    callback: function() {
-                        me.api.asc_MoveToFillingForm(true, true, true);
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                });
+                this.showHelpTip('submit-required');
+                this.api.asc_MoveToFillingForm(true, true, true);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                // var me = this;
+                // Common.UI.warning({
+                //     msg: this.view.textRequired,
+                //     callback: function() {
+                //         me.api.asc_MoveToFillingForm(true, true, true);
+                //         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                //     }
+                // });
                 return;
             }
 
@@ -459,7 +463,6 @@ define([
                 Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]})
                 if (!this._submitFail) {
                     this.view.btnSubmit.setCaption(this.view.textFilled);
-                    this.view.btnSubmit.cmpEl.addClass('gray');
                     if (!this.submitedTooltip) {
                         this.submitedTooltip = new Common.UI.SynchronizeTip({
                             text: this.view.textSubmitOk,
@@ -497,9 +500,13 @@ define([
                 // }
 
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
-                if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {
-                    Common.Utils.lockControls(Common.enumLock.requiredNotFilled, true, {array: [me.view.btnSubmit]});
-                    me.showHelpTip('submit');
+                if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api) {
+                    if (me.api.asc_IsAllRequiredFormsFilled())
+                        me.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                    // else {
+                        // Common.Utils.lockControls(Common.enumLock.requiredNotFilled, true, {array: [me.view.btnSubmit]});
+                        // me.showHelpTip('submit');
+                    // }
                 }
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
@@ -511,13 +518,13 @@ define([
             if (props) {
                 props.tip && props.tip.close();
                 props.tip = undefined;
-                force && Common.localStorage.setItem(props.name, 1);
+                force && props.name && Common.localStorage.setItem(props.name, 1);
             }
         },
 
         showHelpTip: function(step) {
             if (!this._helpTips[step]) return;
-            if (!Common.localStorage.getItem(this._helpTips[step].name)) {
+            if (!(this._helpTips[step].name && Common.localStorage.getItem(this._helpTips[step].name))) {
                 var props = this._helpTips[step],
                     target = props.target;
 
@@ -549,7 +556,7 @@ define([
                         Common.NotificationCenter.trigger('file:help', props.link.src);
                     },
                     'close': function() {
-                        Common.localStorage.setItem(props.name, 1);
+                        props.name && Common.localStorage.setItem(props.name, 1);
                         props.callback && props.callback();
                     }
                 });
@@ -640,7 +647,11 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit && Common.Utils.lockControls(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.view.btnSubmit]});
+            // this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit && Common.Utils.lockControls(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.view.btnSubmit]});
+            if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit) {
+                this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+                isFilled && this.closeHelpTip('submit-required');
+            }
         },
 
         onCountPages: function(count) {

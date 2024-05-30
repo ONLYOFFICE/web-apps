@@ -1087,6 +1087,48 @@
             background-color: @highlight-fill-button-pressed !important;
         }
     }
+    &.back-color {
+        .font-weight-bold();
+        border: 1px solid @text-toolbar-header-ie;
+        border: 1px solid @text-toolbar-header;
+        color: @text-toolbar-header-ie;
+        color: @text-toolbar-header;
+        background-color: transparent;
+
+        .style-off-tabs & {
+            border: 1px solid @text-normal-ie;
+            border: 1px solid @text-normal;
+            color: @text-normal-ie;
+            color: @text-normal;
+        }
+
+        &:not(:disabled) {
+            opacity: @header-component-normal-icon-opacity;
+        }
+
+        &:hover:not(.disabled),
+        .over:not(.disabled) {
+            background-color: @highlight-header-button-hover-ie  !important;
+            background-color: @highlight-header-button-hover  !important;
+
+            .style-off-tabs & {
+                background-color: @highlight-button-hover-ie  !important;
+                background-color: @highlight-button-hover  !important;
+            }
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled) {
+            background-color: @highlight-header-button-pressed-ie !important;
+            background-color: @highlight-header-button-pressed !important;
+
+            .style-off-tabs & {
+                background-color: @highlight-button-pressed-ie !important;
+                background-color: @highlight-button-pressed !important;
+            }
+        }
+
+    }
 }
 
 .btn-text-menu-default {
