@@ -3311,6 +3311,8 @@
   "SSE.Views.PivotSettingsAdvanced.textWrapRow": "Report filter fields per row",
   "SSE.Views.PivotSettingsAdvanced.txtEmpty": "This field is required",
   "SSE.Views.PivotSettingsAdvanced.txtName": "Name",
+  "SSE.Views.PivotShowDetailDialog.txtTitle": "Show Detail",
+  "SSE.Views.PivotShowDetailDialog.textDescription": "Choose the field containing the detail you want to show:",
   "SSE.Views.PivotTable.capBlankRows": "Blank Rows",
   "SSE.Views.PivotTable.capGrandTotals": "Grand Totals",
   "SSE.Views.PivotTable.capLayout": "Report Layout",
