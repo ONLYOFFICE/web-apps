@@ -1924,9 +1924,14 @@ define([
                             })
                         ]
                     }).on('item:click', function (btn, e) {
-                        me.fireEvent('insert:placeholder', [me.btnInsertPlaceholder, e]);
+                        me.btnInsertPlaceholder.toggle(true);
+                        me.fireEvent('insert:placeholder-menu', [me.btnInsertPlaceholder, e]);
                     })
                 );
+
+                me.btnInsertPlaceholder.on('click', function (btn, e) {
+                    me.fireEvent('insert:placeholder-btn', [btn, e]);
+                });
 
                 me.btnInsertSlideMaster.on('click', function (btn, e) {
                     me.fireEvent('insert:slide-master', [btn, e]);

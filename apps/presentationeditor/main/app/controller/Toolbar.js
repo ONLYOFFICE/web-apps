@@ -144,11 +144,12 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
-                    'insert:slide-master': this.onInsertSlideMaster,
-                    'insert:layout'      : this.onInsertLayout,
-                    'insert:placeholder' : this.onInsertPlaceholder,
-                    'title:hide'         : this.onTitleHide,
-                    'footers:hide'       : this.onFootersHide
+                    'insert:slide-master': this.onInsertSlideMaster.bind(this),
+                    'insert:layout'      : this.onInsertLayout.bind(this),
+                    'insert:placeholder-btn': this.onBtnInsertPlaceholder.bind(this),
+                    'insert:placeholder-menu': this.onMenuInsertPlaceholder.bind(this),
+                    'title:hide'         : this.onTitleHide.bind(this),
+                    'footers:hide'       : this.onFootersHide.bind(this)
                 },
                 'DocumentHolder': {
                     'smartart:mouseenter': this.mouseenterSmartArt,
@@ -272,6 +273,18 @@ define([
                     }
                 }
             };
+
+            this._addPlaceHolder = function (isstart, type, isVertical) {
+                if (this.api) {
+                    if (isstart) {
+                        this.api.asc_StartAddPlaceholder(type, isVertical, true);
+                        $(document.body).on('mouseup', checkInsertAutoshape);
+                    } else {
+                        this.api.asc_StartAddPlaceholder('', undefined, false);
+                        $(document.body).off('mouseup', checkInsertAutoshape);
+                    }
+                }
+            }
         },
 
         onLaunch: function() {
@@ -446,6 +459,9 @@ define([
 
                 this.api.asc_registerCallback('asc_onLockSlideHdrFtrApplyToAll', _.bind(this.onApiLockSlideHdrFtrApplyToAll, this, true));
                 this.api.asc_registerCallback('asc_onUnLockSlideHdrFtrApplyToAll', _.bind(this.onApiLockSlideHdrFtrApplyToAll, this, false));
+
+                this.api.asc_registerCallback('asc_onLayoutTitle',          _.bind(this.onApiLayoutTitle, this));
+                this.api.asc_registerCallback('asc_onLayoutFooter',         _.bind(this.onApiLayoutFooter, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -2959,14 +2975,25 @@ define([
         },
 
         onInsertSlideMaster: function () {
-            console.log('insert slide master');
+            this.api.asc_AddMasterSlide();
         },
 
         onInsertLayout: function () {
-            console.log('insert layout');
+            this.api.asc_AddSlideLayout();
         },
 
-        onInsertPlaceholder: function (btn, e) {
+        onBtnInsertPlaceholder: function (btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.currentType)
+                    item.setChecked(true);
+            });
+            if(!btn.pressed) {
+                btn.menu.clearAll();
+            }
+            this.onInsertPlaceholder(btn.options.currentType, btn, e);
+        },
+
+        onMenuInsertPlaceholder: function (btn, e) {
             var oldType = btn.options.currentType;
             var newType = e.value;
 
@@ -2978,14 +3005,61 @@ define([
                 });
                 btn.options.currentType = newType;
             }
+            this.onInsertPlaceholder(newType, btn, e);
+        },
+
+        onInsertPlaceholder: function (type, btn, e) {
+            var value,
+                isVertical;
+            switch (type) {
+                case 1:
+                    value = null;
+                    break;
+                case 2:
+                    value = null;
+                    isVertical = true;
+                    break;
+                case 3:
+                    value = AscFormat.phType_body;
+                    break;
+                case 4:
+                    value = AscFormat.phType_body;
+                    isVertical = true;
+                    break;
+                case 5:
+                    value = AscFormat.phType_pic;
+                    break;
+                case 6:
+                    value = AscFormat.phType_chart;
+                    break;
+                case 7:
+                    value = AscFormat.phType_tbl;
+                    break;
+                case 8:
+                    value = AscFormat.phType_dgm;
+                    break;
+            }
+
+            this._addPlaceHolder(btn.pressed, type, isVertical);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Placeholder');
         },
 
         onTitleHide: function (view, status) {
-            console.log('title', view, status);
+            this.api.asc_setLayoutTitle(status);
         },
 
         onFootersHide: function (view, status) {
-            console.log('footers', view, status);
+            this.api.asc_setLayoutFooter(status);
+        },
+
+        onApiLayoutTitle: function (status) {
+            this.toolbar.chTitle.setValue(status);
+        },
+
+        onApiLayoutFooter: function (status) {
+            this.toolbar.chFooters.setValue(status);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
