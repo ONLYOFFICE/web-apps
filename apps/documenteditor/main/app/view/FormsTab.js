@@ -568,7 +568,7 @@ define([
                 if (this.appConfig.canSubmitForms) {
                     if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                         this.btnSubmit = new Common.UI.Button({
-                            cls: 'btn-text-default auto yellow',
+                            cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
                             lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
                             dataHint: '0',
