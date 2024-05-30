@@ -595,8 +595,8 @@ define([
             }
         },
 
-        onAddPage: function() {
-            this.api && this.api.asc_AddPage();
+        onAddPage: function(before) {
+            this.api && this.api.asc_AddPage(!!before);
         },
 /*
         mouseenterSmartArt: function (groupName, menu) {

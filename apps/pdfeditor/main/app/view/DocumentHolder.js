@@ -1163,9 +1163,13 @@ define([
                 iconCls: 'menu__icon btn-cc-remove',
                 caption     : me.txtDeletePage
             });
-            me.mnuNewPage = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-add-text',
-                caption     : me.txtNewPage
+            me.mnuNewPageBefore = new Common.UI.MenuItem({
+                caption     : me.txtNewPageBefore,
+                value: true
+            });
+            me.mnuNewPageAfter = new Common.UI.MenuItem({
+                caption     : me.txtNewPageAfter,
+                value: false
             });
             me.mnuRotatePageRight = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-rotate-90',
@@ -1199,7 +1203,8 @@ define([
                     me.mnuDeletePage.setDisabled(me._pagesCount<2);
                 },
                 items: [
-                    me.mnuNewPage,
+                    me.mnuNewPageBefore,
+                    me.mnuNewPageAfter,
                     menuPageNewSeparator,
                     me.mnuRotatePageRight,
                     me.mnuRotatePageLeft,
@@ -2494,12 +2499,13 @@ define([
         textEditPoints: 'Edit Points',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         txtDeletePage: 'Delete page',
-        txtNewPage: 'Insert blank page',
         txtRotateRight: 'Rotate page right',
         txtRotateLeft: 'Rotate page left',
         removeCommentText: 'Remove',
         textRecognize: 'Recognize text',
-        tipRecognize: 'Recognize text'
+        tipRecognize: 'Recognize text',
+        txtNewPageBefore: 'Insert blank page before',
+        txtNewPageAfter: 'Insert blank page after',
 
     }, PDFE.Views.DocumentHolder || {}));
 });
