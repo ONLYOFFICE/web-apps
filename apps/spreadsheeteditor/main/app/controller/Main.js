@@ -156,7 +156,9 @@ define([
                         'None': this.txtNone,
                         'Slicer': this.txtSlicer,
                         'Info': this.txtInfo,
-                        'Picture': this.txtPicture
+                        'Picture': this.txtPicture,
+                        'PivotTable': this.txtPivotTable,
+                        'View': this.txtView
                     };
 
                 styleNames.forEach(function(item){
@@ -3992,7 +3994,9 @@ define([
             txtScheme_Violet_II: 'Violet II',
             txtScheme_Violet: 'Violet',
             txtScheme_Yellow_Orange: 'Yellow Orange',
-            txtScheme_Yellow: 'Yellow'
+            txtScheme_Yellow: 'Yellow',
+            txtPivotTable: 'PivotTable',
+            txtView: 'View'
         }
     })(), SSE.Controllers.Main || {}))
 });
