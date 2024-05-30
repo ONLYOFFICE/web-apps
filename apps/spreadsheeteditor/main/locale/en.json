@@ -1427,6 +1427,8 @@
   "SSE.Controllers.Main.txtScheme_Violet": "Violet",
   "SSE.Controllers.Main.txtScheme_Yellow_Orange": "Yellow Orange",
   "SSE.Controllers.Main.txtScheme_Yellow": "Yellow",
+  "SSE.Controllers.Main.txtPivotTable": "PivotTable",
+  "SSE.Controllers.Main.txtView": "View",
   "SSE.Controllers.PivotTable.strSheet": "Sheet",
   "SSE.Controllers.Print.strAllSheets": "All Sheets",
   "SSE.Controllers.Print.textFirstCol": "First column",
