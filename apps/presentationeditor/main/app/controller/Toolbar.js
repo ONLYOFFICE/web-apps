@@ -2966,12 +2966,6 @@ define([
         onChangeViewMode: function (mode) { // master or normal
             this.toolbar.$el.find('.master-slide-mode')[mode==='master'?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[mode==='normal'?'show':'hide']();
-            this.toolbar.btnsAddSlide.forEach(function (btn, index) {
-                btn.menu.items[0].setVisible(mode==='normal');
-                btn.menu.items[1].setVisible(mode==='normal');
-                btn.menu.items[2].setVisible(mode==='master');
-                btn.menu.items[3].setVisible(mode==='master');
-            });
         },
 
         onInsertSlideMaster: function () {

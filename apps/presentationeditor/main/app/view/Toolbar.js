@@ -749,30 +749,6 @@ define([
                     });
                     me.paragraphControls.push(me.btnColumns);
 
-                    me.btnInsertSlideMaster = new Common.UI.Button({
-                        id: 'tlbtn-insertslidemaster',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-slide-master',
-                        caption: me.capAddSlideMaster,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    me.slideOnlyControls.push(me.btnInsertSlideMaster);
-
-                    me.btnInsertLayout = new Common.UI.Button({
-                        id: 'tlbtn-insertlayout',
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-layout',
-                        caption: me.capAddLayout,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    me.slideOnlyControls.push(me.btnInsertLayout);
-
                     me.btnInsertPlaceholder = new Common.UI.Button({
                         id: 'tlbtn-insertplaceholder',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1238,7 +1214,7 @@ define([
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart, this.btnInsertSmartArt,
                         this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape,
-                        this.btnInsertSlideMaster, this.btnInsertLayout, this.btnInsertPlaceholder, this.chTitle, this.chFooters
+                        this.btnInsertPlaceholder, this.chTitle, this.chFooters
                     ];
 
                     // Disable all components before load document
@@ -1378,8 +1354,6 @@ define([
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
                 _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
-                _injectComponent('#slot-btn-insslidemaster', this.btnInsertSlideMaster);
-                _injectComponent('#slot-btn-inslayout', this.btnInsertLayout);
                 _injectComponent('#slot-btn-insplaceholder', this.btnInsertPlaceholder);
                 _injectComponent('#slot-chk-title', this.chTitle);
                 _injectComponent('#slot-chk-footers', this.chFooters);
@@ -1399,7 +1373,12 @@ define([
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
                     [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
 
-                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
+                this.btnsAddSlideMaster = Common.Utils.injectButtons($host.find('.slot-addslidemaster'), 'tlbtn-addslidemaster-', 'toolbar__icon btn-add-slide-master', this.capAddSlideMaster,
+                    [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, undefined, '1', 'bottom', 'small');
+                this.btnsAddLayout = Common.Utils.injectButtons($host.find('.slot-addlayout'), 'tlbtn-addlayout-', 'toolbar__icon btn-add-layout', this.capAddLayout,
+                    [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, undefined, '1', 'bottom', 'small');
+
+                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide, this.btnsAddSlideMaster, this.btnsAddLayout);
                 this.lockToolbar(Common.enumLock.disableOnStart, true, {array: created});
 
                 Array.prototype.push.apply(this.slideOnlyControls, created);
@@ -1506,16 +1485,6 @@ define([
                                 {template: _.template('<div id="id-toolbar-menu-addslide-' + index + '" class="menu-layouts" style="width: 302px; margin: 0 4px;"></div>')},
                                 {caption: '--'},
                                 {
-                                    caption: me.textInsertSlideMaster,
-                                    value: 'slide-master',
-                                    visible: false
-                                },
-                                {
-                                    caption: me.textInsertLayout,
-                                    value: 'layout',
-                                    visible: false
-                                },
-                                {
                                     caption: me.txtDuplicateSlide,
                                     value: 'duplicate'
                                 }
@@ -1527,6 +1496,20 @@ define([
                     });
                     btn.menu.on('item:click', function (menu, item) {
                         (item.value === 'duplicate') && me.fireEvent('duplicate:slide');
+                    });
+                });
+
+                me.btnsAddSlideMaster.forEach(function (btn) {
+                    btn.updateHint(me.tipAddSlideMaster);
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('insert:slide-master', [btn, e]);
+                    });
+                });
+
+                me.btnsAddLayout.forEach(function (btn) {
+                    btn.updateHint(me.tipAddLayout);
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('insert:layout', [btn, e]);
                     });
                 });
             },
@@ -1565,8 +1548,6 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
-                this.btnInsertSlideMaster.updateHint(this.tipAddSlideMaster);
-                this.btnInsertLayout.updateHint(this.tipAddLayout);
                 this.btnInsertPlaceholder.updateHint(this.tipInsertContentPlaceholder);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
@@ -1931,14 +1912,6 @@ define([
 
                 me.btnInsertPlaceholder.on('click', function (btn, e) {
                     me.fireEvent('insert:placeholder-btn', [btn, e]);
-                });
-
-                me.btnInsertSlideMaster.on('click', function (btn, e) {
-                    me.fireEvent('insert:slide-master', [btn, e]);
-                });
-
-                me.btnInsertLayout.on('click', function (btn, e) {
-                    me.fireEvent('insert:layout', [btn, e]);
                 });
 
                 me.chTitle.on('change', _.bind(function (checkbox, state) {
@@ -2575,8 +2548,6 @@ define([
             textSmartArt: 'SmartArt',
             textTitle: 'Title',
             textFooters: 'Footers',
-            textInsertSlideMaster: 'Insert slide master',
-            textInsertLayout: 'Insert layout',
             tipInsertContentPlaceholder: 'Insert content placeholder',
             tipInsertContentVerticalPlaceholder: 'Insert content (vertical) placeholder',
             tipInsertTextPlaceholder: 'Insert text placeholder',

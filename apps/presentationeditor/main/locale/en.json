@@ -2754,8 +2754,6 @@
   "PE.Views.Toolbar.textSmartArt": "SmartArt",
   "PE.Views.Toolbar.textTitle": "Title",
   "PE.Views.Toolbar.textFooters": "Footers",
-  "PE.Views.Toolbar.textInsertSlideMaster": "Insert slide master",
-  "PE.Views.Toolbar.textInsertLayout": "Insert layout",
   "PE.Views.Toolbar.tipInsertContentPlaceholder": "Insert content placeholder",
   "PE.Views.Toolbar.tipInsertContentVerticalPlaceholder": "Insert content (vertical) placeholder",
   "PE.Views.Toolbar.tipInsertTextPlaceholder": "Insert text placeholder",
