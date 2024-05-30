@@ -157,7 +157,7 @@ define([
                     var collection = this.getApplication().getCollection('Common.Collections.Comments');
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
-                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id) {
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '') {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }

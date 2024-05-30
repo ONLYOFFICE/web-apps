@@ -50,7 +50,7 @@ define([
 ], function () {
     'use strict';
 
-    // NOTE: временное решение
+    // NOTE: temporary solution
 
     function buildCommentData () {
         if (typeof Asc.asc_CCommentDataWord !== 'undefined') {
@@ -305,44 +305,26 @@ define([
         },
 
         onResolveComment: function (uid) {
-            var t = this,
-                reply = null,
-                addReply = null,
-                ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                comment = t.findComment(uid);
+            var t = this, reply = null, comment = t.findComment(uid);
 
             if (_.isUndefined(uid)) {
                 uid = comment.get('uid');
             }
 
-            if (ascComment && comment) {
-                ascComment.asc_putText(comment.get('comment'));
-                ascComment.asc_putQuoteText(comment.get('quote'));
-                ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
-                ascComment.asc_putOnlyOfficeTime(t.ooDateToString(new Date(comment.get('time'))));
-                ascComment.asc_putUserId(comment.get('userid'));
-                ascComment.asc_putUserName(comment.get('username'));
-                ascComment.asc_putSolved(!comment.get('resolved'));
-                ascComment.asc_putGuid(comment.get('guid'));
-                ascComment.asc_putUserData(comment.get('userdata'));
-
-                if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
-                    ascComment.asc_putDocumentFlag(comment.get('unattached'));
+            if (comment) {
+                var ascComment = t.buildComment(comment);
+                if (!ascComment) {
+                    return false;
                 }
+
+                ascComment.asc_putSolved(!comment.get('resolved'));
 
                 reply = comment.get('replys');
                 if (reply && reply.length) {
                     reply.forEach(function (reply) {
-                        addReply = buildCommentData();   //  new asc_CCommentData(null);
-                        if (addReply) {
-                            addReply.asc_putText(reply.get('reply'));
-                            addReply.asc_putTime(t.utcDateToString(new Date(reply.get('time'))));
-                            addReply.asc_putOnlyOfficeTime(t.ooDateToString(new Date(reply.get('time'))));
-                            addReply.asc_putUserId(reply.get('userid'));
-                            addReply.asc_putUserName(reply.get('username'));
-                            addReply.asc_putUserData(reply.get('userdata'));
-
-                            ascComment.asc_addReply(addReply);
+                        var ascReply = t.buildReplyComment(reply);
+                        if (ascReply) {
+                            ascComment.asc_addReply(ascReply);
                         }
                     });
                 }
@@ -407,23 +389,21 @@ define([
             if (commentVal && commentVal.length > 0) {
                 var t = this,
                     comment2 = null,
-                    reply = null,
                     addReply = null,
-                    ascComment = buildCommentData(),   //  new asc_CCommentData(null),
                     comment = t.findComment(id),
                     oldCommentVal = '';
 
-                if (comment && ascComment) {
-                    oldCommentVal = comment.get('comment');
+                if (comment) {
+                    var ascComment = t.buildComment(comment);
+                    if (!ascComment) {
+                        return false;
+                    }
+
                     ascComment.asc_putText(commentVal);
-                    ascComment.asc_putQuoteText(comment.get('quote'));
-                    ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putOnlyOfficeTime(t.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(t.currentUserId);
                     ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
-                    ascComment.asc_putSolved(comment.get('resolved'));
-                    ascComment.asc_putGuid(comment.get('guid'));
-                    ascComment.asc_putUserData(comment.get('userdata'));
+
+                    oldCommentVal = comment.get('comment');
 
                     if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
                         ascComment.asc_putDocumentFlag(comment.get('unattached'));
@@ -439,19 +419,12 @@ define([
                     if (t.subEditStrings[id]) { delete t.subEditStrings[id]; }
                     if (t.subEditStrings[id + '-R']) { delete t.subEditStrings[id + '-R']; }
 
-                    reply = comment.get('replys');
+                    var replies = comment.get('replys');
 
-                    if (reply && reply.length) {
-                        reply.forEach(function (reply) {
-                            addReply = buildCommentData();   //  new asc_CCommentData(null);
-                            if (addReply) {
-                                addReply.asc_putText(reply.get('reply'));
-                                addReply.asc_putTime(t.utcDateToString(new Date(reply.get('time'))));
-                                addReply.asc_putOnlyOfficeTime(t.ooDateToString(new Date(reply.get('time'))));
-                                addReply.asc_putUserId(reply.get('userid'));
-                                addReply.asc_putUserName(reply.get('username'));
-                                addReply.asc_putUserData(reply.get('userdata'));
-
+                    if (replies && replies.length) {
+                        replies.forEach(function (reply) {
+                            var ascReply = t.buildReplyComment(reply);
+                            if (ascReply) {
                                 ascComment.asc_addReply(addReply);
                             }
                         });
@@ -469,31 +442,20 @@ define([
         onChangeReplyComment: function (id, replyId, replyVal) {
             if (replyVal && replyVal.length > 0) {
                 var me = this,
-                    reply = null,
                     addReply = null,
-                    ascComment = buildCommentData(),   //  new asc_CCommentData(null),
                     comment = me.findComment(id),
                     oldReplyVal = '';
 
-                if (ascComment && comment) {
-                    ascComment.asc_putText(comment.get('comment'));
-                    ascComment.asc_putQuoteText(comment.get('quote'));
-                    ascComment.asc_putTime(me.utcDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putUserId(comment.get('userid'));
-                    ascComment.asc_putUserName(comment.get('username'));
-                    ascComment.asc_putSolved(comment.get('resolved'));
-                    ascComment.asc_putGuid(comment.get('guid'));
-                    ascComment.asc_putUserData(comment.get('userdata'));
-
-                    if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
-                        ascComment.asc_putDocumentFlag(comment.get('unattached'));
+                if (comment) {
+                    var ascComment = me.buildComment(comment);
+                    if (!ascComment) {
+                        return false;
                     }
 
-                    reply = comment.get('replys');
+                    var replies = comment.get('replys');
 
-                    if (reply && reply.length) {
-                        reply.forEach(function (reply) {
+                    if (replies && replies.length) {
+                        replies.forEach(function (reply) {
                             addReply = buildCommentData();   //  new asc_CCommentData();
                             if (addReply) {
                                 if (reply.get('id') === replyId && !_.isUndefined(replyVal)) {
@@ -507,8 +469,8 @@ define([
                                     addReply.asc_putUserName(reply.get('username'));
                                 }
 
-                                addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
-                                addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
+                                addReply.asc_putTime(reply.get('time') ? me.utcDateToString(new Date(reply.get('time'))) : '');
+                                addReply.asc_putOnlyOfficeTime(reply.get('time') ? me.ooDateToString(new Date(reply.get('time'))) : '');
                                 addReply.asc_putUserData(reply.get('userdata'));
 
                                 ascComment.asc_addReply(addReply);
@@ -526,15 +488,9 @@ define([
         },
         onAddReplyComment: function (id, replyVal) {
             if (replyVal.length > 0) {
-                var me = this,
-                    uid = null,
-                    reply = null,
-                    addReply = null,
-                    ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                    comment = me.findComment(id);
+                var me = this, uid = null, comment = me.findComment(id);
 
-                if (ascComment && comment) {
-
+                if (comment) {
                     uid = comment.get('uid');
                     if (uid) {
                         if (me.subEditStrings[uid]) { delete me.subEditStrings[uid]; }
@@ -542,39 +498,22 @@ define([
                         comment.set('showReplyInPopover', false);
                     }
 
-                    ascComment.asc_putText(comment.get('comment'));
-                    ascComment.asc_putQuoteText(comment.get('quote'));
-                    ascComment.asc_putTime(me.utcDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putUserId(comment.get('userid'));
-                    ascComment.asc_putUserName(comment.get('username'));
-                    ascComment.asc_putSolved(comment.get('resolved'));
-                    ascComment.asc_putGuid(comment.get('guid'));
-                    ascComment.asc_putUserData(comment.get('userdata'));
-
-                    if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
-                        ascComment.asc_putDocumentFlag(comment.get('unattached'));
+                    var ascComment = me.buildComment(comment);
+                    if (!ascComment) {
+                        return false;
                     }
 
-                    reply = comment.get('replys');
-                    if (reply && reply.length) {
-                        reply.forEach(function (reply) {
-
-                            addReply = buildCommentData();   //  new asc_CCommentData(null);
-                            if (addReply) {
-                                addReply.asc_putText(reply.get('reply'));
-                                addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
-                                addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
-                                addReply.asc_putUserId(reply.get('userid'));
-                                addReply.asc_putUserName(reply.get('username'));
-                                addReply.asc_putUserData(reply.get('userdata'));
-
-                                ascComment.asc_addReply(addReply);
+                    var replies = comment.get('replys');
+                    if (replies && replies.length) {
+                        replies.forEach(function (reply) {
+                            var ascReply = me.buildReplyComment(reply);
+                            if (ascReply) {
+                                ascComment.asc_addReply(ascReply);
                             }
                         });
                     }
 
-                    addReply = buildCommentData();   //  new asc_CCommentData(null);
+                    var addReply = buildCommentData();   //  new asc_CCommentData(null);
                     if (addReply) {
                         addReply.asc_putText(replyVal);
                         addReply.asc_putTime(me.utcDateToString(new Date()));
@@ -596,41 +535,22 @@ define([
         },
         onRemoveReplyComment: function (id, replyId) {
             if (!_.isUndefined(id) && !_.isUndefined(replyId)) {
-                var me = this,
-                    replies = null,
-                    addReply = null,
-                    ascComment = buildCommentData(),   //  new asc_CCommentData(null),
-                    comment = me.findComment(id);
+                var me = this, comment = me.findComment(id);
 
-                if (ascComment && comment) {
-                    ascComment.asc_putText(comment.get('comment'));
-                    ascComment.asc_putQuoteText(comment.get('quote'));
-                    ascComment.asc_putTime(me.utcDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.get('time'))));
-                    ascComment.asc_putUserId(comment.get('userid'));
-                    ascComment.asc_putUserName(comment.get('username'));
-                    ascComment.asc_putSolved(comment.get('resolved'));
-                    ascComment.asc_putGuid(comment.get('guid'));
-                    ascComment.asc_putUserData(comment.get('userdata'));
-
-                    if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
-                        ascComment.asc_putDocumentFlag(comment.get('unattached'));
+                if (comment) {
+                    var ascComment = me.buildComment(comment);
+                    if (!ascComment) {
+                        return false;
                     }
 
-                    replies = comment.get('replys');
+                    var replies = comment.get('replys');
+
                     if (replies && replies.length) {
                         replies.forEach(function (reply) {
                             if (reply.get('id') !== replyId) {
-                                addReply = buildCommentData();   //  new asc_CCommentData(null);
-                                if (addReply) {
-                                    addReply.asc_putText(reply.get('reply'));
-                                    addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
-                                    addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
-                                    addReply.asc_putUserId(reply.get('userid'));
-                                    addReply.asc_putUserName(reply.get('username'));
-                                    addReply.asc_putUserData(reply.get('userdata'));
-
-                                    ascComment.asc_addReply(addReply);
+                                var ascReply = me.buildReplyComment(reply);
+                                if (ascReply) {
+                                    ascComment.asc_addReply(ascReply);
                                 }
                             }
                         });
@@ -837,7 +757,7 @@ define([
                 t = this;
 
                 date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
-                       ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
+                       ((data.asc_getTime() == '') ? null : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
                 var userid = data.asc_getUserId(),
                     user = this.userCollection.findOriginalUser(userid),
@@ -858,8 +778,8 @@ define([
                 comment.set('resolved', data.asc_getSolved());
                 comment.set('quote',    data.asc_getQuoteText());
                 comment.set('userdata', data.asc_getUserData());
-                comment.set('time',     date.getTime());
-                comment.set('date',     t.dateToLocaleTimeString(date));
+                comment.set('time',     date ? date.getTime() : null);
+                comment.set('date',     date ? t.dateToLocaleTimeString(date) : null);
                 comment.set('editable', (t.mode.canEditComments || (userid == t.currentUserId)) && AscCommon.UserInfoParser.canEditComment(data.asc_getUserName()));
                 comment.set('removable', (t.mode.canDeleteComments || (userid == t.currentUserId)) && AscCommon.UserInfoParser.canDeleteComment(data.asc_getUserName()));
                 comment.set('hide', hideComment);
@@ -880,7 +800,7 @@ define([
                 for (i = 0; i < repliesCount; ++i) {
 
                     dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
-                                ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
+                                ((data.asc_getReply(i).asc_getTime() == '') ? null : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
                     userid = data.asc_getReply(i).asc_getUserId();
                     user = this.userCollection.findOriginalUser(userid);
@@ -894,10 +814,10 @@ define([
                         parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName()),
                         usercolor           : (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(userid || data.asc_getReply(i).asc_getUserName()),
                         avatar              : avatar,
-                        date                : t.dateToLocaleTimeString(dateReply),
+                        date                : dateReply ? t.dateToLocaleTimeString(dateReply) : null,
                         reply               : data.asc_getReply(i).asc_getText(),
                         userdata            : data.asc_getReply(i).asc_getUserData(),
-                        time                : dateReply.getTime(),
+                        time                : dateReply ? dateReply.getTime() : null,
                         editText            : false,
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
@@ -1446,7 +1366,7 @@ define([
             if (repliesCount) {
                 for (i = 0; i < repliesCount; ++i) {
                     date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
-                        ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
+                        ((data.asc_getReply(i).asc_getTime() == '') ? null : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
                     var userid = data.asc_getReply(i).asc_getUserId(),
                         user = this.userCollection.findOriginalUser(userid),
@@ -1460,10 +1380,10 @@ define([
                         parsedName          : AscCommon.UserInfoParser.getParsedName(data.asc_getReply(i).asc_getUserName()),
                         usercolor           : (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(userid || data.asc_getReply(i).asc_getUserName()),
                         avatar              : avatar,
-                        date                : this.dateToLocaleTimeString(date),
+                        date                : date ? this.dateToLocaleTimeString(date) : null,
                         reply               : data.asc_getReply(i).asc_getText(),
                         userdata            : data.asc_getReply(i).asc_getUserData(),
-                        time                : date.getTime(),
+                        time                : date ? date.getTime() : null,
                         editText            : false,
                         editTextInPopover   : false,
                         showReplyInPopover  : false,
@@ -1732,6 +1652,45 @@ define([
 
             // MM/dd/yyyy hh:mm AM
             return (date.getMonth() + 1) + '/' + (date.getDate()) + '/' + date.getFullYear() + ' ' + format(date);
+        },
+
+        buildComment: function(comment) {
+            var ascComment = buildCommentData();
+            if (!ascComment) {
+                return null;
+            }
+
+            ascComment.asc_putText(comment.get('comment'));
+            ascComment.asc_putQuoteText(comment.get('quote'));
+            ascComment.asc_putTime(comment.get('time') ? this.utcDateToString(new Date(comment.get('time'))) : '');
+            ascComment.asc_putOnlyOfficeTime(comment.get('time') ? this.ooDateToString(new Date(comment.get('time'))) : '');
+            ascComment.asc_putUserId(comment.get('userid'));
+            ascComment.asc_putUserName(comment.get('username'));
+            ascComment.asc_putSolved(comment.get('resolved'));
+            ascComment.asc_putGuid(comment.get('guid'));
+            ascComment.asc_putUserData(comment.get('userdata'));
+
+            if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
+                ascComment.asc_putDocumentFlag(comment.get('unattached'));
+            }
+
+            return ascComment
+        },
+
+        buildReplyComment: function(reply) {
+            var ascComment = buildCommentData();
+            if (!ascComment) {
+                return null;
+            }
+
+            ascComment.asc_putText(reply.get('reply'));
+            ascComment.asc_putTime(reply.get('time') ? this.utcDateToString(new Date(reply.get('time'))) : '');
+            ascComment.asc_putOnlyOfficeTime(reply.get('time') ? this.ooDateToString(new Date(reply.get('time'))) : '');
+            ascComment.asc_putUserId(reply.get('userid'));
+            ascComment.asc_putUserName(reply.get('username'));
+            ascComment.asc_putUserData(reply.get('userdata'));
+
+            return ascComment;
         },
 
         getView: function(name) {
