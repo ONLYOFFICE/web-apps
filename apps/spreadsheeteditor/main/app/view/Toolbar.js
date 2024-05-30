@@ -1503,7 +1503,7 @@ define([
                 me.btnCommaStyle = new Common.UI.Button({
                     id          : 'id-toolbar-btn-comma-style',
                     cls         : 'btn-toolbar',
-                    iconCls     : 'toolbar__icon btn-percent-style',
+                    iconCls     : 'toolbar__icon btn-comma',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName   : 'Comma',
                     dataHint    : '1',
