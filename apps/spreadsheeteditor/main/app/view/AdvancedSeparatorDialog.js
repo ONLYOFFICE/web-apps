@@ -56,19 +56,17 @@ define([
 
             this.template = [
                 '<div class="box">',
-                '<div class="input-row" style="margin-bottom: 8px;">',
-                    '<label>' + this.textLabel + '</label>',
-                '</div>',
+                '<div style="margin-bottom: 8px;">' + this.textLabel + '</div>',
                 '<div style="margin-bottom: 12px;">',
                     '<div id="id-adv-separator-decimal" class=""></div><label class="input-row margin-left-10" style="padding-top: 4px;">' + this.strDecimalSeparator + '</label>',
                 '</div>',
                 '<div style="margin-bottom: 10px;">',
                     '<div id="id-adv-separator-thousands" class=""></div><label class="input-row margin-left-10" style="padding-top: 4px;">' + this.strThousandsSeparator + '</label>',
                 '</div>',
-                '<div class="input-row" style="margin-bottom: 8px;">',
+                '<div class="input-row">',
                 '<label>' + this.textQualifier + '</label>',
                 '</div>',
-                '<div style="margin-bottom: 12px;">',
+                '<div style="margin-bottom: 10px;">',
                 '<div id="id-adv-separator-qualifier" class="input-group-nr"></div>',
                 '</div>',
                 '</div>'
