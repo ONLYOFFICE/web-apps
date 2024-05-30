@@ -107,6 +107,8 @@ define([
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
                                   'Caption', 'endnote text', 'Default Paragraph Font', 'No List', 'Intense Emphasis', 'Intense Reference',  'Subtle Emphasis', 'Emphasis',
                                   'Strong', 'Subtle Reference', 'Book Title',  'footnote reference', 'endnote reference'],
+                    schemeNames = ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+                                   'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -155,6 +157,9 @@ define([
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                schemeNames.forEach(function(item){
+                    translate[item] = me['txtScheme_' + item.replace(/[ -]/g, '_')] || item;
                 });
                 me.translationTable = translate;
             },
@@ -3612,7 +3617,31 @@ define([
             txtStyle_Subtle_Reference: 'Subtle reference',
             txtStyle_Book_Title: 'Book Title',
             txtStyle_footnote_reference: 'Footnote reference',
-            txtStyle_endnote_reference: 'Endnote reference'
+            txtStyle_endnote_reference: 'Endnote reference',
+            txtScheme_Aspect: 'Aspect',
+            txtScheme_Blue_Green: 'Blue Green',
+            txtScheme_Blue_II: 'Blue II',
+            txtScheme_Blue_Warm: 'Blue Warm',
+            txtScheme_Blue: 'Blue',
+            txtScheme_Grayscale: 'Grayscale',
+            txtScheme_Green_Yellow: 'Green Yellow',
+            txtScheme_Green: 'Green',
+            txtScheme_Marquee: 'Marquee',
+            txtScheme_Median: 'Median',
+            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
+            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
+            txtScheme_Office: 'Office',
+            txtScheme_Orange_Red: 'Orange Red',
+            txtScheme_Orange: 'Orange',
+            txtScheme_Paper: 'Paper',
+            txtScheme_Red_Orange: 'Red Orange',
+            txtScheme_Red_Violet: 'Red Violet',
+            txtScheme_Red: 'Red',
+            txtScheme_Slipstream: 'Slipstream',
+            txtScheme_Violet_II: 'Violet II',
+            txtScheme_Violet: 'Violet',
+            txtScheme_Yellow_Orange: 'Yellow Orange',
+            txtScheme_Yellow: 'Yellow'
         }
     })(), DE.Controllers.Main || {}))
 });

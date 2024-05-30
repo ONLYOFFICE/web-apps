@@ -148,14 +148,6 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [ this.txtScheme22,
-                    this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
-                    this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
-                    this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
-                    this.txtScheme16, this.txtScheme17, this.txtScheme18, this.txtScheme19, this.txtScheme20,
-                    this.txtScheme21
-                ];
-
                 this.paragraphControls = [];
                 this.toolbarControls = [];
                 this.textOnlyControls = [];
@@ -3178,17 +3170,16 @@ define([
                         schemecolors.push(clr);
                     }
 
-                    if (index == 22) {
+                    if (index == 24) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
                     }
-                    var name = schema.get_name();
                     this.mnuColorSchema.addItem({
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
+                        caption: schema.get_name(),
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
@@ -3483,27 +3474,6 @@ define([
             textInText: 'In Text',
             textInMargin: 'In Margin',
             tipDropCap: 'Insert drop cap',
-            txtScheme1: 'Office',
-            txtScheme2: 'Grayscale',
-            txtScheme3: 'Apex',
-            txtScheme4: 'Aspect',
-            txtScheme5: 'Civic',
-            txtScheme6: 'Concourse',
-            txtScheme7: 'Equity',
-            txtScheme8: 'Flow',
-            txtScheme9: 'Foundry',
-            txtScheme10: 'Median',
-            txtScheme11: 'Metro',
-            txtScheme12: 'Module',
-            txtScheme13: 'Opulent',
-            txtScheme14: 'Oriel',
-            txtScheme15: 'Origin',
-            txtScheme16: 'Paper',
-            txtScheme17: 'Solstice',
-            txtScheme18: 'Technic',
-            txtScheme19: 'Trek',
-            txtScheme20: 'Urban',
-            txtScheme21: 'Verve',
             textInsPageBreak: 'Insert Page Break',
             textInsColumnBreak: 'Insert Column Break',
             textInsSectionBreak: 'Insert Section Break',
@@ -3624,7 +3594,6 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             textChangeLevel: 'Change List Level',
             mniTextToTable: 'Convert Text to Table',
-            txtScheme22: 'New Office',
             mniFromFile: 'From File',
             mniFromUrl: 'From URL',
             mniFromStorage: 'From Storage',
