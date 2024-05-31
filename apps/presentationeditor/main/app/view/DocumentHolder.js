@@ -1252,8 +1252,8 @@ define([
                     me.mnuDuplicateLayout.setVisible(!isMaster);
                     me.mnuDeleteLayout.setVisible(!isMaster);
 
-                    isMaster && me.mnuDeleteMaster.setDisabled(me.api.asc_CanDeleteMaster());
-                    !isMaster && me.mnuDeleteLayout.setDisabled(me.api.asc_CanDeleteLayout());
+                    isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
+                    !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
                 },
                 items: [
                     me.mnuInsertMaster,
