@@ -2807,11 +2807,11 @@ define([
         },
 
         onDuplicateMaster: function () {
-
+            this.api.asc_DuplicateMaster();
         },
 
         onDuplicateLayout: function () {
-
+            this.api.asc_DuplicateLayout();
         },
 
         onDeleteMaster: function () {
