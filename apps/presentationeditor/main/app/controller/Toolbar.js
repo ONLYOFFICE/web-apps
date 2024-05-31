@@ -2966,6 +2966,7 @@ define([
         onChangeViewMode: function (mode) { // master or normal
             this.toolbar.$el.find('.master-slide-mode')[mode==='master'?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[mode==='normal'?'show':'hide']();
+            mode==='master' && this.toolbar.setTab('ins');
         },
 
         onInsertSlideMaster: function () {
