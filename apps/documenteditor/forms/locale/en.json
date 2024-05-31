@@ -132,7 +132,7 @@
   "DE.Controllers.ApplicationController.textLoadingDocument": "Loading document",
   "DE.Controllers.ApplicationController.textNoLicenseTitle": "License limit reached",
   "DE.Controllers.ApplicationController.textOf": "of",
-  "DE.Controllers.ApplicationController.textRequired": "Fill all required fields to send form.",
+  "DE.Controllers.ApplicationController.textRequired": "To submit the form, you must fill in all required fields.",
   "DE.Controllers.ApplicationController.textSaveAs": "Save as PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Save as...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Form submitted successfully</b><br>Click to close the tip",

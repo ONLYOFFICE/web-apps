@@ -2331,7 +2331,7 @@
   "DE.Views.FormsTab.textGotIt": "Got it",
   "DE.Views.FormsTab.textHighlight": "Highlight Settings",
   "DE.Views.FormsTab.textNoHighlight": "No highlighting",
-  "DE.Views.FormsTab.textRequired": "Fill all required fields to send form.",
+  "DE.Views.FormsTab.textRequired": "To submit the form, you must fill in all required fields.",
   "DE.Views.FormsTab.textSubmited": "Form submitted successfully",
   "DE.Views.FormsTab.textSubmitOk": "Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.",
   "DE.Views.FormsTab.tipCheckBox": "Insert checkbox",
