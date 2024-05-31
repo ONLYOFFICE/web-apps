@@ -3545,6 +3545,8 @@
   "DE.Views.Toolbar.txtMarginAlign": "Align to margin",
   "DE.Views.Toolbar.txtObjectsAlign": "Align selected objects",
   "DE.Views.Toolbar.txtPageAlign": "Align to page",
+  "DE.Views.Toolbar.capBtnPageColor": "Page Color",
+  "DE.Views.Toolbar.tipPageColor": "Change page color",
   "DE.Views.ViewTab.textAlwaysShowToolbar": "Always Show Toolbar",
   "DE.Views.ViewTab.textDarkDocument": "Dark Document",
   "DE.Views.ViewTab.textFitToPage": "Fit To Page",

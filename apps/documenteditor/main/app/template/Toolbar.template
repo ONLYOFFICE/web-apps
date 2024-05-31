@@ -171,6 +171,7 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagecolor"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

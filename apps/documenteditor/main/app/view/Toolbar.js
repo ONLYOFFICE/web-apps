@@ -1572,8 +1572,29 @@ define([
                         dataHintOffset: 'small'
                     });
 
+                    me.btnPageColor = new Common.UI.ButtonColored({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-page-color',
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnPageColor,
+                        menu: true,
+                        eyeDropper: false,
+                        hideColorLine: true,
+                        additionalItemsBefore: [
+                            me.mnuPageNoFill = new Common.UI.MenuItem({
+                                caption: me.strMenuNoFill,
+                                style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
+                                checkable: true
+                            }),
+                            {caption: '--'}
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor);
 
                     //
                     // Menus
@@ -2048,6 +2069,7 @@ define([
                 _injectComponent('#slot-spin-space-after', this.numSpacingAfter);
                 _injectComponent('#slot-lbl-space-before', this.lblSpacingBefore);
                 _injectComponent('#slot-lbl-space-after', this.lblSpacingAfter);
+                _injectComponent('#slot-btn-pagecolor', this.btnPageColor);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
@@ -2450,6 +2472,8 @@ define([
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnHyphenation.updateHint(this.tipHyphenation);
+                this.btnPageColor.updateHint(this.tipPageColor);
+
 
                 // set menus
 
@@ -3064,6 +3088,11 @@ define([
                         outerMenu: {menu: this.mnuHighlightControls, index: 2}
                     });
                     this.mnuHighlightControls.setInnerMenu([{menu: this.mnuControlsColorPicker, index: 2}]);
+                }
+
+                if (this.btnPageColor.cmpEl) {
+                    this.btnPageColor.setMenu();
+                    this.mnuPageColorPicker = this.btnPageColor.getPicker();
                 }
             },
 
@@ -3685,6 +3714,8 @@ define([
             txtAutoText: 'Auto',
             textEditMode: 'Edit PDF',
             tipEditMode: 'Edit current file.<br>The page will be reloaded.',
+            capBtnPageColor: 'Page Color',
+            tipPageColor: 'Change page color'
         }
     })(), DE.Views.Toolbar || {}));
 });
