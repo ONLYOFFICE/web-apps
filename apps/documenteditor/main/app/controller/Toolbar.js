@@ -421,6 +421,9 @@ define([
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
+            toolbar.btnPageColor.menu.on('show:after',                  _.bind(this.onPageColorShowAfter, this));
+            toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
+            toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -972,14 +975,16 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins,
+                                                                                      this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation, this.toolbar.btnPageColor]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins,
+                                                                                       this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation, this.toolbar.btnPageColor]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
@@ -1469,6 +1474,33 @@ define([
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
             this.showSelectedBulletOnOpen(type, picker);
+        },
+
+        onPageColorShowAfter: function(menu, e) {
+            if (!(e && e.target===e.currentTarget))
+                return;
+
+            var picker = this.toolbar.mnuPageColorPicker,
+                color = this.api.asc_getPageColor();
+
+            this.toolbar.mnuPageNoFill.setChecked(!color, true);
+            picker.clearSelection();
+            if (color) {
+                color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ?
+                    color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()} :
+                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+
+                if ( typeof(color) == 'object' ) {
+                    for (var i=0; i<10; i++) {
+                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                            picker.select(color,true);
+                            break;
+                        }
+                    }
+                } else {
+                    picker.select(color,true);
+                }
+            }
         },
 
         onApiUpdateListPatterns: function(data) {
@@ -2785,6 +2817,20 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onSelectPageColor: function(btn, color) {
+            if (this.api)
+                this.api.asc_putPageColor(Common.Utils.ThemeColor.getRgbColor(color));
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
+        },
+
+        onPageNoFillClick: function(item) {
+            if (this.api && item.checked)
+                this.api.asc_putPageColor(null);
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
+        },
+
         eyedropperStart: function () {
             if (this.toolbar.btnCopyStyle.pressed) {
                 this.toolbar.btnCopyStyle.toggle(false, true);
@@ -3238,6 +3284,8 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuPageColorPicker, 1);
         },
 
         _onInitEditorStyles: function(styles) {
