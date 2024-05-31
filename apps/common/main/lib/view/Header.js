@@ -265,9 +265,17 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (config.isPDFEdit ? 'btn-edit' : (config.isPDFAnnotate && config.canCoEditing ? 'btn-menu-comments' : 'btn-sheet-view')));
-            me.btnPDFMode.setCaption(config.isPDFEdit ? me.textEdit : (config.isPDFAnnotate && config.canCoEditing ? me.textComment : me.textView));
-            me.btnPDFMode.updateHint(config.isPDFEdit ? me.tipEdit : (config.isPDFAnnotate && config.canCoEditing ? me.tipComment : me.tipView));
+            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate && config.canCoEditing ? 'comment' : 'view'),
+                isEdit = config.isPDFEdit,
+                isComment = !isEdit && config.isPDFAnnotate && config.canCoEditing;
+            me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isComment ? 'btn-menu-comments' : 'btn-sheet-view')));
+            me.btnPDFMode.setCaption(isEdit ? me.textEdit : (isComment ? me.textComment : me.textView));
+            me.btnPDFMode.updateHint(isEdit ? me.tipEdit : (isComment ? me.tipComment : me.tipView));
+            me.btnPDFMode.options.value = type;
+            if (me.btnPDFMode.menu && typeof me.btnPDFMode.menu === 'object') {
+                var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
+                (item) ? item.setChecked(true) : this.btnPDFMode.menu.clearAll();
+            }
         }
 
         function changeDocMode(type, lockEditing) {
@@ -294,7 +302,12 @@ define([
             this.btnDocMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isReview ? 'btn-ic-review' : 'btn-sheet-view')));
             this.btnDocMode.setCaption(isEdit ? this.textEdit : isReview ? this.textReview : isViewForm ? this.textViewForm : this.textView);
             this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : isReview ? this.tipReview : isViewForm ? this.tipDocViewForm : this.tipDocView);
+            this.btnDocMode.options.value = type;
             show && !this.btnDocMode.isVisible() && this.btnDocMode.setVisible(true);
+            if (this.btnDocMode.menu && typeof this.btnDocMode.menu === 'object') {
+                var item = _.find(this.btnDocMode.menu.items, function(item) { return item.value == type; });
+                (item) ? item.setChecked(true) : this.btnDocMode.menu.clearAll();
+            }
         }
 
         function onResize() {
@@ -573,31 +586,38 @@ define([
                                             '<% if (options.description !== null) { %><label class="margin-left-10 description"><%= options.description %></label>' +
                                             '<% } %></a>');
             if (me.btnPDFMode) {
-                var arr = [];
+                var arr = [],
+                    type = me.btnPDFMode.options.value;
                 appConfig.canPDFEdit && arr.push({
                     caption: me.textEdit,
                     iconCls : 'menu__icon btn-edit',
                     template: menuTemplate,
                     description: appConfig.canCoEditing ? me.textEditDesc : me.textEditDescNoCoedit,
-                    value: 'edit'
+                    value: 'edit',
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 });
                 arr.push({
                     caption: appConfig.canCoEditing ? me.textComment : me.textView,
                     iconCls : 'menu__icon ' + (appConfig.canCoEditing ? 'btn-menu-comments' : 'btn-sheet-view'),
                     template: menuTemplate,
                     description: appConfig.canCoEditing ? me.textCommentDesc : me.textViewDescNoCoedit,
-                    value: 'comment',
-                    disabled: !appConfig.canPDFAnnotate
+                    value: appConfig.canCoEditing ? 'comment' : 'view',
+                    disabled: !appConfig.canPDFAnnotate,
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 });
                 appConfig.canCoEditing && arr.push({
                     caption: me.textView,
                     iconCls : 'menu__icon btn-sheet-view',
                     template: menuTemplate,
                     description: me.textViewDesc,
-                    value: 'view'
+                    value: 'view',
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 });
                 me.btnPDFMode.setMenu(new Common.UI.Menu({
-                    cls: 'ppm-toolbar',
+                    cls: 'ppm-toolbar select-checked-items',
                     style: 'width: 220px;',
                     menuAlign: 'tr-br',
                     items: arr
@@ -605,37 +625,48 @@ define([
                 me.btnPDFMode.menu.on('item:click', function (menu, item) {
                     Common.NotificationCenter.trigger('pdf:mode-apply', item.value);
                 });
+                var item = _.find(me.btnPDFMode.menu.items, function(item) { return item.value == type; });
+                item && item.setChecked(true);
             } else if (me.btnDocMode) {
-                var arr = [];
+                var arr = [],
+                    type = me.btnDocMode.options.value;
                 !appConfig.isReviewOnly && arr.push({
                     caption: me.textEdit,
                     iconCls : 'menu__icon btn-edit',
                     template: menuTemplate,
                     description: me.textDocEditDesc,
-                    value: 'edit'
+                    value: 'edit',
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 });
                 appConfig.canReview && arr.push({
                     caption: me.textReview,
                     iconCls : 'menu__icon btn-ic-review',
                     template: menuTemplate,
                     description: me.textReviewDesc,
-                    value: 'review'
+                    value: 'review',
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 });
                 appConfig.isPDFForm && appConfig.isFormCreator ? arr.push({
                     caption: me.textViewForm,
                     iconCls : 'menu__icon btn-sheet-view',
                     template: menuTemplate,
                     description: me.textDocViewFormDesc,
-                    value: 'view-form'
+                    value: 'view-form',
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 }) : arr.push({
                     caption: me.textView,
                     iconCls : 'menu__icon btn-sheet-view',
                     template: menuTemplate,
                     description: me.textDocViewDesc,
-                    value: 'view'
+                    value: 'view',
+                    checkable: true,
+                    toggleGroup: 'docmode'
                 });
                 me.btnDocMode.setMenu(new Common.UI.Menu({
-                    cls: 'ppm-toolbar',
+                    cls: 'ppm-toolbar select-checked-items',
                     style: 'width: 220px;',
                     menuAlign: 'tr-br',
                     items: arr
@@ -643,6 +674,8 @@ define([
                 me.btnDocMode.menu.on('item:click', function (menu, item) {
                     Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
                 });
+                var item = _.find(me.btnDocMode.menu.items, function(item) { return item.value == type; });
+                item && item.setChecked(true);
             }
             if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
@@ -905,6 +938,7 @@ define([
                             iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
                             caption: me.textView,
                             menu: true,
+                            value: 'view',
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -920,6 +954,7 @@ define([
                             menu: true,
                             visible: config.isReviewOnly || !config.canReview,
                             lock: [Common.enumLock.previewReviewMode, Common.enumLock.lostConnect, Common.enumLock.disableOnStart, Common.enumLock.docLockView, Common.enumLock.docLockComments, Common.enumLock.docLockForms, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
+                            value: config.isReviewOnly ? 'review' : 'edit',
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
