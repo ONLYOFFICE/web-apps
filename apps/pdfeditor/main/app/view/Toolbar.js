@@ -142,6 +142,7 @@ define([
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
                     cls: 'btn-toolbar x-huge icon-top',
+                    style: 'min-width: 45px;',
                     iconCls: 'toolbar__icon btn-big-magic-wand',
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: this.capBtnRecognize,
