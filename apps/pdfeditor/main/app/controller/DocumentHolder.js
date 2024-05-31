@@ -1123,7 +1123,7 @@ define([
         addComment: function(item, e, eOpt){
             if (this.api && this.mode.canCoAuthoring && this.mode.canComments) {
                 this.documentHolder.suppressEditComplete = true;
-
+                this.onHideAnnotBar();
                 var controller = PDFE.getController('Common.Controllers.Comments');
                 if (controller) {
                     controller.addDummyComment();
@@ -1138,6 +1138,7 @@ define([
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {
+                (item.value == 'copy') && me.onHideAnnotBar();
                 var res =  (item.value == 'cut') ? me.api.Cut() : ((item.value == 'copy') ? me.api.Copy() : me.api.Paste());
                 if (!res) {
                     if (!Common.localStorage.getBool("pdfe-hide-copywarning")) {
