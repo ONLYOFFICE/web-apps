@@ -103,6 +103,8 @@ define([
         copyLock:   'can-copy',
         fileMenuOpened: 'file-menu-opened',
         noParagraphObject:  'no-paragraph-obj',
+        inSlideMaster: 'in-slide-master',
+        slideMasterMode: 'slide-master-mode'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {

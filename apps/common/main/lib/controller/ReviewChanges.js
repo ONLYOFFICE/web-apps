@@ -95,6 +95,9 @@ define([
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:goto':        _.bind(this.onGotoClick, this)
+                },
+                'ViewTab': {
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
         },
@@ -1170,6 +1173,10 @@ define([
         DisableMailMerge: function() {
             this._state.mmdisable = true;
             this.view && this.view.btnMailRecepients && Common.Utils.lockControls(Common.enumLock.mmergeLock, true, {array: [this.view.btnMailRecepients]});
+        },
+
+        onChangeViewMode: function (mode) {
+            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master');
         },
 
         textInserted: '<b>Inserted:</b>',

@@ -109,7 +109,8 @@ define([
                     'search:show': _.bind(this.onShowHideSearch, this)
                 },
                 'ViewTab': {
-                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this),
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -828,6 +829,15 @@ define([
                 this.leftMenu.showMenu('file:printpreview');
             else if (this.mode.canPrint)
                 this.clickMenuFileItem(null, 'print');
+        },
+
+        onChangeViewMode: function (mode) {
+            if (mode === 'master') {
+                if (this.leftMenu.btnComments && this.leftMenu.btnComments.pressed) {
+                    this.leftMenu.close();
+                }
+            }
+            this.leftMenu.btnComments.setDisabled(mode === 'master');
         },
 
         textNoTextFound         : 'Text not found',
