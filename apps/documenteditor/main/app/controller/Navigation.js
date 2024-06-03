@@ -198,14 +198,12 @@ define([
                     });
                     store.add(added);
 
-                    if (me._currentPos > -1) {
+                    if (me._currentPos > -1 && me._currentPos < store.length) {
                         if (me._scrollTop > 0 && me.panelNavigation.viewNavigationList.childWillBeVisibleAtScroll(me._currentPos, me._scrollTop)) {
                             me.panelNavigation.viewNavigationList.scroller.el.scrollTop = me._scrollTop;
                         } else {
-                            if (me._currentPos < store.length) {
-                                me.onChangeOutlinePosition(me._currentPos);
-                                me._currentPos = -1;
-                            }
+                            me.onChangeOutlinePosition(me._currentPos);
+                            me._currentPos = -1;
                         }
                     }
                     addToPanel();
