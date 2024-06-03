@@ -170,6 +170,8 @@ define([
             }
 
             var me = this;
+            this._scrollTop = me.panelNavigation.viewNavigationList.scroller.el.scrollTop;
+
             var store = this.getApplication().getCollection('Navigation');
             store.reset(arr.splice(0, 50));
 
@@ -195,13 +197,21 @@ define([
                         item.set('isEmptyItem', me._navigationObject.isEmptyItem(idx));
                     });
                     store.add(added);
-                    if (me._currentPos>-1 && me._currentPos<store.length) {
-                        me.onChangeOutlinePosition(me._currentPos);
-                        me._currentPos = -1;
+
+                    if (me._currentPos > 1) {
+                        if (me._scrollTop > 0 && me.panelNavigation.viewNavigationList.willBeVisibleAtScroll(me._currentPos, me._scrollTop)) {
+                            me.panelNavigation.viewNavigationList.scroller.el.scrollTop = me._scrollTop;
+                        } else {
+                            if (me._currentPos < store.length) {
+                                me.onChangeOutlinePosition(me._currentPos);
+                                me._currentPos = -1;
+                            }
+                        }
                     }
                     addToPanel();
                 }, 1);
             }
+
             addToPanel();
         },
 
