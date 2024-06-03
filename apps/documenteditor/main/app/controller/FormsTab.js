@@ -462,6 +462,7 @@ define([
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
                 Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]})
                 if (!this._submitFail) {
+                    Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.view.textFilled);
                     if (!this.submitedTooltip) {
                         this.submitedTooltip = new Common.UI.SynchronizeTip({

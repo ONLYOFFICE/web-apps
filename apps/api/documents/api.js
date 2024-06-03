@@ -292,6 +292,7 @@
                 'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
                 'onSaveDocument': 'save document from binary',
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
+                'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
             }
         }
 
