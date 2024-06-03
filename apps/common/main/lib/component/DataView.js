@@ -1105,7 +1105,7 @@ define([
             this.focus(e.keyCode == Common.UI.Keys.DOWN ? 'first' : 'last');
         },
 
-        willBeVisibleAtScroll: function(index, scrollPosition) {
+        childWillBeVisibleAtScroll: function(index, scrollPosition) {
             var child = this.dataViewItems[index];
             if (!child) {
                 return false;

@@ -198,8 +198,8 @@ define([
                     });
                     store.add(added);
 
-                    if (me._currentPos > 1) {
-                        if (me._scrollTop > 0 && me.panelNavigation.viewNavigationList.willBeVisibleAtScroll(me._currentPos, me._scrollTop)) {
+                    if (me._currentPos > -1) {
+                        if (me._scrollTop > 0 && me.panelNavigation.viewNavigationList.childWillBeVisibleAtScroll(me._currentPos, me._scrollTop)) {
                             me.panelNavigation.viewNavigationList.scroller.el.scrollTop = me._scrollTop;
                         } else {
                             if (me._currentPos < store.length) {
