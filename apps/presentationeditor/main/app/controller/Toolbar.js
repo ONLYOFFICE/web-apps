@@ -3064,11 +3064,13 @@ define([
         },
 
         onApiLayoutTitle: function (status) {
-            this.toolbar.chTitle.setValue(status);
+            if ((this.toolbar.chTitle.getValue() === 'checked') !== status)
+                this.toolbar.chTitle.setValue(status, true);
         },
 
         onApiLayoutFooter: function (status) {
-            this.toolbar.chFooters.setValue(status);
+            if ((this.toolbar.chFooters.getValue() === 'checked') !== status)
+                this.toolbar.chFooters.setValue(status, true);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
