@@ -905,6 +905,7 @@ define([
                  this.view.btnSubmit.setDisabled(!_submitFail);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
+                    Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.textFilled);
                     this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
                     if (!this.submitedTooltip) {
