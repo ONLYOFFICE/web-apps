@@ -51,7 +51,7 @@ define([
                     '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
                     '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
                 '</div>' +
-                '<div class="separator long"></div>' +
+                '<div class="separator long slide-master-separator"></div>' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -475,9 +475,9 @@ define([
 
                     if (!config.isEdit) {
                         me.chRulers.hide();
-                    }
-                    if (!config.isEdit) {
                         me.btnGuides.$el.closest('.group').remove();
+                        me.btnSlideMaster.$el.closest('.group').remove();
+                        me.$el.find('.slide-master-separator').remove();
                     }
 
                     if (Common.UI.Themes.available()) {
