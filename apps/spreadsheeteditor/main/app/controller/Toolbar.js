@@ -435,6 +435,7 @@ define([
                 toolbar.btnInsertSlicer.on('click',                         _.bind(this.onInsertSlicerClick, this));
                 toolbar.btnTableTemplate.menu.on('show:after',              _.bind(this.onTableTplMenuOpen, this));
                 toolbar.btnPercentStyle.on('click',                         _.bind(this.onNumberFormat, this));
+                toolbar.btnCommaStyle.on('click',                           _.bind(this.onNumberFormat, this));
                 toolbar.btnCurrencyStyle.on('click',                        _.bind(this.onNumberFormat, this));
                 toolbar.btnDecDecimal.on('click',                           _.bind(this.onDecrement, this));
                 toolbar.btnIncDecimal.on('click',                           _.bind(this.onIncrement, this));
