@@ -759,6 +759,7 @@ define([
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
                         menu: true,
                         split: true,
+                        enableToggle: true,
                         currentType: 1,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
