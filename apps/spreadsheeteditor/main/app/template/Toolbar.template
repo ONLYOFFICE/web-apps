@@ -101,7 +101,7 @@
                         <span class="btn-slot" id="slot-btn-format" style="width: 100%"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-currency"></span>
+                        <span class="btn-slot split" id="slot-btn-currency" style="width: 42px"></span>
                         <span class="btn-slot split" id="slot-btn-percents"></span>
                         <span class="btn-slot split" id="slot-btn-comma"></span>
                         <span class="btn-slot split" id="slot-btn-digit-dec"></span>
