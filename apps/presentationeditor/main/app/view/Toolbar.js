@@ -756,7 +756,7 @@ define([
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-ins-content-placeholder',
                         caption: me.capInsertPlaceholder,
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
                         menu: true,
                         split: true,
                         currentType: 1,
@@ -767,7 +767,7 @@ define([
                     me.slideOnlyControls.push(me.btnInsertPlaceholder);
 
                     this.chTitle = new Common.UI.CheckBox({
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
                         labelText: this.textTitle,
                         dataHint    : '1',
                         dataHintDirection: 'left',
@@ -776,7 +776,7 @@ define([
                     this.slideOnlyControls.push(this.chTitle);
 
                     this.chFooters = new Common.UI.CheckBox({
-                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
                         labelText: this.textFooters,
                         dataHint    : '1',
                         dataHintDirection: 'left',

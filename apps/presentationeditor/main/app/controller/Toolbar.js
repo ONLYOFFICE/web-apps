@@ -836,7 +836,8 @@ define([
                 layout_index = -1,
                 no_columns = false,
                 in_smartart = false,
-                in_smartart_internal = false;
+                in_smartart_internal = false,
+                in_slide_master = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -850,6 +851,7 @@ define([
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
                     layout_index = pr.get_LayoutIndex();
+                    in_slide_master = pr.get_IsMasterSelected();
                 } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
@@ -968,6 +970,11 @@ define([
                 this.toolbar.mnuArrangeBack.setDisabled(in_smartart_internal);
                 this.toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
                 this.toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
+            }
+
+            if (this._state.in_slide_master !== in_slide_master) {
+                this.toolbar.lockToolbar(Common.enumLock.inSlideMaster, in_slide_master, {array: [me.toolbar.btnInsertPlaceholder, me.toolbar.chTitle, me.toolbar.chFooters]});
+                this._state.in_slide_master = in_slide_master;
             }
         },
 
