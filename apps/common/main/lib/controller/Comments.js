@@ -389,11 +389,7 @@ define([
         },
         onChangeComment: function (id, commentVal) {
             if (commentVal && commentVal.length > 0) {
-                var t = this,
-                    comment2 = null,
-                    addReply = null,
-                    comment = t.findComment(id),
-                    oldCommentVal = '';
+                var t = this, comment2 = null, comment = t.findComment(id), oldCommentVal = '';
 
                 if (comment) {
                     var ascComment = t.buildComment(comment);
@@ -427,8 +423,6 @@ define([
                             }
                         });
                     }
-
-                    console.log(ascComment, ascComment.asc_getText());
 
                     t.api.asc_changeComment(id, ascComment);
                     t.mode && t.mode.canRequestSendNotify && t.view.pickEMail(ascComment.asc_getGuid(), commentVal, oldCommentVal);
