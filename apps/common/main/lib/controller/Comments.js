@@ -423,10 +423,12 @@ define([
                         replies.forEach(function (reply) {
                             var ascReply = t.buildReplyComment(reply);
                             if (ascReply) {
-                                ascComment.asc_addReply(addReply);
+                                ascComment.asc_addReply(ascReply);
                             }
                         });
                     }
+
+                    console.log(ascComment, ascComment.asc_getText());
 
                     t.api.asc_changeComment(id, ascComment);
                     t.mode && t.mode.canRequestSendNotify && t.view.pickEMail(ascComment.asc_getGuid(), commentVal, oldCommentVal);
