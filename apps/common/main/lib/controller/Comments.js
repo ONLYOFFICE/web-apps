@@ -164,7 +164,9 @@ define([
 
             this.popoverComments                =   new Common.Collections.Comments();
             if (this.popoverComments) {
-                this.popoverComments.comparator =   function (collection) { return collection.get('time'); };
+                this.popoverComments.comparator = function (collection) {
+                    return collection.get('time') === null ? new Date().getTime() : collection.get('time');
+                };
             }
 
             this.groupCollection = [];
@@ -404,10 +406,6 @@ define([
                     ascComment.asc_putUserName(AscCommon.UserInfoParser.getCurrentName());
 
                     oldCommentVal = comment.get('comment');
-
-                    if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
-                        ascComment.asc_putDocumentFlag(comment.get('unattached'));
-                    }
 
                     comment.set('editTextInPopover', false);
 
@@ -944,9 +942,7 @@ define([
                         this.view.commentsView.scrollToRecord(comment);
                     this._dontScrollToComment = false;
                 }
-                comments.sort(function (a, b) {
-                    return a.get('time') - b.get('time');
-                });
+
                 this.popoverComments.reset(comments);
 
                 if (this.popoverComments.findWhere({hide: false})) {
@@ -1030,9 +1026,7 @@ define([
 
                             comments.push(comment);
                         }
-                        comments.sort(function (a, b) {
-                            return a.get('time') - b.get('time');
-                        });
+
                         this.popoverComments.reset(comments);
 
                         if (this.popoverComments.findWhere({hide: false})) {
