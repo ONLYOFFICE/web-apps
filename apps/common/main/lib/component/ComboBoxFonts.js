@@ -314,8 +314,8 @@ define([
                     '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<li class="divider">',
                     '<% _.each(items, function(item) { %>',
-                        '<li id="<%= item.id %>" role="menuitem">',
-                            '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
+                        '<li id="<%= item.id %>">',
+                            '<a class="font-item" tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                         '</li>',
                     '<% }); %>',
                     '</ul>',
@@ -599,7 +599,7 @@ define([
 
                     var $selectedItems = $('.selected', $(this.el));
                     $selectedItems.removeClass('selected');
-                    $selectedItems.attr('aria-checked', false);
+                    $selectedItems.find('a').attr('aria-checked', false);
 
                     if (record) {
                         this.setRawValue(record.get(this.displayField));
@@ -608,7 +608,7 @@ define([
 
                         if (itemNode && menuNode) {
                             itemNode.addClass('selected');
-                            itemNode.attr('aria-checked', true);
+                            itemNode.find('a').attr('aria-checked', true);
                             if (this.recent<=0)
                                 menuNode.scrollTop(itemNode.offset().top - menuNode.offset().top);
                         }
@@ -635,7 +635,7 @@ define([
             onInsertItem: function(item) {
                 $(this.el).find('ul').prepend(_.template([
                     '<li id="<%= item.id %>">',
-                        '<a class="font-item" tabindex="-1" type="menuitem" style="height:<%=scope.getListItemHeight()%>px;"></a>',
+                        '<a class="font-item" tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false" style="height:<%=scope.getListItemHeight()%>px;"></a>',
                     '</li>'
                 ].join(''))({
                     item: item.attributes,
@@ -734,7 +734,7 @@ define([
 
                 var $selectedItems = $('.selected', $(this.el));
                 $selectedItems.removeClass('selected');
-                $selectedItems.attr('aria-checked', false);
+                $selectedItems.find('a').attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     var itemNode = $('#' + this._selectedItem.get('id'), $(this.el)),
@@ -742,7 +742,7 @@ define([
 
                     if (itemNode.length > 0 && menuEl.length > 0) {
                         itemNode.addClass('selected');
-                        itemNode.attr('aria-checked', true);
+                        itemNode.find('a').attr('aria-checked', true);
 
                         var itemTop = itemNode.position().top,
                             menuTop = menuEl.scrollTop();

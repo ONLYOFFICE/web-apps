@@ -102,7 +102,7 @@ define([
                     '</button>',
                     '<ul id="<%= id %>-menu" class="dropdown-menu <%= menuCls %>" style="<%= menuStyle %>" role="menu">',
                         '<% _.each(items, function(item) { %>',
-                            '<li id="<%= item.id %>" data-value="<%- item.value %>" role="menuitem" aria-checked="false"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                            '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>',
                     '</ul>',
                 '</span>'
@@ -564,10 +564,10 @@ define([
                     record = this._selectedItem.toJSON();
                     var $selectedItems = $('.selected', $(this.el));
                     $selectedItems.removeClass('selected');
-                    $selectedItems.attr('aria-checked', false);
+                    $selectedItems.find('a').attr('aria-checked', false);
                     var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
                     $newSelectedItem.addClass('selected');
-                    $newSelectedItem.attr('aria-checked', true);
+                    $newSelectedItem.find('a').attr('aria-checked', true);
                 }
 
                 // trigger changed event
@@ -619,9 +619,9 @@ define([
                         var $selectedItems = $('.selected', $(this.el)),
                             $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
                         $selectedItems.removeClass('selected');
-                        $selectedItems.attr('aria-checked', false);
+                        $selectedItems.find('a').attr('aria-checked', false);
                         $newSelectedItem.addClass('selected');
-                        $newSelectedItem.attr('aria-checked', true);
+                        $newSelectedItem.find('a').attr('aria-checked', true);
                     }
                 }
             },
@@ -665,13 +665,13 @@ define([
 
                 var $selectedItems = $('.selected', $(this.el));
                 $selectedItems.removeClass('selected');
-                $selectedItems.attr('aria-checked', false);
+                $selectedItems.find('a').attr('aria-checked', false);
 
                 if (this._selectedItem) {
                     this.setRawValue(this._selectedItem.get(this.displayField));
                     var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
                     $newSelectedItem.addClass('selected');
-                    $newSelectedItem.attr('aria-checked', true);
+                    $newSelectedItem.find('a').attr('aria-checked', true);
                 } else {
                     this.setRawValue((defValue!==undefined) ? defValue : value);
                 }
@@ -711,17 +711,17 @@ define([
 
                 var $selectedItems = $('.selected', $(this.el));
                 $selectedItems.removeClass('selected');
-                $selectedItems.attr('aria-checked', false);
+                $selectedItems.find('a').attr('aria-checked', false);
                 this.setRawValue(this._selectedItem.get(this.displayField));
                 var $newSelectedItem = $('#' + this._selectedItem.get('id'), $(this.el));
                 $newSelectedItem.addClass('selected');
-                $newSelectedItem.attr('aria-checked', true);
+                $newSelectedItem.find('a').attr('aria-checked', true);
             },
 
             clearSelection: function (){
                 var $selectedItems = $('.selected', $(this.el));
                 $selectedItems.removeClass('selected');
-                $selectedItems.attr('aria-checked', false);
+                $selectedItems.find('a').attr('aria-checked', false);
                 this._selectedItem = null;
             },
 
@@ -739,9 +739,9 @@ define([
 
                     var $selectedItems = $('.selected', $(this.el));
                     $selectedItems.removeClass('selected');
-                    $selectedItems.attr('aria-checked', false);
+                    $selectedItems.find('a').attr('aria-checked', false);
                     el.addClass('selected');
-                    el.attr('aria-checked', true);
+                    el.find('a').attr('aria-checked', true);
 
                     // trigger changed event
                     this.trigger('selected', this, _.extend({}, this._selectedItem.toJSON()), e);
@@ -770,7 +770,7 @@ define([
                 } else {
                     $(this.el).find('ul').html(_.template([
                         '<% _.each(items, function(item) { %>',
-                           '<li id="<%= item.id %>" data-value="<%- item.value %>" role="menuitem" aria-checked="false"><a tabindex="-1" type="menuitem"><%= scope.getDisplayValue(item) %></a></li>',
+                           '<li id="<%= item.id %>" data-value="<%- item.value %>"><a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false"><%= scope.getDisplayValue(item) %></a></li>',
                         '<% }); %>'
                     ].join(''))({
                         items: this.store.toJSON(),
