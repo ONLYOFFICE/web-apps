@@ -432,6 +432,7 @@ define([
             if (this._state.isDocModified !== isModified) {
                 this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
             }
+            this.appOptions.canFillForms && this.api.isDocumentModified() && this.requiredTooltip && this.requiredTooltip.hide();
 
             this.updateWindowTitle();
         },
@@ -675,11 +676,9 @@ define([
                                 target: me.view.btnSubmit.$el,
                                 text: me.textRequired,
                                 showLink: false,
-                                closable: false,
-                                showButton: true,
-                                textButton: me.textGotIt
+                                closable: true
                             });
-                            me.requiredTooltip.on('buttonclick', function () {
+                            me.requiredTooltip.on('closeclick', function () {
                                 me.requiredTooltip.hide();
                             });
                         }

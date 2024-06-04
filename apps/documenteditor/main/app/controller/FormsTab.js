@@ -104,18 +104,18 @@ define([
                 dirLeft = Common.UI.isRTL() ? 'right' : 'left',
                 me = this;
             this._helpTips = {
-                'create': {name: 'de-form-tip-create', placement: 'bottom-' + dirRight, text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
-                'key': {name: 'de-form-tip-settings-key', placement: dirLeft + '-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
-                'group-key': {name: 'de-form-tip-settings-group', placement: dirLeft + '-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
-                'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
+                'create': {name: 'de-form-tip-create', placement: 'bottom-' + dirRight, text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field', showButton: true},
+                'key': {name: 'de-form-tip-settings-key', placement: dirLeft + '-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key', showButton: true},
+                'group-key': {name: 'de-form-tip-settings-group', placement: dirLeft + '-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key', showButton: true},
+                'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form', showButton: true},
                 // 'roles': {name: 'de-form-tip-roles', placement: 'bottom-' + dirLeft, text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
-                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined,
+                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save', showButton: true} : undefined,
                 'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit',
                                                             callback: function() {
                                                                 me.api.asc_MoveToFillingForm(true, true, true);
                                                                 me.view.btnSubmit.updateHint(me.view.textRequired);
-                                                            }} : undefined,
-                'submit-required': this.appConfig.isRestrictedEdit ? {placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit'} : undefined
+                                                            }, showButton: true} : undefined,
+                'submit-required': this.appConfig.isRestrictedEdit ? {placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit', closable: true} : undefined
             };
             !Common.localStorage.getItem(this._helpTips['key'].name) && this.addListeners({'RightMenu': {'rightmenuclick': this.onRightMenuClick}});
             this.addListeners({
@@ -135,6 +135,7 @@ define([
                     'tab:active': this.onActiveTab
                 }
             });
+            this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
         },
 
         SetDisabled: function(state) {
@@ -544,8 +545,8 @@ define([
                     text: props.text,
                     showLink: !!props.link,
                     textLink: props.link ? props.link.text : '',
-                    closable: false,
-                    showButton: true,
+                    closable: !!props.closable,
+                    showButton: !!props.showButton,
                     textButton: this.view.textGotIt
                 });
                 props.tip.on({
@@ -559,6 +560,10 @@ define([
                     'close': function() {
                         props.name && Common.localStorage.setItem(props.name, 1);
                         props.callback && props.callback();
+                    },
+                    'closeclick': function() {
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
                     }
                 });
                 props.tip.show();
@@ -653,6 +658,10 @@ define([
                 this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
                 isFilled && this.closeHelpTip('submit-required');
             }
+        },
+
+        onDocumentModifiedChanged: function() {
+            this.api.isDocumentModified() && this.closeHelpTip('submit-required');
         },
 
         onCountPages: function(count) {
