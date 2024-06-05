@@ -2417,6 +2417,7 @@
   "PE.Views.Statusbar.tipZoomIn": "Zoom in",
   "PE.Views.Statusbar.tipZoomOut": "Zoom out",
   "PE.Views.Statusbar.txtPageNumInvalid": "Invalid slide number",
+  "PE.Views.Statusbar.textSlideMaster": "Slide master",
   "PE.Views.TableSettings.deleteColumnText": "Delete column",
   "PE.Views.TableSettings.deleteRowText": "Delete row",
   "PE.Views.TableSettings.deleteTableText": "Delete table",
