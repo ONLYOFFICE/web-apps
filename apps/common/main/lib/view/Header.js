@@ -303,7 +303,10 @@ define([
             this.btnDocMode.setCaption(isEdit ? this.textEdit : isReview ? this.textReview : isViewForm ? this.textViewForm : this.textView);
             this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : isReview ? this.tipReview : isViewForm ? this.tipDocViewForm : this.tipDocView);
             this.btnDocMode.options.value = type;
-            show && !this.btnDocMode.isVisible() && this.btnDocMode.setVisible(true);
+            if (show && !this.btnDocMode.isVisible()) {
+                this.btnDocMode.setVisible(true);
+                Common.UI.TooltipManager.showHelpTip('docMode');
+            }
             if (this.btnDocMode.menu && typeof this.btnDocMode.menu === 'object') {
                 var item = _.find(this.btnDocMode.menu.items, function(item) { return item.value == type; });
                 (item) ? item.setChecked(true) : this.btnDocMode.menu.clearAll();
@@ -521,6 +524,7 @@ define([
                     items: arr
                 }));
                 me.btnQuickAccess.menu.on('show:before', function (menu) {
+                    Common.UI.TooltipManager.closeHelpTip('quickAccess');
                     menu.items.forEach(function (item) {
                         if (item.value === 'save') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true), true);
@@ -671,11 +675,15 @@ define([
                     menuAlign: 'tr-br',
                     items: arr
                 }));
+                me.btnDocMode.on('click', function (menu, item) {
+                    Common.UI.TooltipManager.closeHelpTip('docMode');
+                });
                 me.btnDocMode.menu.on('item:click', function (menu, item) {
                     Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
                 });
                 var item = _.find(me.btnDocMode.menu.items, function(item) { return item.value == type; });
                 item && item.setChecked(true);
+                me.btnDocMode.isVisible() && Common.UI.TooltipManager.showHelpTip('docMode');
             }
             if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
@@ -962,6 +970,10 @@ define([
                         me.btnDocMode.render($html.find('#slot-btn-edit-mode'));
                         changeDocMode.call(me);
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
+
+                        !config.isPDFForm && Common.UI.LayoutManager.isElementVisible('header-editMode') && Common.UI.TooltipManager.addHelpTips({
+                            'docMode' : {name: 'de-help-tip-doc-mode', placement: 'bottom-left', text: me.helpDocMode, header: me.helpDocModeHeader, target: '#slot-btn-edit-mode', next: 'quickAccess'}
+                        });
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
 
@@ -1041,6 +1053,10 @@ define([
                         dataHintOffset: config.isDesktopApp ? '10, -18' : '10, 10'
                     });
                     me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
+
+                    !config.isPDFForm && Common.UI.TooltipManager.addHelpTips({
+                        'quickAccess' : {name: 'common-help-tip-quick-access', placement: 'bottom-right', text: me.helpQuickAccess, header: me.helpQuickAccessHeader, target: '#slot-btn-dt-quick-access'}
+                    });
 
                     return $html;
                 }
@@ -1343,7 +1359,11 @@ define([
             textPrint: 'Print',
             textViewForm: 'Viewing form',
             tipDocViewForm: 'Viewing form',
-            textDocViewFormDesc: 'See how the form will look like when filling out'
+            textDocViewFormDesc: 'See how the form will look like when filling out',
+            helpDocMode: 'Easily change the way to work on your document: edit, track changes or view it only',
+            helpDocModeHeader: 'New Switch between modes',
+            helpQuickAccess: 'Select tools you need much more. While list is limited, but soon you can choose any features',
+            helpQuickAccessHeader: 'New Quick settings toolbar'
         }
     }(), Common.Views.Header || {}))
 });

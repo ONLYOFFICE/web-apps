@@ -102,6 +102,15 @@ define([
                 toolbar.numIndentsRight.on('change', me.onNumIndentsRightChange.bind(me));
                 toolbar.numIndentsLeft.on('inputleave', function(){ toolbar.fireEvent('editcomplete', toolbar);});
                 toolbar.numIndentsRight.on('inputleave', function(){ toolbar.fireEvent('editcomplete', toolbar);});
+
+                this.addListeners({
+                    'Toolbar': {
+                        'tab:active': this.onActiveTab
+                    }
+                });
+                !config.isPDFForm && Common.UI.TooltipManager.addHelpTips({
+                    'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: toolbar.helpPageColor, header: toolbar.helpPageColorHeader, target: '#slot-btn-pagecolor', next: 'quickAccess'}
+                });
             },
 
             setApi: function (api) {
@@ -351,6 +360,10 @@ define([
                     this.toolbar.numSpacingAfter.setValue((after !== null) ? ((after<0) ? after : Common.Utils.Metric.fnRecalcFromMM(after) ) : '', true);
                     this._state.LineSpacingAfter=after;
                 }
+            },
+
+            onActiveTab: function(tab) {
+                tab === 'layout' ? Common.UI.TooltipManager.showHelpTip('pageColor') : Common.UI.TooltipManager.closeHelpTip('pageColor');
             }
         }
     })());

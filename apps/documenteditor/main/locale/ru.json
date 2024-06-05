@@ -361,6 +361,7 @@
   "Common.UI.SearchDialog.txtBtnReplaceAll": "Заменить все",
   "Common.UI.SynchronizeTip.textDontShow": "Больше не показывать это сообщение",
   "Common.UI.SynchronizeTip.textSynchronize": "Документ изменен другим пользователем.<br>Нажмите, чтобы сохранить свои изменения и загрузить обновления.",
+  "Common.UI.SynchronizeTip.textGotIt": "ОК",
   "Common.UI.ThemeColorPalette.textRecentColors": "Недавние цвета",
   "Common.UI.ThemeColorPalette.textStandartColors": "Стандартные цвета",
   "Common.UI.ThemeColorPalette.textThemeColors": "Цвета темы",
