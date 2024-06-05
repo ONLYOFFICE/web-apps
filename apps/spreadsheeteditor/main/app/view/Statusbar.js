@@ -1112,10 +1112,12 @@ define([
             },
 
             template:   '<div class="box">' +
+                            '<% if ( supportBooks ) { %>' +
                             '<div class="input-row">' +
                                 '<label><%= labelSpreadsheet %></label>' +
                             '</div>' +
                             '<div id="status-cmb-spreadsheet" style="padding-bottom: 12px;"></div>' +
+                            '<% } %>' +
                             '<div class="input-row">' +
                                 '<label><%= labelMoveBefore %></label>' +
                             '</div>' +
@@ -1126,7 +1128,8 @@ define([
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
                     labelSpreadsheet: this.textSpreadsheet,
-                    labelMoveBefore: this.textMoveBefore
+                    labelMoveBefore: this.textMoveBefore,
+                    supportBooks: !!options.supportBooks
                 });
                 this.options.tpl = _.template(this.template)(this.options);
 
