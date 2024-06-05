@@ -2976,11 +2976,14 @@ define([
         },
 
         onChangeViewMode: function (mode) { // master or normal
-            this.toolbar.$el.find('.master-slide-mode')[mode==='master'?'show':'hide']();
-            this.toolbar.$el.find('.normal-mode')[mode==='normal'?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, mode==='master', { array:  this.btnsComment });
+            var isMaster = mode==='master';
+            this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
+            this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment });
 
-            mode==='master' && this.toolbar.setTab('ins');
+            isMaster && this.toolbar.setTab('ins');
+            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
+            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
         },
 
         onInsertSlideMaster: function () {
