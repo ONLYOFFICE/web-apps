@@ -597,10 +597,12 @@ define([
                 return;
             }
 
-            var btn;
+            var btn,
+                supportBooks = me.api.asc_isSupportCopySheetsBetweenBooks();
             me.copyDialog = new SSE.Views.Statusbar.CopyDialog({
                 title   : me.statusbar.itemMoveOrCopy,
                 sheets  : items,
+                supportBooks: supportBooks,
                 spreadsheetName: me.api.asc_getDocumentName(),
                 isDesktopApp: me.statusbar.mode.isDesktopApp,
                 handler : function(result, i, copy, workbook) {
@@ -642,7 +644,7 @@ define([
                     me.copyDialog.changeSpreadsheets(workbooks);
                 }
             };
-            me.api.asc_getOpeningDocumentsList(callback);
+            supportBooks && me.api.asc_getOpeningDocumentsList(callback);
         },
 
         onAddWorksheetClick: function(o, index, opts) {
