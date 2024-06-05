@@ -441,6 +441,8 @@ define([
             this._state.pageCount = count;
             this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setFixedValue('/ ' + count);
             this.toolbar.lockToolbar(Common.enumLock.singlePage, count<2, {array: [this.toolbar.btnDelPage]});
+            this.toolbar.lockToolbar(Common.enumLock.firstPage, this._state.currentPage<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+            this.toolbar.lockToolbar(Common.enumLock.lastPage, this._state.currentPage>=this._state.pageCount-1, {array: [this.toolbar.btnLastPage, this.toolbar.btnNextPage]});
         },
 
         onCurrentPage: function(value) {
