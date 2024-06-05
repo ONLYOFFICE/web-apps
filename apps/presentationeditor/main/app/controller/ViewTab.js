@@ -405,8 +405,8 @@ define([
                 this.view.btnSlideMaster.toggle(!state, true);
                 this.view.btnNormal.toggle(state, true);
             } // Asc.c_oAscPresentationViewMode.sorter;
-            this.api.asc_changePresentationViewMode(mode === 'master' ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
             this.view.fireEvent('viewmode:change', [mode]);
+            this.api.asc_changePresentationViewMode(mode === 'master' ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
         },
 
     }, PE.Controllers.ViewTab || {}));

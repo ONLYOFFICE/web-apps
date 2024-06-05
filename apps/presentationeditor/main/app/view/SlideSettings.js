@@ -81,6 +81,10 @@ define([
                 header: false
             };
             this._stateDisabled = {};
+            this._slideMaster = {
+                inMasterMode: false,
+                inMaster: false // not layout
+            };
 
             this._state = {
                 Transparency: null,
@@ -1505,10 +1509,17 @@ define([
             }
         },
 
-        setLocked: function (background, header) {
+        setSlideMasterMode: function (isMaster) {
+            this._slideMaster.inMasterMode = isMaster;
+        },
+
+        setLocked: function (background, header, inMaster) {
             this._locked = {
                 background: background, header: header
             };
+            if (this._slideMaster.inMasterMode) {
+                this._slideMaster.inMaster = inMaster;
+            }
         },
 
         SetSlideDisabled: function(background, header, props) {
@@ -1516,10 +1527,10 @@ define([
                 background: background, header: header
             };
             if (this._initSettings) return;
-            
+
             if(props) {
                 this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background);
-                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll());
+                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll() || this._slideMaster.inMasterMode);
             }
 
             if (background !== this._stateDisabled.background) {
@@ -1537,6 +1548,11 @@ define([
                 this.chSlideNum.setDisabled(header);
                 this.chDateTime.setDisabled(header);
                 this._stateDisabled.header = header;
+            }
+
+            if (this._slideMaster.inMaster !== this._stateDisabled.inMaster) {
+                this.chBackgroundGraphics.setDisabled(!!this._stateDisabled.background || this._slideMaster.inMaster);
+                this._stateDisabled.inMaster = this._slideMaster.inMaster;
             }
         },
 
