@@ -52,6 +52,8 @@ define([
 
         function _onCountPages(count){
             this.pages.set('count', count);
+            this.btnPagePrev && this.btnPagePrev.setDisabled(this.pages.get('current')<1);
+            this.btnPageNext && this.btnPageNext.setDisabled(this.pages.get('current')>=this.pages.get('count')-1);
         }
 
         function _onCurrentPage(number){
