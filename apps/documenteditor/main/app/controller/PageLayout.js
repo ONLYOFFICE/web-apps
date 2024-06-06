@@ -363,7 +363,11 @@ define([
             },
 
             onActiveTab: function(tab) {
-                tab === 'layout' ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
+                if (tab === 'layout') {
+                    Common.UI.TooltipManager.showTip('pageColor');
+                    Common.UI.TooltipManager.closeTip('quickAccess');
+                } else
+                    Common.UI.TooltipManager.closeTip('pageColor');
             }
         }
     })());

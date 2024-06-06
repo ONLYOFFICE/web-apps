@@ -274,6 +274,8 @@ define([
         },
 
         onProtectRangeClick: function() {
+            Common.UI.TooltipManager.closeTip('protectRange');
+
             var me = this,
                 win = new SSE.Views.ProtectedRangesManagerDlg({
                     api: me.api,
@@ -300,6 +302,15 @@ define([
                 me.view.btnProtectSheet.toggle(props.wsLock, true); //current sheet
                 Common.Utils.lockControls(Common.enumLock['Objects'], props.wsProps['Objects'], { array: [me.view.chLockedText, me.view.chLockedShape]});
                 Common.Utils.lockControls(Common.enumLock.wsLock, props.wsLock, { array: [me.view.btnAllowRanges]});
+
+                me.addListeners({
+                    'Toolbar': {
+                        'tab:active': me.onActiveTab
+                    }
+                });
+                Common.UI.TooltipManager.addTips({
+                    'protectRange' : {name: 'sse-help-tip-protect-range', placement: 'bottom-left', text: me.view.helpProtectRange, header: me.view.helpProtectRangeHeader, target: '#slot-btn-protect-range'}
+                });
             });
         },
 
@@ -376,6 +387,14 @@ define([
                 }
             }
             Common.Utils.lockControls(Common.enumLock.userProtected, !!info.asc_getUserProtected(), { array: [this.view.chLockedCell, this.view.chHiddenFormula]});
+        },
+
+        onActiveTab: function(tab) {
+            if (tab === 'protect') {
+                Common.UI.TooltipManager.showTip('protectRange');
+                Common.UI.TooltipManager.closeTip('quickAccess');
+            } else
+                Common.UI.TooltipManager.closeTip('protectRange');
         }
 
     }, SSE.Controllers.WBProtection || {}));

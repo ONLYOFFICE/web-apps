@@ -215,6 +215,7 @@ define([
             //     closable: false,
             //     callback: function() {} // call when close tip,
             //     next: '' // show next tooltip on close
+            //     prev: '' // don't show tooltip if the prev was not shown
             // }
         };
 
