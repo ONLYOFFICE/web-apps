@@ -1218,6 +1218,7 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
@@ -1548,7 +1549,8 @@ define([
                 cls: 'combo-textart',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                fillOnChangeVisibility: true
             });
             this.cmbTransform.render($('#textart-combo-transform'));
             this.cmbTransform.openButton.menu.cmpEl.css({
@@ -1692,7 +1694,8 @@ define([
                     cls: 'combo-textart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    fillOnChangeVisibility: true
                 });
                 this.cmbTextArt.render($('#textart-combo-template'));
                 this.cmbTextArt.openButton.menu.cmpEl.css({

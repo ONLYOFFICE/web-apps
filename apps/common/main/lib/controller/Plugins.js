@@ -70,7 +70,8 @@ define([
                             me.toolbar = toolbar;
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, Common.UI.LayoutManager.lastTabIdx);     // TODO: clear plugins list in left panel
                         }
-                    }
+                    },
+                    'tab:active': this.onActiveTab
                 },
                 'Common.Views.Plugins': {
                     'plugin:select': function(guid, type, isRun, closePanel) {
@@ -116,12 +117,15 @@ define([
             this.autostart = [];
             this.customPluginsDlg = [];
 
+            this.newInstalledBackgroundPlugins = [];
+
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
+            Common.NotificationCenter.on('modal:close', this.onModalClose.bind(this));
         },
 
         loadConfig: function(data) {
@@ -776,9 +780,9 @@ define([
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
-        onPluginsInit: function(pluginsdata) {
+        onPluginsInit: function(pluginsdata, fromManager) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata, false, true)
+            this.parsePlugins(pluginsdata, false, true, fromManager);
         },
 
         onPluginShowButton: function(id, toRight) {
@@ -816,7 +820,8 @@ define([
             });
         },
 
-        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
+        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate, fromManager) {
+            this.newInstalledBackgroundPlugins.length = 0;
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -848,7 +853,8 @@ define([
                         isBackgroundPlugin = false,
                         isSystem;
                     item.variations.forEach(function(itemVar, itemInd){
-                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
+                        var variationType = Asc.PluginType.getType(itemVar.type);
+                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === variationType);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
@@ -885,7 +891,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : false;
+                                isBackgroundPlugin = itemVar.type ? variationType === Asc.PluginType.Background : false;
                             }
                         }
                     });
@@ -915,6 +921,12 @@ define([
                             tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
+                        if (fromManager && !updatedItem && props.isBackgroundPlugin) {
+                            me.newInstalledBackgroundPlugins.push({
+                                name: name,
+                                guid: item.guid
+                            });
+                        }
                     }
                 });
 
@@ -1089,9 +1101,10 @@ define([
                 if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
+                var variationType = Asc.PluginType.getType(variation.type);
                 var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type),
-                    isPanel = variation.type === 'panel' || variation.type === 'panelRight';
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
+                    isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
@@ -1257,7 +1270,50 @@ define([
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
                 this.api.asc_pluginButtonClick(-1, guid, frameId);
-        }
+        },
+
+        onModalClose: function () {
+            var plugins = this.newInstalledBackgroundPlugins;
+            if (plugins && plugins.length > 0) {
+                var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
+                    Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
+                this.backgroundPluginsTip = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    placement: 'bottom',
+                    target: this.viewPlugins.backgroundBtn.$el,
+                    text: text,
+                    showLink: true,
+                    textLink: plugins.length > 1 ? this.textRunInstalledPlugins : this.textRunPlugin
+                });
+                this.backgroundPluginsTip.on('dontshowclick', function() {
+                    this.backgroundPluginsTip.close();
+                    this.backgroundPluginsTip = undefined;
+                    this.newInstalledBackgroundPlugins.forEach(_.bind(function (item) {
+                        this.api.asc_pluginRun(item.guid, 0, '');
+                    }, this));
+                    this.newInstalledBackgroundPlugins.length = 0;
+                }, this);
+                this.backgroundPluginsTip.on('closeclick', function () {
+                    this.backgroundPluginsTip.close();
+                    this.backgroundPluginsTip = undefined;
+                    this.newInstalledBackgroundPlugins.length = 0;
+                }, this);
+                this.backgroundPluginsTip.show();
+            }
+        },
+
+        onActiveTab: function (tab) {
+            if (tab !== 'plugins' && this.backgroundPluginsTip) {
+                this.backgroundPluginsTip.close();
+                this.backgroundPluginsTip = undefined;
+                this.newInstalledBackgroundPlugins.length = 0;
+            }
+        },
+
+        textRunPlugin: 'Run plugin',
+        textRunInstalledPlugins: 'Run installed plugins',
+        textPluginSuccessfullyInstalled: '<b>{0}</b> is successfully installed. You can access all background plugins here.',
+        textPluginsSuccessfullyInstalled: 'Plugins are successfully installed. You can access all background plugins here.'
 
     }, Common.Controllers.Plugins || {}));
 });

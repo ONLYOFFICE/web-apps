@@ -108,6 +108,11 @@ class SearchView extends Component {
                     },
                     searchbarEnable: (sb) => {
                         this.refSearchbarInput.focus();
+
+                        if(this.state.searchQuery.length > 0) {
+                            const searchInput = document.querySelector('.searchbar-input');
+                            searchInput.classList.add('input-with-value');
+                        }
                     }
                 }
             });
@@ -285,7 +290,7 @@ class SearchView extends Component {
                     </div>
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
-                            <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
+                            <input className={`searchbar-input ${searchQuery.length > 0 ? 'input-with-value' : ''}`} value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
                                 onKeyDown={e => this.onSearchKeyDown(e)}
                                 onInput={e => this.onSearchInput(e)}
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />

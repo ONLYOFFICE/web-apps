@@ -214,11 +214,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -254,6 +249,7 @@ define([
                 break;
                 case 'history':
                     if (!this.leftMenu.panelHistory.isVisible()) {
+                        Common.NotificationCenter.trigger('animpane:close');
                         if (this.api.isDocumentModified()) {
                             var me = this;
                             this.api.asc_stopSaving();

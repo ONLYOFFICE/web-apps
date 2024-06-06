@@ -136,7 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Salvare ca PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Salvare ca...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Formularul a fost trimis cu succes</b><br>Faceţi clic pentru a închide sfatul",
-  "DE.Controllers.ApplicationController.textSubmitOk": "Formularul dvs. PDF a fost salvat în secțiunea Finalizate. Puteți completa acest formular din nou și îl puteți trimite ca un alt rezultat.",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Formularul dvs. PDF a fost salvat în secțiunea Finalizate.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "Licența a expirat",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "Licența nu este activă",
   "DE.Controllers.ApplicationController.titleServerVersion": "Editorul a fost actualizat",

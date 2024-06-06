@@ -192,7 +192,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
-                    Common.NotificationCenter.on('pdf:mode',                        _.bind(this.onPdfModeChange, this));
+                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onPdfModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -399,7 +399,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -752,17 +752,23 @@ define([
                     if (toolbarView.btnStrikeout.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout')) {
                         if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight')
                             this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
-                        toolbarView.btnStrikeout.toggle(false, false);
+                        toolbarView.btnsStrikeout.forEach(function(button) {
+                            button.toggle(false, true);
+                        });
                     }
                     if (toolbarView.btnUnderline.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline')) {
                         if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight')
                             this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
-                        toolbarView.btnUnderline.toggle(false, false);
+                        toolbarView.btnsUnderline.forEach(function(button) {
+                            button.toggle(false, true);
+                        });
                     }
                     if (toolbarView.btnHighlight.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
                         if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout')
                             this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
-                        toolbarView.btnHighlight.toggle(false, false);
+                        toolbarView.btnsHighlight.forEach(function(button) {
+                            button.toggle(false, true);
+                        });
                     }
 
                     if (toolbarView.btnTextHighlightColor && toolbarView.btnTextHighlightColor.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-text-highlight')) {
@@ -1011,7 +1017,7 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", value);
 
                 /** coauthoring begin **/
-                me.onPdfModeApply();
+                me.onPdfModeCoAuthApply();
                 /** coauthoring end **/
 
                 var application                 = me.getApplication();
@@ -1333,7 +1339,8 @@ define([
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
                 this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
-                this.appOptions.isRestrictedEdit && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
+
                 this.api.asc_LoadDocument();
             },
 
@@ -1376,7 +1383,7 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave);
             },
 
-            onPdfModeChange: function(mode, callback) {
+            onPdfModeApply: function(mode) {
                 if (!this.appOptions.canSwitchMode) return;
 
                 if ((mode==='comment' || mode==='edit') && false) { // TODO: fix when use co-edit
@@ -1428,8 +1435,9 @@ define([
                 } else if (mode==='view') {
                     this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
                 }
-                callback && callback();
-                this.onPdfModeApply();
+                this.onPdfModeCoAuthApply();
+                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
+                Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
                 var app = this.getApplication(),
                     toolbar = app.getController('Toolbar');
                 toolbar.applyMode();
@@ -1441,7 +1449,7 @@ define([
                 toolbar.toolbar.processPanelVisible(null, true);
             },
 
-            onPdfModeApply: function() {
+            onPdfModeCoAuthApply: function() {
                 if (!this.api) return;
 
                 this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : this.appOptions.isForm;

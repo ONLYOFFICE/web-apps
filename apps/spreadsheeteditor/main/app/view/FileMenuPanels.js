@@ -31,7 +31,8 @@
  */
 define([
     'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/AutoCorrectDialog'
+    'common/main/lib/view/AutoCorrectDialog',
+    'common/main/lib/view/CustomizeQuickAccessDialog'
 ], function () {
     'use strict';
 
@@ -312,11 +313,14 @@ define([
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
-                '<tr class="quick-print">',
+                /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
                         '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
+                '</tr>',*/
+                '<tr class="edit quick-access">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
                 '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
@@ -495,7 +499,7 @@ define([
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
@@ -530,7 +534,7 @@ define([
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%;',
                 itemsTemplate: itemsTemplate,
@@ -570,7 +574,7 @@ define([
                 el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -600,7 +604,7 @@ define([
                 style       : 'width: 200px;',
                 menuStyle   : 'min-width:100%; max-height: 185px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 cls         : 'input-group-nr',
                 data        : formula_arr,
                 dataHint    : '2',
@@ -623,7 +627,7 @@ define([
                 el          : $markup.findById('#fms-cmb-reg-settings'),
                 style       : 'width: 200px;',
                 menuStyle   : 'min-width:100%; max-height: 185px;',
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : regdata
@@ -697,7 +701,7 @@ define([
                 el          : $markup.findById('#fms-cmb-macros'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -725,11 +729,16 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.btnCustomizeQuickAccess = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-customize-quick-access')
+            });
+            this.btnCustomizeQuickAccess.on('click', _.bind(this.customizeQuickAccess, this));
+
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 dataHint    : '2',
@@ -742,7 +751,7 @@ define([
                 cls: 'input-group-nr',
                 style: 'width: 200px;',
                 editable: false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -792,7 +801,7 @@ define([
                 })).on('click', _.bind(me.applySettings, me));
             });
 
-            this.chQuickPrint = new Common.UI.CheckBox({
+            /*this.chQuickPrint = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-quick-print'),
                 labelText: '',
                 dataHint: '2',
@@ -801,7 +810,7 @@ define([
             });
             this.chQuickPrint.$el.parent().on('click', function (){
                 me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
-            });
+            });*/
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
@@ -847,6 +856,14 @@ define([
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+                this.cmbZoom.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbUnit.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFontRender.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbMacros.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFuncLocale.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbRegSettings.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbDictionaryLanguage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -874,6 +891,9 @@ define([
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
+            if (mode.compactHeader) {
+                $('tr.quick-access', this.el).hide();
+            }
         },
 
         setApi: function(api) {
@@ -966,7 +986,7 @@ define([
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
-            this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
+            //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -1073,7 +1093,7 @@ define([
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
-            Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
+            //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
             if (this.menu) {
@@ -1164,6 +1184,23 @@ define([
                     this.$el.show();
                 }
             }
+        },
+
+        customizeQuickAccess: function () {
+            if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
+            this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
+                showSave: this.mode.showSaveButton,
+                showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
+                showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                props: {
+                    save: Common.localStorage.getBool('sse-quick-access-save', true),
+                    print: Common.localStorage.getBool('sse-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('sse-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('sse-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('sse-quick-access-redo', true)
+                }
+            });
+            this.dlgQuickAccess.show();
         },
 
         strZoom: 'Default Zoom Value',
@@ -1280,7 +1317,8 @@ define([
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
-        txtScreenReader: 'Turn on screen reader support'
+        txtScreenReader: 'Turn on screen reader support',
+        txtCustomizeQuickAccess: 'Customize quick access'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1660,6 +1698,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1693,6 +1732,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -2599,10 +2639,10 @@ define([
                     {value:'110|220',        displayValue:['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL'},
                     {value:'279.4|431.8',    displayValue:['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid'},
                     {value:'297|420',        displayValue:['A3', '29,7', '42', 'cm'], caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize'},
+                    {value:'296.9|457.2',    displayValue:['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize'},
                     {value:'196.8|273',      displayValue:['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3'}
+                    {value:'120|235',        displayValue:['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3'},
+                    {value:'305|487',        displayValue:['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3'}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',

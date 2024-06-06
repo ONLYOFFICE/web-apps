@@ -696,7 +696,8 @@ define([
                     cls: 'combo-slicer-style',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    fillOnChangeVisibility: true
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));
                 this.btnSlicerStyle.openButton.menu.cmpEl.css({

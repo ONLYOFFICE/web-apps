@@ -49,7 +49,7 @@ define([
         var template =
             '<section class="panel" data-tab="ins">' +
                 '<div class="group">' +
-                    '<span class="btn-slot text x-huge" id="slot-btn-addpage"></span>' +
+                    '<span class="btn-slot text x-huge slot-inspage"></span>' +
                 '</div>' +
                 '<div class="group" style="display:none;"></div>' +
                 '<div class="separator long"></div>' +
@@ -89,9 +89,6 @@ define([
             setEvents: function () {
                 var me = this;
 
-                me.btnAddPage.on('click', _.bind(function () {
-                    me.fireEvent('insert:page');
-                }, me));
                 // me.btnEditHeader.on('click', _.bind(function () {
                 //     me.fireEvent('insert:header', ['header']);
                 // }, me));
@@ -216,7 +213,7 @@ define([
                 me.btnInsertHyperlink = new Common.UI.Button({
                     id: 'tlbtn-insertlink',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-inserthyperlink',
+                    iconCls: 'toolbar__icon btn-big-inserthyperlink',
                     caption: me.capInsertHyperlink,
                     lock: [_set.hyperlinkLock, _set.paragraphLock, _set.lostConnect, _set.noParagraphSelected],
                     dataHint: '1',
@@ -293,18 +290,6 @@ define([
                 });
                 me.lockedControls.push(me.btnInsertShape);
 
-                me.btnAddPage = new Common.UI.Button({
-                    id: 'tlbtn-addpage',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-blankpage',
-                    caption: me.capAddPage,
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                me.lockedControls.push(me.btnAddPage);
-
                 me.cmbInsertShape = new Common.UI.ComboDataViewShape({
                     cls: 'combo-styles shapes',
                     itemWidth: 20,
@@ -336,7 +321,6 @@ define([
                     Common.Utils.injectComponent($host.find(id), cmp);
                 };
                 // _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
-                _injectComponent('#slot-btn-addpage', this.btnAddPage);
                 _injectComponent('#slot-btn-insertequation', this.btnInsertEquation);
                 _injectComponent('#slot-btn-inssymbol', this.btnInsertSymbol);
                 _injectComponent('#slot-btn-insertlink', this.btnInsertHyperlink);
@@ -355,9 +339,11 @@ define([
                         [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
                     this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape').add(this.toolbar.$el.find('.slot-insertshape')), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
                         [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                    this.btnsAddPage = Common.Utils.injectButtons($host.find('.slot-inspage').add(this.toolbar.$el.find('.slot-inspage')), 'tlbtn-insertpage-', 'toolbar__icon btn-blankpage', this.capInsPage,
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, false, '1', 'bottom', 'small');
                 }
 
-                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape);
+                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddPage);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
 
@@ -427,6 +413,25 @@ define([
                     );
                 });
 
+                me.btnsAddPage.forEach(function (btn) {
+                    btn.updateHint([me.tipInsertPageAfter, me.tipInsertPage]);
+                    btn.setMenu(
+                        new Common.UI.Menu({
+                            items: [
+                                {caption: me.txtNewPageBefore, value: true},
+                                {caption: me.txtNewPageAfter, value: false}
+                            ]
+                        }).on('item:click', function (menu, item, e) {
+                            me.fireEvent('insert:page', [item.value]);
+                        })
+                    );
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('insert:page');
+                    });
+                    if (btn.cmpEl.closest('[data-tab=ins]').length>0)
+                        btn.setCaption(me.capBlankPage);
+                });
+
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 // this.btnInsertChart.updateHint(this.tipInsertChart);
                 // this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -437,7 +442,6 @@ define([
                 // this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 // this.btnInsDateTime.updateHint(this.tipDateTime);
                 // this.btnInsSlideNum.updateHint(this.tipPageNum);
-                this.btnAddPage.updateHint(this.tipAddPage);
 /*
                 this.btnInsertChart.setMenu( new Common.UI.Menu({
                     style: 'width: 364px;padding-top: 12px;',
@@ -758,8 +762,6 @@ define([
             capInsertChart: 'Chart',
             capInsertHyperlink: 'Hyperlink',
             capInsertEquation: 'Equation',
-            capAddPage: 'Add Page',
-            tipAddPage: 'Add page',
             tipInsertChart: 'Insert Chart',
             tipPageNum: 'Insert page number',
             tipDateTime: 'Insert current date and time',
@@ -797,7 +799,13 @@ define([
             textYen: 'Yen Sign',
             capBtnInsHeaderFooter: 'Header & Footer',
             tipEditHeaderFooter: 'Edit header or footer',
-            textRecentlyUsed: 'Recently Used'
+            textRecentlyUsed: 'Recently Used',
+            tipInsertPageAfter: 'Insert blank page after',
+            tipInsertPage: 'Insert blank page',
+            txtNewPageBefore: 'Insert blank page before',
+            txtNewPageAfter: 'Insert blank page after',
+            capBlankPage: 'Blank Page',
+            capInsPage: 'Insert Page'
         }
     }()), PDFE.Views.InsTab || {}));
 });

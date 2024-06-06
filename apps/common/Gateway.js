@@ -413,6 +413,10 @@ if (window.Common === undefined) {
                 }, data.buffer);
             },
 
+            submitForm: function() {
+                _postMessage({event: 'onSubmit'});
+            },
+
             on: function(event, handler){
                 var localHandler = function(event, data){
                     handler.call(me, data)

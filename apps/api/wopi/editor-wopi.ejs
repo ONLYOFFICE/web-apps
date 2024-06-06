@@ -285,8 +285,11 @@ div {
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
 			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
 			fileType = fileType.toLowerCase();
-			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && queryParams.formsubmit !== "1";
-			let permissionsFillForm = permissionsEdit || queryParams.formsubmit === "1";
+			let customizationClose = !!(fileInfo.ClosePostMessage || fileInfo.CloseUrl);
+			let customizationSaveAs = fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative;
+			let customizationFormSubmit = queryParams.formsubmit === "1";
+			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
+			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
 			var config = {
 				"width": "100%",
 				"height": "100%",
@@ -306,6 +309,7 @@ div {
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
+                        "chat": queryParams.dchat!=="1",
                         "fillForms": permissionsFillForm
 					},
 					"options": {
@@ -323,6 +327,9 @@ div {
 					},
 					"customization": {
 						"about": true,
+						"close": {
+							"visible": customizationClose
+						},
 						"goback": {
 							"url": fileInfo.BreadcrumbFolderUrl
 						},
@@ -330,7 +337,7 @@ div {
                             "name": fileInfo.BreadcrumbBrandName,
                             "www": fileInfo.BreadcrumbBrandUrl
                         },
-                        "chat": queryParams.dchat!=="1",
+                        "submitForm": customizationFormSubmit && customizationSaveAs,
                         "uiTheme": queryParams.thm==="1" ? "default-light" : (queryParams.thm==="2" ? "default-dark" : undefined)
 					},
                     "coEditing": {
@@ -338,16 +345,17 @@ div {
                         "change": false
                     },
                     "wopi": {
-                        "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250
+                        "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250,
+                        "WOPISrc": userAuth.wopiSrc
                     }
 				},
 				"events": {
                     "onAppReady": onAppReady,
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
                     'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
-                    'onRequestSaveAs': fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative ? onRequestSaveAs : undefined,
+                    'onRequestSaveAs': customizationSaveAs ? onRequestSaveAs : undefined,
                     "onError": onError,
-                    "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
+                    "onRequestClose": customizationClose ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
                     "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined,

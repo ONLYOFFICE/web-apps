@@ -131,13 +131,6 @@ define([
                 me.synchTooltip = undefined;
                 me.needShowSynchTip = false;
 
-                me.SchemeNames = [me.txtScheme22,
-                    me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
-                    me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
-                    me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
-                    me.txtScheme16, me.txtScheme17, me.txtScheme18, me.txtScheme19, me.txtScheme20,
-                    me.txtScheme21
-                ];
                 me._state = {
                     hasCollaborativeChanges: undefined
                 };
@@ -870,7 +863,7 @@ define([
                     me.btnInsertHyperlink = new Common.UI.Button({
                         id: 'tlbtn-insertlink',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-inserthyperlink',
+                        iconCls: 'toolbar__icon btn-big-inserthyperlink',
                         caption: me.capInsertHyperlink,
                         lock: [_set.hyperlinkLock, _set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
                         dataHint: '1',
@@ -2040,17 +2033,16 @@ define([
                             schemecolors.push(clr);
                         }
 
-                        if (index == 22) {
+                        if (index == 24) {
                             mnuColorSchema.addItem({
                                 caption: '--'
                             });
                         }
-                        var name = schema.get_name();
                         mnuColorSchema.addItem({
                             template: itemTemplate,
                             cls: 'color-schemas-menu',
                             colors: schemecolors,
-                            caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
+                            caption: schema.get_name(),
                             value: index,
                             checkable: true,
                             toggleGroup: 'menuSchema'
@@ -2080,6 +2072,7 @@ define([
                     if (this.synchTooltip === undefined)
                         this.createSynchTip();
 
+                    this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                     this.synchTooltip.show();
                 } else {
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
@@ -2094,7 +2087,6 @@ define([
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
                     placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
-                    target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
@@ -2401,27 +2393,6 @@ define([
             tipSlideSize: 'Select Slide Size',
             tipInsertChart: 'Insert Chart',
             tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
-            txtScheme1: 'Office',
-            txtScheme2: 'Grayscale',
-            txtScheme3: 'Apex',
-            txtScheme4: 'Aspect',
-            txtScheme5: 'Civic',
-            txtScheme6: 'Concourse',
-            txtScheme7: 'Equity',
-            txtScheme8: 'Flow',
-            txtScheme9: 'Foundry',
-            txtScheme10: 'Median',
-            txtScheme11: 'Metro',
-            txtScheme12: 'Module',
-            txtScheme13: 'Opulent',
-            txtScheme14: 'Oriel',
-            txtScheme15: 'Origin',
-            txtScheme16: 'Paper',
-            txtScheme17: 'Solstice',
-            txtScheme18: 'Technic',
-            txtScheme19: 'Trek',
-            txtScheme20: 'Urban',
-            txtScheme21: 'Verve',
             tipSlideTheme: 'Slide Theme',
             tipSaveCoauth: 'Save your changes for the other users to see them.',
             textShowBegin: 'Show from Beginning',
@@ -2480,7 +2451,6 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             strMenuNoFill: 'No Fill',
             tipHighlightColor: 'Highlight color',
-            txtScheme22: 'New Office',
             textTabTransitions: 'Transitions',
             textTabAnimation: 'Animation',
             textRecentlyUsed: 'Recently Used',

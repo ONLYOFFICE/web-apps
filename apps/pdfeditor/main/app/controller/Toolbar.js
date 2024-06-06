@@ -70,6 +70,7 @@ define([
                 clrunderline: undefined,
                 clrhighlight: undefined,
                 pageCount: 1,
+                currentPage: 0,
                 bullets: {type:undefined, subtype:undefined},
                 linespace: undefined,
                 pralign: undefined,
@@ -150,6 +151,9 @@ define([
                 },
                 'ViewTab': {
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
+                },
+                'DocumentHolder': {
+                    'annotbar:create': this.onCreateAnnotBar.bind(this)
                 }
             });
 
@@ -218,15 +222,19 @@ define([
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
+            toolbar.btnEditMode.on('click', function (btn, e) {
+                Common.NotificationCenter.trigger('pdf:mode-apply', btn.pressed ? 'edit' : 'comment');
+            });
+            Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.changePDFMode, this));
             toolbar.btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
             toolbar.mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
-            toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
+            // toolbar.mnuStrikeoutTransparent.on('click',                 _.bind(this.onStrikeoutTransparentClick, this));
             toolbar.btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
             toolbar.mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
-            toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
+            // toolbar.mnuUnderlineTransparent.on('click',                 _.bind(this.onUnderlineTransparentClick, this));
             toolbar.btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
-            toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
+            // toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
@@ -234,6 +242,31 @@ define([
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
 
+        },
+
+        onCreateAnnotBar: function(btnStrikeout, mnuStrikeoutColorPicker, btnUnderline, mnuUnderlineColorPicker, btnHighlight, mnuHighlightColorPicker) {
+            var toolbar = this.toolbar;
+            btnStrikeout.currentColor = toolbar.btnStrikeout.currentColor;
+            btnStrikeout.setColor(btnStrikeout.currentColor);
+            btnStrikeout.toggle(toolbar.btnStrikeout.pressed, true);
+            toolbar.btnsStrikeout.push(btnStrikeout);
+            toolbar.mnusStrikeoutColorPicker.push(mnuStrikeoutColorPicker);
+            btnUnderline.currentColor = toolbar.btnUnderline.currentColor;
+            btnUnderline.setColor(btnUnderline.currentColor);
+            btnUnderline.toggle(toolbar.btnUnderline.pressed, true);
+            toolbar.btnsUnderline.push(btnUnderline);
+            toolbar.mnusUnderlineColorPicker.push(mnuUnderlineColorPicker);
+            btnHighlight.currentColor = toolbar.btnHighlight.currentColor;
+            btnHighlight.setColor(btnHighlight.currentColor);
+            btnHighlight.toggle(toolbar.btnHighlight.pressed, true);
+            toolbar.btnsHighlight.push(btnHighlight);
+            toolbar.mnusHighlightColorPicker.push(mnuHighlightColorPicker);
+            btnStrikeout.on('click',                            _.bind(this.onBtnStrikeout, this));
+            mnuStrikeoutColorPicker.on('select',                _.bind(this.onSelectStrikeoutColor, this));
+            btnUnderline.on('click',                            _.bind(this.onBtnUnderline, this));
+            mnuUnderlineColorPicker.on('select',                _.bind(this.onSelectUnderlineColor, this));
+            btnHighlight.on('click',                            _.bind(this.onBtnHighlight, this));
+            mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
         },
 
         attachPDFEditUIEvents: function(toolbar) {
@@ -285,6 +318,9 @@ define([
             toolbar.btnShapeAlign.menu.on('item:click',                 _.bind(this.onShapeAlign, this));
             toolbar.btnShapeAlign.menu.on('show:before',                _.bind(this.onBeforeShapeAlign, this));
             toolbar.btnShapeArrange.menu.on('item:click',               _.bind(this.onShapeArrange, this));
+            toolbar.btnRotatePage.menu.on('item:click',                 _.bind(this.onRotatePageMenu, this));
+            toolbar.btnRotatePage.on('click',                           _.bind(this.onRotatePage, this));
+            toolbar.btnDelPage.on('click',                              _.bind(this.onDelPage, this));
 
         },
 
@@ -404,9 +440,13 @@ define([
         onCountPages: function(count) {
             this._state.pageCount = count;
             this.toolbar && this.toolbar.fieldPages && this.toolbar.fieldPages.setFixedValue('/ ' + count);
+            this.toolbar.lockToolbar(Common.enumLock.singlePage, count<2, {array: [this.toolbar.btnDelPage]});
+            this.toolbar.lockToolbar(Common.enumLock.firstPage, this._state.currentPage<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
+            this.toolbar.lockToolbar(Common.enumLock.lastPage, this._state.currentPage>=this._state.pageCount-1, {array: [this.toolbar.btnLastPage, this.toolbar.btnNextPage]});
         },
 
         onCurrentPage: function(value) {
+            this._state.currentPage = value;
             if (this.toolbar) {
                 this.toolbar.fieldPages && this.toolbar.fieldPages.setValue(value + 1);
                 this.toolbar.lockToolbar(Common.enumLock.firstPage, value<1, {array: [this.toolbar.btnFirstPage, this.toolbar.btnPrevPage]});
@@ -788,6 +828,9 @@ define([
             }
             else {
                 this.api.SetMarkerFormat(btn.options.type, false);
+                this.toolbar.btnsStrikeout.forEach(function(button) {
+                    button.toggle(false, true);
+                });
             }
         },
 
@@ -809,23 +852,30 @@ define([
                 me._state.clrstrike = undefined;
                 // me.onApiHighlightColor();
 
-                me.toolbar.btnStrikeout.currentColor = strcolor;
-                me.toolbar.btnStrikeout.setColor(me.toolbar.btnStrikeout.currentColor);
-                me.toolbar.btnStrikeout.toggle(true, true);
+                me.toolbar.btnsStrikeout.forEach(function(button) {
+                    button.currentColor = strcolor;
+                    button.setColor(button.currentColor);
+                    button.getPicker().select(button.currentColor, true);
+                });
             }
+            me.toolbar.btnsStrikeout.forEach(function(button) { // press all strikeout buttons
+                button.toggle(true, true);
+            });
 
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
                 me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 0);
-                me.toolbar.mnuStrikeoutColorPicker && me.toolbar.mnuStrikeoutColorPicker.clearSelection();
-                me.toolbar.mnuStrikeoutTransparent.setChecked(true, true);
+                me.toolbar.mnusStrikeoutColorPicker.forEach(function(picker) {
+                    picker && picker.clearSelection();
+                });
+                // me.toolbar.mnuStrikeoutTransparent.setChecked(true, true);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnStrikeout.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
-                me.toolbar.mnuStrikeoutTransparent.setChecked(false, true);
+                // me.toolbar.mnuStrikeoutTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnStrikeout);
         },
@@ -836,6 +886,9 @@ define([
             }
             else {
                 this.api.SetMarkerFormat(btn.options.type, false);
+                this.toolbar.btnsUnderline.forEach(function(button) {
+                    button.toggle(false, true);
+                });
             }
         },
 
@@ -857,23 +910,30 @@ define([
                 me._state.clrunderline = undefined;
                 // me.onApiHighlightColor();
 
-                me.toolbar.btnUnderline.currentColor = strcolor;
-                me.toolbar.btnUnderline.setColor(me.toolbar.btnUnderline.currentColor);
-                me.toolbar.btnUnderline.toggle(true, true);
+                me.toolbar.btnsUnderline.forEach(function(button) {
+                    button.currentColor = strcolor;
+                    button.setColor(button.currentColor);
+                    button.getPicker().select(button.currentColor, true);
+                });
             }
+            me.toolbar.btnsUnderline.forEach(function(button) { // press all strikeout buttons
+                button.toggle(true, true);
+            });
 
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
                 me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 0);
-                me.toolbar.mnuUnderlineColorPicker && me.toolbar.mnuUnderlineColorPicker.clearSelection();
-                me.toolbar.mnuUnderlineTransparent.setChecked(true, true);
+                me.toolbar.mnusUnderlineColorPicker.forEach(function(picker) {
+                    picker && picker.clearSelection();
+                });
+                // me.toolbar.mnuUnderlineTransparent.setChecked(true, true);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnUnderline.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
-                me.toolbar.mnuUnderlineTransparent.setChecked(false, true);
+                // me.toolbar.mnuUnderlineTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnUnderline);
         },
@@ -884,6 +944,9 @@ define([
             }
             else {
                 this.api.SetMarkerFormat(btn.options.type, false);
+                this.toolbar.btnsHighlight.forEach(function(button) {
+                    button.toggle(false, true);
+                });
             }
         },
 
@@ -905,34 +968,47 @@ define([
                 me._state.clrhighlight = undefined;
                 // me.onApiHighlightColor();
 
-                me.toolbar.btnHighlight.currentColor = strcolor;
-                me.toolbar.btnHighlight.setColor(me.toolbar.btnHighlight.currentColor);
-                me.toolbar.btnHighlight.toggle(true, true);
+                me.toolbar.btnsHighlight.forEach(function(button) {
+                    button.currentColor = strcolor;
+                    button.setColor(button.currentColor);
+                    button.getPicker().select(button.currentColor, true);
+                });
             }
+            me.toolbar.btnsHighlight.forEach(function(button) { // press all strikeout buttons
+                button.toggle(true, true);
+            });
 
             strcolor = strcolor || 'transparent';
 
             if (strcolor == 'transparent') {
                 me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 0);
-                me.toolbar.mnuHighlightColorPicker && me.toolbar.mnuHighlightColorPicker.clearSelection();
-                me.toolbar.mnuHighlightTransparent.setChecked(true, true);
+                me.toolbar.mnusHighlightColorPicker.forEach(function(picker) {
+                    picker && picker.clearSelection();
+                });
+                // me.toolbar.mnuHighlightTransparent.setChecked(true, true);
             } else {
                 var r = strcolor[0] + strcolor[1],
                     g = strcolor[2] + strcolor[3],
                     b = strcolor[4] + strcolor[5];
                 me.api.SetMarkerFormat(me.toolbar.btnHighlight.options.type, true, 100, parseInt(r, 16), parseInt(g, 16), parseInt(b, 16));
-                me.toolbar.mnuHighlightTransparent.setChecked(false, true);
+                // me.toolbar.mnuHighlightTransparent.setChecked(false, true);
             }
             Common.NotificationCenter.trigger('edit:complete', me.toolbar, me.toolbar.btnHighlight);
         },
 
         onApiStartHighlight: function(type, pressed) {
             if (type === this.toolbar.btnHighlight.options.type)
-                this.toolbar.btnHighlight.toggle(pressed, true);
+                this.toolbar.btnsHighlight.forEach(function(button) {
+                    button.toggle(pressed, true);
+                });
             else if (type === this.toolbar.btnStrikeout.options.type)
-                this.toolbar.btnStrikeout.toggle(pressed, true);
+                this.toolbar.btnsStrikeout.forEach(function(button) {
+                    button.toggle(pressed, true);
+                });
             else if (type === this.toolbar.btnUnderline.options.type)
-                this.toolbar.btnUnderline.toggle(pressed, true);
+                this.toolbar.btnsUnderline.forEach(function(button) {
+                    button.toggle(pressed, true);
+                });
             else if (type===undefined)
                 this.toolbar.btnTextHighlightColor && this.toolbar.btnTextHighlightColor.toggle(pressed, true);
         },
@@ -944,9 +1020,9 @@ define([
         },
 
         onClearHighlight: function() {
-            this.toolbar.btnHighlight.toggle(false, true);
-            this.toolbar.btnStrikeout.toggle(false, true);
-            this.toolbar.btnUnderline.toggle(false, true);
+            this.toolbar.btnsHighlight.concat(this.toolbar.btnsStrikeout).concat(this.toolbar.btnsUnderline).forEach(function(button) {
+                button.toggle(false, true);
+            });
             this.toolbar.btnTextHighlightColor && this.toolbar.btnTextHighlightColor.toggle(false, true);
         },
 
@@ -1187,6 +1263,7 @@ define([
                     me.attachPDFEditUIEvents(toolbar);
                     me.fillFontsStore(toolbar.cmbFontName, me._state.fontname);
                     toolbar.lockToolbar(Common.enumLock.disableOnStart, false);
+                    me.onCountPages(me._state.pageCount);
                     me.onApiFocusObject([]);
                     me.api.UpdateInterfaceState();
                 }, 50);
@@ -1207,7 +1284,6 @@ define([
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);
             $host.find('.pdfedit').toggleClass('hidden', !this.mode.isPDFEdit);
-            this.mode.isPDFEdit && me.turnOnSelectTool();
         },
         
         onAppReady: function (config) {
@@ -2069,6 +2145,21 @@ define([
             }
         },
 
+        onDelPage: function() {
+            this.api && this.api.asc_RemovePage();
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRotatePage: function() {
+            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(this._state.currentPage) + 90);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
+        onRotatePageMenu: function(menu, item) {
+            this.api && this.api.asc_RotatePage(this.api.asc_GetPageRotate(this._state.currentPage) + item.value);
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+        },
+
         _clearBullets: function() {
             this.toolbar.btnMarkers.toggle(false, true);
             this.toolbar.btnNumbers.toggle(false, true);
@@ -2219,6 +2310,10 @@ define([
 
         onTextHighlightTransparentClick: function(item, e) {
             this._setMarkerColor('transparent', 'menu');
+        },
+
+        changePDFMode: function(data) {
+            this.toolbar && this.toolbar.btnEditMode && this.toolbar.btnEditMode.toggle(!!this.mode.isPDFEdit, true);
         },
 
         onPluginToolbarMenu: function(data) {

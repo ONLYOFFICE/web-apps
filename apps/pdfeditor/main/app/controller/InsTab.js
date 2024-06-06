@@ -354,7 +354,7 @@ define([
                 if (props) {
                     win = new PDFE.Views.HyperlinkSettingsDialog({
                         api: me.api,
-                        appOptions: me.appOptions,
+                        appOptions: me.mode,
                         handler: handlerDlg,
                         slides: _arr
                     });
@@ -492,7 +492,7 @@ define([
             btn.toggle(true);
             if(newType != oldType){
                 this.view.btnsInsertText.forEach(function(button) {
-                    button.updateHint([e.caption, self.views.Toolbar.prototype.tipInsertText]);
+                    button.updateHint([e.caption, self.views.tipInsertText]);
                     button.changeIcon({
                         next: e.options.iconClsForMainBtn,
                         curr: button.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
@@ -595,8 +595,8 @@ define([
             }
         },
 
-        onAddPage: function() {
-            this.api && this.api.asc_AddPage();
+        onAddPage: function(before) {
+            this.api && this.api.asc_AddPage(!!before);
         },
 /*
         mouseenterSmartArt: function (groupName, menu) {
@@ -1495,6 +1495,7 @@ define([
         txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
         txtMatrix_Flat_Square                      : 'Sparse Matrix',
+        textInsert: 'Insert'
 
     }, PDFE.Controllers.InsTab || {}));
 });

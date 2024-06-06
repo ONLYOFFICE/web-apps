@@ -345,9 +345,16 @@ Common.UI.FeaturesManager = new(function() {
         }
     };
 
+    var _isFeatureEnabled = function(name, force) {
+        if (!(_licensed || force) || !_config) return true;
+
+        return _config[name]!==false;
+    };
+
     return {
         init: _init,
         canChange: _canChange,
-        getInitValue: _getInitValue
+        getInitValue: _getInitValue,
+        isFeatureEnabled: _isFeatureEnabled
     }
 })();

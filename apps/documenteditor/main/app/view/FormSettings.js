@@ -111,6 +111,8 @@ define([
             this.DateOnlySettings = el.find('.form-datetime');
             this.DefValueText = el.find('#form-txt-def-value').closest('tr');
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
+
+            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
         },
 
         createDelayedElements: function() {
@@ -130,6 +132,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -241,6 +245,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [],
                 dataHint: '1',
@@ -372,6 +378,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -631,6 +639,8 @@ define([
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 style: 'width: 194px;',
                 editable: false,
                 template    : _.template(template.join('')),
@@ -661,6 +671,8 @@ define([
                 el: $markup.findById('#form-combo-format'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [{ displayValue: this.textNone,  value: Asc.TextFormFormatType.None },
                     { displayValue: this.textDigits,  value: Asc.TextFormFormatType.Digit },
@@ -698,6 +710,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [
                     { displayValue: this.textPhone1,  value: '(999)999-9999' },
@@ -748,6 +762,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [],
                 dataHint: '1',
@@ -776,6 +792,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: data,
                 dataHint: '1',

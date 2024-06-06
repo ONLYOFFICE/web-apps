@@ -685,12 +685,12 @@ define([
                     menuRoot.css('max-height', 'none');
                     menuH = menuRoot.outerHeight();
                     if (top + menuH > docH + cg.top) {
-                        top = docH - menuH;
+                        top = docH - menuH + cg.top;
                     }
                     if (top < cg.top)
                         top = cg.top;
                     if (top + menuH > docH + cg.top) {
-                        menuRoot.css('max-height', (docH - top) + 'px');
+                        menuRoot.css('max-height', (docH - top + cg.top) + 'px');
                         (!this.scroller) && (this.scroller = new Common.UI.Scroller({
                             el: this.$el.find('> .dropdown-menu '),
                             minScrollbarLength: 30,
@@ -724,7 +724,7 @@ define([
                             m = fixedAlign.match(/^([a-z]+)-([a-z]+)/);
                             top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1] + (fixedOffset || 0);
                         } else
-                            top = docH - menuH;
+                            top = docH - menuH + cg.top;
                     }
 
 

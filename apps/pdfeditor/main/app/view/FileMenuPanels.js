@@ -118,7 +118,7 @@ define([
 
             this.$el.html(this.template({rows:this.formats,
                 fileType: (this.fileType || 'docx').toLowerCase(),
-                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'DE.Views.FileMenu', default:this.textDownloadAs})}));
+                header: /*this.textDownloadAs*/ Common.Locale.get('btnDownloadCaption', {name:'PDFE.Views.FileMenu', default:this.textDownloadAs})}));
 
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
@@ -236,7 +236,7 @@ define([
 
             this.$el.html(this.template({rows:this.formats,
                 fileType: (this.fileType || 'docx').toLowerCase(),
-                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'DE.Views.FileMenu', default:this.textSaveCopyAs})}));
+                header: /*this.textSaveCopyAs*/ Common.Locale.get('btnSaveCopyAsCaption', {name:'PDFE.Views.FileMenu', default:this.textSaveCopyAs})}));
             $('.btn-doc-format',this.el).on('click', _.bind(this.onFormatClick,this));
 
             if (_.isUndefined(this.scroller)) {
@@ -349,12 +349,12 @@ define([
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
-                '<tr class="quick-print">',
+                /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
                     '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
-                '</tr>',
+                '</tr>',*/
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
@@ -463,7 +463,7 @@ define([
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 restoreMenuHeight: false,
                 menuStyle   : 'min-width:100%; max-height: 157px;',
@@ -557,7 +557,7 @@ define([
                 el          : $markup.find('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 itemsTemplate: itemsTemplate,
@@ -577,7 +577,7 @@ define([
                 el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -595,7 +595,7 @@ define([
                 style       : 'width: 160px;',
                 menuStyle   : 'min-width:100%;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -625,7 +625,7 @@ define([
                 dataHintOffset: 'small'
             });
 
-            this.chQuickPrint = new Common.UI.CheckBox({
+            /*this.chQuickPrint = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-quick-print'),
                 labelText: '',
                 dataHint: '2',
@@ -635,7 +635,7 @@ define([
 
             this.chQuickPrint.$el.parent().on('click', function (){
                 me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
-            });
+            });*/
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.find('.fms-flex-apply').addBack().filter('.fms-flex-apply');
@@ -677,6 +677,10 @@ define([
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+                this.cmbZoom.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbUnit.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFontRender.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -758,7 +762,7 @@ define([
             if (this.mode.canForcesave)
                 this.chForcesave.setValue(Common.Utils.InternalSettings.get("pdfe-settings-forcesave"));
 
-            this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("pdfe-settings-quick-print-button"));
+            //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("pdfe-settings-quick-print-button"));
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -806,7 +810,7 @@ define([
 
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
-            Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
+            //Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
 
             Common.localStorage.save();
 
@@ -1366,6 +1370,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1393,6 +1398,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1443,6 +1449,7 @@ define([
                     value = new Date(value);
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1457,6 +1464,7 @@ define([
                     value = new Date(value);
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -2408,10 +2416,10 @@ define([
                     { value: 6, displayValue: ['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL', size: [110, 220]},
                     { value: 7, displayValue: ['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid', size: [279.4, 431.8]},
                     { value: 8, displayValue: ['A3', '29,7', '42', 'cm'], caption: 'A3', size: [297, 420]},
-                    { value: 9, displayValue: ['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize', size: [304.8, 457.1]},
+                    { value: 9, displayValue: ['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize', size: [296.9, 457.2]},
                     { value: 10, displayValue: ['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K', size: [196.8, 273]},
-                    { value: 11, displayValue: ['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3', size: [119.9, 234.9]},
-                    { value: 12, displayValue: ['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3', size: [330.2, 482.5]},
+                    { value: 11, displayValue: ['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3', size: [120, 235]},
+                    { value: 12, displayValue: ['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3', size: [305, 487]},
                     { value: 13, displayValue: ['A4', '84,1', '118,9', 'cm'], caption: 'A0', size: [841, 1189]},
                     { value: 14, displayValue: ['A4', '59,4', '84,1', 'cm'], caption: 'A1', size: [594, 841]},
                     { value: 16, displayValue: ['A4', '42', '59,4', 'cm'], caption: 'A2', size: [420, 594]},
@@ -2503,6 +2511,7 @@ define([
                 parentEl: $markup.findById('#print-prev-page'),
                 cls: 'btn-prev-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });
@@ -2511,6 +2520,7 @@ define([
                 parentEl: $markup.findById('#print-next-page'),
                 cls: 'btn-next-page',
                 iconCls: 'arrow',
+                scaling: false,
                 dataHint: '2',
                 dataHintDirection: 'top'
             });

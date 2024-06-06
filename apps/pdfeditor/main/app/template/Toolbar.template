@@ -34,11 +34,15 @@
                 </div>
             </div>
             <div class="separator long"></div>
-            <div class="group annotate">
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-btn-tb-edit-mode"></span>
+            </div>
+            <div class="separator long"></div>
+            <div class="group">
                 <span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>
                 <span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>
             </div>
-            <div class="separator long annotate"></div>
+            <div class="separator long"></div>
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">
@@ -87,10 +91,6 @@
                     <span class="btn-slot text x-huge" id="slot-btn-form-save"></span>
                 </div>
                 <% } else { %>
-                <div class="group pdfedit">
-                    <span class="btn-slot text x-huge" id="slot-btn-edittext"></span>
-                </div>
-                <div class="separator long pdfedit"></div>
                 <div class="group small pdfedit">
                     <div class="elset" style="width:230px;">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
@@ -125,6 +125,16 @@
                         <span class="btn-slot split" id="slot-btn-linespace"></span>
                         <span class="btn-slot split" id="slot-btn-columns"></span>
                     </div>
+                </div>
+                <div class="separator long pdfedit"></div>
+                <div class="group pdfedit">
+                    <span class="btn-slot text x-huge" id="slot-btn-edittext"></span>
+                </div>
+                <div class="separator long pdfedit"></div>
+                <div class="group pdfedit">
+                    <span class="btn-slot text x-huge slot-inspage"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-rotate"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-deletepage"></span>
                 </div>
                 <div class="separator long pdfedit"></div>
                 <div class="group pdfedit">

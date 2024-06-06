@@ -136,7 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Enregistrer comme PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Enregistrer sous...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Le formulaire a été soumis avec succès</b><br>Cliquez ici pour fermer l'astuce",
-  "DE.Controllers.ApplicationController.textSubmitOk": "Votre formulaire PDF a été sauvegardé dans la section Terminés. Vous pouvez remplir à nouveau ce formulaire et envoyer un autre formulaire résultant.",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Votre formulaire PDF a été sauvegardé dans la section Terminés.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "Licence expirée",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "Licence non active",
   "DE.Controllers.ApplicationController.titleServerVersion": "L'éditeur est mis à jour",

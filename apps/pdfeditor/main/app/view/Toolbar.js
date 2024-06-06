@@ -94,7 +94,8 @@ define([
         inSmartart: 'in-smartart',
         inSmartartInternal: 'in-smartart-internal',
         inEquation: 'in-equation',
-        inAnnotation: 'in-annotation'
+        inAnnotation: 'in-annotation',
+        singlePage: 'single-page'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -141,9 +142,10 @@ define([
                 this.btnEditText = new Common.UI.Button({
                     id: 'id-toolbar-btn-edittext',
                     cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-edit-text',
+                    style: 'min-width: 45px;',
+                    iconCls: 'toolbar__icon btn-big-magic-wand',
                     lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: this.capBtnEditText,
+                    caption: this.capBtnRecognize,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -727,6 +729,37 @@ define([
                 this.shapeControls.push(this.btnShapeArrange);
                 arr.push(this.btnShapeArrange);
 
+                this.btnDelPage = new Common.UI.Button({
+                    id: 'id-toolbar-btn-delpage',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-rem-comment',
+                    lock: [_set.lostConnect, _set.disableOnStart, _set.singlePage],
+                    caption: this.capBtnDelPage,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                arr.push(this.btnDelPage);
+
+                this.btnRotatePage = new Common.UI.Button({
+                    id: 'tlbtn-rotate',
+                    cls: 'btn-toolbar x-huge icon-top',
+                    caption: this.capBtnRotatePage,
+                    split: true,
+                    iconCls: 'toolbar__icon btn-update',
+                    lock: [_set.lostConnect, _set.disableOnStart],
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small',
+                    menu: new Common.UI.Menu({
+                        items: [
+                            {caption: this.txtRotateRight, iconCls: 'menu__icon btn-rotate-90', value: 90},
+                            {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
+                        ]
+                    }),
+                });
+                arr.push(this.btnRotatePage);
+
                 return arr;
             },
 
@@ -761,22 +794,10 @@ define([
                     this.toolbarControls.push(this.btnSave);
                     this.btnCollabChanges = this.btnSave;
 
-                    // this.btnRotate = new Common.UI.Button({
-                    //     id: 'tlbtn-rotate',
-                    //     cls: 'btn-toolbar x-huge icon-top',
-                    //     iconCls: 'toolbar__icon btn-update',
-                    //     lock: [_set.disableOnStart],
-                    //     caption: this.capBtnRotate,
-                    //     dataHint: '1',
-                    //     dataHintDirection: 'bottom',
-                    //     dataHintOffset: 'small'
-                    // });
-                    // this.toolbarControls.push(this.btnRotate);
-
                     this.btnAddComment = new Common.UI.Button({
                         id: 'tlbtn-addcomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-add-comment',
+                        iconCls: 'toolbar__icon btn-big-add-comment',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnComment,
                         dataHint: '1',
@@ -788,7 +809,7 @@ define([
                     this.btnTextComment = new Common.UI.Button({
                         id: 'tlbtn-textcomment',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-text-comment',
+                        iconCls: 'toolbar__icon btn-big-text-comment',
                         lock: [_set.disableOnStart],
                         caption: this.capBtnTextComment,
                         menu: true,
@@ -818,12 +839,14 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
+                        hideColorLine: true,
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'},
+                        penOptions: {color: 'D43230'},
                         type: AscPDF.ANNOTATIONS_TYPES.Strikeout
                     });
+                    this.btnsStrikeout = [this.btnStrikeout];
 
                     this.btnUnderline = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-underline',
@@ -834,12 +857,14 @@ define([
                         allowDepress: true,
                         split: true,
                         menu: true,
+                        hideColorLine: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16',
-                        penOptions: {color: '000000'},
+                        penOptions: {color: '3D8A44'},
                         type: AscPDF.ANNOTATIONS_TYPES.Underline
                     });
+                    this.btnsUnderline = [this.btnUnderline];
 
                     this.btnHighlight = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
@@ -852,13 +877,27 @@ define([
                         menu: true,
                         type: AscPDF.ANNOTATIONS_TYPES.Highlight,
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintOffset: '0, -16',
                         penOptions: {color: 'FFFC54', colors: [
                                 'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
                                 '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
                             ]}
                     });
+                    this.btnsHighlight = [this.btnHighlight];
+
+                    this.btnEditMode = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-edit-text',
+                        style: 'min-width: 45px;',
+                        lock: [_set.lostConnect, _set.disableOnStart],
+                        caption: this.textEditMode,
+                        enableToggle: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.toolbarControls.push(this.btnEditMode);
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
@@ -1231,6 +1270,8 @@ define([
                 _injectComponent('#slot-btn-columns', this.btnColumns);
                 _injectComponent('#slot-btn-arrange-shape', this.btnShapeArrange);
                 _injectComponent('#slot-btn-align-shape', this.btnShapeAlign);
+                _injectComponent('#slot-btn-rotate', this.btnRotatePage);
+                _injectComponent('#slot-btn-deletepage', this.btnDelPage);
             },
 
             rendererComponentsAnnotate: function($host) {
@@ -1242,7 +1283,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
-                // _injectComponent('#slot-btn-rotate', this.btnRotate);
+                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
             },
 
             rendererComponentsCommon: function($host) {
@@ -1360,17 +1401,20 @@ define([
                     if (me.btnStrikeout && me.btnStrikeout.menu) {
                         var arr = me.createPen(me.btnStrikeout, 'strikeout', false, '-draw');
                         me.mnuStrikeoutColorPicker = arr[0];
-                        me.mnuStrikeoutTransparent = arr[1];
+                        me.mnusStrikeoutColorPicker = [me.mnuStrikeoutColorPicker];
+                        // me.mnuStrikeoutTransparent = arr[1];
                     }
                     if (me.btnUnderline && me.btnUnderline.menu) {
                         var arr = me.createPen(me.btnUnderline, 'underline', false, '-draw');
                         me.mnuUnderlineColorPicker = arr[0];
-                        me.mnuUnderlineTransparent = arr[1];
+                        me.mnusUnderlineColorPicker = [me.mnuUnderlineColorPicker];
+                        // me.mnuUnderlineTransparent = arr[1];
                     }
                     if (me.btnHighlight && me.btnHighlight.menu) {
                         var arr = me.createPen(me.btnHighlight, 'highlight', false, '-draw');
                         me.mnuHighlightColorPicker = arr[0];
-                        me.mnuHighlightTransparent = arr[1];
+                        me.mnusHighlightColorPicker = [me.mnuHighlightColorPicker];
+                        // me.mnuHighlightTransparent = arr[1];
                     }
 
                     if (me.btnTextComment) {
@@ -1381,14 +1425,14 @@ define([
                                     caption: me.tipInsertTextComment,
                                     iconCls     : 'menu__icon btn-text-comment',
                                     value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeText,
-                                    iconClsForMainBtn: 'btn-text-comment',
+                                    iconClsForMainBtn: 'btn-big-text-comment',
                                     captionForMainBtn: me.capBtnTextComment
                                 },
                                 {
                                     caption: me.tipInsertTextCallout,
                                     iconCls     : 'menu__icon btn-text-callout',
                                     value: AscPDF.FREE_TEXT_INTENT_TYPE.FreeTextCallout,
-                                    iconClsForMainBtn: 'btn-text-callout',
+                                    iconClsForMainBtn: 'btn-big-text-callout',
                                     captionForMainBtn: me.capBtnTextCallout
                                 },
                             ]
@@ -1433,15 +1477,14 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
-                // this.btnRotate.updateHint(this.tipRotate);
-
+                this.btnEditMode.updateHint(this.tipEditMode);
             },
 
             createDelayedElementsPDFEdit: function() {
                 if (!this.mode.isPDFEdit) return;
 
                 this.updateMetricUnit();
-                this.btnEditText.updateHint(this.tipEditText);
+                this.btnEditText.updateHint(this.tipRecognize);
                 this.btnIncFontSize.updateHint(this.tipIncFont + Common.Utils.String.platformKey('Ctrl+]'));
                 this.btnDecFontSize.updateHint(this.tipDecFont + Common.Utils.String.platformKey('Ctrl+['));
                 this.btnBold.updateHint(this.textBold + Common.Utils.String.platformKey('Ctrl+B'));
@@ -1464,6 +1507,8 @@ define([
                 this.btnColumns.updateHint(this.tipColumns);
                 this.btnShapeAlign.updateHint(this.tipShapeAlign);
                 this.btnShapeArrange.updateHint(this.tipShapeArrange);
+                this.btnRotatePage.updateHint([this.txtRotatePageRight, this.txtRotatePage]);
+                this.btnDelPage.updateHint(this.tipDelPage);
                 this.btnMarkers.setMenu(
                     new Common.UI.Menu({
                         cls: 'shifted-left',
@@ -1843,7 +1888,18 @@ define([
             capBtnTextCallout: 'Text Callout',
             tipInsertTextComment: 'Insert text comment',
             tipInsertTextCallout: 'Insert text callout',
-            tipInsertText: 'Insert text'
+            tipInsertText: 'Insert text',
+            textEditMode: 'Edit PDF',
+            tipEditMode: 'Add or edit text, shapes, images etc.',
+            capBtnRecognize: 'Recognize Page',
+            tipRecognize: 'Recognize page',
+            tipDelPage: 'Delete page',
+            capBtnDelPage: 'Delete Page',
+            capBtnRotatePage: 'Rotate Page',
+            txtRotateRight: 'Rotate right',
+            txtRotateLeft: 'Rotate left',
+            txtRotatePage: 'Rotate page',
+            txtRotatePageRight: 'Rotate page right',
         }
     })(), PDFE.Views.Toolbar || {}));
 });

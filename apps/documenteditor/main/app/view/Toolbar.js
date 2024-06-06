@@ -148,14 +148,6 @@ define([
                  * UI Components
                  */
 
-                this.SchemeNames = [ this.txtScheme22,
-                    this.txtScheme1, this.txtScheme2, this.txtScheme3, this.txtScheme4, this.txtScheme5,
-                    this.txtScheme6, this.txtScheme7, this.txtScheme8, this.txtScheme9, this.txtScheme10,
-                    this.txtScheme11, this.txtScheme12, this.txtScheme13, this.txtScheme14, this.txtScheme15,
-                    this.txtScheme16, this.txtScheme17, this.txtScheme18, this.txtScheme19, this.txtScheme20,
-                    this.txtScheme21
-                ];
-
                 this.paragraphControls = [];
                 this.toolbarControls = [];
                 this.textOnlyControls = [];
@@ -613,7 +605,7 @@ define([
                         autoText    : this.txtAutoText,
                         lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
-                        dataHintDirection: 'bottom',
+                        dataHintDirection: 'top',
                         dataHintOffset: 'big'
                     });
                     this.paragraphControls.push(this.numSpacingBefore);
@@ -637,7 +629,7 @@ define([
                         autoText    : this.txtAutoText,
                         lock: [_set.noParagraphSelected, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.fixedForm, _set.viewMode],
                         dataHint: '1',
-                        dataHintDirection: 'top',
+                        dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.numSpacingAfter);
@@ -1338,11 +1330,11 @@ define([
                                 },
                                 {
                                     caption: 'Tabloid Oversize',
-                                    subtitle: '30,48cm x 45,71cm',
+                                    subtitle: '29,69cm x 45,72cm',
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [304.8, 457.1]
+                                    value: [296.9, 457.2]
                                 },
                                 {
                                     caption: 'ROC 16K',
@@ -1354,19 +1346,19 @@ define([
                                 },
                                 {
                                     caption: 'Envelope Choukei 3',
-                                    subtitle: '11,99cm x 23,49cm',
+                                    subtitle: '12cm x 23,5',
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [119.9, 234.9]
+                                    value: [120, 235]
                                 },
                                 {
                                     caption: 'Super B/A3',
-                                    subtitle: '33,02cm x 48,25cm',
+                                    subtitle: '30,5cm x 48,7cm',
                                     template: pageSizeTemplate,
                                     checkable: true,
                                     toggleGroup: 'menuPageSize',
-                                    value: [330.2, 482.5]
+                                    value: [305, 487]
                                 },
                                 {caption: '--'},
                                 {caption: this.textPageSizeCustom, value: 'advanced'}
@@ -1580,8 +1572,29 @@ define([
                         dataHintOffset: 'small'
                     });
 
+                    me.btnPageColor = new Common.UI.ButtonColored({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-page-color',
+                        lock: [_set.docPropsLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnPageColor,
+                        menu: true,
+                        eyeDropper: false,
+                        hideColorLine: true,
+                        additionalItemsBefore: [
+                            me.mnuPageNoFill = new Common.UI.MenuItem({
+                                caption: me.strMenuNoFill,
+                                style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
+                                checkable: true
+                            }),
+                            {caption: '--'}
+                        ],
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+
                     me.toolbarControls.push(me.btnImgAlign,
-                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark);
+                        me.btnImgGroup, me.btnImgForward, me.btnImgBackward, me.btnImgWrapping, me.btnWatermark, me.btnPageColor);
 
                     //
                     // Menus
@@ -1873,6 +1886,18 @@ define([
                         });
                         this.toolbarControls.push(this.btnHandTool);
 
+                        this.btnEditMode = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-edit-text',
+                            style: 'min-width: 45px;',
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            caption: this.textEditMode,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnEditMode);
+
                         this.lockControls = this.toolbarControls.concat(this.paragraphControls);
                         this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
                     }
@@ -1961,6 +1986,7 @@ define([
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
                 _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
+                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
 
                 return $host;
             },
@@ -2043,6 +2069,7 @@ define([
                 _injectComponent('#slot-spin-space-after', this.numSpacingAfter);
                 _injectComponent('#slot-lbl-space-before', this.lblSpacingBefore);
                 _injectComponent('#slot-lbl-space-after', this.lblSpacingAfter);
+                _injectComponent('#slot-btn-pagecolor', this.btnPageColor);
 
                 this.btnsPageBreak = Common.Utils.injectButtons($host.find('.btn-slot.btn-pagebreak'), '', 'toolbar__icon btn-pagebreak', this.capBtnInsPagebreak,
                     [Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.inEquation, Common.enumLock.richDelLock,
@@ -2377,6 +2404,7 @@ define([
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
+                this.btnEditMode.updateHint(this.tipEditMode, true);
             },
 
             createDelayedElements: function () {
@@ -2444,6 +2472,8 @@ define([
                 this.btnCopyStyle.updateHint(this.tipCopyStyle + Common.Utils.String.platformKey('Alt+Ctrl+C'));
                 this.btnColorSchemas.updateHint(this.tipColorSchemas);
                 this.btnHyphenation.updateHint(this.tipHyphenation);
+                this.btnPageColor.updateHint(this.tipPageColor);
+
 
                 // set menus
 
@@ -3059,6 +3089,11 @@ define([
                     });
                     this.mnuHighlightControls.setInnerMenu([{menu: this.mnuControlsColorPicker, index: 2}]);
                 }
+
+                if (this.btnPageColor.cmpEl) {
+                    this.btnPageColor.setMenu();
+                    this.mnuPageColorPicker = this.btnPageColor.getPicker();
+                }
             },
 
             updateMetricUnit: function () {
@@ -3164,17 +3199,16 @@ define([
                         schemecolors.push(clr);
                     }
 
-                    if (index == 22) {
+                    if (index == 24) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
                         });
                     }
-                    var name = schema.get_name();
                     this.mnuColorSchema.addItem({
                         template: itemTemplate,
                         cls: 'color-schemas-menu',
                         colors: schemecolors,
-                        caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
+                        caption: schema.get_name(),
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
@@ -3197,6 +3231,7 @@ define([
                     if (this.synchTooltip === undefined)
                         this.createSynchTip();
 
+                    this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                     this.synchTooltip.show();
                 } else {
                     this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
@@ -3211,7 +3246,6 @@ define([
                 this.synchTooltip = new Common.UI.SynchronizeTip({
                     extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
                     placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
-                    target: this.btnCollabChanges.$el
                 });
                 this.synchTooltip.on('dontshowclick', function () {
                     this.showSynchTip = false;
@@ -3469,27 +3503,6 @@ define([
             textInText: 'In Text',
             textInMargin: 'In Margin',
             tipDropCap: 'Insert drop cap',
-            txtScheme1: 'Office',
-            txtScheme2: 'Grayscale',
-            txtScheme3: 'Apex',
-            txtScheme4: 'Aspect',
-            txtScheme5: 'Civic',
-            txtScheme6: 'Concourse',
-            txtScheme7: 'Equity',
-            txtScheme8: 'Flow',
-            txtScheme9: 'Foundry',
-            txtScheme10: 'Median',
-            txtScheme11: 'Metro',
-            txtScheme12: 'Module',
-            txtScheme13: 'Opulent',
-            txtScheme14: 'Oriel',
-            txtScheme15: 'Origin',
-            txtScheme16: 'Paper',
-            txtScheme17: 'Solstice',
-            txtScheme18: 'Technic',
-            txtScheme19: 'Trek',
-            txtScheme20: 'Urban',
-            txtScheme21: 'Verve',
             textInsPageBreak: 'Insert Page Break',
             textInsColumnBreak: 'Insert Column Break',
             textInsSectionBreak: 'Insert Section Break',
@@ -3610,7 +3623,6 @@ define([
             mniToggleCase: 'tOGGLE cASE',
             textChangeLevel: 'Change List Level',
             mniTextToTable: 'Convert Text to Table',
-            txtScheme22: 'New Office',
             mniFromFile: 'From File',
             mniFromUrl: 'From URL',
             mniFromStorage: 'From Storage',
@@ -3699,7 +3711,11 @@ define([
             textIndRight: 'Right indent',
             textSpaceBefore: 'Space before',
             textSpaceAfter: 'Space after',
-            txtAutoText: 'Auto'
+            txtAutoText: 'Auto',
+            textEditMode: 'Edit PDF',
+            tipEditMode: 'Edit current file.<br>The page will be reloaded.',
+            capBtnPageColor: 'Page Color',
+            tipPageColor: 'Change page color'
         }
     })(), DE.Views.Toolbar || {}));
 });

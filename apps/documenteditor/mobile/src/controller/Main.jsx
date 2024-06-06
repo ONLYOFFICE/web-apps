@@ -105,8 +105,24 @@ class MainController extends Component {
             "X Axis": "X Axis XAS",
             "Y Axis": "Y Axis",
             "Your text here": "Your text here",
-            "Zero Divide": "Zero Divide"
-        }
+            "Zero Divide": "Zero Divide",
+            "Default Paragraph Font": "Default Paragraph Font",
+            "No List": "No list",
+            "Intense Emphasis": "Intense Emphasis",
+            "Intense Reference": "Intense Reference",
+            "Subtle Emphasis": "Subtle Emphasis",
+            "Emphasis": "Emphasis",
+            "Strong": "Strong",
+            "Subtle Reference": "Subtle Reference",
+            "Book Title":"Book Title",
+            "footnote reference": "Footnote reference",
+            "endnote reference": "Endnote reference"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -220,11 +236,19 @@ class MainController extends Component {
                     }
                 }
 
-                let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
+                const fileType = data?.doc.fileType;
+                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
+                const isPDF = fileType === 'pdf';
 
-                if (type && typeof type[1] === 'string') {
+                if(isFormType) {
                     this.changeEditorBrandColorForPdf();
-                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                }
+
+                if(isPDF) {
+                    if(this.permissions.fillForms === undefined) {
+                        this.permissions.fillForms = this.permissions.edit !== false;
+                    }
+
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
 

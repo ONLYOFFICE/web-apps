@@ -105,7 +105,10 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                                  'Caption', 'endnote text'],
+                                  'Caption', 'endnote text', 'Default Paragraph Font', 'No List', 'Intense Emphasis', 'Intense Reference',  'Subtle Emphasis', 'Emphasis',
+                                  'Strong', 'Subtle Reference', 'Book Title',  'footnote reference', 'endnote reference'],
+                    schemeNames = ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+                                   'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -154,6 +157,9 @@ define([
                 };
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                schemeNames.forEach(function(item){
+                    translate[item] = me['txtScheme_' + item.replace(/[ -]/g, '_')] || item;
                 });
                 me.translationTable = translate;
             },
@@ -461,7 +467,7 @@ define([
                 this.appOptions.canFeatureContentControl = true;
                 this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
                 this.appOptions.isPDFForm = !!window.isPDFForm;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
@@ -573,9 +579,7 @@ define([
 
                 var type = data.doc ? /^(?:(docxf|oform)|(pdf))$/.exec(data.doc.fileType) : false;
                 this.appOptions.isFormCreator = !!(type && (typeof type[1] === 'string' || typeof type[2] === 'string' && this.appOptions.isPDFForm)) && this.appOptions.canFeatureForms; // show forms only for docxf or oform
-
-                type = data.doc ? /^(?:(oform))$/.exec(data.doc.fileType) : false;
-                this.appOptions.isOForm = !!(type && typeof type[1] === 'string');
+                this.appOptions.isOForm = !!(type && typeof type[1] === 'string'); // oform and docxf
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
                 this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
@@ -1661,6 +1665,8 @@ define([
                 this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm; // save to file or save to file copy (for pdf-form viewer)
 
                 if (this.appOptions.isPDFForm && !this.appOptions.isEdit) {
+                    if (!this.appOptions.isRestrictedEdit && !this.appOptions.canEdit)
+                        this.appOptions.canRequestEditRights = false; // if open form in viewer - check permissions.edit option
                     this.appOptions.canFillForms = this.appOptions.isRestrictedEdit = true; // can fill forms in viewer!
                 }
 
@@ -1829,12 +1835,17 @@ define([
                         header: {docmode: !!disableModeButton}
                     }, 'view');
 
+                    if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {
+                        var forms = this.getApplication().getController('FormsTab');
+                        forms && forms.changeViewFormMode(mode==='view-form');
+                    }
+
                     if (mode==='edit') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', false);
                     } else if (mode==='review') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', true);
                     }
-                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.None);
+                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : mode==='view-form' ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
                 }
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
@@ -3595,7 +3606,42 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            txtStyle_Default_Paragraph_Font: 'Default paragraph font',
+            txtStyle_No_List: 'No list',
+            txtStyle_Intense_Emphasis: 'Intense emphasis',
+            txtStyle_Intense_Reference: 'Intense reference',
+            txtStyle_Subtle_Emphasis: 'Subtle emphasis',
+            txtStyle_Emphasis: 'Emphasis',
+            txtStyle_Strong: 'Strong',
+            txtStyle_Subtle_Reference: 'Subtle reference',
+            txtStyle_Book_Title: 'Book Title',
+            txtStyle_footnote_reference: 'Footnote reference',
+            txtStyle_endnote_reference: 'Endnote reference',
+            txtScheme_Aspect: 'Aspect',
+            txtScheme_Blue_Green: 'Blue Green',
+            txtScheme_Blue_II: 'Blue II',
+            txtScheme_Blue_Warm: 'Blue Warm',
+            txtScheme_Blue: 'Blue',
+            txtScheme_Grayscale: 'Grayscale',
+            txtScheme_Green_Yellow: 'Green Yellow',
+            txtScheme_Green: 'Green',
+            txtScheme_Marquee: 'Marquee',
+            txtScheme_Median: 'Median',
+            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
+            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
+            txtScheme_Office: 'Office',
+            txtScheme_Orange_Red: 'Orange Red',
+            txtScheme_Orange: 'Orange',
+            txtScheme_Paper: 'Paper',
+            txtScheme_Red_Orange: 'Red Orange',
+            txtScheme_Red_Violet: 'Red Violet',
+            txtScheme_Red: 'Red',
+            txtScheme_Slipstream: 'Slipstream',
+            txtScheme_Violet_II: 'Violet II',
+            txtScheme_Violet: 'Violet',
+            txtScheme_Yellow_Orange: 'Yellow Orange',
+            txtScheme_Yellow: 'Yellow'
         }
     })(), DE.Controllers.Main || {}))
 });

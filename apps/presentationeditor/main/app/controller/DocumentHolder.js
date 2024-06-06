@@ -75,6 +75,11 @@ var c_paragraphSpecial = {
     HANGING: 2
 };
 
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
+};
+
 define([
     'core',
     'presentationeditor/main/app/view/DocumentHolder'
@@ -169,8 +174,7 @@ define([
             var me = this;
             Common.NotificationCenter.on({
                 'window:show': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreenTip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -181,8 +185,7 @@ define([
                     me.hideTips();
                 },
                 'layout:changed': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreenTip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -784,6 +787,11 @@ define([
             }
         },
 
+        hideScreenTip: function() {
+            this.screenTip.toolTip.hide();
+            this.screenTip.isVisible = false;
+        },
+
         getUserName: function(id){
             var usersStore = PE.getCollection('Common.Collections.Users');
             if (usersStore){
@@ -1146,7 +1154,7 @@ define([
             }
         },
 
-        onDialogAddHyperlink: function() {
+        onDialogAddHyperlink: function(isButton) {
             var win, props, text;
             var me = this;
             if (me.api && me.mode.isEdit && !me._isDisabled && !PE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
@@ -1175,11 +1183,16 @@ define([
                         api: me.api,
                         appOptions: me.mode,
                         handler: handlerDlg,
+                        type: isButton===true ? c_oHyperlinkType.InternalLink : undefined,
                         slides: _arr
                     });
 
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
+                    if (isButton && (isButton instanceof Asc.CHyperlinkProperty))
+                        props = isButton;
+                    else {
+                        props = new Asc.CHyperlinkProperty()
+                        props.put_Text(text);
+                    }
 
                     win.show();
                     win.setSettings(props);
@@ -1642,12 +1655,20 @@ define([
         },
 
         onInsertImage: function(placeholder, obj, x, y) {
+            if (placeholder) {
+                this.hideScreenTip();
+                this.onHidePlaceholderActions();
+            }
             if (this.api)
                 (placeholder) ? this.api.asc_addImage(obj) : this.api.ChangeImageFromFile();
             this.editComplete();
         },
 
         onInsertImageUrl: function(placeholder, obj, x, y) {
+            if (placeholder) {
+                this.hideScreenTip();
+                this.onHidePlaceholderActions();
+            }
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
                 handler: function(result, value) {
@@ -1897,6 +1918,8 @@ define([
 
         onClickPlaceholder: function(type, obj, x, y) {
             if (!this.api) return;
+            this.hideScreenTip();
+            this.onHidePlaceholderActions();
             if (type == AscCommon.PlaceholderButtonType.Video) {
                 this.api.asc_AddVideo(obj);
             } else if (type == AscCommon.PlaceholderButtonType.Audio) {

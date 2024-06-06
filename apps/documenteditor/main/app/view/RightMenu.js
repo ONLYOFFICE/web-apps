@@ -286,6 +286,7 @@ define([
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.formSettings && this.formSettings.setMode(mode);
+            this.headerSettings && this.headerSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {

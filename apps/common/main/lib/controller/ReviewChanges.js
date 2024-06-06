@@ -574,6 +574,7 @@ define([
 
             var lang = (this.appConfig ? this.appConfig.lang || 'en' : 'en').replace('_', '-').toLowerCase();
             try {
+                if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                 return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
             } catch (e) {
                 lang = 'en';

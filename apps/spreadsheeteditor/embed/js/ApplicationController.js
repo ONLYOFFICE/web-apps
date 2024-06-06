@@ -86,6 +86,7 @@ SSE.ApplicationController = new(function(){
             $('.viewer').addClass('top');
         }
 
+        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -627,8 +628,9 @@ SSE.ApplicationController = new(function(){
                 break;
 
             default:
-                message = me.errorDefaultMessage.replace('%1', id);
-                break;
+                // message = me.errorDefaultMessage.replace('%1', id);
+                // break;
+                return;
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {

@@ -375,7 +375,7 @@ define([
 
         onEndDemonstration: function( ) {
             this.hide();
-            this.fullScreenCancel();
+            Common.Utils.cancelFullscreen();
         },
 
         onDemonstrationStatus: function(status) {
@@ -386,10 +386,17 @@ define([
 
         toggleFullScreen: function() {
             if (!document.fullscreenElement && !document.msFullscreenElement && 
-                !document.mozFullScreenElement && !document.webkitFullscreenElement) {
-                this.fullScreen(document.documentElement);
+                !document.mozFullScreenElement && !document.webkitFullscreenElement)
+            {
+                if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
+                const elem = document.getElementById('pe-preview');
+                if ( elem ) {
+                    Common.Utils.startFullscreenForElement(elem);
+                    this.previewControls.css('display', 'none');
+                    this.$el.css('cursor', 'none');
+                }
             } else {
-                this.fullScreenCancel();
+                Common.Utils.cancelFullscreen();
             }
         },
 
