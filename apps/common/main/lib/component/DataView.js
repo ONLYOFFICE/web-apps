@@ -1111,10 +1111,13 @@ define([
                 return false;
             }
 
-            var elementOffset = child.$el.first().offset().top;
-            var viewportHeight = $(this.el).first().height();
+            var $childEl = child.$el.first();
+            var $containerEl = $(this.el).first();
 
-            return elementOffset >= scrollPosition && elementOffset < (scrollPosition + viewportHeight);
+            var elementOffset = $childEl.offset().top - $containerEl.offset().top + $containerEl.scrollTop();
+            var viewportHeight = scrollPosition + $containerEl.height() + $childEl.outerHeight();
+
+            return elementOffset - scrollPosition > 0 && elementOffset <= viewportHeight;
         }
     });
 
