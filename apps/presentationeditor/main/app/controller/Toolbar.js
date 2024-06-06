@@ -3052,7 +3052,7 @@ define([
                     break;
             }
 
-            this._addPlaceHolder(btn.pressed, type, isVertical);
+            this._addPlaceHolder(btn.pressed, value, isVertical);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Add Placeholder');
