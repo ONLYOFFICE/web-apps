@@ -108,8 +108,8 @@ define([
                         'tab:active': this.onActiveTab
                     }
                 });
-                !config.isPDFForm && Common.UI.TooltipManager.addHelpTips({
-                    'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: toolbar.helpPageColor, header: toolbar.helpPageColorHeader, target: '#slot-btn-pagecolor', next: 'quickAccess'}
+                !config.isPDFForm && Common.UI.TooltipManager.addTips({
+                    'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: toolbar.helpPageColor, header: toolbar.helpPageColorHeader, target: '#slot-btn-pagecolor'}
                 });
             },
 
@@ -363,7 +363,7 @@ define([
             },
 
             onActiveTab: function(tab) {
-                tab === 'layout' ? Common.UI.TooltipManager.showHelpTip('pageColor') : Common.UI.TooltipManager.closeHelpTip('pageColor');
+                tab === 'layout' ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
             }
         }
     })());

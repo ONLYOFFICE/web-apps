@@ -218,7 +218,19 @@ define([
             // }
         };
 
-        var _closeHelpTip = function(step, force) {
+        var _addTips = function(arr) {
+            for (var step in arr) {
+                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name)) {
+                    _helpTips[step] = arr[step];
+                }
+            }
+        };
+
+        var _getNeedShow = function(step) {
+            return _helpTips[step] && !(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name));
+        };
+
+        var _closeTip = function(step, force) {
             var props = _helpTips[step];
             if (props) {
                 props.tip && props.tip.close();
@@ -227,9 +239,9 @@ define([
             }
         };
 
-        var _showHelpTip = function(step) {
+        var _showTip = function(step) {
             if (!_helpTips[step]) return;
-            if (!(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name))) {
+            if (_getNeedShow(step) && !(_helpTips[step].prev && _getNeedShow(_helpTips[step].prev))) { // show current tip if previous tip has already been shown
                 var props = _helpTips[step],
                     target = props.target;
 
@@ -248,7 +260,7 @@ define([
 
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
-                    style: 'width:225px;',
+                    // style: 'width:225px;',
                     placement: placement,
                     target: target,
                     text: props.text,
@@ -273,7 +285,7 @@ define([
                     'close': function() {
                         props.name && Common.localStorage.setItem(props.name, 1);
                         props.callback && props.callback();
-                        props.next && _showHelpTip(props.next);
+                        props.next && _showTip(props.next);
                         delete _helpTips[step];
                     }
                 });
@@ -282,22 +294,10 @@ define([
             return true;
         };
 
-        var _addHelpTips = function(arr) {
-            for (var step in arr) {
-                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name)) {
-                    _helpTips[step] = arr[step];
-                }
-            }
-        };
-
-        var _getNeedShow = function(step) {
-            return _helpTips[step] && !Common.localStorage.getItem(_helpTips[step].name);
-        };
-
         return {
-            showHelpTip: _showHelpTip,
-            closeHelpTip: _closeHelpTip,
-            addHelpTips: _addHelpTips,
+            showTip: _showTip,
+            closeTip: _closeTip,
+            addTips: _addTips,
             getNeedShow: _getNeedShow
         }
     })();

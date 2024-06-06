@@ -1480,7 +1480,7 @@ define([
             if (!(e && e.target===e.currentTarget))
                 return;
 
-            Common.UI.TooltipManager.closeHelpTip('pageColor');
+            Common.UI.TooltipManager.closeTip('pageColor');
 
             var picker = this.toolbar.mnuPageColorPicker,
                 color = this.api.asc_getPageColor();
