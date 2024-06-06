@@ -37,17 +37,21 @@
         </section>
         <section class="box-panels">
             <section class="panel" data-tab="home">
-                <div class="group">
+                <div class="group normal-mode">
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
                 <div class="group" style="display:none;"></div>
-                <div class="group small">
+                <div class="group small normal-mode">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
                     </div>
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-preview"></span>
                     </div>
+                </div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
+                    <span class="btn-slot text x-huge slot-addlayout"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group small">
@@ -120,7 +124,23 @@
                 </div>
             </section>
             <section class="panel" data-tab="ins">
-                <div class="group">
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
+                    <span class="btn-slot text x-huge slot-addlayout"></span>
+                </div>
+                <div class="separator long master-slide-mode" style="display:none;"></div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge" id="slot-btn-insplaceholder"></span>
+                </div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <div class="elset">
+                        <span class="btn-slot text x-huge" id="slot-chk-title"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text x-huge" id="slot-chk-footers"></span>
+                    </div>
+                </div>
+                <div class="group normal-mode">
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
                 <div class="group" style="display:none;"></div>

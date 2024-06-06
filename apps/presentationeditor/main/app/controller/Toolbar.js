@@ -144,6 +144,12 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'insert:slide-master': this.onInsertSlideMaster.bind(this),
+                    'insert:layout'      : this.onInsertLayout.bind(this),
+                    'insert:placeholder-btn': this.onBtnInsertPlaceholder.bind(this),
+                    'insert:placeholder-menu': this.onMenuInsertPlaceholder.bind(this),
+                    'title:hide'         : this.onTitleHide.bind(this),
+                    'footers:hide'       : this.onFootersHide.bind(this)
                 },
                 'DocumentHolder': {
                     'smartart:mouseenter': this.mouseenterSmartArt,
@@ -196,7 +202,8 @@ define([
                     }
                 },
                 'ViewTab': {
-                    'toolbar:setcompact': this.onChangeCompactView.bind(this)
+                    'toolbar:setcompact': this.onChangeCompactView.bind(this),
+                    'viewmode:change': this.onChangeViewMode.bind(this)
                 }
             });
             Common.NotificationCenter.on('toolbar:collapse', _.bind(function () {
@@ -217,7 +224,8 @@ define([
                 if (cmp.attr('id') != 'editor_sdk' && cmp_sdk.length<=0) {
                     if ( me.toolbar.btnsInsertText.pressed() && !me.toolbar.btnsInsertText.contains(btn_id) ||
                             me.toolbar.btnsInsertShape.pressed() && !me.toolbar.btnsInsertShape.contains(btn_id) ||
-                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id)
+                            me.toolbar.cmbInsertShape.isComboViewRecActive() && me.toolbar.cmbInsertShape.id !== btn_id ||
+                            me.toolbar.btnInsertPlaceholder.pressed && me.toolbar.btnInsertPlaceholder.id !== btn_id)
                     {
                         me._isAddingShape         = false;
 
@@ -225,6 +233,7 @@ define([
                         me.toolbar.btnsInsertShape.toggle(false, true);
                         me.toolbar.btnsInsertText.toggle(false, true);
                         me.toolbar.cmbInsertShape.deactivateRecords();
+                        me.toolbar.btnInsertPlaceholder.toggle(false, true);
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                     } else
                     if ( me.toolbar.btnsInsertShape.pressed() && me.toolbar.btnsInsertShape.contains(btn_id) ) {
@@ -252,6 +261,9 @@ define([
                 if ( this.toolbar.cmbInsertShape.isComboViewRecActive() )
                     this.toolbar.cmbInsertShape.deactivateRecords();
 
+                if (this.toolbar.btnInsertPlaceholder.pressed)
+                    this.toolbar.btnInsertPlaceholder.toggle(false, true);
+
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
 
@@ -266,6 +278,18 @@ define([
                     }
                 }
             };
+
+            this._addPlaceHolder = function (isstart, type, isVertical) {
+                if (this.api) {
+                    if (isstart) {
+                        this.api.asc_StartAddPlaceholder(type, isVertical, true);
+                        $(document.body).on('mouseup', checkInsertAutoshape);
+                    } else {
+                        this.api.asc_StartAddPlaceholder('', undefined, false);
+                        $(document.body).off('mouseup', checkInsertAutoshape);
+                    }
+                }
+            }
         },
 
         onLaunch: function() {
@@ -440,6 +464,9 @@ define([
 
                 this.api.asc_registerCallback('asc_onLockSlideHdrFtrApplyToAll', _.bind(this.onApiLockSlideHdrFtrApplyToAll, this, true));
                 this.api.asc_registerCallback('asc_onUnLockSlideHdrFtrApplyToAll', _.bind(this.onApiLockSlideHdrFtrApplyToAll, this, false));
+
+                this.api.asc_registerCallback('asc_onLayoutTitle',          _.bind(this.onApiLayoutTitle, this));
+                this.api.asc_registerCallback('asc_onLayoutFooter',         _.bind(this.onApiLayoutFooter, this));
             } else if (this.mode.isRestrictedEdit) {
                 this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPagesRestricted, this));
             }
@@ -814,7 +841,8 @@ define([
                 layout_index = -1,
                 no_columns = false,
                 in_smartart = false,
-                in_smartart_internal = false;
+                in_smartart_internal = false,
+                in_slide_master = false;
 
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
@@ -828,6 +856,7 @@ define([
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
                     layout_index = pr.get_LayoutIndex();
+                    in_slide_master = pr.get_IsMasterSelected();
                 } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
@@ -946,6 +975,11 @@ define([
                 this.toolbar.mnuArrangeBack.setDisabled(in_smartart_internal);
                 this.toolbar.mnuArrangeForward.setDisabled(in_smartart_internal);
                 this.toolbar.mnuArrangeBackward.setDisabled(in_smartart_internal);
+            }
+
+            if (this._state.in_slide_master !== in_slide_master) {
+                this.toolbar.lockToolbar(Common.enumLock.inSlideMaster, in_slide_master, {array: [me.toolbar.btnInsertPlaceholder, me.toolbar.chTitle, me.toolbar.chFooters]});
+                this._state.in_slide_master = in_slide_master;
             }
         },
 
@@ -2798,7 +2832,7 @@ define([
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
                 var _set = Common.enumLock;
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides], undefined, undefined, undefined, '1', 'bottom', 'small');
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect, _set.noSlides, _set.slideMasterMode], undefined, undefined, undefined, '1', 'bottom', 'small');
 
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
@@ -2939,6 +2973,107 @@ define([
 
         onPluginToolbarMenu: function(data) {
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+        },
+
+        onChangeViewMode: function (mode) { // master or normal
+            var isMaster = mode==='master';
+            this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
+            this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment });
+
+            isMaster && this.toolbar.setTab('ins');
+            Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);
+            Common.NotificationCenter.trigger('tab:visible', 'animate', !isMaster);
+        },
+
+        onInsertSlideMaster: function () {
+            this.api.asc_AddMasterSlide();
+        },
+
+        onInsertLayout: function () {
+            this.api.asc_AddSlideLayout();
+        },
+
+        onBtnInsertPlaceholder: function (btn, e) {
+            btn.menu.items.forEach(function(item) {
+                if(item.value == btn.options.currentType)
+                    item.setChecked(true);
+            });
+            if(!btn.pressed) {
+                btn.menu.clearAll();
+            }
+            this.onInsertPlaceholder(btn.options.currentType, btn, e);
+        },
+
+        onMenuInsertPlaceholder: function (btn, e) {
+            var oldType = btn.options.currentType;
+            var newType = e.value;
+
+            if(newType != oldType){
+                btn.updateHint([e.options.hintForMainBtn, this.views.Toolbar.prototype.tipInsertPlaceholder]);
+                btn.changeIcon({
+                    next: e.options.iconClsForMainBtn,
+                    curr: btn.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                });
+                btn.options.currentType = newType;
+            }
+            this.onInsertPlaceholder(newType, btn, e);
+        },
+
+        onInsertPlaceholder: function (type, btn, e) {
+            var value,
+                isVertical;
+            switch (type) {
+                case 1:
+                    value = null;
+                    break;
+                case 2:
+                    value = null;
+                    isVertical = true;
+                    break;
+                case 3:
+                    value = AscFormat.phType_body;
+                    break;
+                case 4:
+                    value = AscFormat.phType_body;
+                    isVertical = true;
+                    break;
+                case 5:
+                    value = AscFormat.phType_pic;
+                    break;
+                case 6:
+                    value = AscFormat.phType_chart;
+                    break;
+                case 7:
+                    value = AscFormat.phType_tbl;
+                    break;
+                case 8:
+                    value = AscFormat.phType_dgm;
+                    break;
+            }
+
+            this._addPlaceHolder(btn.pressed, type, isVertical);
+
+            Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            Common.component.Analytics.trackEvent('ToolBar', 'Add Placeholder');
+        },
+
+        onTitleHide: function (view, status) {
+            this.api.asc_setLayoutTitle(status);
+        },
+
+        onFootersHide: function (view, status) {
+            this.api.asc_setLayoutFooter(status);
+        },
+
+        onApiLayoutTitle: function (status) {
+            if ((this.toolbar.chTitle.getValue() === 'checked') !== status)
+                this.toolbar.chTitle.setValue(status, true);
+        },
+
+        onApiLayoutFooter: function (status) {
+            if ((this.toolbar.chFooters.getValue() === 'checked') !== status)
+                this.toolbar.chFooters.setValue(status, true);
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',

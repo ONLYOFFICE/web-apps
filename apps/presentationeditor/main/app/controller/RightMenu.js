@@ -63,7 +63,8 @@ define([
                     'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'ViewTab': {
-                    'rightmenu:hide': _.bind(this.onRightMenuHide, this)
+                    'rightmenu:hide': _.bind(this.onRightMenuHide, this),
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoright': _.bind(this.addNewPlugin, this),
@@ -159,6 +160,7 @@ define([
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
                     /*this._settings[settingsType].lockedEffects = value.get_LockTransition();
                     this._settings[settingsType].lockedTransition = value.get_LockTransition();*/
+                    this._settings[settingsType].inMaster = value.get_IsMasterSelected();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
                     if (settingsType == Common.Utils.documentSettingsType.Shape) {
@@ -211,7 +213,7 @@ define([
                     if (i == Common.Utils.documentSettingsType.Slide) {
                         if (pnl.locked!==undefined)
                             this.rightmenu.slideSettings.setLocked(this._state.no_slides || pnl.lockedBackground || pnl.locked,
-                                                                          this._state.no_slides || pnl.lockedHeader || pnl.locked);
+                                                                          this._state.no_slides || pnl.lockedHeader || pnl.locked, pnl.inMaster);
                     } else
                         pnl.panel.setLocked(pnl.locked);
                 }
@@ -500,5 +502,10 @@ define([
                 this.rightmenu.fireEvent('editcomplete', this.rightmenu);
             }
         },
+
+        onChangeViewMode: function (mode) {
+            if (this.rightmenu && this.rightmenu.slideSettings)
+                this.rightmenu.slideSettings.setSlideMasterMode(mode==='master');
+        }
     });
 });
