@@ -265,9 +265,7 @@ define([
             txtSheetUnlockTitle: 'Unprotect Sheet',
             txtSheetUnlockDescription: 'Enter a password to unprotect sheet',
             hintProtectRange: 'Protect range',
-            txtProtectRange: 'Protect Range',
-            helpProtectRange: 'You can easily protect range',
-            helpProtectRangeHeader: 'New Protect range'
+            txtProtectRange: 'Protect Range'
         }
     }()), SSE.Views.WBProtection || {}));
 });

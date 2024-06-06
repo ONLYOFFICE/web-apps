@@ -3715,9 +3715,7 @@ define([
             textEditMode: 'Edit PDF',
             tipEditMode: 'Edit current file.<br>The page will be reloaded.',
             capBtnPageColor: 'Page Color',
-            tipPageColor: 'Change page color',
-            helpPageColorHeader: 'New Page color',
-            helpPageColor: 'Easily change page color'
+            tipPageColor: 'Change page color'
         }
     })(), DE.Views.Toolbar || {}));
 });

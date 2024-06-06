@@ -291,10 +291,6 @@ define([
                     }
                 }
             }
-
-            Common.UI.TooltipManager.addTips({
-                'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', next: 'quickAccess'}
-            });
         },
 
         onLaunch: function() {
@@ -318,6 +314,11 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            Common.UI.TooltipManager.addTips({
+                'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', automove: true},
+                'animPane' : {name: 'pe-help-tip-anim-pane', placement: 'bottom-left', text: this.helpAnimPane, header: this.helpAnimPaneHeader, target: '#animation-button-pane', automove: true},
+                'masterSlide' : {name: 'pe-help-tip-master-slide', placement: 'bottom-right', text: this.helpMasterSlide, header: this.helpMasterSlideHeader, target: '#slot-btn-slide-master'}
+            });
         },
 
         attachUIEvents: function(toolbar) {
@@ -3084,11 +3085,9 @@ define([
         },
 
         onActiveTab: function(tab) {
-            if (tab === 'home') {
-                Common.UI.TooltipManager.showTip('quickAccess');
-            } else {
-                Common.UI.TooltipManager.closeTip('colorSchema', false, tab === 'animate' || tab === 'view');
-            }
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('colorSchema');
+            (tab === 'animate') ? Common.UI.TooltipManager.showTip('animPane') : Common.UI.TooltipManager.closeTip('animPane');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('masterSlide') : Common.UI.TooltipManager.closeTip('masterSlide');
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
@@ -3438,7 +3437,11 @@ define([
         txtMatrix_Flat_Square                      : 'Sparse Matrix',
         textInsert: 'Insert',
         helpColorSchema: 'Change color scheme in all presentation in one click',
-        helpColorSchemaHeader: 'Try new Color schemes'
+        helpColorSchemaHeader: 'Try new Color schemes',
+        helpMasterSlide: 'Add text, image, table...',
+        helpMasterSlideHeader: 'Slide Master',
+        helpAnimPane: 'View and edit animation on this slide',
+        helpAnimPaneHeader: 'New Animation pane'
 
     }, PE.Controllers.Toolbar || {}));
 });

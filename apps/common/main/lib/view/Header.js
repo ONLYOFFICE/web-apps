@@ -54,7 +54,8 @@ define([
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
         var isPDFEditor = !!window.PDFE,
-            isDocEditor = !!window.DE;
+            isDocEditor = !!window.DE,
+            isSSEEditor = !!window.SSE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -561,7 +562,7 @@ define([
                     onChangeQuickAccess.call(me, 'header', props);
                 });
                 Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me, 'settings'));
-                Common.UI.TooltipManager.showTip('quickAccess');
+                isSSEEditor && Common.UI.TooltipManager.showTip('quickAccess');
             }
 
             if ( !appConfig.twoLevelHeader ) {
@@ -973,7 +974,7 @@ define([
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
 
                         !config.isPDFForm && Common.UI.LayoutManager.isElementVisible('header-editMode') && Common.UI.TooltipManager.addTips({
-                            'docMode' : {name: 'de-help-tip-doc-mode', placement: 'bottom-left', text: me.helpDocMode, header: me.helpDocModeHeader, target: '#slot-btn-edit-mode', next: 'quickAccess'}
+                            'docMode' : {name: 'de-help-tip-doc-mode', placement: 'bottom-left', text: me.helpDocMode, header: me.helpDocModeHeader, target: '#slot-btn-edit-mode'}
                         });
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
@@ -1055,8 +1056,8 @@ define([
                     });
                     me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
 
-                    !config.isPDFForm && !isPDFEditor && Common.UI.TooltipManager.addTips({
-                        'quickAccess' : {name: 'common-help-tip-quick-access', placement: 'bottom-right', text: me.helpQuickAccess, header: me.helpQuickAccessHeader, target: '#slot-btn-dt-quick-access', prev: isDocEditor ? 'docMode' : 'colorSchema'}
+                    isSSEEditor && Common.UI.TooltipManager.addTips({
+                        'quickAccess' : {name: 'common-help-tip-quick-access', placement: 'bottom-right', text: me.helpQuickAccess, header: me.helpQuickAccessHeader, target: '#slot-btn-dt-quick-access'}
                     });
 
                     return $html;

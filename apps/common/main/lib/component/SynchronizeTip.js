@@ -88,6 +88,8 @@ define([
                 this.textHeader = this.options.textHeader || '';
                 this.position = this.options.position; // show in the position relative to target
                 this.style = this.options.style || '';
+                this.automove = this.options.automove;
+                this.binding = {};
             },
 
             render: function() {
@@ -99,6 +101,7 @@ define([
                     this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
 
                     this.closable && this.cmpEl.addClass('closable');
+                    this.binding.windowresize = _.bind(this.applyPlacement, this);
                 }
 
                 this.applyPlacement();
@@ -112,16 +115,19 @@ define([
                     this.cmpEl.show()
                 } else
                     this.render();
+                this.automove && $(window).on('resize', this.binding.windowresize);
             },
 
             hide: function() {
                 if (this.cmpEl) this.cmpEl.hide();
                 this.trigger('hide');
+                this.automove && $(window).off('resize', this.binding.windowresize);
             },
 
             close: function() {
                 if (this.cmpEl) this.cmpEl.remove();
                 this.trigger('close');
+                this.automove && $(window).off('resize', this.binding.windowresize);
             },
 
             applyPlacement: function () {
@@ -212,7 +218,7 @@ define([
             //     target: '#id', // string or $el
             //     link: {text: 'link text', src: 'UsageInstructions\/....htm'}, // (or false) Open help page
             //     showButton: true, // true by default
-            //     closable: false,
+            //     closable: true, // true by default
             //     callback: function() {} // call when close tip,
             //     next: '' // show next tooltip on close
             //     prev: '' // don't show tooltip if the prev was not shown
@@ -262,15 +268,16 @@ define([
 
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
-                    // style: 'width:225px;',
+                    style: 'min-width:200px;',
                     placement: placement,
                     target: target,
                     text: props.text,
                     textHeader: props.header,
                     showLink: !!props.link,
                     textLink: props.link ? props.link.text : '',
-                    closable: !!props.closable,
-                    showButton: props.showButton !== false // true by default
+                    closable: props.closable !== false, // true by default
+                    showButton: props.showButton !== false, // true by default
+                    automove: !!props.automove
                 });
                 props.tip.on({
                     'buttonclick': function() {
