@@ -1210,6 +1210,62 @@ define([
                 }
             });
 
+            me.mnuInsertMaster = new Common.UI.MenuItem({
+                caption : me.textInsertSlideMaster,
+                value : 'ins-master'
+            });
+
+            me.mnuInsertLayout = new Common.UI.MenuItem({
+                caption : me.textInsertLayout,
+                value : 'ins-layout'
+            });
+
+            me.mnuDuplicateMaster = new Common.UI.MenuItem({
+                caption : me.textDuplicateSlideMaster,
+                value : 'duplicate-master'
+            });
+
+            me.mnuDeleteMaster = new Common.UI.MenuItem({
+                caption : me.textDeleteMaster,
+                value : 'delete-master'
+            });
+
+            me.mnuDuplicateLayout = new Common.UI.MenuItem({
+                caption : me.textDuplicateLayout,
+                value : 'duplicate-master'
+            });
+
+            me.mnuDeleteLayout = new Common.UI.MenuItem({
+                caption : me.textDeleteLayout,
+                value : 'delete-layout'
+            });
+
+            me.slideMasterMenu = new Common.UI.Menu({
+                //cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    var isMaster = value.isMaster;
+
+                    me.mnuDuplicateMaster.setVisible(isMaster);
+                    me.mnuDeleteMaster.setVisible(isMaster);
+                    me.mnuDuplicateLayout.setVisible(!isMaster);
+                    me.mnuDeleteLayout.setVisible(!isMaster);
+
+                    isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
+                    !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
+                },
+                items: [
+                    me.mnuInsertMaster,
+                    me.mnuInsertLayout,
+                    me.mnuDuplicateMaster,
+                    me.mnuDuplicateLayout,
+                    {caption: '--'},
+                    me.mnuDeleteMaster,
+                    me.mnuDeleteLayout
+                ]
+            });
+
             me.mnuTableMerge = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
@@ -2949,7 +3005,13 @@ define([
         textStartOnClick: 'Start On Click',
         textStartWithPrevious: 'Start With Previous',
         textStartAfterPrevious: 'Start After Previous',
-        textRemove: 'Remove'
+        textRemove: 'Remove',
+        textInsertSlideMaster: 'Insert Slide Master',
+        textInsertLayout: 'Insert Layout',
+        textDuplicateSlideMaster: 'Duplicate Slide Master',
+        textDeleteMaster: 'Delete Master',
+        textDuplicateLayout: 'Duplicate Layout',
+        textDeleteLayout: 'Delete Layout'
 
     }, PE.Views.DocumentHolder || {}));
 });

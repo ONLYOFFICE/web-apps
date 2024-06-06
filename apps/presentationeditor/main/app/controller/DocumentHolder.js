@@ -462,6 +462,12 @@ define([
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
             view.timelineZoomMenu.on('item:click', _.bind(me.onTimelineZoom, me));
             view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
+            view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
+            view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
+            view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));
+            view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
+            view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
+            view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
         },
 
         getView: function (name) {
@@ -647,6 +653,10 @@ define([
                     me.showPopupMenu.call(me, me.documentHolder.timelineZoomMenu, undefined, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
                     me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
+                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Master) {
+                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: true}, event);
+                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Layout) {
+                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: false}, event);
                 } else {
                     me.showObjectMenu.call(me, event);
                 }
@@ -2809,6 +2819,30 @@ define([
             } else {
                 this.api.asc_SetSelectedAnimEffectsStartType(item.value);
             }
+        },
+
+        onInsertMaster: function () {
+            this.api.asc_AddMasterSlide();
+        },
+
+        onInsertLayout: function () {
+            this.api.asc_AddSlideLayout();
+        },
+
+        onDuplicateMaster: function () {
+            this.api.asc_DuplicateMaster();
+        },
+
+        onDuplicateLayout: function () {
+            this.api.asc_DuplicateLayout();
+        },
+
+        onDeleteMaster: function () {
+            this.api.asc_DeleteMaster();
+        },
+
+        onDeleteLayout: function () {
+            this.api.asc_DeleteLayout();
         }
     });
 });

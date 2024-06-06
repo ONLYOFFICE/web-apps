@@ -103,6 +103,8 @@ define([
         copyLock:   'can-copy',
         fileMenuOpened: 'file-menu-opened',
         noParagraphObject:  'no-paragraph-obj',
+        inSlideMaster: 'in-slide-master',
+        slideMasterMode: 'slide-master-mode'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -742,6 +744,40 @@ define([
                     });
                     me.paragraphControls.push(me.btnColumns);
 
+                    me.btnInsertPlaceholder = new Common.UI.Button({
+                        id: 'tlbtn-insertplaceholder',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-ins-content-placeholder',
+                        caption: me.capInsertPlaceholder,
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        menu: true,
+                        split: true,
+                        enableToggle: true,
+                        currentType: 1,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    me.slideOnlyControls.push(me.btnInsertPlaceholder);
+
+                    this.chTitle = new Common.UI.CheckBox({
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        labelText: this.textTitle,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
+                    });
+                    this.slideOnlyControls.push(this.chTitle);
+
+                    this.chFooters = new Common.UI.CheckBox({
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
+                        labelText: this.textFooters,
+                        dataHint    : '1',
+                        dataHintDirection: 'left',
+                        dataHintOffset: 'small'
+                    });
+                    this.slideOnlyControls.push(this.chFooters);
+
                     me.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1173,7 +1209,8 @@ define([
                         this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
                         this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
                         this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart, this.btnInsertSmartArt,
-                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape
+                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape,
+                        this.btnInsertPlaceholder, this.chTitle, this.chFooters
                     ];
 
                     // Disable all components before load document
@@ -1313,6 +1350,9 @@ define([
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
                 _injectComponent('#slot-btn-slidenum', this.btnInsSlideNum);
                 _injectComponent('#slot-combo-insertshape', this.cmbInsertShape);
+                _injectComponent('#slot-btn-insplaceholder', this.btnInsertPlaceholder);
+                _injectComponent('#slot-chk-title', this.chTitle);
+                _injectComponent('#slot-chk-footers', this.chFooters);
 
                 this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
                 this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
@@ -1329,7 +1369,12 @@ define([
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
                     [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small');
 
-                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide);
+                this.btnsAddSlideMaster = Common.Utils.injectButtons($host.find('.slot-addslidemaster'), 'tlbtn-addslidemaster-', 'toolbar__icon btn-add-slide-master', this.capAddSlideMaster,
+                    [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, undefined, '1', 'bottom', 'small');
+                this.btnsAddLayout = Common.Utils.injectButtons($host.find('.slot-addlayout'), 'tlbtn-addlayout-', 'toolbar__icon btn-add-layout', this.capAddLayout,
+                    [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, false, undefined, '1', 'bottom', 'small');
+
+                var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddSlide, this.btnsAddSlideMaster, this.btnsAddLayout);
                 this.lockToolbar(Common.enumLock.disableOnStart, true, {array: created});
 
                 Array.prototype.push.apply(this.slideOnlyControls, created);
@@ -1449,6 +1494,20 @@ define([
                         (item.value === 'duplicate') && me.fireEvent('duplicate:slide');
                     });
                 });
+
+                me.btnsAddSlideMaster.forEach(function (btn) {
+                    btn.updateHint(me.tipAddSlideMaster);
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('insert:slide-master', [btn, e]);
+                    });
+                });
+
+                me.btnsAddLayout.forEach(function (btn) {
+                    btn.updateHint(me.tipAddLayout);
+                    btn.on('click', function (btn, e) {
+                        me.fireEvent('insert:layout', [btn, e]);
+                    });
+                });
             },
 
             createDelayedElements: function () {
@@ -1485,6 +1544,7 @@ define([
                 this.btnIncLeftOffset.updateHint(this.tipIncPrLeft);
                 this.btnLineSpace.updateHint(this.tipLineSpace);
                 this.btnColumns.updateHint(this.tipColumns);
+                this.btnInsertPlaceholder.updateHint(this.tipInsertContentPlaceholder);
                 this.btnInsertTable.updateHint(this.tipInsertTable);
                 this.btnInsertChart.updateHint(this.tipInsertChart);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -1778,6 +1838,85 @@ define([
                     maxRows: 8,
                     maxColumns: 10
                 });
+
+                this.btnInsertPlaceholder.setMenu(
+                    new Common.UI.Menu({
+                        cls: 'menu-insert-placeholder',
+                        items: [
+                            new Common.UI.MenuItem({
+                                caption: me.textContent,
+                                iconCls: 'icon toolbar__icon btn-ins-content-placeholder',
+                                iconClsForMainBtn: 'btn-ins-content-placeholder',
+                                hintForMainBtn: me.tipInsertContentPlaceholder,
+                                value: 1
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textContentVertical,
+                                iconCls: 'icon toolbar__icon btn-ins-vertical-content-placeholder',
+                                iconClsForMainBtn: 'btn-ins-vertical-content-placeholder',
+                                hintForMainBtn: me.tipInsertContentVerticalPlaceholder,
+                                value: 2
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textText,
+                                iconCls: 'icon toolbar__icon btn-ins-text-placeholder',
+                                iconClsForMainBtn: 'btn-ins-text-placeholder',
+                                hintForMainBtn: me.tipInsertTextPlaceholder,
+                                value: 3
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textTextVertical,
+                                iconCls: 'icon toolbar__icon btn-ins-vertical-text-placeholder',
+                                iconClsForMainBtn: 'btn-ins-vertical-text-placeholder',
+                                hintForMainBtn: me.tipInsertTextVerticalPlaceholder,
+                                value: 4
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textPicture,
+                                iconCls: 'icon toolbar__icon btn-ins-picture-placeholder',
+                                iconClsForMainBtn: 'btn-ins-picture-placeholder',
+                                hintForMainBtn: me.tipInsertPicturePlaceholder,
+                                value: 5
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textChart,
+                                iconCls: 'icon toolbar__icon btn-ins-chart-placeholder',
+                                iconClsForMainBtn: 'btn-ins-chart-placeholder',
+                                hintForMainBtn: me.tipInsertChartPlaceholder,
+                                value: 6
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textTable,
+                                iconCls: 'icon toolbar__icon btn-ins-table-placeholder',
+                                iconClsForMainBtn: 'btn-ins-table-placeholder',
+                                hintForMainBtn: me.tipInsertTablePlaceholder,
+                                value: 7
+                            }),
+                            new Common.UI.MenuItem({
+                                caption: me.textSmartArt,
+                                iconCls: 'icon toolbar__icon btn-ins-smartart-placeholder',
+                                iconClsForMainBtn: 'btn-ins-smartart-placeholder',
+                                hintForMainBtn: me.tipInsertSmartArtPlaceholder,
+                                value: 8
+                            })
+                        ]
+                    }).on('item:click', function (btn, e) {
+                        me.btnInsertPlaceholder.toggle(true);
+                        me.fireEvent('insert:placeholder-menu', [me.btnInsertPlaceholder, e]);
+                    })
+                );
+
+                me.btnInsertPlaceholder.on('click', function (btn, e) {
+                    me.fireEvent('insert:placeholder-btn', [btn, e]);
+                });
+
+                me.chTitle.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('title:hide', [me.chTitle, state === 'checked']);
+                }, me));
+
+                me.chFooters.on('change', _.bind(function (checkbox, state) {
+                    me.fireEvent('footers:hide', [me.chFooters, state === 'checked']);
+                }, me));
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
@@ -2366,7 +2505,30 @@ define([
             capBtnInsHeaderFooter: 'Header & Footer',
             tipEditHeaderFooter: 'Edit header or footer',
             tipReplace: 'Replace',
-            textLineSpaceOptions: 'Line spacing options'
+            textLineSpaceOptions: 'Line spacing options',
+            capAddSlideMaster: 'Add Slide Master',
+            capAddLayout: 'Add Layout',
+            capInsertPlaceholder: 'Insert Placeholder',
+            tipAddSlideMaster: 'Add slide master',
+            tipAddLayout: 'Add layout',
+            textContent: 'Content',
+            textContentVertical: 'Content (Vertical)',
+            textText: 'Text',
+            textTextVertical: 'Text (Vertical)',
+            textPicture: 'Picture',
+            textChart: 'Chart',
+            textTable: 'Table',
+            textSmartArt: 'SmartArt',
+            textTitle: 'Title',
+            textFooters: 'Footers',
+            tipInsertContentPlaceholder: 'Insert content placeholder',
+            tipInsertContentVerticalPlaceholder: 'Insert content (vertical) placeholder',
+            tipInsertTextPlaceholder: 'Insert text placeholder',
+            tipInsertTextVerticalPlaceholder: 'Insert text (vertical) placeholder',
+            tipInsertPicturePlaceholder: 'Insert picture placeholder',
+            tipInsertChartPlaceholder: 'Insert chart placeholder',
+            tipInsertTablePlaceholder: 'Insert table placeholder',
+            tipInsertSmartArtPlaceholder: 'Insert smartArt placeholder'
         }
     }()), PE.Views.Toolbar || {}));
 });

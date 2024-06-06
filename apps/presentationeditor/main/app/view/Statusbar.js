@@ -334,6 +334,16 @@ define([
                 this.getStatusLabel().text('');
             },
 
+            showSlideMasterStatus: function (show) {
+                if (show) {
+                    $('#status-label-pages').css('display', 'none');
+                    $('#status-label-slide-master').css('display', 'inline-block');
+                } else {
+                    $('#status-label-pages').css('display', 'inline-block');
+                    $('#status-label-slide-master').css('display', 'none');
+                }
+            },
+
             reloadLanguages: function(array) {
                 var arr = [],
                     saved = this.langMenu.saved;
@@ -405,7 +415,8 @@ define([
             tipSetLang      : 'Set Text Language',
             textShowBegin: 'Show from Beginning',
             textShowCurrent: 'Show from Current slide',
-            textShowPresenterView: 'Show presenter view'
+            textShowPresenterView: 'Show presenter view',
+            textSlideMaster: 'Slide master'
         }, PE.Views.Statusbar || {}));
     }
 );

@@ -1279,7 +1279,7 @@ define([
 
                 this._state.initEditing = false;
             }
-            if (!this.mode.isPDFEdit && toolbar.isTabActive('ins'))
+            if (this.mode.isPDFEdit || toolbar.isTabActive('ins'))
                 toolbar.setTab('home');
             toolbar.setVisible('ins', this.mode.isPDFEdit);
             $host.find('.annotate').toggleClass('hidden', this.mode.isPDFEdit);

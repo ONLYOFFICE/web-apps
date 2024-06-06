@@ -470,6 +470,13 @@ define([
                         menu.off('show:before', onShowBefore);
                     };
                     me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
+                    me.viewPlugins.backgroundBtn.on('click', function () {
+                        if (me.backgroundPluginsTip) {
+                            me.backgroundPluginsTip.close();
+                            me.backgroundPluginsTip = undefined;
+                            me.newInstalledBackgroundPlugins && (me.newInstalledBackgroundPlugins.length = 0);
+                        }
+                    });
                 }
 
                 me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true);
