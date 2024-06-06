@@ -983,7 +983,7 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
         }
     };
     return (
-        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}}>
+        <Sheet id='view-comment-sheet' style={{height: `${stateHeight}`, opacity: `${stateOpacity}`}} backdrop={true} closeByBackdropClick={true}>
             <div id='swipe-handler' className='swipe-container' onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
                 <Icon icon='icon-swipe'/>
             </div>
