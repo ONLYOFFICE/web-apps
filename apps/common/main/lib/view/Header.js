@@ -1055,7 +1055,7 @@ define([
                     });
                     me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
 
-                    !config.isPDFForm && Common.UI.TooltipManager.addTips({
+                    !config.isPDFForm && !isPDFEditor && Common.UI.TooltipManager.addTips({
                         'quickAccess' : {name: 'common-help-tip-quick-access', placement: 'bottom-right', text: me.helpQuickAccess, header: me.helpQuickAccessHeader, target: '#slot-btn-dt-quick-access', prev: 'docMode'}
                     });
 
