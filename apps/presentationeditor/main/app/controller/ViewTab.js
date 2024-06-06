@@ -77,6 +77,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onLockViewProps', _.bind(this.onLockViewProps, this, true));
                 this.api.asc_registerCallback('asc_onUnLockViewProps', _.bind(this.onLockViewProps, this, false));
+                this.api.asc_registerCallback('asc_onChangeViewMode', _.bind(this.onApiChangeViewMode, this));
             }
             return this;
         },
@@ -91,8 +92,8 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
-                    'mode:normal': _.bind(this.onChangePresentationViewMode, this, 'normal'),
-                    'mode:master': _.bind(this.onChangePresentationViewMode, this, 'master'),
+                    'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -394,7 +395,14 @@ define([
             this._state.unitsChanged = true;
         },
 
-        onChangePresentationViewMode: function (m, state) {
+        onApiChangeViewMode: function (mode) {
+            var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
+            this.view.btnSlideMaster.toggle(isMaster, true);
+            this.view.btnNormal.toggle(!isMaster, true);
+            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
+        },
+
+        onChangeViewMode: function (m, state) {
             var mode;
             if (m === 'master') {
                 mode = state ? 'master' : 'normal';
