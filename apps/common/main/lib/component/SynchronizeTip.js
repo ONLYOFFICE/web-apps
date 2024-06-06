@@ -231,9 +231,10 @@ define([
             return _helpTips[step] && !(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name));
         };
 
-        var _closeTip = function(step, force) {
+        var _closeTip = function(step, force, preventNext) {
             var props = _helpTips[step];
             if (props) {
+                preventNext && (props.next = undefined);
                 props.tip && props.tip.close();
                 props.tip = undefined;
                 force && props.name && Common.localStorage.setItem(props.name, 1);

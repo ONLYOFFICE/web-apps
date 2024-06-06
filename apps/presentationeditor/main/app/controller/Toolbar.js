@@ -149,7 +149,8 @@ define([
                     'insert:placeholder-btn': this.onBtnInsertPlaceholder.bind(this),
                     'insert:placeholder-menu': this.onMenuInsertPlaceholder.bind(this),
                     'title:hide'         : this.onTitleHide.bind(this),
-                    'footers:hide'       : this.onFootersHide.bind(this)
+                    'footers:hide'       : this.onFootersHide.bind(this),
+                    'tab:active'         : this.onActiveTab.bind(this)
                 },
                 'DocumentHolder': {
                     'smartart:mouseenter': this.mouseenterSmartArt,
@@ -290,6 +291,10 @@ define([
                     }
                 }
             }
+
+            Common.UI.TooltipManager.addTips({
+                'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', next: 'quickAccess'}
+            });
         },
 
         onLaunch: function() {
@@ -2068,6 +2073,7 @@ define([
                 var item = _.find(menu.items, function(item) { return item.value == value; });
                 (item) ? item.setChecked(true) : menu.clearAll();
             }
+            Common.UI.TooltipManager.closeTip('colorSchema');
         },
 
         onSlideSize: function(menu, item) {
@@ -2852,6 +2858,7 @@ define([
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
+            config.isEdit && Common.UI.TooltipManager.showTip('colorSchema');
         },
 
         onFileMenu: function (opts) {
@@ -3074,6 +3081,14 @@ define([
         onApiLayoutFooter: function (status) {
             if ((this.toolbar.chFooters.getValue() === 'checked') !== status)
                 this.toolbar.chFooters.setValue(status, true);
+        },
+
+        onActiveTab: function(tab) {
+            if (tab === 'home') {
+                Common.UI.TooltipManager.showTip('quickAccess');
+            } else {
+                Common.UI.TooltipManager.closeTip('colorSchema', false, tab === 'animate' || tab === 'view');
+            }
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
@@ -3421,7 +3436,9 @@ define([
         txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
         txtMatrix_Flat_Square                      : 'Sparse Matrix',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        helpColorSchema: 'Change color scheme in all presentation in one click',
+        helpColorSchemaHeader: 'Try new Color schemes'
 
     }, PE.Controllers.Toolbar || {}));
 });
