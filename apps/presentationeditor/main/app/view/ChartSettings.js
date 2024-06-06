@@ -689,7 +689,8 @@ define([
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
                     delayRenderTips: true,
-                    ariaLabel: this.textChartType
+                    ariaLabel: this.textChartType,
+                    fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({

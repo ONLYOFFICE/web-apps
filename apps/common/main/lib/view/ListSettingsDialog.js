@@ -336,11 +336,19 @@ define([
                 }
             });
 
+            var config = this.options.colorConfig || {};
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-list-color'),
                 style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 color: this.color,
+                colors: config.colors,
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -400,7 +408,7 @@ define([
         },
 
         afterRender: function() {
-            this.updateThemeColors();
+            !this.options.colorConfig && this.updateThemeColors();
             this._setDefaults(this.props);
 
             var me = this;

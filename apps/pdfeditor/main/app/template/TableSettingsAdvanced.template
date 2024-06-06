@@ -1,0 +1,150 @@
+<div id="id-adv-table-general" class="settings-panel active">
+    <div class="inner-content">
+    <table cols="1" width="100%">
+        <tr>
+            <td class="padding-large">
+                <label class="header"><%= scope.textTableName %></label>
+                <div id="tableadv-name"></div>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+<div  id="id-adv-table-placement" class="settings-panel active">
+    <div class="inner-content">
+        <table cols="3">
+            <tr>
+                <td colspan="3" width="88px" class="padding-small">
+                    <label class="header"><%= scope.textSize %></label>
+                </td>
+            </tr>
+            <tr>
+                <td width="93px">
+                    <label class="input-label"><%= scope.textWidth %></label>
+                    <div id="tableadv-spin-width"></div>
+                </td>
+                <td width="28px" style="vertical-align: bottom;">
+                    <div id="tableadv-button-ratio"></div>
+                </td>
+                <td width="93px">
+                    <label class="input-label"><%= scope.textHeight %></label>
+                    <div id="tableadv-spin-height"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="padding-large"></div>
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan="4" width="88px" class="padding-small">
+                    <label class="header"><%= scope.textPosition %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="121px">
+                    <label class="input-label"><%= scope.textHorizontal %></label>
+                    <div id="tableadv-spin-x"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="tableadv-combo-from-x"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textVertical %></label>
+                    <div id="tableadv-spin-y"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textFrom %></label>
+                    <div id="tableadv-combo-from-y"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-table-cell-props" class="settings-panel">
+    <div class="inner-content">
+        <table cols="2" style="width: 100%;">
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <label class="header"><%= scope.textMargins %></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="padding-small">
+                    <div id="tableadv-checkbox-margins"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="125px">
+                    <label class="input-label"><%= scope.textTop %></label>
+                    <div id="tableadv-number-margin-top"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textLeft %></label>
+                    <div id="tableadv-number-margin-left"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textBottom %></label>
+                    <div id="tableadv-number-margin-bottom"></div>
+                </td>
+                <td class="padding-large">
+                    <label class="input-label"><%= scope.textRight %></label>
+                    <div id="tableadv-number-margin-right"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 class="padding-small">
+                    <label class="header"><%= scope.textDefaultMargins %></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small" width="125px">
+                    <label class="input-label"><%= scope.textTop %></label>
+                    <div id="tableadv-number-margin-table-top"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textLeft %></label>
+                    <div id="tableadv-number-margin-table-left"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textBottom %></label>
+                    <div id="tableadv-number-margin-table-bottom"></div>
+                </td>
+                <td class="padding-small">
+                    <label class="input-label"><%= scope.textRight %></label>
+                    <div id="tableadv-number-margin-table-right"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="id-adv-table-alttext" class="settings-panel">
+    <div class="inner-content">
+        <table cols="1" width="100%">
+            <tr>
+                <td class="padding-large">
+                    <label class="header"><%= scope.textAltTitle %></label>
+                    <div id="tableadv-alt-title"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="header"><%= scope.textAltDescription %></label>
+                    <textarea id="tableadv-alt-description" class="form-control" style="width: 100%; height: 70px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><%= scope.textAltTip %></label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

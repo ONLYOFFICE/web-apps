@@ -102,6 +102,11 @@ define([
                     'view:hide': _.bind(function (leftmenu, state) {
                         this.view.chLeftMenu.setValue(!state, true);
                     }, this)
+                },
+                'RightMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chRightMenu.setValue(!state, true);
+                    }, this)
                 }
             });
         },
@@ -167,10 +172,12 @@ define([
                         me.view.$el.find('.separator-rulers').remove();
                     }
 
-                    me.view.cmbZoom.on('selected', _.bind(me.onSelectedZoomValue, me))
-                        .on('changed:before',_.bind(me.onZoomChanged, me, true))
-                        .on('changed:after', _.bind(me.onZoomChanged, me, false))
-                        .on('combo:blur',    _.bind(me.onComboBlur, me, false));
+                    me.view.cmbsZoom.forEach(function (cmb) {
+                        cmb.on('selected', _.bind(me.onSelectedZoomValue, me))
+                            .on('changed:before',_.bind(me.onZoomChanged, me, true))
+                            .on('changed:after', _.bind(me.onZoomChanged, me, false))
+                            .on('combo:blur',    _.bind(me.onComboBlur, me, false));
+                    });
 
                     me.getApplication().getController('LeftMenu').leftMenu.btnNavigation.on('toggle', function (btn, state) {
                         if (state !== me.view.btnNavigation.pressed)
@@ -221,10 +228,14 @@ define([
         },
 
         onZoomChange: function (percent, type) {
-            this.view.btnFitToPage.toggle(type == 2, true);
-            this.view.btnFitToWidth.toggle(type == 1, true);
+            this.view.btnsFitToPage.forEach(function (btn) {
+                btn.toggle(type === 2, true);
+            });
+            this.view.btnsFitToWidth.forEach(function (btn) {
+                btn.toggle(type === 1, true);
+            });
 
-            this.view.cmbZoom.setValue(percent, percent + '%');
+            this.setZoomValue(percent);
 
             this._state.zoomValue = percent;
         },
@@ -232,7 +243,7 @@ define([
         applyZoom: function (value) {
             var val = Math.max(10, Math.min(500, value));
             if (this._state.zoomValue === val)
-                this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                this.setZoomValue(this._state.zoomValue);
             this.api.zoom(val);
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
@@ -246,28 +257,32 @@ define([
             if (before) {
                 var expr = new RegExp('^\\s*(\\d*(\\.|,)?\\d+)\\s*(%)?\\s*$');
                 if (!expr.exec(record.value)) {
-                    this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                    this.setZoomValue(this._state.zoomValue);
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 }
             } else {
                 if (this._state.zoomValue !== value && !isNaN(value)) {
                     this.applyZoom(value);
                 } else if (record.value !== this._state.zoomValue + '%') {
-                    this.view.cmbZoom.setValue(this._state.zoomValue, this._state.zoomValue + '%');
+                    this.setZoomValue(this._state.zoomValue);
                 }
             }
         },
 
-        onBtnZoomTo: function(type) {
-            var btn, func;
+        setZoomValue: function(value) {
+            this.view && this.view.cmbsZoom && this.view.cmbsZoom.forEach(function (cmb) {
+                cmb.setValue(value, value + '%');
+            });
+        },
+
+        onBtnZoomTo: function(type, btn) {
+            var func;
             if ( type === 'topage' ) {
-                btn = 'btnFitToPage';
                 func = 'zoomFitToPage';
             } else {
-                btn = 'btnFitToWidth';
                 func = 'zoomFitToWidth';
             }
-            if ( !this.view[btn].pressed )
+            if ( btn && !btn.pressed )
                 this.api.zoomCustomMode();
             else
                 this.api[func]();
@@ -282,8 +297,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onChangeDarkMode: function () {
-            Common.UI.Themes.toggleContentTheme();
+        onChangeDarkMode: function (isdarkmode) {
+            if (!this._darkModeTimer) {
+                var me = this;
+                me._darkModeTimer = setTimeout(function() {
+                    me._darkModeTimer = undefined;
+                }, 500);
+                Common.UI.Themes.setContentTheme(isdarkmode?'dark':'light');
+            } else
+                this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
 
         onContentThemeChangedToDark: function (isdark) {

@@ -63,7 +63,8 @@ define([
                     'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'ViewTab': {
-                    'rightmenu:hide': _.bind(this.onRightMenuHide, this)
+                    'rightmenu:hide': _.bind(this.onRightMenuHide, this),
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoright': _.bind(this.addNewPlugin, this),
@@ -159,6 +160,7 @@ define([
                     this._settings[settingsType].lockedBackground = value.get_LockBackground();
                     /*this._settings[settingsType].lockedEffects = value.get_LockTransition();
                     this._settings[settingsType].lockedTransition = value.get_LockTransition();*/
+                    this._settings[settingsType].inMaster = value.get_IsMasterSelected();
                 } else {
                     this._settings[settingsType].locked = value.get_Locked();
                     if (settingsType == Common.Utils.documentSettingsType.Shape) {
@@ -211,7 +213,7 @@ define([
                     if (i == Common.Utils.documentSettingsType.Slide) {
                         if (pnl.locked!==undefined)
                             this.rightmenu.slideSettings.setLocked(this._state.no_slides || pnl.lockedBackground || pnl.locked,
-                                                                          this._state.no_slides || pnl.lockedHeader || pnl.locked);
+                                                                          this._state.no_slides || pnl.lockedHeader || pnl.locked, pnl.inMaster);
                     } else
                         pnl.panel.setLocked(pnl.locked);
                 }
@@ -441,12 +443,27 @@ define([
                         this.onFocusObject(selectedElements, false, !Common.Utils.InternalSettings.get("pe-hide-right-settings"));
                     this._lastVisibleSettings = undefined;
                 }
+                !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
                 Common.localStorage.setBool('pe-hidden-rightmenu', !status);
                 Common.Utils.InternalSettings.set("pe-hidden-rightmenu", !status);
             }
 
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
+        },
+
+        onRightMenuOpen: function(type) {
+            if (this._settings[type]===undefined || this._settings[type].hidden || this._settings[type].btn.isDisabled() || this._settings[type].panelId===this.rightmenu.GetActivePane()) return;
+
+            this.tryToShowRightMenu();
+            this.rightmenu.SetActivePane(type, true);
+            this._settings[type].panel.ChangeSettings.call(this._settings[type].panel, this._settings[type].props);
+            this.rightmenu.updateScroller();
+        },
+
+        tryToShowRightMenu: function() {
+            if (this.rightmenu && this.rightmenu.mode && (!this.rightmenu.mode.canBrandingExt || !this.rightmenu.mode.customization || this.rightmenu.mode.customization.rightMenu !== false) && Common.UI.LayoutManager.isElementVisible('rightMenu'))
+                this.onRightMenuHide(null, true);
         },
 
         addNewPlugin: function (button, $button, $panel) {
@@ -485,5 +502,10 @@ define([
                 this.rightmenu.fireEvent('editcomplete', this.rightmenu);
             }
         },
+
+        onChangeViewMode: function (mode) {
+            if (this.rightmenu && this.rightmenu.slideSettings)
+                this.rightmenu.slideSettings.setSlideMasterMode(mode==='master');
+        }
     });
 });

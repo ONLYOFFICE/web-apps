@@ -229,6 +229,19 @@
                 opacity: @header-component-hover-icon-opacity;
             }
         }
+
+        .caret {
+            border-color: @icon-toolbar-header-ie;
+            border-color: @icon-toolbar-header;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled){
+            .caret {
+                border-color: @icon-toolbar-header-ie;
+                border-color: @icon-toolbar-header;
+            }
+        }
     }
 
     svg.icon {
@@ -256,7 +269,7 @@
         }
     }
 
-    &:active {
+    &:active, &.active {
         &:not(.disabled) {
             background-color: @highlight-header-button-pressed-ie;
             background-color: @highlight-header-button-pressed;
@@ -349,7 +362,7 @@
     width: auto;
 
     .caption {
-        margin: 2px 0 0 2px;
+        margin: 2px 4px 0 2px;
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
     }
@@ -527,7 +540,7 @@
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
-    z-index: 1;
+    z-index: @zindex-navbar + 3;
 
     .btn-slot {
         display: inline-block;

@@ -190,6 +190,9 @@ const config = {
                 safe: true,
                 map: { inline: false },
             },
+            preset: ['default', {
+              colormin: false,
+            }],
         },
       }),
       new webpack.optimize.ModuleConcatenationPlugin(),

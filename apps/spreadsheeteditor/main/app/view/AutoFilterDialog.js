@@ -1120,16 +1120,20 @@ define([
 
             this.miSortLow2High = new Common.UI.MenuItem({
                 caption     : this.txtSortLow2High,
+                iconCls     : 'menu__icon btn-sort-down',
                 toggleGroup : 'menufiltersort',
                 checkable   : true,
+                checkmark   : false,
                 checked     : false
             });
             this.miSortLow2High.on('click', _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Ascending));
 
             this.miSortHigh2Low = new Common.UI.MenuItem({
                 caption     : this.txtSortHigh2Low,
+                iconCls     : 'menu__icon btn-sort-up',
                 toggleGroup : 'menufiltersort',
                 checkable   : true,
+                checkmark   : false,
                 checked     : false
             });
             this.miSortHigh2Low.on('click', _.bind(this.onSortType, this, Asc.c_oAscSortOptions.Descending));
@@ -1327,6 +1331,7 @@ define([
 
             this.miClear = new Common.UI.MenuItem({
                 caption     : this.txtClear,
+                iconCls     : 'menu__icon btn-clear-filter',
                 checkable   : false
             });
             this.miClear.on('click', _.bind(this.onClear, this));
@@ -1395,6 +1400,7 @@ define([
             this.miLabelFilter.menu.on('item:click', _.bind(this.onLabelFilterMenuClick, this));
 
             this.filtersMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
                 items: [
                     this.miSortLow2High,
                     this.miSortHigh2Low,

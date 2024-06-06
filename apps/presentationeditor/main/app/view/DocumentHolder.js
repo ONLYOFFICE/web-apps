@@ -1210,6 +1210,62 @@ define([
                 }
             });
 
+            me.mnuInsertMaster = new Common.UI.MenuItem({
+                caption : me.textInsertSlideMaster,
+                value : 'ins-master'
+            });
+
+            me.mnuInsertLayout = new Common.UI.MenuItem({
+                caption : me.textInsertLayout,
+                value : 'ins-layout'
+            });
+
+            me.mnuDuplicateMaster = new Common.UI.MenuItem({
+                caption : me.textDuplicateSlideMaster,
+                value : 'duplicate-master'
+            });
+
+            me.mnuDeleteMaster = new Common.UI.MenuItem({
+                caption : me.textDeleteMaster,
+                value : 'delete-master'
+            });
+
+            me.mnuDuplicateLayout = new Common.UI.MenuItem({
+                caption : me.textDuplicateLayout,
+                value : 'duplicate-master'
+            });
+
+            me.mnuDeleteLayout = new Common.UI.MenuItem({
+                caption : me.textDeleteLayout,
+                value : 'delete-layout'
+            });
+
+            me.slideMasterMenu = new Common.UI.Menu({
+                //cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    var isMaster = value.isMaster;
+
+                    me.mnuDuplicateMaster.setVisible(isMaster);
+                    me.mnuDeleteMaster.setVisible(isMaster);
+                    me.mnuDuplicateLayout.setVisible(!isMaster);
+                    me.mnuDeleteLayout.setVisible(!isMaster);
+
+                    isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
+                    !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
+                },
+                items: [
+                    me.mnuInsertMaster,
+                    me.mnuInsertLayout,
+                    me.mnuDuplicateMaster,
+                    me.mnuDuplicateLayout,
+                    {caption: '--'},
+                    me.mnuDeleteMaster,
+                    me.mnuDeleteLayout
+                ]
+            });
+
             me.mnuTableMerge = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
@@ -2437,6 +2493,86 @@ define([
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
+            me.menuAnimZoomIn = new Common.UI.MenuItem({
+                caption: me.textZoomIn,
+                value: 'zoom-in'
+            });
+
+            me.menuAnimZoomOut = new Common.UI.MenuItem({
+                caption: me.textZoomOut,
+                value: 'zoom-out'
+            });
+
+            me.timelineZoomMenu = new Common.UI.Menu({
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                menuAlign: 'bl-tl',
+                style: 'min-width: auto;',
+                items: [
+                    me.menuAnimZoomIn,
+                    me.menuAnimZoomOut
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            me.menuAnimStartOnClick = new Common.UI.MenuItem({
+                caption: me.textStartOnClick,
+                checkable: true,
+                value: AscFormat.NODE_TYPE_CLICKEFFECT
+            });
+
+            me.menuAnimStartWithPrevious = new Common.UI.MenuItem({
+                caption: me.textStartWithPrevious,
+                checkable: true,
+                value: AscFormat.NODE_TYPE_WITHEFFECT
+            });
+
+            me.menuAnimStartAfterPrevious = new Common.UI.MenuItem({
+                caption: me.textStartAfterPrevious,
+                checkable: true,
+                value: AscFormat.NODE_TYPE_AFTEREFFECT
+            });
+
+            me.menuAnimRemove = new Common.UI.MenuItem({
+                caption: me.textRemove,
+                value: 'remove'
+            });
+
+            me.animEffectMenu = new Common.UI.Menu({
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                style: 'min-width: auto;',
+                initMenu: function(value){
+                    me.menuAnimStartOnClick.setChecked(value.effect === AscFormat.NODE_TYPE_CLICKEFFECT, true);
+                    me.menuAnimStartWithPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_WITHEFFECT, true);
+                    me.menuAnimStartAfterPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_AFTEREFFECT, true);
+                },
+                items: [
+                    me.menuAnimStartOnClick,
+                    me.menuAnimStartWithPrevious,
+                    me.menuAnimStartAfterPrevious,
+                    {caption: '--'},
+                    me.menuAnimRemove
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
             var nextpage = $('#id_buttonNextPage');
             nextpage.attr('data-toggle', 'tooltip');
             nextpage.tooltip({
@@ -2883,7 +3019,19 @@ define([
         txtInsTable: 'Insert table',
         txtInsVideo: 'Insert video',
         txtInsAudio: 'Insert audio',
-        txtInsSmartArt: 'Insert SmartArt'
+        txtInsSmartArt: 'Insert SmartArt',
+        textZoomIn: 'Zoom In',
+        textZoomOut: 'Zoom Out',
+        textStartOnClick: 'Start On Click',
+        textStartWithPrevious: 'Start With Previous',
+        textStartAfterPrevious: 'Start After Previous',
+        textRemove: 'Remove',
+        textInsertSlideMaster: 'Insert Slide Master',
+        textInsertLayout: 'Insert Layout',
+        textDuplicateSlideMaster: 'Duplicate Slide Master',
+        textDeleteMaster: 'Delete Master',
+        textDuplicateLayout: 'Duplicate Layout',
+        textDeleteLayout: 'Delete Layout'
 
     }, PE.Views.DocumentHolder || {}));
 });

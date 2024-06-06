@@ -5,6 +5,7 @@
     </div>
     <div class="status-group dropup">
         <label id="status-label-pages" class="status-label dropdown-toggle margin-top-large margin-left-7" style="display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <label id="status-label-slide-master" class="status-label margin-top-large margin-left-7" style="display: none;" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= scope.textSlideMaster %></label>
         <div id="status-goto-box" class="dropdown-menu">
             <label class="float-left"><%= scope.goToPageText %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>

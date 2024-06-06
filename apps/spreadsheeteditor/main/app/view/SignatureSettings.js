@@ -360,7 +360,7 @@ define([
                     text    : tipText,
                     showLink: showLink,
                     textLink: this.txtContinueEditing,
-                    placement: 'left-bottom'
+                    placement: Common.UI.isRTL() ? 'right-bottom' : 'left-bottom'
                 });
                 tip.on({
                     'dontshowclick': function() {

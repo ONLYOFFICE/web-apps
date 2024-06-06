@@ -704,7 +704,8 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
-                    ariaLabel: this.textStyle
+                    ariaLabel: this.textStyle,
+                    fillOnChangeVisibility: true
                 });
                 this.btnSlicerStyle.render($('#slicer-btn-style'));
                 this.btnSlicerStyle.openButton.menu.cmpEl.css({

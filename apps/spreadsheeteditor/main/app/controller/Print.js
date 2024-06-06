@@ -478,6 +478,7 @@ define([
                 } else {
                     var opts = new Asc.asc_CDownloadOptions(this.downloadFormat, this.asUrl);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
+                    opts.asc_setIsSaveAs(this.asUrl);
                     this.api.asc_DownloadAs(opts);
                 }
                 Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');

@@ -196,7 +196,7 @@ define([
         '<i class="caret"></i>';
 
     var templateHugeCaption =
-            '<button type="button" class="btn <%= cls %>" id="<%= id %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
+            '<button type="button" class="btn <%= cls %>" id="<%= id %>" style="<%= style %>" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" <% if (dataHintTitle) { %> data-hint-title="<%= dataHintTitle %>" <% } %>> ' +
                 '<div class="inner-box-icon">' +
                     templateBtnIcon +
                 '</div>' +
@@ -754,9 +754,9 @@ define([
         },
 
         setIconCls: function(cls) {
-            var btnIconEl = $(this.el).find('.icon'),
+            var btnIconEl = $(this.el).find('i.icon'),
                 oldCls = this.iconCls,
-                svgIcon = btnIconEl.find('use.zoom-int');
+                svgIcon = $(this.el).find('.icon use.zoom-int');
 
             this.iconCls = cls;
             if (/svgicon/.test(this.iconCls)) {
@@ -777,11 +777,18 @@ define([
 
         changeIcon: function(opts) {
             var me = this,
-                btnIconEl = $(this.el).find('.icon');
+                btnIconEl = $(this.el).find('i.icon');
+            if (btnIconEl.length > 1) btnIconEl = $(btnIconEl[0]);
             if (opts && (opts.curr || opts.next) && btnIconEl) {
-                var svgIcon = btnIconEl.find('use.zoom-int');
-                !!opts.curr && (btnIconEl.removeClass(opts.curr));
-                !!opts.next && !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                var svgIcon = $(this.el).find('.icon use.zoom-int');
+                if (opts.curr) {
+                    btnIconEl.removeClass(opts.curr);
+                    me.iconCls = me.iconCls.replace(opts.curr, '').trim();
+                }
+                if (opts.next) {
+                    !btnIconEl.hasClass(opts.next) && (btnIconEl.addClass(opts.next));
+                    (me.iconCls.indexOf(opts.next)<0) && (me.iconCls += ' ' + opts.next);
+                }
                 svgIcon.length && !!opts.next && svgIcon.attr('href', '#' + opts.next);
 
                 if ( !!me.options.signals ) {
@@ -921,9 +928,11 @@ define([
 
         setCaption: function(caption) {
             if (this.caption != caption) {
+                var isHuge = false;
                 if ( /icon-top/.test(this.options.cls) && !!this.caption && /huge/.test(this.options.cls) ) {
                     var newCaption = this.getCaptionWithBreaks(caption);
                     this.caption = newCaption || caption;
+                    isHuge = true;
                 } else
                     this.caption = caption;
 
@@ -931,7 +940,7 @@ define([
                     var captionNode = this.cmpEl.find('.caption');
 
                     if (captionNode.length > 0) {
-                        captionNode.html((this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
+                        captionNode.html(isHuge && (this.split || this.menu) ? _.template(templateBtnCaption)({caption: this.caption}) : this.caption);
                     } else {
                         this.cmpEl.find('button:first').addBack().filter('button').html(this.caption);
                     }
@@ -975,14 +984,14 @@ define([
                 me.options.scaling = ratio;
 
                 if (ratio > 2) {
-                    if (!me.$el.find('svg.icon').length) {
-                        const iconCls = me.iconCls || me.$el.find('i.icon').attr('class');
+                    const $el = me.$el.is('button') ? me.$el : me.$el.find('button:first');
+                    if (!$el.find('svg.icon').length) {
+                        const iconCls = me.iconCls || $el.find('i.icon').attr('class');
                         const re_icon_name = /btn-[^\s]+/.exec(iconCls);
                         const icon_name = re_icon_name ? re_icon_name[0] : "null";
                         const rtlCls = (iconCls ? iconCls.indexOf('icon-rtl') : -1) > -1 ? 'icon-rtl' : '';
                         const svg_icon = '<svg class="icon %rtlCls"><use class="zoom-int" href="#%iconname"></use></svg>'.replace('%iconname', icon_name).replace('%rtlCls', rtlCls);
-
-                        me.$el.find('i.icon').after(svg_icon);
+                        $el.find('i.icon').after(svg_icon);
                     }
                 } else {
                     if (!me.$el.find('i.icon')) {

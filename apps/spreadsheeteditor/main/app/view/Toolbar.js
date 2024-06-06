@@ -137,13 +137,6 @@ define([
             var me = this,
                 options = {};
 
-            me.SchemeNames = [me.txtScheme22,
-                me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
-                me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
-                me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
-                me.txtScheme16, me.txtScheme17, me.txtScheme18, me.txtScheme19, me.txtScheme20,
-                me.txtScheme21
-            ];
             me._state = {
                 hasCollaborativeChanges: undefined
             };
@@ -1011,6 +1004,10 @@ define([
                     transparent: true,
                     menu: true,
                     eyeDropper: true,
+                    additionalItemsAfter: config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                        me.mnuFormatCellFill = new Common.UI.MenuItem({
+                            caption: me.textFormatCellFill
+                        })],
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1162,6 +1159,7 @@ define([
                     iconCls     : 'toolbar__icon btn-text-orient-ccw',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.wsLockFormat, _set.userProtected],
                     menu        : new Common.UI.Menu({
+                        cls: 'shifted-right',
                         items: [
                             {
                                 caption     : me.textHorizontal,
@@ -1211,7 +1209,10 @@ define([
                                 toggleGroup : 'textorientgroup',
                                 value       : 'rotatedown'
                             }
-                        ]
+                        ].concat(config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                            {caption: '--'},
+                            {caption: this.textCellAlign, value: 'options'}
+                        ])
                     }),
                     dataHint    : '1',
                     dataHintDirection: 'top'
@@ -1238,7 +1239,7 @@ define([
                 me.btnInsertHyperlink = new Common.UI.Button({
                     id          : 'tlbtn-insertlink',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-inserthyperlink',
+                    iconCls     : 'toolbar__icon btn-big-inserthyperlink',
                     caption     : me.capInsertHyperlink,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
                     dataHint    : '1',
@@ -1984,11 +1985,11 @@ define([
                             },
                             {
                                 caption: 'Tabloid Oversize',
-                                subtitle: '30,48cm x 45,71cm',
+                                subtitle: '29,69cm x 45,72cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [304.8, 457.1]
+                                value: [296.9, 457.2]
                             },
                             {
                                 caption: 'ROC 16K',
@@ -2000,19 +2001,19 @@ define([
                             },
                             {
                                 caption: 'Envelope Choukei 3',
-                                subtitle: '11,99cm x 23,49cm',
+                                subtitle: '12cm x 23,5cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [119.9, 234.9]
+                                value: [120, 235]
                             },
                             {
                                 caption: 'Super B/A3',
-                                subtitle: '33,02cm x 48,25cm',
+                                subtitle: '30,5cm x 48,7cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [330.2, 482.5]
+                                value: [305, 487]
                             }
                         ]
                     }),
@@ -2542,6 +2543,7 @@ define([
             // set menus
             if (this.btnBorders && this.btnBorders.rendered) {
                 this.btnBorders.setMenu( new Common.UI.Menu({
+                    cls: 'shifted-right',
                     items: [
                         {
                             caption     : this.textOutBorders,
@@ -2673,7 +2675,9 @@ define([
                                 ]
                             })
                         })
-                    ]
+                    ].concat(this.mode.isEditOle || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu') ? [] : [
+                        {caption: this.textMoreBorders, value: 'options'}
+                    ])
                 }));
                 this.mnuBorderColorPicker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-bordercolor'),
@@ -3182,17 +3186,16 @@ define([
                     schemecolors.push(clr);
                 }
 
-                if (index == 22) {
+                if (index == 24) {
                     this.mnuColorSchema.addItem({
                         caption : '--'
                     });
                 }
-                var name = schema.get_name();
                 this.mnuColorSchema.addItem({
                     template: itemTemplate,
                     cls     : 'color-schemas-menu',
                     colors  : schemecolors,
-                    caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
+                    caption: schema.get_name(),
                     value: index,
                     checkable: true,
                     toggleGroup: 'menuSchema'
@@ -3215,6 +3218,7 @@ define([
                 if (this.synchTooltip===undefined)
                     this.createSynchTip();
 
+                this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                 this.synchTooltip.show();
             } else {
                 this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
@@ -3225,10 +3229,10 @@ define([
         },
 
         createSynchTip: function () {
+            var direction = Common.UI.isRTL() ? 'left' : 'right';
             this.synchTooltip = new Common.UI.SynchronizeTip({
                 extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
-                placement: this.mode.isDesktopApp ? 'bottom-right' : 'right-bottom',
-                target: this.btnCollabChanges.$el
+                placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
             });
             this.synchTooltip.on('dontshowclick', function() {
                 this.showSynchTip = false;
@@ -3596,27 +3600,6 @@ define([
         textDelLeft:        'Shift Cells Left',
         textDelUp:          'Shift Cells Up',
         textZoom:           'Zoom',
-        txtScheme1:         'Office',
-        txtScheme2:         'Grayscale',
-        txtScheme3:         'Apex',
-        txtScheme4:         'Aspect',
-        txtScheme5:         'Civic',
-        txtScheme6:         'Concourse',
-        txtScheme7:         'Equity',
-        txtScheme8:         'Flow',
-        txtScheme9:         'Foundry',
-        txtScheme10:        'Median',
-        txtScheme11:        'Metro',
-        txtScheme12:        'Module',
-        txtScheme13:        'Opulent',
-        txtScheme14:        'Oriel',
-        txtScheme15:        'Origin',
-        txtScheme16:        'Paper',
-        txtScheme17:        'Solstice',
-        txtScheme18:        'Technic',
-        txtScheme19:        'Trek',
-        txtScheme20:        'Urban',
-        txtScheme21:        'Verve',
         txtClearFilter:     'Clear Filter',
         tipSaveCoauth: 'Save your changes for the other users to see them.',
         txtSearch: 'Search',
@@ -3718,7 +3701,6 @@ define([
         textItems: 'Items',
         tipInsertSpark: 'Insert sparkline',
         capInsertSpark: 'Sparklines',
-        txtScheme22: 'New Office',
         textPrintGridlines: 'Print gridlines',
         textPrintHeadings: 'Print headings',
         textShowVA: 'Show Visible Area',
@@ -3779,7 +3761,10 @@ define([
         textFillRight: 'Right',
         textSeries: 'Series',
         txtFillNum: 'Fill',
-        tipReplace: 'Replace'
+        tipReplace: 'Replace',
+        textCellAlign: 'Format cell alignment',
+        textMoreBorders: 'More borders',
+        textFormatCellFill: 'Format cell fill'
 
     }, SSE.Views.Toolbar || {}));
 });

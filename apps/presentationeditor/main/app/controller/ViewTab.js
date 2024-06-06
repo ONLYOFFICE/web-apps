@@ -77,6 +77,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onLockViewProps', _.bind(this.onLockViewProps, this, true));
                 this.api.asc_registerCallback('asc_onUnLockViewProps', _.bind(this.onLockViewProps, this, false));
+                this.api.asc_registerCallback('asc_onChangeViewMode', _.bind(this.onApiChangeViewMode, this));
             }
             return this;
         },
@@ -91,6 +92,8 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
+                    'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -134,6 +137,11 @@ define([
                 'LeftMenu': {
                     'view:hide': _.bind(function (leftmenu, state) {
                         this.view.chLeftMenu.setValue(!state, true);
+                    }, this)
+                },
+                'RightMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chRightMenu.setValue(!state, true);
                     }, this)
                 }
             });
@@ -385,7 +393,29 @@ define([
 
         unitsChanged: function(m) {
             this._state.unitsChanged = true;
-        }
+        },
+
+        onApiChangeViewMode: function (mode) {
+            var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
+            this.view.btnSlideMaster.toggle(isMaster, true);
+            this.view.btnNormal.toggle(!isMaster, true);
+            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
+        },
+
+        onChangeViewMode: function (m, state) {
+            var mode;
+            if (m === 'master') {
+                mode = state ? 'master' : 'normal';
+                this.view.btnSlideMaster.toggle(state, true);
+                this.view.btnNormal.toggle(!state, true);
+            } else {
+                mode = state ? 'normal' : 'master';
+                this.view.btnSlideMaster.toggle(!state, true);
+                this.view.btnNormal.toggle(state, true);
+            } // Asc.c_oAscPresentationViewMode.sorter;
+            this.view.fireEvent('viewmode:change', [mode]);
+            this.api.asc_changePresentationViewMode(mode === 'master' ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
+        },
 
     }, PE.Controllers.ViewTab || {}));
 });

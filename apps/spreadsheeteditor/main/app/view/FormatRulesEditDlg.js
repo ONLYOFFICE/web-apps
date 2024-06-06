@@ -664,7 +664,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var combo = new Common.UI.ComboBoxDataView({
                 el: $('#format-rules-combo-icon-' + (i+1)),
                 additionalAlign: this.menuAddAlign,
-                additionalItems: [{ caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) }],
+                additionalItemsBefore: [{ caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) }],
                 cls: 'move-focus',
                 menuStyle: 'min-width: 105px;',
                 dataViewStyle: 'width: 217px; margin: 0 5px;',

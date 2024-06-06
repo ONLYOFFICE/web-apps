@@ -230,11 +230,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -243,7 +238,7 @@ define([
             switch (action) {
             case 'back':
                 break;
-            case 'save': this.api.asc_Save(); break;
+            case 'save': Common.NotificationCenter.trigger('leftmenu:save'); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
             case 'saveas':
                 if ( isopts ) close_menu = false;

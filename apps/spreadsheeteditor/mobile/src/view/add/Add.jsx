@@ -16,7 +16,6 @@ const routes = [
     {
         path: '/adding-page/',
         component: AddingPage,
-        keepAlive: true
     },
     // Functions
     {

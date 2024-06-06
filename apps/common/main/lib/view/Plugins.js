@@ -65,6 +65,7 @@ define([
             };
             this.lockedControls = [];
             this.pluginPanels = {};
+            this.customPluginPanels = {};
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 
@@ -235,7 +236,9 @@ define([
 
         iconsStr2IconsObj: function(icons) {
             let result = icons;
-            if (typeof result === 'string' && result.indexOf('%') !== -1) {
+            if (typeof result === 'string') {
+                if (result.indexOf('%') === -1)
+                    return [icons, icons];
                 /*
                     valid params:
                     theme-type - {string} theme type (light|dark|common)
@@ -396,12 +399,13 @@ define([
 
             var modes = model.get('variations'),
                 icons = modes[model.get('currentVariation')].get('icons');
+            if (icons === '') return;
             model.set('parsedIcons', this.parseIcons(icons));
             this.updatePluginButton(model);
         },
 
         updatePluginButton: function(model) {
-            if (!model.get('visible'))
+            if (!model.get('visible') || !model.get('parsedIcons'))
                 return null;
 
             var btn = model.get('button'),
@@ -449,9 +453,14 @@ define([
             var modes = model.get('variations'),
                 guid = model.get('guid'),
                 icons = modes[model.get('currentVariation')].get('icons'),
-                parsedIcons = this.parseIcons(icons),
+                icon_cls, icon_url;
+            if (icons === '') {
+                icon_cls = 'toolbar__icon btn-plugin-default'
+            } else {
+                var parsedIcons = this.parseIcons(icons);
                 icon_url = model.get('baseUrl') + parsedIcons['normal'];
-            model.set('parsedIcons', parsedIcons);
+                model.set('parsedIcons', parsedIcons);
+            }
             var _menu_items = [];
             _.each(model.get('variations'), function(variation, index) {
                 if (variation.get('visible'))
@@ -465,6 +474,7 @@ define([
             var _set = Common.enumLock;
             var btn = new Common.UI.Button({
                 cls: 'btn-toolbar x-huge icon-top',
+                iconCls: icon_cls,
                 iconImg: icon_url,
                 caption: model.get('name'),
                 menu: _menu_items.length > 1,
@@ -505,18 +515,23 @@ define([
             this.fireEvent('hide', this );
         },
 
-        showPluginPanel: function (show, guid) {
-            var model = this.storePlugins.findWhere({guid: guid}),
-                menu = model.get('menu');
+        showPluginPanel: function (show, id) {
+            var panel = this.pluginPanels[id] ? this.pluginPanels[id] : this.customPluginPanels[id],
+                menu = this.pluginPanels[id] ? this.storePlugins.findWhere({guid: id}).get('menu') : panel.menu;
             if (show) {
                 for (var key in this.pluginPanels) {
                     if (this.pluginPanels[key].menu === menu) {
                         this.pluginPanels[key].$el.removeClass('active');
                     }
                 }
-                this.pluginPanels[guid].$el.addClass('active');
+                for (var key in this.customPluginPanels) {
+                    if (this.customPluginPanels[key].menu === menu) {
+                        this.customPluginPanels[key].$el.removeClass('active');
+                    }
+                }
+                panel.$el.addClass('active');
             } else {
-                this.pluginPanels[guid].$el.removeClass('active');
+                panel.$el.removeClass('active');
                 this.fireEvent(menu === 'right' ? 'pluginsright:hide' : 'pluginsleft:hide', this);
             }
             //this.updateLeftPluginButton(guid);

@@ -279,6 +279,7 @@ define([
                 view.menuSignatureEditSetup.on('click',             _.bind(me.onSignatureClick, me));
                 view.menuImgOriginalSize.on('click',                _.bind(me.onOriginalSizeClick, me));
                 view.menuImgReplace.menu.on('item:click',           _.bind(me.onImgReplace, me));
+                view.pmiCellFormat.on('click',                      _.bind(me.onCellFormat, me));
                 view.pmiNumFormat.menu.on('item:click',             _.bind(me.onNumberFormatSelect, me));
                 view.pmiNumFormat.menu.on('show:after',             _.bind(me.onNumberFormatOpenAfter, me));
                 view.pmiAdvancedNumFormat.on('click',               _.bind(me.onCustomNumberFormat, me));
@@ -376,6 +377,7 @@ define([
                 ? Common.util.Shortcuts.suspendEvents(this.hkComments)
                 : Common.util.Shortcuts.resumeEvents(this.hkComments);
             /** coauthoring end **/
+            this.documentHolder.setMode(permissions);
         },
 
         setApi: function(api) {
@@ -2894,7 +2896,7 @@ define([
                 documentHolder.pmiFilterCells.setVisible(iscellmenu && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiReapply.setVisible((iscellmenu||isallmenu) && !iscelledit && !diagramOrMergeEditor && !inPivot);
                 documentHolder.pmiCondFormat.setVisible(!iscelledit && !diagramOrMergeEditor);
-                documentHolder.ssMenu.items[12].setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
+                documentHolder.pmiCellSeparator.setVisible((iscellmenu||isallmenu||isinsparkline) && !iscelledit);
                 documentHolder.pmiInsFunction.setVisible(iscellmenu && !iscelledit && !inPivot);
                 documentHolder.pmiAddNamedRange.setVisible(iscellmenu && !iscelledit && !internaleditor);
 
@@ -3006,6 +3008,7 @@ define([
                 documentHolder.pmiEntriesList.setVisible(!iscelledit && !inPivot);
 
                 documentHolder.pmiNumFormat.setVisible(!iscelledit);
+                documentHolder.pmiCellFormat.setVisible(!iscelledit && !(this.permissions.canBrandingExt && this.permissions.customization && this.permissions.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')));
                 documentHolder.pmiAdvancedNumFormat.options.numformatinfo = documentHolder.pmiNumFormat.menu.options.numformatinfo = xfs.asc_getNumFormatInfo();
                 documentHolder.pmiAdvancedNumFormat.options.numformat = xfs.asc_getNumFormat();
 
@@ -3200,7 +3203,7 @@ define([
 
                 menu.show();
                 me.currentMenu = menu;
-                (type!==Asc.c_oAscContextMenuTypes.changeSeries) && me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow();
+                (type!==Asc.c_oAscContextMenuTypes.changeSeries) && me.api.onPluginContextMenuShow && me.api.onPluginContextMenuShow(event);
             }
         },
 
@@ -3375,7 +3378,12 @@ define([
                     switch (type) {
                         case Asc.c_oAscPopUpSelectorType.Func:
                             iconCls = 'menu__icon btn-function';
-                            hint = (funcdesc && funcdesc[origname]) ? funcdesc[origname].d : '';
+                            if (funcdesc && funcdesc[origname])
+                                hint = funcdesc[origname].d;
+                            else {
+                                var custom = me.api.asc_getCustomFunctionInfo(origname);
+                                hint = custom ? custom.asc_getDescription() || '' : '';
+                            }
                             break;
                         case Asc.c_oAscPopUpSelectorType.Table:
                             iconCls = 'menu__icon btn-menu-table';
@@ -3520,9 +3528,16 @@ define([
                     functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
-
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
-                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    hint = '';
+                if (funcdesc && funcdesc[name]) {
+                    hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
+                    hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                } else {
+                    var custom = this.api.asc_getCustomFunctionInfo(name),
+                        arr_args = custom ? custom.asc_getArg() || [] : [];
+                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
 
                 if (functip.ref && functip.ref.isVisible()) {
                     if (functip.text != hint) {
@@ -5169,6 +5184,10 @@ define([
         onFillSeriesHideAfter: function() {
             this.api && !this._state.fillSeriesItemClick && this.api.asc_CancelFillCells();
             this._state.fillSeriesItemClick = false;
+        },
+
+        onCellFormat: function() {
+            this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Cell);
         },
 
         getUserName: function(id){

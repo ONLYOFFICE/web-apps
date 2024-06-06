@@ -109,7 +109,8 @@ define([
                     'search:show': _.bind(this.onShowHideSearch, this)
                 },
                 'ViewTab': {
-                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this),
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -213,11 +214,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -253,6 +249,7 @@ define([
                 break;
                 case 'history':
                     if (!this.leftMenu.panelHistory.isVisible()) {
+                        Common.NotificationCenter.trigger('animpane:close');
                         if (this.api.isDocumentModified()) {
                             var me = this;
                             this.api.asc_stopSaving();
@@ -845,6 +842,15 @@ define([
                 this.leftMenu.showMenu('file:printpreview');
             else if (this.mode.canPrint)
                 this.clickMenuFileItem(null, 'print');
+        },
+
+        onChangeViewMode: function (mode) {
+            if (mode === 'master') {
+                if (this.leftMenu.btnComments && this.leftMenu.btnComments.pressed) {
+                    this.leftMenu.close();
+                }
+            }
+            this.leftMenu.btnComments.setDisabled(mode === 'master');
         },
 
         textNoTextFound         : 'Text not found',

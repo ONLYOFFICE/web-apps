@@ -282,7 +282,7 @@ define([
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setNeedRecalc(isNeedRecalc);
             if (this._state.isContentChanged) {
-                options.asc_setLastSearchElem(this._state.lastSelectedItem);
+                options.asc_setLastSearchElem(this._state.lastSelectedItem ? this._state.lastSelectedItem : options.asc_getLastSearchElem(true));
                 this.view.disableReplaceButtons(false);
                 this._state.isContentChanged = false;
                 if (!this.view.$el.is(':visible')) {

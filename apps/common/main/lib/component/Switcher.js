@@ -47,8 +47,8 @@ define([
 
         options : {
             hint: false,
-            width: 25,
-            thumbWidth: 13,
+            width: 30,
+            thumbWidth: 12,
             value: false
         },
 
@@ -56,8 +56,6 @@ define([
 
         template    : _.template([
             '<div class="switcher">',
-                '<div class="sw-left"></div>',
-                '<div class="sw-right"></div>',
                 '<div class="thumb"></div>',
             '</div>'
         ].join('')),
@@ -108,8 +106,6 @@ define([
 
             this.cmpEl.width(me.width);
             this.thumb.width(me.thumbWidth);
-            this.cmpEl.find('.sw-left').width(me.width/2);
-            this.cmpEl.find('.sw-right').width(me.width/2);
 
             var onMouseUp = function (e) {
                 if ( me.disabled ) return;
@@ -140,9 +136,9 @@ define([
 
                 var pos = Math.round((e.pageX*Common.Utils.zoom() - me._dragstart));
                 if (me.value) {
-                    me.thumb.css({right: (pos<1) ? Math.min(me.width-me.thumbWidth - 2, -pos) : 0, left: 'auto'});
+                    me.thumb.css({right: (pos<1) ? Math.min(me.width-me.thumbWidth - 4, -pos) : 0, left: 'auto'});
                 } else {
-                    me.thumb.css({left: (pos>-1) ? Math.min(me.width-me.thumbWidth - 2, pos) : 0, right: 'auto'});
+                    me.thumb.css({left: (pos>-1) ? Math.min(me.width-me.thumbWidth - 4, pos) : 0, right: 'auto'});
                 }
                 if (!me._isMouseMove) me._isMouseMove = Math.abs(pos)>0;
             };

@@ -458,6 +458,9 @@ module.exports = function(grunt) {
             },
 
             inline: {
+                options: {
+                    uglify: true
+                },
                 dist: {
                     src: '<%= pkg.main.copy.indexhtml[0].dest %>/*.html'
                 }
@@ -470,6 +473,7 @@ module.exports = function(grunt) {
                         params: {
                             overrides: {
                                 cleanupIds: false,
+                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
                             }
                         },
                     },

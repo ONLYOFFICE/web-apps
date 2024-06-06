@@ -117,7 +117,7 @@ define([
 
         onChangeCompactView: function (view, status) {
             this.statusbar.setVisible(!status);
-            Common.localStorage.setBool('de-hidden-status', status);
+            Common.localStorage.setBool('pdfe-hidden-status', status);
 
             if (view.$el.closest('.btn-slot').prop('id') === 'slot-btn-options') {
                 this.statusbar.fireEvent('view:hide', [this, status]);

@@ -54,7 +54,7 @@
       <script>
           listenApiMsg(function (isform) {
               var match = window.location.href.match(/(.*)common\/index.html/i);
-              match && window.location.replace(match[1] + (isform || embed ? 'documenteditor' : 'pdfeditor') + '/' + (isform && embed ? 'forms' : embed ? 'embed' : 'main') + '/index' + postfix + '.html' +
+              match && window.location.replace(match[1] + (isform || embed ? 'documenteditor' : 'pdfeditor') + '/' + (isform && embed ? 'forms' : embed ? 'embed' : 'main') + '/index' + (isform && embed ? '' : postfix) + '.html' +
                        window.location.search + ("&isForm=" + !!isform));
           });
       </script>

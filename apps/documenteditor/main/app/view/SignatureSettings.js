@@ -365,7 +365,7 @@ define([
                     text    : tipText,
                     showLink: showLink,
                     textLink: this.txtContinueEditing,
-                    placement: 'left-bottom'
+                    placement: Common.UI.isRTL() ? 'right-bottom' : 'left-bottom'
                 });
                 tip.on({
                     'dontshowclick': function() {
@@ -425,7 +425,8 @@ define([
                     documentHolder: {clear: true, disable: true},
                     toolbar: true,
                     plugins: false,
-                    protect: false
+                    protect: false,
+                    header: {docmode: true}
                 }, 'signature');
             }
         },

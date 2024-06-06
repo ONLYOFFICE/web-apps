@@ -1722,6 +1722,7 @@ define([
 
             var lang = (this.mode ? this.mode.lang || 'en' : 'en').replace('_', '-').toLowerCase();
             try {
+                if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';    // TODO: check Intl.Locale to support suitable options
                 return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
             } catch (e) {
                 lang = 'en';

@@ -34,7 +34,9 @@
   "DE.ApplicationController.scriptLoadError": "The connection is too slow, some of the components could not be loaded. Please reload the page.",
   "DE.ApplicationController.textAnonymous": "Anonymous",
   "DE.ApplicationController.textClear": "Clear all fields",
+  "DE.ApplicationController.textConvertFormDownload": "Download file as a fillable PDF form to be able to fill it out.",
   "DE.ApplicationController.textCtrl": "Ctrl",
+  "DE.ApplicationController.textDownloadPdf": "Download PDF",
   "DE.ApplicationController.textGotIt": "Got it",
   "DE.ApplicationController.textGuest": "Guest",
   "DE.ApplicationController.textLoadingDocument": "Loading document",
@@ -60,6 +62,6 @@
   "DE.ApplicationView.txtFileLocation": "Open file location",
   "DE.ApplicationView.txtFullScreen": "Full screen",
   "DE.ApplicationView.txtPrint": "Print",
-  "DE.ApplicationView.txtSearch": "Search",
+  "DE.ApplicationView.txtSearch": "Find",
   "DE.ApplicationView.txtShare": "Share"
 }

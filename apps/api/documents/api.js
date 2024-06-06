@@ -58,7 +58,8 @@
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
                     },
                     userInfoGroups: ["Group1", ""], // show tooltips/cursors/info in header only for users in userInfoGroups groups. [""] - means users without group, [] - don't show any users, null/undefined/"" - show all users
-                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons
+                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons,
+                    chat: <true>
                 }
             },
             editorConfig: {
@@ -181,6 +182,7 @@
                         header: {
                             users: false/true // users list button
                             save: false/true // save button
+                            editMode: false/true // change mode button
                         },
                         leftMenu: {
                             navigation: false/true,
@@ -201,12 +203,13 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                        roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
                     },
                     font: {
                         name: "Arial",
                         size: "11px";
                     },
-                    chat: true,
+                    chat: true, // deprecated 7.1, use permissions.chat
                     comments: true,
                     zoom: 100,
                     compactToolbar: false,
@@ -287,7 +290,9 @@
                 'onRequestSelectDocument': <try to open document>, // used for compare and combine documents. must call setRequestedDocument method. use instead of onRequestCompareFile/setRevisedFile
                 'onRequestSelectSpreadsheet': <try to open spreadsheet>, // used for mailmerge id de. must call setRequestedSpreadsheet method. use instead of onRequestMailMergeRecipients/setMailMergeRecipients
                 'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
-                'onSaveDocument': 'save document from binary'
+                'onSaveDocument': 'save document from binary',
+                'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
+                'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
             }
         }
 
@@ -357,6 +362,7 @@
         _config.editorConfig.canRequestSelectSpreadsheet = _config.events && !!_config.events.onRequestSelectSpreadsheet;
         _config.editorConfig.canRequestReferenceSource = _config.events && !!_config.events.onRequestReferenceSource;
         _config.editorConfig.canSaveDocumentToBinary = _config.events && !!_config.events.onSaveDocument;
+        _config.editorConfig.canStartFilling = _config.events && !!_config.events.onRequestStartFilling;
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
@@ -779,6 +785,13 @@
             });
         };
 
+        var _startFilling = function(data) {
+            _sendCommand({
+                command: 'startFilling',
+                data: data
+            });
+        };
+
         var _processMouse = function(evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
@@ -856,7 +869,8 @@
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
-            openDocument: _openDocumentFromBinary
+            openDocument: _openDocumentFromBinary,
+            startFilling: _startFilling
         }
     };
 
@@ -985,7 +999,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(oform|docxf))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1000,6 +1014,8 @@
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
             else if (config.type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
+        } else if (type && typeof type[5] === 'string') { // oform|docxf
+            appType = 'word';
         } else {
             if (typeof config.documentType === 'string')
                 appType = config.documentType.toLowerCase();
@@ -1046,9 +1062,10 @@
                 if ( config.editorConfig.customization.logo ) {
                     if (config.editorConfig.customization.logo.visible===false) {
                         params += "&headerlogo=";
-                    } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded))
-                        params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded);
-                    else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
+                    } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.imageDark)) {
+                        (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded) && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded));
+                        config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
                     }
@@ -1065,13 +1082,18 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null;
-        if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
+        var type = config.document ? /^(?:(pdf)|(oform|docxf))$/.exec(config.document.fileType) : null,
+            isPdf = type && typeof type[1] === 'string',
+            oldForm = type && typeof type[2] === 'string';
+
+        if (!(isPdf || oldForm) && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
+        if ((isPdf || oldForm) && (config.document && config.document.permissions && config.document.permissions.edit === false || config.editorConfig && config.editorConfig.mode == 'view'))
+            params += "&mode=fillforms";
 
         if (config.document) {
-            config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+            config.document.isForm = isPdf ? config.document.isForm : !!oldForm;
             (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
         }
 

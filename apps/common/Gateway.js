@@ -157,6 +157,10 @@ if (window.Common === undefined) {
 
             'setReferenceSource': function(data) {
                 $me.trigger('setreferencesource', data);
+            },
+
+            'startFilling': function(data) {
+                $me.trigger('startfilling', data);
             }
         };
 
@@ -394,6 +398,10 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceSource'});
             },
 
+            requestStartFilling:  function () {
+                _postMessage({event:'onRequestStartFilling'});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
             },
@@ -403,6 +411,10 @@ if (window.Common === undefined) {
                     event: 'onSaveDocument',
                     data: data.buffer
                 }, data.buffer);
+            },
+
+            submitForm: function() {
+                _postMessage({event: 'onSubmit'});
             },
 
             on: function(event, handler){

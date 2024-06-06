@@ -41,11 +41,6 @@
 if (Common === undefined)
     var Common = {};
 
-var c_oHyperlinkType = {
-    InternalLink:0,
-    WebLink: 1
-};
-
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/InputField',
@@ -99,6 +94,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.slides = this.options.slides;
             this.api = this.options.api;
+            this.type = options.type;
             this.urlType = AscCommon.c_oAscUrlType.Invalid;
             this.appOptions = this.options.appOptions;
 
@@ -203,7 +199,7 @@ define([
             if (props) {
                 var me = this;
 
-                var type = me.parseUrl(props.get_Value());
+                var type = (me.type!==undefined) ? me.type : me.parseUrl(props.get_Value());
                 (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type, props.get_Value());
                 
