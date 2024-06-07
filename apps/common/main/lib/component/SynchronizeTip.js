@@ -222,6 +222,8 @@ define([
             //     callback: function() {} // call when close tip,
             //     next: '' // show next tooltip on close
             //     prev: '' // don't show tooltip if the prev was not shown
+            //     automove: false // applyPlacement on window resize
+            //     maxwidth: 250 // 250 by default
             // }
         };
 
@@ -268,7 +270,7 @@ define([
 
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
-                    style: 'min-width:200px;',
+                    style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
                     placement: placement,
                     target: target,
                     text: props.text,

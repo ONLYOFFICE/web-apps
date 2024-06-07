@@ -974,7 +974,7 @@ define([
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
 
                         !config.isPDFForm && Common.UI.LayoutManager.isElementVisible('header-editMode') && Common.UI.TooltipManager.addTips({
-                            'docMode' : {name: 'de-help-tip-doc-mode', placement: 'bottom-left', text: me.helpDocMode, header: me.helpDocModeHeader, target: '#slot-btn-edit-mode'}
+                            'docMode' : {name: 'de-help-tip-doc-mode', placement: 'bottom-left', text: me.helpDocMode, header: me.helpDocModeHeader, target: '#slot-btn-edit-mode', maxwidth: 300}
                         });
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
