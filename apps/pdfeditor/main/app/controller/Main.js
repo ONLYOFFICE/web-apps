@@ -750,22 +750,28 @@ define([
 
                 if (this.appOptions.isEdit && toolbarView) {
                     if (toolbarView.btnStrikeout.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout')) {
-                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight') {
                             this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
+                            toolbarController.updateSelectTools();
+                        }
                         toolbarView.btnsStrikeout.forEach(function(button) {
                             button.toggle(false, true);
                         });
                     }
                     if (toolbarView.btnUnderline.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline')) {
-                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight') {
                             this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
+                            toolbarController.updateSelectTools();
+                        }
                         toolbarView.btnsUnderline.forEach(function(button) {
                             button.toggle(false, true);
                         });
                     }
                     if (toolbarView.btnHighlight.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
-                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout')
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout') {
                             this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
+                            toolbarController.updateSelectTools();
+                        }
                         toolbarView.btnsHighlight.forEach(function(button) {
                             button.toggle(false, true);
                         });
