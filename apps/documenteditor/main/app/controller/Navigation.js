@@ -181,6 +181,7 @@ define([
                 if (me._currentPos > -1 && me._currentPos < store.length) {
                     if (me._scrollTop > 0 && me.panelNavigation.viewNavigationList.childWillBeVisibleAtScroll(me._currentPos, me._scrollTop)) {
                         me.panelNavigation.viewNavigationList.scroller.scrollTop(me._scrollTop);
+                        me.panelNavigation.viewNavigationList.selectByIndex(me._currentPos);
                     } else {
                         me.onChangeOutlinePosition(me._currentPos);
                         me._currentPos = -1;
