@@ -3,6 +3,7 @@
   "Common.Controllers.Chat.textEnterMessage": "Εισάγετε το μήνυμά σας εδώ",
   "Common.Controllers.Desktop.hintBtnHome": "Εμφάνιση κύριου παραθύρου",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Δημιουργία από πρότυπο",
+  "Common.Controllers.Plugins.textPluginSuccessfullyInstalled": "<b>{0}</b> εγκαταστάθηκε με επιτυχία. Μπορείτε να έχετε πρόσβαση σε όλα τα πρόσθετα υποβάθρου εδώ.",
   "Common.Translation.textMoreButton": "Περισσότερα",
   "Common.Translation.tipFileLocked": "Το έγγραφο είναι κλειδωμένο για επεξεργασία. Μπορείτε να κάνετε αλλαγές και να τις αποθηκεύσετε αργότερα ως τοπικό αντίγραφο.",
   "Common.Translation.tipFileReadOnly": "Το αρχείο είναι μόνο για ανάγνωση. Για να διατηρήσετε τις αλλαγές σας, αποθηκεύστε το αρχείο με νέο όνομα ή σε διαφορετική θέση.",

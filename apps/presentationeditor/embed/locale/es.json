@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Descargando presentación...",
   "PE.ApplicationController.errorAccessDeny": "Está intentando realizar una acción para la que no tiene permiso. <br>Contacte con el administrador del servidor de documentos.",
   "PE.ApplicationController.errorDefaultMessage": "Código de error: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Se ha producido un error durante el trabajo con el documento.<br>Use la opción 'Descargar como' para guardar la copia de seguridad de este archivo en el disco duro.",
   "PE.ApplicationController.errorFilePassProtect": "El archivo está protegido por una contraseña y no se puede abrir.",
   "PE.ApplicationController.errorFileSizeExceed": "El tamaño del archivo supera el límiete establecido por su servidor. <br>Contacte con el administrador del servidor de documentos para obtener más detalles.",
   "PE.ApplicationController.errorForceSave": "Se ha producido un error al guardar el archivo. Utilice la opción \"Descargar como\" para guardar el archivo en el disco duro de su ordenador o inténtelo más tarde.",
@@ -47,6 +48,6 @@
   "PE.ApplicationView.txtFileLocation": "Abrir ubicación del archivo",
   "PE.ApplicationView.txtFullScreen": "Pantalla completa",
   "PE.ApplicationView.txtPrint": "Imprimir",
-  "PE.ApplicationView.txtSearch": "Búsqueda",
+  "PE.ApplicationView.txtSearch": "Buscar",
   "PE.ApplicationView.txtShare": "Compartir"
 }
