@@ -54,7 +54,8 @@ define([
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
         var isPDFEditor = !!window.PDFE,
-            isDocEditor = !!window.DE;
+            isDocEditor = !!window.DE,
+            isSSEEditor = !!window.SSE;
 
         var templateUserItem =
                 '<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">' +
@@ -303,7 +304,10 @@ define([
             this.btnDocMode.setCaption(isEdit ? this.textEdit : isReview ? this.textReview : isViewForm ? this.textViewForm : this.textView);
             this.btnDocMode.updateHint(isEdit ? this.tipDocEdit : isReview ? this.tipReview : isViewForm ? this.tipDocViewForm : this.tipDocView);
             this.btnDocMode.options.value = type;
-            show && !this.btnDocMode.isVisible() && this.btnDocMode.setVisible(true);
+            if (show && !this.btnDocMode.isVisible()) {
+                this.btnDocMode.setVisible(true);
+                Common.UI.TooltipManager.showTip('docMode');
+            }
             if (this.btnDocMode.menu && typeof this.btnDocMode.menu === 'object') {
                 var item = _.find(this.btnDocMode.menu.items, function(item) { return item.value == type; });
                 (item) ? item.setChecked(true) : this.btnDocMode.menu.clearAll();
@@ -521,6 +525,7 @@ define([
                     items: arr
                 }));
                 me.btnQuickAccess.menu.on('show:before', function (menu) {
+                    Common.UI.TooltipManager.closeTip('quickAccess');
                     menu.items.forEach(function (item) {
                         if (item.value === 'save') {
                             item.setChecked(Common.localStorage.getBool(me.appPrefix + 'quick-access-save', true), true);
@@ -557,6 +562,7 @@ define([
                     onChangeQuickAccess.call(me, 'header', props);
                 });
                 Common.NotificationCenter.on('quickaccess:changed', onChangeQuickAccess.bind(me, 'settings'));
+                isSSEEditor && Common.UI.TooltipManager.showTip('quickAccess');
             }
 
             if ( !appConfig.twoLevelHeader ) {
@@ -671,11 +677,15 @@ define([
                     menuAlign: 'tr-br',
                     items: arr
                 }));
+                me.btnDocMode.on('click', function (menu, item) {
+                    Common.UI.TooltipManager.closeTip('docMode');
+                });
                 me.btnDocMode.menu.on('item:click', function (menu, item) {
                     Common.NotificationCenter.trigger('doc:mode-apply', item.value, true);
                 });
                 var item = _.find(me.btnDocMode.menu.items, function(item) { return item.value == type; });
                 item && item.setChecked(true);
+                me.btnDocMode.isVisible() && Common.UI.TooltipManager.showTip('docMode');
             }
             if (appConfig.twoLevelHeader && !appConfig.compactHeader)
                 Common.NotificationCenter.on('window:resize', onResize);
@@ -962,6 +972,10 @@ define([
                         me.btnDocMode.render($html.find('#slot-btn-edit-mode'));
                         changeDocMode.call(me);
                         Common.NotificationCenter.on('doc:mode-changed', _.bind(changeDocMode, me));
+
+                        !config.isPDFForm && Common.UI.LayoutManager.isElementVisible('header-editMode') && Common.UI.TooltipManager.addTips({
+                            'docMode' : {name: 'de-help-tip-doc-mode', placement: 'bottom-left', text: me.helpDocMode, header: me.helpDocModeHeader, target: '#slot-btn-edit-mode', maxwidth: 300}
+                        });
                     } else
                         $html.find('#slot-btn-edit-mode').hide();
 
@@ -1041,6 +1055,10 @@ define([
                         dataHintOffset: config.isDesktopApp ? '10, -18' : '10, 10'
                     });
                     me.btnQuickAccess.render($html.find('#slot-btn-dt-quick-access'));
+
+                    isSSEEditor && Common.UI.TooltipManager.addTips({
+                        'quickAccess' : {name: 'common-help-tip-quick-access', placement: 'bottom-right', text: me.helpQuickAccess, header: me.helpQuickAccessHeader, target: '#slot-btn-dt-quick-access'}
+                    });
 
                     return $html;
                 }
@@ -1343,7 +1361,11 @@ define([
             textPrint: 'Print',
             textViewForm: 'Viewing form',
             tipDocViewForm: 'Viewing form',
-            textDocViewFormDesc: 'See how the form will look like when filling out'
+            textDocViewFormDesc: 'See how the form will look like when filling out',
+            helpDocMode: 'Easily change the way you work on a document: edit, review and track changes, or view only. This works individually for each user. So, you won’t affect or disturb other co-authors. ',
+            helpDocModeHeader: 'Switch between modes',
+            helpQuickAccess: 'Hide or show the functional buttons of your choice.',
+            helpQuickAccessHeader: 'Customize Quick Access'
         }
     }(), Common.Views.Header || {}))
 });

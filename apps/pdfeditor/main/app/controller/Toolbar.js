@@ -176,6 +176,10 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            Common.UI.TooltipManager.addTips({
+                'editPdf' : {name: 'pdfe-help-tip-edit-pdf', placement: 'bottom-right', text: this.helpEditPdf, header: this.helpEditPdfHeader, target: '#slot-btn-tb-edit-mode'},
+                'textComment' : {name: 'pdfe-help-tip-text-comment', placement: 'bottom-right', text: this.helpTextComment, header: this.helpTextCommentHeader, target: '#slot-btn-text-comment'}
+            });
         },
 
         attachCommonUIEvents: function(toolbar) {
@@ -238,6 +242,7 @@ define([
             toolbar.chShowComments.on('change',                         _.bind(this.onShowCommentsChange, this));
             toolbar.btnTextComment.on('click',                          _.bind(this.onBtnTextCommentClick, this));
             toolbar.btnTextComment.menu.on('item:click',                _.bind(this.onMenuTextCommentClick, this));
+            toolbar.btnTextComment.menu.on('show:before',               _.bind(this.onBeforeTextComment, this));
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
@@ -1036,7 +1041,12 @@ define([
             // this.api && this.api.asc_Rotate();
         },
 
+        onBeforeTextComment: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('textComment');
+        },
+
         onBtnTextCommentClick: function(btn, e) {
+            Common.UI.TooltipManager.closeTip('textComment');
             this.onInsertTextComment(btn.options.textboxType, btn, e);
         },
 
@@ -1324,6 +1334,7 @@ define([
                         me.toolbar.btnSubmit.updateHint(me.textRequired);
                     }
                 }
+                config.isEdit && Common.UI.TooltipManager.showTip('editPdf');
             });
         },
 
@@ -1346,6 +1357,8 @@ define([
                 this.requiredTooltip.close();
                 this.requiredTooltip = undefined;
             }
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('editPdf');
+            (tab === 'comment') ? Common.UI.TooltipManager.showTip('textComment') : Common.UI.TooltipManager.closeTip('textComment');
         },
 
         applySettings: function() {
@@ -2332,6 +2345,10 @@ define([
         textGotIt: 'Got it',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
+        helpTextComment: 'Insert a text comment or text callout in your PDF file.',
+        helpTextCommentHeader: 'Text Comment',
+        helpEditPdf: 'Edit text, add, delete, and rotate pages, insert images, tables, etc.',
+        helpEditPdfHeader: 'Edit PDF'
 
     }, PDFE.Controllers.Toolbar || {}));
 });

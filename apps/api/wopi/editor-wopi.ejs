@@ -176,8 +176,10 @@ div {
         }
 
         var onAppReady = function () {
+            //Collabora extension field "Status"
             _postMessage('App_LoadingStatus', {
-                "DocumentLoadedTime": Date.now() - startTime
+                "DocumentLoadedTime": Date.now() - startTime,
+                "Status": "Document_Loaded"
             });
             innerAlert("App ready");
         };
@@ -269,6 +271,7 @@ div {
 			var userAuth = <%- JSON.stringify(userAuth) %>;
 			var token = "<%- token %>";
 			var queryParams = <%- JSON.stringify(queryParams) %>;
+			var docs_api_config = <%- JSON.stringify(docs_api_config) %>;
 
             if (!fileInfo.BaseFileName) {
                 showError();
@@ -293,6 +296,17 @@ div {
 			var config = {
 				"width": "100%",
 				"height": "100%",
+				"editorConfig": {
+					"customization": {
+						"about": true
+					},
+					"coEditing": {
+						"change": false
+					},
+				}
+			};
+			config = mergeDeep(config, docs_api_config);
+			config = mergeDeep(config, {
 				"type": type,
 				"documentType": documentType,
 				"token": token,
@@ -326,7 +340,6 @@ div {
 						"name": fileInfo.IsAnonymousUser ? "" : fileInfo.UserFriendlyName
 					},
 					"customization": {
-						"about": true,
 						"close": {
 							"visible": customizationClose
 						},
@@ -341,8 +354,7 @@ div {
                         "uiTheme": queryParams.thm==="1" ? "default-light" : (queryParams.thm==="2" ? "default-dark" : undefined)
 					},
                     "coEditing": {
-                        "mode": userAuth.mode !== "view" ? "fast" : "strict",
-                        "change": false
+                        "mode": userAuth.mode !== "view" ? "fast" : "strict"
                     },
                     "wopi": {
                         "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250,
@@ -361,7 +373,7 @@ div {
                     "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined,
                     "onRequestInsertImage": fileInfo.EnableInsertRemoteImage ? onRequestInsertImage : undefined
                 }
-			};
+			});
 
             postMessageOrigin = fileInfo.PostMessageOrigin || "*";
             if (postMessageOrigin && (typeof postMessageOrigin === 'string') && postMessageOrigin.charAt(postMessageOrigin.length-1)=='/')
@@ -397,6 +409,66 @@ div {
                                 '</div>';
             document.body.appendChild(newDiv);
         };
+
+		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+		if (typeof Object.assign !== 'function') {
+			// Must be writable: true, enumerable: false, configurable: true
+			Object.defineProperty(Object, "assign", {
+				value: function assign(target, varArgs) { // .length of function is 2
+					'use strict';
+					if (target === null || target === undefined) {
+						throw new TypeError('Cannot convert undefined or null to object');
+					}
+
+					var to = Object(target);
+
+					for (var index = 1; index < arguments.length; index++) {
+						var nextSource = arguments[index];
+
+						if (nextSource !== null && nextSource !== undefined) {
+							for (var nextKey in nextSource) {
+								// Avoid bugs when hasOwnProperty is shadowed
+								if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+									to[nextKey] = nextSource[nextKey];
+								}
+							}
+						}
+					}
+					return to;
+				},
+				writable: true,
+				configurable: true
+			});
+		}
+		/**
+		 * Simple object check.
+		 * @param item
+		 * @returns {boolean}
+		 */
+		var isObject = function(item) {
+			return (item && typeof item === 'object' && !Array.isArray(item));
+		}
+
+		/**
+		 * Deep merge two objects.
+		 * @param target
+		 * @param source
+		 */
+		var mergeDeep = function(target, source) {
+			//https://stackoverflow.com/a/34749873
+			if (isObject(target) && isObject(source)) {
+				for (const key in source) {
+					if (isObject(source[key])) {
+						if (!target[key]) Object.assign(target, { [key]: {} });
+						mergeDeep(target[key], source[key]);
+					} else {
+						Object.assign(target, { [key]: source[key] });
+					}
+				}
+			}
+
+			return target;
+		}
 
         if (window.addEventListener) {
             window.addEventListener("load", connectEditor);

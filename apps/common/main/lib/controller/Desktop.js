@@ -279,6 +279,13 @@ define([
             if ( Common.UI.HintManager && Common.UI.HintManager.isHintVisible() ) {
                 native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
                 console.log('hint keydown', e.keyCode);
+            } else
+            if ( e.keyCode == 78 /* N */ ) {
+                if (config.canCreateNew && e.ctrlKey && !e.shiftKey &&
+                        ((Common.Utils.isWindows && !e.metaKey) || (Common.Utils.isMac && e.metaKey)))
+                {
+                    this.process('create:new');
+                }
             }
         }
 

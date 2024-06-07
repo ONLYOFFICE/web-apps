@@ -403,6 +403,7 @@ define([
         },
 
         onChangeViewMode: function (m, state) {
+            Common.UI.TooltipManager.closeTip('slideMaster');
             var mode;
             if (m === 'master') {
                 mode = state ? 'master' : 'normal';

@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Descargando hoja de cálculo...",
   "SSE.ApplicationController.errorAccessDeny": "Está intentando realizar una acción para la que no tiene permiso. <br>Contacte con el administrador del servidor de documentos.",
   "SSE.ApplicationController.errorDefaultMessage": "Código de error: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "Se ha producido un error durante el trabajo con el documento.<br>Use la opción 'Descargar como' para guardar la copia de seguridad de este archivo en el disco duro.",
   "SSE.ApplicationController.errorFilePassProtect": "El archivo está protegido por una contraseña y no se puede abrir.",
   "SSE.ApplicationController.errorFileSizeExceed": "El tamaño del archivo supera el límiete establecido por su servidor. <br>Contacte con el administrador del servidor de documentos para obtener más detalles.",
   "SSE.ApplicationController.errorForceSave": "Se ha producido un error al guardar el archivo. Utilice la opción \"Descargar como\" para guardar el archivo en el disco duro de su ordenador o inténtelo más tarde.",
@@ -47,6 +48,6 @@
   "SSE.ApplicationView.txtFileLocation": "Abrir ubicación del archivo",
   "SSE.ApplicationView.txtFullScreen": "Pantalla completa",
   "SSE.ApplicationView.txtPrint": "Imprimir",
-  "SSE.ApplicationView.txtSearch": "Búsqueda",
+  "SSE.ApplicationView.txtSearch": "Buscar",
   "SSE.ApplicationView.txtShare": "Compartir"
 }

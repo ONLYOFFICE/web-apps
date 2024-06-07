@@ -1428,6 +1428,8 @@ define([
             },
 
             onPdfModeApply: function(mode) {
+                Common.UI.TooltipManager.closeTip('editPdf');
+
                 if (!this.appOptions.canSwitchMode) return;
 
                 if ((mode==='comment' || mode==='edit') && false) { // TODO: fix when use co-edit

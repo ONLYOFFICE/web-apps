@@ -29,7 +29,7 @@
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "网络连接已恢复，文件版本已更改<br>在继续工作之前，您需要下载文件或复制其内容以确保不会丢失任何内容，然后重新加载此页面。",
   "SSE.ApplicationController.errorUserDrop": "该文件现在无法访问。",
   "SSE.ApplicationController.notcriticalErrorTitle": "警告",
-  "SSE.ApplicationController.openErrorText": "打开文件时发生错误",
+  "SSE.ApplicationController.openErrorText": "打开文件时发生错误。",
   "SSE.ApplicationController.scriptLoadError": "连接速度过慢，部分组件无法被加载。请重新加载页面。",
   "SSE.ApplicationController.textAnonymous": "匿名",
   "SSE.ApplicationController.textGuest": "访客",

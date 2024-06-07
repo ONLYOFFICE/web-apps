@@ -2403,8 +2403,18 @@ define([
         onShowTextBar: function(bounds) {
             if (this.mode && !(!this.mode.isPDFEdit && this.mode.isEdit)) return;
 
+            if (_.isUndefined(this._XY)) {
+                this._XY = [
+                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                this._Width       = this.documentHolder.cmpEl.width();
+                this._Height      = this.documentHolder.cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+
             this.lastTextBarBounds = bounds;
-            if (bounds[3] < 0) {
+            if (bounds[3] < 0 || bounds[1] > this._Height) {
                 this.onHideTextBar();
                 return;
             }
@@ -2468,20 +2478,10 @@ define([
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, bounds[1] - textContainer.outerHeight() - 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
-                showPoint[1] = bounds[3] + 10;
+                showPoint[1] = (bounds[3] > me._Height) ? 0 : bounds[3] + 10;
             }
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
             textContainer.css({left: showPoint[0], top : showPoint[1]});
-
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
-                ];
-                me._Width       = documentHolder.cmpEl.width();
-                me._Height      = documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
 
             var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
                 diffUp = me._XY[1] + showPoint[1],
@@ -2796,8 +2796,18 @@ define([
         onShowAnnotBar: function(bounds) {
             if (this.mode && !this.mode.isEdit) return;
 
+            if (_.isUndefined(this._XY)) {
+                this._XY = [
+                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
+                    this.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                ];
+                this._Width       = this.documentHolder.cmpEl.width();
+                this._Height      = this.documentHolder.cmpEl.height();
+                this._BodyWidth   = $('body').width();
+            }
+
             this.lastAnnotBarBounds = bounds;
-            if (bounds[3] < 0) {
+            if (bounds[3] < 0 || bounds[1] > this._Height) {
                 this.onHideAnnotBar();
                 return;
             }
@@ -2834,20 +2844,10 @@ define([
             var showPoint = [(bounds[0] + bounds[2])/2 - textContainer.outerWidth()/2, bounds[1] - textContainer.outerHeight() - 10];
             (showPoint[0]<0) && (showPoint[0] = 0);
             if (showPoint[1]<0) {
-                showPoint[1] = bounds[3] + 10;
+                showPoint[1] = (bounds[3] > me._Height) ? 0 : bounds[3] + 10;
             }
             showPoint[1] = Math.min(me._Height - textContainer.outerHeight(), Math.max(0, showPoint[1]));
             textContainer.css({left: showPoint[0], top : showPoint[1]});
-
-            if (_.isUndefined(me._XY)) {
-                me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
-                ];
-                me._Width       = documentHolder.cmpEl.width();
-                me._Height      = documentHolder.cmpEl.height();
-                me._BodyWidth   = $('body').width();
-            }
 
             var diffDown = me._Height - showPoint[1] - textContainer.outerHeight(),
                 diffUp = me._XY[1] + showPoint[1],
