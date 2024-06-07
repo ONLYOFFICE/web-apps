@@ -123,6 +123,7 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'tab:active': this.onActiveTab
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -270,6 +271,9 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
+                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true}
+            });
         },
 
         attachRestrictedEditFormsUIEvents: function(toolbar) {
@@ -1479,6 +1483,8 @@ define([
         onPageColorShowAfter: function(menu, e) {
             if (!(e && e.target===e.currentTarget))
                 return;
+
+            Common.UI.TooltipManager.closeTip('pageColor');
 
             var picker = this.toolbar.mnuPageColorPicker,
                 color = this.api.asc_getPageColor();
@@ -3883,6 +3889,11 @@ define([
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
+        onActiveTab: function(tab) {
+            (tab === 'layout') ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('docMode');
+        },
+
         textEmptyImgUrl                            : 'You need to specify image URL.',
         textWarning                                : 'Warning',
         textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
@@ -4246,6 +4257,8 @@ define([
         txtDownload: 'Download',
         txtSaveCopy: 'Save copy',
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+        helpPageColorHeader: 'Page Color',
+        helpPageColor: 'Apply any background color to the pages in your document.'
 
     }, DE.Controllers.Toolbar || {}));
 });

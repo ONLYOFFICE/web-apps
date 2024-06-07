@@ -149,7 +149,8 @@ define([
                     'insert:placeholder-btn': this.onBtnInsertPlaceholder.bind(this),
                     'insert:placeholder-menu': this.onMenuInsertPlaceholder.bind(this),
                     'title:hide'         : this.onTitleHide.bind(this),
-                    'footers:hide'       : this.onFootersHide.bind(this)
+                    'footers:hide'       : this.onFootersHide.bind(this),
+                    'tab:active'         : this.onActiveTab.bind(this)
                 },
                 'DocumentHolder': {
                     'smartart:mouseenter': this.mouseenterSmartArt,
@@ -313,6 +314,11 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            Common.UI.TooltipManager.addTips({
+                'colorSchema' : {name: 'pe-help-tip-color-schema', placement: 'bottom-left', text: this.helpColorSchema, header: this.helpColorSchemaHeader, target: '#slot-btn-colorschemas', automove: true},
+                'animPane' : {name: 'pe-help-tip-anim-pane', placement: 'bottom-left', text: this.helpAnimPane, header: this.helpAnimPaneHeader, target: '#animation-button-pane', automove: true},
+                'masterSlide' : {name: 'pe-help-tip-master-slide', placement: 'bottom-right', text: this.helpMasterSlide, header: this.helpMasterSlideHeader, target: '#slot-btn-slide-master'}
+            });
         },
 
         attachUIEvents: function(toolbar) {
@@ -2068,6 +2074,7 @@ define([
                 var item = _.find(menu.items, function(item) { return item.value == value; });
                 (item) ? item.setChecked(true) : menu.clearAll();
             }
+            Common.UI.TooltipManager.closeTip('colorSchema');
         },
 
         onSlideSize: function(menu, item) {
@@ -2852,6 +2859,7 @@ define([
                     this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, { array: this.btnsComment });
                 }
             }
+            config.isEdit && Common.UI.TooltipManager.showTip('colorSchema');
         },
 
         onFileMenu: function (opts) {
@@ -3074,6 +3082,12 @@ define([
         onApiLayoutFooter: function (status) {
             if ((this.toolbar.chFooters.getValue() === 'checked') !== status)
                 this.toolbar.chFooters.setValue(status, true);
+        },
+
+        onActiveTab: function(tab) {
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('colorSchema');
+            (tab === 'animate') ? Common.UI.TooltipManager.showTip('animPane') : Common.UI.TooltipManager.closeTip('animPane');
+            (tab === 'view') ? Common.UI.TooltipManager.showTip('masterSlide') : Common.UI.TooltipManager.closeTip('masterSlide');
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
@@ -3421,7 +3435,13 @@ define([
         txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
         txtMatrix_Flat_Square                      : 'Sparse Matrix',
-        textInsert: 'Insert'
+        textInsert: 'Insert',
+        helpColorSchema: 'Apply a color scheme to your slides from the extended set.',
+        helpColorSchemaHeader: 'Updated Color Schemes',
+        helpMasterSlide: 'Quickly apply the same layout across multiple slides.',
+        helpMasterSlideHeader: 'Slide Master',
+        helpAnimPane: 'Easily view and manage all the applied animation effects.',
+        helpAnimPaneHeader: 'Animation Pane'
 
     }, PE.Controllers.Toolbar || {}));
 });
