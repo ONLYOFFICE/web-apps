@@ -170,7 +170,7 @@ define([
                         resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
-                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && (resolved || !comment.get('resolved'))) {
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '' && (resolved || !comment.get('resolved'))) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
