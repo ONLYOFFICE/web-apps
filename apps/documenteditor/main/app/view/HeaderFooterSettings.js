@@ -480,15 +480,19 @@ define([
 
         addNewListType: function() {
             var me = this,
+                btn,
                 win = new DE.Views.ListTypesAdvanced({
                     modal: true,
                     lang: me.mode.lang,
                     handler: function(result, value) {
+                        btn = result;
                         if (result == 'ok') {
                             me.api && me.api.asc_SetSectionPageNumFormat(value);
                         }
                         me.fireEvent('editcomplete', me);
                     }
+                }).on('close', function(obj){
+                    (btn!=='ok') && me.cmbFormat.setValue(me._state.NumFormat);
                 });
             win.show();
         },
