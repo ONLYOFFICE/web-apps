@@ -176,8 +176,10 @@ div {
         }
 
         var onAppReady = function () {
+            //Collabora extension field "Status"
             _postMessage('App_LoadingStatus', {
-                "DocumentLoadedTime": Date.now() - startTime
+                "DocumentLoadedTime": Date.now() - startTime,
+                "Status": "Document_Loaded"
             });
             innerAlert("App ready");
         };
