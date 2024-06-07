@@ -246,6 +246,7 @@ define([
             // toolbar.btnRotate.on('click',                               _.bind(this.onRotateClick, this));
             Common.NotificationCenter.on('leftmenu:save', _.bind(this.tryToSave, this));
             Common.NotificationCenter.on('draw:start', _.bind(this.onDrawStart, this));
+            Common.NotificationCenter.on('draw:stop', _.bind(this.onDrawStop, this));
 
         },
 
@@ -809,6 +810,7 @@ define([
 
         onSelectTool: function (type, btn, state, e) {
             if (this.api && state) {
+                this._state.select_tool = type==='select';
                 this.api.asc_setViewerTargetType(type);
                 this.mode.isEdit && this.api.asc_StopInkDrawer();
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -817,9 +819,25 @@ define([
 
         turnOnSelectTool: function() {
             if ((this.mode.isEdit || this.mode.isRestrictedEdit) && this.toolbar && this.toolbar.btnSelectTool && !this.toolbar.btnSelectTool.isActive()) {
+                this._state.select_tool = true;
                 this.api.asc_setViewerTargetType('select');
                 this.toolbar.btnSelectTool.toggle(true, true);
                 this.toolbar.btnHandTool.toggle(false, true);
+            }
+        },
+
+        clearSelectTools: function() {
+            if (this.toolbar && this.toolbar.btnSelectTool && (this.toolbar.btnSelectTool.pressed || this.toolbar.btnHandTool.pressed)) {
+                this._state.select_tool = this.toolbar.btnSelectTool.pressed;
+                this.toolbar.btnSelectTool.toggle(false, true);
+                this.toolbar.btnHandTool.toggle(false, true);
+            }
+        },
+
+        updateSelectTools: function() {
+            if (this.toolbar && this.toolbar.btnSelectTool) {
+                this.toolbar.btnSelectTool.toggle(!!this._state.select_tool, true);
+                this.toolbar.btnHandTool.toggle(!this._state.select_tool, true);
             }
         },
 
@@ -836,6 +854,7 @@ define([
                 this.toolbar.btnsStrikeout.forEach(function(button) {
                     button.toggle(false, true);
                 });
+                this.updateSelectTools();
             }
         },
 
@@ -852,6 +871,7 @@ define([
             me.turnOnSelectTool();
             me.turnOnShowComments();
             me.api.asc_StopInkDrawer();
+            me.clearSelectTools();
 
             if (h === 'menu') {
                 me._state.clrstrike = undefined;
@@ -894,6 +914,7 @@ define([
                 this.toolbar.btnsUnderline.forEach(function(button) {
                     button.toggle(false, true);
                 });
+                this.updateSelectTools();
             }
         },
 
@@ -910,6 +931,7 @@ define([
             me.turnOnSelectTool();
             me.turnOnShowComments();
             me.api.asc_StopInkDrawer();
+            me.clearSelectTools();
 
             if (h === 'menu') {
                 me._state.clrunderline = undefined;
@@ -952,6 +974,7 @@ define([
                 this.toolbar.btnsHighlight.forEach(function(button) {
                     button.toggle(false, true);
                 });
+                this.updateSelectTools();
             }
         },
 
@@ -968,6 +991,7 @@ define([
             me.turnOnSelectTool();
             me.turnOnShowComments();
             me.api.asc_StopInkDrawer();
+            me.clearSelectTools();
 
             if (h === 'menu') {
                 me._state.clrhighlight = undefined;
@@ -1016,12 +1040,22 @@ define([
                 });
             else if (type===undefined)
                 this.toolbar.btnTextHighlightColor && this.toolbar.btnTextHighlightColor.toggle(pressed, true);
+            if (type!==undefined) {
+                pressed ? this.clearSelectTools() : this.updateSelectTools();
+            }
         },
 
         onDrawStart: function() {
             this.api && this.api.SetMarkerFormat(undefined, false);
             this.onClearHighlight();
             this.turnOnShowComments();
+            this.clearSelectTools();
+        },
+
+        onDrawStop: function() {
+            this.onClearHighlight();
+            this.turnOnShowComments();
+            this.updateSelectTools();
         },
 
         onClearHighlight: function() {

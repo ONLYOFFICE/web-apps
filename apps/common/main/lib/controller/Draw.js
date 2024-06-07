@@ -111,6 +111,7 @@ define([
 
         onInkDrawerStop: function() {
             this.view && this.view.depressButtons();
+            Common.NotificationCenter.trigger('draw:stop', this.view);
         },
 
         onSelect: function(btn){
