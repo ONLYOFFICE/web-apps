@@ -5632,8 +5632,8 @@ define([
         textRecentlyUsed: 'Recently Used',
         errorMaxPoints: 'The maximum number of points in series per chart is 4096.',
         warnNoRecommended: 'To create a chart, select the cells that contain the data you\'d like to use.<br>If you have names for the rows and columns and you\'d like use them as labels, include them in your selection.',
-        helpProtectRange: 'You can easily protect range',
-        helpProtectRangeHeader: 'New Protect range'
+        helpProtectRange: 'Restrict viewing of cells in the selected range to protect important data.',
+        helpProtectRangeHeader: 'Protect Range'
 
     }, SSE.Controllers.Toolbar || {}));
 });

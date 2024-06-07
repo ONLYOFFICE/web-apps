@@ -3436,12 +3436,12 @@ define([
         txtMatrix_Flat_Round                       : 'Sparse Matrix',
         txtMatrix_Flat_Square                      : 'Sparse Matrix',
         textInsert: 'Insert',
-        helpColorSchema: 'Change color scheme in all presentation in one click',
-        helpColorSchemaHeader: 'Try new Color schemes',
-        helpMasterSlide: 'Add text, image, table...',
+        helpColorSchema: 'Apply a color scheme to your slides from the extended set.',
+        helpColorSchemaHeader: 'Updated Color Schemes',
+        helpMasterSlide: 'Quickly apply the same layout across multiple slides.',
         helpMasterSlideHeader: 'Slide Master',
-        helpAnimPane: 'View and edit animation on this slide',
-        helpAnimPaneHeader: 'New Animation pane'
+        helpAnimPane: 'Easily view and manage all the applied animation effects.',
+        helpAnimPaneHeader: 'Animation Pane'
 
     }, PE.Controllers.Toolbar || {}));
 });

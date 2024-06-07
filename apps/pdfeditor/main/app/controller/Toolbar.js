@@ -2345,9 +2345,9 @@ define([
         textGotIt: 'Got it',
         textSubmited: '<b>Form submitted successfully</b><br>Click to close the tip.',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
-        helpTextComment: 'View or annotate or edit',
-        helpTextCommentHeader: 'New text comment',
-        helpEditPdf: 'Add text, image, table...',
+        helpTextComment: 'Insert a text comment or text callout in your PDF file.',
+        helpTextCommentHeader: 'Text Comment',
+        helpEditPdf: 'Edit text, add, delete, and rotate pages, insert images, tables, etc.',
         helpEditPdfHeader: 'Edit PDF'
 
     }, PDFE.Controllers.Toolbar || {}));

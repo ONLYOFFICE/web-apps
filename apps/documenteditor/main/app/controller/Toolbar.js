@@ -4257,8 +4257,8 @@ define([
         txtDownload: 'Download',
         txtSaveCopy: 'Save copy',
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-        helpPageColorHeader: 'New Page color',
-        helpPageColor: 'Easily change page color'
+        helpPageColorHeader: 'Page Color',
+        helpPageColor: 'Apply any background color to the pages in your document.'
 
     }, DE.Controllers.Toolbar || {}));
 });

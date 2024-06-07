@@ -1362,10 +1362,10 @@ define([
             textViewForm: 'Viewing form',
             tipDocViewForm: 'Viewing form',
             textDocViewFormDesc: 'See how the form will look like when filling out',
-            helpDocMode: 'Easily change the way to work on your document: edit, track changes or view it only',
-            helpDocModeHeader: 'New Switch between modes',
-            helpQuickAccess: 'Select tools you need much more. While list is limited, but soon you can choose any features',
-            helpQuickAccessHeader: 'New Quick settings toolbar'
+            helpDocMode: 'Easily change the way you work on a document: edit, review and track changes, or view only. This works individually for each user. So, you won’t affect or disturb other co-authors. ',
+            helpDocModeHeader: 'Switch between modes',
+            helpQuickAccess: 'Hide or show the functional buttons of your choice.',
+            helpQuickAccessHeader: 'Customize Quick Access'
         }
     }(), Common.Views.Header || {}))
 });
