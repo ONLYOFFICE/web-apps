@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Mengunduh penyajian",
   "PE.ApplicationController.errorAccessDeny": "Kamu mencoba melakukan sebuah",
   "PE.ApplicationController.errorDefaultMessage": "Kode kesalahan %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Ada kesalahan saat bekerja dengan dokumen.<br>Gunakan opsi 'Unduh sebagai' untuk menyimpan file salinan cadangan ke suatu drive.",
   "PE.ApplicationController.errorFilePassProtect": "File diproteksi kata sandi",
   "PE.ApplicationController.errorFileSizeExceed": "Ukuran file melebihi",
   "PE.ApplicationController.errorForceSave": "Ada kesalahan saat menyimpan file. Silakan gunakan opsi 'Download sebagai' untuk menyimpan file ke komputer Anda dan coba lagi.",

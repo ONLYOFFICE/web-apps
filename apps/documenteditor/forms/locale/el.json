@@ -136,7 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Αποθήκευση ως PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Αποθήκευση ως...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Η φόρμα υποβλήθηκε με επιτυχία</b><br>Κάντε κλικ για να κλείσετε τη συμβουλή ",
-  "DE.Controllers.ApplicationController.textSubmitOk": "Η φόρμα PDF έχει αποθηκευτεί στην ενότητα Ολοκληρωμένα.",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Η φόρμα PDF σας έχει αποθηκευτεί στην πλήρη ενότητα.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "Η άδεια έχει λήξει",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "Η άδεια δεν είναι ενεργή",
   "DE.Controllers.ApplicationController.titleServerVersion": "Ο συντάκτης ενημερώθηκε",

@@ -4,7 +4,7 @@
   "common.view.modals.txtHeight": "Altezza",
   "common.view.modals.txtIncorrectPwd": "Password non corretta",
   "common.view.modals.txtOpenFile": "Immettere la password per aprire il file",
-  "common.view.modals.txtShare": "Condividi collegamento",
+  "common.view.modals.txtShare": "Condividi il link",
   "common.view.modals.txtTitleProtected": "File protetto",
   "common.view.modals.txtWidth": "Larghezza",
   "common.view.SearchBar.textFind": "Trova",
@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Download della presentazione in corso...",
   "PE.ApplicationController.errorAccessDeny": "Stai tentando di eseguire un'azione per la quale non disponi di permessi sufficienti.<br>Si prega di contattare l'amministratore del Server dei Documenti.",
   "PE.ApplicationController.errorDefaultMessage": "Codice errore: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Si è verificato un errore durante il lavoro con il documento.<br>Utilizza l'opzione 'Scaricare come' per salvare la copia di backup del file sul disco rigido.",
   "PE.ApplicationController.errorFilePassProtect": "Il file è protetto da una password. Impossibile aprirlo.",
   "PE.ApplicationController.errorFileSizeExceed": "La dimensione del file supera la limitazione impostata per il tuo server.<br>Per i dettagli, contatta l'amministratore del Document server.",
   "PE.ApplicationController.errorForceSave": "Si è verificato un errore durante il salvataggio del file. Utilizzare l'opzione 'Scarica come' per salvare il file sul disco rigido del computer o riprovare più tardi.",
@@ -47,6 +48,6 @@
   "PE.ApplicationView.txtFileLocation": "Apri percorso file",
   "PE.ApplicationView.txtFullScreen": "Schermo intero",
   "PE.ApplicationView.txtPrint": "Stampa",
-  "PE.ApplicationView.txtSearch": "Cerca",
+  "PE.ApplicationView.txtSearch": "Trova",
   "PE.ApplicationView.txtShare": "Condividi"
 }
