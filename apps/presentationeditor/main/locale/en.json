@@ -2806,6 +2806,8 @@
   "PE.Views.Toolbar.txtObjectsAlign": "Align selected objects",
   "PE.Views.Toolbar.txtSlideAlign": "Align to Slide",
   "PE.Views.Toolbar.txtUngroup": "Ungroup",
+  "PE.Views.Toolbar.capCloseMaster": "Close Master",
+  "PE.Views.Toolbar.tipCloseMaster": "Close Master",
   "PE.Views.Transitions.strDelay": "Delay",
   "PE.Views.Transitions.strDuration": "Duration",
   "PE.Views.Transitions.strStartOnClick": "Start On Click",
