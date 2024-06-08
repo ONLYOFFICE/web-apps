@@ -115,6 +115,9 @@ define([
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
+                    }, this),
+                    'close:slide-master': _.bind(function () {
+                        this.onChangeViewMode('normal', true);
                     }, this)
                 },
                 'Statusbar': {

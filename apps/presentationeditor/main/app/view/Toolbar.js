@@ -778,6 +778,18 @@ define([
                     });
                     this.slideOnlyControls.push(this.chFooters);
 
+                    me.btnCloseSlideMaster = new Common.UI.Button({
+                        id: 'tlbtn-close-slide-master',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-close-master',
+                        lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
+                        caption: me.capCloseMaster,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    me.slideOnlyControls.push(me.btnCloseSlideMaster);
+
                     me.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1353,6 +1365,7 @@ define([
                 _injectComponent('#slot-btn-insplaceholder', this.btnInsertPlaceholder);
                 _injectComponent('#slot-chk-title', this.chTitle);
                 _injectComponent('#slot-chk-footers', this.chFooters);
+                _injectComponent('#slot-btn-closeslidemaster', this.btnCloseSlideMaster);
 
                 this.btnInsAudio && _injectComponent('#slot-btn-insaudio', this.btnInsAudio);
                 this.btnInsVideo && _injectComponent('#slot-btn-insvideo', this.btnInsVideo);
@@ -1561,6 +1574,7 @@ define([
                 this.btnEditHeader.updateHint(this.tipEditHeaderFooter);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
                 this.btnInsSlideNum.updateHint(this.tipSlideNum);
+                this.btnCloseSlideMaster.updateHint(this.tipCloseMaster);
 
                 // set menus
 
@@ -1917,6 +1931,10 @@ define([
                 me.chFooters.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('footers:hide', [me.chFooters, state === 'checked']);
                 }, me));
+
+                me.btnCloseSlideMaster.on('click', function (btn, e) {
+                    me.fireEvent('close:slide-master', [btn, e]);
+                });
 
                 /** coauthoring begin **/
                 this.showSynchTip = !Common.localStorage.getBool('pe-hide-synch');
@@ -2528,7 +2546,9 @@ define([
             tipInsertPicturePlaceholder: 'Insert picture placeholder',
             tipInsertChartPlaceholder: 'Insert chart placeholder',
             tipInsertTablePlaceholder: 'Insert table placeholder',
-            tipInsertSmartArtPlaceholder: 'Insert smartArt placeholder'
+            tipInsertSmartArtPlaceholder: 'Insert smartArt placeholder',
+            capCloseMaster: 'Close Master',
+            tipCloseMaster: 'Close Master'
         }
     }()), PE.Views.Toolbar || {}));
 });
