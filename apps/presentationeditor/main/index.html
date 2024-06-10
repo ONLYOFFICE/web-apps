@@ -330,7 +330,10 @@
             document.querySelectorAll('.compact').forEach(function(item){
                 item.style.display = 'inline-block';
             });
-            document.querySelector('.fat').style.left = '868px';
+            if (document.body.classList.contains('rtl'))
+                document.querySelector('.fat').style.right = '865px';
+            else
+                document.querySelector('.fat').style.left = '865px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
