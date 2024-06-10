@@ -107,41 +107,29 @@ const Search = withTranslation()(props => {
     }
 
     const onReplaceQuery = params => {
+        if (!params.find) return;
+
         const api = Common.EditorApi.get();
         const options = new AscCommon.CSearchSettings();
 
         options.put_Text(params.find);
         options.put_MatchCase(params.caseSensitive);
 
-        api.asc_findText(options, params.forward, function(resultCount) {
-            if(!resultCount) {
-                setNumberSearchResults(0);
-                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-                return;
-            }
-
-            api.asc_replaceText(options, params.replace || '', false);
-            setNumberSearchResults(numberSearchResults - 1);
-        });
+        api.asc_replaceText(options, params.replace || '', false);
+        setNumberSearchResults(numberSearchResults > 0 ? numberSearchResults - 1 : 0);
     }
 
     const onReplaceAllQuery = params => {
+        if (!params.find) return;
+
         const api = Common.EditorApi.get();
         const options = new AscCommon.CSearchSettings();
 
         options.put_Text(params.find);
         options.put_MatchCase(params.caseSensitive);
 
-        api.asc_findText(options, params.forward, function(resultCount) {
-            if(!resultCount) {
-                setNumberSearchResults(0);
-                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-                return;
-            }
-
-            api.asc_replaceText(options, params.replace || '', true);
-            setNumberSearchResults(0);
-        });
+        api.asc_replaceText(options, params.replace || '', true);
+        setNumberSearchResults(0);
     }
 
     return ( 

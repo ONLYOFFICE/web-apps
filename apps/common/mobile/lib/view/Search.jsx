@@ -239,6 +239,7 @@ class SearchView extends Component {
 
     onSearchInput(e) {
         const text = e.target.value;
+        const api = Common.EditorApi.get();
 
         if (text && this.state.searchQuery !== text) {
             this.setState(prevState => ({
@@ -252,11 +253,12 @@ class SearchView extends Component {
                 this.searchTimer = setInterval(() => {
                     if (new Date() - this.lastInputChange < 400) return;
 
-                    clearInterval(this.searchTimer);
-                    this.searchTimer = undefined;
-
-                    if(this.state.searchQuery !== '') {
+                    if (!(this.state.searchQuery === '' || this.props.onSearchQuery(this.searchParams(), true))) {
                         this.props.onSearchQuery(this.searchParams(), true);
+                        clearInterval(this.searchTimer);
+                        this.searchTimer = undefined;
+                    } else {
+                        api.asc_endFindText();
                     }
                 }, 10);
             }
