@@ -624,6 +624,10 @@ define([
                 }
 
                 var $btn = $('button', el).length>0 ? $('button', el) : me.cmpEl;
+
+                if (!me.menu)
+                    $btn.addClass('canfocused');
+
                 if (me.enableToggle && !me.menu) {
                     $btn.attr('aria-pressed', !!me.pressed)
                 }
