@@ -262,8 +262,6 @@ class SearchView extends Component {
                         this.props.onSearchQuery(this.searchParams(), true);
                         clearInterval(this.searchTimer);
                         this.searchTimer = undefined;
-                    } else {
-                        api.asc_endFindText();
                     }
                 }, 10);
             }
@@ -282,6 +280,11 @@ class SearchView extends Component {
         const { _t } = this.props;
         const numberSearchResults = this.props.numberSearchResults;
         const isViewer = this.props.isViewer ?? false;
+
+
+        if (this.searchbar && this.searchbar.enabled && !isViewer) {
+            searchOptions.usereplace || searchOptions.isReplaceAll ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
+        }
 
         return (
             <form className="searchbar">
