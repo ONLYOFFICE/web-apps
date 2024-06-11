@@ -150,7 +150,8 @@ define([
                     'insert:placeholder-menu': this.onMenuInsertPlaceholder.bind(this),
                     'title:hide'         : this.onTitleHide.bind(this),
                     'footers:hide'       : this.onFootersHide.bind(this),
-                    'tab:active'         : this.onActiveTab.bind(this)
+                    'tab:active'         : this.onActiveTab.bind(this),
+                    'tab:collapse'       : this.onTabCollapse.bind(this)
                 },
                 'DocumentHolder': {
                     'smartart:mouseenter': this.mouseenterSmartArt,
@@ -482,6 +483,8 @@ define([
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this.toolbar, compact]);
+
+            compact && this.onTabCollapse();
 
             Common.localStorage.setBool('pe-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -3088,6 +3091,12 @@ define([
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('colorSchema');
             (tab === 'animate') ? Common.UI.TooltipManager.showTip('animPane') : Common.UI.TooltipManager.closeTip('animPane');
             (tab === 'view') ? Common.UI.TooltipManager.showTip('masterSlide') : Common.UI.TooltipManager.closeTip('masterSlide');
+        },
+
+        onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('colorSchema');
+            Common.UI.TooltipManager.closeTip('animPane');
+            Common.UI.TooltipManager.closeTip('masterSlide');
         },
 
         textEmptyImgUrl : 'You need to specify image URL.',
