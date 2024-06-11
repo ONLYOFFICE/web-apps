@@ -187,6 +187,8 @@ const Search = withTranslation()(props => {
     }
 
     const onReplaceQuery = params => {
+        if (!params.find) return;
+
         const api = Common.EditorApi.get();
 
         let lookIn = +params.lookIn === 0;
@@ -206,19 +208,13 @@ const Search = withTranslation()(props => {
         options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
         options.asc_setIsReplaceAll(false);
 
-        api.asc_findText(options, function(resultCount) {
-            if(!resultCount) {
-                setNumberSearchResults(0);
-                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-                return;
-            }
-            
-            api.asc_replaceText(options, params.replace || '', false);
-            setNumberSearchResults(numberSearchResults - 1);
-        });
+        api.asc_replaceText(options, params.replace || '', false);
+        setNumberSearchResults(numberSearchResults > 0 ? numberSearchResults - 1 : 0);
     }
 
     const onReplaceAllQuery = params => {
+        if (!params.find) return;
+
         const api = Common.EditorApi.get();
 
         let lookIn = +params.lookIn === 0;
@@ -238,16 +234,8 @@ const Search = withTranslation()(props => {
         options.asc_setLookIn(lookIn ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
         options.asc_setIsReplaceAll(true);
 
-        api.asc_findText(options, function(resultCount) {
-            if(!resultCount) {
-                setNumberSearchResults(0);
-                f7.dialog.alert(null, t('View.Settings.textNoMatches'));
-                return;
-            }
-
-            api.asc_replaceText(options, params.replace || '', true);
-            setNumberSearchResults(0);
-        });
+        api.asc_replaceText(options, params.replace || '', true);
+        setNumberSearchResults(0);
     }
 
     return (
