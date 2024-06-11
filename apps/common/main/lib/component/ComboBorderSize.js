@@ -262,7 +262,7 @@ define([
     Common.UI.ComboBorderType = Common.UI.ComboBorderSize.extend(_.extend({
         template: _.template([
             '<div class="input-group combobox combo-border-size combo-border-type input-group-nr <%= cls %>" id="<%= id %>" style="<%= style %>">',
-                '<div class="form-control" style="<%= style %>" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>">',
+                '<div class="form-control canfocused" style="<%= style %>" role="combobox" aria-expanded="false" aria-controls="<%= id %>-menu" data-hint="<%= dataHint %>" data-hint-direction="<%= dataHintDirection %>" data-hint-offset="<%= dataHintOffset %>" data-move-focus-only-tab="true">',
                     '<i class="img-line"><svg><use xlink:href="#solid"></use></svg></i>',
                 '</div>',
                 '<div style="display: table-cell;"></div>',

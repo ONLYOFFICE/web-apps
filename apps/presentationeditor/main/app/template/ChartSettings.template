@@ -109,7 +109,7 @@
     </tr>
     <tr>
         <td class="padding-small">
-            <label class="link" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
+            <label class="link canfocused" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
         </td>
     </tr>
 </table>
@@ -121,7 +121,7 @@
     </tr>
     <tr>
         <td align="center">
-            <label class="link" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

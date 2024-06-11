@@ -57,7 +57,7 @@
     <tr>
         <td class="padding-medium">
             <label style=""><%= scope.textMaxRecepients %></label>
-            <label class="link-solid" id="mmerge-readmore-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="small"><%= scope.textReadMore %></label>
+            <label class="link-solid canfocused" id="mmerge-readmore-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="small"><%= scope.textReadMore %></label>
         </td>
     </tr>
     <tr>
