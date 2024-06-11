@@ -254,6 +254,7 @@ define([
                     optsFold.$bar.removeClass('expanded');
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                 }
+                this.fireEvent('tab:collapse');
             },
 
             expand: function() {

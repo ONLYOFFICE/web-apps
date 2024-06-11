@@ -123,7 +123,8 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
-                    'tab:active': this.onActiveTab
+                    'tab:active': this.onActiveTab,
+                    'tab:collapse': this.onTabCollapse
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -507,6 +508,7 @@ define([
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
+            compact && this.onTabCollapse();
 
             Common.localStorage.setBool('de-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -3892,6 +3894,10 @@ define([
         onActiveTab: function(tab) {
             (tab === 'layout') ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('docMode');
+        },
+
+        onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('pageColor');
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
