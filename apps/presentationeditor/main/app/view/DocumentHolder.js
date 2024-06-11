@@ -2448,36 +2448,6 @@ define([
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
             });
 
-            me.menuAnimZoomIn = new Common.UI.MenuItem({
-                caption: me.textZoomIn,
-                value: 'zoom-in'
-            });
-
-            me.menuAnimZoomOut = new Common.UI.MenuItem({
-                caption: me.textZoomOut,
-                value: 'zoom-out'
-            });
-
-            me.timelineZoomMenu = new Common.UI.Menu({
-                restoreHeightAndTop: true,
-                scrollToCheckedItem: false,
-                menuAlign: 'bl-tl',
-                style: 'min-width: auto;',
-                items: [
-                    me.menuAnimZoomIn,
-                    me.menuAnimZoomOut
-                ]
-            }).on('hide:after', function(menu, e, isFromInputControl) {
-                me.clearCustomItems(menu);
-                me.currentMenu = null;
-                if (me.suppressEditComplete) {
-                    me.suppressEditComplete = false;
-                    return;
-                }
-
-                if (!isFromInputControl) me.fireEvent('editcomplete', me);
-            });
-
             me.menuAnimStartOnClick = new Common.UI.MenuItem({
                 caption: me.textStartOnClick,
                 checkable: true,
@@ -2974,8 +2944,6 @@ define([
         txtInsVideo: 'Insert video',
         txtInsAudio: 'Insert audio',
         txtInsSmartArt: 'Insert SmartArt',
-        textZoomIn: 'Zoom In',
-        textZoomOut: 'Zoom Out',
         textStartOnClick: 'Start On Click',
         textStartWithPrevious: 'Start With Previous',
         textStartAfterPrevious: 'Start After Previous',

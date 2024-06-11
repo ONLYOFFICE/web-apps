@@ -458,7 +458,6 @@ define([
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
-            view.timelineZoomMenu.on('item:click', _.bind(me.onTimelineZoom, me));
             view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
             view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
             view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
@@ -647,8 +646,6 @@ define([
             _.delay(function(){
                 if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                     me.showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.documentHolder.slideMenu : me.documentHolder.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
-                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.TimelineZoom) {
-                    me.showPopupMenu.call(me, me.documentHolder.timelineZoomMenu, undefined, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
                     me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Master) {
@@ -2800,14 +2797,6 @@ define([
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
-        },
-
-        onTimelineZoom: function (menu, item) {
-            if (item.value === 'zoom-in') {
-                this.api.asc_ZoomInTimeline();
-            } else {
-                this.api.asc_ZoomOutTimeline();
-            }
         },
 
         onAnimEffect: function (menu, item) {
