@@ -1749,7 +1749,7 @@
   "PE.Views.DateTimeDialog.txtTitle": "Date & Time",
   "PE.Views.DocumentHolder.aboveText": "Above",
   "PE.Views.DocumentHolder.addCommentText": "Add comment",
-  "PE.Views.DocumentHolder.addToLayoutText": "Add to layout",
+  "del_PE.Views.DocumentHolder.addToLayoutText": "Add to layout",
   "PE.Views.DocumentHolder.advancedChartText": "Chart advanced settings",
   "PE.Views.DocumentHolder.advancedEquationText": "Equation settings",
   "PE.Views.DocumentHolder.advancedImageText": "Image advanced settings",

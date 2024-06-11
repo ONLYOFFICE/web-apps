@@ -404,8 +404,6 @@ define([
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
-            view.menuAddToLayoutImg.on('click', _.bind(me.addToLayout, me));
-            view.menuAddToLayoutTable.on('click', _.bind(me.addToLayout, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.langParaMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'para'));
             view.langTableMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'table'));
@@ -1651,11 +1649,6 @@ define([
                 }
             }
             me.editComplete();
-        },
-
-        addToLayout: function() {
-            if (this.api)
-                this.api.asc_AddToLayout();
         },
 
         onInsertImage: function(placeholder, obj, x, y) {
