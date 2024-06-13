@@ -51,7 +51,6 @@ define([
     /** coauthoring end **/
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
-    'common/main/lib/view/SearchDialog',
     'pdfeditor/main/app/view/FileMenu',
     'pdfeditor/main/app/view/Navigation'
 ], function (menuTemplate, $, _, Backbone) {

@@ -41,10 +41,7 @@
 
 define([
     'core',
-    'pdfeditor/main/app/view/DocumentHolder',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SaveAsDlg'
+    'pdfeditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 

@@ -46,8 +46,6 @@ define([
     'common/main/lib/component/LoadMask',
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'pdfeditor/main/app/collection/ShapeGroups',
     'common/main/lib/controller/FocusManager',

@@ -42,7 +42,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/util/define',
     'pdfeditor/main/app/view/Toolbar'
 ], function () {

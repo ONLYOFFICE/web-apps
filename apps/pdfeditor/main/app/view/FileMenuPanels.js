@@ -40,7 +40,8 @@
  */
 
 define([
-    'common/main/lib/view/DocumentAccessDialog'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/component/RadioBox'
 ], function () {
     'use strict';
 

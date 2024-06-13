@@ -46,10 +46,7 @@ define([
     'gateway',
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
-    'common/main/lib/component/Calendar',
-    'common/main/lib/view/InsertTableDialog',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/OptionsDialog'
+    'common/main/lib/component/Calendar'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     PDFE.Views.DocumentHolder =  Backbone.View.extend(_.extend({

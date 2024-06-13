@@ -30,8 +30,7 @@
  *
  */
 define([
-    'core',
-    'pdfeditor/main/app/view/FileMenuPanels'
+    'core'
 ], function () {
     'use strict';
 
