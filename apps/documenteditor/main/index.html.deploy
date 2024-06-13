@@ -42,6 +42,11 @@
             background: var(--toolbar-header-pdf, #AA5252);
         }
 
+        .loadmask > .brendpanel .toolbar-style {
+            background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
+        }
+
         .loadmask > .brendpanel > div {
             display: flex;
             align-items: center;
@@ -73,6 +78,12 @@
             margin: 0 10px;
             background: rgba(255,255,255,.2);
             background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+        }
+
+        .loadmask > .brendpanel .toolbar-style .rect {
+            background: #d8dadc;
+            background: var(--highlight-button-hover, #d8dadc);
+            opacity: 0.4;
         }
 
         .loadmask > .brendpanel .circle {
@@ -192,10 +203,11 @@
 
         var userAgent = navigator.userAgent.toLowerCase(),
             check = function(regex){ return regex.test(userAgent); },
-            stopLoading = false;
-        if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
-            var m = /msie (\d+\.\d+)/.exec(userAgent);
-            if (m && parseFloat(m[1]) < 10.0) {
+            stopLoading = false,
+            isIEBrowser = !check(/opera/) && (check(/msie/) || check(/trident/)),
+            ieVer = /msie (\d+\.\d+)/.exec(userAgent);
+        if (isIEBrowser) {
+            if (ieVer && parseFloat(ieVer[1]) < 10.0) {
                 document.write('<div class="app-error-panel">' +
                                 '<div class="message-block">' +
                                     '<div class="message-inner">' +
@@ -241,6 +253,7 @@
             hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
             logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+            logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null,
             isForm = params["isForm"]==='true';
 
         window.frameEditorId = params["frameEditorId"];
@@ -273,6 +286,7 @@
             notoolbar = params["toolbar"] == 'false',
             compact = params["compact"] == 'true',
             view = params["mode"] == 'view',
+            tabStyle = params["tabStyle"],
             fillforms = params["mode"] == 'fillforms',
             visible = true;
 
@@ -283,10 +297,14 @@
             if (notoolbar) {
                 document.querySelector('.brendpanel > :nth-child(1)').remove();
                 visible = false;
-            } else
+            } else {
                 document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
+                (tabStyle==='toolbar-style') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('toolbar-style');
+            }
         } else if (notoolbar) {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
+        } else {
+            (tabStyle==='toolbar-style') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('toolbar-style');
         }
 
         if (compact) {
@@ -319,7 +337,24 @@
             } else {
                 var elem = document.querySelector('.loading-logo img');
                 if (elem) {
-                    (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                    var isDarkTheme = /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className),
+                        image = logo || logoDark || logoLight,
+                        isLight = false;
+                    if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
+                        var docstyle = getComputedStyle(document.body),
+                            header_logo = docstyle.getPropertyValue("--header-logo"),
+                            toolbar_logo = docstyle.getPropertyValue("--toolbar-logo"),
+                            logo_type = (view || compact) && (tabStyle==='toolbar-style') ? toolbar_logo : header_logo;
+                        image = logo_type==='1' ? logoDark || logo || logoLight :
+                                logo_type==='0' ? logoLight || logo || logoDark :
+                                    isDarkTheme ? logoDark || logo : logo || logoDark;
+                        isLight = logo_type==='0' || logo_type !== '1' && (view || compact) && (tabStyle==='toolbar-style') && !isDarkTheme;
+                    }
+                    if (image) {
+                        elem.setAttribute('src', image);
+                    } else if (isLight) {
+                        elem.setAttribute('src', "../../common/main/resources/img/header/dark-logo_s.svg");
+                    }
                     elem.style.opacity = 1;
                 }
             }

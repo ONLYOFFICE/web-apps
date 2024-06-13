@@ -53,6 +53,7 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
+        var _tabStyle = 'tab', _logoImage = '';
         var isPDFEditor = !!window.PDFE,
             isDocEditor = !!window.DE,
             isSSEEditor = !!window.SSE;
@@ -846,13 +847,14 @@ define([
                 if ( role == 'left' && (!config || !config.isDesktopApp)) {
                     $html = $(templateLeftBox);
                     this.logo = $html.find('#header-logo');
-
+                    var logo = this.getSuitableLogo(this.branding, config);
+                    this.logo.toggleClass('logo-light', logo.isLight);
                     if (this.branding && this.branding.logo && this.logo) {
                         if (this.branding.logo.visible===false) {
                             this.logo.addClass('hidden');
-                        } else if (this.branding.logo.image || this.branding.logo.imageDark) {
-                            var image = Common.UI.Themes.isDarkTheme() ? (this.branding.logo.imageDark || this.branding.logo.image) : (this.branding.logo.image || this.branding.logo.imageDark);
-                            this.logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                        } else if (this.branding.logo.image || this.branding.logo.imageDark || this.branding.logo.imageLight) {
+                            _logoImage = logo.image;
+                            this.logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                             this.logo.css({'background-image': 'none', width: 'auto'});
                             (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
                         }
@@ -1070,26 +1072,50 @@ define([
                 //     : this.hide();
             },
 
-            setBranding: function (value) {
+            setBranding: function (value, config) {
                 this.branding = value;
                 var element = $('#header-logo');
+                var logo = this.getSuitableLogo(value, config);
+                element.toggleClass('logo-light', logo.isLight);
                 if ( value && value.logo && element) {
                     if (value.logo.visible===false) {
                         element.addClass('hidden');
-                    } else if (value.logo.image || value.logo.imageDark) {
-                        var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                        element.html('<img src="' + image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
+                    } else if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
+                        _logoImage = logo.image;
+                        element.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
                         element.css({'background-image': 'none', width: 'auto'});
                         (value.logo.url || value.logo.url===undefined) && element.addClass('link');
                     }
                 }
             },
 
+            getSuitableLogo: function(branding, config, tabStyle) {
+                branding = branding || {};
+                var image = branding.logo ? branding.logo.image || branding.logo.imageDark || branding.logo.imageLight : null,
+                    isLight = false;
+                tabStyle = tabStyle || branding.tabStyle || (branding.toolbarNoTabs ? 'toolbar-style' : '');
+                if (!Common.Utils.isIE) {
+                    var header_logo = Common.UI.Themes.currentThemeColor('--header-logo'),
+                        toolbar_logo = Common.UI.Themes.currentThemeColor('--toolbar-logo'),
+                        logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='toolbar-style') ? toolbar_logo : header_logo;
+                    image = !branding.logo ? null : logo_type==='1' ? (branding.logo.imageDark || branding.logo.image || branding.logo.imageLight) :
+                                                    logo_type==='0' ? (branding.logo.imageLight || branding.logo.image || branding.logo.imageDark) :
+                                                    Common.UI.Themes.isDarkTheme() ? branding.logo.imageDark || branding.logo.image : branding.logo.image || branding.logo.imageDark;
+                    isLight = logo_type==='0' || logo_type !== '1' && (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='toolbar-style') && !Common.UI.Themes.isDarkTheme();
+                }
+                return {image: image, isLight: isLight};
+            },
+
             changeLogo: function () {
                 var value = this.branding;
-                if ( value && value.logo && (value.logo.visible!==false) && value.logo.image && value.logo.imageDark && (value.logo.image !== value.logo.imageDark)) { // change logo when image and imageDark are different
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    $('#header-logo img').attr('src', image);
+                var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get(this.appPrefix + "settings-tab-style"));
+                $('#header-logo').toggleClass('logo-light', logo.isLight);
+                if ( value && value.logo && (value.logo.visible!==false) && appConfig && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
+                    var image = logo.image; // change logo when image was changed
+                    if (image !== _logoImage) {
+                        _logoImage = image;
+                        $('#header-logo img').attr('src', image);
+                    }
                 }
             },
 

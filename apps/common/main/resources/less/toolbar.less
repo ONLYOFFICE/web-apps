@@ -143,6 +143,10 @@
             }
         }
 
+        &:not(.top-title *) {
+            --toolbar-tabs-scroller-height: 42px;
+        }
+
         .scroll {
             line-height: @height-tabs;
             min-width: 20px;
@@ -438,8 +442,6 @@
     }
 
     &.toolbar-view {
-        --toolbar-tabs-scroller-height: 42px;
-
         .toolbar-mask {
             left: 0;
         }
@@ -534,27 +536,16 @@
                 > a {
                     color: @text-normal-ie;
                     color: @text-normal;
-                    &::after {
-                        display:block;
-                        content:attr(data-title);
-                        font-weight:bold;
-                        height:1px;
-                        color:transparent;
-                        overflow:hidden;
-                        visibility:hidden;
-                        margin-bottom:-1px;
-                    }
-                }
-            }
-        }
-
-        .theme-type-light & {
-            .extra {
-                #header-logo {
-                    i {
-                        background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
-                        background-repeat: no-repeat;
-                    }
+                    //&::after { // add if active tab is bold
+                    //    display:block;
+                    //    content:attr(data-title);
+                    //    font-weight:bold;
+                    //    height:1px;
+                    //    color:transparent;
+                    //    overflow:hidden;
+                    //    visibility:hidden;
+                    //    margin-bottom:-1px;
+                    //}
                 }
             }
         }
@@ -678,6 +669,78 @@
                 box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
                 box-shadow: 0 0 0 @scaled-one-px-value @highlight-button-hover;
             }
+        }
+
+        &.editor-native-color {
+            .tabs li:after {
+                .header-border-color();
+            }
+        }
+    }
+
+    &.style-skip-docname .toolbar {
+        #box-doc-name > input {
+            display: none;
+        }
+    }
+}
+
+.lined-tabs {
+    .toolbar {
+        @underscore_height: 2px;
+
+        .tabs {
+            ul {
+                padding: 0;
+            }
+
+            li {
+                position: relative;
+
+                &:after {
+                    border-top: @underscore_height solid @text-toolbar-header-ie;
+                    border-top: @underscore_height solid @text-toolbar-header;
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    bottom: -@underscore_height;
+                    opacity: 0;
+                }
+
+                &.active {
+                    background-color: transparent;
+                    box-shadow: none;
+                    > a {
+                        color: #fff;
+                        color: var(--text-toolbar-header);
+                    }
+                    &:after {
+                        opacity: 1;
+                        bottom: 4px;
+                    }
+                }
+
+                &:hover:not(.active) {
+                }
+
+                > a { // add if active tab is bold
+                    //&::after {
+                    //    display:block;
+                    //    content:attr(data-title);
+                    //    font-weight:bold;
+                    //    height:1px;
+                    //    color:transparent;
+                    //    overflow:hidden;
+                    //    visibility:hidden;
+                    //    margin-bottom:-1px;
+                    //}
+                }
+            }
+        }
+
+        #slot-btn-start-fill,
+        #slot-btn-header-form-submit {
+            padding: 4px 0;
         }
 
         &.editor-native-color {

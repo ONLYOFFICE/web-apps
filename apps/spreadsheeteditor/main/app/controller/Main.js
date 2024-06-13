@@ -1388,7 +1388,7 @@ define([
                     this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
-                        this.headerView.setBranding(this.editorConfig.customization);
+                        this.headerView.setBranding(this.editorConfig.customization, this.appOptions);
 
                     this.appOptions.canFavorite = this.appOptions.spreadsheet.info && (this.appOptions.spreadsheet.info.favorite!==undefined && this.appOptions.spreadsheet.info.favorite!==null);
                     this.appOptions.canFavorite && this.headerView && this.headerView.setFavorite(this.appOptions.spreadsheet.info.favorite);

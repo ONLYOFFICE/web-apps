@@ -108,6 +108,12 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
+                },
+                'ViewTab': {
+                    'tabstyle:change': function (style) {
+                        me.onTabStyleChange(style);
+                        me.header.changeLogo();
+                    }
                 }
             });
         },
@@ -174,8 +180,14 @@ define([
             }
 
             if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
+                var tabStyle = 'tab';
+                if (config.customization.tabStyle) {
+                    if (config.customization.tabStyle==='line' || config.customization.tabStyle==='toolbar-style')
+                        tabStyle = config.customization.tabStyle;
+                } else if ( config.customization.toolbarNoTabs ) {
+                    tabStyle = 'toolbar-style';
+                }
+                me.onTabStyleChange(tabStyle);
 
                 if ( config.customization.toolbarHideFileName )
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
@@ -204,6 +216,13 @@ define([
             }
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
+        },
+
+        onTabStyleChange: function (style) {
+            style = style || Common.Utils.InternalSettings.get("de-settings-tab-style");
+            Common.Utils.InternalSettings.set("de-settings-tab-style", style);
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='toolbar-style');
         },
 
         onAppReady: function (config) {

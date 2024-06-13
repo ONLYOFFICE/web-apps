@@ -170,6 +170,9 @@
     --header-component-active-icon-opacity: 1;
     --header-component-active-hover-icon-opacity: 1;
     //--button-icon-opacity: 1;
+
+    --header-logo: 1; // 0 - logo.imageLight, 1 - logo.imageDark
+    --toolbar-logo: 0; // 0 - logo.imageLight, 1 - logo.imageDark
 }
 
 // Background
@@ -281,4 +284,7 @@
 @canvas-page-border: var(--canvas-page-border);
 @canvas-scroll-thumb-hover: var(--canvas-scroll-thumb-hover);
 @canvas-scroll-thumb-border-hover: var(--canvas-scroll-thumb-border-hover);
+
+@header-logo: var(--header-logo, 1);
+@toolbar-logo: var(--toolbar-logo, 0);
 
