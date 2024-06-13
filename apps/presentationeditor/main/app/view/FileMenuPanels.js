@@ -40,8 +40,6 @@
  */
 
 define([
-    'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/AutoCorrectDialog',
     'common/main/lib/component/CheckBox'
 ], function () {
     'use strict';

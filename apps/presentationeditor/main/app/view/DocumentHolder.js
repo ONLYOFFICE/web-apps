@@ -36,7 +36,6 @@ define([
     'gateway',
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
-    'common/main/lib/view/CopyWarningDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
 //    'common/main/lib/view/InsertTableDialog',
 ], function ($, _, Backbone, gateway) { 'use strict';

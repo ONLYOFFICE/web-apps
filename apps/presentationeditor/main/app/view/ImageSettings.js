@@ -42,8 +42,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'common/main/lib/component/Button',
-    'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/component/Button'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

@@ -47,8 +47,6 @@ define([
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'presentationeditor/main/app/collection/ShapeGroups',
     'presentationeditor/main/app/collection/SlideLayouts',

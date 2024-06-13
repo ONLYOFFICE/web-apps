@@ -37,9 +37,8 @@
  *
  */
 
-define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner'
+define([
+    'text!presentationeditor/main/app/template/TableSettingsAdvanced.template'
 ], function (contentTemplate) {
     'use strict';
 

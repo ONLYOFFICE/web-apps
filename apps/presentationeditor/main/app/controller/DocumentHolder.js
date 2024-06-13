@@ -159,6 +159,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
             Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', Common.localStorage.getBool('pe-equation-toolbar-hide'));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onLaunch: function() {
@@ -333,52 +334,6 @@ define([
                 return;
             }
 
-            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
-            if (diagramEditor) {
-                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api) {
-                        ( diagramEditor.isEditMode() )
-                            ? this.api.asc_editChartDrawingObject(data)
-                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
-                    }
-                }, this));
-                diagramEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_onCloseChartFrame();
-                        this.api.asc_enableKeyEvents(true);
-                    }
-                    var me = this;
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
-            var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
-            if (oleEditor) {
-                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
-                    var command = message.data.command;
-                    var data = message.data.data;
-                    if (this.api) {
-                        oleEditor.isEditMode()
-                            ? this.api.asc_editTableOleObject(data)
-                            : this.api.asc_addTableOleObject(data);
-                    }
-                }, this));
-                oleEditor.on('hide', _.bind(function(cmp, message) {
-                    if (this.api) {
-                        this.api.asc_enableKeyEvents(true);
-                        this.api.asc_onCloseChartFrame();
-                    }
-                    var me = this;
-                    setTimeout(function(){
-                        me.editComplete();
-                    }, 10);
-                }, this));
-            }
-
             view.menuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
@@ -457,6 +412,58 @@ define([
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
+        },
+
+        createPostLoadElements: function() {
+            if (this.type !== 'edit') {
+                return;
+            }
+
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            if (diagramEditor) {
+                diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        ( diagramEditor.isEditMode() )
+                            ? this.api.asc_editChartDrawingObject(data)
+                            : this.api.asc_addChartDrawingObject(data, diagramEditor.getPlaceholder());
+                    }
+                }, this));
+                diagramEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_onCloseChartFrame();
+                        this.api.asc_enableKeyEvents(true);
+                    }
+                    var me = this;
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
+
+            var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+            if (oleEditor) {
+                oleEditor.on('internalmessage', _.bind(function(cmp, message) {
+                    var command = message.data.command;
+                    var data = message.data.data;
+                    if (this.api) {
+                        oleEditor.isEditMode()
+                            ? this.api.asc_editTableOleObject(data)
+                            : this.api.asc_addTableOleObject(data);
+                    }
+                }, this));
+                oleEditor.on('hide', _.bind(function(cmp, message) {
+                    if (this.api) {
+                        this.api.asc_enableKeyEvents(true);
+                        this.api.asc_onCloseChartFrame();
+                    }
+                    var me = this;
+                    setTimeout(function(){
+                        me.editComplete();
+                    }, 10);
+                }, this));
+            }
         },
 
         getView: function (name) {

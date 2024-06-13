@@ -39,8 +39,7 @@
 
 define([
     'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView'
+    'common/main/lib/component/ComboBox'
 ], function () {
     'use strict';
 

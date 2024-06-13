@@ -43,12 +43,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/InsertTableDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/ListSettingsDialog',
-    'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/controller/Transitions',
