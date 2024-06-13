@@ -281,8 +281,9 @@ define([
                 console.log('hint keydown', e.keyCode);
             } else
             if ( e.keyCode == 78 /* N */ ) {
-                if (config.canCreateNew && e.ctrlKey && !e.shiftKey &&
-                        ((Common.Utils.isWindows && !e.metaKey) || (Common.Utils.isMac && e.metaKey)))
+                if (config.canCreateNew && !e.shiftKey &&
+                        ((Common.Utils.isWindows && e.ctrlKey && !e.metaKey) ||
+                            (Common.Utils.isMac && e.metaKey && e.ctrlKey)))
                 {
                     this.process('create:new');
                 }
