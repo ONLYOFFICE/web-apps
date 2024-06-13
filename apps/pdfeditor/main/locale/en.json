@@ -1320,6 +1320,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",
   "PDFE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "PDFE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "PDFE.Views.FileMenuPanels.Settings.txtUseAnnotateBar": "Use the mini toolbar when selecting text",
   "PDFE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Download as",
   "PDFE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save Copy as",
   "PDFE.Views.HyperlinkSettingsDialog.strDisplay": "Display",
