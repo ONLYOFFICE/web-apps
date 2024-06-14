@@ -281,7 +281,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes">',
-                    '<td colspan="2"><div style="display: flex;">',
+                    '<td colspan="2"><div style="display: flex;" role="radiogroup" aria-owns="fms-rb-coauth-mode-strict">',
                         '<div id="fms-rb-coauth-mode-fast"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
                         '<label class="comment-text"><%= scope.txtFastTip %></label></span>',
@@ -469,7 +469,8 @@ define([
                 name        : 'coauth-mode',
                 dataHint    : '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strFast + ' ' + this.txtFastTip
             }).on('change', function (field, newValue, eOpts) {
                 newValue && me.chAutosave.setValue(1);
             });
@@ -480,7 +481,8 @@ define([
                 name        : 'coauth-mode',
                 dataHint    : '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strStrict + ' ' + this.txtStrictTip
             });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
 

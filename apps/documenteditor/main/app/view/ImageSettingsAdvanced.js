@@ -208,26 +208,30 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.radioHSize = new Common.UI.RadioBox({
                 el: $('#shape-radio-hsize'),
                 name: 'asc-radio-width',
-                checked: true
+                checked: true,
+                ariaLabel: this.textAbsoluteWH
             });
             this.radioHSize.on('change', _.bind(this.onRadioHSizeChange, this));
 
             this.radioHSizePc = new Common.UI.RadioBox({
                 el: $('#shape-radio-hsizepc'),
-                name: 'asc-radio-width'
+                name: 'asc-radio-width',
+                ariaLabel: this.textRelativeWH
             });
             this.radioHSizePc.on('change', _.bind(this.onRadioHSizePcChange, this));
 
             this.radioVSize = new Common.UI.RadioBox({
                 el: $('#shape-radio-vsize'),
                 name: 'asc-radio-height',
-                checked: true
+                checked: true,
+                ariaLabel: this.textAbsoluteWH
             });
             this.radioVSize.on('change', _.bind(this.onRadioVSizeChange, this));
 
             this.radioVSizePc = new Common.UI.RadioBox({
                 el: $('#shape-radio-vsizepc'),
-                name: 'asc-radio-height'
+                name: 'asc-radio-height',
+                ariaLabel: this.textRelativeWH
             });
             this.radioVSizePc.on('change', _.bind(this.onRadioVSizePcChange, this));
 

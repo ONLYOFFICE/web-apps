@@ -28,7 +28,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="padding-small">
+                <td colspan="2" class="padding-small" role="radiogroup" aria-owns="pivot-adv-radio-over">
                     <div id="pivot-adv-radio-down"></div>
                 </td>
             </tr>

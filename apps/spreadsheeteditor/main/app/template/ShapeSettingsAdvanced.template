@@ -165,7 +165,7 @@
     <div class="inner-content">
         <table cols="1" role="presentation">
             <tr>
-                <td class="padding-small">
+                <td class="padding-small" role="radiogroup" aria-owns="shape-radio-onecell shape-radio-absolute">
                     <div id="shape-radio-twocell"></div>
                 </td>
             </tr>

@@ -29,7 +29,7 @@
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: bottom; padding-bottom: 12px;">
+            <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="shape-radio-hsizepc">
                 <div id="shape-radio-hsize"></div>
             </td>
             <td class="padding-small">
@@ -56,7 +56,7 @@
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: bottom; padding-bottom: 12px;">
+            <td style="vertical-align: bottom; padding-bottom: 12px;" role="radiogroup" aria-owns="shape-radio-vsizepc">
                 <div id="shape-radio-vsize"></div>
             </td>
             <td class="padding-small">

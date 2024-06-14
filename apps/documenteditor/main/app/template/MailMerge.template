@@ -61,7 +61,7 @@
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-large" role="radiogroup">
             <div id="mmerge-radio-all"></div>
             <div id="mmerge-radio-current"></div>
             <div id="mmerge-radio-from-to"></div>

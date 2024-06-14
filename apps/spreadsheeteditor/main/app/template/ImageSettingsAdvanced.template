@@ -28,7 +28,7 @@
     <div class="inner-content">
         <table cols="1" role="presentation">
             <tr>
-                <td class="padding-small">
+                <td class="padding-small" role="radiogroup" aria-owns="image-advanced-radio-onecell image-advanced-radio-absolute">
                     <div id="image-advanced-radio-twocell"></div>
                 </td>
             </tr>

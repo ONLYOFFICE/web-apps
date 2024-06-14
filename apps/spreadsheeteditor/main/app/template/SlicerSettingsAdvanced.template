@@ -42,7 +42,7 @@
             <label class="header"><%= scope.textSort %></label>
         </div>
         <div class="padding-large">
-            <div style="display: inline-block;">
+            <div style="display: inline-block;" role="radiogroup">
                 <div class="padding-small" id="sliceradv-radio-asc"></div>
                 <div class="padding-small" id="sliceradv-radio-desc"></div>
             </div>
@@ -77,7 +77,7 @@
     <div class="inner-content">
         <table cols="1" role="presentation">
             <tr>
-                <td class="padding-small">
+                <td class="padding-small" role="radiogroup" aria-owns="slicer-advanced-radio-onecell slicer-advanced-radio-absolute">
                     <div id="slicer-advanced-radio-twocell"></div>
                 </td>
             </tr>

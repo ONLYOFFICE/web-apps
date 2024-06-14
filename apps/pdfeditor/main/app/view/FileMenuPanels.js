@@ -306,7 +306,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-mode">',
-                    '<td colspan="2"><div style="display: flex;"><div id="fms-rb-coauth-mode-fast"></div>',
+                    '<td colspan="2"><div style="display: flex;" role="radiogroup" aria-owns="fms-rb-coauth-mode-strict"><div id="fms-rb-coauth-mode-fast"></div>',
                     '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
                     '<label class="comment-text"><%= scope.txtFastTip %></label></span></div>',
                     '</td>',
@@ -322,7 +322,7 @@ define([
                     '<td colspan="2" class="subgroup-name"><label><%= scope.strShowChanges %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
-                    '<td colspan="2"><div id="fms-rb-show-changes-none"></div></td>',
+                    '<td colspan="2" role="radiogroup" aria-owns="fms-rb-show-changes-all fms-rb-show-changes-last"><div id="fms-rb-show-changes-none"></div></td>',
                 '</tr>',
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-all"></div></td>',
@@ -496,7 +496,8 @@ define([
                 name        : 'coauth-mode',
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strFast + ' ' + this.txtFastTip
             });
             this.rbCoAuthModeFast.on('change', function(field, newValue, eOpts){
                 if (newValue) {
@@ -511,7 +512,8 @@ define([
                 name        : 'coauth-mode',
                 dataHint: '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strStrict + ' ' + this.txtStrictTip
             });
             this.rbCoAuthModeStrict.on('change', function(field, newValue, eOpts){
                 newValue && me.onChangeCoAuthMode(0);

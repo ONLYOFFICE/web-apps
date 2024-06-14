@@ -99,8 +99,10 @@ define([
 
             this.setCaption(this.options.labelText);
 
-            if (this.options.ariaLabel)
-                this.$label.attr('aria-label', this.options.ariaLabel);
+            if (this.options.ariaLabel || this.options.labelText) {
+                var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.options.labelText;
+                this.$label.attr('aria-label', ariaLabel);
+            }
 
             // handle events
         },

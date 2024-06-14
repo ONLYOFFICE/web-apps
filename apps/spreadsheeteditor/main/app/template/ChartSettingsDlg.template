@@ -139,7 +139,7 @@
     <div class="inner-content">
         <table cols="1" role="presentation">
             <tr>
-                <td class="padding-small">
+                <td class="padding-small" role="radiogroup" aria-owns="chart-dlg-radio-onecell chart-dlg-radio-absolute">
                     <div id="chart-dlg-radio-twocell"></div>
                 </td>
             </tr>
