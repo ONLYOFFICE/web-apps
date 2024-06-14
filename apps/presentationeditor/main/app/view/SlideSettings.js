@@ -1530,7 +1530,7 @@ define([
             if (this._initSettings) return;
 
             if(props) {
-                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background);
+                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background || this._slideMaster.inMaster);
                 this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll() || this._slideMaster.inMasterMode);
             }
 
