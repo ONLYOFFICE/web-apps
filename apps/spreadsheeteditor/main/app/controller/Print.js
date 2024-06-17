@@ -30,7 +30,8 @@
  *
  */
 define([
-    'core'
+    'core',
+    'spreadsheeteditor/main/app/view/FileMenuPanels'
 ], function () {
     'use strict';
 

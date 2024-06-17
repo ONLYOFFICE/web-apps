@@ -189,7 +189,7 @@ require([
             'spreadsheeteditor/main/app/controller/ViewTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
-            'spreadsheeteditor/main/app/view/FileMenuPanels',
+            // 'spreadsheeteditor/main/app/view/FileMenuPanels',
             // 'spreadsheeteditor/main/app/view/ParagraphSettings',
             // 'spreadsheeteditor/main/app/view/ImageSettings',
             // 'spreadsheeteditor/main/app/view/ChartSettings',
