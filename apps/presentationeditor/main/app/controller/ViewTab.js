@@ -61,7 +61,8 @@ define([
                 zoom_type: undefined,
                 zoom_percent: undefined,
                 unitsChanged: true,
-                lock_viewProps: false
+                lock_viewProps: false,
+                slideMasterMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
@@ -115,6 +116,9 @@ define([
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
+                    }, this),
+                    'close:slide-master': _.bind(function () {
+                        this.onChangeViewMode('normal');
                     }, this)
                 },
                 'Statusbar': {
@@ -395,27 +399,25 @@ define([
             this._state.unitsChanged = true;
         },
 
-        onApiChangeViewMode: function (mode) {
-            var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
+        changeViewMode: function (mode) {
+            var isMaster = mode === 'master';
             this.view.btnSlideMaster.toggle(isMaster, true);
             this.view.btnNormal.toggle(!isMaster, true);
-            this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
+            if (this._state.slideMasterMode !== isMaster) {
+                this._state.slideMasterMode = isMaster;
+                this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
+                this.api.asc_changePresentationViewMode(isMaster ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
+            } // Asc.c_oAscPresentationViewMode.sorter;
         },
 
-        onChangeViewMode: function (m, state) {
+        onApiChangeViewMode: function (mode) {
+            var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
+            this.changeViewMode(isMaster ? 'master' : 'normal');
+        },
+
+        onChangeViewMode: function (mode) {
             Common.UI.TooltipManager.closeTip('slideMaster');
-            var mode;
-            if (m === 'master') {
-                mode = state ? 'master' : 'normal';
-                this.view.btnSlideMaster.toggle(state, true);
-                this.view.btnNormal.toggle(!state, true);
-            } else {
-                mode = state ? 'normal' : 'master';
-                this.view.btnSlideMaster.toggle(!state, true);
-                this.view.btnNormal.toggle(state, true);
-            } // Asc.c_oAscPresentationViewMode.sorter;
-            this.view.fireEvent('viewmode:change', [mode]);
-            this.api.asc_changePresentationViewMode(mode === 'master' ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
+            this.changeViewMode(mode);
         },
 
     }, PE.Controllers.ViewTab || {}));

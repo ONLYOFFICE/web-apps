@@ -1620,10 +1620,6 @@ define([
                 })
             });
 
-            var menuHyperlinkSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
                 iconCls     : 'menu__icon btn-shape-group'
@@ -1905,21 +1901,12 @@ define([
             });
             me.menuAddCommentTable.hide();
 
-            var menuCommentSeparatorImg = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-            menuCommentSeparatorImg.hide();
-
             me.menuAddCommentImg = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentImg.hide();
             /** coauthoring end **/
-
-            me.menuAddToLayoutImg = new Common.UI.MenuItem({
-                caption     : me.addToLayoutText
-            });
 
             me.menuParaCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
@@ -1999,11 +1986,8 @@ define([
                 menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
-            me.menuAddToLayoutTable = new Common.UI.MenuItem({
-                caption     : me.addToLayoutText
-            });
-
             me.menuImgEditPoints = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-edit-points',
                 caption: me.textEditPoints
             });
 
@@ -2246,7 +2230,6 @@ define([
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
-                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
 
@@ -2264,7 +2247,6 @@ define([
                      /** coauthoring begin **/
                     me.menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     me.menuAddCommentTable.setDisabled(!_.isUndefined(value.paraProps) && value.paraProps.locked || disabled);
-                    menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() || me.menuAddCommentTable.isVisible());
                     /** coauthoring end **/
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
@@ -2336,9 +2318,7 @@ define([
                     me.menuAddCommentTable,         //25
                 /** coauthoring end **/
                     me.menuAddHyperlinkTable,       //26
-                    menuHyperlinkTable,             //27
-                    menuHyperlinkSeparator,         //28
-                    me.menuAddToLayoutTable         //29
+                    menuHyperlinkTable             //27
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -2430,7 +2410,6 @@ define([
                 
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuCommentSeparatorImg.setVisible(me.menuAddCommentImg.isVisible());
                     me.menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
                     me.menuImgShapeAlign.setDisabled(disabled);
@@ -2452,7 +2431,6 @@ define([
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
-                    me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     me.menuImgCut,
@@ -2477,40 +2455,7 @@ define([
                     me.menuChartAdvanced,
                     menuAdvancedSettingsSeparator,  //Separator
                 /** coauthoring begin **/
-                    me.menuAddCommentImg,
-                    menuCommentSeparatorImg,        //Separator
-                /** coauthoring end **/
-                    me.menuAddToLayoutImg
-                ]
-            }).on('hide:after', function(menu, e, isFromInputControl) {
-                me.clearCustomItems(menu);
-                me.currentMenu = null;
-                if (me.suppressEditComplete) {
-                    me.suppressEditComplete = false;
-                    return;
-                }
-
-                if (!isFromInputControl) me.fireEvent('editcomplete', me);
-            });
-
-            me.menuAnimZoomIn = new Common.UI.MenuItem({
-                caption: me.textZoomIn,
-                value: 'zoom-in'
-            });
-
-            me.menuAnimZoomOut = new Common.UI.MenuItem({
-                caption: me.textZoomOut,
-                value: 'zoom-out'
-            });
-
-            me.timelineZoomMenu = new Common.UI.Menu({
-                restoreHeightAndTop: true,
-                scrollToCheckedItem: false,
-                menuAlign: 'bl-tl',
-                style: 'min-width: auto;',
-                items: [
-                    me.menuAnimZoomIn,
-                    me.menuAnimZoomOut
+                    me.menuAddCommentImg
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -3020,8 +2965,6 @@ define([
         txtInsVideo: 'Insert video',
         txtInsAudio: 'Insert audio',
         txtInsSmartArt: 'Insert SmartArt',
-        textZoomIn: 'Zoom In',
-        textZoomOut: 'Zoom Out',
         textStartOnClick: 'Start On Click',
         textStartWithPrevious: 'Start With Previous',
         textStartAfterPrevious: 'Start After Previous',

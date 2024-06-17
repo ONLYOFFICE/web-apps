@@ -13,7 +13,7 @@
     <style type="text/css">
         .content-theme-dark {
             --skeleton-canvas-content-background: #3a3a3a;
-            --skeleton-canvas-page-border: #2a2a2a;
+            --skeleton-canvas-page-border: #616161;
             --skeleton-canvas-line: rgba(255,255,255,.05);
         }
 
@@ -296,7 +296,10 @@
             document.querySelectorAll('.compact').forEach(function(item){
                 item.style.display = 'inline-block';
             });
-            document.querySelector('.fat').style.left = '655px';
+            if (document.body.classList.contains('rtl'))
+                document.querySelector('.fat').style.right = '592px';
+            else
+                document.querySelector('.fat').style.left = '592px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');

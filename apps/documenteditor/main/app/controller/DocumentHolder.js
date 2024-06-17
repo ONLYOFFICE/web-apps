@@ -909,19 +909,23 @@ define([
                 var type = this.api.asc_getUrlType(url);
                 if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
-                else
-                    Common.UI.warning({
-                        msg: this.documentHolder.txtWarnUrl,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: function(btn) {
-                            try {
-                                (btn == 'yes') && window.open(url);
-                            } catch (err) {
-                                err && console.log(err.stack);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            msg: me.documentHolder.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }, 1);
+                }
             }
         },
 

@@ -71,7 +71,7 @@
     "Collaboration": {
       "notcriticalErrorTitle": "Avvertimento",
       "textAccept": "Accettare",
-      "textAcceptAllChanges": "Accettare tutte le modifiche",
+      "textAcceptAllChanges": "Accetta tutte le modifiche",
       "textAddComment": "Aggiungere commento",
       "textAddReply": "Aggiungere risposta",
       "textAllChangesAcceptedPreview": "Tutti i cambiamenti accettati (Anteprima)",
@@ -417,6 +417,7 @@
     "downloadErrorText": "Scaricamento fallito.",
     "errorAccessDeny": "Stai cercando di eseguire un'azione per la quale non hai diritti.<br>Ti preghiamo di contattare il tuo amministratore.",
     "errorBadImageUrl": "URL dell'immagine non è corretto",
+    "errorComboSeries": "Per creare un grafico a combinazione, seleziona almeno due serie di dati.",
     "errorCompare": "La funzione Confronta documenti non è disponibile in modalità di co-editing.",
     "errorConnectToServer": "Impossibile salvare questo documento. Controlla le impostazioni di connessione o contatta l'amministratore.<br>Cliccando su OK ti verrà richiesto di scaricare il documento.",
     "errorDatabaseConnection": "Errore esterno.<br>Errore di connessione al database. Si prega di contattare il team di supporto.",
@@ -440,6 +441,7 @@
     "errorMailMergeLoadFile": "Caricamento fallito",
     "errorMailMergeSaveFile": "Fusione fallita.",
     "errorNoTOC": "Non è presente alcun indice da aggiornare. Puoi inserirne uno dalla scheda Riferimenti.",
+    "errorPasswordIsNotCorrect": "La password fornita non è corretta. Verifica che il tasto BLOCCO MAIUSCOLE sia disattivato e assicurati di utilizzare le maiuscole corrette.",
     "errorSessionAbsolute": "La sessione di modifica del documento è scaduta. Ti preghiamo di ricaricare la pagina.",
     "errorSessionIdle": "Il documento non è stato modificato per molto tempo. Ti preghiamo di ricaricare la pagina.",
     "errorSessionToken": "La connessione al server è stata interrotta. Ti preghiamo di ricaricare la pagina.",
@@ -447,6 +449,7 @@
     "errorStockChart": "Ordine delle righe incorretto. Per creare un grafico azionario, inserisci i dati sul foglio nel seguente ordine:<br> prezzo di apertura, prezzo massimo, prezzo minimo, prezzo di chiusura.",
     "errorSubmit": "Invio fallito.",
     "errorTextFormWrongFormat": "Il valore inserito non corrisponde al formato del campo.",
+    "errorToken": "Il token di sicurezza del documento non è stato creato correttamente.<br>Ti preghiamo di contattare l'amministratore del Document Server.",
     "errorTokenExpire": "Il token di sicurezza del documento è scaduto.<br>Sei pregato di contattare l'amministratore di Document Server.",
     "errorUpdateVersionOnDisconnect": "La connessione Internet è stata ripristinata e la versione del file è stata modificata.<br>Prima di poter continuare a lavorare, devi scaricare il file o copiarne il contenuto per assicurarti che nulla vada perso, quindi ricarica questa pagina.",
     "errorUserDrop": "Non si può accedere al file al momento.",
@@ -465,14 +468,12 @@
     "uploadDocSizeMessage": "Il limite massimo delle dimensioni del documento è stato superato.",
     "uploadImageExtMessage": "Formato d'immagine sconosciuto.",
     "uploadImageFileCountMessage": "Nessuna immagine caricata.",
-    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB.",
-    "errorComboSeries": "To create a combination chart, select at least two series of data.",
-    "errorPasswordIsNotCorrect": "The password you supplied is not correct. Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.",
-    "errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator."
+    "uploadImageSizeMessage": "L'immagine è troppo grande. La dimensione massima è 25 MB."
   },
   "LongActions": {
     "applyChangesTextText": "Caricamento di dati...",
     "applyChangesTitleText": "Caricamento di dati",
+    "confirmMaxChangesSize": "Le dimensioni delle azioni superano il limite impostato per il tuo server.<br>Premi \"Annulla\" per annullare l'ultima azione o premi \"Continua\" per mantenere l'azione localmente (devi scaricare il file o copiarne il contenuto per assicurarti che nulla vada perso).",
     "downloadMergeText": "Scaricamento...",
     "downloadMergeTitle": "Scaricamento",
     "downloadTextText": "Scaricamento di documento...",
@@ -505,8 +506,7 @@
     "txtEditingMode": "Impostare la modalità di modifica...",
     "uploadImageTextText": "Caricamento dell'immagine...",
     "uploadImageTitleText": "Caricamento dell'immagine",
-    "waitText": "Attendere prego...",
-    "confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost)."
+    "waitText": "Attendere prego..."
   },
   "Main": {
     "criticalErrorTitle": "Errore",
@@ -784,6 +784,7 @@
     "textTheme": "Tema",
     "textTitle": "Titolo",
     "textTop": "In alto",
+    "textTrackedChanges": "Modifiche tracciate",
     "textTypeEditing": "Tipo di modifica",
     "textTypeEditingWarning": "Consenti solo questo tipo di modifica nel documento.",
     "textUnitOfMeasurement": "Unità di misura",
@@ -797,8 +798,7 @@
     "txtDownloadTxt": "Scaricare TXT",
     "txtIncorrectPwd": "Password non corretta",
     "txtOk": "OK",
-    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata",
-    "textTrackedChanges": "Tracked changes"
+    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",

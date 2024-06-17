@@ -132,7 +132,11 @@ define([
                     'forms:gopage': this.onGotoPage
                 },
                 'Toolbar': {
-                    'tab:active': this.onActiveTab
+                    'tab:active': this.onActiveTab,
+                    'tab:collapse': this.onTabCollapse,
+                    'view:compact'  : function (toolbar, state) {
+                        state && me.onTabCollapse();
+                    },
                 }
             });
             this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
@@ -617,11 +621,13 @@ define([
 
 
         onActiveTab: function(tab) {
-            if (tab !== 'forms') {
-                this.closeHelpTip('create');
-                this.closeHelpTip('roles');
-                this.closeHelpTip('save');
-            }
+            (tab !== 'forms') && this.onTabCollapse();
+        },
+
+        onTabCollapse: function(tab) {
+            this.closeHelpTip('create');
+            this.closeHelpTip('roles');
+            this.closeHelpTip('save');
         },
 
         onChangeProtectDocument: function(props) {

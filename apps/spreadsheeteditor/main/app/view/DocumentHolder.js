@@ -1156,6 +1156,7 @@ define([
             var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
 
             me.menuImgEditPoints = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-edit-points',
                 caption: me.textEditPoints
             });
 

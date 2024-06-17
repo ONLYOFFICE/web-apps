@@ -225,9 +225,10 @@ define([
                 arr.push(rec);
             }
             store.reset(arr);
-            var format = this.defaultFormats[lang];
-            format ? this.listFormats.selectRecord(store.findWhere({format: format})) : this.listFormats.selectByIndex(0);
-            var rec = this.listFormats.getSelectedRec();
+            var format = this.defaultFormats[lang],
+                rec = format ? store.findWhere({format: format}) : null;
+            !rec && (rec = store.at(0));
+            this.listFormats.selectRecord(rec);
             this.listFormats.scrollToRecord(rec);
             this.onSelectFormat(this.listFormats, null, rec);
         },

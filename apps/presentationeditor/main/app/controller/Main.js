@@ -132,7 +132,20 @@ define([
                         'Click to add first slide': this.txtAddFirstSlide,
                         'None': this.txtNone,
                         'Text': this.textText,
-                        'Object': this.textObject
+                        'Object': this.textObject,
+                        'First Slide': this.txtFirstSlide,
+                        'Previous Slide': this.txtPrevSlide,
+                        'Next Slide': this.txtNextSlide,
+                        'Last Slide': this.txtLastSlide,
+                        'Animation Pane': this.txtAnimationPane,
+                        'Stop': this.txtStop,
+                        'Play All': this.txtPlayAll,
+                        'Play From': this.txtPlayFrom,
+                        'Play Selected': this.txtPlaySelected,
+                        'Zoom': this.txtZoom,
+                        'Start: ${0}s': this.txtStart,
+                        'End: ${0}s': this.txtEnd,
+                        'Loop: ${0}s': this.txtLoop
                     };
 
                 themeNames.forEach(function(item){
@@ -3329,7 +3342,20 @@ define([
             txtScheme_Violet_II: 'Violet II',
             txtScheme_Violet: 'Violet',
             txtScheme_Yellow_Orange: 'Yellow Orange',
-            txtScheme_Yellow: 'Yellow'
+            txtScheme_Yellow: 'Yellow',
+            txtNextSlide: 'Next slide',
+            txtPrevSlide: 'Previous slide',
+            txtFirstSlide: 'First slide',
+            txtLastSlide: 'Last slide',
+            txtAnimationPane: 'Animation Pane',
+            txtStop: 'Stop',
+            txtPlayAll: 'Play All',
+            txtPlayFrom: 'Play From',
+            txtPlaySelected: 'Play Selected',
+            txtZoom: 'Zoom',
+            txtStart: 'Start: ${0}s',
+            txtEnd: 'End: ${0}s',
+            txtLoop: 'Loop: ${0}s'
         }
     })(), PE.Controllers.Main || {}))
 });

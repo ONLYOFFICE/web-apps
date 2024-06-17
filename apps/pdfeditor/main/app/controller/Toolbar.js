@@ -93,7 +93,8 @@ define([
                 'Toolbar': {
                     'change:compact'    : this.onClickChangeCompact,
                     'home:open'         : this.onHomeOpen,
-                    'tab:active'        : this.onActiveTab
+                    'tab:active'        : this.onActiveTab,
+                    'tab:collapse'      : this.onTabCollapse
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -424,6 +425,8 @@ define([
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
+
+            compact && this.onTabCollapse();
 
             Common.localStorage.setBool('pdfe-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -1393,6 +1396,11 @@ define([
             }
             (tab !== 'home') && Common.UI.TooltipManager.closeTip('editPdf');
             (tab === 'comment') ? Common.UI.TooltipManager.showTip('textComment') : Common.UI.TooltipManager.closeTip('textComment');
+        },
+
+        onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('editPdf');
+            Common.UI.TooltipManager.closeTip('textComment');
         },
 
         applySettings: function() {

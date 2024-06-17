@@ -758,6 +758,7 @@ define([
             });
 
             me.menuImgEditPoints = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-edit-points',
                 caption: me.textEditPoints
             });
 

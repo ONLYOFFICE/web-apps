@@ -267,7 +267,7 @@ define([
                 if (Common.UI.isRTL()) {
                     placement = placement.indexOf('right')>-1 ? placement.replace('right', 'left') : placement.replace('left', 'right');
                 }
-
+                target.addClass('highlight-tip');
                 props.tip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
                     style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
@@ -294,6 +294,7 @@ define([
                         Common.NotificationCenter.trigger('file:help', props.link.src);
                     },
                     'close': function() {
+                        target.removeClass('highlight-tip');
                         props.name && Common.localStorage.setItem(props.name, 1);
                         props.callback && props.callback();
                         props.next && _showTip(props.next);
