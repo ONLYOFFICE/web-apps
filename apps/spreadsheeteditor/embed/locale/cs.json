@@ -12,7 +12,7 @@
   "SSE.ApplicationController.convertationTimeoutText": "Překročen časový limit pro provedení převodu.",
   "SSE.ApplicationController.criticalErrorTitle": "Chyba",
   "SSE.ApplicationController.downloadErrorText": "Stahování se nezdařilo.",
-  "SSE.ApplicationController.downloadTextText": "Stahování sešitu…",
+  "SSE.ApplicationController.downloadTextText": "Stahování sešitu...",
   "SSE.ApplicationController.errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
   "SSE.ApplicationController.errorDefaultMessage": "Kód chyby: %1",
   "SSE.ApplicationController.errorEditingDownloadas": "Při práci s dokumentem došlo k chybě.<br>Použijte volbu „Stáhnout jako“ a uložte si do souboru jako záložní kopii na svůj počítač.",
