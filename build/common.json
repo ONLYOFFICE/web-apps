@@ -43,7 +43,7 @@
                     {
                         "expand": true,
                         "cwd": "../../sdkjs/slide/themes/",
-                        "src": "**/**",
+                        "src": "**/*.*",
                         "dest": "../deploy/sdkjs/slide/themes/"
                     },
                     {
