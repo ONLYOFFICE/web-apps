@@ -80,7 +80,9 @@ define([
                 background: false,
                 header: false
             };
-            this._stateDisabled = {};
+            this._stateDisabled = {
+                inMaster: false
+            };
             this._slideMaster = {
                 inMasterMode: false,
                 inMaster: false // not layout
@@ -1518,9 +1520,7 @@ define([
             this._locked = {
                 background: background, header: header
             };
-            if (this._slideMaster.inMasterMode) {
-                this._slideMaster.inMaster = inMaster;
-            }
+            this._slideMaster.inMaster = inMaster;
         },
 
         SetSlideDisabled: function(background, header, props) {
