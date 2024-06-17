@@ -40,7 +40,8 @@
  */
 
 define([
-    'common/main/lib/view/DocumentAccessDialog'
+    'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/CustomizeQuickAccessDialog'
 ], function () {
     'use strict';
 
@@ -358,6 +359,9 @@ define([
                     '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
                 '</tr>',*/
+                '<tr class="edit quick-access">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
@@ -601,6 +605,11 @@ define([
                 dataHintOffset: 'big'
             });
 
+            this.btnCustomizeQuickAccess = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-customize-quick-access')
+            });
+            this.btnCustomizeQuickAccess.on('click', _.bind(this.customizeQuickAccess, this));
+
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
@@ -720,6 +729,10 @@ define([
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
+            }
+
+            if (mode.compactHeader) {
+                $('tr.quick-access', this.el).hide();
             }
         },
 
@@ -869,6 +882,23 @@ define([
             this._fontRender = combo.getValue();
         },
 
+        customizeQuickAccess: function () {
+            if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
+            this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
+                showSave: this.mode.showSaveButton,
+                showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
+                showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                props: {
+                    save: Common.localStorage.getBool('pdfe-quick-access-save', true),
+                    print: Common.localStorage.getBool('pdfe-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('pdfe-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('pdfe-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('pdfe-quick-access-redo', true)
+                }
+            });
+            this.dlgQuickAccess.show();
+        },
+
         strZoom: 'Default Zoom Value',
         strShowChanges: 'Real-time Collaboration Changes',
         txtAll: 'View All',
@@ -913,7 +943,8 @@ define([
         txtInch: 'Inch',
         txtCm: 'Centimeter',
         txtPt: 'Point',
-        txtUseAnnotateBar: 'Use the mini toolbar when selecting text'
+        txtUseAnnotateBar: 'Use the mini toolbar when selecting text',
+        txtCustomizeQuickAccess: 'Customize quick access'
 
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 
