@@ -94,7 +94,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template());
+            var $markup = $(this.template({scope: this}));
 
             this.miClose = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-return'),
@@ -643,6 +643,7 @@ define([
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...',
-        btnCloseEditor          : 'Close File'
+        btnCloseEditor          : 'Close File',
+        ariaFileMenu            : 'File menu'
     }, PDFE.Views.FileMenu || {}));
 });

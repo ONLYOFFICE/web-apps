@@ -80,7 +80,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template());
+            var $markup = $(this.template({scope: this}));
 
             this.miClose = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-return'),
@@ -656,6 +656,7 @@ define([
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...',
         btnExportToPDFCaption   : 'Export to PDF',
-        btnCloseEditor          : 'Close File'
+        btnCloseEditor          : 'Close File',
+        ariaFileMenu            : 'File menu'
     }, SSE.Views.FileMenu || {}));
 });

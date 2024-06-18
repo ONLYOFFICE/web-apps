@@ -62,7 +62,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -456,6 +456,7 @@ define([
         tipSpellcheck: 'Spell checking',
         txtTrialDev: 'Trial Developer Mode',
         txtLimit: 'Limit Access',
-        txtEditor: 'Spreadsheet Editor'
+        txtEditor: 'Spreadsheet Editor',
+        ariaLeftMenu: 'Left menu'
     }, SSE.Views.LeftMenu || {}));
 });

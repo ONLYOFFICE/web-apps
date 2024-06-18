@@ -163,7 +163,7 @@ define([
             this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             this.$el.show();
 
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
             this.$el.html($markup);
 
             this.btnMoreContainer = $markup.find('#slot-right-menu-more');
@@ -386,6 +386,7 @@ define([
         txtChartSettings:           'Chart Settings',
         txtMailMergeSettings:       'Mail Merge Settings',
         txtSignatureSettings:       'Signature Settings',
-        txtFormSettings:            'Form Settings'
+        txtFormSettings:            'Form Settings',
+        ariaRightMenu:              'Right menu'
     }, DE.Views.RightMenu || {}));
 });

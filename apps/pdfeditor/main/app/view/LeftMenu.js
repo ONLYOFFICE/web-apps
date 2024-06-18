@@ -71,7 +71,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -507,6 +507,7 @@ define([
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
         txtLimit: 'Limit Access',
-        txtEditor: 'PDF Editor'
+        txtEditor: 'PDF Editor',
+        ariaLeftMenu: 'Left menu'
     }, PDFE.Views.LeftMenu || {}));
 });

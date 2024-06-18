@@ -143,7 +143,7 @@ define([
 
             var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
-                                '<div class="hedset">' +
+                                '<div class="hedset" role="menubar" aria-label="<%= scope.ariaQuickAccessToolbar %>">' +
                                     '<div class="btn-slot" id="slot-btn-dt-home"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-save" data-layout-name="header-save"></div>' +
                                     '<div class="btn-slot" id="slot-btn-dt-print"></div>' +
@@ -999,7 +999,7 @@ define([
                     return $html;
                 } else
                 if ( role == 'title' ) {
-                    var $html = $(_.template(templateTitleBox)());
+                    var $html = $(_.template(templateTitleBox)({scope: me}));
 
                     !!$labelDocName && $labelDocName.hide().off();                  // hide document title if it was created in right box
                     $labelDocName = $html.find('#title-doc-name');
@@ -1365,7 +1365,8 @@ define([
             helpDocMode: 'Easily change the way you work on a document: edit, review and track changes, or view only. This works individually for each user. So, you won’t affect or disturb other co-authors. ',
             helpDocModeHeader: 'Switch between modes',
             helpQuickAccess: 'Hide or show the functional buttons of your choice.',
-            helpQuickAccessHeader: 'Customize Quick Access'
+            helpQuickAccessHeader: 'Customize Quick Access',
+            ariaQuickAccessToolbar: 'Quick access toolbar'
         }
     }(), Common.Views.Header || {}))
 });
