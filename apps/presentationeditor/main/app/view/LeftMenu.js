@@ -70,7 +70,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -473,6 +473,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         txtLimit: 'Limit Access',
-        txtEditor: 'Presentation Editor'
+        txtEditor: 'Presentation Editor',
+        ariaLeftMenu: 'Left menu'
     }, PE.Views.LeftMenu || {}));
 });

@@ -1,4 +1,4 @@
-<div class="panel-menu">
+<div class="panel-menu" role="menubar" aria-label="<%= scope.ariaFileMenu %>">
     <li class="fm-first-item"></li>
     <li id="fm-btn-return" class="fm-btn" data-layout-name="toolbar-file-close"></li>
     <li class="devider"></li>

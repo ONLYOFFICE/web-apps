@@ -162,7 +162,7 @@ define([
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 
-            el.html(this.template({}));
+            el.html(this.template({scope: this}));
 
             this.btnMoreContainer = $('#slot-right-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -341,6 +341,7 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtSlideSettings:           'Slide Settings',
         txtChartSettings:           'Chart Settings',
-        txtSignatureSettings:       'Signature Settings'
+        txtSignatureSettings:       'Signature Settings',
+        ariaRightMenu:              'Right menu'
     }, PE.Views.RightMenu || {}));
 });
