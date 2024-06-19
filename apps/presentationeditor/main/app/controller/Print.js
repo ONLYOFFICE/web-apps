@@ -31,8 +31,7 @@
  */
 define([
     'core',
-    'presentationeditor/main/app/view/FileMenuPanels',
-    'presentationeditor/main/app/view/HeaderFooterDialog'
+    'presentationeditor/main/app/view/FileMenuPanels'
 ], function () {
     'use strict';
 

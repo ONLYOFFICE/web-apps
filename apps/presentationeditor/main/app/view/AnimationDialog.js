@@ -37,9 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
     PE.Views.AnimationDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,

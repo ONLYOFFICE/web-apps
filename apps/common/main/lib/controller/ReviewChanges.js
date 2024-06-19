@@ -46,8 +46,7 @@ define([
     'common/main/lib/model/ReviewChange',
     'common/main/lib/collection/ReviewChanges',
     'common/main/lib/view/ReviewChanges',
-    'common/main/lib/view/ReviewPopover',
-    'common/main/lib/view/LanguageDialog'
+    'common/main/lib/view/ReviewPopover'
 ], function () {
     'use strict';
 

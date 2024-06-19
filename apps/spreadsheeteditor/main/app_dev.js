@@ -222,13 +222,12 @@ require([
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
                 'spreadsheeteditor/main/app/view/SortDialog',
                 'spreadsheeteditor/main/app/view/ViewManagerDlg',
-
                 // 'spreadsheeteditor/main/app/view/CellSettings',
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
                 // 'spreadsheeteditor/main/app/view/ChartSettings',
                 'spreadsheeteditor/main/app/view/ChartTypeDialog',
                 'spreadsheeteditor/main/app/view/ExternalLinksDlg',
-                'spreadsheeteditor/main/app/view/FileMenuPanels',
+                // 'spreadsheeteditor/main/app/view/FileMenuPanels',
                 'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
                 'spreadsheeteditor/main/app/view/MacroDialog',
                 'spreadsheeteditor/main/app/view/NameManagerDlg',
@@ -250,7 +249,6 @@ require([
                 'spreadsheeteditor/main/app/view/CellRangeDialog',
                 'spreadsheeteditor/main/app/view/ChartDataRangeDialog',
                 'spreadsheeteditor/main/app/view/ChartWizardDialog',
-
                 'spreadsheeteditor/main/app/view/FillSeriesDialog',
                 'spreadsheeteditor/main/app/view/NamedRangeEditDlg',
                 'spreadsheeteditor/main/app/view/CreateSparklineDialog',
@@ -259,13 +257,14 @@ require([
                 'spreadsheeteditor/main/app/view/GoalSeekStatusDlg',
                 'spreadsheeteditor/main/app/view/DataValidationDialog',
                 'spreadsheeteditor/main/app/view/FormulaWizard',
-
                 'spreadsheeteditor/main/app/view/ParagraphSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/ImageSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/SlicerSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/PivotSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
                 'spreadsheeteditor/main/app/view/ShapeSettingsAdvanced',
+                'spreadsheeteditor/main/app/view/ProtectDialog',
+                'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg'
             ];
 
             window.compareVersions = true;

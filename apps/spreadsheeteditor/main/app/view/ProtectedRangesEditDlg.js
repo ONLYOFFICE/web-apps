@@ -38,9 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views.ProtectedRangesEditDlg = Common.UI.Window.extend(_.extend({

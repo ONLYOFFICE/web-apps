@@ -37,11 +37,8 @@
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
-define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/view/AdvancedSettingsWindow'
+define([
+    'text!presentationeditor/main/app/template/HeaderFooterDialog.template'
 ], function (template) { 'use strict';
 
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

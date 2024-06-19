@@ -40,9 +40,7 @@
 define([
     'core',
     'common/main/lib/view/Protection',
-    'spreadsheeteditor/main/app/view/WBProtection',
-    'spreadsheeteditor/main/app/view/ProtectDialog',
-    'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg'
+    'spreadsheeteditor/main/app/view/WBProtection'
 ], function () {
     'use strict';
 

@@ -216,11 +216,18 @@ require([
                 'common/main/lib/view/ExternalEditor',
                 'common/main/lib/view/ExternalDiagramEditor',
                 'common/main/lib/view/ExternalOleEditor',
+                'common/main/lib/view/LanguageDialog',
+                'common/main/lib/view/SearchDialog',
 
                 'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
                 'presentationeditor/main/app/view/ShapeSettingsAdvanced',
                 'presentationeditor/main/app/view/TableSettingsAdvanced',
                 'presentationeditor/main/app/view/ImageSettingsAdvanced',
+                'presentationeditor/main/app/view/SlideshowSettings',
+                'presentationeditor/main/app/view/AnimationDialog',
+                'presentationeditor/main/app/view/HeaderFooterDialog',
+                'presentationeditor/main/app/view/HyperlinkSettingsDialog',
+                'presentationeditor/main/app/view/DateTimeDialog',
             ];
 
             window.compareVersions = true;

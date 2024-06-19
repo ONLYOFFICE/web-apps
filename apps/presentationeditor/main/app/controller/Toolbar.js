@@ -48,11 +48,7 @@ define([
     'presentationeditor/main/app/controller/Transitions',
     'presentationeditor/main/app/controller/Animation',
     'presentationeditor/main/app/view/Toolbar',
-    'presentationeditor/main/app/view/DateTimeDialog',
-    'presentationeditor/main/app/view/HeaderFooterDialog',
-    'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/SlideSizeSettings',
-    'presentationeditor/main/app/view/SlideshowSettings',
     'presentationeditor/main/app/view/define'
 ], function () { 'use strict';
 
