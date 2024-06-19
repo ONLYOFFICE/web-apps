@@ -6,6 +6,7 @@ import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage.mjs';
 
 import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
+import { getUserColor } from '../../../utils/getUserColor';
 
 // utils
 const timeZoneOffsetInMs = (new Date()).getTimezoneOffset() * 60000;
@@ -135,16 +136,17 @@ class CommentsController extends Component {
         const date = (data.asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
             ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
 
-        let user = this.usersStore.searchUserById(data.asc_getUserId());
+        const userId = data.asc_getUserId()
+        const user = this.usersStore.searchUserById(userId);
         const name = data.asc_getUserName();
         const parsedName = parseUserName(name);
 
         changeComment.comment = data.asc_getText();
-        changeComment.userId = data.asc_getUserId();
+        changeComment.userId = userId;
         changeComment.userName = name;
         changeComment.parsedName = Common.Utils.String.htmlEncode(parsedName);
         changeComment.userInitials = this.usersStore.getInitials(parsedName);
-        changeComment.userColor = (user) ? user.asc_getColor() : null;
+        changeComment.userColor = (user) ? user.asc_getColor() : getUserColor(userId || name);
         changeComment.resolved = data.asc_getSolved();
         changeComment.quote = data.asc_getQuoteText();
         changeComment.time = date.getTime();
@@ -162,15 +164,17 @@ class CommentsController extends Component {
             dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                 ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
-            user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
+            const userId = data.asc_getReply(i).asc_getUserId();
+            const user = this.usersStore.searchUserById(userId);
             const userName = data.asc_getReply(i).asc_getUserName();
             const parsedName = parseUserName(userName);
+
             replies.push({
                 ind: i,
-                userId: data.asc_getReply(i).asc_getUserId(),
-                userName: userName,
+                userId,
+                userName,
                 parsedName: Common.Utils.String.htmlEncode(parsedName),
-                userColor: (user) ? user.asc_getColor() : null,
+                userColor: (user) ? user.asc_getColor() : getUserColor(userId || userName),
                 date: dateToLocaleTimeString(dateReply, this.appOptions.lang),
                 reply: data.asc_getReply(i).asc_getText(),
                 time: dateReply.getTime(),
@@ -189,16 +193,17 @@ class CommentsController extends Component {
     readSDKComment (id, data) {
         const date = (data.asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
             ((data.asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getTime())));
-        const user = this.usersStore.searchUserById(data.asc_getUserId());
+        const userId = data.asc_getUserId();
+        const user = this.usersStore.searchUserById(userId);
         const groupName = id.substr(0, id.lastIndexOf('_')+1).match(/^(doc|sheet[0-9_]+)_/);
         const userName = data.asc_getUserName();
         const parsedName = parseUserName(userName);
         const comment = {
             uid                 : id,
-            userId              : data.asc_getUserId(),
-            userName            : userName,
+            userId,
+            userName,
             parsedName,
-            userColor           : (user) ? user.asc_getColor() : null,
+            userColor           : (user) ? user.asc_getColor() : getUserColor(userId || userName),
             date                : dateToLocaleTimeString(date, this.appOptions.lang),
             quote               : data.asc_getQuoteText(),
             comment             : data.asc_getText(),
@@ -229,15 +234,17 @@ class CommentsController extends Component {
             for (i = 0; i < repliesCount; ++i) {
                 date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
                     ((data.asc_getReply(i).asc_getTime() === '') ? new Date() : new Date(stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
-                const user = this.usersStore.searchUserById(data.asc_getReply(i).asc_getUserId());
+                const userId = data.asc_getReply(i).asc_getUserId();
+                const user = this.usersStore.searchUserById(userId);
                 const userName = data.asc_getReply(i).asc_getUserName();
                 const parsedName = parseUserName(userName);
+
                 replies.push({
                     ind                 : i,
-                    userId              : data.asc_getReply(i).asc_getUserId(),
-                    userName            : userName,
+                    userId,
+                    userName,
                     parsedName          : Common.Utils.String.htmlEncode(parsedName),
-                    userColor           : (user) ? user.asc_getColor() : null,
+                    userColor           : (user) ? user.asc_getColor() : getUserColor(userId || userName),
                     date                : dateToLocaleTimeString(date, this.appOptions.lang),
                     reply               : data.asc_getReply(i).asc_getText(),
                     time                : date.getTime(),

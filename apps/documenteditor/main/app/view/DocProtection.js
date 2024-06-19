@@ -78,7 +78,7 @@ define([
                     iconCls: 'toolbar__icon btn-restrict-editing',
                     enableToggle: true,
                     caption: this.txtProtectDoc,
-                    lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock],
+                    lock        : [_set.lostConnect, _set.coAuth, _set.previewReviewMode, _set.viewFormMode, _set.protectLock, _set.viewMode],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

@@ -386,7 +386,7 @@ define([
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
             this.miSaveCopyAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[((this.mode.canDownload || this.mode.canDownloadOrigin) && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
-            this.miSave[this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
+            this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrint[this.mode.canPrint && !this.mode.canPreviewPrint ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPreviewPrint?'show':'hide']();
@@ -473,25 +473,42 @@ define([
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {
-                $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
-                this.items.push(
-                    new Common.UI.MenuItem({
-                        el      : $('#fm-btn-local-open', this.$el),
-                        action  : 'file:open',
-                        caption : this.btnFileOpenCaption,
-                        canFocused: false,
-                        dataHint: 1,
-                        dataHintDirection: 'left-top',
-                        dataHintOffset: [2, 14]
-                    }));
+                if (this.$el.find('#fm-btn-local-open').length<1) {
+                    $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
+                    this.items.push(
+                        new Common.UI.MenuItem({
+                            el      : $('#fm-btn-local-open', this.$el),
+                            action  : 'file:open',
+                            caption : this.btnFileOpenCaption,
+                            canFocused: false,
+                            dataHint: 1,
+                            dataHintDirection: 'left-top',
+                            dataHintOffset: [2, 14]
+                        }));
+                }
 
+                if (this.$el.find('#fm-btn-exit').length<1) {
+                    $('<li class="devider" />' +
+                        '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                    this.items.push(
+                        new Common.UI.MenuItem({
+                            el: $('#fm-btn-exit', this.$el),
+                            action: 'file:exit',
+                            caption: this.btnExitCaption,
+                            canFocused: false,
+                            dataHint: 1,
+                            dataHintDirection: 'left-top',
+                            dataHintOffset: [2, 14]
+                        }));
+                }
+            } else if (this.mode.canCloseEditor && this.$el.find('#fm-btn-close').length<1) {
                 $('<li class="devider" />' +
-                    '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                    '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                 this.items.push(
                     new Common.UI.MenuItem({
-                        el      : $('#fm-btn-exit', this.$el),
-                        action  : 'file:exit',
-                        caption : this.btnExitCaption,
+                        el      : $('#fm-btn-close', this.$el),
+                        action  : 'close-editor',
+                        caption : this.mode.customization.close.text || this.btnCloseEditor,
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
@@ -625,6 +642,7 @@ define([
         btnProtectCaption: 'Protect',
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnExitCaption          : 'Exit',
-        btnFileOpenCaption      : 'Open...'
+        btnFileOpenCaption      : 'Open...',
+        btnCloseEditor          : 'Close File'
     }, PDFE.Views.FileMenu || {}));
 });

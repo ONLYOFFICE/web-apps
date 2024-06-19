@@ -43,11 +43,11 @@
         .ps-scrollbar-y-rail {
             margin-top: 5px;
             margin-bottom: 5px;
-            right: 4px !important;
+            right: 4px;
 
             .rtl & {
                 right: unset !important;
-                left: 4px !important;
+                left: 4px;
             }
         }
 
@@ -251,9 +251,15 @@
         padding: 0px 5px 5px 5px;
         border-left: @scaled-one-px-value-ie solid #939393;
         border-left: @scaled-one-px-value solid #939393;
+        border-right: none;
         word-break: break-all;
         white-space: pre-wrap;
         cursor: pointer;
+        .rtl & {
+            border-left: none;
+            border-right: @scaled-one-px-value-ie solid #939393;
+            border-right: @scaled-one-px-value solid #939393;
+        }
     }
 
     .user-message {

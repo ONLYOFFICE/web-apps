@@ -192,9 +192,17 @@ define([
                 }
                 if (item)
                     panel.cmbPaperSize.setValue(item.get('value'));
-                else
-                    panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                else {
+                    if (panel.$el.prop('id') === 'panel-print') {
+                        panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()]);
+                    } else {
+                        panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                    }
+                }
             } else {
                 this.isFillProps = false;
             }
@@ -340,10 +348,10 @@ define([
                     handler: function(dlg, result) {
                         if (result == 'ok') {
                             props = dlg.getSettings();
-                            Common.localStorage.setItem("de-pgmargins-top", props.get_TopMargin());
-                            Common.localStorage.setItem("de-pgmargins-left", props.get_LeftMargin());
-                            Common.localStorage.setItem("de-pgmargins-bottom", props.get_BottomMargin());
-                            Common.localStorage.setItem("de-pgmargins-right", props.get_RightMargin());
+                            Common.localStorage.setItem("pdfe-pgmargins-top", props.get_TopMargin());
+                            Common.localStorage.setItem("pdfe-pgmargins-left", props.get_LeftMargin());
+                            Common.localStorage.setItem("pdfe-pgmargins-bottom", props.get_BottomMargin());
+                            Common.localStorage.setItem("pdfe-pgmargins-right", props.get_RightMargin());
                             Common.NotificationCenter.trigger('margins:update', props);
 
                             me.api.asc_SetSectionProps(props);
@@ -361,10 +369,10 @@ define([
         onUpdateLastCustomMargins: function(props) {
             this._state.lastmargins = props;
             if (this.printSettings.isVisible()) {
-                var top = props ? props.get_TopMargin() : Common.localStorage.getItem("de-pgmargins-top"),
-                    left = props ? props.get_LeftMargin() : Common.localStorage.getItem("de-pgmargins-left"),
-                    bottom = props ? props.get_BottomMargin() : Common.localStorage.getItem("de-pgmargins-bottom"),
-                    right = props ? props.get_RightMargin() : Common.localStorage.getItem("de-pgmargins-right");
+                var top = props ? props.get_TopMargin() : Common.localStorage.getItem("pdfe-pgmargins-top"),
+                    left = props ? props.get_LeftMargin() : Common.localStorage.getItem("pdfe-pgmargins-left"),
+                    bottom = props ? props.get_BottomMargin() : Common.localStorage.getItem("pdfe-pgmargins-bottom"),
+                    right = props ? props.get_RightMargin() : Common.localStorage.getItem("pdfe-pgmargins-right");
                 if ( top!==null && left!==null && bottom!==null && right!==null ) {
                     var rec = this.printSettings.cmbPaperMargins.store.at(0);
                     if (rec.get('value')===-2)

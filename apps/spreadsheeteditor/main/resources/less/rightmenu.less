@@ -172,6 +172,23 @@
     margin-right: 62px !important;
 }
 
+.item-shadow {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border-radius: 1px;
+        border: 1px @icon-normal-ie solid;
+        border: 1px @icon-normal solid;
+    }
+}
+
 .item-wrap {
     width:50px;
     height:50px;
@@ -221,9 +238,11 @@
         padding: 3px;
         border-top: none;
         &.insert {
-            background: linear-gradient(to bottom, #656565, #fff 5%);
+            background: linear-gradient(to bottom, @text-normal-ie, @background-normal-ie 5%);
+            background: linear-gradient(to bottom, @text-normal, @background-normal 5%);
             &.last {
-                background: linear-gradient(to top, #656565, #fff 5%);
+                background: linear-gradient(to top, @text-normal-ie, @background-normal-ie 5%);
+                background: linear-gradient(to top, @text-normal, @background-normal 5%);
             }
         }
         &:hover {

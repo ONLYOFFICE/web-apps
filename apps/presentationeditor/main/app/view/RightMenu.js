@@ -156,7 +156,7 @@ define([
 
             this.trigger('render:before', this);
 
-            this.defaultHideRightMenu = mode.customization && !!mode.customization.hideRightMenu;
+            this.defaultHideRightMenu = !(mode.customization && (mode.customization.hideRightMenu===false));
             var open = !Common.localStorage.getBool("pe-hide-right-settings", this.defaultHideRightMenu);
             Common.Utils.InternalSettings.set("pe-hide-right-settings", !open);
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
@@ -244,16 +244,21 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.slideSettings && this.slideSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
-            var target_pane = $("#" + this._settings[btn.options.asctype].panel);
-            var target_pane_parent = target_pane.parent();
+            var isPlugin = btn && btn.options.type === 'plugin',
+                target_pane_parent = $(this.el).find('.right-panel'),
+                target_pane;
+            if (btn && !isPlugin) {
+                target_pane = $("#" + this._settings[btn.options.asctype].panel);
+            }
 
-            if (btn.pressed) {
+            if (btn && btn.pressed) {
                 if ( this.minimizedMode ) {
                     $(this.el).width(MENU_SCALE_PART);
                     target_pane_parent.css("display", "inline-block" );
@@ -262,12 +267,11 @@ define([
                     Common.Utils.InternalSettings.set("pe-hide-right-settings", false);
                 }
                 target_pane_parent.find('> .active').removeClass('active');
-                target_pane.addClass("active");
+                target_pane && target_pane.addClass("active");
 
                 if (this.scroller) {
                     this.scroller.scrollTop(0);
                 }
-                this._settings[Common.Utils.documentSettingsType.Slide].isCurrent = (btn.options.asctype==Common.Utils.documentSettingsType.Slide);
             } else {
                 target_pane_parent.css("display", "none" );
                 $(this.el).width(SCALE_MIN);
@@ -276,7 +280,7 @@ define([
                 Common.Utils.InternalSettings.set("pe-hide-right-settings", true);
             }
 
-            this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
+            btn && !isPlugin && this.fireEvent('rightmenuclick', [this, btn.options.asctype, this.minimizedMode, e]);
         },
 
         SetActivePane: function(type, open) {
@@ -301,7 +305,8 @@ define([
         },
 
         GetActivePane: function() {
-            return (this.minimizedMode) ? null : this.$el.find(".settings-panel.active")[0].id;
+            var active = this.$el.find(".settings-panel.active");
+            return (this.minimizedMode || active.length === 0) ? null : active[0].id;
         },
 
         clearSelection: function() {

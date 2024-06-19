@@ -47,10 +47,13 @@ if (Common.UI === undefined) {
 
 Common.UI.LayoutManager = new(function() {
     var _config,
-        _licensed;
-    var _init = function(config, licensed) {
+        _licensed,
+        _api,
+        _lastInternalTabIdx = 10;
+    var _init = function(config, licensed, api) {
         _config = config;
         _licensed = licensed;
+        _api = api;
     };
 
     var _applyCustomization = function(config, el, prefix) {
@@ -110,11 +113,193 @@ Common.UI.LayoutManager = new(function() {
         }
     };
 
+    var _findCustomButton = function(toolbar, action, guid, id) {
+        if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
+            for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
+                var btn = toolbar.customButtonsArr[guid][i];
+                if (btn.options.tabid === action && btn.options.guid === guid && btn.options.value === id) {
+                    return btn;
+                }
+            }
+        }
+    }
+
+    var _findRemovedButtons = function(toolbar, action, guid, items) {
+        var arr = [];
+        if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
+            if (!items || items.length<1) {
+                arr = toolbar.customButtonsArr[guid];
+                toolbar.customButtonsArr[guid] = undefined;
+            } else {
+                for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
+                    var btn = toolbar.customButtonsArr[guid][i];
+                    if (btn.options.tabid === action && !_.findWhere(items, {id: btn.options.value})) {
+                        arr.push(btn);
+                        toolbar.customButtonsArr[guid].splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+        }
+        return arr;
+    }
+
+    var _fillButtonMenu = function(items, guid, lang, toMenu) {
+        if (toMenu)
+            toMenu.removeAll();
+        else {
+            toMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                menuAlign: 'tl-tr',
+                items: []
+            });
+            toMenu.on('item:click', function(menu, mi, e) {
+                _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
+            });
+        }
+        items.forEach(function(menuItem) {
+            if (menuItem.separator) toMenu.addItem({caption: '--'});
+            menuItem.text && toMenu.addItem({
+                caption: menuItem.text || '',
+                value: menuItem.id,
+                menu: menuItem.items ? _fillButtonMenu(menuItem.items, guid, lang) : false,
+                iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(menuItem.icons)),
+                guid: guid
+            });
+        });
+        return toMenu;
+    }
+
+    var _addCustomItems = function (toolbar, data) {
+        if (!data) return;
+
+        var lang = Common.Locale.getCurrentLanguage(),
+            btns = [];
+        data.forEach(function(plugin) {
+            /*
+            plugin = {
+                guid: 'plugin-guid',
+                tabs: [
+                    {
+                        id: 'tab-id',
+                        text: 'caption',
+                        items: [
+                            {
+                                id: 'button-id',
+                                type: 'button'='big-button' or 'small-button',
+                                icons: 'template string' or object
+                                text: 'caption' or - can be empty
+                                hint: 'hint',
+                                separator: true/false - inserted before item,
+                                split: true/false - used when has menu
+                                items: [
+                                    {
+                                        id: 'item-id',
+                                        text: 'caption'
+                                        separator: true/false - inserted before item,
+                                        icons: 'template string' or object
+                                    }
+                                ],
+                                enableToggle: true/false - can press and depress button, only when no menu or has split menu
+                                lockInViewMode: true/false - lock in view modes (preview review, view forms, disconnect, etc.),
+                                disabled: true/false
+                            }
+                        ]
+                    },
+                    {
+                        id: 'tab-id',
+                        text: 'caption',
+                        items: [...]
+                    },
+                ]
+            }
+            */
+            plugin.tabs && plugin.tabs.forEach(function(tab) {
+                if (tab) {
+                    var added = [],
+                        removed = _findRemovedButtons(toolbar, tab.id, plugin.guid, tab.items);
+                    tab.items && tab.items.forEach(function(item, index) {
+                        var btn = _findCustomButton(toolbar, tab.id, plugin.guid, item.id),
+                            _set = Common.enumLock;
+                        if (btn) { // change caption, hint, disable state, menu items
+                            if (btn instanceof Common.UI.Button) {
+                                var caption = item.text || '';
+                                if (btn.options.caption !== (caption || ' ')) {
+                                    btn.cmpEl.closest('.btn-slot.x-huge').toggleClass('nocaption', !caption);
+                                    btn.setCaption(caption || ' ');
+                                    btn.options.caption = caption || ' ';
+                                }
+                                btn.updateHint(item.hint || '');
+                                (item.disabled!==undefined) && Common.Utils.lockControls(_set.customLock, !!item.disabled, {array: [btn]});
+                                if (btn.menu && item.items && item.items.length > 0) {// update menu items
+                                    if (typeof btn.menu !== 'object') {
+                                        btn.setMenu(new Common.UI.Menu({items: []}));
+                                        btn.menu.on('item:click', function(menu, mi, e) {
+                                            _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
+                                        });
+                                    }
+                                    _fillButtonMenu(item.items, plugin.guid, lang, btn.menu);
+                                }
+                            }
+                            return;
+                        }
+
+                        if (item.type==='button' || item.type==='big-button') {
+                            btn = new Common.UI.ButtonCustom({
+                                cls: 'btn-toolbar x-huge icon-top',
+                                iconsSet: item.icons,
+                                caption: item.text || ' ',
+                                menu: item.items,
+                                split: item.items && !!item.split,
+                                enableToggle: item.enableToggle && (!item.items || !!item.split),
+                                value: item.id,
+                                guid: plugin.guid,
+                                tabid: tab.id,
+                                separator: item.separator,
+                                hint: item.hint || '',
+                                lock: item.lockInViewMode ? [_set.customLock, _set.viewMode, _set.previewReviewMode, _set.viewFormMode, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.selRangeEdit, _set.editFormula ] : [_set.customLock],
+                                dataHint: '1',
+                                dataHintDirection: 'bottom',
+                                dataHintOffset: 'small'
+                            });
+
+                            if (item.items && typeof item.items === 'object') {
+                                btn.setMenu(new Common.UI.Menu({items: []}));
+                                btn.menu.on('item:click', function(menu, mi, e) {
+                                    _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
+                                });
+                                _fillButtonMenu(item.items, plugin.guid, lang, btn.menu);
+                            }
+                            if ( !btn.menu || btn.split) {
+                                btn.on('click', function(b, e) {
+                                    _api && _api.onPluginToolbarMenuItemClick(b.options.guid, b.options.value, b.pressed);
+                                });
+                            }
+                            added.push(btn);
+                            item.disabled && Common.Utils.lockControls(_set.customLock, item.disabled, {array: [btn]});
+                        }
+                    });
+
+                    toolbar.addCustomItems({action: tab.id, caption: tab.text || ''}, added, removed);
+                    if (!toolbar.customButtonsArr)
+                        toolbar.customButtonsArr = [];
+                    if (!toolbar.customButtonsArr[plugin.guid])
+                        toolbar.customButtonsArr[plugin.guid] = [];
+                    Array.prototype.push.apply(toolbar.customButtonsArr[plugin.guid], added);
+                    Array.prototype.push.apply(btns, added);
+                }
+            });
+        });
+        return btns;
+    };
+
     return {
         init: _init,
         applyCustomization: _applyCustomization,
         isElementVisible: _isElementVisible,
-        getInitValue: _getInitValue
+        getInitValue: _getInitValue,
+        lastTabIdx: _lastInternalTabIdx,
+        addCustomItems: _addCustomItems
     }
 })();
 
@@ -160,9 +345,16 @@ Common.UI.FeaturesManager = new(function() {
         }
     };
 
+    var _isFeatureEnabled = function(name, force) {
+        if (!(_licensed || force) || !_config) return true;
+
+        return _config[name]!==false;
+    };
+
     return {
         init: _init,
         canChange: _canChange,
-        getInitValue: _getInitValue
+        getInitValue: _getInitValue,
+        isFeatureEnabled: _isFeatureEnabled
     }
 })();

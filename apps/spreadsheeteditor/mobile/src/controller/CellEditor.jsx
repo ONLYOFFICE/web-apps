@@ -65,13 +65,27 @@ const CellEditor = inject("storeFunctions")(observer(props => {
                 let type = item.asc_getType(),
                     name = item.asc_getName(true),
                     origName = api.asc_getFormulaNameByLocale(name),
-                    args = functions[origName]?.args || '',
+                    args = '',
                     caption = name,
                     descr = '';
 
                 switch (type) {
                     case Asc.c_oAscPopUpSelectorType.Func:
-                        descr = functions && functions[origName] ? functions[origName].descr : '';
+                        if (functions && functions[origName] && functions[origName].descr)
+                            descr = functions[origName].descr;
+                        else {
+                            let custom = api.asc_getCustomFunctionInfo(origName);
+                            descr = custom ? custom.asc_getDescription() || '' : '';
+                        }
+                        if (functions && functions[origName] && functions[origName].args)
+                            args = functions[origName].args;
+                        else {
+                            let custom = api.asc_getCustomFunctionInfo(origName);
+                            if (custom) {
+                                let arr_args = custom.asc_getArg() || [];
+                                args = '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                            }
+                        }
                         break;
                     case Asc.c_oAscPopUpSelectorType.TableThisRow:
                         descr = t('View.Add.textThisRowHint');

@@ -593,7 +593,8 @@ define([
                         case Asc.c_oAscExternalReferenceType.referenceData:
                             data = {
                                 referenceData: item.asc_getData(),
-                                path: item.asc_getPath()
+                                path: item.asc_getPath(),
+                                link: item.asc_getLink()
                             };
                             break;
                     }

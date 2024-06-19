@@ -112,6 +112,9 @@ define([
             this.api.asc_registerCallback('asc_onAnimPreviewStarted',   _.bind(this.onAnimPreviewStarted, this));
             this.api.asc_registerCallback('asc_onAnimPreviewFinished',  _.bind(this.onAnimPreviewFinished, this));
             this.api.asc_onShowAnimTab(!!this._state.onactivetab)
+            this.api.asc_registerCallback('asc_onCloseAnimPane',        _.bind(this.onApiCloseAnimPane, this));
+
+            Common.NotificationCenter.on('animpane:close',              _.bind(this.onCloseAnimPane, this));
             return this;
         },
 
@@ -172,7 +175,23 @@ define([
             this.addNewEffect(this._state.Effect, this._state.EffectGroup, groupName,true, this._state.EffectOption, undefined, color);
         },
 
-        onAnimationPane: function() {
+        onAnimationPane: function(btn) {
+            this._state.isAnimPaneVisible = btn.pressed;
+            this.api.asc_ShowAnimPane(btn.pressed);
+            Common.UI.TooltipManager.closeTip('animPane');
+        },
+
+        onApiCloseAnimPane: function () {
+            this._state.isAnimPaneVisible = false;
+            this.view.btnAnimationPane.toggle(false, true);
+        },
+
+        onCloseAnimPane: function () {
+            if (this._state.isAnimPaneVisible) {
+                this._state.isAnimPaneVisible = false;
+                this.api.asc_ShowAnimPane(false);
+                this.view.btnAnimationPane.toggle(false, true);
+            }
         },
 
         onAnimationAdditional: function(replace) { // replace or add new additional effect
@@ -624,6 +643,22 @@ define([
 
         updateThemeColors: function (){
             this.view.updateColors();
+        },
+
+        getAnimationPanelTip: function (effect) {
+            var result;
+            if (effect) {
+                var nodeType = effect[0] === AscFormat.NODE_TYPE_CLICKEFFECT ? this.view.textStartOnClick :
+                    (effect[0] === AscFormat.NODE_TYPE_WITHEFFECT ? this.view.textStartWithPrevious :
+                        (effect[0] === AscFormat.NODE_TYPE_AFTEREFFECT ? this.view.textStartAfterPrevious : ''));
+                var presetClass = _.findWhere(Common.define.effectData.getEffectGroupData(), {value: effect[1]});
+                presetClass = presetClass ? presetClass.caption : '';
+                var preset = _.findWhere(Common.define.effectData.getEffectData(), {value: effect[2]});
+                preset = preset ? preset.displayValue : '';
+                var name = effect[3] || '';
+                result = nodeType + '\n' + presetClass + '\n' + preset + ' : ' + name;
+            }
+            return result;
         }
 
     }, PE.Controllers.Animation || {}));

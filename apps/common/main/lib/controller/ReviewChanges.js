@@ -95,6 +95,9 @@ define([
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:goto':        _.bind(this.onGotoClick, this)
+                },
+                'ViewTab': {
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
         },
@@ -106,13 +109,15 @@ define([
             this.appPrefix = (filter && filter.length) ? filter.split(',')[0] : '';
 
             this._state = { posx: -1000, posy: -1000, popoverVisible: false, previewMode: false, compareSettings: null, wsLock: false, wsProps: [],
+                            displayMode: Asc.c_oAscDisplayModeInReview.Edit,
                             disableEditing: false, // disable editing when disconnect/signed file/mail merge preview/review final or original/forms preview
                             docProtection: {
                                 isReadOnly: false,
                                 isReviewOnly: false,
                                 isFormsOnly: false,
                                 isCommentsOnly: false
-                            }
+                            },
+                            sdkchange: null
                           };
 
             Common.NotificationCenter.on('reviewchanges:turn', this.onTurnPreview.bind(this));
@@ -237,6 +242,7 @@ define([
         onApiShowChange: function (sdkchange, isShow) {
             var btnlock = true,
                 changes;
+            this._state.sdkchange = sdkchange;
             if (this.appConfig.canReview && !(this.appConfig.isReviewOnly || this._state.docProtection.isReviewOnly)) {
                 if (sdkchange && sdkchange.length>0) {
                     changes = this.readSDKChange(sdkchange);
@@ -251,7 +257,7 @@ define([
             }
 
             if (this.getPopover()) {
-                if (!this.appConfig.reviewHoverMode && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
+                if (!this.appConfig.reviewHoverMode && (this._state.displayMode !== Asc.c_oAscDisplayModeInReview.Simple) && sdkchange && sdkchange.length>0 && isShow) { // show changes balloon only for current position, not selection
                     var i = 0,
                         posX = sdkchange[0].get_X(),
                         posY = sdkchange[0].get_Y(),
@@ -327,7 +333,8 @@ define([
         // helpers
 
         readSDKChange: function (data) {
-            var me = this, arr = [], arrIds = [];
+            var me = this, arr = [], arrIds = [],
+                cmm = Common.Utils.String.textComma + ' ';
             _.each(data, function(item) {
                 var changetext = '', proptext = '',
                     value = item.get_Value(),
@@ -397,37 +404,37 @@ define([
                     case Asc.c_oAscRevisionsChangeType.TextPr:
                         changetext = '<b>' + me.textFormatted;
                         if (value.Get_Bold() !== undefined)
-                            proptext += ((value.Get_Bold() ? '' : me.textNot) + me.textBold + ', ');
+                            proptext += ((value.Get_Bold() ? '' : me.textNot) + me.textBold + cmm);
                         if (value.Get_Italic() !== undefined)
-                            proptext += ((value.Get_Italic() ? '' : me.textNot) + me.textItalic + ', ');
+                            proptext += ((value.Get_Italic() ? '' : me.textNot) + me.textItalic + cmm);
                         if (value.Get_Underline() !== undefined)
-                            proptext += ((value.Get_Underline() ? '' : me.textNot) + me.textUnderline + ', ');
+                            proptext += ((value.Get_Underline() ? '' : me.textNot) + me.textUnderline + cmm);
                         if (value.Get_Strikeout() !== undefined)
-                            proptext += ((value.Get_Strikeout() ? '' : me.textNot) + me.textStrikeout + ', ');
+                            proptext += ((value.Get_Strikeout() ? '' : me.textNot) + me.textStrikeout + cmm);
                         if (value.Get_DStrikeout() !== undefined)
-                            proptext += ((value.Get_DStrikeout() ? '' : me.textNot) + me.textDStrikeout + ', ');
+                            proptext += ((value.Get_DStrikeout() ? '' : me.textNot) + me.textDStrikeout + cmm);
                         if (value.Get_Caps() !== undefined)
-                            proptext += ((value.Get_Caps() ? '' : me.textNot) + me.textCaps + ', ');
+                            proptext += ((value.Get_Caps() ? '' : me.textNot) + me.textCaps + cmm);
                         if (value.Get_SmallCaps() !== undefined)
-                            proptext += ((value.Get_SmallCaps() ? '' : me.textNot) + me.textSmallCaps + ', ');
+                            proptext += ((value.Get_SmallCaps() ? '' : me.textNot) + me.textSmallCaps + cmm);
                         if (value.Get_VertAlign() !== undefined)
-                            proptext += (((value.Get_VertAlign()===Asc.vertalign_SuperScript) ? me.textSuperScript : ((value.Get_VertAlign()===Asc.vertalign_SubScript) ? me.textSubScript : me.textBaseline)) + ', ');
+                            proptext += (((value.Get_VertAlign()===Asc.vertalign_SuperScript) ? me.textSuperScript : ((value.Get_VertAlign()===Asc.vertalign_SubScript) ? me.textSubScript : me.textBaseline)) + cmm);
                         if (value.Get_Color() !== undefined)
-                            proptext += (me.textColor + ', ');
+                            proptext += (me.textColor + cmm);
                         if (value.Get_Highlight() !== undefined)
-                            proptext += (me.textHighlight + ', ');
+                            proptext += (me.textHighlight + cmm);
                         if (value.Get_Shd() !== undefined)
-                            proptext += (me.textShd + ', ');
+                            proptext += (me.textShd + cmm);
                         if (value.Get_FontFamily() !== undefined)
-                            proptext += (value.Get_FontFamily() + ', ');
+                            proptext += (value.Get_FontFamily() + cmm);
                         if (value.Get_FontSize() !== undefined)
-                            proptext += (value.Get_FontSize() + ', ');
+                            proptext += (value.Get_FontSize() + cmm);
                         if (value.Get_Spacing() !== undefined)
-                            proptext += (me.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textSpacing + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Spacing()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_Position() !== undefined)
-                            proptext += (me.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textPosition + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_Position()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_Lang() !== undefined)
-                            proptext += (Common.util.LanguageInfo.getLocalLanguageName(value.Get_Lang())[1] + ', ');
+                            proptext += (Common.util.LanguageInfo.getLocalLanguageName(value.Get_Lang())[1] + cmm);
 
                         if (!_.isEmpty(proptext)) {
                             changetext += ': ';
@@ -439,58 +446,58 @@ define([
                     case Asc.c_oAscRevisionsChangeType.ParaPr:
                         changetext = '<b>' + me.textParaFormatted;
                         if (value.Get_ContextualSpacing())
-                            proptext += ((value.Get_ContextualSpacing() ? me.textContextual : me.textNoContextual) + ', ');
+                            proptext += ((value.Get_ContextualSpacing() ? me.textContextual : me.textNoContextual) + cmm);
                         if (value.Get_IndLeft() !== undefined)
-                            proptext += (me.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textIndentLeft + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndLeft()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_IndRight() !== undefined)
-                            proptext += (me.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textIndentRight + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndRight()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_IndFirstLine() !== undefined)
-                            proptext += (me.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textFirstLine + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_IndFirstLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_Jc() !== undefined) {
                             switch (value.Get_Jc()) {
                                 case 0:
-                                    proptext += (me.textRight + ', ');
+                                    proptext += (me.textRight + cmm);
                                     break;
                                 case 1:
-                                    proptext += (me.textLeft + ', ');
+                                    proptext += (me.textLeft + cmm);
                                     break;
                                 case 2:
-                                    proptext += (me.textCenter + ', ');
+                                    proptext += (me.textCenter + cmm);
                                     break;
                                 case 3:
-                                    proptext += (me.textJustify + ', ');
+                                    proptext += (me.textJustify + cmm);
                                     break;
 
                             }
                         }
                         if (value.Get_KeepLines() !== undefined)
-                            proptext += ((value.Get_KeepLines() ? me.textKeepLines : me.textNoKeepLines) + ', ');
+                            proptext += ((value.Get_KeepLines() ? me.textKeepLines : me.textNoKeepLines) + cmm);
                         if (value.Get_KeepNext())
-                            proptext += ((value.Get_KeepNext() ? me.textKeepNext : me.textNoKeepNext) + ', ');
+                            proptext += ((value.Get_KeepNext() ? me.textKeepNext : me.textNoKeepNext) + cmm);
                         if (value.Get_PageBreakBefore())
-                            proptext += ((value.Get_PageBreakBefore() ? me.textBreakBefore : me.textNoBreakBefore) + ', ');
+                            proptext += ((value.Get_PageBreakBefore() ? me.textBreakBefore : me.textNoBreakBefore) + cmm);
                         if (value.Get_SpacingLineRule() !== undefined && value.Get_SpacingLine() !== undefined) {
                             proptext += me.textLineSpacing;
                             proptext += (((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_LEAST) ? me.textAtLeast : ((value.Get_SpacingLineRule() == c_paragraphLinerule.LINERULE_AUTO) ? me.textMultiple : me.textExact)) + ' ');
-                            proptext += (((value.Get_SpacingLineRule()==c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()) + ', ');
+                            proptext += (((value.Get_SpacingLineRule()==c_paragraphLinerule.LINERULE_AUTO) ? value.Get_SpacingLine() : Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingLine()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName()) + cmm);
                         }
                         if (value.Get_SpacingBeforeAutoSpacing())
-                            proptext += (me.textSpacingBefore + ' ' + me.textAuto +', ');
+                            proptext += (me.textSpacingBefore + ' ' + me.textAuto +cmm);
                         else if (value.Get_SpacingBefore() !== undefined)
-                            proptext += (me.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textSpacingBefore + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingBefore()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_SpacingAfterAutoSpacing())
-                            proptext += (me.textSpacingAfter + ' ' + me.textAuto +', ');
+                            proptext += (me.textSpacingAfter + ' ' + me.textAuto +cmm);
                         else if (value.Get_SpacingAfter() !== undefined)
-                            proptext += (me.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + ', ');
+                            proptext += (me.textSpacingAfter + ' ' + Common.Utils.Metric.fnRecalcFromMM(value.Get_SpacingAfter()).toFixed(2) + ' ' + Common.Utils.Metric.getCurrentMetricName() + cmm);
                         if (value.Get_WidowControl())
-                            proptext += ((value.Get_WidowControl() ? me.textWidow : me.textNoWidow) + ', ');
+                            proptext += ((value.Get_WidowControl() ? me.textWidow : me.textNoWidow) + cmm);
                         if (value.Get_Tabs() !== undefined)
-                            proptext += (me.textTabs + ', ');
+                            proptext += (me.textTabs + cmm);
                         if (value.Get_NumPr() !== undefined)
-                            proptext += (me.textNum + ', ');
+                            proptext += (me.textNum + cmm);
                         if (value.Get_PStyle() !== undefined) {
                             var style = me.api.asc_GetStyleNameById(value.Get_PStyle());
-                            if (!_.isEmpty(style)) proptext += (style + ', ');
+                            if (!_.isEmpty(style)) proptext += (style + cmm);
                         }
 
                         if (!_.isEmpty(proptext)) {
@@ -518,7 +525,7 @@ define([
                         uid         : Common.UI.getId(),
                         userid      : item.get_UserId(),
                         username    : item.get_UserName(),
-                        usercolor   : (user) ? user.get('color') : null,
+                        usercolor   : (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(item.get_UserId() || item.get_UserName()),
                         initials    : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(item.get_UserName())),
                         avatar      : avatar,
                         date        : me.dateToLocaleTimeString(date),
@@ -567,6 +574,7 @@ define([
 
             var lang = (this.appConfig ? this.appConfig.lang || 'en' : 'en').replace('_', '-').toLowerCase();
             try {
+                if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                 return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
             } catch (e) {
                 lang = 'en';
@@ -832,6 +840,7 @@ define([
                         type = Asc.c_oAscDisplayModeInReview.Simple;
                         break;
                 }
+                this._state.displayMode = type;
                 this.api.asc_SetDisplayModeInReview(type);
             }
             this.disableEditing(mode == 'final' || mode == 'original');
@@ -840,6 +849,7 @@ define([
 
         onChangeDisplayModeInReview: function(type) {
             this.disableEditing(type===Asc.c_oAscDisplayModeInReview.Final || type===Asc.c_oAscDisplayModeInReview.Original);
+            this._state.displayMode = type;
             var mode = 'markup';
             switch (type) {
                 case Asc.c_oAscDisplayModeInReview.Final:
@@ -894,6 +904,7 @@ define([
                 viewMode: false,
                 reviewMode: true,
                 fillFormMode: false,
+                viewDocMode: false,
                 allowMerge: false,
                 allowSignature: false,
                 allowProtect: false,
@@ -909,7 +920,8 @@ define([
                 documentHolder: {clear: false, disable: true},
                 toolbar: true,
                 plugins: true,
-                protect: true
+                protect: true,
+                header: {docmode: true}
             }, 'review');
         },
 
@@ -998,7 +1010,13 @@ define([
                 Common.Utils.InternalSettings.set(me.appPrefix + "settings-review-hover-mode", val);
                 me.appConfig.reviewHoverMode = val;
 
+                if (me.view && me.view.btnMailRecepients) {
+                    Common.Utils.lockControls(Common.enumLock.mmergeLock, !!me._state.mmdisable, {array: [me.view.btnMailRecepients]});
+                    me.view.mnuMailRecepients.items[2].setVisible(me.appConfig.fileChoiceUrl || me.appConfig.canRequestSelectSpreadsheet || me.appConfig.canRequestMailMergeRecipients);
+                }
+
                 me.view && me.view.onAppReady(config);
+                me._state.sdkchange && me.onApiShowChange(me._state.sdkchange, true);
             });
         },
 
@@ -1078,7 +1096,7 @@ define([
             var users = this.userCollection;
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
-                model.set('usercolor', (user) ? user.get('color') : null);
+                model.set('usercolor', (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(model.get('userid')));
                 user && user.get('avatar') && model.set('avatar', user.get('avatar'));
             });
         },
@@ -1151,6 +1169,15 @@ define([
                 }
                 this.updatePreviewMode();
             }
+        },
+
+        DisableMailMerge: function() {
+            this._state.mmdisable = true;
+            this.view && this.view.btnMailRecepients && Common.Utils.lockControls(Common.enumLock.mmergeLock, true, {array: [this.view.btnMailRecepients]});
+        },
+
+        onChangeViewMode: function (mode) {
+            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master');
         },
 
         textInserted: '<b>Inserted:</b>',

@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Downloading presentation...",
   "PE.ApplicationController.errorAccessDeny": "You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.",
   "PE.ApplicationController.errorDefaultMessage": "Error code: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "An error occurred during the work with the document.<br>Use the 'Download as' option to save the file backup copy to a drive.",
   "PE.ApplicationController.errorFilePassProtect": "The file is password protected and cannot be opened.",
   "PE.ApplicationController.errorFileSizeExceed": "The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.",
   "PE.ApplicationController.errorForceSave": "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
@@ -47,6 +48,6 @@
   "PE.ApplicationView.txtFileLocation": "Open file location",
   "PE.ApplicationView.txtFullScreen": "Full screen",
   "PE.ApplicationView.txtPrint": "Print",
-  "PE.ApplicationView.txtSearch": "Search",
+  "PE.ApplicationView.txtSearch": "Find",
   "PE.ApplicationView.txtShare": "Share"
 }

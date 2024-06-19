@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Kalkulationstabelle wird heruntergeladen...",
   "SSE.ApplicationController.errorAccessDeny": "Sie versuchen, eine Aktion durchzuführen, für die Sie keine Rechte haben.<br>Bitte wenden Sie sich an Ihren Document Serveradministrator.",
   "SSE.ApplicationController.errorDefaultMessage": "Fehlercode: %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "Bei der Arbeit mit der Datei ist ein Fehler aufgetreten.<br>Verwenden Sie die Option 'Herunterladen als', um die Sicherungskopie der Datei auf der Festplatte Ihres Computers zu speichern.",
   "SSE.ApplicationController.errorFilePassProtect": "Das Dokument ist kennwortgeschützt und kann nicht geöffnet werden.",
   "SSE.ApplicationController.errorFileSizeExceed": "Die Dateigröße überschreitet die für Ihren Server festgelegte Größe.<br>Weitere Informationen können Sie von Ihrem Document Server-Administrator erhalten.",
   "SSE.ApplicationController.errorForceSave": "Beim Speichern der Datei ist ein Fehler aufgetreten. Verwenden Sie die Option \"Herunterladen als\", um die Datei auf Ihrer Computerfestplatte zu speichern oder versuchen Sie es später erneut.",

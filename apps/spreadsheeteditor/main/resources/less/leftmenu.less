@@ -74,6 +74,9 @@
         &jpg {
             background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
         }
+        &xlsb {
+            background: ~"url('@{common-image-const-path}/doc-formats/xlsb.svg') no-repeat center";
+        }
     }
 
     div {
@@ -154,7 +157,8 @@
                 padding-top: 4px;
                 cursor: pointer;
                 .font-size-large();
-
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:hover {
                     text-decoration: none;
                 }
@@ -1054,6 +1058,15 @@
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
     cursor: default;
+    .rtl & {
+        right: 0;
+        left: auto;
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -webkit-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
 }
 
 .img-complete {

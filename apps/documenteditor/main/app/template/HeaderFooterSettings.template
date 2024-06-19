@@ -91,5 +91,11 @@
             <div id="headerfooter-spin-from"></div>
         </td>
     </tr>
+    <tr>
+        <td class="padding-small">
+            <label id="headerfooter-label-format" class="input-label"><%= scope.textNumFormat %></label>
+            <div id="headerfooter-combo-format"></div>
+        </td>
+    </tr>
     <tr class="finish-cell"></tr>
 </table>

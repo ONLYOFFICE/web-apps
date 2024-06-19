@@ -176,8 +176,10 @@ div {
         }
 
         var onAppReady = function () {
+            //Collabora extension field "Status"
             _postMessage('App_LoadingStatus', {
-                "DocumentLoadedTime": Date.now() - startTime
+                "DocumentLoadedTime": Date.now() - startTime,
+                "Status": "Document_Loaded"
             });
             innerAlert("App ready");
         };
@@ -219,6 +221,10 @@ div {
                 window.open(fileInfo.HostEditUrl, "_blank");
         };
 
+        var onRequestSaveAs = function (event) {
+            //SaveAs work via PutRelativeFile server-server request
+        };
+
         var onRequestSharingSettings = function (event) {
             if (fileInfo.FileSharingPostMessage)
                 _postMessage('UI_Sharing', {});
@@ -243,6 +249,19 @@ div {
                 innerAlert(event.data);
         };
 
+        var getWopiFileUrl = function(fileInfo, userAuth) {
+           let url;
+           if (fileInfo.FileUrl) {
+              //Requests to the FileUrl can not be signed using proof keys. The FileUrl is used exactly as provided by the host, so it does not necessarily include the access token, which is required to construct the expected proof.
+              url = fileInfo.FileUrl;
+           } else if (fileInfo.TemplateSource) {
+              url = fileInfo.TemplateSource;
+           } else if (userAuth) {
+              url = userAuth.wopiSrc + "/contents?access_token=" + userAuth.access_token;
+           }
+           return url;
+        }
+
         var connectEditor = function () {
 
             fileInfo = <%- JSON.stringify(fileInfo) %>;
@@ -252,6 +271,7 @@ div {
 			var userAuth = <%- JSON.stringify(userAuth) %>;
 			var token = "<%- token %>";
 			var queryParams = <%- JSON.stringify(queryParams) %>;
+			var docs_api_config = <%- JSON.stringify(docs_api_config) %>;
 
             if (!fileInfo.BaseFileName) {
                 showError();
@@ -266,25 +286,45 @@ div {
                 type = "desktop"
             }
 			var fileType = fileInfo.BaseFileName ? fileInfo.BaseFileName.substr(fileInfo.BaseFileName.lastIndexOf('.') + 1) : "";
+			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
+			fileType = fileType.toLowerCase();
+			let customizationClose = !!(fileInfo.ClosePostMessage || fileInfo.CloseUrl);
+			let customizationSaveAs = fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative;
+			let customizationFormSubmit = queryParams.formsubmit === "1";
+			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
+			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
 			var config = {
 				"width": "100%",
 				"height": "100%",
+				"editorConfig": {
+					"customization": {
+						"about": true
+					},
+					"coEditing": {
+						"change": false
+					},
+				}
+			};
+			config = mergeDeep(config, docs_api_config);
+			config = mergeDeep(config, {
 				"type": type,
 				"documentType": documentType,
 				"token": token,
 				"document": {
 					"title": fileInfo.BreadcrumbDocName || fileInfo.BaseFileName,
-					"url": userAuth.wopiSrc,
-					"fileType": fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType,
+					"url": getWopiFileUrl(fileInfo, userAuth),
+					"fileType": fileType,
 					"key": key,
                     "info": {
                         "folder": fileInfo.BreadcrumbFolderName
                     },
 					"permissions": {
-						"edit": !fileInfo.ReadOnly && fileInfo.UserCanWrite,
+                        "edit": permissionsEdit,
                         "review": (fileInfo.SupportsReviewing===false) ? false : (fileInfo.UserCanReview===false ? false : fileInfo.UserCanReview),
                         "copy": fileInfo.CopyPasteRestrictions!=="CurrentDocumentOnly" && fileInfo.CopyPasteRestrictions!=="BlockAll",
-                        "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption
+                        "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
+                        "chat": queryParams.dchat!=="1",
+                        "fillForms": permissionsFillForm
 					},
 					"options": {
 						"WOPISrc": userAuth.wopiSrc
@@ -300,7 +340,9 @@ div {
 						"name": fileInfo.IsAnonymousUser ? "" : fileInfo.UserFriendlyName
 					},
 					"customization": {
-						"about": true,
+						"close": {
+							"visible": customizationClose
+						},
 						"goback": {
 							"url": fileInfo.BreadcrumbFolderUrl
 						},
@@ -308,29 +350,30 @@ div {
                             "name": fileInfo.BreadcrumbBrandName,
                             "www": fileInfo.BreadcrumbBrandUrl
                         },
-                        "chat": queryParams.dchat!=="1",
+                        "submitForm": customizationFormSubmit && customizationSaveAs,
                         "uiTheme": queryParams.thm==="1" ? "default-light" : (queryParams.thm==="2" ? "default-dark" : undefined)
 					},
                     "coEditing": {
-                        "mode": userAuth.mode !== "view" ? "fast" : "strict",
-                        "change": false
+                        "mode": userAuth.mode !== "view" ? "fast" : "strict"
                     },
                     "wopi": {
-                        "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250
+                        "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250,
+                        "WOPISrc": userAuth.wopiSrc
                     }
 				},
 				"events": {
                     "onAppReady": onAppReady,
                     "onDocumentStateChange": fileInfo.EditNotificationPostMessage ? onDocumentStateChange : undefined,
-                    'onRequestEditRights': fileInfo.EditModePostMessage || (fileInfo.HostEditUrl && !fileInfo.UserCanNotWriteRelative) ? onRequestEditRights : undefined,
+                    'onRequestEditRights': fileInfo.EditModePostMessage || fileInfo.HostEditUrl ? onRequestEditRights : undefined,
+                    'onRequestSaveAs': customizationSaveAs ? onRequestSaveAs : undefined,
                     "onError": onError,
-                    "onRequestClose": fileInfo.ClosePostMessage || fileInfo.CloseUrl ? onRequestClose : undefined,
+                    "onRequestClose": customizationClose ? onRequestClose : undefined,
                     "onRequestRename": fileInfo.SupportsRename && fileInfo.UserCanRename ? onRequestRename : undefined,
                     "onRequestSharingSettings": fileInfo.FileSharingPostMessage || fileInfo.FileSharingUrl ? onRequestSharingSettings : undefined,
                     "onRequestHistory": fileInfo.FileVersionUrl || fileInfo.FileVersionPostMessage ? onRequestHistory : undefined,
                     "onRequestInsertImage": fileInfo.EnableInsertRemoteImage ? onRequestInsertImage : undefined
                 }
-			};
+			});
 
             postMessageOrigin = fileInfo.PostMessageOrigin || "*";
             if (postMessageOrigin && (typeof postMessageOrigin === 'string') && postMessageOrigin.charAt(postMessageOrigin.length-1)=='/')
@@ -367,12 +410,74 @@ div {
             document.body.appendChild(newDiv);
         };
 
+		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+		if (typeof Object.assign !== 'function') {
+			// Must be writable: true, enumerable: false, configurable: true
+			Object.defineProperty(Object, "assign", {
+				value: function assign(target, varArgs) { // .length of function is 2
+					'use strict';
+					if (target === null || target === undefined) {
+						throw new TypeError('Cannot convert undefined or null to object');
+					}
+
+					var to = Object(target);
+
+					for (var index = 1; index < arguments.length; index++) {
+						var nextSource = arguments[index];
+
+						if (nextSource !== null && nextSource !== undefined) {
+							for (var nextKey in nextSource) {
+								// Avoid bugs when hasOwnProperty is shadowed
+								if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+									to[nextKey] = nextSource[nextKey];
+								}
+							}
+						}
+					}
+					return to;
+				},
+				writable: true,
+				configurable: true
+			});
+		}
+		/**
+		 * Simple object check.
+		 * @param item
+		 * @returns {boolean}
+		 */
+		var isObject = function(item) {
+			return (item && typeof item === 'object' && !Array.isArray(item));
+		}
+
+		/**
+		 * Deep merge two objects.
+		 * @param target
+		 * @param source
+		 */
+		var mergeDeep = function(target, source) {
+			//https://stackoverflow.com/a/34749873
+			if (isObject(target) && isObject(source)) {
+				for (const key in source) {
+					if (isObject(source[key])) {
+						if (!target[key]) Object.assign(target, { [key]: {} });
+						mergeDeep(target[key], source[key]);
+					} else {
+						Object.assign(target, { [key]: source[key] });
+					}
+				}
+			}
+
+			return target;
+		}
+
         if (window.addEventListener) {
             window.addEventListener("load", connectEditor);
             window.addEventListener("resize", fixSize);
+            window.addEventListener("orientationchange", fixSize);
         } else if (window.attachEvent) {
             window.attachEvent("onload", connectEditor);
             window.attachEvent("onresize", fixSize);
+            window.attachEvent("orientationchange", fixSize);
         }
     </script>
 </body>

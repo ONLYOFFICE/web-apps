@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { inject } from 'mobx-react';
-import { f7 } from 'framework7-react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Preview from "../view/Preview";
 import ContextMenu from './ContextMenu';
@@ -8,7 +6,6 @@ import ContextMenu from './ContextMenu';
 const PreviewController = props => {
     const { t } = useTranslation();
     const _t = t('View.Edit', {returnObjects: true})
-
     let _view, _touches, _touchStart, _touchEnd;
 
     useEffect(() => {
@@ -20,13 +17,14 @@ const PreviewController = props => {
         };
 
         ContextMenu.closeContextMenu();
-        show();
-        onDocumentReady();
 
         _view = $$('#pe-preview');
         _view.on('touchstart', onTouchStart);
         _view.on('touchmove', onTouchMove);
         _view.on('touchend', onTouchEnd);
+
+        show();
+        onDocumentReady();
 
         return () => {
             const api = Common.EditorApi.get();
@@ -39,9 +37,41 @@ const PreviewController = props => {
         };
     }, []);
 
+    const enterFullScreen = element => {
+        if(element) {
+            if(element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            } else {
+                console.error('Full screen API is not supported in this browser.');
+            }
+        }
+    }
+
+    const exitFullScreen = () => {
+        if(document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if(document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if(document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else {
+            console.error('Full screen exit API is not supported in this browser.');
+        }
+    };
+
     const show = () => {
         const api = Common.EditorApi.get();
+
         api.StartDemonstration('presentation-preview', api.getCurrentPage());
+        enterFullScreen(_view[0]);
     };
 
     const onTouchStart = e => {
@@ -87,6 +117,7 @@ const PreviewController = props => {
 
     const onEndDemonstration = () => {
         props.closeOptions('preview');
+        exitFullScreen();
     };
 
     return (

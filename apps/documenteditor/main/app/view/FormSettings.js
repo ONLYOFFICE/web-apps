@@ -111,6 +111,8 @@ define([
             this.DateOnlySettings = el.find('.form-datetime');
             this.DefValueText = el.find('#form-txt-def-value').closest('tr');
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
+
+            !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
         },
 
         createDelayedElements: function() {
@@ -130,6 +132,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -241,6 +245,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [],
                 dataHint: '1',
@@ -372,6 +378,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [],
                 dataHint: '1',
@@ -631,6 +639,8 @@ define([
                 cls: 'menu-roles',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 194px; max-height: 190px;max-width: 400px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 style: 'width: 194px;',
                 editable: false,
                 template    : _.template(template.join('')),
@@ -661,6 +671,8 @@ define([
                 el: $markup.findById('#form-combo-format'),
                 cls: 'input-group-nr',
                 menuStyle: 'min-width: 100%;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [{ displayValue: this.textNone,  value: Asc.TextFormFormatType.None },
                     { displayValue: this.textDigits,  value: Asc.TextFormFormatType.Digit },
@@ -698,6 +710,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: true,
                 data: [
                     { displayValue: this.textPhone1,  value: '(999)999-9999' },
@@ -748,6 +762,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: [],
                 dataHint: '1',
@@ -763,7 +779,7 @@ define([
                 setTimeout(function(){me.cmbDateFormat._input && me.cmbDateFormat._input.select();}, 1);
             });
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                 { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }];
             data.forEach(function(item) {
@@ -776,6 +792,8 @@ define([
                 cls: 'input-group-nr',
                 menuCls: 'menu-absolute',
                 menuStyle: 'min-width: 195px; max-height: 190px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 85,
                 editable: false,
                 data: data,
                 dataHint: '1',
@@ -1723,7 +1741,7 @@ define([
             if (!this.btnColor) {
                 this.btnColor = new Common.UI.ColorButton({
                     parentEl: (this.$el || $(this.el)).findById('#form-color-btn'),
-                    additionalItems: [
+                    additionalItemsBefore: [
                         this.mnuNoBorder = new Common.UI.MenuItem({
                             style: Common.UI.isRTL() ? 'padding-right:20px;' : 'padding-left:20px;',
                             caption: this.textNoBorder,

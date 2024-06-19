@@ -86,8 +86,23 @@ SSE.ApplicationController = new(function(){
             $('.viewer').addClass('top');
         }
 
-        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                 (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
+        config.mode = 'view'; // always view for embedded
+        config.canCloseEditor = false;
+        var _canback = false;
+        if (typeof config.customization === 'object') {
+            if (typeof config.customization.goback == 'object' && config.canBackToFolder!==false) {
+                _canback = config.customization.close===undefined ?
+                    config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose :
+                    config.customization.goback.url && !config.customization.goback.requestClose;
+
+                if (config.customization.goback.requestClose)
+                    console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+            }
+            if (config.customization.close && typeof config.customization.close === 'object')
+                config.canCloseEditor  = (config.customization.close.visible!==false) && config.canRequestClose && !config.isDesktopApp;
+        }
+        config.canBackToFolder = !!_canback;
+
         var reg = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         reg = Common.util.LanguageInfo.getLanguages().hasOwnProperty(reg) ? reg : Common.util.LanguageInfo.getLocalLanguageCode(reg);
         if (reg!==null)
@@ -181,11 +196,37 @@ SSE.ApplicationController = new(function(){
         $box.find('li').off();
         $box.empty();
 
-        var tpl = '<li id="worksheet{index}">{title}</li>';
+        var tpl = '<li id="worksheet{index}" tabtitle="{tabtitle}" {style}>{title}</li>';
         for (var i = 0; i < maxPages; i++) {
             if (api.asc_isWorksheetHidden(i)) continue;
 
-            var item = tpl.replace(/\{index}/, i).replace(/\{title}/,api.asc_getWorksheetName(i).replace(/\s/g,'&nbsp;'));
+            var styleAttr = "";
+            var color = api.asc_getWorksheetTabColor(i);
+
+            if (color) {
+                styleAttr = 'style="box-shadow: inset 0 4px 0 rgb({r}, {g}, {b})"'
+                    .replace(/\{r}/, color.get_r())
+                    .replace(/\{g}/, color.get_g())
+                    .replace(/\{b}/, color.get_b());
+            }
+
+            // escape html
+            var name = api.asc_getWorksheetName(i).replace(/[&<>"']/g, function (match) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[match];
+            });
+
+            var item = tpl
+                .replace(/\{index}/, i)
+                .replace(/\{tabtitle}/, name)
+                .replace(/\{title}/, name)
+                .replace(/\{style}/, styleAttr);
+
             $(item).appendTo($box).on('click', handleWorksheet);
         }
 
@@ -237,6 +278,10 @@ SSE.ApplicationController = new(function(){
         } else {
             var text = config.customization.goback.text;
             text && (typeof text == 'string') && $('#idt-close .caption').text(text);
+        }
+
+        if (config.canCloseEditor) {
+            $('#id-btn-close-editor').removeClass('hidden');
         }
 
         if (itemsCount < 7) {
@@ -309,6 +354,10 @@ SSE.ApplicationController = new(function(){
                     }
                 }
             });
+
+        $('#id-btn-close-editor').on('click', function(){
+            config.canRequestClose && Common.Gateway.requestClose();
+        });
 
         SSE.ApplicationView.tools.get('#idt-search')
             .on('click', function(){
@@ -413,9 +462,9 @@ SSE.ApplicationController = new(function(){
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
-            $parent.css('padding-left', _right_width - _left_width);
+            $parent.css('padding-left', parseFloat($parent.css('padding-left')) + _right_width - _left_width);
         else
-            $parent.css('padding-right', _left_width - _right_width);
+            $parent.css('padding-right', parseFloat($parent.css('padding-right')) + _left_width - _right_width);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
@@ -574,9 +623,14 @@ SSE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
-            default:
-                message = me.errorDefaultMessage.replace('%1', id);
+            case Asc.c_oAscError.ID.EditingError:
+                message = me.errorEditingDownloadas;
                 break;
+
+            default:
+                // message = me.errorDefaultMessage.replace('%1', id);
+                // break;
+                return;
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {
@@ -636,7 +690,11 @@ SSE.ApplicationController = new(function(){
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
+        if (api) {
+            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true);
+            options.asc_setIsSaveAs(true);
+            api.asc_DownloadAs(options);
+        }
     }
 
     function onApiMouseMove(array) {
@@ -695,6 +753,11 @@ SSE.ApplicationController = new(function(){
     function setBranding(value) {
         if ( value && value.logo) {
             var logo = $('#header-logo');
+            if (value.logo.visible===false) {
+                logo.addClass('hidden');
+                return;
+            }
+
             if (value.logo.image || value.logo.imageEmbedded) {
                 logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
@@ -790,6 +853,7 @@ SSE.ApplicationController = new(function(){
         titleLicenseExp: 'License expired',
         titleLicenseNotActive: 'License not active',
         warnLicenseBefore: 'License not active. Please contact your administrator.',
-        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.'
+        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
+        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
     }
 })();

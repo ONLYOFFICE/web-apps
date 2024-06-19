@@ -214,20 +214,25 @@ Common.UI.HintManager = new(function() {
         var arr = _arrAlphabet.slice(),
             firstFreeLetter,
             ind;
-        for (var i = 0; i < _arrAlphabet.length, !firstFreeLetter; i++) {
+        for (var i = 0; i < _arrAlphabet.length; i++) {
             if (_usedTitles.indexOf(_arrAlphabet[i]) === -1) {
                 firstFreeLetter = _arrAlphabet[i];
                 ind = i;
             }
+            if (firstFreeLetter)
+                break;
         }
-        arr[ind] = firstFreeLetter + _arrAlphabet[0];
-        for (var i = 0; arr.length < countButtons; i++) {
-            var addTip = firstFreeLetter + _arrAlphabet[i];
-            if (addTip !== arr[ind]) {
-                arr.push(firstFreeLetter + _arrAlphabet[i]);
+        if (firstFreeLetter) {
+            arr[ind] = firstFreeLetter + _arrAlphabet[0];
+            for (var i = 0; arr.length < countButtons; i++) {
+                var addTip = firstFreeLetter + _arrAlphabet[i];
+                if (addTip !== arr[ind]) {
+                    arr.push(firstFreeLetter + _arrAlphabet[i]);
+                }
             }
+            return arr;
         }
-        return arr;
+        return false;
     };
 
     var _getLetterInUILanguage = function (letter) {
@@ -247,42 +252,35 @@ Common.UI.HintManager = new(function() {
         _currentControls = [];
         _usedTitles = [];
         var arr = [],
-            arrItemsWithTitle = [];
+            itemsWithTitle = [],
+            itemsWithStaticTitle = [];
         if (_.isArray(_currentSection)) {
             _currentSection.forEach(function (section) {
                 arr = arr.concat($(section).find('[data-hint=' + (_currentLevel) + ']').toArray());
-                arrItemsWithTitle = arrItemsWithTitle.concat($(section).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray());
+                itemsWithStaticTitle = itemsWithStaticTitle.concat($(section).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray());
+                itemsWithTitle = itemsWithTitle.concat($(section).find('[data-hint-title-lang][data-hint=' + (_currentLevel) + ']').toArray());
             });
         } else {
             arr = $(_currentSection).find('[data-hint=' + (_currentLevel) + ']').toArray();
-            arrItemsWithTitle = $(_currentSection).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray();
+            itemsWithStaticTitle = $(_currentSection).find('[data-hint-title][data-hint=' + (_currentLevel) + ']').toArray();
+            itemsWithTitle = $(_currentSection).find('[data-hint-title-lang][data-hint=' + (_currentLevel) + ']').toArray();
         }
         var visibleItems = arr.filter(function (item) {
             return $(item).is(':visible');
         });
-        var visibleItemsWithTitle = arrItemsWithTitle.filter(function (item) {
+        var visibleItemsWithTitle = itemsWithTitle.filter(function (item) {
             return $(item).is(':visible');
         });
-        if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title
+        var visibleItemsWithStaticTitle = itemsWithStaticTitle.filter(function (item) {
+            return $(item).is(':visible');
+        });
+        if (visibleItems.length === visibleItemsWithTitle.length) { // all buttons have data-hint-title-lang
             visibleItems.forEach(function (item) {
-                var el = $(item);
-                if (_lang !== 'en') {
-                    var title = el.attr('data-hint-title').toLowerCase(),
-                        firstLetter = title.charAt(0);
-                    if (_arrAlphabet.indexOf(firstLetter) === -1) { // tip is in English
-                        var newTip = '';
-                        for (var i = 0; i < title.length; i++) {
-                            var letter = title.charAt(i);
-                            newTip += _getLetterInUILanguage(letter);
-                        }
-                        el.attr('data-hint-title', newTip.toUpperCase());
-                    }
-
-                }
-                _currentControls.push(el);
+                _currentControls.push($(item));
             });
             return;
         }
+        // create letter combinations
         var _arrLetters = [],
             _usedLetters = [];
         if (_currentLevel === 0) {
@@ -296,7 +294,7 @@ Common.UI.HintManager = new(function() {
             }
         }
         if (visibleItems.length + (_currentLevel === 0 ? _.size(_staticHints) : 0) > _arrAlphabet.length) {
-            visibleItemsWithTitle.forEach(function (item) {
+            visibleItemsWithStaticTitle.forEach(function (item) {
                 var t = $(item).data('hint-title').charAt(0).toLowerCase();
                 t = _getLetterInUILanguage(t);
                 if (_usedTitles.indexOf(t) < 0) {
@@ -307,35 +305,29 @@ Common.UI.HintManager = new(function() {
         } else {
             _arrLetters = _arrAlphabet.slice();
         }
-        if (arrItemsWithTitle.length > 0) {
-            visibleItems.forEach(function (item) {
-                var el = $(item),
-                    title = el.attr('data-hint-title');
-                if (title) {
-                    title = title.toLowerCase();
-                    var firstLetter = title.charAt(0),
-                        ind = _arrEnAlphabet.indexOf(firstLetter),
-                        i;
-                    if (ind === -1) { // we have already changed
-                        i = _arrAlphabet.indexOf(firstLetter);
-                        if (_usedLetters.indexOf(i) < 0) {
-                            _usedLetters.push(i);
-                        }
-                    } else {
-                        if (_usedLetters.indexOf(ind) < 0) {
-                            _usedLetters.push(ind);
-                        }
-                        if (_lang !== 'en') {
-                            var newTitle = '';
-                            for (i = 0; i < title.length; i++) {
-                                newTitle += _getLetterInUILanguage(title.charAt(i));
-                            }
-                            el.attr('data-hint-title', newTitle.toUpperCase());
-                        }
+        if (!_arrLetters.length) return;
+        // add attrs
+        visibleItemsWithStaticTitle.forEach(function (item) {
+            var el = $(item),
+                title = el.attr('data-hint-title');
+            if (title) {
+                title = title.toLowerCase();
+                var firstLetter = title.charAt(0),
+                    ind = _arrEnAlphabet.indexOf(firstLetter),
+                    i;
+                if (_usedLetters.indexOf(ind) < 0)
+                    _usedLetters.push(ind);
+                if (_lang === 'en') {
+                    el.attr('data-hint-title-lang', title.toUpperCase());
+                } else {
+                    var newTitle = '';
+                    for (i = 0; i < title.length; i++) {
+                        newTitle += _getLetterInUILanguage(title.charAt(i));
                     }
+                    el.attr('data-hint-title-lang', newTitle.toUpperCase());
                 }
-            });
-        }
+            }
+        });
         var index = 0;
         visibleItems.forEach(function (item) {
             var el = $(item);
@@ -344,7 +336,7 @@ Common.UI.HintManager = new(function() {
             }
             var title = el.attr('data-hint-title');
             if (!title && !(index > _arrLetters.length)) {
-                el.attr('data-hint-title', _arrLetters[index].toUpperCase());
+                el.attr('data-hint-title-lang', _arrLetters[index].toUpperCase());
                 index++;
             }
             _currentControls.push(el);
@@ -386,7 +378,7 @@ Common.UI.HintManager = new(function() {
                         rightBorder -= 20;
                     }
                 }
-                var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title') + '</div>');
+                var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title-lang') + '</div>');
                 var direction = item.attr('data-hint-direction');
                 // exceptions
                 if (window.SSE && !_isEditDiagram && _currentSection.nodeType !== 9 &&
@@ -555,7 +547,7 @@ Common.UI.HintManager = new(function() {
                         for (var i = 0; i < _currentControls.length; i++) {
                             var item = _currentControls[i];
                             if (!_isItemDisabled(item)) {
-                                var title = item.attr('data-hint-title'),
+                                var title = item.attr('data-hint-title-lang'),
                                     regExp = new RegExp('^' + _inputLetters + '');
                                 if (regExp.test(title)) {
                                     match = true;
@@ -607,7 +599,7 @@ Common.UI.HintManager = new(function() {
                                     curr.closest('.btn-slot').prop('id') === 'slot-btn-mode' || curr.prop('id') === 'id-btn-favorite' || curr.parent().prop('id') === 'tlb-box-users' ||
                                     curr.prop('id') === 'left-btn-thumbs' || curr.hasClass('scroll') || curr.prop('id') === 'left-btn-about' ||
                                     curr.prop('id') === 'left-btn-support' || curr.closest('.btn-slot').prop('id') === 'slot-btn-search' ||
-                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-pdf-mode') {
+                                    curr.closest('.btn-slot').prop('id') === 'slot-btn-edit-mode') {
                                     _resetToDefault();
                                     return;
                                 }

@@ -63,7 +63,8 @@ define([
                 lastRoleInList: undefined, // last role in the roles list,
                 formCount: 0,
                 formAdded: undefined,
-                formRadioAdded: undefined
+                formRadioAdded: undefined,
+                pageCount: 1
             };
         },
 
@@ -80,9 +81,11 @@ define([
                 this.api.asc_registerCallback('asc_onError', _.bind(this.onError, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onUpdateOFormRoles', _.bind(this.onRefreshRolesList, this));
-
+                this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
                 // this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(this.onShowContentControlsActions, this));
                 // this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(this.onHideContentControlsActions, this));
+                this.api.asc_registerCallback('asc_onCountPages',   _.bind(this.onCountPages, this));
+                this.api.asc_registerCallback('asc_onCurrentPage',  _.bind(this.onCurrentPage, this));
             }
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
             Common.NotificationCenter.on('forms:close-help', _.bind(this.closeHelpTip, this));
@@ -97,13 +100,22 @@ define([
                 toolbar: this.toolbar.toolbar,
                 config: config.config
             });
+            var dirRight = Common.UI.isRTL() ? 'left' : 'right',
+                dirLeft = Common.UI.isRTL() ? 'right' : 'left',
+                me = this;
             this._helpTips = {
-                'create': {name: 'de-form-tip-create', placement: 'bottom-right', text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field'},
-                'key': {name: 'de-form-tip-settings-key', placement: 'left-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key'},
-                'group-key': {name: 'de-form-tip-settings-group', placement: 'left-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key'},
-                'settings': {name: 'de-form-tip-settings', placement: 'left-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form'},
-                'roles': {name: 'de-form-tip-roles', placement: 'bottom-left', text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
-                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-left', text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save'} : undefined
+                'create': {name: 'de-form-tip-create', placement: 'bottom-' + dirRight, text: this.view.tipCreateField, link: false, target: '#slot-btn-form-field', showButton: true},
+                'key': {name: 'de-form-tip-settings-key', placement: dirLeft + '-bottom', text: this.view.tipFormKey, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#form-combo-key', showButton: true},
+                'group-key': {name: 'de-form-tip-settings-group', placement: dirLeft + '-bottom', text: this.view.tipFormGroupKey, link: false, target:  '#form-combo-group-key', showButton: true},
+                'settings': {name: 'de-form-tip-settings', placement: dirLeft + '-top', text: this.view.tipFieldSettings, link: {text: this.view.tipFieldsLink, src: 'UsageInstructions\/CreateFillableForms.htm'}, target:  '#id-right-menu-form', showButton: true},
+                // 'roles': {name: 'de-form-tip-roles', placement: 'bottom-' + dirLeft, text: this.view.tipHelpRoles, link: {text: this.view.tipRolesLink, src: 'UsageInstructions\/CreateFillableForms.htm#managing_roles'}, target: '#slot-btn-manager'},
+                'save': this.appConfig.canDownloadForms ? {name: 'de-form-tip-save', placement: 'bottom-' + dirLeft, text: this.view.tipSaveFile, link: false, target: '#slot-btn-form-save', showButton: true} : undefined,
+                'submit': this.appConfig.isRestrictedEdit ? {name: 'de-form-tip-submit', placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit',
+                                                            callback: function() {
+                                                                me.api.asc_MoveToFillingForm(true, true, true);
+                                                                me.view.btnSubmit.updateHint(me.view.textRequired);
+                                                            }, showButton: true} : undefined,
+                'submit-required': this.appConfig.isRestrictedEdit ? {placement: 'bottom-' + dirLeft, text: this.view.textRequired, link: false, target: '#slot-btn-header-form-submit', closable: true} : undefined
             };
             !Common.localStorage.getItem(this._helpTips['key'].name) && this.addListeners({'RightMenu': {'rightmenuclick': this.onRightMenuClick}});
             this.addListeners({
@@ -116,12 +128,18 @@ define([
                     'forms:goto': this.onGoTo,
                     'forms:submit': this.onSubmitClick,
                     'forms:save': this.onSaveFormClick,
-                    'forms:manager': this.onManagerClick
+                    'forms:manager': this.onManagerClick,
+                    'forms:gopage': this.onGotoPage
                 },
                 'Toolbar': {
-                    'tab:active': this.onActiveTab
+                    'tab:active': this.onActiveTab,
+                    'tab:collapse': this.onTabCollapse,
+                    'view:compact'  : function (toolbar, state) {
+                        state && me.onTabCollapse();
+                    },
                 }
             });
+            this.appConfig.isRestrictedEdit && this.api && this.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(this.onDocumentModifiedChanged, this));
         },
 
         SetDisabled: function(state) {
@@ -289,7 +307,10 @@ define([
                 this.api.asc_SetPerformContentControlActionByClick(state);
                 this.api.asc_SetHighlightRequiredFields(state);
                 state && (this._state.lastViewRole = lastViewRole);
+                this.toolbar.toolbar.clearActiveData();
+                this.toolbar.toolbar.processPanelVisible(null, true);
             }
+            Common.NotificationCenter.trigger('doc:mode-changed', state ? 'view-form' : undefined);
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
         },
 
@@ -331,14 +352,17 @@ define([
 
         onSubmitClick: function() {
             if (!this.api.asc_IsAllRequiredFormsFilled()) {
-                var me = this;
-                Common.UI.warning({
-                    msg: this.view.textRequired,
-                    callback: function() {
-                        me.api.asc_MoveToFillingForm(true, true, true);
-                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
-                    }
-                });
+                this.showHelpTip('submit-required');
+                this.api.asc_MoveToFillingForm(true, true, true);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+                // var me = this;
+                // Common.UI.warning({
+                //     msg: this.view.textRequired,
+                //     callback: function() {
+                //         me.api.asc_MoveToFillingForm(true, true, true);
+                //         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                //     }
+                // });
                 return;
             }
 
@@ -348,10 +372,20 @@ define([
 
         onSaveFormClick: function() {
             this.closeHelpTip('save', true);
-            this.showRolesList(function() {
-                this.isFromFormSaveAs = this.appConfig.canRequestSaveAs || !!this.appConfig.saveAsUrl;
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, this.isFromFormSaveAs));
-            });
+            var me = this,
+                callback = function() {
+                    if (me.appConfig.isOffline)
+                        me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
+                    else {
+                        me.isFromFormSaveAs = me.appConfig.canRequestSaveAs || !!me.appConfig.saveAsUrl;
+                        var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs);
+                        options.asc_setIsSaveAs(me.isFromFormSaveAs);
+                        me.api.asc_DownloadAs(options);
+                    }
+                };
+            if (this.api && this.appConfig.canDownload) {
+                this.appConfig.isRestrictedEdit && this.appConfig.canFillForms ? callback() : this.showRolesList(callback);
+            }
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -397,6 +431,7 @@ define([
                     viewMode: false,
                     reviewMode: false,
                     fillFormMode: true,
+                    viewDocMode: false,
                     allowMerge: false,
                     allowSignature: false,
                     allowProtect: false,
@@ -412,7 +447,8 @@ define([
                     documentHolder: {clear: false, disable: true},
                     toolbar: true,
                     plugins: true,
-                    protect: true
+                    protect: true,
+                    header: {docmode: false}
                 }, 'forms');
                 // if (this.view)
                 //     this.view.$el.find('.no-group-mask.form-view').css('opacity', 1);
@@ -423,26 +459,31 @@ define([
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
                 this._submitFail = false;
                 this.submitedTooltip && this.submitedTooltip.hide();
-                this.view.btnSubmit.setDisabled(true);
+                Common.Utils.lockControls(Common.enumLock.submit, true, {array: [this.view.btnSubmit]})
             }
         },
 
         onLongActionEnd: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
-                this.view.btnSubmit.setDisabled(false);
-                if (!this.submitedTooltip) {
-                    this.submitedTooltip = new Common.UI.SynchronizeTip({
-                        text: this.view.textSubmited,
-                        extCls: 'no-arrow',
-                        showLink: false,
-                        target: $('.toolbar'),
-                        placement: 'bottom'
-                    });
-                    this.submitedTooltip.on('closeclick', function () {
-                        this.submitedTooltip.hide();
-                    }, this);
+                Common.Utils.lockControls(Common.enumLock.submit, !this._submitFail, {array: [this.view.btnSubmit]})
+                if (!this._submitFail) {
+                    Common.Gateway.submitForm();
+                    this.view.btnSubmit.setCaption(this.view.textFilled);
+                    if (!this.submitedTooltip) {
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: this.view.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
+                    }
+                    this.submitedTooltip.show();
+                    Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
                 }
-                !this._submitFail && this.submitedTooltip.show();
             }
         },
 
@@ -465,6 +506,14 @@ define([
                 // }
 
                 config.isEdit && config.canFeatureContentControl && config.isFormCreator && !config.isOForm && me.showHelpTip('create'); // show tip only when create form in docxf
+                if (config.isRestrictedEdit && me.view && me.view.btnSubmit && me.api) {
+                    if (me.api.asc_IsAllRequiredFormsFilled())
+                        me.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                    // else {
+                        // Common.Utils.lockControls(Common.enumLock.requiredNotFilled, true, {array: [me.view.btnSubmit]});
+                        // me.showHelpTip('submit');
+                    // }
+                }
                 me.onRefreshRolesList();
                 me.onChangeProtectDocument();
             });
@@ -475,13 +524,13 @@ define([
             if (props) {
                 props.tip && props.tip.close();
                 props.tip = undefined;
-                force && Common.localStorage.setItem(props.name, 1);
+                force && props.name && Common.localStorage.setItem(props.name, 1);
             }
         },
 
         showHelpTip: function(step) {
             if (!this._helpTips[step]) return;
-            if (!Common.localStorage.getItem(this._helpTips[step].name)) {
+            if (!(this._helpTips[step].name && Common.localStorage.getItem(this._helpTips[step].name))) {
                 var props = this._helpTips[step],
                     target = props.target;
 
@@ -500,8 +549,8 @@ define([
                     text: props.text,
                     showLink: !!props.link,
                     textLink: props.link ? props.link.text : '',
-                    closable: false,
-                    showButton: true,
+                    closable: !!props.closable,
+                    showButton: !!props.showButton,
                     textButton: this.view.textGotIt
                 });
                 props.tip.on({
@@ -513,7 +562,12 @@ define([
                         Common.NotificationCenter.trigger('file:help', props.link.src);
                     },
                     'close': function() {
-                        Common.localStorage.setItem(props.name, 1);
+                        props.name && Common.localStorage.setItem(props.name, 1);
+                        props.callback && props.callback();
+                    },
+                    'closeclick': function() {
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
                     }
                 });
                 props.tip.show();
@@ -522,6 +576,8 @@ define([
         },
 
         onRefreshRolesList: function(roles) {
+            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles', true)) return;
+
             if (!roles) {
                 var oform = this.api.asc_GetOForm();
                 oform && (roles = oform.asc_getAllRoles());
@@ -545,6 +601,11 @@ define([
         },
 
         showRolesList: function(callback) {
+            if (!Common.UI.FeaturesManager.isFeatureEnabled('roles', true)) {
+                callback.call(this);
+                return;
+            }
+
             var me = this,
                 oform = this.api.asc_GetOForm();
             oform && (new DE.Views.SaveFormDlg({
@@ -560,11 +621,13 @@ define([
 
 
         onActiveTab: function(tab) {
-            if (tab !== 'forms') {
-                this.closeHelpTip('create');
-                this.closeHelpTip('roles');
-                this.closeHelpTip('save');
-            }
+            (tab !== 'forms') && this.onTabCollapse();
+        },
+
+        onTabCollapse: function(tab) {
+            this.closeHelpTip('create');
+            this.closeHelpTip('roles');
+            this.closeHelpTip('save');
         },
 
         onChangeProtectDocument: function(props) {
@@ -592,6 +655,47 @@ define([
                 this.closeHelpTip('key');
                 this.closeHelpTip('group-key');
                 this.closeHelpTip('settings');
+            }
+        },
+
+        onFillRequiredFields: function(isFilled) {
+            // this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit && Common.Utils.lockControls(Common.enumLock.requiredNotFilled, !isFilled, {array: [this.view.btnSubmit]});
+            if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms && this.view.btnSubmit) {
+                this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+                isFilled && this.closeHelpTip('submit-required');
+            }
+        },
+
+        onDocumentModifiedChanged: function() {
+            this.api.isDocumentModified() && this.closeHelpTip('submit-required');
+        },
+
+        onCountPages: function(count) {
+            this._state.pageCount = count;
+            this.view && this.view.fieldPages && this.view.fieldPages.setFixedValue('/ ' + count);
+        },
+
+        onCurrentPage: function(value) {
+            if (this.view && this.view.fieldPages) {
+                this.view.fieldPages.setValue(value + 1);
+                Common.Utils.lockControls(Common.enumLock.firstPage, value<1, {array: [this.view.btnFirstPage, this.view.btnPrevPage]});
+                Common.Utils.lockControls(Common.enumLock.lastPage, value>=this._state.pageCount-1, {array: [this.view.btnLastPage, this.view.btnNextPage]});
+            }
+        },
+
+        onGotoPage: function (type, value) {
+            if (!this.api) return;
+
+            if (type==='first')
+                this.api.goToPage(0);
+            else if (type==='last')
+                this.api.goToPage(this._state.pageCount-1);
+            else if (type==='prev' || type==='next')
+                this.api.goToPage(this.api.getCurrentPage() + (type==='next' ? 1 : -1));
+            else {
+                if (value>this._state.pageCount)
+                    value = this._state.pageCount;
+                this.api && this.api.goToPage(value-1);
             }
         }
 

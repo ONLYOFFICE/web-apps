@@ -40,7 +40,7 @@ Common.Locale = new(function() {
         apply = false,
         defLang = '{{DEFAULT_LANG}}',
         currentLang = defLang,
-        _4letterLangs = ['pt-pt', 'zh-tw'];
+        _4letterLangs = ['pt-pt', 'zh-tw', 'sr-cyrl'];
 
     var _applyLocalization = function(callback) {
         try {
@@ -104,9 +104,10 @@ Common.Locale = new(function() {
 
     var _requireLang = function (l) {
         typeof l != 'string' && (l = null);
-        var lang = (l || _getUrlParameterByName('lang') || defLang);
-        var idx4Letters = _4letterLangs.indexOf(lang.replace('_', '-').toLowerCase()); // try to load 4 letters language
-        lang = (idx4Letters<0) ? lang.split(/[\-_]/)[0] : _4letterLangs[idx4Letters];
+        var lang = (l || _getUrlParameterByName('lang') || defLang).toLowerCase().split(/[\-_]/);
+        lang = lang[0] + (lang.length>1 ? '-' + lang[1] : '');
+        var idx4Letters = _4letterLangs.indexOf(lang); // try to load 4 letters language
+        lang = (idx4Letters<0) ? lang.split(/[\-]/)[0] : _4letterLangs[idx4Letters];
         currentLang = lang;
         fetch('locale/' + lang + '.json')
             .then(function(response) {

@@ -206,6 +206,7 @@ define([
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     style: 'min-width:200px;',
+                    autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                             '<div class = "icon toolbar__icon <%= iconCls %>"></div>',
@@ -271,14 +272,14 @@ define([
                 this.lockedControls.push(this.btnParameters);
 
                 this.btnAnimationPane = new Common.UI.Button({
-                    cls: 'btn-toolbar',
+                    cls: 'btn-toolbar x-huge icon-top',
                     caption: this.txtAnimationPane,
-                    split: true,
-                    iconCls: 'toolbar__icon btn-transition-apply-all',
+                    iconCls: 'toolbar__icon icon btn-animation-panel',
                     lock: [_set.slideDeleted, _set.noSlides, _set.timingLock],
+                    enableToggle: true,
                     dataHint: '1',
-                    dataHintDirection: 'left',
-                    dataHintOffset: 'medium'
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnAnimationPane);
 
@@ -483,6 +484,14 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function() {
+                    me.btnPreview.updateHint(me.txtPreview);
+                    me.btnParameters.updateHint(me.txtParameters);
+                    me.btnAnimationPane.updateHint(me.txtAnimationPane);
+                    me.btnAddAnimation.updateHint(me.txtAddEffect);
+                    me.cmbTrigger.updateHint(me.strTrigger);
+                    me.btnMoveEarlier.updateHint(me.textMoveEarlier);
+                    me.btnMoveLater.updateHint(me.textMoveLater);
+
                     me.btnAddAnimation.setMenu( new Common.UI.Menu({
                         style: 'width: 375px;padding-top: 12px;',
                         items: [

@@ -85,7 +85,11 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
+            this.btnSearchBar.on('click', _.bind(function () {
+                this.onBtnMenuClick(this.btnSearchBar);
+                if (this.btnSearchBar.pressed)
+                    this.fireEvent('search:aftershow');
+            }, this));
 
             this.btnThumbs = new Common.UI.Button({
                 action: 'thumbs',
@@ -199,7 +203,6 @@ define([
             }
 
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
-            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -289,7 +292,7 @@ define([
                 this.btnSearchBar.toggle(false, true);
             }
             this.fireEvent('panel:show', [this, '', false]);
-            this.togglePluginButtons(false);
+            this.toggleActivePluginButton(false);
         },
 
         isOpened: function() {
@@ -335,7 +338,7 @@ define([
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
-                        !suspendAfter && this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow');
                     }
                 }
                 /** coauthoring end **/

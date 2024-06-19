@@ -71,36 +71,32 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    'settings:apply': me.applySettings.bind(me)
+                    //'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
                         var config = DE.getController('Main').appOptions;
                         toolbar.setExtra('right', me.header.getPanel('right', config));
-                        if (!config.isEdit || config.customization && !!config.customization.compactHeader)
+                        if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
 
-                        var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+                        /*var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
-                            me.header.btnPrintQuick[value ? 'show' : 'hide']();
+                            me.header.btnPrintQuick[value ? 'show' : 'hide']();*/
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
                                 Common.Utils.InternalSettings.get('toolbar-height-compact') : Common.Utils.InternalSettings.get('toolbar-height-normal');
                     },
                     'undo:disabled' : function (state) {
-                        if ( me.header.btnUndo ) {
-                            if ( me.header.btnUndo.keepState )
-                                me.header.btnUndo.keepState.disabled = state;
-                            else me.header.btnUndo.setDisabled(state);
-                        }
+                        me.header.lockHeaderBtns( 'undo', state, Common.enumLock.undoLock );
                     },
                     'redo:disabled' : function (state) {
-                        if ( me.header.btnRedo )
-                            if ( me.header.btnRedo.keepState )
-                                me.header.btnRedo.keepState.disabled = state;
-                            else me.header.btnRedo.setDisabled(state);
+                        me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
+                    },
+                    'docmode:disabled' : function (state) {
+                        me.header.lockHeaderBtns( 'mode', state, Common.enumLock.changeModeLock);
                     },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
@@ -185,7 +181,7 @@ define([
                     me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
 
-            if ( config.isEdit && (!(config.customization && config.customization.compactHeader))) {
+            if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
                 $title.html(me.header.getPanel('title', config)).show();
                 $title.find('.extra').html(me.header.getPanel('left', config));
@@ -201,8 +197,10 @@ define([
 
                 $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
 
-                toolbar = me.getApplication().getController('Toolbar').getView();
-                toolbar.btnCollabChanges = me.header.btnSave;
+                if (config.isEdit) {
+                    toolbar = me.getApplication().getController('Toolbar').getView();
+                    toolbar.btnCollabChanges = me.header.btnSave;
+                }
             }
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
@@ -257,17 +255,18 @@ define([
             var me = this;
             var _need_disable =  opts == 'show';
 
-            me.header.lockHeaderBtns( 'undo', _need_disable );
-            me.header.lockHeaderBtns( 'redo', _need_disable );
+            me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
+            me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
-        applySettings: function () {
+        /*applySettings: function () {
             var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
             Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
             if (this.header && this.header.btnPrintQuick)
                 this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },
+        },*/
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {

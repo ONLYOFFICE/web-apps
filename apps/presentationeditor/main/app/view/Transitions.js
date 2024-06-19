@@ -122,6 +122,7 @@ define([
 
                 this._arrEffectName = [
                     {title: this.textNone, imageUrl: "btn-transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textMorph, imageUrl: "btn-transition-morph", value: Asc.c_oAscSlideTransitionTypes.Morph, id: Common.UI.getId()},
                     {title: this.textFade, imageUrl: "btn-transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
                     {title: this.textPush, imageUrl: "btn-transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
                     {title: this.textWipe, imageUrl: "btn-transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
@@ -129,8 +130,7 @@ define([
                     {title: this.textUnCover, imageUrl: "btn-transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
                     {title: this.textCover, imageUrl: "btn-transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
                     {title: this.textClock, imageUrl: "btn-transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom, imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()},
-                    {title: this.textMorph, imageUrl: "btn-transition-morph", value: Asc.c_oAscSlideTransitionTypes.Morph, id: Common.UI.getId(),cls: 'last-item'}
+                    {title: this.textZoom, imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId(),cls: 'last-item'}
                 ];
                 this._arrEffectName.forEach(function (item) {
                     item.tip = item.title;
@@ -143,6 +143,7 @@ define([
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     style: 'min-width:108px;',
+                    autoWidth:       true,
                     itemTemplate: _.template([
                         '<div  class = "btn_item x-huge" id = "<%= id %>" style = "width: ' + itemWidth + 'px;height: ' + itemHeight + 'px;">',
                         '<div class = "icon toolbar__icon <%= imageUrl %>"></div>',

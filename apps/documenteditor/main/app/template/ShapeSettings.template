@@ -224,14 +224,14 @@
             </div>
         </td>
     </tr>
-    <tr class="no-form">
+    <tr class="change-type">
         <td class="padding-small" colspan=2>
             <div class="separator horizontal"></div>
         </td>
     </tr>
-    <tr class="no-form">
-        <td class="padding-small" colspan=2>
-            <div id="shape-checkbox-shadow"></div>
+    <tr class="change-type">
+        <td>
+            <div class="padding-small" id="shape-button-shadow-shape" style="width:100%;"></div>
         </td>
     </tr>
     <tr class="shape-only">

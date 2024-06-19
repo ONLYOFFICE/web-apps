@@ -274,6 +274,8 @@ define([
         },
 
         onProtectRangeClick: function() {
+            Common.UI.TooltipManager.closeTip('protectRange');
+
             var me = this,
                 win = new SSE.Views.ProtectedRangesManagerDlg({
                     api: me.api,

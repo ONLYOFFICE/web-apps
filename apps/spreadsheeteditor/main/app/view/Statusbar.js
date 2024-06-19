@@ -204,103 +204,6 @@ define([
                                            (me.rangeSelectionMode !== Asc.c_oAscSelectionDialogType.PrintTitles)) {
                             me.fireEvent('sheet:changename');
                         }
-                    }, this),
-                    'tab:dragstart': _.bind(function (dataTransfer, selectTabs) {
-                        Common.Utils.isIE && (this.isDrop = false);
-                        Common.UI.Menu.Manager.hideAll();
-                        this.api.asc_closeCellEditor();
-                        var arrTabs = [],
-                            arrName = [],
-                            me = this;
-                        var wc = me.api.asc_getWorksheetsCount(), items = [], i = -1;
-                        while (++i < wc) {
-                            if (!this.api.asc_isWorksheetHidden(i)) {
-                                items.push({
-                                    value: me.api.asc_getWorksheetName(i),
-                                    inindex: i
-                                });
-                            }
-                        }
-                        var arrSelectIndex = [];
-                        selectTabs.forEach(function (item) {
-                            arrSelectIndex.push(item.sheetindex);
-                        });
-                        items.forEach(function (item) {
-                            if (arrSelectIndex.indexOf(item.inindex) !== -1) {
-                                arrTabs.push(item.inindex);
-                                arrName.push(item.value);
-                            }
-                        });
-                        var stringSheet, arr = [];
-                        stringSheet = this.api.asc_StartMoveSheet(_.clone(arrTabs));
-                        arr.push({type: 'onlyoffice', value: stringSheet});
-                        arr.push({type: 'indexes', value: arrTabs});
-                        arr.push({type: 'names', value: arrName});
-                        arr.push({type: 'key', value: Common.Utils.InternalSettings.get("sse-doc-info-key")});
-                        var json = JSON.stringify(arr);
-                        if (!Common.Utils.isIE) {
-                            dataTransfer.setData('onlyoffice', json);
-                        } else {
-                            dataTransfer.setData('text', 'sheet');
-                            this.dataTransfer = json;
-                        }
-                        this.dropTabs = selectTabs;
-                    }, this),
-                    'tab:drop': _.bind(function (dataTransfer, index, copy) {
-                         if (this.isEditFormula || (Common.Utils.isIE && this.dataTransfer === undefined)) return;
-                        Common.Utils.isIE && (this.isDrop = true);
-                         var data = !Common.Utils.isIE ? dataTransfer.getData('onlyoffice') : this.dataTransfer;
-                         if (data) {
-                             var arrData = JSON.parse(data);
-                             if (arrData) {
-                                 var key = _.findWhere(arrData, {type: 'key'}).value;
-                                 if (Common.Utils.InternalSettings.get("sse-doc-info-key") === key) {
-                                     this.fireEvent('sheet:move', [_.findWhere(arrData, {type: 'indexes'}).value, !copy, true, _.isNumber(index) ? index : this.api.asc_getWorksheetsCount()]);
-                                     Common.NotificationCenter.trigger('tabs:dragend', this);
-                                 } else {
-                                     var names = [], wc = this.api.asc_getWorksheetsCount();
-                                     while (wc--) {
-                                         names.push(this.api.asc_getWorksheetName(wc).toLowerCase());
-                                     }
-                                     var newNames = [];
-                                     var arrNames = _.findWhere(arrData, {type: 'names'}).value;
-                                     arrNames.forEach(function (name) {
-                                         var ind = 1,
-                                             name = name;
-                                         var re = /^(.*)\((\d)\)$/.exec(name);
-                                         var first = re ? re[1] : name + ' ';
-                                         var arr = [];
-                                         newNames.length > 0 && newNames.forEach(function (item) {
-                                             arr.push(item.toLowerCase());
-                                         });
-                                         while (names.indexOf(name.toLowerCase()) !== -1 || arr.indexOf(name.toLowerCase()) !== -1) {
-                                             ind++;
-                                             name = first + '(' + ind + ')';
-                                         }
-                                         newNames.push(name);
-                                     });
-                                     var index = _.isNumber(index) ? index : this.api.asc_getWorksheetsCount();
-                                     this.api.asc_EndMoveSheet(index, newNames, _.findWhere(arrData, {type: 'onlyoffice'}).value);
-                                 }
-                             }
-                         }
-                    }, this),
-                    'tab:dragend':  _.bind(function (cut) {
-                        if (cut && !(Common.Utils.isIE && this.isDrop === false)) {
-                            if (this.dropTabs.length > 0) {
-                                var arr = [];
-                                this.dropTabs.forEach(function (tab) {
-                                    arr.push(tab.sheetindex);
-                                });
-                                me.api.asc_deleteWorksheet(arr);
-                            }
-                        }
-                        this.dropTabs = undefined;
-                        if (Common.Utils.isIE) {
-                            this.isDrop = undefined;
-                            this.dataTransfer = undefined;
-                        }
-                        Common.NotificationCenter.trigger('tabs:dragend', this);
                     }, this)
                 });
 
@@ -341,8 +244,7 @@ define([
                         {caption: this.itemInsert,  value: 'ins'},
                         {caption: this.itemDelete,  value: 'del'},
                         {caption: this.itemRename,  value: 'ren'},
-                        {caption: this.itemCopy,    value: 'copy'},
-                        {caption: this.itemMove,    value: 'move'},
+                        {caption: this.itemMoveOrCopy, value: 'move-copy'},
                         {caption: this.itemHide,    value: 'hide'},
                         {
                             caption: this.itemHidden,
@@ -532,8 +434,8 @@ define([
                 var me = this;
 
                 this.tabbar.empty(true);
-                this.tabMenu.items[6].menu.removeAll();
-                this.tabMenu.items[6].hide();
+                this.tabMenu.items[5].menu.removeAll();
+                this.tabMenu.items[5].hide();
                 this.btnAddWorksheet.setDisabled(true);
                 this.sheetListMenu.removeAll();
 
@@ -564,13 +466,13 @@ define([
 
                     if (hidentems.length) {
                         hidentems.forEach(function(item){
-                            me.tabMenu.items[6].menu.addItem(new Common.UI.MenuItem({
+                            me.tabMenu.items[5].menu.addItem(new Common.UI.MenuItem({
                                 style: 'white-space: pre-wrap',
                                 caption: item.label,
                                 value: item.sheetindex
                             }));
                         });
-                        this.tabMenu.items[6].show();
+                        this.tabMenu.items[5].show();
                     }
 
                     this.tabbar.add(items);
@@ -737,22 +639,21 @@ define([
                         this.tabMenu.items[2].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[3].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[4].setDisabled(issheetlocked || isdocprotected);
-                        this.tabMenu.items[5].setDisabled(issheetlocked || isdocprotected);
-                        this.tabMenu.items[6].setDisabled(isdoclocked || isdocprotected);
-                        this.tabMenu.items[7].setDisabled(select.length>1);
-                        this.tabMenu.items[8].setDisabled(issheetlocked || isdocprotected);
+                        this.tabMenu.items[5].setDisabled(isdoclocked || isdocprotected);
+                        this.tabMenu.items[6].setDisabled(select.length>1);
+                        this.tabMenu.items[7].setDisabled(issheetlocked || isdocprotected);
 
-                        this.tabMenu.items[7].setVisible(!this.mode.isEditOle && this.mode.canProtect);
-                        this.tabMenu.items[7].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
+                        this.tabMenu.items[6].setVisible(!this.mode.isEditOle && this.mode.canProtect);
+                        this.tabMenu.items[6].setCaption(this.api.asc_isProtectedSheet() ? this.itemUnProtect : this.itemProtect);
 
                         if (select.length === 1) {
-                            this.tabMenu.items[11].hide();
+                            this.tabMenu.items[10].hide();
                         } else {
-                            this.tabMenu.items[11].show();
+                            this.tabMenu.items[10].show();
                         }
 
+                        this.tabMenu.items[9].setDisabled(issheetlocked || isdocprotected);
                         this.tabMenu.items[10].setDisabled(issheetlocked || isdocprotected);
-                        this.tabMenu.items[11].setDisabled(issheetlocked || isdocprotected);
 
                         this.api.asc_closeCellEditor();
                         this.api.asc_enableKeyEvents(false);
@@ -1061,8 +962,7 @@ define([
             itemInsert          : 'Insert',
             itemDelete          : 'Delete',
             itemRename          : 'Rename',
-            itemCopy            : 'Copy',
-            itemMove            : 'Move',
+            itemMoveOrCopy      : 'Move or copy',
             itemHide            : 'Hide',
             itemHidden          : 'Hidden',
             itemTabColor        : 'Tab Color',
@@ -1212,35 +1112,77 @@ define([
             },
 
             template:   '<div class="box">' +
+                            '<% if ( supportBooks ) { %>' +
                             '<div class="input-row">' +
-                                '<label><%= label %></label>' +
+                                '<label><%= labelSpreadsheet %></label>' +
                             '</div>' +
-                            '<div id="status-list-names" style="height: 162px;"></div>' +
+                            '<div id="status-cmb-spreadsheet" style="padding-bottom: 12px;"></div>' +
+                            '<% } %>' +
+                            '<div class="input-row">' +
+                                '<label><%= labelMoveBefore %></label>' +
+                            '</div>' +
+                            '<div id="status-list-names" style="height: 178px;padding-bottom: 16px;"></div>' +
+                            '<div id="status-ch-create-copy"></div>' +
                         '</div>',
 
             initialize : function(options) {
                 _.extend(this.options, options || {}, {
-                    label: options.ismove ? this.textMoveBefore : this.textCopyBefore
+                    labelSpreadsheet: this.textSpreadsheet,
+                    labelMoveBefore: this.textMoveBefore,
+                    supportBooks: !!options.supportBooks
                 });
                 this.options.tpl = _.template(this.template)(this.options);
+
+                this.spreadsheets = {
+                    data: [
+                        {displayValue: this.options.spreadsheetName, value: 'current', index: 0}
+                    ],
+                    changed: false,
+                    opened: false
+                };
+                if (this.options.isDesktopApp) {
+                    this.spreadsheets.data.push({displayValue: this.textCreateNewSpreadsheet, value: 'new', index: -1});
+                }
+
+                this.sheets = [this.options.sheets];
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },
 
             render: function() {
+                var me = this;
                 Common.UI.Window.prototype.render.call(this);
 
                 var $window = this.getChild();
                 $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
+                this.cmbSpreadsheet = new Common.UI.ComboBox({
+                    el: $('#status-cmb-spreadsheet', this.$window),
+                    menuStyle: 'min-width: 100%;',
+                    data: this.spreadsheets.data,
+                    cls: 'input-group-nr',
+                    editable: false
+                });
+                this.cmbSpreadsheet.setValue('current');
+                var showBefore = function () {
+                    me.spreadsheets.opened = true;
+                    if (me.spreadsheets.changed) {
+                        me.cmbSpreadsheet.setData(me.spreadsheets.data)
+                        me.cmbSpreadsheet.setValue('current');
+                    }
+                    me.cmbSpreadsheet.off('show:before', showBefore);
+                };
+                this.cmbSpreadsheet.on('show:before', showBefore);
+                this.cmbSpreadsheet.on('selected', _.bind(this.onChangeSpreadsheet, this));
+
                 var pages = [];
-                this.options.names.forEach(function(item){
+                this.sheets[0].forEach(function(item){
                     pages.push(new Common.UI.DataViewModel(item));
                 }, this);
 
                 if (pages.length) {
                     pages.push(new Common.UI.DataViewModel({
-                        value       : this.options.ismove ? this.itemMoveToEnd : this.itemCopyToEnd,
+                        value       : this.itemMoveToEnd,
                         inindex     : -255
                     }));
                 }
@@ -1257,12 +1199,66 @@ define([
                 this.listNames.on('entervalue', _.bind(this.onPrimary, this));
                 this.listNames.on('item:dblclick', _.bind(this.onPrimary, this));
 
+                this.chCreateCopy = new Common.UI.CheckBox({
+                    el: $('#status-ch-create-copy', $window),
+                    labelText: this.textCreateCopy,
+                    value: false
+                });
+
                 this.mask = $('.modals-mask');
                 this.mask.on('mousedown',_.bind(this.onUpdateFocus, this));
             },
 
+            changeSpreadsheets: function (workbooks) {
+                this.spreadsheets.changed = true;
+                var me = this,
+                    data = this.spreadsheets.data,
+                    arr = this.options.isDesktopApp ? data.slice(0,data.length-1) : data,
+                    ind = arr.length;
+                workbooks.forEach(function (workbook, index) {
+                    arr.push({displayValue: workbook.asc_getName(), value: workbook.asc_getId(), index: ind+index});
+                    var sheets = workbook.asc_getSheets(),
+                        arrSheets = [];
+                    sheets.forEach(function (sheet) {
+                        arrSheets.push({
+                            value: sheet.asc_getName(),
+                            inindex: sheet.asc_getIndex()
+                        })
+                    });
+                    me.sheets[ind+index] = arrSheets;
+                });
+                this.options.isDesktopApp && arr.push(data[data.length-1]);
+                this.spreadsheets.data = arr;
+                if (this.spreadsheets.opened) {
+                    this.cmbSpreadsheet.setData(this.spreadsheets.data);
+                    this.cmbSpreadsheet.setValue('current');
+                }
+            },
+
+            onChangeSpreadsheet: function (combo, record) {
+                var index = record.index,
+                    sheets = this.sheets[index];
+                if (sheets) {
+                    var pages = [];
+                    sheets.forEach(function(item){
+                        pages.push(new Common.UI.DataViewModel(item));
+                    }, this);
+
+                    if (pages.length) {
+                        pages.push(new Common.UI.DataViewModel({
+                            value: this.itemMoveToEnd,
+                            inindex: -255
+                        }));
+                    }
+                    this.listNames.store.reset(pages);
+                    this.listNames.selectByIndex(0);
+                } else {
+                    this.listNames.store.reset([]);
+                }
+            },
+
             getFocusedComponents: function() {
-                return [this.listNames].concat(this.getFooterButtons());
+                return [this.cmbSpreadsheet, this.listNames, this.chCreateCopy].concat(this.getFooterButtons());
             },
 
             getDefaultFocusableComponent: function () {
@@ -1284,11 +1280,15 @@ define([
             },
 
             onBtnClick: function(event) {
-                var active = this.listNames.getSelectedRec();
-
                 if (this.options.handler) {
+                    var active = this.listNames.getSelectedRec(),
+                        index = active ? active.get('inindex') : 0;
+                    if (index === -255)
+                        index = this.listNames.store.length - 1;
+
+                    var record = this.cmbSpreadsheet.getSelectedRecord();
                     this.options.handler.call(this,
-                        event.currentTarget.attributes['result'].value, active.get('inindex'));
+                        event.currentTarget.attributes['result'].value, index, this.chCreateCopy.getValue()==='checked', record.value);
                 }
 
                 this.close();
@@ -1296,7 +1296,13 @@ define([
 
             onPrimary: function() {
                 if (this.options.handler) {
-                    this.options.handler.call(this, 'ok', this.listNames.getSelectedRec().get('inindex'));
+                    var active = this.listNames.getSelectedRec(),
+                        index = active ? active.get('inindex') : 0;
+                    if (index === -255)
+                        index = this.listNames.store.length - 1;
+
+                    var record = this.cmbSpreadsheet.getSelectedRecord();
+                    this.options.handler.call(this, 'ok', index, this.chCreateCopy.getValue()==='checked', record.value);
                 }
 
                 this.close();
@@ -1308,10 +1314,11 @@ define([
                 }, 100, this);
             },
 
-            itemCopyToEnd   : '(Copy to end)',
             itemMoveToEnd   : '(Move to end)',
-            textCopyBefore  : 'Copy before sheet',
-            textMoveBefore  : 'Move before sheet'
+            textMoveBefore  : 'Move before sheet',
+            textCreateCopy  : 'Create a copy',
+            textSpreadsheet : 'Spreadsheet',
+            textCreateNewSpreadsheet: '(Create new spreadsheet)'
         }, CopyDialog||{}));
 
     }

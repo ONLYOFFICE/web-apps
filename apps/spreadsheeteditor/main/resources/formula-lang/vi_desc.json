@@ -1918,5 +1918,13 @@
 	"SORTBY": {
 		"a": "(mảng, theo_mảng, [thứ_tự_sắp_xếp], ...)",
 		"d": "Sắp xếp một dải ô hoặc mảng dựa trên các giá trị trong dải ô hoặc mảng tương ứng"
+	},
+	"GETPIVOTDATA": {
+		"a": "(data_field; pivot_table; [field]; [item]; ...)",
+		"d": "Trích xuất dữ liệu lưu trong PivotTable."
+	},
+	"IMPORTRANGE": {
+		"a": "(url_bảng_tính; chuỗi_dải_ô)",
+		"d": "Nhập một dải ô từ một bảng tính được chỉ định."
 	}
 }

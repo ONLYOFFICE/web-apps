@@ -63,6 +63,9 @@ define([
         initialize: function(options) {
             _.extend(this, options);
             this._state = {};
+            if (!this.menu) {
+                this.menu = 'left';
+            }
             Common.UI.BaseView.prototype.initialize.call(this, arguments);
         },
 

@@ -391,8 +391,8 @@ var themecolor = new(function() {
                         schemeName = this.getTranslation(colors[idx].asc_getNameInColorScheme()),
                         effectName = this.getEffectTranslation(colors[idx].asc_getEffectValue());
                     if (colorName) {
-                        schemeName && (colorName += ', ' + schemeName);
-                        effectName && (colorName += ', ' + effectName);
+                        schemeName && (colorName += Common.Utils.String.textComma + ' ' + schemeName);
+                        effectName && (colorName += Common.Utils.String.textComma + ' ' + effectName);
                     }
                     item = {
                         color: this.getHexColor(colors[idx].get_r(), colors[idx].get_g(), colors[idx].get_b()),
@@ -701,6 +701,7 @@ var utilsString = new (function() {
         textCtrl: 'Ctrl',
         textShift: 'Shift',
         textAlt: 'Alt',
+        textComma: ',',
 
         format: function(format) {
             var args = _.toArray(arguments).slice(1);
@@ -1048,6 +1049,32 @@ Common.Utils.injectComponent = function ($slot, cmp) {
     }
 };
 
+Common.Utils.startFullscreenForElement = function (element) {
+    if (element) {
+        if(element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if(element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if(element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    }
+}
+
+Common.Utils.cancelFullscreen = function () {
+    if(document.cancelFullScreen) {
+        document.cancelFullScreen();
+    } else if(document.webkitCancelFullScreen ) {
+        document.webkitCancelFullScreen();
+    } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if(document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
 Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )
         opts.disablefunc(true);
@@ -1181,6 +1208,8 @@ Common.Utils.getUserInitials = function(username) {
     var initials = fio[0].substring(0, 1).toUpperCase();
     for (var i = fio.length-1; i>0; i--) {
         if (fio[i][0]!=='(' && fio[i][0]!==')') {
+            if (/[\u0600-\u06FF]/.test(initials))
+                initials += '\u2009';
             initials += fio[i].substring(0, 1).toUpperCase();
             break;
         }
@@ -1207,3 +1236,166 @@ Common.UI.isRTL = function () {
 
     return window.isrtl;
 };
+
+Common.UI.iconsStr2IconsObj = function(icons) {
+    let result = icons;
+    if (typeof result === 'string') {
+        if (result.indexOf('%') !== -1) {
+            /*
+                valid params:
+                theme-type - {string} theme type (light|dark|common)
+                theme-name - {string} the name of theme
+                state - {string} state of icons for different situations (normal|hover|active)
+                scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+                extension - {string} use it after symbol "." (png|jpeg|svg)
+
+                Example: "resources/%theme-type%(light|dark)/%state%(normal)icon%scale%(default).%extension%(png)"
+            */
+            let scaleValue = {
+                '100%' : '.',
+                '125%' : '@1.25x.',
+                '150%' : '@1.5x.',
+                '175%' : '@1.75x.',
+                '200%' : '@2x.'
+            }
+            let arrParams = ['theme-type', 'theme-name' ,'state', 'scale', 'extension'],
+                start = result.indexOf('%'),
+                template = result.substring(start).replace(/[/.]/g, ('')),
+                commonPart = result.substring(0, start),
+                end = 0,
+                param = null,
+                values = null,
+                iconName = '',
+                tempObj = {};
+
+            result = [];
+
+            for (let index = 0; index < arrParams.length; index++) {
+                param = arrParams[index];
+                start = template.indexOf(param) - 1;
+                if (start < 0 )
+                    continue;
+
+                end = param.length + 2;
+                template = template.substring(0, start) + template.substring(start + end);
+                start = template.indexOf('(', 0);
+                end = template.indexOf(')', 0);
+                values = template.substring((start + 1), end);
+                template = template.substring(0, start) + template.substring(++end);
+                tempObj[param] = values.split('|');
+            }
+
+            if (template.length) {
+                iconName = template;
+            } else {
+                let arr = commonPart.split('/');
+                iconName = arr.pop().replace(/\./g, '');
+                commonPart = arr.join('/') + '/';
+            }
+
+            // we don't work with svg yet. Change it when we will work with it (extended variant).
+            if (tempObj['scale'] && (tempObj['scale'] == 'default' || tempObj['scale'] == 'extended') ) {
+                tempObj['scale'] = ['100', '125', '150', '175', '200'];
+            } else if (!tempObj['scale']) {
+                tempObj['scale'] = ['100'];
+            }
+
+            if (!tempObj['state']) {
+                tempObj['state'] = ['normal'];
+            }
+
+            if (!iconName) {
+                iconName = 'icon';
+            }
+
+            let bHasName = !!tempObj['theme-name'];
+            let bHasType = (tempObj['theme-type'] && tempObj['theme-type'][0] !== 'common');
+            let arrThemes = bHasName ? tempObj['theme-name'] : (bHasType ? tempObj['theme-type'] : []);
+            let paramName = bHasName ? 'theme' : 'style';
+            if (arrThemes.length) {
+                for (let thInd = 0; thInd < arrThemes.length; thInd++) {
+                    let obj = {};
+                    obj[paramName] = arrThemes[thInd];
+                    result.push(obj);
+                }
+            } else {
+                result.push({});
+            }
+
+            for (let index = 0; index < result.length; index++) {
+                for (let scaleInd = 0; scaleInd < tempObj['scale'].length; scaleInd++) {
+                    let themePath = (result[index][paramName] || 'img') + '/';
+                    let scale = tempObj['scale'][scaleInd] + '%';
+                    let obj = {};
+                    for (let stateInd = 0; stateInd < tempObj['state'].length; stateInd++) {
+                        let state = tempObj['state'][stateInd];
+                        obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + iconName + (scaleValue[scale] || '.') + tempObj['extension'][0];
+                    }
+                    result[index][scale] = obj;
+                }
+            }
+        } else {
+            return [icons];
+        }
+    }
+    return result;
+}
+
+Common.UI.getSuitableIcons = function(icons) {
+    if (!icons) return;
+
+    icons = Common.UI.iconsStr2IconsObj(icons);
+    if (icons.length && typeof icons[0] !== 'string') {
+        var theme = Common.UI.Themes.currentThemeId().toLowerCase(),
+            style = Common.UI.Themes.isDarkTheme() ? 'dark' : 'light',
+            idx = -1;
+        for (var i=0; i<icons.length; i++) {
+            if (icons[i].theme && icons[i].theme.toLowerCase() == theme) {
+                idx = i;
+                break;
+            }
+        }
+        if (idx<0)
+            for (var i=0; i<icons.length; i++) {
+                if (icons[i].style && icons[i].style.toLowerCase() == style) {
+                    idx = i;
+                    break;
+                }
+            }
+        (idx<0) && (idx = 0);
+
+        var ratio = Common.Utils.applicationPixelRatio()*100,
+            current = icons[idx],
+            bestDistance = 10000,
+            currentDistance = 0,
+            defUrl,
+            bestUrl;
+        for (var key in current) {
+            if (current.hasOwnProperty(key)) {
+                if (key=='default') {
+                    defUrl = current[key];
+                } else if (!isNaN(parseInt(key))) {
+                    currentDistance = Math.abs(ratio-parseInt(key));
+                    if (currentDistance < (bestDistance - 0.01))
+                    {
+                        bestDistance = currentDistance;
+                        bestUrl = current[key];
+                    }
+                }
+            }
+        }
+        (bestDistance>0.01 && defUrl) && (bestUrl = defUrl);
+        return {
+            'normal': bestUrl ? bestUrl['normal'] : '',
+            'hover': bestUrl ? bestUrl['hover'] || bestUrl['normal'] : '',
+            'active': bestUrl ? bestUrl['active'] || bestUrl['normal'] : ''
+        };
+    } else { // old version
+        var url = icons[((Common.Utils.applicationPixelRatio() > 1 && icons.length > 1) ? 1 : 0) + (icons.length > 2 ? 2 : 0)];
+        return {
+            'normal': url,
+            'hover': url,
+            'active': url
+        };
+    }
+}

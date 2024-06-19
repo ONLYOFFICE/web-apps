@@ -77,10 +77,10 @@ define([
                 },
                 'Common.Views.Plugins': {
                     'plugins:addtoleft': _.bind(this.addNewPlugin, this),
-                    'plugins:open': _.bind(this.openPlugin, this),
-                    'plugins:close': _.bind(this.closePlugin, this),
-                    'hide': _.bind(this.onHidePlugins, this),
-                    'plugins:updateicons': _.bind(this.updatePluginButtonsIcons, this)
+                    'pluginsleft:open': _.bind(this.openPlugin, this),
+                    'pluginsleft:close': _.bind(this.closePlugin, this),
+                    'pluginsleft:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsleft:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 },
                 'LeftMenu': {
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -191,16 +191,6 @@ define([
             this.mode = mode;
             this.leftMenu.setMode(mode);
             this.leftMenu.getMenu('file').setMode(mode);
-
-            if (!mode.isEdit)  // TODO: unlock 'save as', 'open file menu' for 'view' mode
-                Common.util.Shortcuts.removeShortcuts({
-                    shortcuts: {
-                        'command+shift+s,ctrl+shift+s': _.bind(this.onShortcut, this, 'save'),
-                        'alt+f': _.bind(this.onShortcut, this, 'file'),
-                        'ctrl+alt+f': _.bind(this.onShortcut, this, 'file')
-                    }
-                });
-
             return this;
         },
 
@@ -240,11 +230,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -253,7 +238,7 @@ define([
             switch (action) {
             case 'back':
                 break;
-            case 'save': this.api.asc_Save(); break;
+            case 'save': Common.NotificationCenter.trigger('leftmenu:save'); break;
             case 'save-desktop': this.api.asc_DownloadAs(); break;
             case 'saveas':
                 if ( isopts ) close_menu = false;
@@ -315,6 +300,7 @@ define([
             case 'external-help':
                 close_menu = !!isopts;
                 break;
+            case 'close-editor': Common.NotificationCenter.trigger('close'); break;
             default: close_menu = false;
             }
 
@@ -325,9 +311,10 @@ define([
 
         _saveAsFormat: function(menu, format, ext, textParams) {
             var needDownload = !!ext;
+            var options = new Asc.asc_CDownloadOptions(format, needDownload);
+            options.asc_setIsSaveAs(needDownload);
 
             if (menu) {
-                var options = new Asc.asc_CDownloadOptions(format, needDownload);
                 options.asc_setTextParams(textParams);
                 if (format == Asc.c_oAscFileType.TXT || format == Asc.c_oAscFileType.RTF) {
                     Common.UI.warning({
@@ -377,7 +364,7 @@ define([
                 }
             } else {
                 this.isFromFileDownloadAs = needDownload;
-                this.api.asc_DownloadOrigin(needDownload);
+                this.api.asc_DownloadOrigin(options);
             }
         },
 
@@ -773,6 +760,10 @@ define([
                         this.leftMenu.panelNavigation.hide();
                         this.leftMenu.onBtnMenuClick(this.leftMenu.btnNavigation);
                     }
+                    else if (this.leftMenu.btnChat.isActive()) {
+                        this.leftMenu.btnChat.toggle(false);
+                        this.leftMenu.onBtnMenuClick(this.leftMenu.btnChat);
+                    }
                 }
             }
         },
@@ -789,7 +780,7 @@ define([
                     if (this.isSearchPanelVisible()) {
                         selectedText && this.leftMenu.panelSearch.setFindText(selectedText);
                         this.leftMenu.panelSearch.focus(selectedText !== '' ? s : 'search');
-                        this.leftMenu.fireEvent('search:aftershow', this.leftMenu, selectedText ? selectedText : undefined);
+                        this.leftMenu.fireEvent('search:aftershow', selectedText ? [selectedText] : undefined);
                         return false;
                     } else if (this.getApplication().getController('Viewport').isSearchBarVisible()) {
                         var viewport = this.getApplication().getController('Viewport');
@@ -824,7 +815,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if ( this.mode.isEdit && this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
+                    if ( this.mode.canHelp ) {                   // TODO: unlock 'help' for 'view' mode
                         Common.UI.Menu.Manager.hideAll();
                         this.showHelp();
                     }
@@ -857,7 +848,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.isPluginButtonPressed() || $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnAbout.pressed) {
                         if (!Common.UI.HintManager.isHintVisible()) {
                             this.leftMenu.close();
                             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
@@ -923,7 +914,7 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 this.tryToShowLeftMenu();
                 this.leftMenu.showMenu('advancedsearch', undefined, true);
-                this.leftMenu.fireEvent('search:aftershow', this.leftMenu, findText);
+                this.leftMenu.fireEvent('search:aftershow', [findText]);
             } else {
                 this.leftMenu.btnSearchBar.toggle(false, true);
                 this.leftMenu.onBtnMenuClick(this.leftMenu.btnSearchBar);

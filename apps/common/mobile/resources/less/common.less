@@ -22,14 +22,17 @@
 
 .navbar.main-navbar {
     height: 0;
+
     &.navbar-with-logo {
         height: 26px;
     }
+
     .navbar-inner {
         display: flex;
         justify-content: center;
-        padding-top: 8px;
+        padding: 0;
     }
+
     .navbar-bg {
         &:before, &:after {
             content: none;
@@ -49,16 +52,32 @@
     transition: padding-top .3s ease-in;
 }
 
+.main-logo {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    .custom-logo-image {
+        max-height: 20px;
+        height: auto;
+        width: auto;
+    }
+}
+
 .subnavbar {
     .subnavbar-inner {
         padding: 0;
+        
         .title {
-            //white-space: nowrap;
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: initial;
             margin: 0;
             padding: 0;
             flex-shrink: initial;
+            text-overflow: ellipsis;
         }
     }
     .icon-back {
@@ -1053,6 +1072,12 @@ input[type="number"]::-webkit-inner-spin-button {
     height: 100%;
 }
 
+.dropdown-list-popup {
+    height: 260px;
+    bottom: 0;
+    top: auto;
+}
+
 .dropdown-list {
     &__placeholder  {
         opacity: 0.6;
@@ -1197,6 +1222,17 @@ input[type="number"]::-webkit-inner-spin-button {
     color: @fill-white;
     padding: 2px 4px;
     border-radius: 4px;
+}
+
+// Close editor button
+.close-editor-btn {
+    .item-inner {
+        padding-left: 36px;
+    }
+
+    .item-title {
+        color: @text-error;
+    }
 }
 
 

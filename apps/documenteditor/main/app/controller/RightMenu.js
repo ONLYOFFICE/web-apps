@@ -63,10 +63,18 @@ define([
             };
             this.addListeners({
                 'RightMenu': {
-                    'rightmenuclick': this.onRightMenuClick
+                    'rightmenuclick': this.onRightMenuClick,
+                    'button:click':  _.bind(this.onBtnCategoryClick, this)
                 },
                 'ViewTab': {
                     'rightmenu:hide': _.bind(this.onRightMenuHide, this)
+                },
+                'Common.Views.Plugins': {
+                    'plugins:addtoright': _.bind(this.addNewPlugin, this),
+                    'pluginsright:open': _.bind(this.openPlugin, this),
+                    'pluginsright:close': _.bind(this.closePlugin, this),
+                    'pluginsright:hide': _.bind(this.onHidePlugins, this),
+                    'pluginsright:updateicons': _.bind(this.updatePluginButtonsIcons, this)
                 }
             });
 
@@ -552,9 +560,62 @@ define([
                 !status && Common.NotificationCenter.trigger('forms:close-help', 'key');
                 !status && Common.NotificationCenter.trigger('forms:close-help', 'group-key');
                 !status && Common.NotificationCenter.trigger('forms:close-help', 'settings');
+
+                !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
             }
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
-        }
+        },
+
+        onRightMenuOpen: function(type) {
+            if (this._settings[type]===undefined || this._settings[type].hidden || this._settings[type].btn.isDisabled() || this._settings[type].panelId===this.rightmenu.GetActivePane()) return;
+
+            this.tryToShowRightMenu();
+            this.rightmenu.SetActivePane(type, true);
+            this._settings[type].panel.ChangeSettings.call(this._settings[type].panel, this._settings[type].props);
+            this.rightmenu.updateScroller();
+        },
+
+        tryToShowRightMenu: function() {
+            if (this.rightmenu && this.rightmenu.mode && (!this.rightmenu.mode.canBrandingExt || !this.rightmenu.mode.customization || this.rightmenu.mode.customization.rightMenu !== false) && Common.UI.LayoutManager.isElementVisible('rightMenu'))
+                this.onRightMenuHide(null, true);
+        },
+
+        addNewPlugin: function (button, $button, $panel) {
+            this.rightmenu.insertButton(button, $button);
+            this.rightmenu.insertPanel($panel);
+        },
+
+        openPlugin: function (guid) {
+            this.rightmenu.openPlugin(guid);
+        },
+
+        closePlugin: function (guid) {
+            this.rightmenu.closePlugin(guid);
+            this.rightmenu.onBtnMenuClick();
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+            this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+        },
+
+        onHidePlugins: function() {
+            Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+        },
+
+        updatePluginButtonsIcons: function (icons) {
+            this.rightmenu.updatePluginButtonsIcons(icons);
+        },
+
+        onBtnCategoryClick: function (btn) {
+            if (btn.options.type === 'plugin' && !btn.isDisabled()) {
+                this.rightmenu.onBtnMenuClick(btn);
+                if (btn.pressed) {
+                    this.rightmenu.fireEvent('plugins:showpanel', [btn.options.value]); // show plugin panel
+                } else {
+                    this.rightmenu.fireEvent('plugins:hidepanel', [btn.options.value]);
+                }
+                Common.NotificationCenter.trigger('layout:changed', 'rightmenu');
+                this.rightmenu.fireEvent('editcomplete', this.rightmenu);
+            }
+        },
     });
 });

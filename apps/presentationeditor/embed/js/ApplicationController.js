@@ -86,8 +86,22 @@ PE.ApplicationController = new(function(){
             $('#box-preview').addClass('top');
         }
 
-        config.canBackToFolder = (config.canBackToFolder!==false) && config.customization && config.customization.goback &&
-                                (config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose);
+        config.mode = 'view'; // always view for embedded
+        config.canCloseEditor = false;
+        var _canback = false;
+        if (typeof config.customization === 'object') {
+            if (typeof config.customization.goback == 'object' && config.canBackToFolder!==false) {
+                _canback = config.customization.close===undefined ?
+                    config.customization.goback.url || config.customization.goback.requestClose && config.canRequestClose :
+                    config.customization.goback.url && !config.customization.goback.requestClose;
+
+                if (config.customization.goback.requestClose)
+                    console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+            }
+            if (config.customization.close && typeof config.customization.close === 'object')
+                config.canCloseEditor  = (config.customization.close.visible!==false) && config.canRequestClose && !config.isDesktopApp;
+        }
+        config.canBackToFolder = !!_canback;
     }
 
     function loadDocument(data) {
@@ -294,6 +308,10 @@ PE.ApplicationController = new(function(){
             text && (typeof text == 'string') && $('#idt-close .caption').text(text);
         }
 
+        if (config.canCloseEditor) {
+            $('#id-btn-close-editor').removeClass('hidden');
+        }
+
         if (itemsCount < 7) {
             $(dividers[0]).hide();
             $(dividers[1]).hide();
@@ -371,6 +389,10 @@ PE.ApplicationController = new(function(){
                     }
                 }
             });
+
+        $('#id-btn-close-editor').on('click', function(){
+            config.canRequestClose && Common.Gateway.requestClose();
+        });
 
         PE.ApplicationView.tools.get('#idt-search')
             .on('click', function(){
@@ -514,9 +536,9 @@ PE.ApplicationController = new(function(){
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
-            $parent.css('padding-left', _right_width - _left_width);
+            $parent.css('padding-left', parseFloat($parent.css('padding-left')) + _right_width - _left_width);
         else
-            $parent.css('padding-right', _left_width - _right_width);
+            $parent.css('padding-right', parseFloat($parent.css('padding-right')) + _left_width - _right_width);
 
         onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
         api.asc_setViewMode(true);
@@ -657,9 +679,14 @@ PE.ApplicationController = new(function(){
             case Asc.c_oAscError.ID.SessionToken: // don't show error message
                 return;
 
-            default:
-                message = me.errorDefaultMessage.replace('%1', id);
+            case Asc.c_oAscError.ID.EditingError:
+                message = me.errorEditingDownloadas;
                 break;
+
+            default:
+                // message = me.errorDefaultMessage.replace('%1', id);
+                // break;
+                return;
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {
@@ -721,7 +748,11 @@ PE.ApplicationController = new(function(){
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, me.errorAccessDeny);
             return;
         }
-        if (api) api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
+        if (api) {
+            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true);
+            options.asc_setIsSaveAs(true);
+            api.asc_DownloadAs(options);
+        }
     }
 
     function onRunAutostartMacroses() {
@@ -736,6 +767,11 @@ PE.ApplicationController = new(function(){
     function setBranding(value) {
         if ( value && value.logo) {
             var logo = $('#header-logo');
+            if (value.logo.visible===false) {
+                logo.addClass('hidden');
+                return;
+            }
+
             if (value.logo.image || value.logo.imageEmbedded) {
                 logo.html('<img src="'+(value.logo.image || value.logo.imageEmbedded)+'" style="max-width:100px; max-height:20px;"/>');
                 logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
@@ -835,6 +871,7 @@ PE.ApplicationController = new(function(){
         titleLicenseExp: 'License expired',
         titleLicenseNotActive: 'License not active',
         warnLicenseBefore: 'License not active. Please contact your administrator.',
-        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.'
+        warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
+        errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
     }
 })();

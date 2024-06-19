@@ -45,7 +45,8 @@ define([
                 placement: 'right-bottom',
                 showLink: true,
                 showButton: false,
-                closable: true
+                closable: true,
+                textHeader: ''
             },
 
             template: _.template([
@@ -53,7 +54,11 @@ define([
                     '<div class="asc-synchronizetip">',
                         '<div class="tip-arrow <%= scope.placement %>"></div>',
                         '<div>',
-                            '<div class="tip-text"><%= scope.text %></div>',
+                            '<div class="tip-text">',
+                            '<% if ( scope.textHeader !== "" ) { %>',
+                            '<label class="tip-header"><%= scope.textHeader %></label><br>',
+                            '<% } %>',
+                            '<%= scope.text %></div>',
                             '<% if ( scope.closable ) { %>',
                             '<div class="close"></div>',
                             '<% } %>',
@@ -79,9 +84,12 @@ define([
                 this.showLink = this.options.showLink;
                 this.showButton = this.options.showButton;
                 this.closable = this.options.closable;
-                this.textButton = this.options.textButton || '';
+                this.textButton = this.options.textButton || this.textGotIt;
+                this.textHeader = this.options.textHeader || '';
                 this.position = this.options.position; // show in the position relative to target
                 this.style = this.options.style || '';
+                this.automove = this.options.automove;
+                this.binding = {};
             },
 
             render: function() {
@@ -93,6 +101,7 @@ define([
                     this.cmpEl.find('.btn-div').on('click', _.bind(function() { this.trigger('buttonclick');}, this));
 
                     this.closable && this.cmpEl.addClass('closable');
+                    this.binding.windowresize = _.bind(this.applyPlacement, this);
                 }
 
                 this.applyPlacement();
@@ -106,16 +115,19 @@ define([
                     this.cmpEl.show()
                 } else
                     this.render();
+                this.automove && $(window).on('resize', this.binding.windowresize);
             },
 
             hide: function() {
                 if (this.cmpEl) this.cmpEl.hide();
                 this.trigger('hide');
+                this.automove && $(window).off('resize', this.binding.windowresize);
             },
 
             close: function() {
                 if (this.cmpEl) this.cmpEl.remove();
                 this.trigger('close');
+                this.automove && $(window).off('resize', this.binding.windowresize);
             },
 
             applyPlacement: function () {
@@ -191,8 +203,115 @@ define([
             },
 
             textDontShow        : 'Don\'t show this message again',
-            textSynchronize     : 'The document has been changed by another user.<br>Please click to save your changes and reload the updates.'
+            textSynchronize     : 'The document has been changed by another user.<br>Please click to save your changes and reload the updates.',
+            textGotIt: 'Got it'
         }
     })(), Common.UI.SynchronizeTip || {}));
+
+    Common.UI.TooltipManager = new(function() {
+        var _helpTips = {
+            // 'step': {
+            //     name: 'localstorage-id', // (or undefined when don't save option to localstorage) save 1 to localstorage to not show message again
+            //     placement: 'bottom',
+            //     text: '',
+            //     header: '',
+            //     target: '#id', // string or $el
+            //     link: {text: 'link text', src: 'UsageInstructions\/....htm'}, // (or false) Open help page
+            //     showButton: true, // true by default
+            //     closable: true, // true by default
+            //     callback: function() {} // call when close tip,
+            //     next: '' // show next tooltip on close
+            //     prev: '' // don't show tooltip if the prev was not shown
+            //     automove: false // applyPlacement on window resize
+            //     maxwidth: 250 // 250 by default
+            // }
+        };
+
+        var _addTips = function(arr) {
+            for (var step in arr) {
+                if (arr.hasOwnProperty(step) && !Common.localStorage.getItem(arr[step].name)) {
+                    _helpTips[step] = arr[step];
+                }
+            }
+        };
+
+        var _getNeedShow = function(step) {
+            return _helpTips[step] && !(_helpTips[step].name && Common.localStorage.getItem(_helpTips[step].name));
+        };
+
+        var _closeTip = function(step, force, preventNext) {
+            var props = _helpTips[step];
+            if (props) {
+                preventNext && (props.next = undefined);
+                props.tip && props.tip.close();
+                props.tip = undefined;
+                force && props.name && Common.localStorage.setItem(props.name, 1);
+            }
+        };
+
+        var _showTip = function(step) {
+            if (!_helpTips[step]) return;
+            if (_getNeedShow(step) && !(_helpTips[step].prev && _getNeedShow(_helpTips[step].prev))) { // show current tip if previous tip has already been shown
+                var props = _helpTips[step],
+                    target = props.target;
+
+                if (props.tip && props.tip.isVisible())
+                    return true;
+
+                if (typeof target === 'string')
+                    target = $(target);
+                if (!(target && target.length && target.is(':visible')))
+                    return false;
+
+                var placement = props.placement;
+                if (Common.UI.isRTL()) {
+                    placement = placement.indexOf('right')>-1 ? placement.replace('right', 'left') : placement.replace('left', 'right');
+                }
+                target.addClass('highlight-tip');
+                props.tip = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    style: 'min-width:200px;max-width:' + (props.maxwidth ? props.maxwidth : 250) + 'px;',
+                    placement: placement,
+                    target: target,
+                    text: props.text,
+                    textHeader: props.header,
+                    showLink: !!props.link,
+                    textLink: props.link ? props.link.text : '',
+                    closable: props.closable !== false, // true by default
+                    showButton: props.showButton !== false, // true by default
+                    automove: !!props.automove
+                });
+                props.tip.on({
+                    'buttonclick': function() {
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
+                    },
+                    'closeclick': function() {
+                        props.tip && props.tip.close();
+                        props.tip = undefined;
+                    },
+                    'dontshowclick': function() {
+                        Common.NotificationCenter.trigger('file:help', props.link.src);
+                    },
+                    'close': function() {
+                        target.removeClass('highlight-tip');
+                        props.name && Common.localStorage.setItem(props.name, 1);
+                        props.callback && props.callback();
+                        props.next && _showTip(props.next);
+                        delete _helpTips[step];
+                    }
+                });
+                props.tip.show();
+            }
+            return true;
+        };
+
+        return {
+            showTip: _showTip,
+            closeTip: _closeTip,
+            addTips: _addTips,
+            getNeedShow: _getNeedShow
+        }
+    })();
 });
 

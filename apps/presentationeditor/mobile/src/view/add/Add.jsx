@@ -7,7 +7,7 @@ import { PageAddTable } from "./AddOther";
 import { AddLinkController } from "../../controller/add/AddLink";
 import { PageTypeLink, PageLinkTo } from "./AddLink";
 import { EditLinkController } from '../../controller/edit/EditLink';
-import { PageEditTypeLink, PageEditLinkTo } from '../../view/edit/EditLink';
+import { ObservablePageEditTypeLink, ObservablePageEditLinkTo } from '../../view/edit/EditLink';
 import AddingPage from './AddingPage';
 import { MainContext } from '../../page/main';
 
@@ -15,7 +15,6 @@ const routes = [
     {
         path: '/adding-page/',
         component: AddingPage,
-        keepAlive: true
     },
     // Image
     {
@@ -46,11 +45,11 @@ const routes = [
     },
     {
         path: '/edit-link-type/',
-        component: PageEditTypeLink
+        component: ObservablePageEditTypeLink
     },
     {
         path: '/edit-link-to/',
-        component: PageEditLinkTo
+        component: ObservablePageEditLinkTo
     },
 
     // Image 

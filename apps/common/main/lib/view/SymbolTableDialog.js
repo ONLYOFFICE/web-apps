@@ -43,6 +43,7 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/util/character',
     'common/main/lib/component/InputField',
+    'common/main/lib/component/ListView',
     'common/main/lib/component/Window'
 ], function () { 'use strict';
 
@@ -957,10 +958,10 @@ define([
                 }
                 if(i < arrSym.length){
                     sId = 'c' + arrSym[i];
-                    sInnerHtml += '<div class=\"cell\" '+sCellStyle +' id=\"' + sId + '\">' + '&#' + arrSym[i].toString(10) + '</div>';
+                    sInnerHtml += '<div dir=\"ltr\" class=\"cell\" '+sCellStyle +' id=\"' + sId + '\">' + '&#' + arrSym[i].toString(10) + '</div>';
                 }
                 else{
-                    sInnerHtml += '<div class=\"cell\"'+sCellStyle +'></div>';
+                    sInnerHtml += '<div dir=\"ltr\" class=\"cell\"'+sCellStyle +'></div>';
                 }
                 ++nCellsCounter;
                 if(nCellsCounter >= nColsCount){
@@ -1023,7 +1024,7 @@ define([
                 sId = 'r' + nSymbolCode;
                 symbol = '&#' + nSymbolCode.toString();
             }
-            var _ret = $('<div id=\"' + sId + '\">' + symbol + '</div>');
+            var _ret = $('<div dir=\"ltr\" id=\"' + sId + '\">' + symbol + '</div>');
             _ret.addClass('cell');
             _ret.addClass('noselect');
             _ret.mousedown(_.bind(this.cellClickHandler, this));

@@ -47,6 +47,10 @@ if (window.Common === undefined) {
                 $me.trigger('opendocument', data);
             },
 
+            'openDocumentFromBinary': function(data) {
+                $me.trigger('opendocumentfrombinary', data);
+            },
+
             'showMessage': function(data) {
                 $me.trigger('showmessage', data);
             },
@@ -153,14 +157,18 @@ if (window.Common === undefined) {
 
             'setReferenceSource': function(data) {
                 $me.trigger('setreferencesource', data);
+            },
+
+            'startFilling': function(data) {
+                $me.trigger('startfilling', data);
             }
         };
 
-        var _postMessage = function(msg) {
+        var _postMessage = function(msg, buffer) {
             // TODO: specify explicit origin
             if (window.parent && window.JSON) {
                 msg.frameEditorId = window.frameEditorId;
-                window.parent.postMessage(window.JSON.stringify(msg), "*");
+                buffer ? window.parent.postMessage(msg, "*", [buffer]) : window.parent.postMessage(window.JSON.stringify(msg), "*");
             }
         };
 
@@ -169,6 +177,14 @@ if (window.Common === undefined) {
             if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
 
             var data = msg.data;
+            if (data && data.command === 'openDocumentFromBinary') {
+                handler = commandMap[data.command];
+                if (handler) {
+                    handler.call(this, data.data);
+                }
+                return;
+            }
+
             if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
                 return;
             }
@@ -382,8 +398,23 @@ if (window.Common === undefined) {
                 _postMessage({event:'onRequestReferenceSource'});
             },
 
+            requestStartFilling:  function () {
+                _postMessage({event:'onRequestStartFilling'});
+            },
+
             pluginsReady: function() {
                 _postMessage({ event: 'onPluginsReady' });
+            },
+
+            saveDocument: function(data) {
+                data && _postMessage({
+                    event: 'onSaveDocument',
+                    data: data.buffer
+                }, data.buffer);
+            },
+
+            submitForm: function() {
+                _postMessage({event: 'onSubmit'});
             },
 
             on: function(event, handler){

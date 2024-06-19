@@ -126,6 +126,7 @@
   "DE.Controllers.ApplicationController.textBuyNow": "Επισκεφθείτε την ιστοσελίδα",
   "DE.Controllers.ApplicationController.textCloseTip": "Κάντε κλικ να κλείσετε τη συμβουλή.",
   "DE.Controllers.ApplicationController.textContactUs": "Επικοινωνήστε με το τμήμα πωλήσεων",
+  "DE.Controllers.ApplicationController.textFilled": "Συμπληρωμένο",
   "DE.Controllers.ApplicationController.textGotIt": "Ελήφθη",
   "DE.Controllers.ApplicationController.textGuest": "Επισκέπτης",
   "DE.Controllers.ApplicationController.textLoadingDocument": "Φόρτωση εγγράφου",
@@ -135,6 +136,7 @@
   "DE.Controllers.ApplicationController.textSaveAs": "Αποθήκευση ως PDF",
   "DE.Controllers.ApplicationController.textSaveAsDesktop": "Αποθήκευση ως...",
   "DE.Controllers.ApplicationController.textSubmited": "<b>Η φόρμα υποβλήθηκε με επιτυχία</b><br>Κάντε κλικ για να κλείσετε τη συμβουλή ",
+  "DE.Controllers.ApplicationController.textSubmitOk": "Η φόρμα PDF σας έχει αποθηκευτεί στην πλήρη ενότητα.",
   "DE.Controllers.ApplicationController.titleLicenseExp": "Η άδεια έχει λήξει",
   "DE.Controllers.ApplicationController.titleLicenseNotActive": "Η άδεια δεν είναι ενεργή",
   "DE.Controllers.ApplicationController.titleServerVersion": "Ο συντάκτης ενημερώθηκε",
@@ -163,6 +165,7 @@
   "DE.Controllers.ApplicationController.warnNoLicenseUsers": "Έχετε φτάσει το όριο χρήστη για συντάκτες %1.<br>Επικοινωνήστε με την ομάδα πωλήσεων %1 για προσωπικούς όρους αναβάθμισης.",
   "DE.Views.ApplicationView.textClear": "Εκκαθάριση όλων των πεδίων",
   "DE.Views.ApplicationView.textClearField": "Καθαρίστε το πεδίο",
+  "DE.Views.ApplicationView.textClose": "Κλείσιμο αρχείου",
   "DE.Views.ApplicationView.textCopy": "Αντιγραφή",
   "DE.Views.ApplicationView.textCut": "Αποκοπή",
   "DE.Views.ApplicationView.textFitToPage": "Προσαρμογή στη σελίδα",
@@ -184,7 +187,7 @@
   "DE.Views.ApplicationView.txtFileLocation": "Άνοιγμα θέσης αρχείου",
   "DE.Views.ApplicationView.txtFullScreen": "Πλήρης οθόνη",
   "DE.Views.ApplicationView.txtPrint": "Εκτύπωση",
-  "DE.Views.ApplicationView.txtSearch": "Αναζήτηση",
+  "DE.Views.ApplicationView.txtSearch": "Εύρεση",
   "DE.Views.ApplicationView.txtShare": "Διαμοιρασμός",
   "DE.Views.ApplicationView.txtTheme": "Θέμα διεπαφής"
 }

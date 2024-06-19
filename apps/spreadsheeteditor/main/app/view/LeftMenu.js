@@ -273,7 +273,7 @@ define([
                 this.panelSearch['hide']();
                 this.btnSearchBar.toggle(false, true);
             }
-            this.togglePluginButtons(false);
+            this.toggleActivePluginButton(false);
         },
 
         isOpened: function() {

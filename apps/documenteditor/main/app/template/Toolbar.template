@@ -30,7 +30,7 @@
                     <span class="btn-slot" id="slot-btn-cut"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                    <span class="btn-slot" id="slot-btn-copystyle"></span>
                 </div>
             </div>
             <div class="separator long"></div>
@@ -38,7 +38,7 @@
         <section class="box-panels">
             <section class="panel" data-tab="home">
                 <div class="group small">
-                    <div class="elset" style="width:208px;">
+                    <div class="elset" style="width:230px;">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -54,6 +54,7 @@
                         <span class="btn-slot" id="slot-btn-subscript"></span>
                         <span class="btn-slot split" id="slot-btn-highlight"></span>
                         <span class="btn-slot split" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot" id="slot-btn-clearstyle"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -75,19 +76,16 @@
                         <span class="btn-slot split" id="slot-btn-paracolor"></span>
                     </div>
                 </div>
-                <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-clearstyle"></span>
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-copystyle"></span>
-                        <span class="btn-slot split" id="slot-btn-mailrecepients" data-layout-name="toolbar-home-mailmerge"></span>
-                    </div>
-                </div>
                 <div class="separator long invisible"></div>
                 <div class="group small flex field-styles" id="slot-field-styles" style="min-width: 151px;width: 100%; " data-group-width="100%"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-replace"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-select-all"></span>
+                    </div>
+                </div>
             </section>
             <section class="panel" data-tab="ins">
                 <div class="group">
@@ -101,9 +99,9 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insimage"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insshape"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-inschart"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -113,21 +111,18 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insequation"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-inssymbol"></span>
-                </div>
-                <div class="separator long"></div>
-                <div class="group">
-                    <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
@@ -145,6 +140,27 @@
                     <span class="btn-slot text x-huge" id="slot-btn-hyphenation"></span>
                 </div>
                 <div class="separator long"></div>
+                <div class="group small">
+                    <div class="elset" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-ind-left" style="flex-grow:1;"></span>
+                        <span id="slot-spin-ind-left"  class="btn-slot text spinner"></span>
+                    </div>
+                    <div class="elset" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-ind-right" style="flex-grow:1;"></span>
+                        <span id="slot-spin-ind-right" class="btn-slot text spinner"></span>
+                    </div>
+                </div>
+                <div class="group small">
+                    <div class="elset margin-left-6" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-space-before" style="flex-grow:1;"></span>
+                        <span id="slot-spin-space-before"  class="btn-slot text spinner"></span>
+                    </div>
+                    <div class="elset margin-left-6" style="display: flex; align-items: baseline;">
+                        <span class="btn-slot text font-size-normal margin-right-6" id="slot-lbl-space-after" style="flex-grow:1;"></span>
+                        <span id="slot-spin-space-after" class="btn-slot text spinner"></span>
+                    </div>
+                </div>
+                <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-img-wrapping"></span>
                     <span class="btn-slot text x-huge" id="slot-img-movefrwd"></span>
@@ -155,6 +171,11 @@
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-watermark"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-pagecolor"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
                 </div>
             </section>
             <section class="panel" data-tab="links">

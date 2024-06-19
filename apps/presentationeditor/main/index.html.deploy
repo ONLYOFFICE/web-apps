@@ -87,6 +87,7 @@
             padding: 0;
             white-space: nowrap;
             position: relative;
+            height: 25px;
         }
 
         .loadmask > .sktoolbar li {
@@ -109,7 +110,7 @@
         }
 
         .loadmask > .sktoolbar li.big {
-            width: 50px;
+            width: 40px;
             height: 46px;
             margin-top: -46px;
         }
@@ -119,9 +120,13 @@
             right: 0;
             top: 0;
             bottom: 0;
-            left: 800px;
+            left: 795px;
             width: inherit;
             height: 44px;
+        }
+        .rtl .loadmask > .sktoolbar li.fat {
+            right: 795px;
+            left: 0;
         }
 
         .loadmask > .placeholder {
@@ -256,6 +261,7 @@
 
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+            hideLogo = params["headerlogo"]==='',
             logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
             logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
@@ -275,8 +281,8 @@
             <div><div class="loading-logo"><img src="../../../apps/common/main/resources/img/header/header-logo_s.svg"></div><div class="spacer"></div><div class="circle"></div></div><div><span class="rect"></span><span class="rect"></span><span class="rect"></span><span class="rect"></span><div class="spacer"></div></div>
         </div>
         <div class="sktoolbar" style="display: none;">
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 216px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 168px;"/><li class="space"/><li style="width: 65px;"/><li class="fat"/></ul>
-            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 216px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 65px;"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space" style="width: 54px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space" style="width: 138px;"/><li class="space"/><li style="width: 70px;"/><li class="fat"/></ul>
+            <ul><li class="compact" style="width: 30px;display: none;"></li><li class="compact space" style="display: none;"></li><li class="compact" style="width: 90px;display: none;"></li><li class="not-compact" style="width: 63px;"></li><li class="space"/><li class="big" style="width: 48px;"/><li class="split" /><li class="space"/><li style="width: 236px;"/><li class="space"/><li style="width: 136px;"/><li class="space"/><li class="big"/><li class="big"/><li class="big"/><li class="space"/><li style="width: 70px;"/></ul>
         </div>
         <div class="placeholder" style="display: none;">
             <div class="slide-h"><div class="slide-v"><div class="slide-container"><div class="line"></div><div class="line empty"></div><div class="line"></div></div></div></div>
@@ -317,7 +323,10 @@
             document.querySelectorAll('.compact').forEach(function(item){
                 item.style.display = 'inline-block';
             });
-            document.querySelector('.fat').style.left = '868px';
+            if (document.body.classList.contains('rtl'))
+                document.querySelector('.fat').style.right = '865px';
+            else
+                document.querySelector('.fat').style.left = '865px';
         }
 
         visible && (document.querySelector('.brendpanel').style.display = 'block');
@@ -327,10 +336,15 @@
         if (stopLoading) {
             document.body.removeChild(document.getElementById('loading-mask'));
         } else {
-            var elem = document.querySelector('.loading-logo img');
-            if (elem) {
-                (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
-                elem.style.opacity = 1;
+            if (hideLogo) {
+                var elem = document.querySelector('.loading-logo');
+                elem && (elem.style.display = 'none');
+            } else {
+                var elem = document.querySelector('.loading-logo img');
+                if (elem) {
+                    (logo || logoDark) && elem.setAttribute('src', /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                    elem.style.opacity = 1;
+                }
             }
         }
     </script>

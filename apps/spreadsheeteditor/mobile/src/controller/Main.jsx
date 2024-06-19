@@ -21,9 +21,9 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { StatusbarController } from "./Statusbar";
-import { useTranslation } from 'react-i18next';
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 
 @inject(
     "users",
@@ -47,6 +47,98 @@ class MainController extends Component {
         this.ApplyEditRights = -255;
         this.InitApplication = -254;
         this.isShowOpenDialog = false;
+        this.fallbackSdkTranslations = {
+            "Accent": "Accent",
+            "Accent1": "Accent1",
+            "Accent2": "Accent2",
+            "Accent3": "Accent3",
+            "Accent4": "Accent4",
+            "Accent5": "Accent5",
+            "Accent6": "Accent6",
+            "20% - Accent1": "20% - Accent1",
+            "20% - Accent2": "20% - Accent2",
+            "20% - Accent3": "20% - Accent3",
+            "20% - Accent4": "20% - Accent4",
+            "20% - Accent5": "20% - Accent5",
+            "20% - Accent6": "20% - Accent6",
+            "40% - Accent1": "40% - Accent1",
+            "40% - Accent2": "40% - Accent2",
+            "40% - Accent3": "40% - Accent3",
+            "40% - Accent4": "40% - Accent4",
+            "40% - Accent5": "40% - Accent5",
+            "40% - Accent6": "40% - Accent6",
+            "60% - Accent1": "60% - Accent1",
+            "60% - Accent2": "60% - Accent2",
+            "60% - Accent3": "60% - Accent3",
+            "60% - Accent4": "60% - Accent4",
+            "60% - Accent5": "60% - Accent5",
+            "60% - Accent6": "60% - Accent6",
+            "(All)": "(All)",
+            "Your text here": "Your text here",
+            "(blank)": "(blank)",
+            "%1 of %2": "%1 of %2",
+            "Clear Filter (Alt+C)": "Clear Filter (Alt+C)",
+            "Column Labels": "Column Labels",
+            "Column": "Column",
+            "Confidential": "Confidential",
+            "Date": "Date",
+            "Days": "Days",
+            "Diagram Title": "Chart Title",
+            "File": "File",
+            "Grand Total": "Grand Total",
+            "Group": "Group",
+            "Hours": "Hours",
+            "Minutes": "Minutes",
+            "Months": "Months",
+            "Multi-Select (Alt+S)": "Multi-Select (Alt+S)",
+            "%1 or %2": "%1 or %2",
+            "Page": "Page",
+            "Page %1 of %2": "Page %1 of %2",
+            "Pages": "Pages",
+            "Prepared by": "Prepared by",
+            "Print_Area": "Print_Area",
+            "Qtr": "Qtr",
+            "Quarters": "Quarters",
+            "Row": "Row",
+            "Row Labels": "Row Labels",
+            "Seconds": "Seconds",
+            "Series": "Series",
+            "Bad": "Bad",
+            "Calculation": "Calculation",
+            "Check Cell": "Check Cell",
+            "Comma": "Comma",
+            "Comma [0]": "Comma [0]",
+            "Currency": "Currency",
+            "Currency [0]": "Currency [0]",
+            "Explanatory Text": "Explanatory Text",
+            "Good": "Good",
+            "Heading 1": "Heading 1",
+            "Heading 2": "Heading 2",
+            "Heading 3": "Heading 3",
+            "Heading 4": "Heading 4",
+            "Input": "Input",
+            "Linked Cell": "Linked Cell",
+            "Neutral": "Neutral",
+            "Normal": "Normal",
+            "Note": "Note",
+            "Output": "Output",
+            "Percent": "Percent",
+            "Title": "Title",
+            "Total": "Total",
+            "Warning Text": "Warning Text",
+            "Tab": "Tab",
+            "Table": "Table",
+            "Time": "Time",
+            "Values": "Values",
+            "X Axis": "X Axis",
+            "Y Axis": "Y Axis",
+            "Years": "Years"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -239,80 +331,20 @@ class MainController extends Component {
                 //}
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
-            };
+            processArrayScripts(dep_scripts, promise_get_script)
+                .then(() => {
+                    const { t } = this.props;
+                    let _translate = t('Controller.Main.SDK', { returnObjects:true })
 
-            _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
-                    const {t} = this.props;
-                    const _t = t('Controller.Main.SDK', {returnObjects:true})
-                    const styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
-                            'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'];
-                    const translate = {
-                        'Series': _t.txtSeries,
-                        'Diagram Title': _t.txtDiagramTitle,
-                        'X Axis': _t.txtXAxis,
-                        'Y Axis': _t.txtYAxis,
-                        'Your text here': _t.txtArt,
-                        'Table': _t.txtTable,
-                        'Print_Area': _t.txtPrintArea,
-                        'Confidential': _t.txtConfidential,
-                        'Prepared by ': _t.txtPreparedBy + ' ',
-                        'Page': _t.txtPage,
-                        'Page %1 of %2': _t.txtPageOf,
-                        'Pages': _t.txtPages,
-                        'Date': _t.txtDate,
-                        'Time': _t.txtTime,
-                        'Tab': _t.txtTab,
-                        'File': _t.txtFile,
-                        'Column': _t.txtColumn,
-                        'Row': _t.txtRow,
-                        '%1 of %2': _t.txtByField,
-                        '(All)': _t.txtAll,
-                        'Values': _t.txtValues,
-                        'Grand Total': _t.txtGrandTotal,
-                        'Row Labels': _t.txtRowLbls,
-                        'Column Labels': _t.txtColLbls,
-                        'Multi-Select (Alt+S)': _t.txtMultiSelect,
-                        'Clear Filter (Alt+C)':  _t.txtClearFilter,
-                        '(blank)': _t.txtBlank,
-                        'Group': _t.txtGroup,
-                        'Seconds': _t.txtSeconds,
-                        'Minutes': _t.txtMinutes,
-                        'Hours': _t.txtHours,
-                        'Days': _t.txtDays,
-                        'Months': _t.txtMonths,
-                        'Quarters': _t.txtQuarters,
-                        'Years': _t.txtYears,
-                        '%1 or %2': _t.txtOr,
-                        'Qtr': _t.txtQuarter
-                    };
-                    styleNames.forEach(function(item){
-                        translate[item] = _t['txtStyle_' + item.replace(/ /g, '_')] || item;
-                    });
-                    translate['Currency [0]'] = _t.txtStyle_Currency + ' [0]';
-                    translate['Comma [0]'] = _t.txtStyle_Comma + ' [0]';
-
-                    for (let i=1; i<7; i++) {
-                        translate['Accent'+i] = _t.txtAccent + i;
-                        translate['20% - Accent'+i] = '20% - ' + _t.txtAccent + i;
-                        translate['40% - Accent'+i] = '40% - ' + _t.txtAccent + i;
-                        translate['60% - Accent'+i] = '60% - ' + _t.txtAccent + i;
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
+                        _translate = this.fallbackSdkTranslations
                     }
+
                     this.api = new Asc.spreadsheet_api({
                         'id-view': 'editor_sdk',
                         'id-input': 'idx-cell-content',
                         'mobile': true,
-                        'translate': translate
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
@@ -378,6 +410,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onPrint',                      this.onPrint.bind(this));
         this.api.asc_registerCallback('asc_onDocumentName',               this.onDocumentName.bind(this));
         this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
+
+        Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
 
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
@@ -1141,15 +1175,47 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
-        if ( this.props.storeAppOptions.canDownload) {
+    onDownloadCancel() {
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onDownloadAs(format) {
+        const appOptions = this.props.storeAppOptions;
+
+        if(!appOptions.canDownload) {
             const { t } = this.props;
-            const _t = t('Controller.Main', {returnObjects:true});
+            const _t = t('Controller.Main', { returnObjects:true });
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
+
         this._state.isFromGatewayDownloadAs = true;
-        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.XLSX, true));
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _supported = [
+                Asc.c_oAscFileType.XLSX,
+                Asc.c_oAscFileType.ODS,
+                Asc.c_oAscFileType.CSV,
+                Asc.c_oAscFileType.PDF,
+                Asc.c_oAscFileType.PDFA,
+                Asc.c_oAscFileType.XLTX,
+                Asc.c_oAscFileType.OTS,
+                Asc.c_oAscFileType.XLSM,
+                Asc.c_oAscFileType.XLSB,
+                Asc.c_oAscFileType.JPG,
+                Asc.c_oAscFileType.PNG
+            ];
+
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = Asc.c_oAscFileType.XLSX;
+
+        if (_format == Asc.c_oAscFileType.PDF || _format == Asc.c_oAscFileType.PDFA) {
+            Common.Notifications.trigger('download:settings', this, _format, true);
+        } else {
+            const options = new Asc.asc_CDownloadOptions(_format, true);
+            options.asc_setIsSaveAs(true);
+            this.api.asc_DownloadAs(options);
+        }
     }
 
     onRequestClose () {

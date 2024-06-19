@@ -202,7 +202,18 @@ define([
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                    if (this._state.FillType !== Asc.c_oAscFill.FILL_TYPE_BLIP && !this._noApply && this._texturearray && this._texturearray.length>0) {
+                        this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP
+                        var props = new Asc.asc_TextArtProperties();
+                        var fill = new Asc.asc_CShapeFill();
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                        fill.put_fill( new Asc.asc_CFillBlip());
+                        fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
+                        fill.get_fill().put_texture_id(this._texturearray[0].type);
+                        props.asc_putFill(fill);
+                        this.shapeprops.put_TextArtProperties(props);
+                        this.api.ShapeApply(this.shapeprops);
+                    }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
@@ -1213,6 +1224,7 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
@@ -1544,7 +1556,8 @@ define([
                 cls: 'combo-textart',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                fillOnChangeVisibility: true
             });
             this.cmbTransform.render($('#textart-combo-transform'));
             this.cmbTransform.openButton.menu.cmpEl.css({
@@ -1607,6 +1620,7 @@ define([
                     me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
+                        tip   : me.textureNames[item.get_id()],
                         type    : item.get_id(),
 //                        allowSelected : false,
                         selected: false
@@ -1642,6 +1656,7 @@ define([
                         restoreHeight: 174,
                         parentMenu: menu,
                         showLast: false,
+                        delayRenderTips: true,
                         store: new Common.UI.DataViewStore(me._texturearray || []),
                         itemTemplate: _.template('<div><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                     });
@@ -1685,7 +1700,8 @@ define([
                     cls: 'combo-textart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    fillOnChangeVisibility: true
                 });
                 this.cmbTextArt.render($('#textart-combo-template'));
                 this.cmbTextArt.openButton.menu.cmpEl.css({

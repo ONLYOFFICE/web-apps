@@ -85,7 +85,7 @@ define([
         render: function () {
             Common.UI.Window.prototype.render.call(this);
 
-            var data = [{ value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
+            var data = [{ value: 0x0401 }, { value: 0x042C }, { value: 0x0402 }, { value: 0x0405 }, { value: 0x0406 }, { value: 0x0C07 }, { value: 0x0407 },  {value: 0x0807}, { value: 0x0408 }, { value: 0x0C09 }, { value: 0x3809 }, { value: 0x0809 }, { value: 0x0409 }, { value: 0x0C0A }, { value: 0x080A },
                 { value: 0x040B }, { value: 0x040C }, { value: 0x100C }, { value: 0x0421 }, { value: 0x0410 }, { value: 0x0810 }, { value: 0x0411 }, { value: 0x0412 }, { value: 0x0426 }, { value: 0x040E }, { value: 0x0413 }, { value: 0x0415 }, { value: 0x0416 },
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             data.forEach(function(item) {
@@ -109,12 +109,21 @@ define([
                 this.updateFormats(record.value);
             }, this));
 
+            var value = Common.Utils.InternalSettings.get("de-date-auto-update");
+            if (value==null || value==undefined) {
+                value = Common.localStorage.getBool("de-date-auto-update");
+                Common.Utils.InternalSettings.set("de-date-auto-update", value);
+            }
+
             this.chUpdate = new Common.UI.CheckBox({
                 el: $('#datetime-dlg-update'),
-                labelText: this.textUpdate
+                labelText: this.textUpdate,
+                value: !!value
             });
             this.chUpdate.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 this.onSelectFormat(this.listFormats, null, this.listFormats.getSelectedRec());
+                Common.localStorage.setBool("de-date-auto-update", newValue==='checked');
+                Common.Utils.InternalSettings.set("de-date-auto-update", newValue==='checked');
             }, this));
 
             this.listFormats = new Common.UI.ListView({
@@ -122,7 +131,8 @@ define([
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
                 scrollAlwaysVisible: true,
-                cls: 'dbl-clickable'
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item"><span dir="ltr"><%= value %></span></div>')
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
@@ -215,9 +225,10 @@ define([
                 arr.push(rec);
             }
             store.reset(arr);
-            var format = this.defaultFormats[lang];
-            format ? this.listFormats.selectRecord(store.findWhere({format: format})) : this.listFormats.selectByIndex(0);
-            var rec = this.listFormats.getSelectedRec();
+            var format = this.defaultFormats[lang],
+                rec = format ? store.findWhere({format: format}) : null;
+            !rec && (rec = store.at(0));
+            this.listFormats.selectRecord(rec);
             this.listFormats.scrollToRecord(rec);
             this.onSelectFormat(this.listFormats, null, rec);
         },

@@ -12,65 +12,10 @@
     position: absolute !important;
 }
 
-.background-cells-all(@border-color, @fill-Color,  @first-coord, @background-color: @background-normal){
-
-    background:
-        linear-gradient( 90deg, @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient( to left, @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient(  to top, @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient(  @background-color, @background-color @first-coord, transparent @first-coord),
-        linear-gradient( to right, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px),
-        linear-gradient( to left, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px),
-        linear-gradient( to top, transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, transparent 2px ),
-        linear-gradient( transparent, transparent @first-coord, @border-color  @first-coord, @border-color  2px, @fill-Color 2px );
-    background-size: 1em 1em;
-}
-.background-cells(@border-color, @fill-Color, @size-one-pixel: @scaled-one-px-value){
-    @media only screen {
-        @media(-webkit-max-device-pixel-ratio: 1.9),
-        (max-resolution: 1.9dppx),
-        (max-resolution: 191dpi)
-        {
-            .background-cells-all(@border-color, @fill-Color, calc(2px - @size-one-pixel));
-        }
-
-        @media (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 2dppx),
-        (min-resolution: 192dpi)
-        {
-            .background-cells-all(@border-color, @fill-Color, 1.5px);
-        }
-        @media (-webkit-device-pixel-ratio: 3),
-        (resolution: 3dppx),
-        (resolution: 288dpi)
-        {
-            .background-cells-all(@border-color, @fill-Color, 1.33px);
-        }
-    }
+.rtl .dimension-picker-unhighlighted {
 }
 
-.background-cells-ie(@border-color, @fill-Color){
-    background:
-        linear-gradient( 90deg, @background-normal-ie, @background-normal-ie @scaled-one-px-value-ie, transparent @scaled-one-px-value-ie, transparent 19px,  @background-normal-ie 19px, @background-normal-ie),
-        linear-gradient(  @background-normal-ie, @background-normal-ie @scaled-one-px-value-ie, transparent @scaled-one-px-value-ie, transparent 19px,  @background-normal-ie 19px, @background-normal-ie),
-        linear-gradient( 90deg, transparent, transparent @scaled-one-px-value-ie, @border-color  @scaled-one-px-value-ie, @border-color  2px, transparent 2px, transparent 18px, @border-color  18px, @border-color  19px, transparent 19px, transparent),
-        linear-gradient( transparent, transparent @scaled-one-px-value-ie, @border-color  @scaled-one-px-value-ie, @border-color  2px, @fill-Color 2px, @fill-Color 18px, @border-color  18px, @border-color  19px, transparent 19px, transparent );
-    background-size: 1em 1em;
-}
 
-.dimension-picker div.dimension-picker-highlighted {
-    left: 0;
-    top: 0;
-    overflow: hidden;
-    position: absolute;
-    .background-cells-ie(@border-control-focus-ie, @highlight-button-pressed-ie);
-    .background-cells(@border-control-focus, @highlight-button-pressed);
-}
-
-.dimension-picker-unhighlighted {
-    .background-cells-ie(@border-regular-control-ie, @background-normal-ie);
-    .background-cells(@border-regular-control, @background-normal);
-}
 
 .dimension-picker-status {
     .font-size-medium();

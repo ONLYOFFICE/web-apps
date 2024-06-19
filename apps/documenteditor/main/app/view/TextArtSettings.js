@@ -1221,7 +1221,8 @@ define([
                 cls: 'combo-textart',
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                fillOnChangeVisibility: true
             });
             this.cmbTransform.render($('#textart-combo-transform'));
             this.cmbTransform.openButton.menu.cmpEl.css({
@@ -1257,7 +1258,8 @@ define([
                     cls: 'combo-textart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    fillOnChangeVisibility: true
                 });
                 this.cmbTextArt.render($('#textart-combo-template'));
                 this.cmbTextArt.openButton.menu.cmpEl.css({

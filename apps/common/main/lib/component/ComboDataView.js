@@ -59,6 +59,7 @@ define([
             enableKeyEvents     : false,
             beforeOpenHandler   : null,
             additionalMenuItems  : null,
+            fillOnChangeVisibility: false,
             showLast: true,
             minWidth: -1,
             dataHint: '',
@@ -95,6 +96,7 @@ define([
             this.minWidth    = this.options.minWidth;
             this.autoWidth   = this.initAutoWidth = (Common.Utils.isIE10 || Common.Utils.isIE11) ? false : this.options.autoWidth;
             this.delayRenderTips = this.options.delayRenderTips || false;
+            this.fillOnChangeVisibility = this.options.fillOnChangeVisibility || false;
             this.itemTemplate   = this.options.itemTemplate || _.template([
                 '<div class="style" id="<%= id %>">',
                     '<img src="<%= imageUrl %>" width="' + this.itemWidth + '" height="' + this.itemHeight + '" + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
@@ -141,9 +143,6 @@ define([
             if  (this.options.additionalMenuItems != null) {
                 this.openButton.menu.setInnerMenu([{menu: this.menuPicker, index: 0}]);
             }
-
-            // Handle resize
-            setInterval(_.bind(this.checkSize, this), 500);
 
             if (this.options.el) {
                 this.render();
@@ -200,6 +199,8 @@ define([
                     });
                 }
 
+                me.autoWidth && me.cmpEl.addClass('auto-width');
+
                 me.fieldPicker.on('item:select', _.bind(me.onFieldPickerSelect, me));
                 me.menuPicker.on('item:select',  _.bind(me.onMenuPickerSelect, me));
                 me.fieldPicker.on('item:click',  _.bind(me.onFieldPickerClick, me));
@@ -211,9 +212,10 @@ define([
                 me.menuPicker.el.addEventListener('contextmenu', _.bind(me.onPickerComboContextMenu, me), false);
 
                 Common.NotificationCenter.on('more:toggle', _.bind(this.onMoreToggle, this));
-
+                Common.NotificationCenter.on('tab:active', _.bind(this.onTabActive, this));
+                Common.NotificationCenter.on('window:resize', _.bind(this.startCheckSize, this));
+                me.checkSize();
                 me.onResize();
-
                 me.rendered = true;
                 
                 me.trigger('render:after', me);
@@ -227,8 +229,43 @@ define([
 
         onMoreToggle: function(btn, state) {
             if(state) {
-                this.checkSize();
+                this.startCheckSize();
             }
+        },
+
+        onTabActive: function() {
+            this.startCheckSize();
+        },
+
+        checkVisibility: function() {
+            var me = this;
+            if (!me._timer_visibility) {
+                me._timer_visibility =  setInterval(function() {
+                    if (me.isVisible()) {
+                        clearInterval(me._timer_visibility);
+                        delete me._timer_visibility;
+                        var record = me.menuPicker.getSelectedRec();
+                        record && me.fillComboView(record, !!record, true);
+                    }
+                }, 500);
+            }
+        },
+
+        startCheckSize: function() {
+            var me = this;
+            me.checkSize();
+            if (!me._timer_id) {
+                me._needCheckSize = 0;
+                me._timer_id =  setInterval(function() {
+                    if (me._needCheckSize++ < 10)
+                        me.checkSize();
+                    else {
+                        clearInterval(me._timer_id);
+                        delete me._timer_id;
+                    }
+                }, 500);
+            } else
+                me._needCheckSize = 0;
         },
 
         checkSize: function() {
@@ -236,8 +273,8 @@ define([
                 if(this.autoWidth && this.menuPicker.store.length > 0) {
                     var wrapWidth = this.$el.width();
                     if(wrapWidth != this.wrapWidth || this.needFillComboView){
-                        this.wrapWidth = wrapWidth;
-                        this.autoChangeWidth();
+                        wrapWidth = this.autoChangeWidth();
+                        wrapWidth && (this.wrapWidth = wrapWidth);
 
                         var picker = this.menuPicker;
                         var record = picker.getSelectedRec();
@@ -248,7 +285,6 @@ define([
                 var me = this,
                     width  = this.cmpEl.width(),
                     height = this.cmpEl.height();
-
                 if (width < this.minWidth) return;
 
                 if (this.rootWidth != width || this.rootHeight != height) {
@@ -290,32 +326,13 @@ define([
     
         autoChangeWidth: function() {
             if(this.menuPicker.dataViewItems[0]){
-                var wrapEl = this.$el;
-                var wrapWidth = wrapEl.width();
-
-                var itemEl = this.menuPicker.dataViewItems[0].$el;
-                var itemWidth = this.itemWidth + parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) + 2 * parseFloat(itemEl.css('border-width'));
-                var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
-
-                var fieldPickerEl = this.fieldPicker.$el;
-                var fieldPickerPadding = parseFloat(fieldPickerEl.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right'));
-                var fieldPickerBorder = parseFloat(fieldPickerEl.css('border-width'));
-                var dataviewPaddings = parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-left')) + parseFloat(this.fieldPicker.$el.find('.dataview').css('padding-right'));
-
-                var cmbDataViewEl = this.cmpEl;
-                var cmbDataViewPaddings = parseFloat(cmbDataViewEl.css('padding-left')) + parseFloat(cmbDataViewEl.css('padding-right'));
-
-                var itemsCount =  Math.floor((wrapWidth - fieldPickerPadding - dataviewPaddings - 2 * fieldPickerBorder - cmbDataViewPaddings) / (itemWidth + itemMargins));
-                if(itemsCount > this.store.length) 
-                    itemsCount = this.store.length;
-
-                var widthCalc = Math.ceil((itemsCount * (itemWidth + itemMargins) + fieldPickerPadding + dataviewPaddings + 2 * fieldPickerBorder + cmbDataViewPaddings) * 10) / 10;
-                
-                var maxWidth = parseFloat(cmbDataViewEl.css('max-width'));
-                if(widthCalc > maxWidth)
-                    widthCalc = maxWidth;
-                    
-                cmbDataViewEl.css('width', widthCalc);
+                var wrapEl = this.$el,
+                    widthCalc = this.checkAutoWidth(wrapEl, wrapEl.width()),
+                    cmbDataViewEl = this.cmpEl;
+                if (widthCalc) {
+                    cmbDataViewEl.css('width', widthCalc);
+                    wrapEl.css('width', (widthCalc + parseFloat(wrapEl.css('padding-left')) + parseFloat(wrapEl.css('padding-right'))) + 'px');
+                }
 
                 if(this.initAutoWidth) {
                     this.initAutoWidth = false;
@@ -324,9 +341,50 @@ define([
                     cmbDataViewEl.css('bottom', '50%');
                     cmbDataViewEl.css('margin', 'auto 0');
                 }
+
+                return widthCalc;
             }
         },
-        
+
+        checkAutoWidth: function(el, width) {
+            var $menuPicker = el.find('.menu-picker'),
+                $fieldPicker = el.find('.field-picker').closest('.view'),
+                cmbDataViewEl = el.find('.combo-dataview');
+            if ($menuPicker && $menuPicker.length>0) {
+                var itemEl = $menuPicker.find('.item'),
+                    storeLength = itemEl.length,
+                    fieldItemEl = $fieldPicker.find('.item');
+                if (itemEl.length>0) {
+                    itemEl = $(itemEl[0]);
+                    var itemWidth = itemEl.width();
+                    if (itemWidth<1) {
+                        itemWidth = fieldItemEl.length>0 ? $(fieldItemEl[0]).width() : 0;
+                    }
+                    if (itemWidth<1) return;
+
+                    itemWidth += parseFloat(itemEl.css('padding-left')) + parseFloat(itemEl.css('padding-right')) + 2 * parseFloat(itemEl.css('border-width'));
+                    var itemMargins = parseFloat(itemEl.css('margin-left')) + parseFloat(itemEl.css('margin-right'));
+
+                    var fieldPickerPadding = parseFloat($fieldPicker.css(Common.UI.isRTL() ? 'padding-left' : 'padding-right'));
+                    var fieldPickerBorder = parseFloat($fieldPicker.css('border-width'));
+                    var dataView = $fieldPicker.find('.dataview');
+                    var dataviewPaddings = parseFloat(dataView.css('padding-left')) + parseFloat(dataView.css('padding-right'));
+
+                    var cmbDataViewPaddings = parseFloat(cmbDataViewEl.css('padding-left')) + parseFloat(cmbDataViewEl.css('padding-right'));
+                    var itemsCount =  Math.floor((width - fieldPickerPadding - dataviewPaddings - 2 * fieldPickerBorder - cmbDataViewPaddings) / (itemWidth + itemMargins));
+                    if(itemsCount > storeLength)
+                        itemsCount = storeLength;
+
+                    var widthCalc = Math.ceil((itemsCount * (itemWidth + itemMargins) + fieldPickerPadding + dataviewPaddings + 2 * fieldPickerBorder + cmbDataViewPaddings) * 10) / 10;
+                    var maxWidth = parseFloat(cmbDataViewEl.css('max-width'));
+                    if(widthCalc > maxWidth)
+                        widthCalc = maxWidth;
+
+                    return widthCalc;
+                }
+            }
+        },
+
         onBeforeShowMenu: function(e) {
             var me = this;
 
@@ -520,6 +578,7 @@ define([
                             me.resumeEvents();
                         }
                     }
+                    me.fillOnChangeVisibility && !me.isVisible() && me.checkVisibility();
                     return me.fieldPicker.store.models; // return list of visible items
                 }
             }

@@ -16,6 +16,7 @@ import About from '../../../../common/mobile/lib/view/About';
 import PluginsController from '../../../../common/mobile/lib/controller/Plugins.jsx';
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 
 @inject(
     "users",
@@ -38,6 +39,36 @@ class MainController extends Component {
 
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
+        this.fallbackSdkTranslations = {
+            "Chart": "Chart",
+            "Click to add first slide": "Click to add first slide",
+            "Click to add notes": "Click to add notes",
+            "ClipArt": "Clip Art",
+            "Date and time": "Date and time",
+            "Diagram": "Diagram",
+            "Diagram Title": "Chart Title",
+            "Footer": "Footer",
+            "Header": "Header",
+            "Image": "Image",
+            "Loading": "Loading",
+            "Media": "Media",
+            "None": "None",
+            "Picture": "Picture",
+            "Series": "Series",
+            "Slide number": "Slide number",
+            "Slide subtitle": "Slide subtitle",
+            "Slide text": "Slide text",
+            "Slide title": "Slide title",
+            "Table": "Table",
+            "X Axis": "X Axis XAS",
+            "Y Axis": "Y Axis",
+            "Your text here": "Your text here"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -191,30 +222,24 @@ class MainController extends Component {
                 this.api.Resize();
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
-            };
+            processArrayScripts(dep_scripts, promise_get_script)
+                .then(() => {
+                    const { t } = this.props;
+                    let _translate = t('Controller.Main.SDK', { returnObjects:true })
 
-            _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
-                    const {t} = this.props;
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
+                        _translate = this.fallbackSdkTranslations
+                    }
+
                     this.api = new Asc.asc_docs_api({
                         'id-view': 'editor_sdk',
                         'mobile': true,
-                        'translate': t('Controller.Main.SDK', {returnObjects:true})
+                        'translate': _translate
                     });
 
                     Common.Notifications.trigger('engineCreated', this.api);
 
-                    this.appOptions   = {};
+                    this.appOptions = {};
                     this.bindEvents();
 
                     let value = LocalStorage.getItem("pe-settings-fontrender");
@@ -353,6 +378,8 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onSendThemeColorSchemes', (arr) => {
             storePresentationSettings.addSchemes(arr);
         });
+
+        this.api.asc_registerCallback('asc_onDownloadUrl', this.onDownloadUrl.bind(this));
 
         EditorUIController.initFocusObjects && EditorUIController.initFocusObjects(this.props.storeFocusObjects);
 
@@ -955,13 +982,45 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
-        if ( !this.props.storeAppOptions.canDownload) {
-            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, this.errorAccessDeny);
+    onDownloadUrl(url, fileType) {
+        if (this._state.isFromGatewayDownloadAs) {
+            Common.Gateway.downloadAs(url, fileType);
+        }
+
+        this._state.isFromGatewayDownloadAs = false;
+    }
+
+    onDownloadAs(format) {
+        const appOptions = this.props.storeAppOptions;
+
+        if (!appOptions.canDownload) {
+            const { t } = this.props;
+            const _t = t('Controller.Main', { returnObjects:true });
+            Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
             return;
         }
+
         this._state.isFromGatewayDownloadAs = true;
-        this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PPTX, true));
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _supported = [
+                Asc.c_oAscFileType.PPTX,
+                Asc.c_oAscFileType.ODP,
+                Asc.c_oAscFileType.PDF,
+                Asc.c_oAscFileType.PDFA,
+                Asc.c_oAscFileType.POTX,
+                Asc.c_oAscFileType.OTP,
+                Asc.c_oAscFileType.PPTM,
+                Asc.c_oAscFileType.PNG,
+                Asc.c_oAscFileType.JPG
+            ];
+
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = Asc.c_oAscFileType.PPTX;
+
+        const options = new Asc.asc_CDownloadOptions(_format, true);
+        options.asc_setIsSaveAs(true);
+        this.api.asc_DownloadAs(options);
     }
 
     onRequestClose () {

@@ -39,9 +39,27 @@
  */
 
 define([
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/component/ListView'
 ], function () {
     'use strict';
+
+    var _CustomItem = Common.UI.DataViewItem.extend({
+        initialize : function(options) {
+            Common.UI.BaseView.prototype.initialize.call(this, options);
+
+            var me = this;
+
+            me.template = me.options.template || me.template;
+
+            me.listenTo(me.model, 'change:selected', function() {
+                var el = me.$el || $(me.el);
+                el.toggleClass('selected', me.model.get('selected') && me.model.get('allowSelected'));
+                me.onSelectChange(me.model, me.model.get('selected') && me.model.get('allowSelected'));
+            });
+            me.listenTo(me.model, 'remove', me.remove);
+        }
+    });
 
     SSE.Views.ProtectedRangesEditDlg = Common.UI.Window.extend(_.extend({
 
@@ -74,17 +92,11 @@ define([
                             '<label>' + t.txtRange + '</label>',
                         '</div>',
                         '<div id="id-protected-range-txt" class="input-row" style="margin-bottom: 8px;"></div>',
-                        '<% if (canRequestUsers) { %>',
                         '<div class="input-row">',
-                            '<label>' + t.txtWhoCanEdit + '</label>',
+                            '<label class="font-weight-bold">' + t.txtAccess + '</label>',
                         '</div>',
                         '<div id="id-protected-range-cmb-user" class="input-row input-group-nr" style="margin-bottom: 8px;"></div>',
-                        '<div id="id-protected-range-list-user" class="input-group-nr" style="height: 95px;"></div>',
-                        '<% } else { %>',
-                        '<div class="input-row" style="margin-bottom: 8px;">',
-                            '<label>' + t.txtYouCanEdit + '</label>',
-                        '</div>',
-                        '<% } %>',
+                        '<div id="id-protected-range-list-user" class="input-group-nr no-borders" style="height: 143px;"></div>',
                     '</div>'
                 ].join('');
 
@@ -159,18 +171,36 @@ define([
                 store: new Common.UI.DataViewStore(),
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;">',
-                    '<div class="margin-right-4" style="width:115px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(displayName) %></div>',
-                    '<div style="width:135px;display: inline-block;vertical-align: middle; overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
-                    '<% if (typeof isCurrent === "undefined" || !isCurrent) { %>',
-                    '<div class="listitem-icon toolbar__icon btn-cc-remove"></div>',
-                    '<% } %>',
+                        '<div class="color"',
+                        '<% if (!!avatar) { %>',
+                        'style="background-image: url(<%=avatar%>); <% if (usercolor!==null) { %> border-color:<%=usercolor%>; border-style:solid;<% }%>"',
+                        '<% } else { %>',
+                        'style="background-color: <% if (usercolor!==null) { %> <%=usercolor%> <% } else { %> #cfcfcf <% }%>;"',
+                        '<% } %>',
+                        '><% if (!avatar) { %><%-initials%><% } %></div>',
+                        '<div class="" style="width:190px;display: inline-block;vertical-align: middle;">',
+                            '<% if (!!email) { %>',
+                                '<div class="font-weight-bold" style="overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(displayName) %></div>',
+                                '<div style="overflow: hidden; text-overflow: ellipsis;white-space: pre;"><%= Common.Utils.String.htmlEncode(email) %></div>',
+                            '<% } else { %>',
+                                '<div class="font-weight-bold" style="overflow: hidden; text-overflow: ellipsis;white-space: pre;max-height:30px;"><%=  Common.Utils.String.htmlEncode(displayName) %></div>',
+                            '<% } %>',
+                        '</div>',
+                        '<div class="listitem-icon"></div>',
                     '</div>'
                 ].join('')),
                 emptyText: '',
                 tabindex: 1
             });
+            this.listUser.createNewItem = function(record) {
+                return new _CustomItem({
+                    template: this.itemTemplate,
+                    model: record
+                });
+            };
             this.listUser.on('item:keydown', _.bind(this.onKeyDown, this))
-            this.listUser.on('item:click', _.bind(this.onListUserClick, this))
+            this.listUser.on('item:add', _.bind(this.addControls, this));
+            this.listUser.on('item:change', _.bind(this.addControls, this));
 
             this.afterRender();
         },
@@ -230,14 +260,43 @@ define([
             if (props) {
                 this.inputRangeName.setValue(props.asc_getName());
                 this.txtDataRange.setValue(props.asc_getRef());
-                this.listUser.store.add({value: this.currentUser.id, name: this.currentUser.name,  displayName: this.currentUser.name + ' (' + this.textYou + ')', email: '', isCurrent: true});
+                this.listUser.store.add({
+                    value: this.currentUser.id,
+                    name: this.currentUser.name,
+                    displayName: this.currentUser.name + ' (' + this.textYou + ')',
+                    initials: Common.Utils.getUserInitials(this.currentUser.name),
+                    avatar: Common.UI.ExternalUsers.getImage(this.currentUser.id),
+                    usercolor: Common.UI.ExternalUsers.getColor(this.currentUser.id),
+                    email: '',
+                    type: Asc.c_oSerUserProtectedRangeType.edit,
+                    isCurrent: true});
+                this.listUser.store.add({
+                    value: null,
+                    name: this.textAnyone,
+                    displayName: this.textAnyone,
+                    initials: Common.Utils.getUserInitials(this.textAnyone),
+                    avatar: '',
+                    usercolor: null,
+                    email: '',
+                    type: props.asc_getType() || Asc.c_oSerUserProtectedRangeType.notView,
+                    isAnyone: true});
                 var me = this,
                     rangeUsers = this.props.asc_getUsers();
                 if (rangeUsers && rangeUsers.length>0) {
                     var store = me.listUser.store,
                         count = 1;
                     rangeUsers.forEach(function(item) {
-                        (item.asc_getId()!==me.currentUser.id) && store.add({value: item.asc_getId(), name: item.asc_getName() || me.textAnonymous, displayName: item.asc_getName() || me.textAnonymous + ' ' + count++, email: ''});
+                        var name = item.asc_getName() || me.textAnonymous;
+                        (item.asc_getId()!==me.currentUser.id) && store.add({
+                            value: item.asc_getId(),
+                            name: name,
+                            displayName: name + ' ' + count++,
+                            initials: Common.Utils.getUserInitials(name),
+                            avatar: Common.UI.ExternalUsers.getImage(item.asc_getId()),
+                            usercolor: Common.UI.ExternalUsers.getColor(item.asc_getId()),
+                            email: '',
+                            type: item.asc_getType()
+                        });
                     });
                 }
                 this.onUserMenu(true);
@@ -250,10 +309,15 @@ define([
             props.asc_setRef(this.txtDataRange.getValue());
             var arr = [];
             this.listUser.store.each(function(item){
-                var user = new Asc.CUserProtectedRangeUserInfo();
-                user.asc_setId(item.get('value'));
-                user.asc_setName(item.get('name'));
-                arr.push(user);
+                if (item.get('isAnyone')) {
+                    props.asc_setType(item.get('type'));
+                } else {
+                    var user = new Asc.CUserProtectedRangeUserInfo();
+                    user.asc_setId(item.get('value'));
+                    user.asc_setName(item.get('name'));
+                    user.asc_setType(item.get('type'));
+                    arr.push(user);
+                }
             });
 
             props.asc_setUsers(arr);
@@ -298,7 +362,16 @@ define([
             if (value!==undefined && value!=='') {
                 var rec = store.findWhere({value: value});
                 if (!rec) {
-                    store.add({value: value, name: record.displayValue, displayName: record.displayValue, email: record.value});
+                    store.add({
+                        value: value,
+                        name: record.displayValue,
+                        displayName: record.displayValue,
+                        initials: Common.Utils.getUserInitials(record.displayValue),
+                        avatar: Common.UI.ExternalUsers.getImage(value) || record.image || '',
+                        usercolor: Common.UI.ExternalUsers.getColor(value),
+                        email: record.value,
+                        type: Asc.c_oSerUserProtectedRangeType.edit
+                    });
                 }
             }
             this.cmbUser.setRawValue(this._userStr);
@@ -346,6 +419,7 @@ define([
                         rec.name && item.set('name', rec.name);
                         rec.name && item.set('displayName', rec.name);
                         rec.email && item.set('email', rec.email);
+                        rec.image && item.set('avatar', rec.image);
                     }
                 });
                 this._initSettings = false;
@@ -368,8 +442,12 @@ define([
                         value: item.email || '',
                         displayValue: item.name || '',
                         userId: item.id,
+                        image: item.image,
                         hasDivider: !item.hasAccess && !divider && (index>0)
                     });
+                    if (item.image && !Common.UI.ExternalUsers.getImage(item.id)) {
+                        Common.UI.ExternalUsers.setImage(item.id, item.image);
+                    }
                     if (!item.hasAccess)
                         divider = true;
                 });
@@ -386,41 +464,115 @@ define([
         },
 
         onKeyDown: function (lisvView, record, e) {
-            if (e.keyCode==Common.UI.Keys.DELETE)
+            if (e.keyCode===Common.UI.Keys.DELETE)
                 this.onDeleteUser();
+            else if (e.keyCode===Common.UI.Keys.SPACE) {
+                var rec = this.listUser.getSelectedRec(),
+                    btn = rec && !rec.get('isCurrent') ? rec.get('btnEdit') : null;
+                btn && $('button', btn.cmpEl).click();
+            }
         },
 
         onDeleteUser: function(rec) {
             !rec && (rec = this.listUser.getSelectedRec());
-            if (rec && !rec.get('isCurrent')) {
+            if (rec && !rec.get('isCurrent') && !rec.get('isAnyone')) {
                 this.listUser.store.remove(rec);
             }
+            var me = this;
+            setTimeout(function() {
+                me.listUser.focus();
+            }, 1);
         },
 
-        onListUserClick: function(list, item, record, e) {
-            if (e) {
-                var btn = $(e.target);
-                if (btn && btn.hasClass('listitem-icon')) {
-                    this.onDeleteUser(record);
-                    return;
-                }
+        addControls: function(listView, itemView, item) {
+            if (!item) return;
+
+            var me = this,
+                type = item.get('type');
+            var btn = new Common.UI.Button({
+                parentEl: $('.listitem-icon', $(itemView.el)),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon ' + (type===Asc.c_oSerUserProtectedRangeType.edit ? 'btn-edit' : type===Asc.c_oSerUserProtectedRangeType.view ? 'btn-sheet-view' : 'btn-hide-password'),
+                disabled: !!item.get('isCurrent'),
+                menu: item.get('isCurrent') ? false : new Common.UI.Menu({
+                    style: 'min-width: auto;',
+                    additionalAlign: this.menuAddAlign,
+                    items: item.get('isAnyone') ? [
+                        {
+                            caption: this.textCanView,
+                            value: 'view',
+                            iconCls: 'menu__icon btn-sheet-view',
+                        },
+                        {
+                            caption: this.textCantView,
+                            value: 'notview',
+                            iconCls: 'menu__icon btn-hide-password'
+                        }
+                    ] : [
+                        {
+                            caption: this.textCanEdit,
+                            value: 'edit',
+                            iconCls: 'menu__icon btn-edit',
+                        },
+                        {
+                            caption: this.textCanView,
+                            value: 'view',
+                            iconCls: 'menu__icon btn-sheet-view',
+                        },
+                        { caption: '--'},
+                        {
+                            caption: this.textRemove,
+                            value: 'remove',
+                            iconCls: 'menu__icon btn-cc-remove'
+                        },
+                    ]
+                })
+            });
+            if (btn.menu) {
+                btn.menu.on('item:click', function(menu, mni) {
+                    if (mni.value==='remove') {
+                        me.onHideMenu();
+                        me.onDeleteUser(item);
+                    } else {
+                        item.set('type', mni.value==='edit' ? Asc.c_oSerUserProtectedRangeType.edit : mni.value==='view' ? Asc.c_oSerUserProtectedRangeType.view : Asc.c_oSerUserProtectedRangeType.notView);
+                        item.get('btnEdit').setIconCls('toolbar__icon ' + (mni.value==='edit' ? 'btn-edit' : mni.value==='view' ? 'btn-sheet-view' : 'btn-hide-password'));
+                    }
+                });
+                btn.menu.on('show:after', _.bind(this.onShowMenu, this));
+                btn.menu.on('hide:after', _.bind(this.onHideMenu, this));
             }
+            item.set('btnEdit', btn, {silent: true});
+        },
+
+        onShowMenu: function() {
+            this.listUser.enableKeyEvents = false;
+        },
+
+        onHideMenu: function() {
+            this.listUser.enableKeyEvents = true;
+            var me = this;
+            setTimeout(function() {
+                me.listUser.focus();
+            }, 1);
         },
 
         txtProtect: 'Protect',
         txtRangeName: 'Title',
         txtRange: 'Range',
-        txtWhoCanEdit: 'Who can edit',
         txtEmpty: 'This field is required',
         textSelectData: 'Select Data',
         textInvalidRange: 'ERROR! Invalid cells range',
         textInvalidName: 'The range title must begin with a letter and may only contain letters, numbers, and spaces.',
-        textTipAdd: 'Add user',
-        textTipDelete: 'Delete user',
         textYou: 'you',
         userPlaceholder: 'Start type name or email',
         txtYouCanEdit: 'Only you can edit this range',
-        textAnonymous: 'Anonymous'
+        textAnonymous: 'Anonymous',
+        textCanEdit: 'Edit',
+        textCanView: 'View',
+        textRemove: 'Remove',
+        textCantView: 'Denied',
+        textAnyone: 'Anyone',
+        txtAccess: 'Access to range'
 
     }, SSE.Views.ProtectedRangesEditDlg || {}));
 });

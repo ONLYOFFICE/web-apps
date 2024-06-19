@@ -19,6 +19,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 
 @inject(
     "users",
@@ -44,6 +45,84 @@ class MainController extends Component {
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
         this.boxSdk = $$('#editor_sdk');
+        this.fallbackSdkTranslations = {
+            " -Section ": " -Section ",
+            "above": "above",
+            "below": "below",
+            "Caption": "Caption",
+            "Choose an item": "Choose an item",
+            "Click to load image": "Click to load image",
+            "Current Document": "Current Document",
+            "Diagram Title": "Chart Title",
+            "endnote text": "Endnote Text",
+            "Enter a date": "Enter a date",
+            "Error! Bookmark not defined": "Error! Bookmark not defined.",
+            "Error! Main Document Only": "Error! Main Document Only.",
+            "Error! No text of specified style in document": "Error! No text of specified style in document.",
+            "Error! Not a valid bookmark self-reference": "Error! Not a valid bookmark self-reference.",
+            "Even Page ": "Even Page ",
+            "First Page ": "First Page ",
+            "Footer": "Footer",
+            "footnote text": "Footnote Text",
+            "Header": "Header",
+            "Heading 1": "Heading 1",
+            "Heading 2": "Heading 2",
+            "Heading 3": "Heading 3",
+            "Heading 4": "Heading 4",
+            "Heading 5": "Heading 5",
+            "Heading 6": "Heading 6",
+            "Heading 7": "Heading 7",
+            "Heading 8": "Heading 8",
+            "Heading 9": "Heading 9",
+            "Hyperlink": "Hyperlink",
+            "Index Too Large": "Index Too Large",
+            "Intense Quote": "Intense Quote",
+            "Is Not In Table": "Is Not In Table",
+            "List Paragraph": "List Paragraph",
+            "Missing Argument": "Missing Argument",
+            "Missing Operator": "Missing Operator",
+            "No Spacing": "No Spacing",
+            "No table of contents entries found": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
+            "No table of figures entries found": "No table of figures entries found.",
+            "None": "None",
+            "Normal": "Normal",
+            "Number Too Large To Format": "Number Too Large To Format",
+            "Odd Page ": "Odd Page ",
+            "Quote": "Quote",
+            "Same as Previous": "Same as Previous",
+            "Series": "Series",
+            "Subtitle": "Subtitle",
+            "Syntax Error": "Syntax Error",
+            "Table Index Cannot be Zero": "Table Index Cannot be Zero",
+            "Table of Contents": "Table of Contents",
+            "table of figures": "Table of figures",
+            "The Formula Not In Table": "The Formula Not In Table",
+            "Title": "Title",
+            "TOC Heading": "TOC Heading",
+            "Type equation here": "Type equation here",
+            "Undefined Bookmark": "Undefined Bookmark",
+            "Unexpected End of Formula": "Unexpected End of Formula",
+            "X Axis": "X Axis XAS",
+            "Y Axis": "Y Axis",
+            "Your text here": "Your text here",
+            "Zero Divide": "Zero Divide",
+            "Default Paragraph Font": "Default Paragraph Font",
+            "No List": "No list",
+            "Intense Emphasis": "Intense Emphasis",
+            "Intense Reference": "Intense Reference",
+            "Subtle Emphasis": "Subtle Emphasis",
+            "Emphasis": "Emphasis",
+            "Strong": "Strong",
+            "Subtle Reference": "Subtle Reference",
+            "Book Title":"Book Title",
+            "footnote reference": "Footnote reference",
+            "endnote reference": "Endnote reference"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -157,9 +236,19 @@ class MainController extends Component {
                     }
                 }
 
-                let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
-                if (type && typeof type[1] === 'string') {
-                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                const fileType = data?.doc.fileType;
+                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
+                const isPDF = fileType === 'pdf';
+
+                if(isFormType) {
+                    this.changeEditorBrandColorForPdf();
+                }
+
+                if(isPDF) {
+                    if(this.permissions.fillForms === undefined) {
+                        this.permissions.fillForms = this.permissions.edit !== false;
+                    }
+
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
 
@@ -174,8 +263,6 @@ class MainController extends Component {
                 // Document Info
 
                 const storeDocumentInfo = this.props.storeDocumentInfo;
-                // this.document
-
                 storeDocumentInfo.setDataDoc(this.document);
                 storeDocumentInfo.setDocInfo(docInfo);
 
@@ -323,50 +410,14 @@ class MainController extends Component {
                 }
             };
 
-            const _process_array = async (array, fn) => {
-                const results = [];
-
-                for (const item of array) {
-                    try {
-                        const data = await fn(item);
-                        results.push(data);
-                    } catch (error) {
-                        console.log(`Error with processing element ${item}:`, error);
-                        continue;
-                    }
-                }
-
-                return results;
-            };
-
-            _process_array(dep_scripts, promise_get_script)
+            processArrayScripts(dep_scripts, promise_get_script)
                 .then(() => {
                     window["flat_desine"] = true;
                     const { t } = this.props;
-                    const _translate = t('Main.SDK', { returnObjects: true });
+                    let _translate = t('Main.SDK', { returnObjects: true });
 
-                    Object.entries(_translate).forEach(([key, value]) => {
-                        if (key.endsWith(' ') && !value.endsWith(' ')) {
-                            _translate[key] = value + ' ';
-                        }
-                    });
-
-                    const errorMessages = [
-                        "Error! Bookmark not defined",
-                        "No table of contents entries found",
-                        "No table of figures entries found",
-                        "Error! Main Document Only",
-                        "Error! Not a valid bookmark self-reference",
-                        "Error! No text of specified style in document"
-                    ];
-                    
-                    for (const item of errorMessages) {
-                        const newItem = item + '.';
-
-                        if (_translate[item]) {
-                            _translate[newItem] = _translate[item];
-                            delete _translate[item];
-                        }
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
+                        _translate = this.fallbackSdkTranslations
                     }
 
                     let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
@@ -433,6 +484,15 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_script_load();
+        }
+    }
+
+    changeEditorBrandColorForPdf() {
+        const bodyElement = document.body;
+        bodyElement.classList.add('pdf-view');
+
+        if(Device.android) {
+            bodyElement.classList.add('pdf-view__android');
         }
     }
 
@@ -1046,9 +1106,10 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
+    onDownloadAs(format) {
         const appOptions = this.props.storeAppOptions;
-        if ( !appOptions.canDownload && !appOptions.canDownloadOrigin) {
+
+        if (!appOptions.canDownload && !appOptions.canDownloadOrigin) {
             const { t } = this.props;
             const _t = t('Main', {returnObjects:true});
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
@@ -1056,12 +1117,61 @@ class MainController extends Component {
         }
 
         this._state.isFromGatewayDownloadAs = true;
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _defaultFormat = null,
+            textParams,
+            _supported = [
+                Asc.c_oAscFileType.TXT,
+                Asc.c_oAscFileType.RTF,
+                Asc.c_oAscFileType.ODT,
+                Asc.c_oAscFileType.DOCX,
+                Asc.c_oAscFileType.HTML,
+                Asc.c_oAscFileType.DOTX,
+                Asc.c_oAscFileType.OTT,
+                Asc.c_oAscFileType.FB2,
+                Asc.c_oAscFileType.EPUB,
+                Asc.c_oAscFileType.DOCM,
+                Asc.c_oAscFileType.JPG,
+                Asc.c_oAscFileType.PNG
+            ];
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
 
-        if (type && typeof type[1] === 'string') {
-            this.api.asc_DownloadOrigin(true);
+        if (type && typeof type[1] === 'string' && !appOptions.isForm) {
+            if (!(format && (typeof format == 'string')) || type[1] === format.toLowerCase()) {
+                const options = new Asc.asc_CDownloadOptions();
+                options.asc_setIsDownloadEvent(true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadOrigin(options);
+                return;
+            }
+
+            if (/^xps|oxps$/.test(this.document.fileType))
+                _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+            else if (/^djvu$/.test(this.document.fileType)) {
+                _supported = [Asc.c_oAscFileType.PDF];
+            }
+
+            textParams = new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine);
         } else {
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+            _defaultFormat = Asc.c_oAscFileType.DOCX;
+        }
+
+        if (appOptions.canFeatureForms && !/^djvu$/.test(this.document.fileType)) {
+            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF]);
+        }
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = _defaultFormat;
+
+        const options = new Asc.asc_CDownloadOptions(_format, true);
+        options.asc_setIsSaveAs(true);
+
+        if(_format) {
+            textParams && options.asc_setTextParams(textParams);
+            this.api.asc_DownloadAs(options);
+        } else {
+            this.api.asc_DownloadOrigin(options);
         }
     }
 

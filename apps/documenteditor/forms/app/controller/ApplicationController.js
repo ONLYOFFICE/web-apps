@@ -432,6 +432,7 @@ define([
             if (this._state.isDocModified !== isModified) {
                 this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
             }
+            this.appOptions.canFillForms && this.api.isDocumentModified() && this.requiredTooltip && this.requiredTooltip.hide();
 
             this.updateWindowTitle();
         },
@@ -473,6 +474,22 @@ define([
             this.appOptions.canPlugins      = false;
 
             Common.Controllers.Desktop.init(this.appOptions);
+
+            this.appOptions.canCloseEditor = false;
+            var _canback = false;
+            if (typeof this.appOptions.customization === 'object') {
+                if (typeof this.appOptions.customization.goback == 'object' && this.appOptions.canBackToFolder!==false) {
+                    _canback = this.appOptions.customization.close===undefined ?
+                        this.appOptions.customization.goback.url || this.appOptions.customization.goback.requestClose && this.appOptions.canRequestClose :
+                        this.appOptions.customization.goback.url && !this.appOptions.customization.goback.requestClose;
+
+                    if (this.appOptions.customization.goback.requestClose)
+                        console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                }
+                if (this.appOptions.customization.close && typeof this.appOptions.customization.close === 'object')
+                    this.appOptions.canCloseEditor  = (this.appOptions.customization.close.visible!==false) && this.appOptions.canRequestClose && !this.appOptions.isDesktopApp;
+            }
+            this.appOptions.canBackToFolder = !!_canback;
         },
 
         onExternalMessage: function(msg) {
@@ -627,7 +644,7 @@ define([
 
             var me = this;
             me.view.btnSubmit.setVisible(this.appOptions.canFillForms && this.appOptions.canSubmitForms);
-            me.view.btnDownload.setVisible(this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
+            me.view.btnDownload.setVisible(false && this.appOptions.canDownload && this.appOptions.canFillForms && !this.appOptions.canSubmitForms);
             if (me.appOptions.isOffline || me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl) {
                 me.view.btnDownload.setCaption(me.appOptions.isOffline ? me.textSaveAsDesktop : me.textSaveAs);
                 me.view.btnDownload.updateHint('');
@@ -650,6 +667,31 @@ define([
                     me.api.asc_ClearAllSpecialForms();
                 });
                 me.view.btnSubmit.on('click', function(){
+                    if (!me.api.asc_IsAllRequiredFormsFilled()) {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        if (!me.requiredTooltip) {
+                            me.requiredTooltip = new Common.UI.SynchronizeTip({
+                                extCls: 'colored',
+                                placement: 'bottom-left',
+                                target: me.view.btnSubmit.$el,
+                                text: me.textRequired,
+                                showLink: false,
+                                closable: true
+                            });
+                            me.requiredTooltip.on('closeclick', function () {
+                                me.requiredTooltip.hide();
+                            });
+                        }
+                        !me.requiredTooltip.isVisible() && me.requiredTooltip.show();
+
+                        // Common.UI.warning({
+                        //     msg: me.textRequired,
+                        //     callback: function() {
+                        //         me.api.asc_MoveToFillingForm(true, true, true);
+                        //     }
+                        // });
+                        return;
+                    }
                     me.api.asc_SendForm();
                 });
                 me.view.btnDownload.on('click', function(){
@@ -658,7 +700,9 @@ define([
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                         else {
                             me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload);
+                            options.asc_setIsSaveAs(me.isFromBtnDownload);
+                            me.api.asc_DownloadAs(options);
                         }
                     }
                 });
@@ -673,6 +717,14 @@ define([
                 this.api.asc_SetFastCollaborative(true);
                 this.api.asc_setAutoSaveGap(1);
                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.None);
+            }
+
+            this.view.btnClose.setVisible(this.appOptions.canCloseEditor);
+            if (this.appOptions.canCloseEditor) {
+                this.view.btnClose.updateHint(this.appOptions.customization.close.text || this.view.textClose);
+                this.view.btnClose.on('click', function(){
+                    Common.Gateway.requestClose();
+                });
             }
 
             this.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
@@ -781,6 +833,12 @@ define([
         setBranding: function (value) {
             if ( value && value.logo) {
                 var logo = $('#header-logo');
+                if (value.logo.visible===false) {
+                    logo.addClass('hidden');
+                    logo.parent().removeClass('margin-right-large');
+                    return;
+                }
+
                 if (value.logo.image || value.logo.imageDark) {
                     var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
                     logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
@@ -843,20 +901,32 @@ define([
              action ? this.setLongActionView(action) : this.loadMask && this.loadMask.hide();
 
              if (id==Asc.c_oAscAsyncAction['Submit']) {
-                 this.view.btnSubmit.setDisabled(false);
+                 this.view.btnSubmit.setDisabled(!_submitFail);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
+                    Common.Gateway.submitForm();
+                    this.view.btnSubmit.setCaption(this.textFilled);
+                    this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
                     if (!this.submitedTooltip) {
-                        var me = this;
-                        this.submitedTooltip = $('<div class="submit-tooltip" style="display:none;">' + this.textSubmited + '</div>');
-                        $(document.body).append(this.submitedTooltip);
-                        this.submitedTooltip.on('click', function() {me.submitedTooltip.hide();});
+                        this.submitedTooltip = new Common.UI.SynchronizeTip({
+                            text: this.textSubmitOk,
+                            extCls: 'no-arrow colored',
+                            style: 'max-width: 400px',
+                            showLink: false,
+                            target: $('.toolbar'),
+                            placement: 'bottom'
+                        });
+                        this.submitedTooltip.on('closeclick', function () {
+                            this.submitedTooltip.hide();
+                        }, this);
                     }
                     this.submitedTooltip.show();
+                    this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
+                    this.onApiServerDisconnect(true);
                 }
             }
              if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
-                 !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
+                 !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
                  this.api.asc_enableKeyEvents(true);
              }
         },
@@ -1045,8 +1115,10 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            this.view.btnSubmit.setDisabled(!isFilled);
-            this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            // this.view.btnSubmit.setDisabled(!isFilled);
+            // this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+            isFilled && this.requiredTooltip && this.requiredTooltip.hide();
         },
 
         onProcessMouse: function(data) {
@@ -1074,8 +1146,11 @@ define([
             var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
             if (type && typeof type[1] === 'string')
                 this.api.asc_DownloadOrigin(true);
-            else
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            else {
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadAs(options);
+            }
         },
 
         onHyperlinkClick: function(url) {
@@ -1737,43 +1812,13 @@ define([
 
             // TODO: add asc_hasRequiredFields to sdk
 
-            if (this.appOptions.canSubmitForms && !this.api.asc_IsAllRequiredFormsFilled()) {
-                this.view.btnSubmit.setDisabled(true);
-                this.view.btnSubmit.cmpEl.css("pointer-events", "none");
-                var sgroup = $('#id-submit-group');
-                if (!Common.localStorage.getItem("de-embed-hide-submittip")) {
-                    var requiredTooltip = new Common.UI.SynchronizeTip({
-                        extCls: 'colored',
-                        placement: 'bottom-left',
-                        target: this.view.btnSubmit.$el,
-                        text: this.textRequired,
-                        showLink: false,
-                        closable: false,
-                        showButton: true,
-                        textButton: this.textGotIt
-                    });
-                    var onclose = function () {
-                        requiredTooltip.hide();
-                        me.api.asc_MoveToFillingForm(true, true, true);
-                        sgroup.attr('data-toggle', 'tooltip');
-                        sgroup.tooltip({
-                            title       : me.textRequired,
-                            placement   : 'bottom'
-                        });
-                    };
-                    requiredTooltip.on('buttonclick', function () {
-                        onclose();
-                        Common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    });
-                    requiredTooltip.on('closeclick', onclose);
-                    requiredTooltip.show();
-                } else {
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                }
+            if (this.appOptions.canSubmitForms) {
+                if (this.api.asc_IsAllRequiredFormsFilled())
+                    this.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                // else {
+                    // this.view.btnSubmit.setDisabled(true);
+                    // this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                // }
             }
 
             var documentMoveTimer;
@@ -2042,7 +2087,9 @@ define([
         errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
         warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
         titleLicenseNotActive: 'License not active',
-        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+        warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+        textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
+        textFilled: 'Filled'
 
     }, DE.Controllers.ApplicationController));
 

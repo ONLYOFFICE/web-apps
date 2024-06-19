@@ -74,11 +74,11 @@ define([
         },
 
         setConfig: function(config) {
-            var mode = config.mode;
+            this.mode = config.mode;
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: mode,
+                mode: this.mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
             this.addListeners({
@@ -147,6 +147,15 @@ define([
                         emptyGroup.push(me.view.chLeftMenu.$el.closest('.elset'));
                         emptyGroup.shift().append(me.view.chLeftMenu.$el[0]);
                     }
+
+                    if (!config.canPDFEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        me.view.chRightMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.view.chRightMenu.$el[0]);
+                    }
+                    config.canPDFEdit && me.applyEditorMode(config);
 
                     if (emptyGroup.length>1) { // remove empty group
                         emptyGroup[emptyGroup.length-1].closest('.group').remove();
@@ -273,8 +282,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onChangeDarkMode: function () {
-            Common.UI.Themes.toggleContentTheme();
+        onChangeDarkMode: function (isdarkmode) {
+            if (!this._darkModeTimer) {
+                var me = this;
+                me._darkModeTimer = setTimeout(function() {
+                    me._darkModeTimer = undefined;
+                }, 500);
+                Common.UI.Themes.setContentTheme(isdarkmode?'dark':'light');
+            } else
+                this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
 
         onContentThemeChangedToDark: function (isdark) {
@@ -295,6 +311,10 @@ define([
 
         onComboBlur: function() {
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        applyEditorMode: function(config) {
+            this.view && this.view.chRightMenu && this.view.chRightMenu.setVisible((config || this.mode)['isPDFEdit']);
         }
 
     }, PDFE.Controllers.ViewTab || {}));

@@ -161,12 +161,12 @@ define([
             "canvas-high-contrast-disabled",
 
             "canvas-cell-border",
-            "canvas-cell-title",
+            "canvas-cell-title-background",
+            "canvas-cell-title-background-hover",
+            "canvas-cell-title-background-selected",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
-            "canvas-cell-title-hover",
-            "canvas-cell-title-selected",
 
             "canvas-dark-cell-title",
             "canvas-dark-cell-title-hover",
@@ -197,7 +197,32 @@ define([
 
             "canvas-freeze-line-1px",
             "canvas-freeze-line-2px",
-            "canvas-select-all-icon"
+            "canvas-select-all-icon",
+
+            "canvas-anim-pane-background",
+            "canvas-anim-pane-item-fill-selected",
+            "canvas-anim-pane-item-fill-hovered",
+            "canvas-anim-pane-button-fill",
+            "canvas-anim-pane-button-fill-hovered",
+            "canvas-anim-pane-button-fill-disabled",
+            "canvas-anim-pane-play-button-fill",
+            "canvas-anim-pane-play-button-outline",
+            "canvas-anim-pane-effect-bar-entrance-fill",
+            "canvas-anim-pane-effect-bar-entrance-outline",
+            "canvas-anim-pane-effect-bar-emphasis-fill",
+            "canvas-anim-pane-effect-bar-emphasis-outline",
+            "canvas-anim-pane-effect-bar-exit-fill",
+            "canvas-anim-pane-effect-bar-exit-outline",
+            "canvas-anim-pane-effect-bar-path-fill",
+            "canvas-anim-pane-effect-bar-path-outline",
+            "canvas-anim-pane-timeline-ruler-outline",
+            "canvas-anim-pane-timeline-ruler-tick",
+
+            "canvas-anim-pane-timeline-scroller-fill",
+            "canvas-anim-pane-timeline-scroller-outline",
+            "canvas-anim-pane-timeline-scroller-opacity",
+            "canvas-anim-pane-timeline-scroller-opacity-hovered",
+            "canvas-anim-pane-timeline-scroller-opacity-active",
         ];
 
         var get_current_theme_colors = function (c) {
@@ -387,13 +412,13 @@ define([
             }
         }
 
-        const refresh_theme = function (force) {
+        const refresh_theme = function (force, caller) {
             if ( force || Common.localStorage.getItem('ui-theme-id') != window.uitheme.id ) {
                 const theme_id = Common.localStorage.getItem('ui-theme-id');
 
                 if ( theme_id ) {
                     apply_theme.call(this, theme_id);
-                    Common.NotificationCenter.trigger('uitheme:changed', theme_id);
+                    Common.NotificationCenter.trigger('uitheme:changed', theme_id, caller);
                 }
             }
         }
@@ -408,7 +433,7 @@ define([
                         }
                     } else
                     if ( e.key == 'content-theme' ) {
-                        this.setContentTheme(e.originalEvent.newValue, true);
+                        this.setContentTheme(e.originalEvent.newValue, true, false);
                     }
                 }.bind(this))
 
@@ -427,7 +452,7 @@ define([
                 if ( !document.body.classList.contains('theme-type-' + obj.type) )
                     document.body.classList.add('theme-type-' + obj.type);
 
-                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) )
+                if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) && !Common.Controllers.Desktop.isActive() )
                     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', on_system_theme_dark.bind(this));
                 Common.NotificationCenter.on('document:ready', on_document_ready.bind(this));
             },
@@ -458,6 +483,10 @@ define([
                 return !!themes_map[window.uitheme.id] ? window.uitheme.id : id_default_light_theme;
             },
 
+            currentThemeColor: function (token) {
+                return getComputedStyle(document.body).getPropertyValue(token);
+            },
+
             defaultThemeId: function (type) {
                 return type == 'dark' ? id_default_dark_theme : id_default_light_theme;
             },
@@ -475,14 +504,15 @@ define([
                 return window.uitheme.iscontentdark;
             },
 
-            setContentTheme: function (mode, force) {
+            setContentTheme: function (mode, force, keep) {
                 var set_dark = mode == 'dark';
                 if ( set_dark != window.uitheme.iscontentdark || force ) {
+                    window.uitheme.iscontentdark = set_dark;
+
                     if ( this.isDarkTheme() )
                         this.api.asc_setContentDarkMode(set_dark);
 
-                    window.uitheme.iscontentdark = mode;
-                    if ( Common.localStorage.getItem('content-theme') != mode )
+                    if ( !(keep === false) && Common.localStorage.getItem('content-theme') != mode )
                         Common.localStorage.setItem('content-theme', mode);
 
                     Common.NotificationCenter.trigger('contenttheme:dark', set_dark);
@@ -499,7 +529,7 @@ define([
                 Common.NotificationCenter.trigger('contenttheme:dark', window.uitheme.iscontentdark);
             },
 
-            setTheme: function (obj) {
+            setTheme: function (obj, caller) {
                 if ( !obj ) return;
 
                 const id = get_ui_theme_name(obj);
@@ -508,7 +538,7 @@ define([
                         apply_theme.call(this, id);
 
                         Common.localStorage.setItem('ui-theme-id', id);
-                        Common.NotificationCenter.trigger('uitheme:changed', id);
+                        Common.NotificationCenter.trigger('uitheme:changed', id, caller);
                     }
                 }
             },

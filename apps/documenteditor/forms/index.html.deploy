@@ -209,6 +209,7 @@
 
             var params = getUrlParams(),
                            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
+                           hideLogo = params["headerlogo"]==='',
                            logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
                            logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
 
@@ -218,15 +219,19 @@
             if (stopLoading) {
                document.body.removeChild(document.getElementById('loading-mask'));
             } else {
-               var elem = document.querySelector('.loading-logo');
-               if (elem && (logo || logoDark)) {
-                   elem.style.backgroundImage= 'none';
-                   elem.style.width = 'auto';
-                   elem.style.height = 'auto';
-                   var img = document.querySelector('.loading-logo img');
-                   img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
-                   img.style.opacity = 1;
-               }
+                var elem = document.querySelector('.loading-logo');
+                if (elem) {
+                    if (hideLogo) {
+                        elem.style.display = 'none';
+                    } else if (logo || logoDark) {
+                        elem.style.backgroundImage= 'none';
+                        elem.style.width = 'auto';
+                        elem.style.height = 'auto';
+                        var img = document.querySelector('.loading-logo img');
+                        img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                        img.style.opacity = 1;
+                    }
+                }
             }
         </script>
 
@@ -239,7 +244,7 @@
           </ul>
       </div>
 
-      <div class="toolbar" id="toolbar">
+      <div class="toolbar style-off-tabs" id="toolbar">
           <div class="group left">
               <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
               <span id="id-btn-undo" class="margin-right-small big-resolution"></span>
@@ -259,6 +264,7 @@
               <div id="id-submit-group" style="display: inline-block;"></div>
               <div id="id-download-group" style="display: inline-block;"></div>
               <span id="box-tools"></span>
+              <div id="id-btn-close-editor" style="display: inline-block;"></div>
           </div>
       </div>
       <script>

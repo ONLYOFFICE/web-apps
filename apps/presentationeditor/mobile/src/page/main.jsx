@@ -122,17 +122,31 @@ class MainPage extends Component {
 
     render() {
         const appOptions = this.props.storeAppOptions;
+        const storeThemes = this.props.storeThemes;
+        const colorTheme = storeThemes.colorTheme;
         const config = appOptions.config;
-        const isShowPlaceholder = !appOptions.isDocReady && (!config.customization || !(config.customization.loaderName || config.customization.loaderLogo));
+        const { customization = {} } = config;
+        const isShowPlaceholder = !appOptions.isDocReady && (!customization || !(customization.loaderName || customization.loaderLogo));
+       
+        let isBranding = true,
+            isHideLogo = true,
+            customLogoImage = '',
+            customLogoUrl = '';
 
-        let isHideLogo = true,
-            isCustomization = true,
-            isBranding = true;
-
-        if (!appOptions.isDisconnected && config?.customization) {
-            isCustomization = !!(config.customization.loaderName || config.customization.loaderLogo);
+        if(!appOptions.isDisconnected && appOptions.isDocReady) {
+            const { logo } = customization;
             isBranding = appOptions.canBranding || appOptions.canBrandingExt;
-            isHideLogo = isCustomization && isBranding; 
+            
+            if(logo && isBranding) {
+                isHideLogo = logo.visible === false;
+
+                if(logo.image || logo.imageDark) {
+                    customLogoImage = colorTheme.type === 'dark' ? logo.imageDark ?? logo.image : logo.image ?? logo.imageDark;
+                    customLogoUrl = logo.url;
+                }
+            } else {
+                isHideLogo = false;
+            }
         }
 
         return (
@@ -149,11 +163,15 @@ class MainPage extends Component {
                     <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                         {/* Top Navbar */}
                         <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
-                            {!isHideLogo && 
+                            {!isHideLogo &&
                                 <div className="main-logo" onClick={() => {
-                                    window.open(`${__PUBLISHER_URL__}`, "_blank");
+                                    window.open(`${customLogoImage && customLogoUrl ? customLogoUrl : __PUBLISHER_URL__}`, "_blank");
                                 }}>
-                                    <Icon icon="icon-logo"></Icon>
+                                    {customLogoImage ? 
+                                        <img className='custom-logo-image' src={customLogoImage} />
+                                    : 
+                                        <Icon icon="icon-logo"></Icon>
+                                    }
                                 </div>
                             }
                             <Subnavbar>
@@ -218,4 +236,4 @@ class MainPage extends Component {
     }
 }
 
-export default inject("storeAppOptions")(observer(MainPage));
+export default inject('storeAppOptions', 'storeThemes')(observer(MainPage));

@@ -38,9 +38,7 @@
         align-items: stretch;
 
         .extra {
-            background-color: @header-background-color-ie;
-            background-color: @header-background-color;
-
+            .header-background-color();
             box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
         }
 
@@ -60,8 +58,7 @@
 
     .tabs {
         //flex-grow: 1;
-        background-color: @header-background-color-ie;
-        background-color: @header-background-color;
+        .header-background-color();
         position: relative;
         overflow: hidden;
         display: flex;
@@ -174,6 +171,10 @@
             &.left{
                 box-shadow: 5px 0 20px 5px @header-background-color-ie;
                 box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color;
+                .pdf-form & {
+                    box-shadow: 5px 0 20px 5px @header-background-color-pdf-ie;
+                    box-shadow: 18px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, 5px 0 20px 5px @header-background-color-pdf;
+                }
 
                 &:after {
                     transform: rotate(135deg);
@@ -188,6 +189,10 @@
             &.right{
                 box-shadow: -5px 0 20px 5px @header-background-color-ie;
                 box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color;
+                .pdf-form & {
+                    box-shadow: -5px 0 20px 5px @header-background-color-pdf-ie;
+                    box-shadow: -10px calc(@tabs-scroller-height - @scaled-one-px-value) 0 10px @border-toolbar-active-panel-top, -5px 0 20px 5px @header-background-color-pdf;
+                }
 
                 &:after {
                     transform: rotate(-45deg);
@@ -235,21 +240,23 @@
         }
 
         /* ##adopt-panel-width */
-        .panel .compactwidth:not(.emptycaption) {
-            .btn-group, .btn-toolbar {
-                &.x-huge {
-                    .caption {
-                        display: none;
-                    }
+        .panel {
+            .compactwidth:not(.emptycaption), .nocaption {
+                .btn-group, .btn-toolbar {
+                    &.x-huge {
+                        .caption {
+                            display: none;
+                        }
 
-                    .inner-box-caption {
-                        justify-content: center;
-                        align-items: center;
-                        padding: 0 2px;
-                    }
+                        .inner-box-caption {
+                            justify-content: center;
+                            align-items: center;
+                            padding: 0 2px;
+                        }
 
-                    .compact-caret {
-                        display: block;
+                        .compact-caret {
+                            display: block;
+                        }
                     }
                 }
             }
@@ -267,7 +274,7 @@
         .rtl & {
             padding: 12px 0 7px 10px;
         }
-        .compactwidth:not(.emptycaption) {
+        .compactwidth:not(.emptycaption), .nocaption {
             .btn-group, .btn-toolbar {
                 &.x-huge {
                     .caption {
@@ -374,6 +381,9 @@
         &.invisible {
             margin-left: 0;
             border: none;
+            .rtl & {
+                margin-right: 0;
+            }
         }
 
         &.long {
@@ -460,13 +470,18 @@
             left: 0;
         }
     }
+
+    #slot-btn-start-fill,
+    #slot-btn-header-form-submit {
+        padding: 2px 0;
+    }
 }
 
 .style-off-tabs {
     .toolbar {
         @underscore_height: 3px;
 
-        .tabs, .extra {
+        .tabs, .box-tabs .extra {
             background-color: transparent;
             box-shadow: inset 0 -1px 0 0 @border-regular-control-ie;
             box-shadow: inset 0 -1px 0 0 @border-regular-control;
@@ -597,6 +612,11 @@
                 color: @text-normal;
             }
 
+            .caret {
+                border-color: @icon-normal-ie;
+                border-color: @icon-normal;
+            }
+
             .inner-box-icon {
                 > svg {
                     fill: @text-normal-ie;
@@ -637,8 +657,18 @@
                         color: @highlight-button-pressed-ie;
                         color: @highlight-button-pressed;
                     }
+
+                    .caret {
+                        border-color: @icon-normal-pressed-ie;
+                        border-color: @icon-normal-pressed;
+                    }
                 }
             }
+        }
+
+        #slot-btn-start-fill,
+        #slot-btn-header-form-submit {
+            padding: 4px 0;
         }
 
         #rib-doc-name {
@@ -652,8 +682,7 @@
 
         &.editor-native-color {
             .tabs li:after {
-                border-color: @header-background-color-ie;
-                border-color: @header-background-color;
+                .header-border-color();
             }
         }
     }
@@ -910,6 +939,35 @@
     }
 }
 
+.dropdown-menu {
+    &.select-checked-items {
+        .menu-item.checked {
+            &:before {
+                display: none !important;
+            }
+            &, &:hover, &:focus {
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
+                color: @text-normal-pressed-ie;
+                color: @text-normal-pressed;
+                label {
+                    color: @text-normal-pressed-ie;
+                    color: @text-normal-pressed;
+                }
+            }
+            .menu-item-icon {
+                background-position-x: -20px;
+                background-position-x: @button-small-active-icon-offset-x;
+            }
+
+            svg.menu-item-icon {
+                fill: @icon-normal-pressed-ie;
+                fill: @icon-normal-pressed;
+            }
+        }
+    }
+}
+
 .item-databar {
     .icon {
         width: 25px;
@@ -1030,13 +1088,13 @@ section .field-styles {
                 align-items: center;
             }
             .plugin-settings {
-                width: 20px;
-                height: 20px;
-                .margin-left-8();
                 .btn-toolbar.dropdown-toggle {
                     min-width: 20px;
                 }
                 .btn-group {
+                    width: 20px;
+                    height: 20px;
+                    .margin-left-8();
                     &:active, &.active {
                         &:not(.disabled) .icon {
                             background-position-x: @button-small-active-icon-offset-x !important;
