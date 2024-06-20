@@ -692,7 +692,7 @@ define([
                         primary: 'ok',
                         callback: function(btn) {
                             if (btn == 'ok') {
-                                // me.api.asc_undoAllChanges();
+                                me.api.asc_undoAllChanges();
                                 me.api.asc_continueSaving();
                                 Common.Gateway.requestClose();
                                 // Common.Controllers.Desktop.requestClose();
