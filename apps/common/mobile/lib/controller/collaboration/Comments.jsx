@@ -464,24 +464,54 @@ class ViewCommentsController extends Component {
         this.closeViewCurComments = this.closeViewCurComments.bind(this);
 
         this.state = {
-            isOpenViewCurComments: false
+            isOpenViewCurComments: false,
+            allComments: false
         };
 
         Common.Notifications.on('viewcomment', () => {
-            this.setState({isOpenViewCurComments: true});
+            this.setState({ isOpenViewCurComments: true });
         });
+
+        Common.Notifications.on('viewallcomments', () => {
+            this.setState(prevState => ({ 
+                ...prevState,
+                allComments: true 
+            }));
+        });
+
         Common.Notifications.on('closeviewcomment', () => {
             this.closeViewCurComments();
         });
     }
+
     closeViewCurComments () {
         if (Device.phone) {
             f7.sheet.close('#view-comment-sheet');
         } else {
             f7.popover.close('#view-comment-popover');
         }
-        this.setState({isOpenViewCurComments: false});
+
+        this.setState({ isOpenViewCurComments: false, allComments: false });
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.allComments && !prevState.allComments) {
+            this.openAllComments();
+        }
+
+        if (!this.state.allComments && prevState.allComments) {
+            this.closeViewCurComments();
+        }
+    }
+
+    openAllComments() {
+        if (Device.phone) {
+            f7.sheet.open('#view-comment-sheet');
+        } else {
+            f7.popover.open('#view-comment-popover');
+        }
+    }
+
     onResolveComment (comment) {
         let reply = null,
             addReply = null,
@@ -627,17 +657,26 @@ class ViewCommentsController extends Component {
         api.asc_showComment(comment.uid, false);
     }
 
-
     render() {
-        return(
+        return (
             <Fragment>
-                {this.props.allComments && <ViewComments wsProps={this.props?.storeWorksheets?.wsProps} onCommentMenuClick={this.onCommentMenuClick} onResolveComment={this.onResolveComment} 
-                    showComment={this.showComment} />}
-                {this.state.isOpenViewCurComments && <ViewCurrentComments wsProps={this.props?.storeWorksheets?.wsProps} opened={this.state.isOpenViewCurComments}
-                                                                          closeCurComments={this.closeViewCurComments}
-                                                                          onCommentMenuClick={this.onCommentMenuClick}
-                                                                          onResolveComment={this.onResolveComment}
-                />}
+                {this.state.allComments && 
+                    <ViewComments
+                        wsProps={this.props?.storeWorksheets?.wsProps} 
+                        onCommentMenuClick={this.onCommentMenuClick} 
+                        onResolveComment={this.onResolveComment} 
+                        showComment={this.showComment} 
+                    />
+                }
+                {this.state.isOpenViewCurComments && 
+                    <ViewCurrentComments 
+                        wsProps={this.props?.storeWorksheets?.wsProps} 
+                        opened={this.state.isOpenViewCurComments}
+                        closeCurComments={this.closeViewCurComments}
+                        onCommentMenuClick={this.onCommentMenuClick}
+                        onResolveComment={this.onResolveComment}
+                    />
+                }
             </Fragment>
         )
     }

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Page, Navbar, NavRight, Link, Icon, ListItem, List, Toggle } from 'framework7-react';
 import { Device } from "../../../../../common/mobile/utils/device";
 import { observer, inject } from "mobx-react";
@@ -33,9 +33,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
 
     // set mode
     const isViewer = appOptions.isViewer;
+    const isTypeForm = appOptions.isTypeForm;
     const isMobileView = appOptions.isMobileView;
     const isFavorite = appOptions.isFavorite;
     const canFillForms = appOptions.canFillForms;
+    const isPDFView = !isForm && isTypeForm;
     const isEditableForms = isForm && canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
     const canCloseEditor = appOptions.canCloseEditor;
@@ -96,6 +98,11 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-clear-fields"></Icon>
                     </ListItem>
                 ] : null}
+                {isPDFView &&
+                    <ListItem title={t('Settings.textSave')} link='#' className='no-indicator' onClick={settingsContext.showDlgSavePdfViewer}>
+                        <Icon slot="media" icon="icon-save-form"></Icon>
+                    </ListItem> 
+                }
                 {(Device.phone || isEditableForms) &&
                     <ListItem title={!_isEdit || isViewer ? _t.textFind : _t.textFindAndReplace} link='#' searchbarEnable='.searchbar' onClick={settingsContext.closeModal} className='no-indicator'>
                         <Icon slot="media" icon="icon-search"></Icon>
@@ -115,7 +122,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-version-history"></Icon>
                     </ListItem>
                 }
-                {!isEditableForms ? 
+                {!isEditableForms && !isPDFView ? 
                     <ListItem title={t('Settings.textNavigation')} link={!Device.phone ? '/navigation' : '#'} onClick={() => {
                         if(Device.phone) {
                             onOpenOptions('navigation');
@@ -136,7 +143,7 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
                         <Icon slot="media" icon="icon-spellcheck"></Icon>
                     </ListItem>
                 }
-                {((!isViewer && Device.phone) || isEditableForms) &&
+                {(!isViewer && Device.phone) || isEditableForms || !isPDFView &&
                     <ListItem title={t('Settings.textMobileView')}>
                         <Icon slot="media" icon="icon-mobile-view"></Icon>
                         <Toggle checked={isMobileView} onToggleChange={() => {

@@ -17,6 +17,7 @@ import Snackbar from '../components/Snackbar/Snackbar';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes';
 import EditView from '../view/edit/Edit';
 import VersionHistoryController from '../../../../common/mobile/lib/controller/VersionHistory';
+import { AddAnnotationController } from '../controller/add/AddAnnotation.jsx';
 
 export const MainContext = createContext();
 
@@ -32,6 +33,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         addLinkSettingsVisible: false,
         editLinkSettingsVisible: false,
         snackbarVisible: false,
+        addAnnotationVisible: false,
+        commentsVisible: false,
         fabVisible: true,
         isOpenModal: false
     });
@@ -144,6 +147,11 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     ...prevState,
                     historyVisible: true
                 }
+            } else if(opts === 'annotation') {
+                return {
+                    ...prevState,
+                    addAnnotationVisible: true
+                }
             }
         })
            
@@ -209,6 +217,11 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     ...prevState, 
                     historyVisible: false
                 }
+            } else if(opts === 'annotation') {
+                return {
+                    ...prevState, 
+                    addAnnotationVisible: false
+                }
             }
         });
 
@@ -229,7 +242,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     };
 
     return (
-        <Themes fileType={docExt}>
+        <Themes>
             <MainContext.Provider value={{
                 openOptions: handleClickToOpenOptions,
                 closeOptions: handleOptionsViewClosed,
@@ -255,6 +268,7 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                                     openOptions={handleClickToOpenOptions} 
                                     closeOptions={handleOptionsViewClosed}
                                     isOpenModal={state.isOpenModal}
+                                    f7router={props.f7router}
                                 />
                                 <Search useSuspense={false}/>
                             </Subnavbar>
@@ -314,6 +328,9 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                     {!state.navigationVisible ? null : <NavigationController />}
                     {!state.historyVisible ? null :
                         <VersionHistoryController onclosed={() => handleOptionsViewClosed('history')} />
+                    }
+                    {!state.addAnnotationVisible ? null :
+                        <AddAnnotationController />
                     }
                     {(isFabShow && !isVersionHistoryMode) &&
                         <CSSTransition

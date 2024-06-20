@@ -209,6 +209,24 @@ const SettingsController = props => {
         api.asc_SendForm();
     }
 
+    const showDlgSavePdfViewer = () => {
+        f7.dialog.create({
+            title: t('Settings.textSave'),
+            text: t('Settings.textNeedDownloadPdf'),
+            buttons: [
+                {
+                    text: t('Settings.textCancel')
+                },
+                {
+                    text: t('Settings.textDownload'),
+                    onClick: () => {
+                        saveAsPdf();
+                    }
+                }
+            ]
+        }).open();
+    }
+
     return (
         <SettingsContext.Provider value={{
             onPrint,
@@ -222,7 +240,8 @@ const SettingsController = props => {
             clearAllFields,
             toggleFavorite,
             saveAsPdf,
-            submitForm
+            submitForm,
+            showDlgSavePdfViewer
         }}>
             <SettingsView />
         </SettingsContext.Provider>

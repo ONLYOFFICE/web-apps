@@ -7,11 +7,12 @@ import ToolbarView from "../view/Toolbar";
 import {LocalStorage} from "../../../../common/mobile/utils/LocalStorage.mjs";
 
 const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'storeFocusObjects', 'storeToolbarSettings','storeDocumentInfo', 'storeVersionHistory')(observer(props => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
     const isEdit = appOptions.isEdit;
     const isForm = appOptions.isForm;
+    const isTypeForm = appOptions.isTypeForm;
     const canFillForms = appOptions.canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
     const storeVersionHistory = props.storeVersionHistory;
@@ -380,6 +381,24 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
         api.asc_SendForm();
     }
 
+    const showDlgSavePdfViewer = () => {
+        f7.dialog.create({
+            title: t('Settings.textSave'),
+            text: t('Settings.textNeedDownloadPdf'),
+            buttons: [
+                {
+                    text: t('Settings.textCancel')
+                },
+                {
+                    text: t('Settings.textDownload'),
+                    onClick: () => {
+                        saveAsPdf();
+                    }
+                }
+            ]
+        }).open();
+    }
+
     return (
         <ToolbarView 
             openOptions={props.openOptions}
@@ -415,6 +434,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             saveForm={saveForm}
             isForm={isForm}
             canFillForms={canFillForms}
+            isTypeForm={isTypeForm}
+            showDlgSavePdfViewer={showDlgSavePdfViewer}
+            f7router={props.f7router}
         />
     )
 }));

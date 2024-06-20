@@ -65,7 +65,16 @@
     "textTableSize": "Table Size",
     "textWithBlueLinks": "With Blue Links",
     "textWithPageNumbers": "With Page Numbers",
-    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\""
+    "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
+    "textAnnotation": "Annotation",
+    "textMark": "Mark",
+    "textAddComment": "Add Comment",
+    "textShowComments": "Show Comments",
+    "textHighlight": "Highlight",
+    "textUnderline": "Underline",
+    "textStrikethrough": "Strikethrough",
+    "textColor": "Color",
+    "textAutomatic": "Automatic"
   },
   "Common": {
     "Collaboration": {
@@ -736,6 +745,7 @@
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSave": "Save",
+    "textNeedDownloadPdf": "At the moment, PDF viewer can only save new changes in separate file copies. It doesn’t support co-editing and other users won’t see your changes unless you share a new file version.",
     "textSearch": "Find",
     "textSetPassword": "Set Password",
     "textSettings": "Settings",

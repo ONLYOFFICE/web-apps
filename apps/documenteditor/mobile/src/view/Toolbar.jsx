@@ -13,16 +13,22 @@ const ToolbarView = props => {
     const isForm = props.isForm;
     const canFillForms = props.canFillForms;
     const isEditableForms = isForm && canFillForms;
+    const isTypeForm = props.isTypeForm;
+    const isPDFView = !isForm && isTypeForm;
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
     const docTitle = props.docTitle;
     const isOpenModal = props.isOpenModal;
+
+    const handleAddCommentsClick = () => {
+        Common.Notifications.trigger('viewallcomments');
+    };
     
     return (
         <Fragment>
             <NavLeft>
-                {(!isViewer && !isVersionHistoryMode) && 
+                {(!isViewer && !isVersionHistoryMode) && !isPDFView && 
                     <Link text={Device.ios ? t("Toolbar.textOk") : ''} icon={Device.android ? 'icon-check' : null} className='back-reader-mode' onClick={() => props.turnOnViewerMode()}></Link>
                 }
                 {isVersionHistoryMode ? 
@@ -33,11 +39,11 @@ const ToolbarView = props => {
                         {t("Toolbar.textCloseHistory")}
                     </a> 
                 : null}
-                {(props.isShowBack && isViewer && !isVersionHistoryMode) && 
+                {((props.isShowBack && isViewer && !isVersionHistoryMode) || isPDFView) && 
                     <Link className={`btn-doc-back${(props.disabledControls || isOpenModal) && ' disabled'}`} icon='icon-return' onClick={() => Common.Notifications.trigger('goback')}></Link>
                 }
                 {((Device.ios && props.isEdit && !isViewer && !isVersionHistoryMode) || 
-                (Device.ios && isEditableForms)) &&          
+                (Device.ios && isEditableForms) || (Device.ios && isPDFView)) &&          
                     EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                         disabledUndo: !props.isCanUndo || isDisconnected,
                         disabledRedo: !props.isCanRedo || isDisconnected,
@@ -46,14 +52,14 @@ const ToolbarView = props => {
                     })
                 }
             </NavLeft>
-            {((!Device.phone || (isViewer && !isEditableForms)) && !isVersionHistoryMode) && 
+            {(!Device.phone || ((isViewer && !isEditableForms) || (isPDFView && !Device.phone)) && !isVersionHistoryMode) && 
                 <div className='title' onClick={() => props.changeTitleHandler()} style={{width: '71%'}}>
                     {docTitle}
                 </div>
             }
             <NavRight>
                 {((Device.android && props.isEdit && !isViewer && !isVersionHistoryMode) || 
-                (Device.android && isEditableForms)) && 
+                (Device.android && isEditableForms) || (Device.android && isPDFView)) && 
                     EditorUIController.getUndoRedo && EditorUIController.getUndoRedo({
                         disabledUndo: !props.isCanUndo,
                         disabledRedo: !props.isCanRedo,
@@ -61,7 +67,7 @@ const ToolbarView = props => {
                         onRedoClick: props.onRedo
                     })
                 }
-                {!isEditableForms ? [
+                {!isEditableForms && !isPDFView ? [
                     ((isViewer || !Device.phone) && isAvailableExt && !props.disabledControls && !isVersionHistoryMode) && 
                         <Link key='toggle-view-link' className={isOpenModal ? 'disabled' : ''} icon={isMobileView ? 'icon-standard-view' : 'icon-mobile-view'} href={false} onClick={() => {
                             props.changeMobileView();
@@ -87,6 +93,10 @@ const ToolbarView = props => {
                     (isVersionHistoryMode ? 
                         <Link key='history-link' id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> 
                     : null)
+                ] : isPDFView ? [
+                    <Link key='link-add-comments' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-add-comments' icon='icon-comments' onClick={() => handleAddCommentsClick()} href={false}></Link>,
+                    <Link key='link-add-annotation' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-add-annotation' icon='icon-plus' href={false} onClick={() => props.openOptions('annotation')}></Link>,
+                    <Link key='save-form-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-save-form' icon='icon-save-form' href={false} onClick={() => props.showDlgSavePdfViewer()}></Link>
                 ] : [
                     <Link key='prev-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-prev-field' icon='icon-prev-field' href={false} onClick={() => props.movePrevField()}></Link>,
                     <Link key='next-field-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-next-field' icon='icon-next-field' href={false} onClick={() => props.moveNextField()}></Link>,
@@ -99,3 +109,4 @@ const ToolbarView = props => {
 };
 
 export default ToolbarView;
+

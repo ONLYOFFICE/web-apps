@@ -694,6 +694,9 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
+    const isForm = storeAppOptions.isForm;
+    const isTypeForm = storeAppOptions.isTypeForm;
+    const isPDFView = !isForm && isTypeForm;
     const displayMode = storeReview.displayMode;
     const isViewer = storeAppOptions.isViewer;
     const canEditComments = storeAppOptions.canEditComments;
@@ -729,7 +732,9 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                         return (
                             !comment.hide &&
                             <ListItem key={`comment-${indexComment}`} onClick={e => {
-                                    !e.target.closest('.comment-menu') && !e.target.closest('.reply-menu') ? showComment(comment) : null}}>
+                                !e.target.closest('.comment-menu') && 
+                                    !e.target.closest('.reply-menu') ? showComment(comment) : null
+                            }}>
                                 <div slot='header' className='comment-header'>
                                     <div className='left'>
                                         {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
@@ -738,13 +743,14 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                             <div className='comment-date'>{comment.date}</div>
                                         </div>
                                     </div>
-                                    {isEdit && !viewMode &&
+                                    {(isEdit && !viewMode || isPDFView) &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> }
-                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
-                                                <div className='comment-menu'
-                                                    onClick={() => {setComment(comment); openActionComment(true);}}>
-                                                    <Icon icon='icon-menu-comment'/>
+                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) && 
+                                                <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> 
+                                            }
+                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
+                                                <div className='comment-menu' onClick={() => {setComment(comment); openActionComment(true);}}>
+                                                    <Icon icon='icon-menu-comment' />
                                                 </div>
                                             }
                                         </div>
@@ -757,32 +763,32 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                     <ul className='reply-list'>
                                         {comment.replies.map((reply, indexReply) => {
                                             return (
-                                                <li key={`reply-${indexComment}-${indexReply}`}
-                                                    className='reply-item'
-                                                >
+                                                <li key={`reply-${indexComment}-${indexReply}`} className='reply-item'>
                                                     <div className='item-content'>
                                                         <div className='item-inner'>
                                                             <div className='item-title'>
                                                                 <div slot='header' className='reply-header'>
                                                                     <div className='left'>
-                                                                        {isAndroid && <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>}
+                                                                        {isAndroid && 
+                                                                            <div className='initials' style={{backgroundColor: `${reply.userColor ? reply.userColor : '#cfcfcf'}`}}>{reply.userInitials}</div>
+                                                                        }
                                                                         <div>
                                                                             <div className='user-name'>{reply.parsedName}</div>
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting &&
+                                                                    {(isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
                                                                         <div className='right'>
-                                                                            <div className='reply-menu'
-                                                                                 onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}
-                                                                            >
+                                                                            <div className='reply-menu' onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}>
                                                                                 <Icon icon='icon-menu-comment'/>
                                                                             </div>
                                                                         </div>
                                                                     }
                                                                 </div>
                                                                 <div slot='footer'>
-                                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
+                                                                    <div className='reply-text'>
+                                                                        <pre>{pickLink(reply.reply)}</pre>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -810,6 +816,9 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
     const displayMode = storeReview.displayMode;
+    const isForm = storeAppOptions.isForm;
+    const isTypeForm = storeAppOptions.isTypeForm;
+    const isPDFView = !isForm && isTypeForm;
     const isViewer = storeAppOptions.isViewer;
     const canEditComments = storeAppOptions.canEditComments;
     const viewMode = !storeAppOptions.canComments;
@@ -853,8 +862,8 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     return (
         <Fragment>
             <Toolbar position='bottom'>
-                {isEdit && !viewMode &&
-                    <Link className={`btn-add-reply${((wsProps?.Objects || isViewer) && !canEditComments || !isAvailableCommenting) ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment);}}>{_t.textAddReply}</Link>
+                {isEdit && !viewMode || isPDFView &&
+                    <Link className={`btn-add-reply${((wsProps?.Objects || isViewer) && !canEditComments || !isAvailableCommenting || !isPDFView) ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment)}}>{_t.textAddReply}</Link>
                 }
                 {comments.length > 1 &&
                     <div className='comment-navigation row'>
@@ -869,18 +878,25 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                         <ListItem>
                             <div slot='header' className='comment-header'>
                                 <div className='left'>
-                                    {isAndroid && <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>{comment.userInitials}</div>}
+                                    {isAndroid && 
+                                        <div className='initials' style={{backgroundColor: `${comment.userColor ? comment.userColor : '#cfcfcf'}`}}>
+                                            {comment.userInitials}
+                                        </div>
+                                    }
                                     <div>
                                         <div className='user-name'>{comment.parsedName}</div>
                                         <div className='comment-date'>{comment.date}</div>
                                     </div>
                                 </div>
-                                {isEdit && !viewMode &&
+                                {isEdit && !viewMode || isPDFView &&
                                     <div className='right'>
-                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) && <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/></div>}
-                                        {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) &&
-                                            <div className='comment-menu'
-                                                onClick={() => {openActionComment(true);}}>
+                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) && 
+                                            <div className='comment-resolve' onClick={() => {onResolveComment(comment)}}>
+                                                <Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/>
+                                            </div>
+                                        }
+                                        {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
+                                            <div className='comment-menu' onClick={() => {openActionComment(true)}}>
                                                 <Icon icon='icon-menu-comment'/>
                                             </div>
                                         }
@@ -894,9 +910,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                     <ul className='reply-list'>
                                         {comment.replies.map((reply, indexReply) => {
                                             return (
-                                                <li key={`reply-${indexReply}`}
-                                                    className='reply-item'
-                                                >
+                                                <li key={`reply-${indexReply}`} className='reply-item'>
                                                     <div className='item-content'>
                                                         <div className='item-inner'>
                                                             <div className='item-title'>
@@ -908,10 +922,13 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting &&
+                                                                    {(isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
-                                                                                onClick={() => {setReply(reply); openActionReply(true);}}
+                                                                                onClick={() => {
+                                                                                    setReply(reply); 
+                                                                                    openActionReply(true);
+                                                                                }}
                                                                             >
                                                                                 <Icon icon='icon-menu-comment'/>
                                                                             </div>
@@ -919,7 +936,9 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                                     }
                                                                 </div>
                                                                 <div slot='footer'>
-                                                                    <div className='reply-text'><pre>{pickLink(reply.reply)}</pre></div>
+                                                                    <div className='reply-text'>
+                                                                        <pre>{pickLink(reply.reply)}</pre>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -944,7 +963,11 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
 const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps}) => {
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
-    });
+
+        return () => {
+            f7.sheet.close('#view-comment-sheet');
+        }   
+    }, []);
 
     const [stateHeight, setHeight] = useState('45%');
     const [stateOpacity, setOpacity] = useState(1);
