@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -1048,6 +1048,32 @@ Common.Utils.injectComponent = function ($slot, cmp) {
         cmp.rendered ? $slot.append(cmp.$el) : cmp.render($slot);
     }
 };
+
+Common.Utils.startFullscreenForElement = function (element) {
+    if (element) {
+        if(element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if(element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if(element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    }
+}
+
+Common.Utils.cancelFullscreen = function () {
+    if(document.cancelFullScreen) {
+        document.cancelFullScreen();
+    } else if(document.webkitCancelFullScreen ) {
+        document.webkitCancelFullScreen();
+    } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if(document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
 
 Common.Utils.warningDocumentIsLocked = function (opts) {
     if ( opts.disablefunc )

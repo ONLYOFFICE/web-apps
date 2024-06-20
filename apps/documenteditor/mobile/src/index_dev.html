@@ -23,6 +23,9 @@
   <!-- built styles file will be auto injected -->
 </head>
 <body>
+    <script>
+        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
+    </script>
     <% if ( htmlWebpackPlugin.options.skeleton.htmlscript ) { %>
     <script>
         window.asceditor = 'word';
@@ -91,11 +94,7 @@
                 .replace(/>/g, '&gt;');
         }
 
-        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
-        let params = getUrlParams(),
-            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
-
-        window.Common.Locale.currentLang = lang;
+        let params = getUrlParams();
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
     </script>

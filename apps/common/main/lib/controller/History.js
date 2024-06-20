@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -100,8 +100,7 @@ define([
 
         onResetStore: function() {
             var hasChanges = this.panelHistory.storeHistory.hasChanges();
-            this.panelHistory.$el.find('#history-expand-changes')[hasChanges ? 'show' : 'hide']();
-            this.panelHistory.$el.find('#history-list').css('padding-bottom', hasChanges ? '45px' : 0);
+            this.panelHistory.btnExpand.setDisabled(!hasChanges);
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -115,7 +114,7 @@ define([
             if (e) {
                 var btn = $(e.target);
                 if (btn && btn.hasClass('revision-restore')) {
-                    if (record.get('isRevision'))
+                    if (!record.get('hasParent'))
                         Common.Gateway.requestRestore(record.get('revision'), undefined, record.get('fileType'));
                     else {
                         this.isFromSelectRevision = record.get('revision');
@@ -272,14 +271,12 @@ define([
             var store = this.panelHistory.storeHistory,
                 needExpand = store.hasCollapsed();
 
-            store.where({isRevision: true, hasChanges: true, isExpanded: !needExpand}).forEach(function(item){
-                item.set('isExpanded', needExpand);
-            });
-            store.where({isRevision: false}).forEach(function(item){
-                item.set('isVisible', needExpand);
-            });
-            this.panelHistory.viewHistoryList.scroller.update({minScrollbarLength: this.panelHistory.viewHistoryList.minScrollbarLength});
-            this.panelHistory.btnExpand.cmpEl.text(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
+            if(needExpand) {
+                this.panelHistory.viewHistoryList.expandAll();
+            } else {
+                this.panelHistory.viewHistoryList.collapseAll();
+            }
+            this.panelHistory.btnExpand.setCaption(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
         },
 
         avatarsUpdate: function(type, users) {

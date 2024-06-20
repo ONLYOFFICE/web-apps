@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -62,7 +62,7 @@ define([
 
     DE.Views.FormsTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="forms">' +
+        '<section class="panel" data-tab="forms" role="tabpanel" aria-labelledby="forms">' +
             '<div class="group forms-buttons" style="display: none;">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-field"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-combobox"></span>' +
@@ -182,23 +182,28 @@ define([
             });
             if (this.btnViewFormRoles) {
                 this.btnViewFormRoles.on('click', function (b, e) {
-                    var item = b.menu.getChecked();
-                    if (item) {
-                        item = item.caption;
-                    } else if (me._state.roles && me._state.roles.length>0) {
-                        item = me._state.roles[0].asc_getSettings().asc_getName();
+                    var item;
+                    if (b.menu) {
+                        item = b.menu.getChecked();
+                        if (item) {
+                            item = item.caption;
+                        } else if (me._state.roles && me._state.roles.length>0) {
+                            item = me._state.roles[0].asc_getSettings().asc_getName();
+                        }
                     }
                     me.fireEvent('forms:mode', [b.pressed, item]);
                 });
-                this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
-                    if (!!item.checked) {
-                        me.btnViewFormRoles.toggle(true, true);
-                        me.fireEvent('forms:mode', [true, item.caption]);
-                    }
-                }, me));
-                this.btnViewFormRoles.menu.on('show:after',  function (menu) {
-                    me.fillRolesMenu();
-                });
+                if (this.btnViewFormRoles.menu) {
+                    this.btnViewFormRoles.menu.on('item:click', _.bind(function (menu, item) {
+                        if (!!item.checked) {
+                            me.btnViewFormRoles.toggle(true, true);
+                            me.fireEvent('forms:mode', [true, item.caption]);
+                        }
+                    }, me));
+                    this.btnViewFormRoles.menu.on('show:after',  function (menu) {
+                        me.fillRolesMenu();
+                    });
+                }
             }
             this.btnManager && this.btnManager.on('click', function (b, e) {
                 me.fireEvent('forms:manager');
@@ -406,6 +411,7 @@ define([
                         iconCls: 'toolbar__icon btn-ic-sharing',
                         lock: [ _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnManager,
+                        visible: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -480,16 +486,16 @@ define([
 
                     this.btnViewFormRoles = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-sheet-view',
+                        iconCls: 'toolbar__icon btn-big-sheet-view',
                         lock: [ _set.previewReviewMode, _set.formsNoRoles, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: this.capBtnView,
-                        split: true,
-                        menu: new Common.UI.Menu({
+                        split: Common.UI.FeaturesManager.isFeatureEnabled('roles', true),
+                        menu: Common.UI.FeaturesManager.isFeatureEnabled('roles', true) ? new Common.UI.Menu({
                             cls: 'menu-roles',
                             maxHeight: 270,
                             style: 'max-width: 400px;',
                             items: []
-                        }),
+                        }) : false,
                         enableToggle: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
@@ -562,7 +568,7 @@ define([
                 if (this.appConfig.canSubmitForms) {
                     if (this.appConfig.isRestrictedEdit && this.appConfig.canFillForms) {
                         this.btnSubmit = new Common.UI.Button({
-                            cls: 'btn-text-default auto yellow',
+                            cls: 'btn-text-default auto back-color',
                             caption: this.capBtnSubmit,
                             lock: [_set.lostConnect, _set.disableOnStart, _set.requiredNotFilled, _set.submit],
                             dataHint: '0',
@@ -580,9 +586,8 @@ define([
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'small'
                         });
-                        this.paragraphControls.push(this.btnSubmit);
                     }
-
+                    this.paragraphControls.push(this.btnSubmit);
                 } else if (this.appConfig.canDownloadForms) {
                     this.btnSaveForm = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -606,7 +611,7 @@ define([
 
                 return this;
             },
-            
+
             onAppReady: function (config) {
                 var me = this;
                 (new Promise(function (accept, reject) {
@@ -717,6 +722,7 @@ define([
                     this.btnSubmit && this.btnSubmit.render($host.find('#slot-btn-form-submit'));
 
                     $host.find('.forms-buttons').show();
+                    !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && this.btnManager.cmpEl.parents('.group').hide().prev('.separator').hide();
                 }
                 this.btnClear.render($host.find('#slot-btn-form-clear'));
                 this.btnPrevForm.render($host.find('#slot-btn-form-prev'));

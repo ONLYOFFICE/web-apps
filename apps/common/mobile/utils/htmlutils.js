@@ -24,15 +24,25 @@ function isLocalStorageAvailable() {
     }
 }
 
-if(isLocalStorageAvailable()) {
-    if(localStorage.getItem('mobile-mode-direction') === 'rtl') {
+{
+    let lang = (/(?:&|^)lang=([^&]+)&?/i).exec(window.location.search.substring(1));
+    lang = ((lang && lang[1]) || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
+    Common.Locale.currentLang = lang;
+    Common.Locale.isCurrentLangRtl = lang.lastIndexOf('ar', 0) === 0;
+}
+
+{
+    let modeDirection = 'ltr';
+    if ( Common.Locale.isCurrentLangRtl ) {
+            modeDirection = (isLocalStorageAvailable() && localStorage.getItem('mobile-mode-direction')) || 'rtl';
+    }
+
+    if(modeDirection === 'rtl') {
         load_stylesheet('./css/framework7-rtl.css');
         document.body.classList.add('rtl');
     } else {
         load_stylesheet('./css/framework7.css')
     }
-} else {
-    load_stylesheet('./css/framework7.css')
 }
 
 let obj = !isLocalStorageAvailable() ? {id: 'theme-light', type: 'light'} : JSON.parse(localStorage.getItem("mobile-ui-theme"));

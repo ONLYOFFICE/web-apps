@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -291,6 +291,7 @@ define([
                 view.menuSaveAsPicture.on('click',                  _.bind(me.saveAsPicture, me));
                 view.fillMenu.on('item:click',                      _.bind(me.onFillSeriesClick, me));
                 view.fillMenu.on('hide:after',                      _.bind(me.onFillSeriesHideAfter, me));
+                view.menuEditObject.on('click', _.bind(me.onEditObject, me));
 
                 if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                     var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -432,6 +433,22 @@ define([
             this.api.asc_registerCallback('asc_onHideComment',      this.wrapEvents.apiHideComment);
 //            this.api.asc_registerCallback('asc_onShowComment',      this.wrapEvents.apiShowComment);
             /** coauthoring end **/
+        },
+
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
         },
 
         onCopyPaste: function(item) {
@@ -2647,6 +2664,15 @@ define([
                 documentHolder.menuImgReplace.menu.items[2].setVisible(this.permissions.canRequestInsertImage || this.permissions.fileChoiceUrl && this.permissions.fileChoiceUrl.indexOf("{documentType}")>-1);
                 documentHolder.menuImageArrange.setDisabled(isObjLocked);
 
+                var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                documentHolder.menuEditObject.setVisible(pluginGuidAvailable);
+                documentHolder.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                if (pluginGuidAvailable) {
+                    var plugin = SSE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                    documentHolder.menuEditObject.setDisabled(!this.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || isObjLocked);
+                }
+
                 documentHolder.menuImgRotate.setVisible(!ischartmenu && (pluginGuid===null || pluginGuid===undefined) && !isslicermenu);
                 documentHolder.menuImgRotate.setDisabled(isObjLocked || isSmartArt);
                 documentHolder.menuImgRotate.menu.items[3].setDisabled(isSmartArtInternal);
@@ -3502,9 +3528,16 @@ define([
                     functip.parentEl = $('<div id="tip-container-functip" style="position: absolute; z-index: 10000;"></div>');
                     this.documentHolder.cmpEl.append(functip.parentEl);
                 }
-
                 var funcdesc = this.getApplication().getController('FormulaDialog').getDescription(Common.Utils.InternalSettings.get("sse-settings-func-locale")),
-                    hint = ((funcdesc && funcdesc[name]) ? (this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a) : '').replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                    hint = '';
+                if (funcdesc && funcdesc[name]) {
+                    hint = this.api.asc_getFormulaLocaleName(name) + funcdesc[name].a;
+                    hint = hint.replace(/[,;]/g, this.api.asc_getFunctionArgumentSeparator());
+                } else {
+                    var custom = this.api.asc_getCustomFunctionInfo(name),
+                        arr_args = custom ? custom.asc_getArg() || [] : [];
+                    hint = this.api.asc_getFormulaLocaleName(name) + '(' + arr_args.map(function (item) { return item.asc_getIsOptional() ? '[' + item.asc_getName() + ']' : item.asc_getName(); }).join(this.api.asc_getFunctionArgumentSeparator() + ' ') + ')';
+                }
 
                 if (functip.ref && functip.ref.isVisible()) {
                     if (functip.text != hint) {

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -142,8 +142,10 @@ define([
             var el = this.$el || $(this.el);
 
             el.html(this.template(this.model.toJSON()));
-            el.addClass('item');
+            el.addClass('item canfocused');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
+            el.attr('tabindex', 0);
+            el.attr('role', this.options.role ? this.options.role : 'listitem');
             
             if (this.dataHint !== '') {
                 el.attr('data-hint', this.dataHint);
@@ -261,11 +263,12 @@ define([
             scrollYStyle: null,
             showLast: true,
             useBSKeydown: false,
-            cls: ''
+            cls: '',
+            role: 'list'
         },
 
         template: _.template([
-            '<div class="dataview inner <%= cls %>" style="<%= style %>">',
+            '<div class="dataview inner <%= cls %>" style="<%= style %>" role="<%= options.role %>">',
                 '<% _.each(groups, function(group) { %>',
                     '<% if (group.headername !== undefined) { %>',
                         '<div class="header-name"><%= group.headername %></div>',
@@ -543,8 +546,8 @@ define([
                         view_el = $(view.el),
                         tip = record.get('tip');
                     if (tip!==undefined && tip!==null) {
-                        if (this.delayRenderTips)
-                            view_el.one('mouseenter', function(){ // hide tooltip when mouse is over menu
+                        if (this.delayRenderTips) {
+                            view_el.one('mouseenter', function () { // hide tooltip when mouse is over menu
                                 view_el.attr('data-toggle', 'tooltip');
                                 view_el.tooltip({
                                     title       : record.get('tip'), // use actual tip, because it can be changed
@@ -553,13 +556,15 @@ define([
                                 });
                                 view_el.mouseenter();
                             });
-                        else {
+                            view_el.attr('aria-label', record.get('tip'));
+                        } else {
                             view_el.attr('data-toggle', 'tooltip');
                             view_el.tooltip({
                                 title       : record.get('tip'), // use actual tip, because it can be changed
                                 placement   : 'cursor',
                                 zIndex : me.tipZIndex
                             });
+                            view_el.attr('aria-label', record.get('tip'));
                         }
                     }
 
@@ -696,6 +701,7 @@ define([
                     });
                     view_el.mouseenter();
                 });
+                view_el.attr('aria-label', record.get('tip'));
             } else {
                 view_el.attr('data-toggle', 'tooltip');
                 view_el.tooltip({
@@ -703,6 +709,7 @@ define([
                     placement: 'cursor',
                     zIndex: me.tipZIndex
                 });
+                view_el.attr('aria-label', record.get('tip'));
             }
         },
 
@@ -775,7 +782,7 @@ define([
             }
         },
 
-        onDblClickItem: function(view, record, e) {
+        onDblClickItem: function(view, record, e) { // item inner element must have css props: pointer-events: none;
             if ( this.disabled ) return;
 
             window._event = e;  //  for FireFox only
@@ -958,6 +965,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
+                        this.dataViewItems[idx] && this.dataViewItems[idx].$el.focus();
                         this._fromKeyDown = false;
                     }
                 }
@@ -1117,10 +1125,10 @@ define([
         },
 
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>">',
+            '<div class="dataview inner" style="<%= style %>" role="list">',
             '<% _.each(items, function(item) { %>',
                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
+                '<div class="item" role="listitem" tabindex="0" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
             '<% }) %>',
             '</div>'
         ].join('')),
@@ -1285,7 +1293,7 @@ define([
             var template = _.template([
                 '<% _.each(items, function(item) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
+                    '<div class="item" role="listitem" tabindex="0" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
                 '<% }) %>'
             ].join(''));
             this.cmpEl && this.cmpEl.find('.inner').html(template({
@@ -1347,12 +1355,14 @@ define([
                     var $item = $(item),
                         rec = me.store.at(index);
                     me.dataViewItems.push({el: $item});
-                    if (rec.get('tip')) {
+                    var tip = rec.get('tip');
+                    if (tip) {
                         $item.tooltip({
-                            title       : rec.get('tip'),
+                            title       : tip,
                             placement   : 'cursor',
                             zIndex : me.tipZIndex
                         });
+                        $item.attr('aria-label', tip);
                     }
                 });
             }
@@ -1474,6 +1484,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
+                        this.dataViewItems[idx] && $(this.dataViewItems[idx].el).focus();
                         this._fromKeyDown = false;
                     }
                 }
@@ -1599,7 +1610,7 @@ define([
 
     Common.UI.DataViewShape = Common.UI.DataViewSimple.extend(_.extend({
         template: _.template([
-            '<div class="dataview inner" style="<%= style %>">',
+            '<div class="dataview inner" style="<%= style %>" role="list">',
                 '<% _.each(options.groupsWithRecent, function(group, index) { %>',
                     '<div class="grouped-data <% if (index === 0) { %> recent-group <% } %> " id="<%= group.id %>" >',
                         '<% if (!_.isEmpty(group.groupName)) { %>',
@@ -1610,7 +1621,7 @@ define([
                         '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
                             '<% _.each(group.groupStore.toJSON(), function(item, index) { %>',
                                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                                    '<div class="item" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                    '<div class="item" role="listitem" tabindex="0" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                                 '<% }); %>',
                         '</div>',
                     '</div>',
@@ -1766,6 +1777,7 @@ define([
                                 });
                                 $item.mouseenter();
                             });
+                            $item.attr('aria-label', tip);
                         }
                     });
                 });
@@ -1800,6 +1812,7 @@ define([
                             });
                             $item.mouseenter();
                         });
+                        $item.attr('aria-label', tip);
                     }
                 });
                 me.dataViewItems = recentViewItems.concat(me.dataViewItems);
@@ -1909,7 +1922,7 @@ define([
                 var template = _.template([
                     '<% _.each(items, function(item, index) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<div class="item" role="listitem" tabindex="0" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                     '<% }) %>'
                 ].join(''));
                 me.cmpEl && me.cmpEl.find('.recent-items').html(template({

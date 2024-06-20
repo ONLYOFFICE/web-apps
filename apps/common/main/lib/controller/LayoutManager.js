@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -345,9 +345,16 @@ Common.UI.FeaturesManager = new(function() {
         }
     };
 
+    var _isFeatureEnabled = function(name, force) {
+        if (!(_licensed || force) || !_config) return true;
+
+        return _config[name]!==false;
+    };
+
     return {
         init: _init,
         canChange: _canChange,
-        getInitValue: _getInitValue
+        getInitValue: _getInitValue,
+        isFeatureEnabled: _isFeatureEnabled
     }
 })();

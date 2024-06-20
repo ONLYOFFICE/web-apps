@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -57,6 +57,7 @@ define([
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
     'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers'
@@ -111,6 +112,8 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
                         'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                    schemeNames = ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+                        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -154,11 +157,16 @@ define([
                         'None': this.txtNone,
                         'Slicer': this.txtSlicer,
                         'Info': this.txtInfo,
-                        'Picture': this.txtPicture
+                        'Picture': this.txtPicture,
+                        'PivotTable': this.txtPivotTable,
+                        'View': this.txtView
                     };
 
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                schemeNames.forEach(function(item){
+                    translate[item] = me['txtScheme_' + item.replace(/[ -]/g, '_')] || item;
                 });
                 translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
                 translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
@@ -191,6 +199,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
 
@@ -463,7 +472,7 @@ define([
                 this.appOptions.canMakeActionLink = this.editorConfig.canMakeActionLink;
                 this.appOptions.canFeaturePivot = true;
                 this.appOptions.canFeatureViews = true;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.canRequestReferenceData = this.editorConfig.canRequestReferenceData;
                 this.appOptions.canRequestOpen = this.editorConfig.canRequestOpen;
                 this.appOptions.canRequestReferenceSource = this.editorConfig.canRequestReferenceSource;
@@ -518,8 +527,7 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-r1c1", value);
                 this.api.asc_setR1C1Mode(value);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
@@ -580,6 +588,7 @@ define([
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_ReferenceData(data.doc.referenceData);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -1519,6 +1528,31 @@ define([
                 Common.Utils.InternalSettings.set("sse-settings-autosave", autosave);
             },
 
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+            },
+
             applyModeCommonElements: function() {
                 window.editor_elements_prepared = true;
 
@@ -2141,6 +2175,11 @@ define([
 
                     case Asc.c_oAscError.ID.LockedCellGoalSeek:
                         config.msg = this.errorLockedCellGoalSeek;
+                        break;
+
+                    case Asc.c_oAscError.ID.CircularReference:
+                        config.msg = this.errorCircularReference;
+                        config.maxwidth = 600;
                         break;
 
                     default:
@@ -3317,7 +3356,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -3352,7 +3391,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'xslx'
+                                    fileType: 'xslx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -3373,8 +3413,8 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -3407,7 +3447,10 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'xslx'
+                                                fileType: 'xslx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -3963,7 +4006,34 @@ define([
             errorDependentsNoFormulas: 'The Trace Dependents command found no formulas that refer to the active cell.',
             errorPrecedentsNoValidRef: 'The Trace Precedents command requires that the active cell contain a formula which includes a valid references.',
             txtPicture: 'Picture',
-            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.'
+            errorLockedCellGoalSeek: 'One of the cells involved in the goal seek process has been modified by another user.',
+            errorCircularReference: 'There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.',
+            txtScheme_Aspect: 'Aspect',
+            txtScheme_Blue_Green: 'Blue Green',
+            txtScheme_Blue_II: 'Blue II',
+            txtScheme_Blue_Warm: 'Blue Warm',
+            txtScheme_Blue: 'Blue',
+            txtScheme_Grayscale: 'Grayscale',
+            txtScheme_Green_Yellow: 'Green Yellow',
+            txtScheme_Green: 'Green',
+            txtScheme_Marquee: 'Marquee',
+            txtScheme_Median: 'Median',
+            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
+            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
+            txtScheme_Office: 'Office',
+            txtScheme_Orange_Red: 'Orange Red',
+            txtScheme_Orange: 'Orange',
+            txtScheme_Paper: 'Paper',
+            txtScheme_Red_Orange: 'Red Orange',
+            txtScheme_Red_Violet: 'Red Violet',
+            txtScheme_Red: 'Red',
+            txtScheme_Slipstream: 'Slipstream',
+            txtScheme_Violet_II: 'Violet II',
+            txtScheme_Violet: 'Violet',
+            txtScheme_Yellow_Orange: 'Yellow Orange',
+            txtScheme_Yellow: 'Yellow',
+            txtPivotTable: 'PivotTable',
+            txtView: 'View'
         }
     })(), SSE.Controllers.Main || {}))
 });

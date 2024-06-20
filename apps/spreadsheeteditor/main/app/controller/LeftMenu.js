@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -168,7 +168,7 @@ define([
                             resolved = Common.Utils.InternalSettings.get("sse-settings-resolvedcomment");
                         for (var i = 0; i < collection.length; ++i) {
                             var comment = collection.at(i);
-                            if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && (resolved || !comment.get('resolved'))) {
+                            if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '' && (resolved || !comment.get('resolved'))) {
                                 this.leftMenu.markCoauthOptions('comments', true);
                                 break;
                             }
@@ -251,11 +251,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -522,6 +517,17 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("sse-settings-zoom");
+            if (newZoomValue > 0) {
+                var oldZoomValue = Common.Utils.InternalSettings.get("sse-settings-zoom");
+                if (oldZoomValue === null || (oldZoomValue == -3) || (oldZoomValue / 100 == this.api.asc_getZoom())) {
+                    this.api.asc_setZoom(newZoomValue / 100);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("sse-settings-zoom", newZoomValue);
 
             menu.hide();
 

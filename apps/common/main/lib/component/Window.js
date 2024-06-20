@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -158,10 +158,11 @@ define([
                 minwidth: 0,
                 minheight: 0,
                 enableKeyEvents: true,
-                automove: true
+                automove: true,
+                role: 'dialog'
         };
 
-        var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
+        var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;" role="<%= role %>" aria-modal="<%= modal %>">' +
                             '<% if (header==true) { %>' +
                                 '<div class="header">' +
                                     '<div class="tools">' +
@@ -492,7 +493,8 @@ define([
                 onprimary: onKeyDown,
                 getFocusedComponents: getFocusedComponents,
                 getDefaultFocusableComponent: getDefaultFocusableComponent,
-                tpl: _.template(template)(options)
+                tpl: _.template(template)(options),
+                role: 'alertdialog'
             });
 
             var win = new Common.UI.Window(options),

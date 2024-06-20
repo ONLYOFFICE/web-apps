@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -72,7 +72,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    'settings:apply': me.applySettings.bind(me)
+                    //'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -80,10 +80,10 @@ define([
                         toolbar.setExtra('right', me.header.getPanel('right', config));
                         if (!config.twoLevelHeader || config.compactHeader)
                             toolbar.setExtra('left', me.header.getPanel('left', config));
-                        var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
+                        /*var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
-                            me.header.btnPrintQuick[value ? 'show' : 'hide']();
+                            me.header.btnPrintQuick[value ? 'show' : 'hide']();*/
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
@@ -278,26 +278,12 @@ define([
                 };
                 if (!me.viewport.mode.isDesktopApp && !Common.Utils.isIE11 && !presenter && !!document.fullscreenEnabled) {
                     Common.NotificationCenter.on('window:resize', _onWindowResize);
-                    !fromApiEvent && me.fullScreen(document.documentElement);
+                    !fromApiEvent && Common.Utils.startFullscreenForElement($("#pe-preview").get(0));
                     setTimeout(function(){
                         _onWindowResize();
                     }, 100);
                 } else
                     _onWindowResize();
-            }
-        },
-
-        fullScreen: function(element) {
-            if (element) {
-                if(element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if(element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if(element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if(element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
             }
         },
 
@@ -310,12 +296,12 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
-        applySettings: function () {
+        /*applySettings: function () {
             var value = Common.localStorage.getBool("pe-settings-quick-print-button", true);
             Common.Utils.InternalSettings.set("pe-settings-quick-print-button", value);
             if (this.header && this.header.btnPrintQuick)
                 this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },
+        },*/
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {

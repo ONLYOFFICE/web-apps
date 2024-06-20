@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -142,7 +142,8 @@ define([
 
                     me.urlType = me.api.asc_getUrlType(trimmed);
                     return (me.urlType!==AscCommon.c_oAscUrlType.Invalid) ? true : me.txtNotUrl;
-                }
+                },
+                ariaLabel   : me.textUrl
             };
             me.inputUrl = me.appOptions.isDesktopApp ? new Common.UI.InputFieldBtn(config) : new Common.UI.InputField(config);
             me.inputUrl._input.on('input', function (e) {
@@ -161,7 +162,8 @@ define([
                 el          : $('#id-dlg-hyperlink-display'),
                 allowBlank  : true,
                 validateOnBlur: false,
-                style       : 'width: 100%;'
+                style       : 'width: 100%;',
+                ariaLabel   : me.textDisplay
             }).on('changed:after', function() {
                 me.isTextChanged = true;
             });
@@ -172,7 +174,8 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : Asc.c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength,
+                ariaLabel   : me.textTooltip
             });
 
             me.internalList = new Common.UI.TreeView({

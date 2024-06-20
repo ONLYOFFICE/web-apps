@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -54,6 +54,7 @@ define([
     'presentationeditor/main/app/collection/SlideLayouts',
     'presentationeditor/main/app/collection/EquationGroups',
     'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers'
@@ -104,6 +105,8 @@ define([
 
                 var me = this,
                     themeNames = ['blank', 'pixel', 'classic', 'official', 'green', 'lines', 'office', 'safari', 'dotted', 'corner', 'turtle', 'basic', 'office theme', 'green leaf'],
+                    schemeNames = ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+                                   'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
@@ -129,11 +132,27 @@ define([
                         'Click to add first slide': this.txtAddFirstSlide,
                         'None': this.txtNone,
                         'Text': this.textText,
-                        'Object': this.textObject
+                        'Object': this.textObject,
+                        'First Slide': this.txtFirstSlide,
+                        'Previous Slide': this.txtPrevSlide,
+                        'Next Slide': this.txtNextSlide,
+                        'Last Slide': this.txtLastSlide,
+                        'Animation Pane': this.txtAnimationPane,
+                        'Stop': this.txtStop,
+                        'Play All': this.txtPlayAll,
+                        'Play From': this.txtPlayFrom,
+                        'Play Selected': this.txtPlaySelected,
+                        'Zoom': this.txtZoom,
+                        'Start: ${0}s': this.txtStart,
+                        'End: ${0}s': this.txtEnd,
+                        'Loop: ${0}s': this.txtLoop
                     };
 
                 themeNames.forEach(function(item){
                     translate[item] = me['txtTheme_' + item.replace(/ /g, '_')] || item;
+                });
+                schemeNames.forEach(function(item){
+                    translate[item] = me['txtScheme_' + item.replace(/[ -]/g, '_')] || item;
                 });
                 me.translationTable = translate;
             },
@@ -168,6 +187,7 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
+                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
                 
@@ -399,6 +419,7 @@ define([
                 this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
+                this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
@@ -411,7 +432,7 @@ define([
                 this.appOptions.compatibleFeatures = (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compatibleFeatures;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
 
@@ -439,8 +460,7 @@ define([
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
@@ -497,6 +517,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
 
                     var coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                      this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer
@@ -878,7 +899,23 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : -1);
                 value = Common.localStorage.getItem("pe-last-zoom");
                 var lastZoom = (value!==null) ? parseInt(value):0;
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
+
+                if (zf == -1) {
+                    this.api.zoomFitToPage();
+                } else if (zf == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (zf == -3) {
+                    if (lastZoom > 0) {
+                        this.api.zoom(lastZoom);
+                    } else if (lastZoom == -1) {
+                        this.api.zoomFitToPage();
+                    } else if (lastZoom == -2) {
+                        this.api.zoomFitToWidth();
+                    }
+                } else {
+                    this.api.zoom(zf > 0 ? zf : 100);
+                }
+
 
                 // spellcheck
                 value = Common.UI.FeaturesManager.getInitValue('spellcheck', true);
@@ -1398,6 +1435,31 @@ define([
 
                 Common.Utils.InternalSettings.set("pe-settings-coauthmode", fastCoauth);
                 Common.Utils.InternalSettings.set("pe-settings-autosave", autosave);
+            },
+
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
             },
 
             applyModeCommonElements: function() {
@@ -2671,7 +2733,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -2706,7 +2768,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'pptx'
+                                    fileType: 'pptx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -2727,8 +2790,8 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -2758,10 +2821,12 @@ define([
                                                 docIdPrev: docIdPrev,
                                                 selected: false,
                                                 canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
-                                                isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'pptx'
+                                                fileType: 'pptx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -3253,7 +3318,44 @@ define([
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
             warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            textObject: 'Object'
+            textObject: 'Object',
+            txtScheme_Aspect: 'Aspect',
+            txtScheme_Blue_Green: 'Blue Green',
+            txtScheme_Blue_II: 'Blue II',
+            txtScheme_Blue_Warm: 'Blue Warm',
+            txtScheme_Blue: 'Blue',
+            txtScheme_Grayscale: 'Grayscale',
+            txtScheme_Green_Yellow: 'Green Yellow',
+            txtScheme_Green: 'Green',
+            txtScheme_Marquee: 'Marquee',
+            txtScheme_Median: 'Median',
+            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
+            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
+            txtScheme_Office: 'Office',
+            txtScheme_Orange_Red: 'Orange Red',
+            txtScheme_Orange: 'Orange',
+            txtScheme_Paper: 'Paper',
+            txtScheme_Red_Orange: 'Red Orange',
+            txtScheme_Red_Violet: 'Red Violet',
+            txtScheme_Red: 'Red',
+            txtScheme_Slipstream: 'Slipstream',
+            txtScheme_Violet_II: 'Violet II',
+            txtScheme_Violet: 'Violet',
+            txtScheme_Yellow_Orange: 'Yellow Orange',
+            txtScheme_Yellow: 'Yellow',
+            txtNextSlide: 'Next slide',
+            txtPrevSlide: 'Previous slide',
+            txtFirstSlide: 'First slide',
+            txtLastSlide: 'Last slide',
+            txtAnimationPane: 'Animation Pane',
+            txtStop: 'Stop',
+            txtPlayAll: 'Play All',
+            txtPlayFrom: 'Play From',
+            txtPlaySelected: 'Play Selected',
+            txtZoom: 'Zoom',
+            txtStart: 'Start: ${0}s',
+            txtEnd: 'End: ${0}s',
+            txtLoop: 'Loop: ${0}s'
         }
     })(), PE.Controllers.Main || {}))
 });

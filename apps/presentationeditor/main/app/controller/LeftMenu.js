@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -109,7 +109,8 @@ define([
                     'search:show': _.bind(this.onShowHideSearch, this)
                 },
                 'ViewTab': {
-                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this),
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -157,7 +158,7 @@ define([
                     var collection = this.getApplication().getCollection('Common.Collections.Comments');
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
-                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id) {
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '') {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -213,11 +214,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -253,6 +249,7 @@ define([
                 break;
                 case 'history':
                     if (!this.leftMenu.panelHistory.isVisible()) {
+                        Common.NotificationCenter.trigger('animpane:close');
                         if (this.api.isDocumentModified()) {
                             var me = this;
                             this.api.asc_stopSaving();
@@ -397,6 +394,23 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("pe-settings-zoom");
+            var oldZoomValue = Common.Utils.InternalSettings.get("pe-settings-zoom");
+            var lastZoomValue = Common.Utils.InternalSettings.get("pe-last-zoom");
+
+            if (oldZoomValue === null || oldZoomValue == lastZoomValue || oldZoomValue == -3) {
+                if (newZoomValue == -1) {
+                    this.api.zoomFitToPage();
+                } else if (newZoomValue == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (newZoomValue > 0) {
+                    this.api.zoom(newZoomValue);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("pe-settings-zoom", newZoomValue);
 
             menu.hide();
         },
@@ -828,6 +842,15 @@ define([
                 this.leftMenu.showMenu('file:printpreview');
             else if (this.mode.canPrint)
                 this.clickMenuFileItem(null, 'print');
+        },
+
+        onChangeViewMode: function (mode) {
+            if (mode === 'master') {
+                if (this.leftMenu.btnComments && this.leftMenu.btnComments.pressed) {
+                    this.leftMenu.close();
+                }
+            }
+            this.leftMenu.btnComments.setDisabled(mode === 'master');
         },
 
         textNoTextFound         : 'Text not found',

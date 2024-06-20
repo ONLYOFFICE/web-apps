@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -89,6 +89,7 @@ DE.ApplicationController = new(function(){
             ttOffset[1] = 40;
         }
 
+        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -141,6 +142,7 @@ DE.ApplicationController = new(function(){
             docInfo.put_EncryptedInfo(config.encryptionKeys);
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
+            docInfo.put_Wopi(config.wopi);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -847,8 +849,9 @@ DE.ApplicationController = new(function(){
                 return;
 
             default:
-                message = me.errorDefaultMessage.replace('%1', id);
-                break;
+                // message = me.errorDefaultMessage.replace('%1', id);
+                // break;
+                return;
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {

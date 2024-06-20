@@ -1,6 +1,6 @@
 <div id="id-chart-settings-dlg-style" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="">
+        <table cols="1" style="" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textType %></label>
@@ -12,7 +12,7 @@
 </div>
 <div id="id-chart-settings-dlg-layout" class="settings-panel">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small" width="50%">
                     <label class="input-label"><%= scope.textChartTitle %></label>
@@ -62,7 +62,7 @@
 </div>
 <div id="id-spark-settings-dlg-style" class="settings-panel">
     <div class="inner-content padding-large">
-        <table cols="2" style="">
+        <table cols="2" style="" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textType %></label>
@@ -76,7 +76,7 @@
         </table>
     </div>
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan=2 class="padding-small">
                     <label class="header"><%= scope.textEmptyCells %></label>
@@ -104,7 +104,7 @@
             <div id="spark-dlg-check-show" class="padding-small" style="display: block;"></div>
             <div id="spark-dlg-check-reverse" class="padding-small" style="display: block;"></div>
         </div>
-        <table cols="3" style="width: 100%">
+        <table cols="3" style="width: 100%" role="presentation">
             <tr>
                 <td colspan="3">
                     <label class="header  padding-small"><%= scope.textVertAxis %></label>
@@ -137,9 +137,9 @@
 </div>
 <div id="id-chart-settings-dlg-snap" class="settings-panel">
     <div class="inner-content">
-        <table cols="1">
+        <table cols="1" role="presentation">
             <tr>
-                <td class="padding-small">
+                <td class="padding-small" role="radiogroup" aria-owns="chart-dlg-radio-onecell chart-dlg-radio-absolute">
                     <div id="chart-dlg-radio-twocell"></div>
                 </td>
             </tr>
@@ -158,7 +158,7 @@
 </div>
 <div id="id-chart-settings-dlg-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

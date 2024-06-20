@@ -1,6 +1,6 @@
 <div id="id-autocorrect-dialog-settings-math" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
         <tr>
             <td style="padding-bottom: 8px;">
                 <div id="auto-correct-chb-replace-type"></div>
@@ -35,7 +35,7 @@
 </div>
 <div id="id-autocorrect-dialog-settings-recognized" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td style="padding-bottom: 8px;">
                     <label><%= scope.textRecognizedDesc %></label>
@@ -99,7 +99,7 @@
 </div>
 <div id="id-autocorrect-dialog-settings-exceptions" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td style="padding-bottom: 12px;">
                     <div id="auto-correct-exceptions-chk-sentence" style="padding-bottom: 8px;"></div>

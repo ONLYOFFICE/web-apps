@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -354,6 +354,7 @@ define([
                 }, this));
             }
 
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuEquationInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuTableInsertCaption.on('click', _.bind(me.onInsertCaption, me));
@@ -908,19 +909,23 @@ define([
                 var type = this.api.asc_getUrlType(url);
                 if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
-                else
-                    Common.UI.warning({
-                        msg: this.documentHolder.txtWarnUrl,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: function(btn) {
-                            try {
-                                (btn == 'yes') && window.open(url);
-                            } catch (err) {
-                                err && console.log(err.stack);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            msg: me.documentHolder.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }, 1);
+                }
             }
         },
 
@@ -1389,6 +1394,22 @@ define([
                     me.hkSpecPaste[menu.items[i].value] && Common.util.Shortcuts.suspendEvents(me.hkSpecPaste[menu.items[i].value], undefined, true);
                 }
             });
+        },
+
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = DE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
         },
 
         onDoubleClickOnChart: function(chart) {

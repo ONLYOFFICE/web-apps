@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -177,6 +177,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                         Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -506,6 +510,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                     Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;

@@ -23,7 +23,7 @@
     </div>
     <div id="printadv-dlg-content-to-hide">
         <div class="padding-large inner-content" >
-            <table cols="2" class="no-padding">
+            <table cols="2" class="no-padding" role="presentation">
                 <tr>
                     <td colspan="2" ><label><%= scope.textRepeatTop %></label></td>
                 </tr>

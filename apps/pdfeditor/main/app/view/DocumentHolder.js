@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -758,6 +758,7 @@ define([
             });
 
             me.menuImgEditPoints = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-edit-points',
                 caption: me.textEditPoints
             });
 
@@ -1163,9 +1164,13 @@ define([
                 iconCls: 'menu__icon btn-cc-remove',
                 caption     : me.txtDeletePage
             });
-            me.mnuNewPage = new Common.UI.MenuItem({
-                iconCls: 'menu__icon btn-add-text',
-                caption     : me.txtNewPage
+            me.mnuNewPageBefore = new Common.UI.MenuItem({
+                caption     : me.txtNewPageBefore,
+                value: true
+            });
+            me.mnuNewPageAfter = new Common.UI.MenuItem({
+                caption     : me.txtNewPageAfter,
+                value: false
             });
             me.mnuRotatePageRight = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-rotate-90',
@@ -1189,6 +1194,7 @@ define([
                 restoreHeightAndTop: true,
                 scrollToCheckedItem: false,
                 initMenu: function(value) {
+                    me.mnuRotatePageRight.options.value = me.mnuRotatePageLeft.options.value = value.pageNum;
                     me.mnuRotatePageRight.setVisible(value.isPageSelect===true);
                     me.mnuRotatePageLeft.setVisible(value.isPageSelect===true);
                     me.mnuDeletePage.setVisible(value.isPageSelect===true);
@@ -1198,7 +1204,8 @@ define([
                     me.mnuDeletePage.setDisabled(me._pagesCount<2);
                 },
                 items: [
-                    me.mnuNewPage,
+                    me.mnuNewPageBefore,
+                    me.mnuNewPageAfter,
                     menuPageNewSeparator,
                     me.mnuRotatePageRight,
                     me.mnuRotatePageLeft,
@@ -1934,7 +1941,7 @@ define([
                                 '<div id="text-bar-strikeout" style="display:inline-block;" class="margin-right-4"></div>' +
                                 '<div id="text-bar-super" style="display:inline-block;" class="margin-right-4"></div>' +
                                 '<div id="text-bar-sub" style="display:inline-block;" class="margin-right-4"></div>' +
-                                '<div id="text-bar-textcolor" style="display:inline-block;" class="margin-right-4"></div>' +
+                                '<div id="text-bar-textcolor" style="display:inline-block;"></div>' +
                             '</div>'),
                 toolbarController = PDFE.getController('Toolbar'),
                 toolbar = toolbarController.getView('Toolbar');
@@ -1945,6 +1952,7 @@ define([
                 style       : 'width: 100px;',
                 menuCls     : 'scrollable-menu menu-absolute',
                 menuStyle   : 'min-width: 100%;max-height: 270px;',
+                restoreMenuHeightAndTop: 220,
                 store       : new Common.Collections.Fonts(),
                 hint        : toolbar.tipFontName
             });
@@ -1957,6 +1965,7 @@ define([
                 style: 'width: 45px;',
                 menuCls     : 'scrollable-menu menu-absolute',
                 menuStyle: 'min-width: 45px;max-height: 270px;',
+                restoreMenuHeightAndTop: 220,
                 hint: toolbar.tipFontSize,
                 data: [
                     {value: 8, displayValue: "8"},
@@ -2058,6 +2067,130 @@ define([
             this.btnFontColor.setMenu();
             this.mnuFontColorPicker = this.btnFontColor.getPicker();
             this.btnFontColor.currentColor = this.btnFontColor.color;
+
+            return container;
+        },
+
+        createAnnotBar: function(annotBarBtns) {
+            var container = $('<div id="annot-bar-container" style="position: absolute;">' +
+                    '<div id="annot-bar-copy" style="display:inline-block;" class=""></div>' +
+                    '<div class="separator margin-left-6"></div>' +
+                    '<div id="annot-bar-add-comment" style="display:inline-block;" class="margin-left-13"></div>' +
+                    '<div id="annot-bar-highlight" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-bar-underline" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div id="annot-bar-strikeout" style="display:inline-block;" class="margin-left-4"></div>' +
+                    '<div class="separator margin-left-6"></div>' +
+                    '<div id="annot-bar-edit-text" class="margin-left-13" style="display:inline-block;"></div>' +
+                    '</div>'),
+                toolbarController = PDFE.getController('Toolbar'),
+                toolbar = toolbarController.getView('Toolbar');
+
+            this.btnCopy = new Common.UI.Button({
+                parentEl: $('#annot-bar-copy', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-copy',
+                hint: toolbar.tipCopy
+            });
+            annotBarBtns.push(this.btnCopy);
+
+            this.btnAddComment = new Common.UI.Button({
+                parentEl: $('#annot-bar-add-comment', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-add-comment',
+                hint: toolbar.tipAddComment
+            });
+            annotBarBtns.push(this.btnAddComment);
+
+            var config = Common.define.simpleColorsConfig;
+            this.btnUnderline = new Common.UI.ButtonColored({
+                parentEl: $('#annot-bar-underline', container),
+                cls         : 'btn-toolbar',
+                iconCls     : 'toolbar__icon btn-underline',
+                enableToggle: true,
+                allowDepress: true,
+                split: true,
+                menu: true,
+                hideColorLine: true,
+                colors: config.colors,
+                color: '3D8A44',
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hint: toolbar.textUnderline,
+                type: AscPDF.ANNOTATIONS_TYPES.Underline
+            });
+            annotBarBtns.push(this.btnUnderline);
+            this.btnUnderline.setMenu();
+            this.mnuUnderlineColorPicker = this.btnUnderline.getPicker();
+            this.btnUnderline.currentColor = this.btnUnderline.color;
+
+            this.btnStrikeout = new Common.UI.ButtonColored({
+                parentEl: $('#annot-bar-strikeout', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-strikeout',
+                enableToggle: true,
+                allowDepress: true,
+                split: true,
+                menu: true,
+                hideColorLine: true,
+                colors: config.colors,
+                color: 'D43230',
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hint: toolbar.textStrikeout,
+                type: AscPDF.ANNOTATIONS_TYPES.Strikeout
+            });
+            annotBarBtns.push(this.btnStrikeout);
+            this.btnStrikeout.setMenu();
+            this.mnuStrikeoutColorPicker = this.btnStrikeout.getPicker();
+            this.btnStrikeout.currentColor = this.btnStrikeout.color;
+
+            this.btnHighlight = new Common.UI.ButtonColored({
+                parentEl: $('#annot-bar-highlight', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-highlight',
+                enableToggle: true,
+                allowDepress: true,
+                split: true,
+                menu: true,
+                colors: [
+                    'FFFC54', '72F54A', '74F9FD', 'EB51F7', 'A900F9', 'EF8B3A', '7272FF', 'FF63A4', '1DFF92', '03DA18',
+                    '249B01', 'C504D2', '0633D1', 'FFF7A0', 'FF0303', 'FFFFFF', 'D3D3D4', '969696', '606060', '000000'
+                ],
+                color: 'FFFC54',
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
+                storageSuffix: '-draw',
+                hint: toolbar.textHighlight,
+                type: AscPDF.ANNOTATIONS_TYPES.Highlight
+            });
+            annotBarBtns.push(this.btnHighlight);
+            this.btnHighlight.setMenu();
+            this.mnuHighlightColorPicker = this.btnHighlight.getPicker();
+            this.btnHighlight.currentColor = this.btnHighlight.color;
+
+            this.btnEditText = new Common.UI.Button({
+                parentEl: $('#annot-bar-edit-text', container),
+                cls: 'btn-toolbar',
+                iconCls: 'toolbar__icon btn-magic-wand',
+                caption: this.textRecognize,
+                hint: this.tipRecognize
+            });
+            annotBarBtns.push(this.btnEditText);
+            this.fireEvent('annotbar:create', [this.btnStrikeout, this.mnuStrikeoutColorPicker, this.btnUnderline, this.mnuUnderlineColorPicker, this.btnHighlight, this.mnuHighlightColorPicker]);
 
             return container;
         },
@@ -2367,10 +2500,13 @@ define([
         textEditPoints: 'Edit Points',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
         txtDeletePage: 'Delete page',
-        txtNewPage: 'Insert blank page',
         txtRotateRight: 'Rotate page right',
         txtRotateLeft: 'Rotate page left',
-        removeCommentText: 'Remove'
+        removeCommentText: 'Remove',
+        textRecognize: 'Recognize text',
+        tipRecognize: 'Recognize text',
+        txtNewPageBefore: 'Insert blank page before',
+        txtNewPageAfter: 'Insert blank page after',
 
     }, PDFE.Views.DocumentHolder || {}));
 });

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -40,11 +40,6 @@
 
 if (Common === undefined)
     var Common = {};
-
-var c_oHyperlinkType = {
-    InternalLink:0,
-    WebLink: 1
-};
 
 define([
     'common/main/lib/util/utils',
@@ -99,6 +94,7 @@ define([
             this.options.tpl = _.template(this.template)(this.options);
             this.slides = this.options.slides;
             this.api = this.options.api;
+            this.type = options.type;
             this.urlType = AscCommon.c_oAscUrlType.Invalid;
             this.appOptions = this.options.appOptions;
 
@@ -203,7 +199,7 @@ define([
             if (props) {
                 var me = this;
 
-                var type = me.parseUrl(props.get_Value());
+                var type = (me.type!==undefined) ? me.type : me.parseUrl(props.get_Value());
                 (type == c_oHyperlinkType.WebLink) ? me.btnExternal.toggle(true) : me.btnInternal.toggle(true);
                 me.ShowHideElem(type, props.get_Value());
                 

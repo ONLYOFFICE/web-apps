@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -1156,7 +1156,16 @@ define([
             var menuSaveAsPictureSeparator = new Common.UI.MenuItem({ caption: '--'});
 
             me.menuImgEditPoints = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-edit-points',
                 caption: me.textEditPoints
+            });
+
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.txtEditObject
+            });
+
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
             });
 
             this.imgMenu = new Common.UI.Menu({
@@ -1167,6 +1176,8 @@ define([
                     me.pmiImgCut,
                     me.pmiImgCopy,
                     me.pmiImgPaste,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     {caption: '--'},
                     me.menuSignatureEditSign,
                     me.menuSignatureEditSetup,
@@ -1704,6 +1715,7 @@ define([
         txtDescending:          'Descending',
         txtFormula:             'Insert Function',
         txtInsHyperlink:        'Hyperlink',
+        txtEditObject: 'Edit object',
         txtCut:                 'Cut',
         txtCopy:                'Copy',
         txtPaste:               'Paste',

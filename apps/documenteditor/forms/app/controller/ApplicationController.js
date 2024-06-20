@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -432,6 +432,7 @@ define([
             if (this._state.isDocModified !== isModified) {
                 this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
             }
+            this.appOptions.canFillForms && this.api.isDocumentModified() && this.requiredTooltip && this.requiredTooltip.hide();
 
             this.updateWindowTitle();
         },
@@ -563,6 +564,7 @@ define([
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
+                docInfo.put_Wopi(this.editorConfig.wopi);
 
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -666,6 +668,31 @@ define([
                     me.api.asc_ClearAllSpecialForms();
                 });
                 me.view.btnSubmit.on('click', function(){
+                    if (!me.api.asc_IsAllRequiredFormsFilled()) {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        if (!me.requiredTooltip) {
+                            me.requiredTooltip = new Common.UI.SynchronizeTip({
+                                extCls: 'colored',
+                                placement: 'bottom-left',
+                                target: me.view.btnSubmit.$el,
+                                text: me.textRequired,
+                                showLink: false,
+                                closable: true
+                            });
+                            me.requiredTooltip.on('closeclick', function () {
+                                me.requiredTooltip.hide();
+                            });
+                        }
+                        !me.requiredTooltip.isVisible() && me.requiredTooltip.show();
+
+                        // Common.UI.warning({
+                        //     msg: me.textRequired,
+                        //     callback: function() {
+                        //         me.api.asc_MoveToFillingForm(true, true, true);
+                        //     }
+                        // });
+                        return;
+                    }
                     me.api.asc_SendForm();
                 });
                 me.view.btnDownload.on('click', function(){
@@ -878,8 +905,9 @@ define([
                  this.view.btnSubmit.setDisabled(!_submitFail);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
+                    Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.textFilled);
-                    this.view.btnSubmit.cmpEl.addClass('gray');
+                    this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
                     if (!this.submitedTooltip) {
                         this.submitedTooltip = new Common.UI.SynchronizeTip({
                             text: this.textSubmitOk,
@@ -1088,8 +1116,10 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            this.view.btnSubmit.setDisabled(!isFilled);
-            this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            // this.view.btnSubmit.setDisabled(!isFilled);
+            // this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+            isFilled && this.requiredTooltip && this.requiredTooltip.hide();
         },
 
         onProcessMouse: function(data) {
@@ -1783,43 +1813,13 @@ define([
 
             // TODO: add asc_hasRequiredFields to sdk
 
-            if (this.appOptions.canSubmitForms && !this.api.asc_IsAllRequiredFormsFilled()) {
-                this.view.btnSubmit.setDisabled(true);
-                this.view.btnSubmit.cmpEl.css("pointer-events", "none");
-                var sgroup = $('#id-submit-group');
-                if (!Common.localStorage.getItem("de-embed-hide-submittip")) {
-                    var requiredTooltip = new Common.UI.SynchronizeTip({
-                        extCls: 'colored',
-                        placement: 'bottom-left',
-                        target: this.view.btnSubmit.$el,
-                        text: this.textRequired,
-                        showLink: false,
-                        closable: false,
-                        showButton: true,
-                        textButton: this.textGotIt
-                    });
-                    var onclose = function () {
-                        requiredTooltip.hide();
-                        me.api.asc_MoveToFillingForm(true, true, true);
-                        sgroup.attr('data-toggle', 'tooltip');
-                        sgroup.tooltip({
-                            title       : me.textRequired,
-                            placement   : 'bottom'
-                        });
-                    };
-                    requiredTooltip.on('buttonclick', function () {
-                        onclose();
-                        Common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    });
-                    requiredTooltip.on('closeclick', onclose);
-                    requiredTooltip.show();
-                } else {
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                }
+            if (this.appOptions.canSubmitForms) {
+                if (this.api.asc_IsAllRequiredFormsFilled())
+                    this.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                // else {
+                    // this.view.btnSubmit.setDisabled(true);
+                    // this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                // }
             }
 
             var documentMoveTimer;

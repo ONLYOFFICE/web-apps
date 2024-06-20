@@ -1,6 +1,6 @@
 <div id="id-adv-pivot-layout" class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td colspan="2" class="padding-large">
                     <label class="header"><%= scope.txtName %></label>
@@ -28,7 +28,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="padding-small">
+                <td colspan="2" class="padding-small" role="radiogroup" aria-owns="pivot-adv-radio-over">
                     <div id="pivot-adv-radio-down"></div>
                 </td>
             </tr>
@@ -60,7 +60,7 @@
 </div>
 <div id="id-adv-pivot-data" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td>
                     <label class="header"><%= scope.textDataRange %></label>
@@ -76,7 +76,7 @@
 </div>
 <div id="id-adv-pivot-alttext" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" width="100%">
+        <table cols="1" width="100%" role="presentation">
             <tr>
                 <td class="padding-large">
                     <label class="header"><%= scope.textAltTitle %></label>

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -70,7 +70,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    'settings:apply': me.applySettings.bind(me)
+                    //'settings:apply': me.applySettings.bind(me)
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
@@ -89,10 +89,10 @@ define([
                         if ( me.appConfig && me.appConfig.isEdit && !config.compactHeader && toolbar.btnCollabChanges )
                             toolbar.btnCollabChanges = me.header.btnSave;
 
-                        var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
+                        /*var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
                         Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
                         if (me.header && me.header.btnPrintQuick)
-                            me.header.btnPrintQuick[value ? 'show' : 'hide']();
+                            me.header.btnPrintQuick[value ? 'show' : 'hide']();*/
                     },
                     'view:compact'  : function (toolbar, state) {
                         me.viewport.vlayout.getItem('toolbar').height = state ?
@@ -283,12 +283,12 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
-        applySettings: function () {
+        /*applySettings: function () {
             var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
             Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
             if (this.header && this.header.btnPrintQuick)
                 this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },
+        },*/
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {

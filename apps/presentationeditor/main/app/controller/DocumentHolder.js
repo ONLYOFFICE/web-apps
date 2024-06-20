@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -73,6 +73,11 @@ var c_paragraphSpecial = {
     NONE_SPECIAL: 0,
     FIRST_LINE: 1,
     HANGING: 2
+};
+
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
 };
 
 define([
@@ -169,8 +174,7 @@ define([
             var me = this;
             Common.NotificationCenter.on({
                 'window:show': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreenTip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -181,8 +185,7 @@ define([
                     me.hideTips();
                 },
                 'layout:changed': function(e){
-                    me.screenTip.toolTip.hide();
-                    me.screenTip.isVisible = false;
+                    me.hideScreenTip();
                     /** coauthoring begin **/
                     me.userTipHide();
                     /** coauthoring end **/
@@ -379,6 +382,7 @@ define([
                 }, this));
             }
 
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuSlidePaste.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaCopy.on('click', _.bind(me.onCutCopyPaste, me));
             view.menuParaPaste.on('click', _.bind(me.onCutCopyPaste, me));
@@ -401,8 +405,6 @@ define([
             view.menuAddCommentPara.on('click', _.bind(me.addComment, me));
             view.menuAddCommentTable.on('click', _.bind(me.addComment, me));
             view.menuAddCommentImg.on('click', _.bind(me.addComment, me));
-            view.menuAddToLayoutImg.on('click', _.bind(me.addToLayout, me));
-            view.menuAddToLayoutTable.on('click', _.bind(me.addToLayout, me));
             view.menuImgReplace.menu.on('item:click', _.bind(me.onImgReplace, me));
             view.langParaMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'para'));
             view.langTableMenu.menu.on('item:click', _.bind(me.onLangMenu, me, 'table'));
@@ -457,8 +459,13 @@ define([
             view.mnuRulers.on('click', _.bind(me.onRulersClick, me));
             view.menuTableEquationSettings.menu.on('item:click', _.bind(me.convertEquation, me));
             view.menuParagraphEquation.menu.on('item:click', _.bind(me.convertEquation, me));
-            view.timelineZoomMenu.on('item:click', _.bind(me.onTimelineZoom, me));
             view.animEffectMenu.on('item:click', _.bind(me.onAnimEffect, me));
+            view.mnuInsertMaster.on('click', _.bind(me.onInsertMaster, me));
+            view.mnuInsertLayout.on('click', _.bind(me.onInsertLayout, me));
+            view.mnuDuplicateMaster.on('click', _.bind(me.onDuplicateMaster, me));
+            view.mnuDuplicateLayout.on('click', _.bind(me.onDuplicateLayout, me));
+            view.mnuDeleteMaster.on('click', _.bind(me.onDeleteMaster, me));
+            view.mnuDeleteLayout.on('click', _.bind(me.onDeleteLayout, me));
         },
 
         getView: function (name) {
@@ -640,10 +647,12 @@ define([
             _.delay(function(){
                 if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
                     me.showPopupMenu.call(me, (me.mode.isEdit && !me._isDisabled) ? me.documentHolder.slideMenu : me.documentHolder.viewModeMenuSlide, {isSlideSelect: event.get_IsSlideSelect(), isSlideHidden: event.get_IsSlideHidden(), fromThumbs: true}, event);
-                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.TimelineZoom) {
-                    me.showPopupMenu.call(me, me.documentHolder.timelineZoomMenu, undefined, event);
                 } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.AnimEffect) {
                     me.showPopupMenu.call(me, me.documentHolder.animEffectMenu, {effect: event.get_EffectStartType()}, event);
+                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Master) {
+                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: true}, event);
+                } else if (event.get_Type() == Asc.c_oAscContextMenuTypes.Layout) {
+                    me.showPopupMenu.call(me, me.documentHolder.slideMasterMenu, {isMaster: false}, event);
                 } else {
                     me.showObjectMenu.call(me, event);
                 }
@@ -774,6 +783,11 @@ define([
             }
         },
 
+        hideScreenTip: function() {
+            this.screenTip.toolTip.hide();
+            this.screenTip.isVisible = false;
+        },
+
         getUserName: function(id){
             var usersStore = PE.getCollection('Common.Collections.Users');
             if (usersStore){
@@ -846,19 +860,23 @@ define([
                 var type = this.api.asc_getUrlType(url);
                 if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
-                else
-                    Common.UI.warning({
-                        msg: this.documentHolder.txtWarnUrl,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: function(btn) {
-                            try {
-                                (btn == 'yes') && window.open(url);
-                            } catch (err) {
-                                err && console.log(err.stack);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            msg: me.documentHolder.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }, 1);
+                }
             }
         },
 
@@ -1136,7 +1154,7 @@ define([
             }
         },
 
-        onDialogAddHyperlink: function() {
+        onDialogAddHyperlink: function(isButton) {
             var win, props, text;
             var me = this;
             if (me.api && me.mode.isEdit && !me._isDisabled && !PE.getController('LeftMenu').leftMenu.menuFile.isVisible()){
@@ -1165,11 +1183,16 @@ define([
                         api: me.api,
                         appOptions: me.mode,
                         handler: handlerDlg,
+                        type: isButton===true ? c_oHyperlinkType.InternalLink : undefined,
                         slides: _arr
                     });
 
-                    props = new Asc.CHyperlinkProperty();
-                    props.put_Text(text);
+                    if (isButton && (isButton instanceof Asc.CHyperlinkProperty))
+                        props = isButton;
+                    else {
+                        props = new Asc.CHyperlinkProperty()
+                        props.put_Text(text);
+                    }
 
                     win.show();
                     win.setSettings(props);
@@ -1608,6 +1631,23 @@ define([
             }
         },
 
+        onEditObject: function() {
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject(true);
+                if (oleobj) {
+                    var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
+                    if (oleEditor) {
+                        oleEditor.setEditMode(true);
+                        oleEditor.show();
+                        oleEditor.setOleData(Asc.asc_putBinaryDataToFrameFromTableOleObject(oleobj));
+                    }
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
+        },
+
+
         onCutCopyPaste: function(item, e) {
             var me = this;
             if (me.api) {
@@ -1626,18 +1666,21 @@ define([
             me.editComplete();
         },
 
-        addToLayout: function() {
-            if (this.api)
-                this.api.asc_AddToLayout();
-        },
-
         onInsertImage: function(placeholder, obj, x, y) {
+            if (placeholder) {
+                this.hideScreenTip();
+                this.onHidePlaceholderActions();
+            }
             if (this.api)
                 (placeholder) ? this.api.asc_addImage(obj) : this.api.ChangeImageFromFile();
             this.editComplete();
         },
 
         onInsertImageUrl: function(placeholder, obj, x, y) {
+            if (placeholder) {
+                this.hideScreenTip();
+                this.onHidePlaceholderActions();
+            }
             var me = this;
             (new Common.Views.ImageFromUrlDialog({
                 handler: function(result, value) {
@@ -1887,6 +1930,8 @@ define([
 
         onClickPlaceholder: function(type, obj, x, y) {
             if (!this.api) return;
+            this.hideScreenTip();
+            this.onHidePlaceholderActions();
             if (type == AscCommon.PlaceholderButtonType.Video) {
                 this.api.asc_AddVideo(obj);
             } else if (type == AscCommon.PlaceholderButtonType.Audio) {
@@ -2772,20 +2817,36 @@ define([
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
         },
 
-        onTimelineZoom: function (menu, item) {
-            if (item.value === 'zoom-in') {
-                this.api.asc_ZoomInTimeline();
-            } else {
-                this.api.asc_ZoomOutTimeline();
-            }
-        },
-
         onAnimEffect: function (menu, item) {
             if (item.value === 'remove') {
                 this.api.asc_RemoveSelectedAnimEffects();
             } else {
                 this.api.asc_SetSelectedAnimEffectsStartType(item.value);
             }
+        },
+
+        onInsertMaster: function () {
+            this.api.asc_AddMasterSlide();
+        },
+
+        onInsertLayout: function () {
+            this.api.asc_AddSlideLayout();
+        },
+
+        onDuplicateMaster: function () {
+            this.api.asc_DuplicateMaster();
+        },
+
+        onDuplicateLayout: function () {
+            this.api.asc_DuplicateLayout();
+        },
+
+        onDeleteMaster: function () {
+            this.api.asc_DeleteMaster();
+        },
+
+        onDeleteLayout: function () {
+            this.api.asc_DeleteLayout();
         }
     });
 });

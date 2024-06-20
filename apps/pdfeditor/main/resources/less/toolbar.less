@@ -120,7 +120,8 @@
 }
 
 #equation-container,
-#text-bar-container {
+#text-bar-container,
+#annot-bar-container {
     position: absolute;
     z-index: @zindex-dropdown - 20;
     background-color: @background-toolbar-ie;
@@ -155,12 +156,16 @@
     }
 }
 
-#text-bar-container {
-    padding: 4px;
+#text-bar-container,
+#annot-bar-container {
+    padding: 4px 6px;
     :not(.btn-group.split) .btn-toolbar,
     .btn-group.split {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .separator {
+        height: 20px;
     }
 }

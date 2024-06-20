@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -112,7 +112,9 @@ define([
             this.api.asc_registerCallback('asc_onAnimPreviewStarted',   _.bind(this.onAnimPreviewStarted, this));
             this.api.asc_registerCallback('asc_onAnimPreviewFinished',  _.bind(this.onAnimPreviewFinished, this));
             this.api.asc_onShowAnimTab(!!this._state.onactivetab)
-            this.api.asc_registerCallback('asc_onCloseAnimPane',        _.bind(this.onCloseAnimPane, this));
+            this.api.asc_registerCallback('asc_onCloseAnimPane',        _.bind(this.onApiCloseAnimPane, this));
+
+            Common.NotificationCenter.on('animpane:close',              _.bind(this.onCloseAnimPane, this));
             return this;
         },
 
@@ -174,11 +176,22 @@ define([
         },
 
         onAnimationPane: function(btn) {
+            this._state.isAnimPaneVisible = btn.pressed;
             this.api.asc_ShowAnimPane(btn.pressed);
+            Common.UI.TooltipManager.closeTip('animPane');
+        },
+
+        onApiCloseAnimPane: function () {
+            this._state.isAnimPaneVisible = false;
+            this.view.btnAnimationPane.toggle(false, true);
         },
 
         onCloseAnimPane: function () {
-            this.view.btnAnimationPane.toggle(false, true);
+            if (this._state.isAnimPaneVisible) {
+                this._state.isAnimPaneVisible = false;
+                this.api.asc_ShowAnimPane(false);
+                this.view.btnAnimationPane.toggle(false, true);
+            }
         },
 
         onAnimationAdditional: function(replace) { // replace or add new additional effect
@@ -455,7 +468,7 @@ define([
                                 item = store.add(new Common.UI.DataViewModel({
                                     group: group.get('id'),
                                     value: this._state.Effect,
-                                    iconCls: group.get('iconClsCustom'),
+                                    iconCls: (rec && rec.iconCls) ? rec.iconCls : group.get('iconClsCustom'),
                                     displayValue: rec ? rec.displayValue : '',
                                     tip: rec ? rec.displayValue : '',
                                     isCustom: true

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -42,7 +42,8 @@
 
 define([
     'backbone',
-    'common/main/lib/component/BaseView'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/mods/transition'
 ], function (Backbone) {
     'use strict';
 
@@ -110,14 +111,14 @@ define([
                     !Common.UI.isRTL() ?
                     '<section class="tabs">' +
                         '<a class="scroll left" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="V"></a>' +
-                        '<ul>' +
+                        '<ul role="tablist">' +
                             '<% for(var i in items) { %>' +
                                 '<% if (typeof items[i] == "object") { %>' +
                                 '<li class="ribtab' +
                                         '<% if (items[i].haspanel===false) print(" x-lone") %>' +
                                         '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>"' +
                                         '<% if (typeof items[i].layoutname == "string") print(" data-layout-name=" + \' \' +  items[i].layoutname) + \' \' %>>' +
-                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
+                                    '<a role="tab" id="<%= items[i].action %>" data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
                                 '</li>' +
                                 '<% } %>' +
                             '<% } %>' +
@@ -126,14 +127,14 @@ define([
                     '</section>' :
                     '<section class="tabs">' +
                         '<a class="scroll right" data-hint="0" data-hint-direction="bottom" data-hint-offset="-7, 0" data-hint-title="R"></a>' +
-                        '<ul>' +
+                        '<ul role="tablist">' +
                             '<% for(var i in items) { %>' +
                                 '<% if (typeof items[i] == "object") { %>' +
                                 '<li class="ribtab' +
                                         '<% if (items[i].haspanel===false) print(" x-lone") %>' +
                                         '<% if (items[i].extcls) print(\' \' + items[i].extcls) %>"' +
                                         '<% if (typeof items[i].layoutname == "string") print(" data-layout-name=" + \' \' +  items[i].layoutname) + \' \' %>>' +
-                                    '<a data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
+                                    '<a role="tab" id="<%= items[i].action %>" data-tab="<%= items[i].action %>" data-title="<%= items[i].caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof items[i].dataHintTitle !== "undefined") { %> data-hint-title="<%= items[i].dataHintTitle %>" <% } %>><%= items[i].caption %></a>' +
                                 '</li>' +
                                 '<% } %>' +
                             '<% } %>' +
@@ -254,6 +255,7 @@ define([
                     optsFold.$bar.removeClass('expanded');
                     optsFold.$bar.find('.tabs .ribtab').removeClass('active');
                 }
+                this.fireEvent('tab:collapse');
             },
 
             expand: function() {
@@ -365,7 +367,7 @@ define([
                     return config.tabs[index].action;
                 }
 
-                var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
+                var _tabTemplate = _.template('<li class="ribtab" style="display: none;" <% if (typeof layoutname == "string") print(" data-layout-name=" + \' \' +  layoutname) + \' \' %>><a role="tab" id="<%= action %>" data-tab="<%= action %>" data-title="<%= caption %>" data-hint="0" data-hint-direction="bottom" data-hint-offset="small" <% if (typeof dataHintTitle !== "undefined") { %> data-hint-title="<%= dataHintTitle %>" <% } %> ><%= caption %></a></li>');
 
                 config.tabs[after + 1] = tab;
                 var _after_action = _get_tab_action(after);

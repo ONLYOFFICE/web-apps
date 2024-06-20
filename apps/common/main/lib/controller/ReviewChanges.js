@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -95,6 +95,9 @@ define([
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:goto':        _.bind(this.onGotoClick, this)
+                },
+                'ViewTab': {
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
         },
@@ -571,6 +574,7 @@ define([
 
             var lang = (this.appConfig ? this.appConfig.lang || 'en' : 'en').replace('_', '-').toLowerCase();
             try {
+                if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                 return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
             } catch (e) {
                 lang = 'en';
@@ -1170,6 +1174,10 @@ define([
         DisableMailMerge: function() {
             this._state.mmdisable = true;
             this.view && this.view.btnMailRecepients && Common.Utils.lockControls(Common.enumLock.mmergeLock, true, {array: [this.view.btnMailRecepients]});
+        },
+
+        onChangeViewMode: function (mode) {
+            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master');
         },
 
         textInserted: '<b>Inserted:</b>',

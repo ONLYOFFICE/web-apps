@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -197,7 +197,32 @@ define([
 
             "canvas-freeze-line-1px",
             "canvas-freeze-line-2px",
-            "canvas-select-all-icon"
+            "canvas-select-all-icon",
+
+            "canvas-anim-pane-background",
+            "canvas-anim-pane-item-fill-selected",
+            "canvas-anim-pane-item-fill-hovered",
+            "canvas-anim-pane-button-fill",
+            "canvas-anim-pane-button-fill-hovered",
+            "canvas-anim-pane-button-fill-disabled",
+            "canvas-anim-pane-play-button-fill",
+            "canvas-anim-pane-play-button-outline",
+            "canvas-anim-pane-effect-bar-entrance-fill",
+            "canvas-anim-pane-effect-bar-entrance-outline",
+            "canvas-anim-pane-effect-bar-emphasis-fill",
+            "canvas-anim-pane-effect-bar-emphasis-outline",
+            "canvas-anim-pane-effect-bar-exit-fill",
+            "canvas-anim-pane-effect-bar-exit-outline",
+            "canvas-anim-pane-effect-bar-path-fill",
+            "canvas-anim-pane-effect-bar-path-outline",
+            "canvas-anim-pane-timeline-ruler-outline",
+            "canvas-anim-pane-timeline-ruler-tick",
+
+            "canvas-anim-pane-timeline-scroller-fill",
+            "canvas-anim-pane-timeline-scroller-outline",
+            "canvas-anim-pane-timeline-scroller-opacity",
+            "canvas-anim-pane-timeline-scroller-opacity-hovered",
+            "canvas-anim-pane-timeline-scroller-opacity-active",
         ];
 
         var get_current_theme_colors = function (c) {
@@ -408,7 +433,7 @@ define([
                         }
                     } else
                     if ( e.key == 'content-theme' ) {
-                        this.setContentTheme(e.originalEvent.newValue, true);
+                        this.setContentTheme(e.originalEvent.newValue, true, false);
                     }
                 }.bind(this))
 
@@ -479,14 +504,15 @@ define([
                 return window.uitheme.iscontentdark;
             },
 
-            setContentTheme: function (mode, force) {
+            setContentTheme: function (mode, force, keep) {
                 var set_dark = mode == 'dark';
                 if ( set_dark != window.uitheme.iscontentdark || force ) {
+                    window.uitheme.iscontentdark = set_dark;
+
                     if ( this.isDarkTheme() )
                         this.api.asc_setContentDarkMode(set_dark);
 
-                    window.uitheme.iscontentdark = mode;
-                    if ( Common.localStorage.getItem('content-theme') != mode )
+                    if ( !(keep === false) && Common.localStorage.getItem('content-theme') != mode )
                         Common.localStorage.setItem('content-theme', mode);
 
                     Common.NotificationCenter.trigger('contenttheme:dark', set_dark);

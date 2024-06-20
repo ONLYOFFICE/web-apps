@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -137,13 +137,6 @@ define([
             var me = this,
                 options = {};
 
-            me.SchemeNames = [me.txtScheme22,
-                me.txtScheme1, me.txtScheme2, me.txtScheme3, me.txtScheme4, me.txtScheme5,
-                me.txtScheme6, me.txtScheme7, me.txtScheme8, me.txtScheme9, me.txtScheme10,
-                me.txtScheme11, me.txtScheme12, me.txtScheme13, me.txtScheme14, me.txtScheme15,
-                me.txtScheme16, me.txtScheme17, me.txtScheme18, me.txtScheme19, me.txtScheme20,
-                me.txtScheme21
-            ];
             me._state = {
                 hasCollaborativeChanges: undefined
             };
@@ -1246,7 +1239,7 @@ define([
                 me.btnInsertHyperlink = new Common.UI.Button({
                     id          : 'tlbtn-insertlink',
                     cls         : 'btn-toolbar x-huge icon-top',
-                    iconCls     : 'toolbar__icon btn-inserthyperlink',
+                    iconCls     : 'toolbar__icon btn-big-inserthyperlink',
                     caption     : me.capInsertHyperlink,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.cantHyperlink, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.editPivot, _set['InsertHyperlinks'], _set.userProtected],
                     dataHint    : '1',
@@ -1481,7 +1474,7 @@ define([
 
                 me.cmbNumberFormat = new Common.UI.ComboBoxCustom({
                     cls         : 'input-group-nr',
-                    style       : 'width: 113px;',
+                    style       : 'width: 135px;',
                     menuStyle   : 'min-width: 180px;',
                     hint        : me.tipNumFormat,
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
@@ -1504,6 +1497,16 @@ define([
                     iconCls     : 'toolbar__icon btn-percent-style',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     styleName   : 'Percent',
+                    dataHint    : '1',
+                    dataHintDirection: 'bottom'
+                });
+
+                me.btnCommaStyle = new Common.UI.Button({
+                    id          : 'id-toolbar-btn-comma-style',
+                    cls         : 'btn-toolbar',
+                    iconCls     : 'toolbar__icon btn-comma',
+                    lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
+                    styleName   : 'Comma',
                     dataHint    : '1',
                     dataHintDirection: 'bottom'
                 });
@@ -1982,11 +1985,11 @@ define([
                             },
                             {
                                 caption: 'Tabloid Oversize',
-                                subtitle: '30,48cm x 45,71cm',
+                                subtitle: '29,69cm x 45,72cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [304.8, 457.1]
+                                value: [296.9, 457.2]
                             },
                             {
                                 caption: 'ROC 16K',
@@ -1998,19 +2001,19 @@ define([
                             },
                             {
                                 caption: 'Envelope Choukei 3',
-                                subtitle: '11,99cm x 23,49cm',
+                                subtitle: '12cm x 23,5cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [119.9, 234.9]
+                                value: [120, 235]
                             },
                             {
                                 caption: 'Super B/A3',
-                                subtitle: '33,02cm x 48,25cm',
+                                subtitle: '30,5cm x 48,7cm',
                                 template: pageSizeTemplate,
                                 checkable: true,
                                 toggleGroup: 'menuPageSize',
-                                value: [330.2, 482.5]
+                                value: [305, 487]
                             }
                         ]
                     }),
@@ -2223,7 +2226,7 @@ define([
                     me.btnAlignMiddle, me.btnAlignBottom, me.btnWrap, me.btnTextOrient, me.btnBackColor, me.btnInsertTable,
                     me.btnMerge, me.btnInsertFormula, me.btnNamedRange, me.btnFillNumbers, me.btnIncDecimal, me.btnInsertShape, me.btnInsertSmartArt, me.btnInsertEquation, me.btnInsertSymbol, me.btnInsertSlicer,
                     me.btnInsertText, me.btnInsertTextArt, me.btnSortUp, me.btnSortDown, me.btnSetAutofilter, me.btnClearAutofilter,
-                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
+                    me.btnTableTemplate, me.btnCellStyle, me.btnPercentStyle, me.btnCommaStyle, me.btnCurrencyStyle, me.btnDecDecimal, me.btnAddCell, me.btnDeleteCell, me.btnCondFormat,
                     me.cmbNumberFormat, me.btnBorders, me.btnInsertImage, me.btnInsertHyperlink,
                     me.btnInsertChart, me.btnInsertChartRecommend, me.btnColorSchemas, me.btnInsertSparkline,
                     me.btnCopy, me.btnPaste, me.btnCut, me.btnSelectAll, me.btnReplace, me.listStyles, me.btnPrint,
@@ -2401,6 +2404,7 @@ define([
             _injectComponent('#slot-btn-cell-style',     this.btnCellStyle);
             _injectComponent('#slot-btn-format',         this.cmbNumberFormat);
             _injectComponent('#slot-btn-percents',       this.btnPercentStyle);
+            _injectComponent('#slot-btn-comma',          this.btnCommaStyle);
             _injectComponent('#slot-btn-currency',       this.btnCurrencyStyle);
             _injectComponent('#slot-btn-digit-dec',      this.btnDecDecimal);
             _injectComponent('#slot-btn-digit-inc',      this.btnIncDecimal);
@@ -2509,6 +2513,7 @@ define([
             _updateHint(this.btnTableTemplate, this.txtTableTemplate);
             _updateHint(this.btnCellStyle, this.txtCellStyle);
             _updateHint(this.btnPercentStyle, this.tipDigStylePercent);
+            _updateHint(this.btnCommaStyle, this.tipDigStyleComma);
             _updateHint(this.btnCurrencyStyle, this.tipDigStyleAccounting);
             _updateHint(this.btnDecDecimal, this.tipDecDecimal);
             _updateHint(this.btnIncDecimal, this.tipIncDecimal);
@@ -3181,17 +3186,16 @@ define([
                     schemecolors.push(clr);
                 }
 
-                if (index == 22) {
+                if (index == 24) {
                     this.mnuColorSchema.addItem({
                         caption : '--'
                     });
                 }
-                var name = schema.get_name();
                 this.mnuColorSchema.addItem({
                     template: itemTemplate,
                     cls     : 'color-schemas-menu',
                     colors  : schemecolors,
-                    caption: (index < 22) ? (me.SchemeNames[index] || name) : name,
+                    caption: schema.get_name(),
                     value: index,
                     checkable: true,
                     toggleGroup: 'menuSchema'
@@ -3214,6 +3218,7 @@ define([
                 if (this.synchTooltip===undefined)
                     this.createSynchTip();
 
+                this.synchTooltip.target = this.btnCollabChanges.$el.is(':visible') ? this.btnCollabChanges.$el : $('[data-layout-name=toolbar-file]', this.$el);
                 this.synchTooltip.show();
             } else {
                 this.btnCollabChanges.updateHint(this.tipSynchronize + Common.Utils.String.platformKey('Ctrl+S'));
@@ -3228,7 +3233,6 @@ define([
             this.synchTooltip = new Common.UI.SynchronizeTip({
                 extCls: (this.mode.compactHeader) ? undefined : 'inc-index',
                 placement: this.mode.isDesktopApp ? 'bottom-' + direction : direction + '-bottom',
-                target: this.btnCollabChanges.$el
             });
             this.synchTooltip.on('dontshowclick', function() {
                 this.showSynchTip = false;
@@ -3550,6 +3554,7 @@ define([
         tipInsertTextart:   'Insert Text Art',
         tipInsertShape:     'Insert Autoshape',
         tipDigStylePercent: 'Percent Style',
+        tipDigStyleComma: 'Comma Style',
 //        tipDigStyleCurrency:'Currency Style',
         tipDigStyleAccounting: 'Accounting Style',
         tipTextOrientation: 'Orientation',
@@ -3595,27 +3600,6 @@ define([
         textDelLeft:        'Shift Cells Left',
         textDelUp:          'Shift Cells Up',
         textZoom:           'Zoom',
-        txtScheme1:         'Office',
-        txtScheme2:         'Grayscale',
-        txtScheme3:         'Apex',
-        txtScheme4:         'Aspect',
-        txtScheme5:         'Civic',
-        txtScheme6:         'Concourse',
-        txtScheme7:         'Equity',
-        txtScheme8:         'Flow',
-        txtScheme9:         'Foundry',
-        txtScheme10:        'Median',
-        txtScheme11:        'Metro',
-        txtScheme12:        'Module',
-        txtScheme13:        'Opulent',
-        txtScheme14:        'Oriel',
-        txtScheme15:        'Origin',
-        txtScheme16:        'Paper',
-        txtScheme17:        'Solstice',
-        txtScheme18:        'Technic',
-        txtScheme19:        'Trek',
-        txtScheme20:        'Urban',
-        txtScheme21:        'Verve',
         txtClearFilter:     'Clear Filter',
         tipSaveCoauth: 'Save your changes for the other users to see them.',
         txtSearch: 'Search',
@@ -3717,7 +3701,6 @@ define([
         textItems: 'Items',
         tipInsertSpark: 'Insert sparkline',
         capInsertSpark: 'Sparklines',
-        txtScheme22: 'New Office',
         textPrintGridlines: 'Print gridlines',
         textPrintHeadings: 'Print headings',
         textShowVA: 'Show Visible Area',

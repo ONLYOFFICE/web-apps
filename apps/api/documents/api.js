@@ -58,7 +58,8 @@
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
                     },
                     userInfoGroups: ["Group1", ""], // show tooltips/cursors/info in header only for users in userInfoGroups groups. [""] - means users without group, [] - don't show any users, null/undefined/"" - show all users
-                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons
+                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons,
+                    chat: <true>
                 }
             },
             editorConfig: {
@@ -181,6 +182,7 @@
                         header: {
                             users: false/true // users list button
                             save: false/true // save button
+                            editMode: false/true // change mode button
                         },
                         leftMenu: {
                             navigation: false/true,
@@ -201,12 +203,13 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                        roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
                     },
                     font: {
                         name: "Arial",
                         size: "11px";
                     },
-                    chat: true,
+                    chat: true, // deprecated 7.1, use permissions.chat
                     comments: true,
                     zoom: 100,
                     compactToolbar: false,
@@ -289,6 +292,7 @@
                 'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
                 'onSaveDocument': 'save document from binary',
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
+                'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
             }
         }
 
@@ -995,7 +999,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(oform|docxf))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1010,6 +1014,8 @@
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
             else if (config.type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
+        } else if (type && typeof type[5] === 'string') { // oform|docxf
+            appType = 'word';
         } else {
             if (typeof config.documentType === 'string')
                 appType = config.documentType.toLowerCase();
@@ -1087,7 +1093,7 @@
             params += "&mode=fillforms";
 
         if (config.document) {
-            config.document.isForm = isPdf ? config.document.isForm : oldForm;
+            config.document.isForm = isPdf ? config.document.isForm : !!oldForm;
             (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
         }
 

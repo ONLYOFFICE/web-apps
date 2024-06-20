@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -970,7 +970,7 @@ define([
                 }
                 var store = [this._itemNoneBullet].concat(this._arrNumbers);
                 this.recentNumTypes.forEach(function(item) {
-                    if (item) {
+                    if (item!==null && item!==undefined) {
                         item = parseInt(item);
                         store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.lang) + ',...', value: item });
                     }
@@ -990,7 +990,7 @@ define([
                     var store = (this.type===2) ? [this._itemNoneBullet].concat(this._arrNumbers) : [];
                     if (this.type===2) {
                         this.recentNumTypes.forEach(function(item) {
-                            if (item) {
+                            if (item!==null && item!==undefined) {
                                 item = parseInt(item);
                                 store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.lang) + ',...', value: item });
                             }

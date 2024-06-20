@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "جار تحميل العرض التقديمي...",
   "PE.ApplicationController.errorAccessDeny": "أنت تحاول تنفيذ إجراء ليس لديك صلاحيات تنفيذه.<br> الرجاء الاتصال بمسؤول خادم المستندات.",
   "PE.ApplicationController.errorDefaultMessage": "رمز الخطأ: 1%",
+  "PE.ApplicationController.errorEditingDownloadas": "حدث خطأ اثناء العمل على المستند.<br>استخدم خيار 'التنزيل كـ' لحفظ نسخة احتياطية من الملف ",
   "PE.ApplicationController.errorFilePassProtect": "الملف محمي بكلمة مرور ولا يمكن فتحه.",
   "PE.ApplicationController.errorFileSizeExceed": "يتجاوز حجم الملف الحد المحدد في الخادم. <br> يُرجى الاتصال بمسؤول خادم المستندات.",
   "PE.ApplicationController.errorForceSave": "حدث خطأ أثناء حفظ الملف.<br> استخدم خيار 'التنزيل كـ'لحفظ نسخة احتياطية من الملف ثم حاول مرة أخرى لاحقا.",

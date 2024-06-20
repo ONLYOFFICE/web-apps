@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -99,7 +99,7 @@ define([
         },
 
         getPanel: function () {
-            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins"></section>');
+            var _panel = $('<section id="plugins-panel" class="panel" data-tab="plugins" role="tabpanel" aria-labelledby="plugins"></section>');
             var _group = $('<div class="group"></div>');
             if ( !this.storePlugins.isEmpty() ) {
                 this.storePlugins.each(function (model) {

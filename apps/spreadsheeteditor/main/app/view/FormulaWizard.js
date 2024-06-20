@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -163,9 +163,10 @@ define([
                 props.name ? $('#formula-wizard-name').html(this.textFunction + ': ' + props.name) : $('#formula-wizard-name').addClass('hidden');
                 this.parseArgsDesc(props.args);
 
-                this.$window.find('#formula-wizard-help').on('click', function (e) {
-                    me.showHelp();
-                })
+                props.custom ?  this.$window.find('#formula-wizard-help').css('visibility', 'hidden') :
+                                this.$window.find('#formula-wizard-help').on('click', function (e) {
+                                    me.showHelp();
+                                })
             }
             this.recalcArgTableSize();
             this.minArgWidth = this.$window.find('#formula-wizard-lbl-func-res').width();

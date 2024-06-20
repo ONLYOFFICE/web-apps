@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -46,7 +46,7 @@ define([
 
     DE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-        '<section class="panel" data-tab="view">' +
+        '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group" data-layout-name="toolbar-view-navigation">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-navigation"></span>' +
             '</div>' +
@@ -131,8 +131,8 @@ define([
                 me.chRightMenu.on('change', _.bind(function (checkbox, state) {
                     me.fireEvent('rightmenu:hide', [me.chRightMenu, state === 'checked']);
                 }, me));
-                me.btnDarkDocument.on('click', _.bind(function () {
-                    me.fireEvent('darkmode:change');
+                me.btnDarkDocument.on('click', _.bind(function (e) {
+                    me.fireEvent('darkmode:change', [e.pressed]);
                 }, me));
                 me.cmbsZoom.forEach(function (cmb) {
                     cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));

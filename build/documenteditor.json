@@ -26,7 +26,6 @@
                         "underscore": "../vendor/underscore/underscore",
                         "backbone": "../vendor/backbone/backbone",
                         "text": "../vendor/requirejs-text/text",
-                        "bootstrap": "../vendor/bootstrap/dist/js/bootstrap",
                         "perfectscrollbar": "common/main/lib/mods/perfect-scrollbar",
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
@@ -54,11 +53,6 @@
                                 "jquery"
                             ],
                             "exports": "Backbone"
-                        },
-                        "bootstrap": {
-                            "deps": [
-                                "jquery"
-                            ]
                         },
                         "perfectscrollbar": {
                             "deps": [
@@ -98,6 +92,16 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "src": [
+                    "../apps/common/main/lib/controller/ScreenReaderFocus.js",
+                    "../apps/documenteditor/main/app/view/ParagraphSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/ImageSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/TableSettingsAdvanced.js",
+                    "../apps/documenteditor/main/app/view/DropcapSettingsAdvanced.js"
+                ],
+                "dest": "../deploy/web-apps/apps/documenteditor/main/code.js"
             }
         },
         "less": {

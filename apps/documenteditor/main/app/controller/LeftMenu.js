@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -170,7 +170,7 @@ define([
                         resolved = Common.Utils.InternalSettings.get("de-settings-resolvedcomment");
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
-                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && (resolved || !comment.get('resolved'))) {
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '' && (resolved || !comment.get('resolved'))) {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -230,11 +230,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -528,6 +523,23 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("de-settings-zoom");
+            var oldZoomValue = Common.Utils.InternalSettings.get("de-settings-zoom");
+            var lastZoomValue = Common.Utils.InternalSettings.get("de-last-zoom");
+
+            if (oldZoomValue === null || oldZoomValue == lastZoomValue || oldZoomValue == -3) {
+                if (newZoomValue == -1) {
+                    this.api.zoomFitToPage();
+                } else if (newZoomValue == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (newZoomValue > 0) {
+                    this.api.zoom(newZoomValue);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("de-settings-zoom", newZoomValue);
 
             menu.hide();
         },

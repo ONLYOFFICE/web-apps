@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -61,12 +61,14 @@ define([
                     'langchanged': this.onLangMenu
                 },
                 'ViewTab': {
-                    'statusbar:hide': _.bind(me.onChangeCompactView, me)
+                    'statusbar:hide': _.bind(me.onChangeCompactView, me),
+                    'viewmode:change': _.bind(me.onChangeViewMode, me)
                 }
             });
             this._state = {
                 zoom_type: undefined,
-                zoom_percent: undefined
+                zoom_percent: undefined,
+                slideMasterMode: false
             };
             this._isZoomRecord = (Common.localStorage.getItem("pe-settings-zoom") != -3);
         },
@@ -150,7 +152,8 @@ define([
         },
 
         onPreview: function(slidenum, presenter) {
-            Common.NotificationCenter.trigger('preview:start', _.isNumber(slidenum) ? slidenum : 0, presenter);
+            var slideNum = this._state.slideMasterMode ? 0 : (_.isNumber(slidenum) ? slidenum : 0);
+            Common.NotificationCenter.trigger('preview:start', slideNum, presenter);
         },
 
         onPreviewBtnClick: function(btn, e) {
@@ -185,7 +188,9 @@ define([
                  $('#status-label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
                  this._state.zoom_percent = percent;
                  if(!this._isZoomRecord ) return;
-                 Common.localStorage.setItem('pe-last-zoom', percent);
+                 var value = this._state.zoom_type !== undefined ? this._state.zoom_type == 2 ? -1 : (this._state.zoom_type == 1 ? -2 : percent) : percent;
+                 Common.localStorage.setItem('pe-last-zoom', value);
+                 Common.Utils.InternalSettings.set('pe-last-zoom', value);
              }
         },
 
@@ -263,6 +268,12 @@ define([
         hideDisconnectTip: function() {
             this.disconnectTip && this.disconnectTip.hide();
             this.disconnectTip = null;
+        },
+
+        onChangeViewMode: function (mode) {
+             var isSlideMaster = mode === 'master';
+             this._state.slideMasterMode = isSlideMaster;
+             this.statusbar.showSlideMasterStatus(isSlideMaster);
         },
 
         zoomText        : 'Zoom {0}%',

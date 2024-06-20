@@ -62,7 +62,7 @@
 </div>
 <div id="id-adv-paragraph-line" class="settings-panel">
     <div class="inner-content text-only padding-left-10" >
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-break-before"></div>
@@ -122,7 +122,7 @@
         <div class="padding-very-small">
             <label class="header"><%= scope.textEffects %></label>
         </div>
-        <table cols="2">
+        <table cols="2" role="presentation">
             <tr>
                 <td class="padding-small">
                     <div id="paragraphadv-checkbox-strike"></div>

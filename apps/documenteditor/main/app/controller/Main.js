@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -55,7 +55,9 @@ define([
     'common/main/lib/controller/FocusManager',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    // 'common/main/lib/controller/LaunchController',
+    'common/main/lib/controller/ScreenReaderFocus',
 ], function () {
     'use strict';
 
@@ -105,7 +107,10 @@ define([
                 var me = this,
                     styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
                                   'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text',
-                                  'Caption', 'endnote text'],
+                                  'Caption', 'endnote text', 'Default Paragraph Font', 'No List', 'Intense Emphasis', 'Intense Reference',  'Subtle Emphasis', 'Emphasis',
+                                  'Strong', 'Subtle Reference', 'Book Title',  'footnote reference', 'endnote reference'],
+                    schemeNames = ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+                                   'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'],
                 translate = {
                     'Series': this.txtSeries,
                     'Diagram Title': this.txtDiagramTitle,
@@ -155,6 +160,9 @@ define([
                 styleNames.forEach(function(item){
                     translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
+                schemeNames.forEach(function(item){
+                    translate[item] = me['txtScheme_' + item.replace(/[ -]/g, '_')] || item;
+                });
                 me.translationTable = translate;
             },
 
@@ -191,6 +199,8 @@ define([
                 Common.UI.FocusManager.init();
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.UI.ScreenReaderFocusManager.init(this.api);
+                // Common.Controllers.LaunchController.init(this.api);
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -440,6 +450,7 @@ define([
                 this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
+                this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.mergeFolderUrl  = this.editorConfig.mergeFolderUrl;
@@ -461,7 +472,7 @@ define([
                 this.appOptions.canFeatureContentControl = true;
                 this.appOptions.canFeatureForms = !!this.api.asc_isSupportFeature("forms");
                 this.appOptions.isPDFForm = !!window.isPDFForm;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.disableNetworkFunctionality = !!(window["AscDesktopEditor"] && window["AscDesktopEditor"]["isSupportNetworkFunctionality"] && false === window["AscDesktopEditor"]["isSupportNetworkFunctionality"]());
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
@@ -491,8 +502,7 @@ define([
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 value = Common.localStorage.getItem("de-macros-mode");
                 if (value === null) {
@@ -544,6 +554,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -725,7 +736,7 @@ define([
                         var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
                             usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
 
-                        for (ver=versions.length-1; ver>=0; ver--) {
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
                             version = versions[ver];
                             if (version.versionGroup===undefined || version.versionGroup===null)
                                 version.versionGroup = version.version;
@@ -760,7 +771,8 @@ define([
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
                                     isExpanded: true,
                                     serverVersion: version.serverVersion,
-                                    fileType: 'docx'
+                                    fileType: 'docx',
+                                    index: index
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -781,8 +793,8 @@ define([
                                     arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
-                                        arrVersions[arrVersions.length-1].set('hasChanges', changes.length>1);
-                                        for (i=changes.length-2; i>=0; i--) {
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
                                             user = usersStore.findUser(change.user.id);
@@ -815,7 +827,10 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
-                                                fileType: 'docx'
+                                                fileType: 'docx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
@@ -1265,7 +1280,22 @@ define([
                 var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
                 value = Common.localStorage.getItem("de-last-zoom");
                 var lastZoom = (value!==null) ? parseInt(value):0;
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
+
+                if (zf == -1) {
+                    this.api.zoomFitToPage();
+                } else if (zf == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (zf == -3) {
+                    if (lastZoom > 0) {
+                        this.api.zoom(lastZoom);
+                    } else if (lastZoom == -1) {
+                        this.api.zoomFitToPage();
+                    } else if (lastZoom == -2) {
+                        this.api.zoomFitToWidth();
+                    }
+                } else {
+                    this.api.zoom(zf > 0 ? zf : 100);
+                }
 
                 value = Common.localStorage.getItem("de-show-hiddenchars");
                 me.api.put_ShowParaMarks((value!==null) ? eval(value) : false);
@@ -1659,6 +1689,8 @@ define([
                 this.appOptions.showSaveButton = this.appOptions.isEdit || !this.appOptions.isRestrictedEdit && this.appOptions.isPDFForm; // save to file or save to file copy (for pdf-form viewer)
 
                 if (this.appOptions.isPDFForm && !this.appOptions.isEdit) {
+                    if (!this.appOptions.isRestrictedEdit && !this.appOptions.canEdit)
+                        this.appOptions.canRequestEditRights = false; // if open form in viewer - check permissions.edit option
                     this.appOptions.canFillForms = this.appOptions.isRestrictedEdit = true; // can fill forms in viewer!
                 }
 
@@ -1796,6 +1828,31 @@ define([
                 Common.Utils.InternalSettings.set("de-settings-autosave", autosave);
             },
 
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+            },
+
             onDocModeApply: function(mode, force, disableModeButton) {// force !== true - change mode only if not in view mode, disableModeButton: disable or not DocMode button in the header
                 if (!this.appOptions.canSwitchMode && !force) return;
 
@@ -1827,12 +1884,17 @@ define([
                         header: {docmode: !!disableModeButton}
                     }, 'view');
 
+                    if (mode==='view-form' || !!this.stackDisableActions.get({type: 'forms'})) {
+                        var forms = this.getApplication().getController('FormsTab');
+                        forms && forms.changeViewFormMode(mode==='view-form');
+                    }
+
                     if (mode==='edit') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', false);
                     } else if (mode==='review') {
                         Common.NotificationCenter.trigger('reviewchanges:turn', true);
                     }
-                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.None);
+                    this.api.asc_setRestriction(mode==='view' ? Asc.c_oAscRestrictionType.View : mode==='view-form' ? Asc.c_oAscRestrictionType.OnlyForms : Asc.c_oAscRestrictionType.None);
                 }
                 (!inViewMode || force) && Common.NotificationCenter.trigger('doc:mode-changed', mode);
             },
@@ -3593,7 +3655,42 @@ define([
             textText: 'Text',
             warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
             titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.'
+            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
+            txtStyle_Default_Paragraph_Font: 'Default paragraph font',
+            txtStyle_No_List: 'No list',
+            txtStyle_Intense_Emphasis: 'Intense emphasis',
+            txtStyle_Intense_Reference: 'Intense reference',
+            txtStyle_Subtle_Emphasis: 'Subtle emphasis',
+            txtStyle_Emphasis: 'Emphasis',
+            txtStyle_Strong: 'Strong',
+            txtStyle_Subtle_Reference: 'Subtle reference',
+            txtStyle_Book_Title: 'Book Title',
+            txtStyle_footnote_reference: 'Footnote reference',
+            txtStyle_endnote_reference: 'Endnote reference',
+            txtScheme_Aspect: 'Aspect',
+            txtScheme_Blue_Green: 'Blue Green',
+            txtScheme_Blue_II: 'Blue II',
+            txtScheme_Blue_Warm: 'Blue Warm',
+            txtScheme_Blue: 'Blue',
+            txtScheme_Grayscale: 'Grayscale',
+            txtScheme_Green_Yellow: 'Green Yellow',
+            txtScheme_Green: 'Green',
+            txtScheme_Marquee: 'Marquee',
+            txtScheme_Median: 'Median',
+            txtScheme_Office_2007___2010: 'Office 2007 - 2010',
+            txtScheme_Office_2013___2022: 'Office 2013 - 2022',
+            txtScheme_Office: 'Office',
+            txtScheme_Orange_Red: 'Orange Red',
+            txtScheme_Orange: 'Orange',
+            txtScheme_Paper: 'Paper',
+            txtScheme_Red_Orange: 'Red Orange',
+            txtScheme_Red_Violet: 'Red Violet',
+            txtScheme_Red: 'Red',
+            txtScheme_Slipstream: 'Slipstream',
+            txtScheme_Violet_II: 'Violet II',
+            txtScheme_Violet: 'Violet',
+            txtScheme_Yellow_Orange: 'Yellow Orange',
+            txtScheme_Yellow: 'Yellow'
         }
     })(), DE.Controllers.Main || {}))
 });

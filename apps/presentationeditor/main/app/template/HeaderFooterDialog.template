@@ -1,4 +1,4 @@
-<table cols="1" style="width: 100%;">
+<table cols="1" style="width: 100%;" role="presentation">
     <tr><td class="padding-small">
         <div class="input-row-tabs">
             <button type="button" class="btn btn-text-default auto" id="hf-dlg-btn-slide"><%= scope.textSlide %></button><button type="button" class="btn btn-text-default auto" id="hf-dlg-btn-notes"><%= scope.textNotes %></button>
@@ -8,7 +8,7 @@
         <div id="hf-dlg-chb-datetime"></div>
     </td></tr>
     <tr><td class="padding-large">
-        <table id="hf-dlg-tbl-datetime" class="margin-left-22" cols="2">
+        <table id="hf-dlg-tbl-datetime" class="margin-left-22" cols="2" role="presentation">
             <tr>
                 <td colspan="2" class="padding-very-small">
                     <div id="hf-dlg-radio-update"></div>

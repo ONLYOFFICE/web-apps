@@ -12,7 +12,7 @@
         return factory(_ || root._, Backbone || root.Backbone);
       });
    } else {
-      // RequireJS isn't being used. Assume underscore and backbone are loaded in <script> tags
+      // RequireJS isn't being used. Assume underscore and backbone are loaded in script tags
       factory(_, Backbone);
    }
 }(this, function(_, Backbone) {
@@ -35,7 +35,7 @@ function guid() {
 
 // Our Store is represented by a single JS object in *localStorage*. Create it
 // with a meaningful name, like the name you'd give a table.
-// window.Store is deprectated, use Backbone.LocalStorage instead
+// window.Store is deprecated, use Backbone.LocalStorage instead
 Backbone.LocalStorage = window.Store = function(name) {
   this.name = name;
   var store = this.localStorage().getItem(this.name);
@@ -110,7 +110,7 @@ _.extend(Backbone.LocalStorage.prototype, {
 
 // localSync delegate to the model or collection's
 // *localStorage* property, which should be an instance of `Store`.
-// window.Store.sync and Backbone.localSync is deprectated, use Backbone.LocalStorage.sync instead
+// window.Store.sync and Backbone.localSync is deprecated, use Backbone.LocalStorage.sync instead
 Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(method, model, options) {
   var store = model.localStorage || model.collection.localStorage;
 

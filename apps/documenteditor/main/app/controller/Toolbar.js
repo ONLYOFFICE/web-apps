@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -49,7 +49,6 @@ define([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
-    'documenteditor/main/app/view/DropcapSettingsAdvanced',
     'documenteditor/main/app/view/StyleTitleDialog',
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
@@ -123,6 +122,8 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'tab:active': this.onActiveTab,
+                    'tab:collapse': this.onTabCollapse
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -270,6 +271,9 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
+                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true}
+            });
         },
 
         attachRestrictedEditFormsUIEvents: function(toolbar) {
@@ -286,6 +290,9 @@ define([
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
+            toolbar.btnEditMode.on('click', function (btn, e) {
+                Common.Gateway.requestEditRights();
+            });
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
@@ -418,6 +425,9 @@ define([
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
+            toolbar.btnPageColor.menu.on('show:after',                  _.bind(this.onPageColorShowAfter, this));
+            toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
+            toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -497,6 +507,7 @@ define([
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
+            compact && this.onTabCollapse();
 
             Common.localStorage.setBool('de-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -969,14 +980,16 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins,
+                                                                                      this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation, this.toolbar.btnPageColor]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins,
+                                                                                       this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation, this.toolbar.btnPageColor]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
@@ -1466,6 +1479,35 @@ define([
                 this.api.SetDrawImagePreviewBulletForMenu(arr, type);
             }
             this.showSelectedBulletOnOpen(type, picker);
+        },
+
+        onPageColorShowAfter: function(menu, e) {
+            if (!(e && e.target===e.currentTarget))
+                return;
+
+            Common.UI.TooltipManager.closeTip('pageColor');
+
+            var picker = this.toolbar.mnuPageColorPicker,
+                color = this.api.asc_getPageColor();
+
+            this.toolbar.mnuPageNoFill.setChecked(!color, true);
+            picker.clearSelection();
+            if (color) {
+                color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ?
+                    color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()} :
+                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+
+                if ( typeof(color) == 'object' ) {
+                    for (var i=0; i<10; i++) {
+                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                            picker.select(color,true);
+                            break;
+                        }
+                    }
+                } else {
+                    picker.select(color,true);
+                }
+            }
         },
 
         onApiUpdateListPatterns: function(data) {
@@ -2782,6 +2824,20 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onSelectPageColor: function(btn, color) {
+            if (this.api)
+                this.api.asc_putPageColor(Common.Utils.ThemeColor.getRgbColor(color));
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
+        },
+
+        onPageNoFillClick: function(item) {
+            if (this.api && item.checked)
+                this.api.asc_putPageColor(null);
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
+        },
+
         eyedropperStart: function () {
             if (this.toolbar.btnCopyStyle.pressed) {
                 this.toolbar.btnCopyStyle.toggle(false, true);
@@ -3235,6 +3291,8 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuPageColorPicker, 1);
         },
 
         _onInitEditorStyles: function(styles) {
@@ -3556,6 +3614,9 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
+                if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
+                    me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
+
                 if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
@@ -3609,7 +3670,7 @@ define([
 
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-add-comment', this.toolbar.capBtnComment,
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
                                     Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.viewMode ],
@@ -3827,6 +3888,15 @@ define([
 
         onPluginToolbarMenu: function(data) {
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+        },
+
+        onActiveTab: function(tab) {
+            (tab === 'layout') ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('docMode');
+        },
+
+        onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('pageColor');
         },
 
         textEmptyImgUrl                            : 'You need to specify image URL.',
@@ -4192,6 +4262,8 @@ define([
         txtDownload: 'Download',
         txtSaveCopy: 'Save copy',
         errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
+        helpPageColorHeader: 'Page Color',
+        helpPageColor: 'Apply any background color to the pages in your document.'
 
     }, DE.Controllers.Toolbar || {}));
 });

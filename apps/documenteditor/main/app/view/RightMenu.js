@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -163,7 +163,7 @@ define([
             this.$el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             this.$el.show();
 
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
             this.$el.html($markup);
 
             this.btnMoreContainer = $markup.find('#slot-right-menu-more');
@@ -286,6 +286,7 @@ define([
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.formSettings && this.formSettings.setMode(mode);
+            this.headerSettings && this.headerSettings.setMode(mode);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -385,6 +386,7 @@ define([
         txtChartSettings:           'Chart Settings',
         txtMailMergeSettings:       'Mail Merge Settings',
         txtSignatureSettings:       'Signature Settings',
-        txtFormSettings:            'Form Settings'
+        txtFormSettings:            'Form Settings',
+        ariaRightMenu:              'Right menu'
     }, DE.Views.RightMenu || {}));
 });

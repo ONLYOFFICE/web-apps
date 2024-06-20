@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -40,7 +40,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -61,20 +60,12 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -115,16 +106,19 @@ require.config({
     }
 });
 
+require(['underscore'], function(_) {
+    window._ = _
+})
+
 require([
     'backbone',
-    'bootstrap',
     'core',
     'sdk',
     'api',
     'analytics',
     'gateway',
     'locale'
-], function (Backbone, Bootstrap, Core) {
+], function (Backbone, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();

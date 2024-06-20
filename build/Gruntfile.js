@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -473,6 +473,7 @@ module.exports = function(grunt) {
                         params: {
                             overrides: {
                                 cleanupIds: false,
+                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
                             }
                         },
                     },
@@ -500,6 +501,10 @@ module.exports = function(grunt) {
                     src: [packageFile['main']['js']['requirejs']['options']['out']],
                     dest: packageFile['main']['js']['requirejs']['options']['out']
                 },
+                // post: {
+                //     src: packageFile.main.js.postload.src,
+                //     dest: packageFile.main.js.postload.dest,
+                // },
             },
         });
 

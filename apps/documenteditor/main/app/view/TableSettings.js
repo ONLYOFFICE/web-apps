@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -49,7 +49,6 @@ define([
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
     'common/main/lib/view/InsertTableDialog',
-    'documenteditor/main/app/view/TableSettingsAdvanced',
     'documenteditor/main/app/view/TableFormulaDialog',
     'documenteditor/main/app/view/TableToTextDialog'
 ], function (menuTemplate, $, _, Backbone) {
@@ -343,7 +342,8 @@ define([
                 style: "width: 93px;",
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textBorders
             });
             this.BorderSize = this.cmbBorderSize.store.at(1).get('value');
             this.cmbBorderSize.setValue(this.BorderSize);
@@ -413,7 +413,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textCellSize + ' ' + this.textHeight
             });
             this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){			
 				var _props = new Asc.CTableProp();
@@ -434,7 +435,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textCellSize + ' ' + this.textWidth
             });
             this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
 				var _props = new Asc.CTableProp();
@@ -717,7 +719,8 @@ define([
                      eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'big'
+                     dataHintOffset: 'big',
+                     ariaLabel: this.textBorderColor
                  });
                  this.lockedControls.push(this.btnBorderColor);
                  this.borderColor = this.btnBorderColor.getPicker();
@@ -730,7 +733,8 @@ define([
                      eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'big'
+                     dataHintOffset: 'big',
+                     ariaLabel: this.textBackColor
                  });
                  this.lockedControls.push(this.btnBackColor);
                  this.colorsBack = this.btnBackColor.getPicker();
@@ -881,7 +885,8 @@ define([
                     }),
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.textTemplate
                 });
                 this.btnTableTemplate.on('render:after', function(btn) {
                     self.mnuTableTemplatePicker = new Common.UI.DataView({
