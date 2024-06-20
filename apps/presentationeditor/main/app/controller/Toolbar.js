@@ -2990,7 +2990,7 @@ define([
             var isMaster = mode==='master';
             this.toolbar.$el.find('.master-slide-mode')[isMaster?'show':'hide']();
             this.toolbar.$el.find('.normal-mode')[!isMaster?'show':'hide']();
-            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment });
+            this.toolbar.lockToolbar(Common.enumLock.slideMasterMode, isMaster, { array:  this.btnsComment.concat([this.toolbar.btnInsertHyperlink]) });
 
             isMaster && this.toolbar.setTab('ins');
             Common.NotificationCenter.trigger('tab:visible', 'transit', !isMaster);

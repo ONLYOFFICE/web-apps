@@ -617,7 +617,7 @@ define([
                                     menu.hide();
                                 } else
                                 if ( action == 'create:fromtemplate' ) {
-                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word'));
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.PDFE ? 'form' : 'word'));
                                     menu.hide();
                                 }
                             },
