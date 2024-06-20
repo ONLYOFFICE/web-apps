@@ -56,7 +56,7 @@ define([
                 header: false,
                 buttons: [{value: '1', caption: this.addButtonText}, {value: '0', caption: this.cancelButtonText}],
                 primary: '1',
-                width: 340
+                width: 356
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;
