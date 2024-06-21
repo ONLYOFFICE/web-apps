@@ -871,6 +871,7 @@ define([
                     this.submitedTooltip && this.submitedTooltip.hide();
                     this.view.btnSubmit.setDisabled(true);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                    this.disableFillingForms(true);
                     break;
                 case LoadingDocument:
                     text = this.textLoadingDocument + '           ';
@@ -923,7 +924,8 @@ define([
                     this.submitedTooltip.show();
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
                     this.onApiServerDisconnect(true);
-                }
+                } else
+                    this.disableFillingForms(false);
             }
              if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                  !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
@@ -1972,6 +1974,14 @@ define([
                     }
                     break;
             }
+        },
+
+        disableFillingForms: function(state) {
+            this._isDisabled = state;
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
+            this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
+            this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
+            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
         },
 
         onApiServerDisconnect: function(enableDownload) {
