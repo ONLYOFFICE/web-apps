@@ -78,7 +78,7 @@ define([
             });
         },
         onLaunch: function () {
-            this._state = {};
+            this._state = {restrictionType: undefined};
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
         },
         setConfig: function (data, api) {
@@ -214,11 +214,13 @@ define([
             });
         },
 
-        onChangeProtectDocument: function(userId) {
+        onChangeProtectDocument: function(userId, restrictionType) {
             if (this._protectionTip && this._protectionTip.isVisible()) {
                 this._protectionTip.close();
                 this._protectionTip = undefined;
             }
+
+            this._state.restrictionType = restrictionType;
 
             var props = this.getDocProps(true),
                 isProtected = props && (props.isReadOnly || props.isCommentsOnly || props.isFormsOnly || props.isReviewOnly);
@@ -236,7 +238,7 @@ define([
                 review.view && review.view.turnDisplayMode(value);
             }
 
-            props && this.applyRestrictions(props.type);
+            props && this.applyRestrictions(props.type, restrictionType!==null && restrictionType!==undefined);
             if (this._docProtectDlg && this._docProtectDlg.isVisible())
                 this._docProtectDlg.SetDisabled(!!this._state.lockDocProtect || isProtected);
             Common.NotificationCenter.trigger('protect:doclock', props);
@@ -276,11 +278,35 @@ define([
                     isReviewOnly: type===Asc.c_oAscEDocProtect.TrackedChanges,
                     isFormsOnly: type===Asc.c_oAscEDocProtect.Forms
                 };
+                this.mergeDocProtection();
             }
             return this._state.docProtection;
         },
 
-        applyRestrictions: function(type) {
+        mergeDocProtection: function() {
+            if (this._state.restrictionType===null || this._state.restrictionType===undefined) return;
+
+            var docProtect = this._state.docProtection.type,
+                restriction = this._state.restrictionType,
+                isReadOnly = docProtect===Asc.c_oAscEDocProtect.ReadOnly || restriction === Asc.c_oAscRestrictionType.View,
+                isCommentsOnly = !isReadOnly && (docProtect===Asc.c_oAscEDocProtect.Comments || restriction === Asc.c_oAscRestrictionType.OnlyComments && docProtect!==Asc.c_oAscEDocProtect.Forms), // doc protection is more important
+                isReviewOnly = docProtect===Asc.c_oAscEDocProtect.TrackedChanges,
+                isFormsOnly = !isReadOnly && !isCommentsOnly && (docProtect===Asc.c_oAscEDocProtect.Forms || restriction === Asc.c_oAscRestrictionType.OnlyForms);
+
+            this._state.docProtection = {
+                type: isReadOnly ? Asc.c_oAscEDocProtect.ReadOnly : isCommentsOnly ? Asc.c_oAscEDocProtect.Comments : isFormsOnly ? Asc.c_oAscEDocProtect.Forms : isReviewOnly ? Asc.c_oAscEDocProtect.TrackedChanges : Asc.c_oAscEDocProtect.None,
+                isReadOnly: isReadOnly,
+                isCommentsOnly: isCommentsOnly,
+                isReviewOnly: isReviewOnly,
+                isFormsOnly: isFormsOnly
+            };
+        },
+
+        applyRestrictions: function(type, fromRestrictions) {
+            this.view && this.view.updateProtectionTips(type);
+
+            if (fromRestrictions) return;
+
             if (type === Asc.c_oAscEDocProtect.ReadOnly) {
                 this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
             } else if (type === Asc.c_oAscEDocProtect.Comments) {
@@ -294,7 +320,6 @@ define([
                 } else
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.None);
             }
-            this.view && this.view.updateProtectionTips(type);
         },
 
         onLockDocumentProtection: function(state) {
