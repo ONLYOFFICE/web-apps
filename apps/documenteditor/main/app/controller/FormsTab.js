@@ -457,6 +457,7 @@ define([
 
         onLongActionBegin: function(type, id) {
             if (id==Asc.c_oAscAsyncAction['Submit'] && this.view.btnSubmit) {
+                Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
                 this._submitFail = false;
                 this.submitedTooltip && this.submitedTooltip.hide();
                 Common.Utils.lockControls(Common.enumLock.submit, true, {array: [this.view.btnSubmit]})
@@ -482,8 +483,8 @@ define([
                         }, this);
                     }
                     this.submitedTooltip.show();
-                    Common.NotificationCenter.trigger('doc:mode-apply', 'view', true, true);
-                }
+                } else
+                    Common.NotificationCenter.trigger('doc:mode-apply', 'view-form', true, true);
             }
         },
 
