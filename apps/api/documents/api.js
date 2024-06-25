@@ -225,8 +225,8 @@
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: false, // must be deprecated. use tabStyle='toolbar-style' instead
-                    tabStyle: 'tab'/'line'/'toolbar-style' // tab by default
+                    toolbarNoTabs: false, // must be deprecated. use tabStyle='underline' instead
+                    tabStyle: 'tab'/'line'/'underline' // tab by default
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead

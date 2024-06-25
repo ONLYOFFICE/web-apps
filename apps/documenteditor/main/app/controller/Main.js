@@ -1697,6 +1697,13 @@ define([
 
                 this.appOptions.fileKey = this.document.key;
 
+                var value = Common.localStorage.getItem("de-settings-tab-style");
+                if (value===null) {
+                    value = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') ? (this.appOptions.customization.tabStyle ? this.appOptions.customization.tabStyle :
+                            this.appOptions.customization.toolbarNoTabs ? 'underline' : 'tab' ) : 'tab';
+                }
+                Common.Utils.InternalSettings.set("de-settings-tab-style", value || 'tab');
+
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
                     appHeader.setBranding(this.editorConfig.customization, this.appOptions);

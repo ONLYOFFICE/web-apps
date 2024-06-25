@@ -684,6 +684,10 @@ Common.Utils.RGBColor = function(colorString) {
         return hsb;
     };
 
+    var isDark = function() {
+        return Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))<140;
+    };
+
     return {
         r       : r,
         g       : g,
@@ -692,7 +696,8 @@ Common.Utils.RGBColor = function(colorString) {
         toRGB   : toRGB,
         toRGBA  : toRGBA,
         toHex   : toHex,
-        toHSB   : toHSB
+        toHSB   : toHSB,
+        isDark  : isDark
     }
 };
 

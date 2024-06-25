@@ -481,12 +481,11 @@
 
 .style-off-tabs {
     .toolbar {
-        @underscore_height: 3px;
+        @underscore_height: 2px;
 
         .tabs, .box-tabs .extra {
             background-color: transparent;
-            box-shadow: inset 0 -1px 0 0 @border-regular-control-ie;
-            box-shadow: inset 0 -1px 0 0 @border-regular-control;
+            box-shadow: inset 0 -1px 0 0 transparent;
         }
 
         .tabs {
@@ -504,7 +503,8 @@
                     border-top: @underscore_height solid @text-normal;
                     content: '';
                     position: absolute;
-                    width: 100%;
+                    margin-left: 6px;
+                    width: calc(100% - 12px);
                     bottom: -@underscore_height;
                     opacity: 0;
                 }
@@ -517,7 +517,7 @@
                     //}
                     &:after {
                         opacity: 1;
-                        bottom: 0;
+                        bottom: 4px;
                     }
                 }
 
@@ -702,7 +702,8 @@
                     border-top: @underscore_height solid @text-toolbar-header;
                     content: '';
                     position: absolute;
-                    width: 100%;
+                    margin-left: 6px;
+                    width: calc(100% - 12px);
                     bottom: -@underscore_height;
                     opacity: 0;
                 }

@@ -64,7 +64,7 @@
             background: var(--toolbar-header-pdf, #AA5252);
         }
 
-        .loadmask > .brendpanel .toolbar-style {
+        .loadmask > .brendpanel .underline {
             background: #f1f1f1;
             background: var(--background-toolbar, #f1f1f1);
         }
@@ -102,7 +102,7 @@
             background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
         }
 
-        .loadmask > .brendpanel .toolbar-style .rect {
+        .loadmask > .brendpanel .underline .rect {
             background: #d8dadc;
             background: var(--highlight-button-hover, #d8dadc);
             opacity: 0.4;
@@ -275,6 +275,15 @@
                     .replace(/>/g, '&gt;');
         }
 
+        function isDarkColor(str) {
+            str = str.substring(1);
+            let rgb = parseInt(str, 16),
+                r = (rgb >> 16) & 0xff,
+                g = (rgb >>  8) & 0xff,
+                b = (rgb >>  0) & 0xff;
+            return Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))<140;
+        }
+
         var params = getUrlParams(),
             lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             hideLogo = params["headerlogo"]==='',
@@ -330,18 +339,22 @@
         isForm && document.body.classList.add('pdf-form');
         (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
 
+        if ( checkLocalStorage && localStorage.getItem("de-settings-tab-style") !== null ) {
+            tabStyle = localStorage.getItem("de-settings-tab-style");
+        }
+
         if (compact || view) {
             if (notoolbar) {
                 document.querySelector('.brendpanel > :nth-child(1)').remove();
                 visible = false;
             } else {
                 document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
-                (tabStyle==='toolbar-style') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('toolbar-style');
+                (tabStyle==='underline') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('underline');
             }
         } else if (notoolbar) {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
         } else {
-            (tabStyle==='toolbar-style') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('toolbar-style');
+            (tabStyle==='underline') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('underline');
         }
 
         if (compact) {
@@ -376,20 +389,18 @@
                 if (elem) {
                     var isDarkTheme = /theme-(?:[a-z]+-)?dark(?:-[a-z]*)?/.test(document.body.className),
                         image = logo || logoDark || logoLight,
-                        isLight = false;
+                        isDark = true;
                     if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
                         var docstyle = getComputedStyle(document.body),
-                            header_logo = docstyle.getPropertyValue("--header-logo"),
-                            toolbar_logo = docstyle.getPropertyValue("--toolbar-logo"),
-                            logo_type = (view || compact) && (tabStyle==='toolbar-style') ? toolbar_logo : header_logo;
-                        image = logo_type==='1' ? logoDark || logo || logoLight :
-                                logo_type==='0' ? logoLight || logo || logoDark :
-                                    isDarkTheme ? logoDark || logo : logo || logoDark;
-                        isLight = logo_type==='0' || logo_type !== '1' && (view || compact) && (tabStyle==='toolbar-style') && !isDarkTheme;
+                            header_color = docstyle.getPropertyValue('--toolbar-header-document'),
+                            toolbar_color = docstyle.getPropertyValue('--background-toolbar')
+                            logo_type = (view || compact) && (tabStyle==='underline') ? toolbar_color : header_color;
+                        isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabStyle==='underline'));
+                        image = isDark ? logoDark || logo || logoLight : logoLight || logo || logoDark;
                     }
                     if (image) {
                         elem.setAttribute('src', image);
-                    } else if (isLight) {
+                    } else if (!isDark) {
                         elem.setAttribute('src', "../../common/main/resources/img/header/dark-logo_s.svg");
                     }
                     elem.style.opacity = 1;

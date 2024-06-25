@@ -1092,18 +1092,17 @@ define([
             getSuitableLogo: function(branding, config, tabStyle) {
                 branding = branding || {};
                 var image = branding.logo ? branding.logo.image || branding.logo.imageDark || branding.logo.imageLight : null,
-                    isLight = false;
-                tabStyle = tabStyle || branding.tabStyle || (branding.toolbarNoTabs ? 'toolbar-style' : '');
+                    isDark = true;
+                tabStyle = tabStyle || Common.Utils.InternalSettings.get("de-settings-tab-style") || 'tab';
                 if (!Common.Utils.isIE) {
-                    var header_logo = Common.UI.Themes.currentThemeColor('--header-logo'),
-                        toolbar_logo = Common.UI.Themes.currentThemeColor('--toolbar-logo'),
-                        logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='toolbar-style') ? toolbar_logo : header_logo;
-                    image = !branding.logo ? null : logo_type==='1' ? (branding.logo.imageDark || branding.logo.image || branding.logo.imageLight) :
-                                                    logo_type==='0' ? (branding.logo.imageLight || branding.logo.image || branding.logo.imageDark) :
-                                                    Common.UI.Themes.isDarkTheme() ? branding.logo.imageDark || branding.logo.image : branding.logo.image || branding.logo.imageDark;
-                    isLight = logo_type==='0' || logo_type !== '1' && (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='toolbar-style') && !Common.UI.Themes.isDarkTheme();
+                    var header_color = Common.UI.Themes.currentThemeColor('--toolbar-header-document'),
+                        toolbar_color = Common.UI.Themes.currentThemeColor('--background-toolbar'),
+                        logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='underline') ? toolbar_color : header_color;
+                    isDark = (new Common.Utils.RGBColor(logo_type)).isDark();
+                    image = !branding.logo ? null : isDark ? (branding.logo.imageDark || branding.logo.image || branding.logo.imageLight) :
+                                                             (branding.logo.imageLight || branding.logo.image || branding.logo.imageDark) ;
                 }
-                return {image: image, isLight: isLight};
+                return {image: image, isLight: !isDark};
             },
 
             changeLogo: function () {

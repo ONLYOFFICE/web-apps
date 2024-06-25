@@ -213,7 +213,7 @@ define([
                         items: [
                             {value: 'tab', caption: 'Tab', checkable: true, toggleGroup: 'tabstyle'},
                             {value: 'line', caption: 'Line', checkable: true, toggleGroup: 'tabstyle'},
-                            {value: 'toolbar-style', caption: 'Toolbar line', checkable: true, toggleGroup: 'tabstyle'}
+                            {value: 'underline', caption: 'Underline', checkable: true, toggleGroup: 'tabstyle'}
                         ]
                     }),
                     dataHint: '1',
@@ -373,7 +373,7 @@ define([
                 this.chRightMenu.setValue(!Common.localStorage.getBool("de-hidden-rightmenu", value));
 
                 this.btnTabStyle.menu.items.forEach(function(item) {
-                    if(item.value == Common.Utils.InternalSettings.get("de-settings-tab-style"))
+                    if(item.value === Common.Utils.InternalSettings.get("de-settings-tab-style"))
                         item.setChecked(true);
                 });
             },

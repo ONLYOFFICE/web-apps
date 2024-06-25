@@ -179,18 +179,9 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.customization ) {
-                var tabStyle = 'tab';
-                if (config.customization.tabStyle) {
-                    if (config.customization.tabStyle==='line' || config.customization.tabStyle==='toolbar-style')
-                        tabStyle = config.customization.tabStyle;
-                } else if ( config.customization.toolbarNoTabs ) {
-                    tabStyle = 'toolbar-style';
-                }
-                me.onTabStyleChange(tabStyle);
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
+            me.onTabStyleChange();
+            if ( config.customization && config.customization.toolbarHideFileName) {
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
             }
 
             if ( config.twoLevelHeader && !config.compactHeader) {
@@ -219,10 +210,11 @@ define([
         },
 
         onTabStyleChange: function (style) {
+            style && Common.localStorage.setItem("de-settings-tab-style", style);
             style = style || Common.Utils.InternalSettings.get("de-settings-tab-style");
             Common.Utils.InternalSettings.set("de-settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
-            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='toolbar-style');
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='underline');
         },
 
         onAppReady: function (config) {
