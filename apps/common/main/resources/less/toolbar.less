@@ -88,10 +88,10 @@
             }
 
             &.active {
-                background-color: @background-toolbar-ie;
-                background-color: @background-toolbar;
+                background-color: @background-toolbar-tab-ie;
+                background-color: @background-toolbar-tab;
 
-                box-shadow: inset @minus-px 0px 0 0 @border-toolbar-active-panel-top, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-panel-top;
+                box-shadow: inset 0 @minus-px 0 0 @background-toolbar, inset @minus-px 0px 0 0 @border-toolbar-active-tab, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-tab;
             }
 
 
@@ -214,7 +214,8 @@
                 content: ' ';
                 width: @arrow-length;
                 height: @arrow-length;
-                border: solid white;
+                border: solid @text-toolbar-header-ie;
+                border: solid @text-toolbar-header;
                 border-width: 0 2px 2px 0;
             }
         }
@@ -479,14 +480,10 @@
     }
 }
 
+.lined-tabs,
 .style-off-tabs {
     .toolbar {
         @underscore_height: 2px;
-
-        .tabs, .box-tabs .extra {
-            background-color: transparent;
-            box-shadow: inset 0 -1px 0 0 transparent;
-        }
 
         .tabs {
             ul {
@@ -497,8 +494,6 @@
                 position: relative;
 
                 &:after {
-                    //transition: opacity .1s;
-                    //transition: bottom .1s;
                     border-top: @underscore_height solid @text-normal-ie;
                     border-top: @underscore_height solid @text-normal;
                     content: '';
@@ -509,12 +504,13 @@
                     opacity: 0;
                 }
 
-                &.active {
+                &.active,
+                &:hover {
                     background-color: transparent;
                     box-shadow: none;
-                    //> a {
-                    //    padding: 0 12px;
-                    //}
+                }
+
+                &.active {
                     &:after {
                         opacity: 1;
                         bottom: 4px;
@@ -522,30 +518,33 @@
                 }
 
                 &:hover:not(.active) {
-                    background-color: rgba(0, 0, 0, .05);
-                    box-shadow: none;
-
-                    .theme-type-dark & {
-                        background-color: rgba(255, 255, 255, .05);
+                    &:after {
+                        opacity: 0.4;
+                        bottom: 4px;
                     }
+                }
+            }
+        }
+    }
+}
 
-                    //background-color: @highlight-button-hover-ie;
-                    //background-color: @highlight-button-hover;
+.style-off-tabs {
+    .toolbar {
+        .tabs, .box-tabs .extra {
+            background-color: transparent;
+            box-shadow: inset 0 -1px 0 0 transparent;
+        }
+
+        .tabs {
+            li {
+                &:after {
+                    border-top-color: @text-normal-ie;
+                    border-top-color: @text-normal;
                 }
 
                 > a {
                     color: @text-normal-ie;
                     color: @text-normal;
-                    //&::after { // add if active tab is bold
-                    //    display:block;
-                    //    content:attr(data-title);
-                    //    font-weight:bold;
-                    //    height:1px;
-                    //    color:transparent;
-                    //    overflow:hidden;
-                    //    visibility:hidden;
-                    //    margin-bottom:-1px;
-                    //}
                 }
             }
         }
@@ -687,54 +686,18 @@
 
 .lined-tabs {
     .toolbar {
-        @underscore_height: 2px;
-
         .tabs {
-            ul {
-                padding: 0;
-            }
-
             li {
-                position: relative;
-
                 &:after {
-                    border-top: @underscore_height solid @text-toolbar-header-ie;
-                    border-top: @underscore_height solid @text-toolbar-header;
-                    content: '';
-                    position: absolute;
-                    margin-left: 6px;
-                    width: calc(100% - 12px);
-                    bottom: -@underscore_height;
-                    opacity: 0;
+                    border-top-color: @text-toolbar-header-ie;
+                    border-top-color: @text-toolbar-header;
                 }
 
                 &.active {
-                    background-color: transparent;
-                    box-shadow: none;
                     > a {
                         color: #fff;
                         color: var(--text-toolbar-header);
                     }
-                    &:after {
-                        opacity: 1;
-                        bottom: 4px;
-                    }
-                }
-
-                &:hover:not(.active) {
-                }
-
-                > a { // add if active tab is bold
-                    //&::after {
-                    //    display:block;
-                    //    content:attr(data-title);
-                    //    font-weight:bold;
-                    //    height:1px;
-                    //    color:transparent;
-                    //    overflow:hidden;
-                    //    visibility:hidden;
-                    //    margin-bottom:-1px;
-                    //}
                 }
             }
         }
