@@ -139,9 +139,6 @@ define([
                     cmb.on('combo:focusin', _.bind(me.onComboOpen, this, false));
                     cmb.on('show:after', _.bind(me.onComboOpen, this, true));
                 });
-                me.btnTabStyle.menu.on('item:click', _.bind(function (menu, item) {
-                    me.fireEvent('tabstyle:change', [item.value]);
-                }, me));
             },
 
             initialize: function (options) {
@@ -203,23 +200,6 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
-
-                this.btnTabStyle = new Common.UI.Button({
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-day',
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    caption: 'Tab Style',
-                    menu: new Common.UI.Menu({
-                        items: [
-                            {value: 'tab', caption: 'Tab', checkable: true, toggleGroup: 'tabstyle'},
-                            {value: 'line', caption: 'Line', checkable: true, toggleGroup: 'tabstyle'},
-                            {value: 'underline', caption: 'Underline', checkable: true, toggleGroup: 'tabstyle'}
-                        ]
-                    }),
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
 
                 this.btnDarkDocument = new Common.UI.Button({
                     cls: 'btn-toolbar x-huge icon-top',
@@ -327,7 +307,6 @@ define([
                 this.btnsFitToPage[0].render($host.find('.slot-btn-ftp'));
                 this.btnsFitToWidth[0].render($host.find('.slot-btn-ftw'));
                 this.btnInterfaceTheme.render($host.find('#slot-btn-interface-theme'));
-                this.btnTabStyle.render($host.find('#slot-btn-tab-style'));
                 this.btnDarkDocument.render($host.find('#slot-btn-dark-document'));
                 this.chStatusbar.render($host.find('#slot-chk-statusbar'));
                 this.chToolbar.render($host.find('#slot-chk-toolbar'));
@@ -371,11 +350,6 @@ define([
                 value = Common.UI.LayoutManager.getInitValue('rightMenu');
                 value = (value!==undefined) ? !value : false;
                 this.chRightMenu.setValue(!Common.localStorage.getBool("de-hidden-rightmenu", value));
-
-                this.btnTabStyle.menu.items.forEach(function(item) {
-                    if(item.value === Common.Utils.InternalSettings.get("de-settings-tab-style"))
-                        item.setChecked(true);
-                });
             },
 
             show: function () {
@@ -426,7 +400,11 @@ define([
             tipInterfaceTheme: 'Interface theme',
             tipDarkDocument: 'Dark document',
             textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel'
+            textRightMenu: 'Right panel',
+            textTabStyle: 'Tab style',
+            textTab: 'Tab',
+            textLine: 'Line',
+            textUnderline: 'Underline'
         }
     }()), DE.Views.ViewTab || {}));
 });
