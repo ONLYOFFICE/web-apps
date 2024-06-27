@@ -227,7 +227,8 @@
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
                hideLogo = params["headerlogo"]==='',
                logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-               logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+               logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+               logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null;
 
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
@@ -242,12 +243,12 @@
                if (elem) {
                    if (hideLogo) {
                        elem.style.display = 'none';
-                   } else if (logo || logoDark) {
+                   } else if (logo || logoDark || logoLight) {
                        elem.style.backgroundImage= 'none';
                        elem.style.width = 'auto';
                        elem.style.height = 'auto';
                        var img = document.querySelector('.loading-logo img');
-                       img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                       img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo || logoLight : logoLight || logo || logoDark);
                        img.style.opacity = 1;
                    }
                }
