@@ -148,6 +148,9 @@ define([
                     .catch(function(err) {
                         me.configPlugins.plugins = false;
                     });
+
+                if (this.configPlugins.config.options)
+                    this.api.setPluginsOptions(this.configPlugins.config.options);
             }
 
             if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() ) {
