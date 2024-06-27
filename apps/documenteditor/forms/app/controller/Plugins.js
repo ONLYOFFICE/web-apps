@@ -80,6 +80,8 @@ define([
                     {
                         me.configPlugins.plugins = false;
                     });
+                if (this.configPlugins.config.options)
+                    this.api.setPluginsOptions(this.configPlugins.config.options);
             } else
                 this.configPlugins.plugins = false;
 
