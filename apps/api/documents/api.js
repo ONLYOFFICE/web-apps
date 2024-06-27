@@ -205,6 +205,10 @@
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                         roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
+                        tabStyle: {
+                            mode: 'tab'/'line'/'underline' // init value, 'tab' by default,
+                            change: true/false // hide/show feature
+                        } / 'tab'/'line'/'underline' // if string - use as init value
                     },
                     font: {
                         name: "Arial",
@@ -225,8 +229,7 @@
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: false, // must be deprecated. use tabStyle='underline' instead
-                    tabStyle: 'tab'/'line'/'underline' // tab by default
+                    toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='underline' instead
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
@@ -1104,8 +1107,13 @@
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
 
-        if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.tabStyle)
-            params += "&tabStyle=" + config.editorConfig.customization.tabStyle;
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabStyle) {
+            if (typeof config.editorConfig.customization.features.tabStyle === 'object') {
+                params += "&tabStyle=" + (config.editorConfig.customization.features.tabStyle.mode || "tab") + (config.editorConfig.customization.features.tabStyle.change!==false ? "-ls" : "");
+            } else
+                params += "&tabStyle=" + config.editorConfig.customization.features.tabStyle + "-ls";
+        }
+
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";

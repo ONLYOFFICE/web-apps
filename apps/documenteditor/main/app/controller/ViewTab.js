@@ -226,7 +226,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
-                            _add_tab_styles();
+                            Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));

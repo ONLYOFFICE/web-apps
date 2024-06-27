@@ -302,8 +302,8 @@
         isForm && document.body.classList.add('pdf-form');
         (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
 
-        if ( checkLocalStorage && localStorage.getItem("de-settings-tab-style") !== null ) {
-            tabStyle = localStorage.getItem("de-settings-tab-style");
+        if ( !tabStyle || /-ls$/.test(tabStyle)) {// try get tab style from localstorage
+            tabStyle = checkLocalStorage && localStorage.getItem("de-settings-tab-style") !== null ? localStorage.getItem("de-settings-tab-style") : tabStyle ? tabStyle.match(/(.*?)-ls/)[1] : 'tab';
         }
 
         if (compact || view) {
