@@ -202,10 +202,7 @@ define([
 
             "canvas-freeze-line-1px",
             "canvas-freeze-line-2px",
-            "canvas-select-all-icon",
-
-            "header-logo",
-            "toolbar-logo"
+            "canvas-select-all-icon"
         ];
 
         var get_current_theme_colors = function (c) {
