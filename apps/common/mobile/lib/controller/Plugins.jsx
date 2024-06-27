@@ -247,6 +247,10 @@ const PluginsController = inject('storeAppOptions')(observer(props => {
                     configPlugins.plugins = loaded;
                     mergePlugins();
                 });
+            if (configPlugins.config.options) {
+                const api = Common.EditorApi.get();
+                api && api.setPluginsOptions(configPlugins.config.options);
+            }
         } else {
             configPlugins.plugins = false;
         }
