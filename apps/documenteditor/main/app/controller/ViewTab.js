@@ -204,7 +204,7 @@ define([
                                 })
                             });
                             _.each(mni.menu.items, function(item){
-                                item.setChecked(Common.Utils.InternalSettings.get("de-settings-tab-style")===item.value, true);
+                                item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                             });
                             mni.menu.on('item:click', _.bind(function (menu, item) {
                                 me.view.fireEvent('tabstyle:change', [item.value]);

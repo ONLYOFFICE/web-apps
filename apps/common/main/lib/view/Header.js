@@ -1093,7 +1093,7 @@ define([
                 branding = branding || {};
                 var image = branding.logo ? branding.logo.image || branding.logo.imageDark || branding.logo.imageLight : null,
                     isDark = true;
-                tabStyle = tabStyle || Common.Utils.InternalSettings.get("de-settings-tab-style") || 'tab';
+                tabStyle = tabStyle || Common.Utils.InternalSettings.get("settings-tab-style") || 'tab';
                 if (!Common.Utils.isIE) {
                     var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :
                                                                             isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' : '--toolbar-header-presentation'),
@@ -1108,7 +1108,7 @@ define([
 
             changeLogo: function () {
                 var value = this.branding;
-                var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get(this.appPrefix + "settings-tab-style"));
+                var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get("settings-tab-style"));
                 $('#header-logo').toggleClass('logo-light', logo.isLight);
                 if ( value && value.logo && (value.logo.visible!==false) && appConfig && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
                     var image = logo.image; // change logo when image was changed

@@ -70,7 +70,6 @@ define([
             '<div class="separator long"></div>' +
             '<div class="group">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-interface-theme"></span>' +
-                '<span class="btn-slot text x-huge" id="slot-btn-tab-style"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-dark-document"></span>' +
             '</div>' +
             '<div class="separator long separator-theme"></div>' +

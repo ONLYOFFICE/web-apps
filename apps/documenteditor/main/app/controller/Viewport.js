@@ -180,9 +180,8 @@ define([
             }
 
             me.onTabStyleChange();
-            if ( config.customization && config.customization.toolbarHideFileName) {
+            if ( config.customization && config.customization.toolbarHideFileName)
                 me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
 
             if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
@@ -211,8 +210,8 @@ define([
 
         onTabStyleChange: function (style) {
             style && Common.localStorage.setItem("de-settings-tab-style", style);
-            style = style || Common.Utils.InternalSettings.get("de-settings-tab-style");
-            Common.Utils.InternalSettings.set("de-settings-tab-style", style);
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            Common.Utils.InternalSettings.set("settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='underline');
         },
