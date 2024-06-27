@@ -306,12 +306,17 @@ class MainController extends Component {
                 const config = storeAppOptions.config;
                 const customization = config.customization;
                 const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
+                const isForceView = customization?.mobile?.forceView ?? true;
+
+                if(customization?.mobileForceView !== undefined && customization?.mobileForceView !== null) {
+                    console.warn("Obsolete: The mobileForceView parameter is deprecated. Please use the forceView parameter from customization.mobile block");
+                }
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
-                if(!isForm && isMobileForceView) {
+                if(!isForm && (isMobileForceView || isForceView)) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
                 } else if(!isForm && !isMobileForceView) {
                     storeAppOptions.changeViewerMode(false);
@@ -331,6 +336,8 @@ class MainController extends Component {
                 const appOptions = this.props.storeAppOptions;
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
+                const customization = appOptions.customization;
+                const isStandardView = customization?.mobile?.standartView ?? false;
 
                 f7.emit('resize');
 
@@ -344,10 +351,10 @@ class MainController extends Component {
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
                 let value = LocalStorage.getItem("de-settings-zoom");
-                const zf = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : 100);
+                const zf = (value !== null) ? parseInt(value) : (customization && customization.zoom ? parseInt(customization.zoom) : 100);
                 (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = LocalStorage.getBool("de-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck === false));
+                value = LocalStorage.getBool("de-mobile-spellcheck", !(customization && customization.spellcheck === false));
                 appSettings.changeSpellCheck(value);
                 this.api.asc_setSpellCheck(value);
 
@@ -361,9 +368,10 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
-                value = LocalStorage.getBool('mobile-view', true);
+               
+                value = LocalStorage.getBool('mobile-view');
 
-                if(value) {
+                if(value || !isStandardView) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
