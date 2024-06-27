@@ -399,9 +399,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr>',
-                    '<td colspan="2"><div id="fms-chb-compact-header"></div></td>',
-                '</tr>',
+                // '<tr>',
+                //     '<td colspan="2"><div id="fms-chb-compact-header"></div></td>',
+                // '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -474,13 +474,13 @@ define([
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
 
-            this.chCompactHeader = new Common.UI.CheckBox({
-                el: $markup.findById('#fms-chb-compact-header'),
-                labelText: 'Compact header',
-                dataHint: '2',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
-            });
+            // this.chCompactHeader = new Common.UI.CheckBox({
+            //     el: $markup.findById('#fms-chb-compact-header'),
+            //     labelText: 'Compact header',
+            //     dataHint: '2',
+            //     dataHintDirection: 'left',
+            //     dataHintOffset: 'small'
+            // });
 
             this.chScreenReader = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-scrn-reader'),
@@ -995,7 +995,7 @@ define([
                 this.rbChangesBallons.setValue(!value);
             }
 
-            this.chCompactHeader.setValue(Common.localStorage.getBool("de-settings-compact-header", this.mode.compactHeader));
+            // this.chCompactHeader.setValue(Common.localStorage.getBool("de-settings-compact-header", this.mode.compactHeader));
         },
 
         applySettings: function() {
@@ -1052,7 +1052,7 @@ define([
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
 
-            Common.localStorage.setBool("de-settings-compact-header", this.chCompactHeader.isChecked());
+            // Common.localStorage.setBool("de-settings-compact-header", this.chCompactHeader.isChecked());
 
             Common.localStorage.save();
 
