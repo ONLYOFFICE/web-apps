@@ -538,8 +538,7 @@
         .tabs {
             li {
                 &:after {
-                    border-top-color: @tab-toolbar-ie;
-                    border-top-color: @tab-toolbar;
+                    .tab-toolbar-color();
                 }
 
                 > a {
@@ -689,8 +688,7 @@
         .tabs {
             li {
                 &:after {
-                    border-top-color: @tab-header-ie;
-                    border-top-color: @tab-header;
+                    .tab-header-color();
                 }
 
                 &.active {

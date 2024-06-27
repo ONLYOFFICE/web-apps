@@ -1095,7 +1095,8 @@ define([
                     isDark = true;
                 tabStyle = tabStyle || Common.Utils.InternalSettings.get("de-settings-tab-style") || 'tab';
                 if (!Common.Utils.isIE) {
-                    var header_color = Common.UI.Themes.currentThemeColor('--toolbar-header-document'),
+                    var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :
+                                                                            isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' : '--toolbar-header-presentation'),
                         toolbar_color = Common.UI.Themes.currentThemeColor('--background-toolbar'),
                         logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='underline') ? toolbar_color : header_color;
                     isDark = (new Common.Utils.RGBColor(logo_type)).isDark();

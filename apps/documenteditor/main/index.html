@@ -12,6 +12,7 @@
     <style type="text/css">
         .theme-dark, .theme-type-dark {
             --toolbar-header-document: #2a2a2a;
+            --toolbar-header-pdf: #2a2a2a;
             --background-toolbar: #404040;
             --border-toolbar: #2a2a2a;
             --highlight-button-hover: #555;
@@ -392,7 +393,7 @@
                         isDark = true;
                     if (!(isIEBrowser && ieVer && parseFloat(ieVer[1]) < 11.0)) {
                         var docstyle = getComputedStyle(document.body),
-                            header_color = docstyle.getPropertyValue('--toolbar-header-document'),
+                            header_color = docstyle.getPropertyValue(isForm ? '--toolbar-header-pdf' : '--toolbar-header-document'),
                             toolbar_color = docstyle.getPropertyValue('--background-toolbar')
                             logo_type = (view || compact) && (tabStyle==='underline') ? toolbar_color : header_color;
                         isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabStyle==='underline'));
