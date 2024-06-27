@@ -364,7 +364,7 @@
                     if (image) {
                         elem.setAttribute('src', image);
                     } else if (!isDark) {
-                        elem.setAttribute('src', "../../common/main/resources/img/header/dark-logo_s.svg");
+                        elem.setAttribute('src', "../../../apps/common/main/resources/img/header/dark-logo_s.svg");
                     }
                     elem.style.opacity = 1;
                 }

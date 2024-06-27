@@ -114,6 +114,12 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
+                },
+                'ViewTab': {
+                    'tabstyle:change': function (style) {
+                        me.onTabStyleChange(style);
+                        me.header.changeLogo();
+                    }
                 }
             });
 
@@ -168,13 +174,9 @@ define([
                 $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
             }
 
-            if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
+            me.onTabStyleChange();
+            if ( config.customization && config.customization.toolbarHideFileName )
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
@@ -342,6 +344,14 @@ define([
 
         isSearchBarVisible: function () {
             return this.searchBar && this.searchBar.isVisible();
+        },
+
+        onTabStyleChange: function (style) {
+            style && Common.localStorage.setItem("sse-settings-tab-style", style);
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            Common.Utils.InternalSettings.set("settings-tab-style", style);
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='underline');
         },
 
         textHideFBar: 'Hide Formula Bar',

@@ -494,8 +494,34 @@ define([
                     }
 
                     if (Common.UI.Themes.available()) {
+                        function _add_tab_styles() {
+                            let btn = me.btnInterfaceTheme;
+                            if ( typeof(btn.menu) === 'object' )
+                                btn.menu.addItem({caption: '--'});
+                            else
+                                btn.setMenu(new Common.UI.Menu());
+                            let mni = new Common.UI.MenuItem({
+                                value: -1,
+                                caption: me.textTabStyle,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    items: [
+                                        {value: 'tab', caption: me.textTab, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'underline', caption: me.textUnderline, checkable: true, toggleGroup: 'tabstyle'}
+                                    ]
+                                })
+                            });
+                            _.each(mni.menu.items, function(item){
+                                item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                            });
+                            mni.menu.on('item:click', _.bind(function (menu, item) {
+                                me.fireEvent('tabstyle:change', [item.value]);
+                            }, me));
+                            btn.menu.addItem(mni);
+                        }
                         function _fill_themes() {
-                            var btn = this.btnInterfaceTheme;
+                            let btn = this.btnInterfaceTheme;
                             if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
                             else btn.setMenu(new Common.UI.Menu());
 
@@ -509,6 +535,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
+                            Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
@@ -638,7 +665,11 @@ define([
             txtViewNormal: 'Normal',
             txtViewPageBreak: 'Page Break Preview',
             tipViewNormal: 'See your document in Normal view',
-            tipViewPageBreak: 'See where the page breaks will appear when your document is printed'
+            tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
+            textTabStyle: 'Tab style',
+            textTab: 'Tab',
+            textLine: 'Line',
+            textUnderline: 'Underline'
         }
     }()), SSE.Views.ViewTab || {}));
 });
