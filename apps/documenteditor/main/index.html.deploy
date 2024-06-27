@@ -13,7 +13,7 @@
     <style type="text/css">
         .content-theme-dark {
             --skeleton-canvas-content-background: #3a3a3a;
-            --skeleton-canvas-page-border: #2a2a2a;
+            --skeleton-canvas-page-border: #616161;
             --skeleton-canvas-line: rgba(255,255,255,.05);
         }
 

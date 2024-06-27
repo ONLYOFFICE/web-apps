@@ -142,6 +142,7 @@
         "Column": "Colonna",
         "Column Labels": "Etichette di colonna",
         "Comma": "Virgola",
+        "Comma [0]": "Virgola [0]",
         "Confidential": "Riservato",
         "Currency": "Valuta",
         "Currency [0]": "Valuta [0]",
@@ -208,8 +209,7 @@
         "Years": "Anni",
         "Yellow": "Giallo",
         "Yellow Orange": "Giallo arancione",
-        "Your text here": "Il tuo testo qui",
-        "Comma [0]": "Comma [0]"
+        "Your text here": "Il tuo testo qui"
       },
       "textAnonymous": "Anonimo",
       "textBuyNow": "Visitare il sito web",

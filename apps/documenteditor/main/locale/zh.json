@@ -65,7 +65,7 @@
   "Common.Controllers.ReviewChanges.textParaDeleted": "<b>已刪除段落</b>",
   "Common.Controllers.ReviewChanges.textParaFormatted": "已格式化的段落",
   "Common.Controllers.ReviewChanges.textParaInserted": "<b>段落已插入</b>",
-  "Common.Controllers.ReviewChanges.textParaMoveFromDown": "<b>已下移：</b>",
+  "Common.Controllers.ReviewChanges.textParaMoveFromDown": "<b>已下移</b>",
   "Common.Controllers.ReviewChanges.textParaMoveFromUp": "<b>已上移：</b>",
   "Common.Controllers.ReviewChanges.textParaMoveTo": "<b>已移动</b>",
   "Common.Controllers.ReviewChanges.textPosition": "位置",

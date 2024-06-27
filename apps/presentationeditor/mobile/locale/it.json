@@ -1,6 +1,6 @@
 {
   "About": {
-    "textAbout": "In riguardo a",
+    "textAbout": "Informazioni su",
     "textAddress": "Indirizzo",
     "textBack": "Indietro",
     "textEditor": "Presentation Editor",
@@ -487,7 +487,7 @@
       "mniSlideStandard": "Standard (4:3)",
       "mniSlideWide": "Schermo panoramico (16:9)",
       "notcriticalErrorTitle": "Avviso",
-      "textAbout": "In riguardo a",
+      "textAbout": "Informazioni su",
       "textAddress": "indirizzo: ",
       "textApplication": "Applicazione",
       "textApplicationSettings": "Impostazioni dell'applicazione",
