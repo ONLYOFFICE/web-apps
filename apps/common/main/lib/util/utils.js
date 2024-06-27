@@ -201,8 +201,8 @@ define([], function () {
                     needRepaint = true;
                 else if (needRepaint && me.innerWidth>0) {
                     needRepaint = false;
+                    jQuery.support && jQuery.support.forceStyleTests();
                     Common.NotificationCenter.trigger('app:repaint');
-                    console.log(me.innerWidth);
                 }
             },
             checkSizeIE = function () {
