@@ -1131,6 +1131,7 @@ define([
                 var controller = PDFE.getController('Common.Controllers.Comments');
                 if (controller) {
                     controller.addDummyComment();
+                    item && item.isFromBar && this.api.SetShowTextSelectPanel(false);
                 }
             }
         },
@@ -1153,6 +1154,7 @@ define([
                         })).show();
                     }
                 }
+                item.isFromBar && me.api.SetShowTextSelectPanel(false);
             }
             me.editComplete();
         },
@@ -2838,8 +2840,8 @@ define([
                     }
                 });
                 // annotation text bar
-                documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy'}));
-                documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this));
+                documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy', isFromBar: true}));
+                documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
                 documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
 
                 this.api.UpdateInterfaceState();
