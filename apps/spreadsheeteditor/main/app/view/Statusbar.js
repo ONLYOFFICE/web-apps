@@ -127,6 +127,7 @@ define([
                 this.sheetListMenu = new Common.UI.Menu({
                     style: 'margin-top:-3px;',
                     menuAlign: 'bl-tl',
+                    search: true,
                     maxHeight: 300
                 });
                 this.sheetListMenu.on('item:click', function(obj,item) {
