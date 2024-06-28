@@ -109,6 +109,12 @@
                             url: "https://helpdesk.onlyoffice.com/?desktop=true"
                         },
                         uiTheme: urlParams["uitheme"],
+                        features:  {
+                            tabStyle:  {
+                                mode: "line",
+                                change:  false,
+                            },
+                        },
                     },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
