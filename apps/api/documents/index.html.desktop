@@ -104,11 +104,11 @@
             function getEditorConfig(urlParams) {
                 return {
                     customization   : {
-                        goback: { url: "onlyoffice.com" }
-                        , feedback: {
+                        goback: { url: "onlyoffice.com" },
+                        feedback: {
                             url: "https://helpdesk.onlyoffice.com/?desktop=true"
-                        }
-                        , uiTheme: urlParams["uitheme"]
+                        },
+                        uiTheme: urlParams["uitheme"],
                     },
                     mode            : urlParams["mode"] || 'edit',
                     lang            : urlParams["lang"] || 'en',
