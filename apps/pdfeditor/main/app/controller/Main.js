@@ -1293,9 +1293,22 @@ define([
 
                 this.appOptions.fileKey = this.document.key;
 
+                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
+                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+
+                var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
+                if (Common.UI.FeaturesManager.canChange('tabStyle', true) && Common.localStorage.itemExists("pdfe-settings-tab-style")) { // get from local storage
+                    value = Common.localStorage.getItem("pdfe-settings-tab-style");
+                } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
+                    console.log("Obsolete: The 'toolbarNoTabs' parameter of the 'customization' section is deprecated. Please use 'tabStyle' parameter in the 'customization.features' section instead.");
+                    value = 'underline';
+                }
+                Common.Utils.InternalSettings.set("settings-tab-style", value || 'tab');
+
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
-                    appHeader.setBranding(this.editorConfig.customization);
+                    appHeader.setBranding(this.editorConfig.customization, this.appOptions);
 
                 this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
                 this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
@@ -1311,10 +1324,7 @@ define([
                 appHeader.setUserAvatar(this.appOptions.user.image);
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
-                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
-                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
-                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
                 this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 

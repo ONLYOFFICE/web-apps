@@ -88,10 +88,10 @@
             }
 
             &.active {
-                background-color: @background-toolbar-ie;
-                background-color: @background-toolbar;
+                background-color: @background-toolbar-tab-ie;
+                background-color: @background-toolbar-tab;
 
-                box-shadow: inset @minus-px 0px 0 0 @border-toolbar-active-panel-top, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-panel-top;
+                box-shadow: inset 0 @minus-px 0 0 @background-toolbar, inset @minus-px 0px 0 0 @border-toolbar-active-tab, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-tab;
             }
 
 
@@ -141,6 +141,10 @@
                     }
                 }
             }
+        }
+
+        &:not(.top-title *) {
+            --toolbar-tabs-scroller-height: 42px;
         }
 
         .scroll {
@@ -210,7 +214,8 @@
                 content: ' ';
                 width: @arrow-length;
                 height: @arrow-length;
-                border: solid white;
+                border: solid @text-toolbar-header-ie;
+                border: solid @text-toolbar-header;
                 border-width: 0 2px 2px 0;
             }
         }
@@ -438,8 +443,6 @@
     }
 
     &.toolbar-view {
-        --toolbar-tabs-scroller-height: 42px;
-
         .toolbar-mask {
             left: 0;
         }
@@ -477,15 +480,10 @@
     }
 }
 
+.lined-tabs,
 .style-off-tabs {
     .toolbar {
-        @underscore_height: 3px;
-
-        .tabs, .box-tabs .extra {
-            background-color: transparent;
-            box-shadow: inset 0 -1px 0 0 @border-regular-control-ie;
-            box-shadow: inset 0 -1px 0 0 @border-regular-control;
-        }
+        @underscore_height: 2px;
 
         .tabs {
             ul {
@@ -496,65 +494,56 @@
                 position: relative;
 
                 &:after {
-                    //transition: opacity .1s;
-                    //transition: bottom .1s;
                     border-top: @underscore_height solid @text-normal-ie;
                     border-top: @underscore_height solid @text-normal;
                     content: '';
                     position: absolute;
-                    width: 100%;
+                    margin-left: 6px;
+                    width: calc(100% - 12px);
                     bottom: -@underscore_height;
                     opacity: 0;
                 }
 
-                &.active {
+                &.active,
+                &:hover {
                     background-color: transparent;
                     box-shadow: none;
-                    //> a {
-                    //    padding: 0 12px;
-                    //}
+                }
+
+                &.active {
                     &:after {
                         opacity: 1;
-                        bottom: 0;
+                        bottom: 4px;
                     }
                 }
 
                 &:hover:not(.active) {
-                    background-color: rgba(0, 0, 0, .05);
-                    box-shadow: none;
-
-                    .theme-type-dark & {
-                        background-color: rgba(255, 255, 255, .05);
+                    &:after {
+                        opacity: 0.4;
+                        bottom: 4px;
                     }
+                }
+            }
+        }
+    }
+}
 
-                    //background-color: @highlight-button-hover-ie;
-                    //background-color: @highlight-button-hover;
+.style-off-tabs {
+    .toolbar {
+        .tabs, .box-tabs .extra {
+            background-color: transparent;
+            box-shadow: inset 0 -1px 0 0 transparent;
+        }
+
+        .tabs {
+            li {
+                &:after {
+                    .tab-toolbar-color();
                 }
 
                 > a {
                     color: @text-normal-ie;
                     color: @text-normal;
-                    &::after {
-                        display:block;
-                        content:attr(data-title);
-                        font-weight:bold;
-                        height:1px;
-                        color:transparent;
-                        overflow:hidden;
-                        visibility:hidden;
-                        margin-bottom:-1px;
-                    }
-                }
-            }
-        }
-
-        .theme-type-light & {
-            .extra {
-                #header-logo {
-                    i {
-                        background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
-                        background-repeat: no-repeat;
-                    }
                 }
             }
         }
@@ -682,7 +671,43 @@
 
         &.editor-native-color {
             .tabs li:after {
-                .header-border-color();
+                .tab-toolbar-color();
+            }
+        }
+    }
+
+    &.style-skip-docname .toolbar {
+        #box-doc-name > input {
+            display: none;
+        }
+    }
+}
+
+.lined-tabs {
+    .toolbar {
+        .tabs {
+            li {
+                &:after {
+                    .tab-header-color();
+                }
+
+                &.active {
+                    > a {
+                        color: #fff;
+                        color: var(--text-toolbar-header);
+                    }
+                }
+            }
+        }
+
+        #slot-btn-start-fill,
+        #slot-btn-header-form-submit {
+            padding: 4px 0;
+        }
+
+        &.editor-native-color {
+            .tabs li:after {
+                .tab-header-color();
             }
         }
     }

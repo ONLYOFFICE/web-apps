@@ -59,7 +59,8 @@ define([
         mouseMoveData = null,
         isTooltipHiding = false,
         bodyWidth = 0,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        _logoImage = '';
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -839,9 +840,10 @@ define([
                     return;
                 }
 
-                if (value.logo.image || value.logo.imageDark) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
+                if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
+                    _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -1627,9 +1629,13 @@ define([
 
             if (this.appOptions.canBranding) {
                 var value = this.appOptions.customization;
-                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    $('#header-logo img').attr('src', image);
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    if (_logoImage !== image) {
+                        _logoImage = image;
+                        $('#header-logo img').attr('src', image);
+                    }
                 }
             }
         },

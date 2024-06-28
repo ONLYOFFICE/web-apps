@@ -108,6 +108,12 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
+                },
+                'ViewTab': {
+                    'tabstyle:change': function (style) {
+                        me.onTabStyleChange(style);
+                        me.header.changeLogo();
+                    }
                 }
             });
         },
@@ -173,13 +179,9 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
+            me.onTabStyleChange();
+            if ( config.customization && config.customization.toolbarHideFileName)
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
@@ -204,6 +206,14 @@ define([
             }
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
+        },
+
+        onTabStyleChange: function (style) {
+            style && Common.localStorage.setItem("de-settings-tab-style", style);
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            Common.Utils.InternalSettings.set("settings-tab-style", style);
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='underline');
         },
 
         onAppReady: function (config) {
