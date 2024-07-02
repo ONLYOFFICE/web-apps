@@ -1477,12 +1477,16 @@ define([
                         buttons: [],
                         closable: false
                     });
+                    if (this._isDocReady) { // receive after refresh file
+                        this.disableEditing(true);
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
                     return;
                 }
                 if (Asc.c_oLicenseResult.ExpiredLimited === licType)
                     this._state.licenseType = licType;
 
-                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded()) return;
+                if ( this.onServerVersion(params.asc_getBuildVersion()) || !this.onLanguageLoaded() || this._isDocReady) return;
 
                 var isPDFViewer = /^(?:(pdf|djvu|xps|oxps))$/.test(this.document.fileType);
 
@@ -2321,6 +2325,10 @@ define([
                             })
                         }
                     });
+                    if (this._isDocReady) { // receive after refresh file
+                        this.disableEditing(true);
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
                     return true;
                 }
                 return false;
