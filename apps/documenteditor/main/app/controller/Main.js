@@ -786,8 +786,7 @@ define([
             },
 
             disableEditing: function(disable, type) {
-                var app = this.getApplication(),
-                    temp = type==='reconnect' || type==='refresh-file';
+                var temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     reviewMode: false,
@@ -1126,6 +1125,7 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['RefreshFile']:
+                        title    = this.textUpdating;
                         text    = this.textUpdating;
                         Common.UI.Menu.Manager.hideAll();
                         this.disableEditing(true, 'refresh-file');
@@ -3465,7 +3465,7 @@ define([
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
             textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
             textUpdating: 'Updating',
-            textUpdateVersion: 'The file version has been changed. Please wait...',
+            textUpdateVersion: 'The file version has been changed. Please wait...'
         }
     })(), DE.Controllers.Main || {}))
 });
