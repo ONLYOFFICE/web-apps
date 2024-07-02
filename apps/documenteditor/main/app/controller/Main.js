@@ -785,8 +785,9 @@ define([
               return"#"+("000000"+color.toString(16)).substr(-6);
             },
 
-            disableEditing: function(disable, temp) {
-                var app = this.getApplication();
+            disableEditing: function(disable, type) {
+                var app = this.getApplication(),
+                    temp = type==='reconnect' || type==='refresh-file';
                 Common.NotificationCenter.trigger('editing:disable', disable, {
                     viewMode: disable,
                     reviewMode: false,
@@ -807,7 +808,7 @@ define([
                     toolbar: true,
                     plugins: false,
                     protect: false
-                }, temp ? 'reconnect' : 'disconnect');
+                }, temp ? type : 'disconnect');
             },
 
             onEditingDisable: function(disable, options, type) {
@@ -1006,9 +1007,13 @@ define([
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
-                    this.disableEditing(false, true);
+                    this.disableEditing(false, 'reconnect');
                     this.getApplication().getController('Statusbar').hideDisconnectTip();
                     this.getApplication().getController('Statusbar').setStatusCaption(this.textReconnect);
+                } else if (id === Asc.c_oAscAsyncAction['RefreshFile'])  {
+                    this.disableEditing(false, 'refresh-file');
+                    this.getApplication().getController('Statusbar').hideDisconnectTip();
+                    this.getApplication().getController('Statusbar').setStatusCaption('');
                 }
 
                 if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
@@ -1111,13 +1116,20 @@ define([
                     case Asc.c_oAscAsyncAction['Disconnect']:
                         text    = this.textDisconnect;
                         Common.UI.Menu.Manager.hideAll();
-                        this.disableEditing(true, true);
+                        this.disableEditing(true, 'reconnect');
                         var me = this;
                         statusCallback = function() {
                             me._state.timerDisconnect = setTimeout(function(){
                                 me.getApplication().getController('Statusbar').showDisconnectTip();
                             }, me._state.unloadTimer || 0);
                         };
+                        break;
+
+                    case Asc.c_oAscAsyncAction['RefreshFile']:
+                        text    = this.textUpdating;
+                        Common.UI.Menu.Manager.hideAll();
+                        this.disableEditing(true, 'refresh-file');
+                        this.getApplication().getController('Statusbar').showDisconnectTip(this.textUpdateVersion);
                         break;
 
                     default:
@@ -2780,7 +2792,7 @@ define([
             warningDocumentIsLocked: function() {
                 var me = this;
                 var _disable_ui = function (disable) {
-                    me.disableEditing(disable, true);
+                    me.disableEditing(disable, 'reconnect');
                 };
 
                 Common.Utils.warningDocumentIsLocked({disablefunc: _disable_ui});
@@ -3443,7 +3455,9 @@ define([
             errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
             errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
             errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?'
+            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
+            textUpdating: 'Updating',
+            textUpdateVersion: 'The file version has been changed. Please wait...',
         }
     })(), DE.Controllers.Main || {}))
 });

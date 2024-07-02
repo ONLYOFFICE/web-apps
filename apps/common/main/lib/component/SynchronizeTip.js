@@ -190,6 +190,13 @@ define([
                 return this.cmpEl && this.cmpEl.is(':visible');
             },
 
+            setText: function(text) {
+                if (this.text !== text) {
+                    this.text = text;
+                    this.cmpEl.find('.tip-text').text(text);
+                }
+            },
+
             textDontShow        : 'Don\'t show this message again',
             textSynchronize     : 'The document has been changed by another user.<br>Please click to save your changes and reload the updates.'
         }
