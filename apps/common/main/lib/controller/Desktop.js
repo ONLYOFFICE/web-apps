@@ -32,7 +32,7 @@
 /**
  * Controller wraps up interaction with desktop app
  *
- * Created by Maxim.Kadushkin on 2/16/2018.
+ * Created on 2/16/2018.
  */
 
 define([

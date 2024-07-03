@@ -33,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 07.12.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 07.12.2021
  *
  */
 

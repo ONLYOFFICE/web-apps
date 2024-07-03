@@ -34,8 +34,7 @@
  *
  *  ProtectedRangesManagerDlg.js
  *
- *  Created by Julia.Radzhabova on 01.02.23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 01.02.23
  *
  */
 

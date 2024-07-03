@@ -35,8 +35,7 @@
  *  Combined component for toolbar's and header's elements
  *
  *
- *  Created by Maxim.Kadushkin on 4/11/2017.
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/11/2017.
  *
  */
 

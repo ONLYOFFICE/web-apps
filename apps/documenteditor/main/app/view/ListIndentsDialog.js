@@ -33,8 +33,7 @@
 /**
  *  ListIndentsDialog.js
  *
- *  Created by Julia Radzhabova on 10/13/22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 10/13/22
  *
  */
 

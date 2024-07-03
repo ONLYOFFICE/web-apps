@@ -32,8 +32,7 @@
 /**
  *  UpDownPicker.js
  *
- *  Created by Julia Radzhabova on 3/29/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 3/29/23
  *
  */
 

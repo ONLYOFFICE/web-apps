@@ -32,8 +32,7 @@
 /**
  *    Layout.js
  *
- *    Created by Maxim Kadushkin on 10 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 10 February 2014
  *
  *
  *      Configuration

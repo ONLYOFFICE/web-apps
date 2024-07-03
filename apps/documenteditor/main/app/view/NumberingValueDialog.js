@@ -32,8 +32,7 @@
 /**
  *  NumberingValueDialog.js
  *
- *  Created by Julia Radzhabova on 7/20/18
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 7/20/18
  *
  */
 

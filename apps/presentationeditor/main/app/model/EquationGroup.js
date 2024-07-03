@@ -32,8 +32,7 @@
 /**
  *  EquationGroup.js
  *
- *  Created by Alexey Musinov on 29/10/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 29/10/14
  *
  */
 

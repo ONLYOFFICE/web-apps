@@ -32,8 +32,7 @@
 /**
  *  SideMenu.js
  *
- *  Created by Julia Svinareva on 25/10/2023.
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 25/10/2023.
  *
  */
 

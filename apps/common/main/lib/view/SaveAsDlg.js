@@ -30,8 +30,7 @@
  *
  */
 /**
- *  Created by Julia.Radzhabova on 9/27/18
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 9/27/18
  */
 
 define([

@@ -34,8 +34,7 @@
  *
  *  Displays loading mask over selected element(s) or component. Accepts both single and multiple selectors.
  *
- *  Created by Alexander Yuzhin on 2/7/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/7/14
  *
  */
 

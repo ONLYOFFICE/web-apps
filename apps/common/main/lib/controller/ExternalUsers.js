@@ -33,8 +33,7 @@
 /**
  *    ExternalUsers.js
  *
- *    Created by Julia Radzhabova on 02 February 2023
- *    Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *    Created on 02 February 2023
  *
  */
 if (Common === undefined)

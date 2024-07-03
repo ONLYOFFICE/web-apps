@@ -32,8 +32,7 @@
 /**
  *  OptionsDialog.js
  *
- *  Created by Julia Radzhabova on 15.10.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 15.10.2020
  *
  */
 define([

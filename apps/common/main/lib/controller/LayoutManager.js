@@ -32,8 +32,7 @@
 /**
  *  LayoutManager.js
  *
- *  Created by Julia Radzhabova on 06.10.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 06.10.2021
  *
  */
 

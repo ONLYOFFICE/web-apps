@@ -33,8 +33,7 @@
 /**
  *  DocProtection.js
  *
- *  Created by Julia Radzhabova on 21.09.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 21.09.2022
  *
  */
 define([

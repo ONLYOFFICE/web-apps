@@ -34,8 +34,7 @@
  *
  *    Contains views for menu 'File'
  *
- *    Created by Maxim Kadushkin on 20 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 20 February 2014
  *
  */
 

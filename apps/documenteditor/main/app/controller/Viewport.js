@@ -35,8 +35,7 @@
  *  This is out main controller which will do most of job
  *  It will listen for view and collection events and manage all data-related operations
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 

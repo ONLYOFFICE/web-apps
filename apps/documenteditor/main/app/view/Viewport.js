@@ -34,8 +34,7 @@
  *
  *  Viewport view
  *
- *  Created by Alexander Yuzhin on 12/27/13
- *  Copyright (c) 2013 Ascensio System SIA. All rights reserved.
+ *  Created on 12/27/13
  *
  */
 

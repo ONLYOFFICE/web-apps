@@ -32,8 +32,7 @@
 /**
  *    Shortcuts.js
  *
- *    Created by Maxim Kadushkin on 05 March 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 05 March 2014
  *
  */
 /*

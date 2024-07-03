@@ -32,8 +32,7 @@
 /**
  *  Label.js
  *
- *  Created by Julia Radzhabova on 1/20/22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 1/20/22
  *
  */
 

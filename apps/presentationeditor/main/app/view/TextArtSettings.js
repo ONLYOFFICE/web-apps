@@ -32,8 +32,7 @@
 /**
  *  TextArtSettings.js
  *
- *  Created by Julia Radzhabova on 7/10/15
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 7/10/15
  *
  */
 

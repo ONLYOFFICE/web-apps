@@ -32,8 +32,7 @@
 /**
  *  HyphenationDialog.js
  *
- *  Created by Julia Radzhabova on 24/08/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 24/08/23
  *
  */
 

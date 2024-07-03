@@ -32,8 +32,7 @@
 /**
  *  PageMarginsDialog.js
  *
- *  Created by Julia Radzhabova on 06/29/18
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 06/29/18
  *
  */
 

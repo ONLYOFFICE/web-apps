@@ -32,8 +32,7 @@
 /**
  *  app.js
  *
- *  Created by Julia Radzhabova on 04/27/23
- *  Copyright (c) 2013 Ascensio System SIA. All rights reserved.
+ *  Created on 04/27/23
  *
  */
 

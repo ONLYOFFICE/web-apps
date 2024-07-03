@@ -32,8 +32,7 @@
 /**
  *  ChartWizardDialog.js
  *
- *  Created by Julia Radzhabova on 02/11/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 02/11/23
  *
  */
 define(['common/main/lib/view/AdvancedSettingsWindow',
