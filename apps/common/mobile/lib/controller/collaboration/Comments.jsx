@@ -1,11 +1,11 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import { inject, observer } from "mobx-react";
 import { f7 } from 'framework7-react';
 import {Device} from '../../../../../common/mobile/utils/device';
 import { withTranslation} from 'react-i18next';
 import { LocalStorage } from '../../../utils/LocalStorage.mjs';
 
-import {AddComment, EditComment, AddReply, EditReply, ViewComments, ViewCurrentComments} from '../../view/collaboration/Comments';
+import { AddComment, EditComment, AddReply, EditReply, ViewCurrentComments, ViewAllComments, ViewComments } from '../../view/collaboration/Comments';
 import { getUserColor } from '../../../utils/getUserColor';
 
 // utils
@@ -462,6 +462,7 @@ class ViewCommentsController extends Component {
         this.onCommentMenuClick = this.onCommentMenuClick.bind(this);
         this.onResolveComment = this.onResolveComment.bind(this);
         this.closeViewCurComments = this.closeViewCurComments.bind(this);
+        this.closeViewAllComments = this.closeViewAllComments.bind(this);
 
         this.state = {
             isOpenViewCurComments: false,
@@ -469,14 +470,15 @@ class ViewCommentsController extends Component {
         };
 
         Common.Notifications.on('viewcomment', () => {
-            this.setState({ isOpenViewCurComments: true });
+            this.setState({ isOpenViewCurComments: true, allComments: false });
         });
 
         Common.Notifications.on('viewallcomments', () => {
-            this.setState(prevState => ({ 
-                ...prevState,
-                allComments: true 
-            }));
+            this.setState({ allComments: true, isOpenViewCurComments: false });
+        });
+
+        Common.Notifications.on('closeviewallcomments', () => {
+            this.closeViewAllComments();
         });
 
         Common.Notifications.on('closeviewcomment', () => {
@@ -494,22 +496,14 @@ class ViewCommentsController extends Component {
         this.setState({ isOpenViewCurComments: false, allComments: false });
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.allComments && !prevState.allComments) {
-            this.openAllComments();
-        }
-
-        if (!this.state.allComments && prevState.allComments) {
-            this.closeViewCurComments();
-        }
-    }
-
-    openAllComments() {
+    closeViewAllComments() {
         if (Device.phone) {
-            f7.sheet.open('#view-comment-sheet');
+            f7.sheet.close('#view-all-comments-sheet');
         } else {
-            f7.popover.open('#view-comment-popover');
+            f7.popover.close('#view-all-comments-popover');
         }
+
+        this.setState({ allComments: false, isOpenViewCurComments: false });
     }
 
     onResolveComment (comment) {
@@ -660,12 +654,23 @@ class ViewCommentsController extends Component {
     render() {
         return (
             <Fragment>
+                {this.props.allComments &&
+                    <ViewComments 
+                        wsProps={this.props?.storeWorksheets?.wsProps} 
+                        onCommentMenuClick={this.onCommentMenuClick} 
+                        onResolveComment={this.onResolveComment} 
+                        showComment={this.showComment}
+                        isNavigate={true}
+                    />
+                }
                 {this.state.allComments && 
-                    <ViewComments
+                    <ViewAllComments
                         wsProps={this.props?.storeWorksheets?.wsProps} 
                         onCommentMenuClick={this.onCommentMenuClick} 
                         onResolveComment={this.onResolveComment} 
                         showComment={this.showComment} 
+                        closeViewAllComments={this.closeViewAllComments}
+                        isNavigate={false}
                     />
                 }
                 {this.state.isOpenViewCurComments && 

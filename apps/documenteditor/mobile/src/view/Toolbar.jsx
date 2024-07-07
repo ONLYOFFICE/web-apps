@@ -13,18 +13,13 @@ const ToolbarView = props => {
     const isForm = props.isForm;
     const canFillForms = props.canFillForms;
     const isEditableForms = isForm && canFillForms;
-    const isTypeForm = props.isTypeForm;
-    const isPDFView = !isForm && isTypeForm;
+    const isPDFView = props.isPDFView;
     const disableEditBtn = props.isObjectLocked || props.stateDisplayMode || props.disabledEditControls || isDisconnected;
     const isViewer = props.isViewer;
     const isMobileView = props.isMobileView;
     const docTitle = props.docTitle;
     const isOpenModal = props.isOpenModal;
 
-    const handleAddCommentsClick = () => {
-        Common.Notifications.trigger('viewallcomments');
-    };
-    
     return (
         <Fragment>
             <NavLeft>
@@ -94,7 +89,7 @@ const ToolbarView = props => {
                         <Link key='history-link' id='btn-open-history' icon='icon-version-history' href={false} className={isOpenModal && 'disabled'} onClick={() => props.openOptions('history')}></Link> 
                     : null)
                 ] : isPDFView ? [
-                    <Link key='link-add-comments' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-add-comments' icon='icon-comments' onClick={() => handleAddCommentsClick()} href={false}></Link>,
+                    <Link key='link-add-comments' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-add-comments' icon='icon-comments' onClick={() => Common.Notifications.trigger('viewallcomments')} href={false}></Link>,
                     <Link key='link-add-annotation' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-add-annotation' icon='icon-plus' href={false} onClick={() => props.openOptions('annotation')}></Link>,
                     <Link key='save-form-link' className={(props.disabledSettings || props.disabledControls || isDisconnected || isOpenModal) && 'disabled'} id='btn-save-form' icon='icon-save-form' href={false} onClick={() => props.showDlgSavePdfViewer()}></Link>
                 ] : [

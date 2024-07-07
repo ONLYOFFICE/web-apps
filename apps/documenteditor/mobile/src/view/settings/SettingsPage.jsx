@@ -33,11 +33,10 @@ const SettingsPage = inject("storeAppOptions", "storeReview", "storeDocumentInfo
 
     // set mode
     const isViewer = appOptions.isViewer;
-    const isTypeForm = appOptions.isTypeForm;
     const isMobileView = appOptions.isMobileView;
     const isFavorite = appOptions.isFavorite;
     const canFillForms = appOptions.canFillForms;
-    const isPDFView = !isForm && isTypeForm;
+    const isPDFView = appOptions.isPDFView;
     const isEditableForms = isForm && canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
     const canCloseEditor = appOptions.canCloseEditor;

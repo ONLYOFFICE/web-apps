@@ -218,7 +218,7 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
-                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    // docInfo.put_Wopi(this.editorConfig.wopi);
 
                     let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps

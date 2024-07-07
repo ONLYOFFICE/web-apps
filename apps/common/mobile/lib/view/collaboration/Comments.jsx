@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment, useRef} from 'react';
 import {observer, inject} from "mobx-react";
-import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton } from 'framework7-react';
+import { f7, Popup, Sheet, Popover, Page, Toolbar, Navbar, NavLeft, NavRight, NavTitle, Link, Input, Icon, List, ListItem, Actions, ActionsGroup, ActionsButton, View } from 'framework7-react';
 import { useTranslation } from 'react-i18next';
 import {Device} from '../../../utils/device';
 
@@ -689,14 +689,11 @@ const pickLink = (message) => {
 }
 
 // View comments
-
-const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(observer(({storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, wsProps}) => {
+const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(observer(({ storeComments, storeAppOptions, onCommentMenuClick, onResolveComment, showComment, storeReview, wsProps, isNavigate }) => {
     const { t } = useTranslation();
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
-    const isForm = storeAppOptions.isForm;
-    const isTypeForm = storeAppOptions.isTypeForm;
-    const isPDFView = !isForm && isTypeForm;
+    const isPDFView = storeAppOptions.isPDFView;
     const displayMode = storeReview.displayMode;
     const isViewer = storeAppOptions.isViewer;
     const canEditComments = storeAppOptions.canEditComments;
@@ -716,14 +713,14 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
 
     return (
         <Page>
-            <Navbar title={_t.textComments} backLink={_t.textBack}>
-                {Device.phone &&
+            <Navbar title={_t.textComments} backLink={isNavigate ? _t.textBack : null}>
+                {Device.phone ?
                     <NavRight>
-                        <Link sheetClose=".coauth__sheet">
-                            <Icon icon='icon-expand-down'/>
+                        <Link sheetClose={isNavigate ? ".coauth__sheet" : '#view-all-comments-sheet'}>
+                            <Icon icon='icon-expand-down' />
                         </Link>
                     </NavRight>
-                }
+                : null}
             </Navbar>
             {!sortComments ?
                 <div className='no-comments'>{_t.textNoComments}</div> :
@@ -743,12 +740,12 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                             <div className='comment-date'>{comment.date}</div>
                                         </div>
                                     </div>
-                                    {(isEdit && !viewMode || isPDFView) &&
+                                    {(isEdit && !viewMode) || isPDFView &&
                                         <div className='right'>
-                                            {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) && 
+                                            {((comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) || isPDFView) && 
                                                 <div className='comment-resolve' onClick={() => {onResolveComment(comment);}}><Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'} /></div> 
                                             }
-                                            {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
+                                            {((displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) || isPDFView) &&
                                                 <div className='comment-menu' onClick={() => {setComment(comment); openActionComment(true);}}>
                                                     <Icon icon='icon-menu-comment' />
                                                 </div>
@@ -777,7 +774,7 @@ const ViewComments = inject("storeComments", "storeAppOptions", "storeReview")(o
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {(isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
+                                                                    {((isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting) || isPDFView) &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu' onClick={() => {setComment(comment); setReply(reply); openActionReply(true);}}>
                                                                                 <Icon icon='icon-menu-comment'/>
@@ -816,9 +813,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     const _t = t('Common.Collaboration', {returnObjects: true});
     const isAndroid = Device.android;
     const displayMode = storeReview.displayMode;
-    const isForm = storeAppOptions.isForm;
-    const isTypeForm = storeAppOptions.isTypeForm;
-    const isPDFView = !isForm && isTypeForm;
+    const isPDFView = storeAppOptions.isPDFView;
     const isViewer = storeAppOptions.isViewer;
     const canEditComments = storeAppOptions.canEditComments;
     const viewMode = !storeAppOptions.canComments;
@@ -862,8 +857,8 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
     return (
         <Fragment>
             <Toolbar position='bottom'>
-                {isEdit && !viewMode || isPDFView &&
-                    <Link className={`btn-add-reply${((wsProps?.Objects || isViewer) && !canEditComments || !isAvailableCommenting || !isPDFView) ? ' disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment)}}>{_t.textAddReply}</Link>
+                {(isEdit && !viewMode) || isPDFView &&
+                    <Link className={`btn-add-reply ${(((wsProps?.Objects || isViewer) && !canEditComments) || !isAvailableCommenting || !isPDFView) ? 'disabled' : ''}`} href='#' onClick={() => {onCommentMenuClick('addReply', comment)}}>{_t.textAddReply}</Link>
                 }
                 {comments.length > 1 &&
                     <div className='comment-navigation row'>
@@ -888,14 +883,14 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                         <div className='comment-date'>{comment.date}</div>
                                     </div>
                                 </div>
-                                {isEdit && !viewMode || isPDFView &&
+                                {(isEdit && !viewMode) || isPDFView &&
                                     <div className='right'>
-                                        {(comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) && 
+                                        {((comment.editable && displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) || isPDFView) && 
                                             <div className='comment-resolve' onClick={() => {onResolveComment(comment)}}>
                                                 <Icon icon={comment.resolved ? 'icon-resolve-comment check' : 'icon-resolve-comment'}/>
                                             </div>
                                         }
-                                        {(displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
+                                        {((displayMode === 'markup' && !wsProps?.Objects && (!isViewer || canEditComments) && isAvailableCommenting) || isPDFView) &&
                                             <div className='comment-menu' onClick={() => {openActionComment(true)}}>
                                                 <Icon icon='icon-menu-comment'/>
                                             </div>
@@ -922,7 +917,7 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
                                                                             <div className='reply-date'>{reply.date}</div>
                                                                         </div>
                                                                     </div>
-                                                                    {(isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting || isPDFView) &&
+                                                                    {((isEdit && !viewMode && reply.editable && (!isViewer || canEditComments) && isAvailableCommenting) || isPDFView) &&
                                                                         <div className='right'>
                                                                             <div className='reply-menu'
                                                                                 onClick={() => {
@@ -963,10 +958,6 @@ const CommentList = inject("storeComments", "storeAppOptions", "storeReview")(ob
 const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveComment, wsProps}) => {
     useEffect(() => {
         f7.sheet.open('#view-comment-sheet');
-
-        return () => {
-            f7.sheet.close('#view-comment-sheet');
-        }   
     }, []);
 
     const [stateHeight, setHeight] = useState('45%');
@@ -1015,25 +1006,75 @@ const ViewCommentSheet = ({closeCurComments, onCommentMenuClick, onResolveCommen
     )
 };
 
-const ViewCommentPopover = ({onCommentMenuClick, onResolveComment, wsProps}) => {
+const ViewCommentPopover = ({ onCommentMenuClick, onResolveComment, wsProps, isPDFView }) => {
     useEffect(() => {
-        f7.popover.open('#view-comment-popover', '#btn-coauth');
-    });
+        if (isPDFView) {
+            f7.popover.open('#view-comment-popover', '#btn-add-comments');
+        } else {
+            f7.popover.open('#view-comment-popover', '#btn-coauth');
+        }
+    }, []);
 
     return (
-        <Popover id='view-comment-popover' style={{height: '410px'}} closeByOutsideClick={false}>
+        <Popover id='view-comment-popover' style={{ height: '410px' }} closeByOutsideClick={false}>
             <CommentList wsProps={wsProps} onCommentMenuClick={onCommentMenuClick} onResolveComment={onResolveComment} />
         </Popover>
     )
 };
 
-const ViewCurrentComments = props => {
+const ViewCurrentComments = inject("storeAppOptions")(observer(props => {
+    const isPDFView = props.storeAppOptions.isPDFView;
+
     return (
         Device.phone ?
-            <ViewCommentSheet {...props}/> :
-            <ViewCommentPopover {...props}/>
+            <ViewCommentSheet {...props} /> :
+            <ViewCommentPopover {...props} isPDFView={isPDFView} />
+    )
+}));
+
+const ViewAllCommentsSheet = (props) => {
+    return (
+        <Sheet 
+            id='view-all-comments-sheet' 
+            backdrop={true} 
+            closeByBackdropClick={true}
+            onSheetClosed={() => props.closeViewAllComments()}
+        >
+            <ViewComments {...props} />
+        </Sheet>
     )
 };
+
+const ViewAllCommentsPopover = (props) => {
+    return (
+        <Popover 
+            id='view-all-comments-popover'
+            closeByOutsideClick={false}
+            className="popover__titled" 
+            onPopoverClosed={() => props.closeViewAllComments()}
+        >
+            <View style={{ height: '410px' }}>
+                <ViewComments {...props} />
+            </View>
+        </Popover>
+    )
+};
+
+const ViewAllComments = props => {
+    useEffect(() => {
+        if (Device.phone) {
+            f7.sheet.open('#view-all-comments-sheet');
+        } else {
+            f7.popover.open('#view-all-comments-popover', '#btn-add-comments');
+        }
+    }, [])
+
+    return (
+        Device.phone ?
+            <ViewAllCommentsSheet {...props} /> :
+            <ViewAllCommentsPopover {...props} />
+    )
+}
 
 export {
     AddComment,
@@ -1041,5 +1082,6 @@ export {
     AddReply,
     EditReply,
     ViewComments,
-    ViewCurrentComments
+    ViewCurrentComments,
+    ViewAllComments,
 };

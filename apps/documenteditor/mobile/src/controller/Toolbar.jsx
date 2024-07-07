@@ -11,8 +11,7 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
     const _t = t("Toolbar", { returnObjects: true });
     const appOptions = props.storeAppOptions;
     const isEdit = appOptions.isEdit;
-    const isForm = appOptions.isForm;
-    const isTypeForm = appOptions.isTypeForm;
+    const isPDFView = appOptions.isPDFView;
     const canFillForms = appOptions.canFillForms;
     const canSubmitForms = appOptions.canSubmitForms;
     const storeVersionHistory = props.storeVersionHistory;
@@ -432,11 +431,9 @@ const ToolbarController = inject('storeAppOptions', 'users', 'storeReview', 'sto
             moveNextField={moveNextField}
             movePrevField={movePrevField}
             saveForm={saveForm}
-            isForm={isForm}
             canFillForms={canFillForms}
-            isTypeForm={isTypeForm}
             showDlgSavePdfViewer={showDlgSavePdfViewer}
-            f7router={props.f7router}
+            isPDFView={isPDFView}
         />
     )
 }));

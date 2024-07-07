@@ -202,6 +202,7 @@ export class storeAppOptions {
         this.isOForm = document.fileType === 'oform';
         this.canFillForms = this.canLicense && this.isTypeForm && ((permissions.fillForms === undefined) ? this.isEdit : permissions.fillForms) && (this.config.mode !== 'view');
         this.isForm = !this.isXpsViewer && !!window.isPDFForm;
+        this.isPDFView = !this.isForm && this.isTypeForm;
         this.canProtect = permissions.protect !== false;
         this.canSubmitForms = this.canLicense && (typeof (this.customization) == 'object') && !!this.customization.submitForm && !this.isOffline;
         this.isEditableForms = this.isForm && this.canSubmitForms;
