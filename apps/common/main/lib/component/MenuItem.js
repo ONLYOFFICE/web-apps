@@ -340,6 +340,7 @@ define([
 
             if (this.menu) {
                 if (e.target.id == this.id) {
+                    this._doHover(e);
                     return false;
                 }
 
