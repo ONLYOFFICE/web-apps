@@ -16,6 +16,8 @@ export class storeAppOptions {
 
             isDocReady: observable,
             changeDocReady: action,
+
+            customization: observable,
         });
     }
 
@@ -24,6 +26,7 @@ export class storeAppOptions {
     canBrandingExt = true;
     canBranding = true;
     config = {};
+    customization;
 
     lostEditingRights = false;
     changeEditingRights (value) {
@@ -137,7 +140,7 @@ export class storeAppOptions {
         this.canDownload = permissions.download !== false && (!type || typeof type[1] !== 'string');
 
         this.canBranding = params.asc_getCustomization();
-        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
+        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object' || this.config.plugins);
 
         this.canUseReviewPermissions = this.canLicense && (!!permissions.reviewGroups || this.customization 
             && this.customization.reviewPermissions && (typeof (this.customization.reviewPermissions) == 'object'));
