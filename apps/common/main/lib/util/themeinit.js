@@ -63,7 +63,7 @@
 
     window.uitheme.relevant_theme_id = function () {
         if ( this.is_theme_system() )
-            return this.is_system_theme_dark() ? 'theme-dark' : 'theme-classic-light';
+            return this.is_system_theme_dark() ? 'theme-dark' : '{{DEFAULT_LANG}}' === 'ru' ? 'theme-gray' : 'theme-classic-light';
         return this.id;
     }
 
