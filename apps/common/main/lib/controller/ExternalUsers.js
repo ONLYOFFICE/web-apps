@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *    ExternalUsers.js
  *
@@ -49,7 +48,9 @@ Common.UI.ExternalUsers = new( function() {
         isUsersLoading = false,
         externalUsersInfo = [],
         isUsersInfoLoading = false,
-        stackUsersInfoResponse = [];
+        stackUsersInfoResponse = [],
+        api,
+        userColors = [];
 
     var _get = function(type, ids) {
         if (type==='info') {
@@ -114,9 +115,9 @@ Common.UI.ExternalUsers = new( function() {
             _onUsersInfo(stackUsersInfoResponse.shift());
     };
 
-    var _init = function(canRequestUsers) {
+    var _init = function(canRequestUsers, _api) {
         Common.Gateway.on('setusers', _onUsersInfo);
-
+        api = _api;
         if (!canRequestUsers) return;
 
         Common.Gateway.on('setusers', function(data) {
@@ -137,10 +138,20 @@ Common.UI.ExternalUsers = new( function() {
         });
     };
 
+    var _getColor = function(id, intValue) {
+        if (!userColors[id]) {
+            var color = api.asc_getUserColorById(id);
+            userColors[id] = ["#"+("000000"+color.toString(16)).substr(-6), color];
+        }
+
+        return intValue ? userColors[id][1] : userColors[id][0];
+    };
+
     return {
         init: _init,
         get: _get,
         getImage: _getImage,
-        setImage: _setImage
+        setImage: _setImage,
+        getColor: _getColor
     }
 })();

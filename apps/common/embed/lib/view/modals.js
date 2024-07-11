@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -81,8 +81,9 @@ common.view.modals = new(function() {
             if (name == 'share') {
                 if ( window.config && window.config.btnsShare ) {
                     let _btns = [];
-                    for (const key of Object.keys(config.btnsShare))
-                        _btns.push(`<span class="svg big-${key}" data-name="${key}"></span>`);
+                    const _keys = Object.keys(config.btnsShare);
+                    for (var i in _keys)
+                        _btns.push('<span class="svg big-'+ _keys[i] + '" data-name="' + _keys[i] + '"></span>');
 
                     if ( _btns ) {
                         let $sharebox = $(_tplbody_share);

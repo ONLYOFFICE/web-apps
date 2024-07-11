@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -190,7 +190,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textFill
             });
             this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_NOFILL);
             this.fillControls.push(this.cmbFillSrc);
@@ -208,7 +209,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textAngle
             });
             this.lockedControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -257,7 +259,8 @@ define([
                 }),
                 dataHint    : '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textDirection
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -335,6 +338,7 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                     '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
@@ -438,7 +442,8 @@ define([
                 ],
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textBorders
             }).on('selected', _.bind(this.onBorderTypeSelect, this));
             this.BorderType = Asc.c_oAscBorderStyles.Thin;
             this.cmbBorderType.setValue(this.BorderType);
@@ -453,7 +458,8 @@ define([
                 eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'medium'
+                dataHintOffset: 'medium',
+                ariaLabel: this.textBorderColor
             });
             this.lockedControls.push(this.btnBorderColor);
 
@@ -466,7 +472,8 @@ define([
                 eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'medium'
+                dataHintOffset: 'medium',
+                ariaLabel: this.textBackColor
             });
             this.lockedControls.push(this.btnBackColor);
 
@@ -482,7 +489,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textIndent
             });
             this.lockedControls.push(this.spnIndent);
             this.spnIndent.on('change', _.bind(this.onIndentChange, this));
@@ -500,7 +508,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textOrientation + ' ' + this.textAngle
             });
             this.lockedControls.push(this.spnAngle);
             this.spnAngle.on('change', _.bind(this.onAngleChange, this));
@@ -518,7 +527,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition
             });
             this.lockedControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -1126,7 +1136,8 @@ define([
                      eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'big'
+                     dataHintOffset: 'big',
+                     ariaLabel: this.textGradientColor
                  });
                  this.fillControls.push(this.btnGradColor);
                  this.colorsGrad = this.btnGradColor.getPicker();
@@ -1140,7 +1151,8 @@ define([
                      eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'medium'
+                     dataHintOffset: 'medium',
+                     ariaLabel: this.textForeground
                  });
                  this.fillControls.push(this.btnFGColor);
                  this.colorsFG = this.btnFGColor.getPicker();
@@ -1154,7 +1166,8 @@ define([
                      eyeDropper: true,
                      dataHint: '1',
                      dataHintDirection: 'bottom',
-                     dataHintOffset: 'medium'
+                     dataHintOffset: 'medium',
+                     ariaLabel: this.textBackground
                  });
                  this.fillControls.push(this.btnBGColor);
                  this.colorsBG = this.btnBGColor.getPicker();

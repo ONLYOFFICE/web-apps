@@ -74,6 +74,9 @@
         &jpg {
             background: ~"url('@{common-image-const-path}/doc-formats/jpg.svg') no-repeat center";
         }
+        &xlsb {
+            background: ~"url('@{common-image-const-path}/doc-formats/xlsb.svg') no-repeat center";
+        }
     }
 
     div {
@@ -154,7 +157,8 @@
                 padding-top: 4px;
                 cursor: pointer;
                 .font-size-large();
-
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:hover {
                     text-decoration: none;
                 }
@@ -707,14 +711,14 @@
             }
 
             .userLink {
-                background-position: -81px -234px;
+                background-position: -24px -28px;
                 background-repeat: no-repeat;
                 padding: 0 0 0 17px;
                 width: 16px;
                 height: 16px;
 
                 &.sharedLink {
-                    background-position: -24px -273px;
+                    background-position: -22px -44px;
                 }
                 .rtl & {
                     padding: 0 17px 0 0;
@@ -939,7 +943,7 @@
                     td:not(:last-child) {
                         .padding-right-5();
                     }
-                    .btn-text-default.auto {
+                    .auto {
                         padding-left: 3px;
                         padding-right: 3px;
                         min-width: 64px;
@@ -1054,6 +1058,15 @@
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
     cursor: default;
+    .rtl & {
+        right: 0;
+        left: auto;
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -webkit-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
 }
 
 .img-complete {

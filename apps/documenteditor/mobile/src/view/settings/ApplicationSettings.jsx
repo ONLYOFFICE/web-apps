@@ -37,7 +37,7 @@ const PageApplicationSettings = props => {
         <Page>
             <Navbar title={_t.textApplicationSettings} backLink={_t.textBack} />
             {_isEdit && !isViewer &&
-                <Fragment>
+                <>
                     <BlockTitle>{_t.textUnitOfMeasurement}</BlockTitle>
                     <List>
                         <ListItem radio radioIcon="end" title={_t.textCentimeter} name="unit-of-measurement" checked={unitMeasurement === 0}
@@ -46,16 +46,6 @@ const PageApplicationSettings = props => {
                                   onChange={() => changeMeasureSettings(1)}></ListItem>
                         <ListItem radio radioIcon="end" title={_t.textInch} name="unit-of-measurement" checked={unitMeasurement === 2}
                                   onChange={() => changeMeasureSettings(2)}></ListItem>
-                    </List>
-                    <List>
-                        <ListItem title={_t.textSpellcheck}>
-                            <Toggle checked={isSpellChecking}
-                                    onToggleChange={() => {
-                                        storeApplicationSettings.changeSpellCheck(!isSpellChecking);
-                                        props.switchSpellCheck(!isSpellChecking);
-                                    }}
-                            />
-                        </ListItem>
                     </List>
                     <List>
                         <ListItem title={_t.textNoCharacters} disabled={displayMode !== 'markup'}>{/*ToDo: if (DisplayMode == "final" || DisplayMode == "original") {disabled} */}
@@ -75,7 +65,19 @@ const PageApplicationSettings = props => {
                             />
                         </ListItem>
                     </List>
-                </Fragment>
+                </>
+            }
+            {_isEdit &&
+                <List>
+                    <ListItem title={_t.textSpellcheck}>
+                        <Toggle checked={isSpellChecking}
+                                onToggleChange={() => {
+                                    storeApplicationSettings.changeSpellCheck(!isSpellChecking);
+                                    props.switchSpellCheck(!isSpellChecking);
+                                }}
+                        />
+                    </ListItem>
+                </List>
             }
             <BlockTitle>{_t.textCommentsDisplay}</BlockTitle>
             <List>
@@ -110,23 +112,27 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
-            <List>
-                <ListItem>
-                    <div>
-                        <span>{t("Settings.textRtlInterface")}</span>
-                        <span className="beta-badge">Beta</span>
-                    </div>
-                    <Toggle checked={directionMode !== 'ltr'}
-                            onToggleChange={() => {
-                                storeApplicationSettings.changeDirectionMode(newDirectionMode);
-                                props.changeDirectionMode(newDirectionMode);
-                            }}
-                    />
-                </ListItem>
-            </List>
-            <Block>
-                <p>{t('Settings.textExplanationChangeDirection')}</p>
-            </Block>
+            {Common.Locale.isCurrentLangRtl &&
+                <>
+                    <List>
+                        <ListItem>
+                            <div>
+                                <span>{t("Settings.textRtlInterface")}</span>
+                                <span className="beta-badge">Beta</span>
+                            </div>
+                            <Toggle checked={directionMode !== 'ltr'}
+                                    onToggleChange={() => {
+                                        storeApplicationSettings.changeDirectionMode(newDirectionMode);
+                                        props.changeDirectionMode(newDirectionMode);
+                                    }}
+                            />
+                        </ListItem>
+                    </List>
+                    <Block>
+                        <p>{t('Settings.textExplanationChangeDirection')}</p>
+                    </Block>
+                </>
+            }
         </Page>
     );
 };

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -192,9 +192,17 @@ define([
                 }
                 if (item)
                     panel.cmbPaperSize.setValue(item.get('value'));
-                else
-                    panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                else {
+                    if (panel.$el.prop('id') === 'panel-print') {
+                        panel.cmbPaperSize.setValue(undefined, [this.txtCustom,
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)),
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)),
+                            Common.Utils.Metric.getCurrentMetricName()]);
+                    } else {
+                        panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(width).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
+                            parseFloat(Common.Utils.Metric.fnRecalcFromMM(height).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                    }
+                }
             } else {
                 this.isFillProps = false;
             }

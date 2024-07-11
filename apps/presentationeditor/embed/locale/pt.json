@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Baixando apresentação...",
   "PE.ApplicationController.errorAccessDeny": "Você está tentando executar uma ação para a qual não tem direitos.<br>Entre em contato com o administrador do Document Server.",
   "PE.ApplicationController.errorDefaultMessage": "Código do erro: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Ocorreu um erro durante o trabalho com o documento.<br>Use a opção 'Baixar como' para salvar a cópia de backup do arquivo em uma unidade.",
   "PE.ApplicationController.errorFilePassProtect": "O documento está protegido por senha e não pode ser aberto.",
   "PE.ApplicationController.errorFileSizeExceed": "O tamanho do arquivo excede o limite de seu servidor. <br> Por favor, contate seu administrador de Servidor de Documentos para detalhes.",
   "PE.ApplicationController.errorForceSave": "Ocorreu um erro na gravação. Favor utilizar a opção 'Baixar como' para gravar o arquivo em seu computador ou tente novamente mais tarde.",

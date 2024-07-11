@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -302,6 +302,7 @@ module.exports = function(grunt) {
                         params: {
                             overrides: {
                                 cleanupIds: false,
+                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
                             }
                         },
                     },
@@ -316,6 +317,11 @@ module.exports = function(grunt) {
                     files: packageFile['apps-common'].svgicons.common
                 }
             },
+            inline: {
+                dist: {
+                    src: packageFile['apps-common'].copy.indexhtml.dest + '/*.html'
+                }
+            }
         }
     });
     doRegisterTask('socketio');
@@ -455,6 +461,9 @@ module.exports = function(grunt) {
             },
 
             inline: {
+                options: {
+                    uglify: true
+                },
                 dist: {
                     src: '<%= pkg.main.copy.indexhtml[0].dest %>/*.html'
                 }
@@ -467,6 +476,7 @@ module.exports = function(grunt) {
                         params: {
                             overrides: {
                                 cleanupIds: false,
+                                removeHiddenElems: false,   // plugin ver 3.2.0 deletes <symbol> as non rendering element
                             }
                         },
                     },
@@ -771,7 +781,7 @@ module.exports = function(grunt) {
     var copyTask = grunt.option('desktop')? "copy": "copy:script";
 
     grunt.registerTask('deploy-api',                    ['api-init', 'clean', copyTask, 'replace:writeVersion']);
-    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'imagemin', 'svgmin']);
+    grunt.registerTask('deploy-apps-common',            ['apps-common-init', 'clean', 'copy', 'inline', 'imagemin', 'svgmin']);
     grunt.registerTask('deploy-sdk',                    ['sdk-init', 'clean', copyTask]);
 
     grunt.registerTask('deploy-socketio',               ['socketio-init', 'clean', 'copy']);

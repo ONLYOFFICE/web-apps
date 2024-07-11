@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.strFill %></label>
@@ -15,7 +15,7 @@
                 <div id="slide-back-color-btn" style=""></div>
             </div>
             <div id="slide-panel-image-fill" class="settings-hidden padding-small" style="width: 100%;">
-                <table cols="2" style="width: 100%;">
+                <table cols="2" style="width: 100%;" role="presentation">
                     <tr>
                         <td colspan="2" class="padding-small">
                             <div id="slide-button-replace" style="width:100%;"></div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div id="slide-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
-                <table cols="3" style="margin-bottom: 10px;">
+                <table cols="3" style="margin-bottom: 10px;" role="presentation">
                     <tr valign="top">
                         <td colspan="2">
                             <div>
@@ -101,7 +101,7 @@
     </tr>
     <tr>
         <td>
-            <div class="padding-small" id="slide-panel-transparent-fill" style="width: 100%;">
+            <div class="padding-large" id="slide-panel-transparent-fill" style="width: 100%;">
                 <label class="header" style="display:block;"><%= scope.strTransparency %></label>
                 <div style="display: inline-block; margin-top: 3px;">
                     <label id="slide-lbl-transparency-start">0</label>
@@ -110,6 +110,21 @@
                 </div>
                 <div id="slide-spin-transparency" class="float-right"></div>
             </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="slide-checkbox-background-graphics"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="slide-btn-background-reset"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="slide-btn-apply-all-slides"></div>
         </td>
     </tr>
     <tr>

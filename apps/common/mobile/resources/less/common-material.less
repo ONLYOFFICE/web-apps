@@ -434,6 +434,11 @@
         }
     }
 
+    .subnavbar .title {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
     .searchbar {
         input {
             box-sizing: border-box;
@@ -743,5 +748,15 @@
     .beta-badge {
         background-color: @brand-secondary;
         margin-left: 8px;
+    }
+
+    .dropdown-list {
+        .icon-radio {
+            display: none;
+        }
+
+        input[type="radio"]:checked + .icon-radio {
+            display: inline-block;
+        }
     }
 }

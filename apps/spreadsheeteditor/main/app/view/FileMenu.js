@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -80,7 +80,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template());
+            var $markup = $(this.template({scope: this}));
 
             this.miClose = new Common.UI.MenuItem({
                 el      : $markup.elementById('#fm-btn-return'),
@@ -381,7 +381,7 @@ define([
             this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miExportToPDF[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
-            this.miSave[this.mode.isEdit && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
+            this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
             this.miPrintWithPreview[this.mode.canPrint?'show':'hide']();
             this.miRename[(this.mode.canRename && !this.mode.isDesktopApp) ?'show':'hide']();
@@ -477,25 +477,42 @@ define([
             }
 
             if ( Common.Controllers.Desktop.isActive() ) {
-                $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
-                this.items.push(
-                    new Common.UI.MenuItem({
-                        el      : $('#fm-btn-local-open', this.$el),
-                        action  : 'file:open',
-                        caption : this.btnFileOpenCaption,
-                        canFocused: false,
-                        dataHint: 1,
-                        dataHintDirection: 'left-top',
-                        dataHintOffset: [2, 14]
-                    }));
+                if (this.$el.find('#fm-btn-local-open').length<1) {
+                    $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
+                    this.items.push(
+                        new Common.UI.MenuItem({
+                            el: $('#fm-btn-local-open', this.$el),
+                            action: 'file:open',
+                            caption: this.btnFileOpenCaption,
+                            canFocused: false,
+                            dataHint: 1,
+                            dataHintDirection: 'left-top',
+                            dataHintOffset: [2, 14]
+                        }));
+                }
 
+                if (this.$el.find('#fm-btn-exit').length<1) {
+                    $('<li class="devider" />' +
+                        '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                    this.items.push(
+                        new Common.UI.MenuItem({
+                            el: $('#fm-btn-exit', this.$el),
+                            action: 'file:exit',
+                            caption: this.btnExitCaption,
+                            canFocused: false,
+                            dataHint: 1,
+                            dataHintDirection: 'left-top',
+                            dataHintOffset: [2, 14]
+                        }));
+                }
+            } else if (this.mode.canCloseEditor && this.$el.find('#fm-btn-close').length<1) {
                 $('<li class="devider" />' +
-                    '<li id="fm-btn-exit" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
+                    '<li id="fm-btn-close" class="fm-btn"/>').insertAfter($('#fm-btn-back', this.$el));
                 this.items.push(
                     new Common.UI.MenuItem({
-                        el      : $('#fm-btn-exit', this.$el),
-                        action  : 'file:exit',
-                        caption : this.btnExitCaption,
+                        el      : $('#fm-btn-close', this.$el),
+                        action  : 'close-editor',
+                        caption : this.mode.customization.close.text || this.btnCloseEditor,
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
@@ -638,6 +655,8 @@ define([
         btnHistoryCaption       : 'Versions History',
         btnExitCaption          : 'Exit',
         btnFileOpenCaption      : 'Open...',
-        btnExportToPDFCaption   : 'Export to PDF'
+        btnExportToPDFCaption   : 'Export to PDF',
+        btnCloseEditor          : 'Close File',
+        ariaFileMenu            : 'File menu'
     }, SSE.Views.FileMenu || {}));
 });

@@ -1,6 +1,5 @@
 /*
- *
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -13,7 +12,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR  PURPOSE. For
  * details, see the GNU AGPL at: http://www.gnu.org/licenses/agpl-3.0.html
  *
- * You can contact Ascensio System SIA at 20A-12 Ernesta Birznieka-Upisha
+ * You can contact Ascensio System SIA at 20A-6 Ernesta Birznieka-Upish
  * street, Riga, Latvia, EU, LV-1050.
  *
  * The  interactive user interfaces in modified source and object code versions
@@ -29,7 +28,7 @@
  * Creative Commons Attribution-ShareAlike 4.0 International. See the License
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
-*/
+ */
 /**
  *
  *  ProtectedRangesManagerDlg.js
@@ -102,13 +101,13 @@ define([
                 headers: [
                     {name: this.textTitle,  width: 184},
                     {name: this.textRange,  width: 191},
-                    {name: this.textYouCan, width: 70},
+                    {name: this.txtAccess, width: 70},
                 ],
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="list-item" style="width: 100%;display:inline-block;<% if (!lock) { %>pointer-events:none;<% } %>">',
                     '<div class="padding-right-5" style="width:184px;"><%= Common.Utils.String.htmlEncode(name) %></div>',
                     '<div class="padding-right-5" style="width:191px;"><%= Common.Utils.String.htmlEncode(range) %></div>',
-                    '<div style="width:70px;"><% if (canEdit) { %>', me.txtEdit, '<% } else { %>', me.txtView, '<% } %></div>',
+                    '<div style="width:70px;"><% if (type===Asc.c_oSerUserProtectedRangeType.edit) { %>', me.txtEdit, '<% } else if (type===Asc.c_oSerUserProtectedRangeType.view) { %>', me.txtView, '<% } else { %>', me.txtDenied, '<% } %></div>',
                     '<% if (lock) { %>',
                     '<div class="lock-user"><%=Common.Utils.String.htmlEncode(lockuser)%></div>',
                     '<% } %>',
@@ -173,14 +172,18 @@ define([
                     currentId = this.currentUser.id;
                 for (var i=0; i<ranges.length; i++) {
                     var id = ranges[i].asc_getIsLock(),
-                        users = ranges[i].asc_getUsers();
+                        users = ranges[i].asc_getUsers(),
+                        type = ranges[i].asc_getType(),
+                        user = _.find(users, function(item) { return (item.asc_getId()===currentId); })
+                    user && (type = user.asc_getType());
                     arr.push({
                         name: ranges[i].asc_getName() || '',
                         range: ranges[i].asc_getRef() || '',
                         rangeId: ranges[i].asc_getId() || '',
                         users: users,
                         props: ranges[i],
-                        canEdit: !!_.find(users, function(item) { return (item.asc_getId()===currentId); }),
+                        type: type,
+                        canEdit: type===Asc.c_oSerUserProtectedRangeType.edit,
                         lock: (id!==null && id!==undefined),
                         lockuser: (id) ? (this.isUserVisible(id) ? this.getUserName(id) : this.lockText) : this.guestText
                     });
@@ -427,7 +430,7 @@ define([
         },
 
         txtTitle: 'Protected Ranges',
-        textRangesDesc: 'You can restrict editing ranges to selected people.',
+        textRangesDesc: 'You can restrict editing or viewing ranges to selected people.',
         textTitle: 'Title',
         textRange: 'Range',
         textNew: 'New',
@@ -446,7 +449,8 @@ define([
         lockText: 'Locked',
         textFilter: 'Filter',
         textFilterAll: 'All',
-        textYouCan: 'You can'
+        txtDenied: 'Denied',
+        txtAccess: 'Access'
 
     }, SSE.Views.ProtectedRangesManagerDlg || {}));
 });

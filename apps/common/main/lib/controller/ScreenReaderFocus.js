@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -56,6 +56,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         _currentControls = [],
         _currentItemIndex,
         _isLockedKeyEvents = false,
+        _unlockKeyEvents = false,
         _isDocReady = false,
         _isEditDiagram = false,
         _isSidePanelMode = false,
@@ -291,6 +292,9 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                 } else {
                     _exitFocusMode();
                 }
+            } else if (_unlockKeyEvents) {
+                _lockedKeyEvents(false);
+                _unlockKeyEvents = false;
             } else if (_focusVisible) {
                 e.preventDefault();
             }
@@ -365,6 +369,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
                         _hideFocus();
                         _resetToDefault();
                         Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
+                        if (btn && btn.data('toggle') !== 'dropdown') _unlockKeyEvents = true;
                         _isLockedKeyEvents = false;
                         return;
                     }
@@ -396,6 +401,13 @@ Common.UI.ScreenReaderFocusManager = new(function() {
         });
         $(document).on('keydown', function(e) {
             _needShow = e.keyCode == Common.UI.Keys.ALT && !e.shiftKey && !Common.Utils.ModalWindow.isVisible() && _isDocReady && !(window.PE && $('#pe-preview').is(':visible'));
+
+            // Add outline style for focus elements for test
+            if (Common.localStorage.getBool('screen-reader-focus-mode', false)) {
+                !$(document.body).hasClass('focus-mode') && $(document.body).addClass('focus-mode');
+            } else {
+                $(document.body).hasClass('focus-mode') && $(document.body).removeClass('focus-mode');
+            }
         });
     };
 

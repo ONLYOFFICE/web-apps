@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,7 +30,8 @@
  *
  */
 function checkExtendedPDF(directUrl, key, url, token, callback) {
-    var limit = 110;
+    //110 is not enough for the new PDF form    
+    var limit = 300;
     if (directUrl) {
         downloadPartialy(directUrl, limit, null, function(text) {
             callback(isExtendedPDFFile(text))
@@ -57,7 +58,7 @@ function isExtendedPDFFile(text) {
 
     let pFirst = text.substring(indexFirst + 6);
 
-    if (!pFirst.startsWith('1 0 obj\x0A<<\x0A')) {
+    if (!(pFirst.lastIndexOf('1 0 obj\x0A<<\x0A', 0) === 0)) {
         return false;
     }
 
@@ -92,8 +93,8 @@ function downloadPartialy(url, limit, postData, callback) {
     var callbackCalled = false;
     var xhr = new XMLHttpRequest();
     //value of responseText always has the current content received from the server, even if it's incomplete
-    xhr.responseType = "text";
-    xhr.overrideMimeType('text/xml; charset=iso-8859-1');
+    // xhr.responseType = "json"; it raises an IE error. bug 66160
+    xhr.overrideMimeType('text/plain; charset=iso-8859-1');
     xhr.onreadystatechange = function () {
         if (callbackCalled) {
             return;

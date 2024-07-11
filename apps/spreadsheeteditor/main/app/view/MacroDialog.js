@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -104,7 +104,7 @@ define([], function () { 'use strict';
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
                 cls: 'dbl-clickable',
-                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;"><%= value %></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="overflow: hidden; text-overflow: ellipsis;width:216px;"><%= Common.Utils.String.htmlEncode(value) %></div>')
             });
             this.macroList.on('item:dblclick', _.bind(this.onDblClickMacro, this));
             this.macroList.on('entervalue', _.bind(this.onPrimary, this));

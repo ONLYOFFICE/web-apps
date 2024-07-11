@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Stahování prezentace…",
   "PE.ApplicationController.errorAccessDeny": "Pokoušíte se provést akci, na kterou nemáte oprávnění.<br>Obraťte se na správce vámi využívaného dokumentového serveru.",
   "PE.ApplicationController.errorDefaultMessage": "Kód chyby: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "Při práci s dokumentem došlo k chybě.<br>Použijte volbu „Stáhnout jako“ a uložte si do souboru jako záložní kopii na svůj počítač.",
   "PE.ApplicationController.errorFilePassProtect": "Soubor je zabezpečen heslem, bez kterého ho nelze otevřít.",
   "PE.ApplicationController.errorFileSizeExceed": "Velikost souboru překračuje omezení nastavená na serveru, který využíváte.<br>Ohledně podrobností se obraťte na správce dokumentového serveru.",
   "PE.ApplicationController.errorForceSave": "Při ukládání souboru došlo k chybě. Prosím použijte „Stáhnout jako“ a uložte si soubor k sobě na počítač nebo původní volbu zkuste znovu později.",
@@ -47,6 +48,6 @@
   "PE.ApplicationView.txtFileLocation": "Otevřít umístění souboru",
   "PE.ApplicationView.txtFullScreen": "Na celou obrazovku",
   "PE.ApplicationView.txtPrint": "Tisk",
-  "PE.ApplicationView.txtSearch": "Hledat",
+  "PE.ApplicationView.txtSearch": "Najít",
   "PE.ApplicationView.txtShare": "Sdílet"
 }

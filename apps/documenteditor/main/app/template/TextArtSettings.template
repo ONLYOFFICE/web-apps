@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.textTemplate %></label>
@@ -30,7 +30,7 @@
                 <div id="textart-back-color-btn" style=""></div>
             </div>
             <div id="textart-panel-gradient-fill" class="settings-hidden padding-small" style="width: 100%;">
-                <table cols="3" style="margin-bottom: 10px;">
+                <table cols="3" style="margin-bottom: 10px;" role="presentation">
                     <tr valign="top">
                         <td colspan="2">
                             <div>

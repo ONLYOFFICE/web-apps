@@ -15,6 +15,7 @@
   "SSE.ApplicationController.downloadTextText": "Mengunduh spread sheet",
   "SSE.ApplicationController.errorAccessDeny": "Kamu mencoba melakukan",
   "SSE.ApplicationController.errorDefaultMessage": "Kode kesalahan %1",
+  "SSE.ApplicationController.errorEditingDownloadas": "Ada kesalahan saat bekerja dengan dokumen.<br>Gunakan opsi 'Unduh sebagai' untuk menyimpan file salinan cadangan ke suatu drive.",
   "SSE.ApplicationController.errorFilePassProtect": "Dokumen dilindungi dengan kata sandi dan tidak dapat dibuka.",
   "SSE.ApplicationController.errorFileSizeExceed": "Dokumen melebihi ukuran ",
   "SSE.ApplicationController.errorForceSave": "Ada kesalahan saat menyimpan file. Silakan gunakan opsi 'Download sebagai' untuk menyimpan file ke komputer Anda dan coba lagi.",

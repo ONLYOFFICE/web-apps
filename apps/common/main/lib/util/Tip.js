@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -76,7 +76,7 @@
 *
 */
 
-(function ($) {
+const tip = function ($) {
     var _superclass = $.fn.tooltip;
     _superclass.prototype = $.fn.tooltip.Constructor.prototype;
 
@@ -241,7 +241,7 @@
             clearTimeout(self.timeout);
             self.hoverState = 'in';
 
-            if (this._updateTitle) {
+            if (this._updateTitle!==undefined) {
                 this.tip().find('.tooltip-inner')[this.options.html ? 'html' : 'text'](this.options.title);
                 this._updateTitle = undefined;
             }
@@ -309,4 +309,8 @@
     return this;
   };
 
-})(window.jQuery);
+}
+
+// require(['common/main/lib/mods/tooltip'], function (t) {
+    tip(window.jQuery);
+// });

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -279,12 +279,14 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
                 delayRenderTips: true,
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="item-icon-box" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
                             'class="combo-wrap-item options__icon options__icon-huge <%= icon %>" ',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#chart-combo-wrap'));
             this.cmbWrapType.openButton.menu.cmpEl.css({
@@ -308,7 +310,8 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textChartType
             });
             this.btnChartType.on('render:after', function(btn) {
                 me.mnuChartTypePicker = new Common.UI.DataView({
@@ -343,7 +346,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textX
             });
             this.lockedControls.push(this.spnX);
             this.spnX.on('change', _.bind(this.onXRotation, this));
@@ -385,7 +389,8 @@ define([
                 minValue: -90,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textY
             });
             this.lockedControls.push(this.spnY);
             this.spnY.on('change', _.bind(this.onYRotation, this));
@@ -427,7 +432,8 @@ define([
                 minValue: 0.1,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPerspective
             });
             this.lockedControls.push(this.spnPerspective);
             this.spnPerspective.on('change', _.bind(this.onPerspective, this));
@@ -511,7 +517,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.text3dDepth
             });
             this.lockedControls.push(this.spn3DDepth);
             this.spn3DDepth.on('change', _.bind(this.on3DDepth, this));
@@ -527,7 +534,8 @@ define([
                 minValue: 5,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.text3dHeight
             });
             this.lockedControls.push(this.spn3DHeight);
             this.spn3DHeight.on('change', _.bind(this.on3DHeight, this));
@@ -737,7 +745,9 @@ define([
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
-                    delayRenderTips: true
+                    delayRenderTips: true,
+                    ariaLabel: this.textChartType,
+                    fillOnChangeVisibility: true
                 });
                 this.cmbChartStyle.render($('#chart-combo-style'));
                 this.cmbChartStyle.openButton.menu.cmpEl.css({

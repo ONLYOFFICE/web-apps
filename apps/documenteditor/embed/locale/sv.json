@@ -43,6 +43,7 @@
   "DE.ApplicationController.textRequired": "Fyll i alla nödvändiga fält för att skicka formuläret.",
   "DE.ApplicationController.textSubmit": "Skicka",
   "DE.ApplicationController.textSubmited": "<b> Formulär skickat </b><br> Klicka för att stänga tipset",
+  "DE.ApplicationController.titleLicenseNotActive": "Licensen är inte aktiv",
   "DE.ApplicationController.txtClose": "Stäng",
   "DE.ApplicationController.txtEmpty": "(Tom)",
   "DE.ApplicationController.txtPressLink": "Tryck på %1 och klicka på länken",

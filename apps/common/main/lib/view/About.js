@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -90,7 +90,7 @@ define([
                     '<tr>',
                         '<td colspan="3" align="center" class="padding-small">',
                         '<label class="asc-about-desc-name">' + this.txtTel + '</label>',
-                        '<label class="asc-about-desc"><%= phonenum %></label>',
+                        '<label class="asc-about-desc" dir="ltr"><%= phonenum %></label>',
                         '</td>',
                     '</tr>',
                     '<tr>',

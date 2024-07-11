@@ -48,8 +48,7 @@ class SearchSettingsView extends Component {
         if (this.onReplaceChecked) {}
     }
 
-    extraSearchOptions() {
-    }
+    extraSearchOptions() {}
 
     render() {
         const show_popover = !Device.phone;
@@ -108,6 +107,17 @@ class SearchView extends Component {
                     },
                     searchbarEnable: (sb) => {
                         this.refSearchbarInput.focus();
+
+                        if(this.state.searchQuery.length > 0) {
+                            const searchInput = document.querySelector('.searchbar-input');
+                            searchInput.classList.add('input-with-value');
+                        }
+
+                        if (this.searchbar && this.searchbar.enabled && !this.props.isViewer) {
+                            searchOptions.usereplace || searchOptions.isReplaceAll ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
+                        } else {
+                            this.searchbar.el.classList.remove('replace');
+                        }
                     }
                 }
             });
@@ -234,6 +244,7 @@ class SearchView extends Component {
 
     onSearchInput(e) {
         const text = e.target.value;
+        const api = Common.EditorApi.get();
 
         if (text && this.state.searchQuery !== text) {
             this.setState(prevState => ({
@@ -247,11 +258,10 @@ class SearchView extends Component {
                 this.searchTimer = setInterval(() => {
                     if (new Date() - this.lastInputChange < 400) return;
 
-                    clearInterval(this.searchTimer);
-                    this.searchTimer = undefined;
-
-                    if(this.state.searchQuery !== '') {
+                    if (!(this.state.searchQuery === '' || this.props.onSearchQuery(this.searchParams(), true))) {
                         this.props.onSearchQuery(this.searchParams(), true);
+                        clearInterval(this.searchTimer);
+                        this.searchTimer = undefined;
                     }
                 }, 10);
             }
@@ -269,10 +279,12 @@ class SearchView extends Component {
         const isIos = Device.ios;
         const { _t } = this.props;
         const numberSearchResults = this.props.numberSearchResults;
+        const isViewer = this.props.isViewer ?? false;
 
-        if(this.searchbar && this.searchbar.enabled) {
-            usereplace || isReplaceAll ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
-        } 
+
+        if (this.searchbar && this.searchbar.enabled && !isViewer) {
+            searchOptions.usereplace || searchOptions.isReplaceAll ? this.searchbar.el.classList.add('replace') : this.searchbar.el.classList.remove('replace');
+        }
 
         return (
             <form className="searchbar">
@@ -285,7 +297,7 @@ class SearchView extends Component {
                     </div>
                     <div className="searchbar-inner__center">
                         <div className="searchbar-input-wrap">
-                            <input className="searchbar-input" value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
+                            <input className={`searchbar-input ${searchQuery.length > 0 ? 'input-with-value' : ''}`} value={searchQuery} placeholder={_t.textSearch} type="search" maxLength="255"
                                 onKeyDown={e => this.onSearchKeyDown(e)}
                                 onInput={e => this.onSearchInput(e)}
                                 onChange={e => {this.changeSearchQuery(e.target.value)}} ref={el => this.refSearchbarInput = el} />
@@ -295,23 +307,23 @@ class SearchView extends Component {
                                 <span className="number-search-results">{numberSearchResults}</span> 
                             : null}
                         </div>
-                        {/* {usereplace || isReplaceAll ?  */}
-                            <div className="searchbar-input-wrap" style={usereplace || isReplaceAll ? null : hidden}>
-                                <input value={replaceQuery} placeholder={_t.textReplace} type="text" maxLength="255" id="idx-replace-val"
-                                    onChange={e => {this.changeReplaceQuery(e.target.value)}} />
-                                {isIos ? <i className="searchbar-icon" /> : null}
-                                <span className="input-clear-button" onClick={() => this.changeReplaceQuery('')} />
-                            </div>
-                        {/*  */}
+                        <div className="searchbar-input-wrap" style={(usereplace || isReplaceAll) && !isViewer ? null : hidden}>
+                            <input value={replaceQuery} placeholder={_t.textReplace} type="text" maxLength="255" id="idx-replace-val"
+                                onChange={e => {this.changeReplaceQuery(e.target.value)}} />
+                            {isIos ? <i className="searchbar-icon" /> : null}
+                            <span className="input-clear-button" onClick={() => this.changeReplaceQuery('')} />
+                        </div>
                     </div>
                     <div className="buttons-row searchbar-inner__right">
-                        <div className="buttons-row buttons-row-replace">
-                            {isReplaceAll ? (
-                                <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
-                            ) : usereplace ? (
-                                <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
-                            ) : null}
-                        </div>
+                        {!isViewer &&
+                            <div className="buttons-row buttons-row-replace">
+                                {isReplaceAll ? (
+                                    <a id="replace-all-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceAllClick()}>{_t.textReplaceAll}</a>
+                                ) : usereplace ? (
+                                    <a id="replace-link" className={"link " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onReplaceClick()}>{_t.textReplace}</a>
+                                ) : null}
+                            </div>
+                        }
                         <div className="buttons-row">
                             <a className={"link icon-only prev no-fastclick " + (searchQuery.trim().length ? "" : "disabled")} onClick={() => this.onSearchClick(SEARCH_BACKWARD)}>
                                 <i className="icon icon-prev" />
@@ -328,6 +340,6 @@ class SearchView extends Component {
 }
 
 const SearchViewWithObserver = observer(SearchView);
-const SearchSettingsViewWithObserver =  observer(SearchSettingsView);
+const SearchSettingsViewWithObserver = observer(SearchSettingsView);
 
 export {SearchViewWithObserver as SearchView, SearchSettingsViewWithObserver as SearchSettingsView};

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -46,6 +46,7 @@ define([], function () {
     SSE.Views.ViewManagerDlg =  Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             alias: 'ViewManagerDlg',
+            separator: false,
             contentWidth: 460
         },
 
@@ -64,16 +65,20 @@ define([], function () {
                             '<table cols="1" style="width: 100%;">',
                                 '<tr>',
                                     '<td class="padding-small">',
-                                        '<label class="header">' + this.textViews + '</label>',
-                                        '<div id="view-manager-list" class="range-tableview" style="width:440px; height: 166px;"></div>',
+                                        '<label>' + this.textViews + '</label>',
                                     '</td>',
                                 '</tr>',
                                 '<tr>',
-                                    '<td class="padding-large">',
+                                    '<td class="padding-small">',
                                         '<button type="button" class="btn btn-text-default auto margin-right-5" id="view-manager-btn-new" style="min-width: 80px;">' + this.textNew + '</button>',
                                         '<button type="button" class="btn btn-text-default auto margin-right-5" id="view-manager-btn-rename" style="min-width: 80px;">' + this.textRename + '</button>',
                                         '<button type="button" class="btn btn-text-default auto" id="view-manager-btn-duplicate" style="min-width: 80px;">' + this.textDuplicate + '</button>',
                                         '<button type="button" class="btn btn-text-default auto float-right" id="view-manager-btn-delete" style="min-width: 80px;">' + this.textDelete + '</button>',
+                                    '</td>',
+                                '</tr>',
+                                '<tr>',
+                                    '<td>',
+                                        '<div id="view-manager-list" class="range-tableview" style="width:440px; height: 166px;"></div>',
                                     '</td>',
                                 '</tr>',
                             '</table>',
@@ -145,7 +150,7 @@ define([], function () {
         },
 
         getFocusedComponents: function() {
-            return [ this.viewList, this.btnNew, this.btnRename, this.btnDuplicate, this.btnDelete ].concat(this.getFooterButtons());
+            return [ this.btnNew, this.btnRename, this.btnDuplicate, this.viewList, this.btnDelete ].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

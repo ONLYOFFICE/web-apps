@@ -1,4 +1,4 @@
-<table cols="3">
+<table cols="3" role="presentation">
     <tr>
         <td colspan=3>
             <label class="header"><%= scope.textSize %></label>
@@ -18,7 +18,7 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td class="padding-small" colspan=2>
             <button type="button" class="btn btn-text-default" id="image-button-original-size" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textOriginalSize %></button>
@@ -77,7 +77,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="image-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="image-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

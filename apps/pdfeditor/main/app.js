@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -47,7 +47,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -68,20 +67,12 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -124,15 +115,16 @@ require.config({
 require([
     'sdk',
     'backbone',
-    'bootstrap',
+    'underscore',
     'core',
     'analytics',
     'gateway',
     'locale'
-], function (Sdk, Backbone, Bootstrap, Core) {
+], function (Sdk, Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with PDFE namespace defined
@@ -145,11 +137,13 @@ require([
             'DocumentHolder',
             'Toolbar',
             'Statusbar',
+            'RightMenu',
             'Navigation',
             'PageThumbnails',
             'LeftMenu',
             'Main',
             'ViewTab',
+            'InsTab',
             'Search',
             'Print',
             'Common.Controllers.Fonts',
@@ -157,6 +151,8 @@ require([
             'Common.Controllers.Comments',
             'Common.Controllers.Draw',
             'Common.Controllers.Plugins',
+            // 'Common.Controllers.ExternalDiagramEditor',
+            // 'Common.Controllers.ExternalOleEditor',
             'Common.Controllers.Protection'
         ]
     });
@@ -164,6 +160,8 @@ require([
     Common.Locale.apply(
         function() {
             require([
+                'common/main/lib/mods/dropdown',
+                'common/main/lib/mods/tooltip',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
@@ -172,11 +170,13 @@ require([
                 'pdfeditor/main/app/controller/DocumentHolder',
                 'pdfeditor/main/app/controller/Toolbar',
                 'pdfeditor/main/app/controller/Statusbar',
+                'pdfeditor/main/app/controller/RightMenu',
                 'pdfeditor/main/app/controller/Navigation',
                 'pdfeditor/main/app/controller/PageThumbnails',
                 'pdfeditor/main/app/controller/LeftMenu',
                 'pdfeditor/main/app/controller/Main',
                 'pdfeditor/main/app/controller/ViewTab',
+                'pdfeditor/main/app/controller/InsTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
                 'pdfeditor/main/app/view/FileMenuPanels',
@@ -186,6 +186,8 @@ require([
                 'common/main/lib/controller/Chat',
                 /** coauthoring end **/
                 'common/main/lib/controller/Plugins',
+                // 'common/main/lib/controller/ExternalDiagramEditor',
+                // 'common/main/lib/controller/ExternalOleEditor',
                 'common/main/lib/controller/Draw',
                 'common/main/lib/controller/Protection'
             ], function() {

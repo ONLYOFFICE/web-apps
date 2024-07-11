@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -58,6 +58,7 @@ define([
                 selected: false,
                 allowSelected: true,
                 disabled: false,
+                getTipFromName: true,
                 level: 0,
                 index: 0
             }
@@ -261,6 +262,7 @@ define([
                     record.set('isExpanded', isExpanded);
                     this.store[(isExpanded) ? 'expandSubItems' : 'collapseSubItems'](record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, isExpanded, !isExpanded);
                 } else
                     Common.UI.DataView.prototype.onClickItem.call(this, view, record, e);
             },
@@ -282,17 +284,21 @@ define([
 
             expandRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', true);
                     this.store.expandSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, true, oldExpand);
                 }
             },
 
             collapseRecord: function(record) {
                 if (record) {
+                    var oldExpand = record.get('isExpanded');
                     record.set('isExpanded', false);
                     this.store.collapseSubItems(record);
                     this.scroller.update({minScrollbarLength: this.minScrollbarLength, alwaysVisibleY: this.scrollAlwaysVisible});
+                    this.trigger('item:expand', record, false, oldExpand);
                 }
             },
 
@@ -382,29 +388,16 @@ define([
                     name = record.get('name'),
                     me = this;
 
-                if (name.length > 37 - record.get('level')*2)
-                    record.set('tip', name);
-                else
-                    record.set('tip', '');
+                record.get('getTipFromName') && record.set('tip', name.length > 37 - record.get('level')*2 ? name : '');
 
-                var el = item.$el || $(item.el);
-                var tip = el.data('bs.tooltip');
-                if (tip) {
-                    if (tip.dontShow===undefined)
-                        tip.dontShow = true;
-                    el.removeData('bs.tooltip');
-                    (tip.tip()).remove();
-                }
-                if (record.get('tip')) {
+                var el = item.$el || $(item.el),
+                    tip = el.data('bs.tooltip');
+                if (tip)
+                    tip.updateTitle(record.get('tip'));
+                else if (record.get('tip') && el.attr('data-toggle')!=='tooltip') { // init tooltip
                     el.attr('data-toggle', 'tooltip');
-                    el.tooltip({
-                        title       : record.get('tip'),
-                        placement   : 'cursor',
-                        zIndex : this.tipZIndex
-                    });
                     if (this.delayRenderTips)
                         el.one('mouseenter', function(){
-                            el.attr('data-toggle', 'tooltip');
                             el.tooltip({
                                 title       : record.get('tip'),
                                 placement   : 'cursor',
@@ -413,7 +406,6 @@ define([
                             el.mouseenter();
                         });
                     else {
-                        el.attr('data-toggle', 'tooltip');
                         el.tooltip({
                             title       : record.get('tip'),
                             placement   : 'cursor',

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -52,6 +52,8 @@ define([
 
         function _onCountPages(count){
             this.pages.set('count', count);
+            this.btnPagePrev && this.btnPagePrev.setDisabled(this.pages.get('current')<1);
+            this.btnPageNext && this.btnPageNext.setDisabled(this.pages.get('current')>=this.pages.get('count')-1);
         }
 
         function _onCurrentPage(number){

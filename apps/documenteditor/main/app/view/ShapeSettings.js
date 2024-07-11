@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -92,6 +92,8 @@ define([
                 FGColor: '000000',
                 BGColor: 'ffffff',
                 GradColor: '000000',
+                ShadowColor: 'transparent',
+                ShadowPreset: null,
                 GradFillType: Asc.c_oAscFillGradType.GRAD_LINEAR,
                 WrappingStyle: Asc.c_oAscWrapStyle2.Inline,
                 CanBeFlow: true,
@@ -122,6 +124,8 @@ define([
             this.BorderColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
             this.BorderSize = 0;
             this.BorderType = Asc.c_oDashType.solid;
+
+            this.ShadowColor = {Value: 1, Color: 'transparent'};  // value=1 - цвет определен - прозрачный или другой, value=0 - цвет не определен, рисуем прозрачным
 
             this.textureNames = [this.txtCanvas, this.txtCarton, this.txtDarkFabric, this.txtGrain, this.txtGranite, this.txtGreyPaper,
                 this.txtKnit, this.txtLeather, this.txtBrownPaper, this.txtPapyrus, this.txtWood];
@@ -219,7 +223,18 @@ define([
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                    if (this._state.FillType !== Asc.c_oAscFill.FILL_TYPE_BLIP && !this._noApply && this._texturearray && this._texturearray.length>0) {
+                        this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP
+                        var props = new Asc.asc_CShapeProperty();
+                        var fill = new Asc.asc_CShapeFill();
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                        fill.put_fill( new Asc.asc_CFillBlip());
+                        fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
+                        fill.get_fill().put_texture_id(this._texturearray[0].type);
+                        props.put_fill(fill);
+                        this.imgprops.put_ShapeProperties(props);
+                        this.api.ImgApply(this.imgprops);
+                    }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
@@ -1280,9 +1295,58 @@ define([
                     this._state.GradColor = color;
                 }
 
-                this.chShadow.setDisabled(!!shapeprops.get_FromChart() || this._locked);
-                this.chShadow.setValue(!!shapeprops.asc_getShadow(), true);
 
+                var shadow = shapeprops.asc_getShadow(),
+                shadowPresetRecord = null;
+                if(shadow) {
+                    var shadowPreset = shadow.getPreset();
+                    if(shadowPreset) {
+                        shadowPresetRecord = this.viewShadowShapePresets.store.findWhere({value: shadowPreset});
+                    } 
+
+                    color = shadow.getColor();
+                    if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
+                        this.ShadowColor = {Value: 1, Color: {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() }};
+                    } else {
+                        this.ShadowColor = {Value: 1, Color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())};
+                    }
+                    
+                    color = this.ShadowColor.Color;
+                    type1 = typeof(this.ShadowColor);
+                    type2 = typeof(this._state.ShadowColor);
+
+                    if ( (type1 !== type2) || (type1=='object' &&
+                        (color.effectValue!==this._state.ShadowColor.effectValue || this._state.ShadowColor.color.indexOf(color.color)<0)) ||
+                        (type1!='object' && this._state.ShadowColor.indexOf(color)<0 )) {
+
+                        if ( typeof(color) == 'object' ) {
+                            var isselected = false;
+                            for (var i=0; i<10; i++) {
+                                if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                                    this.mnuShadowShapeColorPicker.select(color,true);
+                                    isselected = true;
+                                    break;
+                                }
+                            }
+                            if (!isselected) this.mnuShadowShapeColorPicker.clearSelection();
+                        } else
+                            this.mnuShadowShapeColorPicker.select(color,true);
+
+                        this._state.ShadowColor = color;
+                    }
+                } 
+
+                if(shadowPresetRecord) {
+                    this._state.ShadowPreset = shadowPresetRecord;
+                    this.viewShadowShapePresets.selectRecord(shadowPresetRecord);
+                } else {
+                    this._state.ShadowPreset = null;
+                    this.viewShadowShapePresets.deselectAll();
+                }
+
+                this.btnShadowShape.menu.items[1].setChecked(!shadow, true)
+
+                
                 this._noApply = false;
             }
             this.hideNoFormSettings(control_props);
@@ -1347,13 +1411,15 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
                         'width="' + itemWidth + '" height="' + itemHeight + '" ',
                         'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#shape-combo-pattern'));
             this.cmbPattern.openButton.menu.cmpEl.css({
@@ -1401,7 +1467,8 @@ define([
                 data: this._arrFillType,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strType
             });
             this.cmbFillType.setValue(this._arrFillType[0].value);
             this.cmbFillType.on('selected', _.bind(this.onFillTypeSelect, this));
@@ -1417,7 +1484,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -1450,7 +1518,8 @@ define([
                 data: this._arrGradType,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textStyle
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -1487,7 +1556,8 @@ define([
                 }),
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textDirection
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -1568,7 +1638,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition
             });
             this.fillControls.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -1610,7 +1681,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textAngle
             });
             this.fillControls.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1671,7 +1743,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
             });
             this.numLineTransparency.on('change', _.bind(this.onNumLineTransparencyChange, this));
             this.numLineTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -1747,12 +1820,14 @@ define([
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
                 delayRenderTips: true,
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="item-icon-box" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" ' +
                             'class="combo-wrap-item options__icon options__icon-huge <%= icon %>"',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                ariaLabel: this.textWrap
             });
             this.cmbWrapType.render($('#shape-combo-wrap'));
             this.cmbWrapType.openButton.menu.cmpEl.css({
@@ -1816,15 +1891,113 @@ define([
             });
             this.lockedControls.push(this.btnEditChangeShape);
 
-            this.chShadow = new Common.UI.CheckBox({
-                el: $('#shape-checkbox-shadow'),
-                labelText: this.strShadow,
+            this.btnShadowShape = new Common.UI.Button({
+                parentEl: $('#shape-button-shadow-shape'),
+                cls: 'btn-toolbar align-left',
+                caption: this.textShadow,
+                iconCls: 'toolbar__icon btn-shadow',
+                style: "width:100%;",
+                menu: true,
                 dataHint: '1',
-                dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             });
-            this.chShadow.on('change', _.bind(this.onCheckShadow, this));
-            this.lockedControls.push(this.chShadow);
+            this.lockedControls.push(this.btnShadowShape);
+
+            this.btnShadowShape.setMenu(
+                new Common.UI.Menu({
+                    cls: 'shifted-right',
+                    style: 'min-width: 168px',
+                    items: [
+                        {template: _.template('<div id="shape-button-shadow-shape-menu" class="menu-markers" style="width: 168px; margin: 0 4px 4px 4px;"></div>')},
+                        {
+                            caption: this.textNoShadow,
+                            checkable: true,
+                            value: 1,
+                        },
+                        { caption: '--'},
+                        this.mnuShadowShapeColor = new Common.UI.MenuItem({
+                            caption: this.strColor,
+                            menu        : new Common.UI.Menu({
+                                cls: 'color-menu shifted-right',
+                                menuAlign: 'tl-tr',
+                                items: [
+                                    { template: _.template('<div id="shape-button-shadow-shape-menu-picker" style="width: 164px;display: inline-block;"></div>'), stopPropagation: true },
+                                    { caption: '--'},
+                                    {
+                                        caption: this.textEyedropper,
+                                        iconCls: 'menu__icon btn-eyedropper',
+                                        value: 1
+                                    },
+                                    {
+                                        caption: this.textMoreColors,
+                                        value: 2
+                                    },
+                                ]
+                            }),
+                            value: 2,
+                        }),
+                        {
+                            caption: this.textAdjustShadow,
+                            value: 3,
+                        },
+                    ]
+                })
+            );
+            this.btnShadowShape.menu.on('item:click', _.bind(this.onSelectShadowMenu, this));
+            this.mnuShadowShapeColor.menu.on('item:click', _.bind(this.onSelectShadowColorMenu, this));
+            this.btnShadowShape.menu.on('show:before', function() {
+                if(me._state.ShadowPreset) {
+                    me.viewShadowShapePresets.selectRecord(me._state.ShadowPreset);
+                } else {
+                    me.viewShadowShapePresets.deselectAll();
+                }
+            });            
+            this.mnuShadowShapeColor.menu.on('show:before', function() {
+                if(me._state.ShadowColor) {
+                    me.mnuShadowShapeColorPicker.select(me._state.ShadowColor,true);
+                }
+            });
+
+            this.viewShadowShapePresets = new Common.UI.DataView({
+                el: $('#shape-button-shadow-shape-menu'),
+                parentMenu: this.btnShadowShape.menu,
+                outerMenu:  {menu: this.btnShadowShape.menu, index: 0},
+                allowScrollbar: false,
+                delayRenderTips: true,
+                store: new Common.UI.DataViewStore([
+                    {value:"tl", offsetX: 6,     offsetY: 6,     spread: 0},
+                    {value:"t",  offsetX: 0,     offsetY: 6,     spread: 0},
+                    {value:"tr", offsetX: -6,    offsetY: 6,     spread: 0},
+
+                    {value:"l",  offsetX: 6,     offsetY: 0,     spread: 0},
+                    {value:"ctr",offsetX: 0,     offsetY: 0,     spread: 3},
+                    {value:"r",  offsetX: -6,    offsetY: 0,     spread: 0},
+
+                    {value:"bl", offsetX: 6,     offsetY: -6,    spread: 0},
+                    {value:"b",  offsetX: 0,     offsetY: -6,    spread: 0},
+                    {value:"br", offsetX: -6,    offsetY: -6,    spread: 0},
+                ]),
+                itemTemplate: _.template(
+                    '<div class="item-shadow">' +
+                        '<div ' +
+                            'style="margin-bottom:<%= offsetY %>px;' +
+                            'margin-right:<%= offsetX %>px;' +
+                            'box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px <% if(Common.Utils.isIE) {%>rgba(0,0,0,0.4)<%} else {%>var(--text-tertiary)<%}%>;"' +
+                        '>' +
+                        '</div>' + 
+                    '</div>')
+            });
+            this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
+            this.btnShadowShape.menu.setInnerMenu([{menu: this.viewShadowShapePresets, index: 0}]);
+
+            this.mnuShadowShapeColorPicker = new Common.UI.ThemeColorPalette({
+                el: $('#shape-button-shadow-shape-menu-picker'),
+                outerMenu: {menu: this.mnuShadowShapeColor.menu, index: 0}
+            });            
+            this.mnuShadowShapeColor.menu.setInnerMenu([{menu: this.mnuShadowShapeColorPicker, index: 0}]);
+            this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors())
+            this.mnuShadowShapeColorPicker.on('select', _.bind(this.onSelectShadowColor, this));
 
             this.linkAdvanced = $('#shape-advanced-link');
             $(this.el).on('click', '#shape-advanced-link', _.bind(this.openAdvancedSettings, this));
@@ -1879,6 +2052,7 @@ define([
                     me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
+                        tip    : me.textureNames[item.get_id()],
                         type    : item.get_id(),
 //                        allowSelected : false,
                         selected: false
@@ -1898,7 +2072,8 @@ define([
                             '<span class="caret"></span>',
                         '</button>',
                         '</div>'
-                    ].join(''))
+                    ].join('')),
+                    ariaLabel: this.textTexture
                 });
                 this.textureMenu = new Common.UI.Menu({
                     items: [
@@ -1914,6 +2089,7 @@ define([
                         restoreHeight: 174,
                         parentMenu: menu,
                         showLast: false,
+                        delayRenderTips: true,
                         store: new Common.UI.DataViewStore(me._texturearray || []),
                         itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                     });
@@ -1944,6 +2120,87 @@ define([
             this.fireEvent('editcomplete', this);
         },
 
+        onSelectShadowPreset: function(picker, itemView, record) {
+            if (this.api)   {
+                var shapeProps = new Asc.asc_CShapeProperty(),
+                    shadowProps = new Asc.asc_CShadowProperty();
+
+                shadowProps.putPreset(record.get('value'));
+                shapeProps.asc_putShadow(shadowProps);
+                this.imgprops.put_ShapeProperties(shapeProps);
+                this.api.ImgApply(this.imgprops);
+            }
+            this.fireEvent('editcomplete', this);
+        },
+
+        onSelectShadowMenu: function(menu, item) {
+            //Checkbox on/off shadow
+            if(item.value == 1) {
+                if (this.api)   {
+                    var shapeProps = new Asc.asc_CShapeProperty();
+                        
+                    if(item.checked) {
+                        shapeProps.asc_putShadow(null);
+                    } else {
+                        var shadowProps = new Asc.asc_CShadowProperty();
+                        shadowProps.putPreset('t');
+                        shapeProps.asc_putShadow(shadowProps);
+                    }
+                    this.imgprops.put_ShapeProperties(shapeProps);
+                    this.api.ImgApply(this.imgprops);
+                }
+                this.fireEvent('editcomplete', this);
+            } 
+            //Adjust shadow
+            else if(item.value == 3) {
+                var me = this;
+                (new Common.Views.ShapeShadowDialog({
+                    api             : this.api,
+                    shadowProps     : this._originalProps.get_ShapeProperties().asc_getShadow(),
+                    methodApplySettings: function(shapeProps) {
+                        me.imgprops.put_ShapeProperties(shapeProps);
+                        me.api.ImgApply(me.imgprops);
+                    },
+                    handler: function(result) {
+                        me.fireEvent('editcomplete', this);
+                    },
+                })).show();
+            }
+        },
+
+        onSelectShadowColorMenu: function(menu, item) {
+            var me = this;
+            //Eyedroppper
+            if(item.value == 1) {
+                this.api.asc_startEyedropper(function(r, g, b) {
+                    if (r === undefined) return;
+                    var color = Common.Utils.ThemeColor.getHexColor(r, g, b);
+                    me.mnuShadowShapeColorPicker.setCustomColor('#' + color);
+                    me.onSelectShadowColor(null, color);
+                });
+            } 
+            //More colors
+            else if(item.value == 2) {
+                this.mnuShadowShapeColorPicker.addNewColor();
+            }
+        },
+
+        onSelectShadowColor: function (picker, color) {
+            var shapeProps = new Asc.asc_CShapeProperty(),
+                shadowProps = this._originalProps.get_ShapeProperties().asc_getShadow();
+
+            if(!shadowProps) {
+                shadowProps = new Asc.asc_CShadowProperty();
+                shadowProps.putPreset('t');
+            }
+
+            shadowProps.putColor(Common.Utils.ThemeColor.getRgbColor(color));
+            shapeProps.asc_putShadow(shadowProps);
+            this.imgprops.put_ShapeProperties(shapeProps);
+            this.api.ImgApply(this.imgprops);
+            this.fireEvent('editcomplete', this);
+        },
+
         onBtnRotateClick: function(btn) {
             var properties = new Asc.asc_CImgProperty();
             properties.asc_putRotAdd((btn.options.value==1 ? 90 : 270) * 3.14159265358979 / 180);
@@ -1970,16 +2227,6 @@ define([
 
         onShapeEditPoints: function (){
             this.api && this.api.asc_editPointsGeometry();
-        },
-
-        onCheckShadow: function(field, newValue, oldValue, eOpts) {
-            if (this.api)   {
-                var props = new Asc.asc_CShapeProperty();
-                props.asc_putShadow((field.getValue()=='checked') ? new Asc.asc_CShadowProperty() : null);
-                this.imgprops.put_ShapeProperties(props);
-                this.api.ImgApply(this.imgprops);
-            }
-            this.fireEvent('editcomplete', this);
         },
 
         onApiAutoShapes: function(btnChangeShape) {
@@ -2035,7 +2282,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strColor
                 });
                 this.fillControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
@@ -2049,7 +2297,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strForeground
                 });
                 this.fillControls.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
@@ -2063,7 +2312,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strBackground
                 });
                 this.fillControls.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
@@ -2077,7 +2327,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strColor
                 });
                 this.fillControls.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
@@ -2091,7 +2342,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strStroke + ' ' + this.strColor
                 });
                 this.lockedControls.push(this.btnBorderColor);
                 this.colorsBorder = this.btnBorderColor.getPicker();
@@ -2104,6 +2356,7 @@ define([
             this.colorsFG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsBG.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
             this.colorsGrad.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
+            this.mnuShadowShapeColorPicker.updateColors(Common.Utils.ThemeColor.getEffectColors(), Common.Utils.ThemeColor.getStandartColors());
         },
 
         _pt2mm: function(value) {
@@ -2334,6 +2587,11 @@ define([
         textAngle: 'Angle',
         textRecentlyUsed: 'Recently Used',
         textEditShape: 'Edit shape',
+        textShadow: 'Shadow',
+        textNoShadow: 'No Shadow',
+        textAdjustShadow: 'Adjust Shadow',
+        textMoreColors: 'More colors',
+        textEyedropper: 'Eyedropper',
         textEditPoints: 'Edit points'
     }, DE.Views.ShapeSettings || {}));
 });

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -166,6 +166,7 @@ define([
                 arr[0].set('isNotHeader', true);
                 arr[0].set('name', this.txtBeginning);
                 arr[0].set('tip', this.txtGotoBeginning);
+                arr[0].set('getTipFromName', false);
             }
 
             var me = this;
@@ -376,6 +377,7 @@ define([
                     arr[0].set('isNotHeader', true);
                     arr[0].set('name', this.txtBeginning);
                     arr[0].set('tip', this.txtGotoBeginning);
+                    arr[0].set('getTipFromName', false);
                 }
                 this.getApplication().getCollection('Navigation').reset(arr);
                 if (this.panelNavigation && this.panelNavigation.viewNavigationList && this.panelNavigation.viewNavigationList.scroller)

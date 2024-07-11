@@ -24,6 +24,9 @@
   <!-- built styles file will be auto injected -->
 </head>
 <body>
+    <script>
+        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
+    </script>
     <% if ( htmlWebpackPlugin.options.skeleton.htmlscript ) { %>
     <script>
         window.asceditor = 'cell';
@@ -76,13 +79,9 @@
             return urlParams;
         }
 
-        window.Common = {Locale: {defaultLang: <%= htmlWebpackPlugin.options.system.env.defaultLang %>}};
-        let params = getUrlParams(),
-            lang = (params["lang"] || window.Common.Locale.defaultLang).split(/[\-\_]/)[0];
-
+        let params = getUrlParams()
         window.frameEditorId = params["frameEditorId"];
         window.parentOrigin = params["parentOrigin"];
-        window.Common.Locale.currentLang = lang;
     </script>
 
     <script type="text/javascript" src="../../../vendor/jquery/jquery.min.js"></script>

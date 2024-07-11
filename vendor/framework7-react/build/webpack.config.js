@@ -50,7 +50,7 @@ const config = {
       jquery: 'jQuery'
   },
 
-  devtool: env === 'production' ? false/*'source-map'*/ : 'source-map', // TODO: turn off debugger source map before release
+  devtool: env === 'production' ? 'source-map' : 'source-map', // TODO: turn off debugger source map before release
   optimization: {
     minimizer: [new TerserPlugin({
     })],
@@ -190,6 +190,9 @@ const config = {
                 safe: true,
                 map: { inline: false },
             },
+            preset: ['default', {
+              colormin: false,
+            }],
         },
       }),
       new webpack.optimize.ModuleConcatenationPlugin(),

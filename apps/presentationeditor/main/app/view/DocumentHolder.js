@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -1205,6 +1205,62 @@ define([
                 }
             });
 
+            me.mnuInsertMaster = new Common.UI.MenuItem({
+                caption : me.textInsertSlideMaster,
+                value : 'ins-master'
+            });
+
+            me.mnuInsertLayout = new Common.UI.MenuItem({
+                caption : me.textInsertLayout,
+                value : 'ins-layout'
+            });
+
+            me.mnuDuplicateMaster = new Common.UI.MenuItem({
+                caption : me.textDuplicateSlideMaster,
+                value : 'duplicate-master'
+            });
+
+            me.mnuDeleteMaster = new Common.UI.MenuItem({
+                caption : me.textDeleteMaster,
+                value : 'delete-master'
+            });
+
+            me.mnuDuplicateLayout = new Common.UI.MenuItem({
+                caption : me.textDuplicateLayout,
+                value : 'duplicate-master'
+            });
+
+            me.mnuDeleteLayout = new Common.UI.MenuItem({
+                caption : me.textDeleteLayout,
+                value : 'delete-layout'
+            });
+
+            me.slideMasterMenu = new Common.UI.Menu({
+                //cls: 'shifted-right',
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                initMenu: function(value) {
+                    var isMaster = value.isMaster;
+
+                    me.mnuDuplicateMaster.setVisible(isMaster);
+                    me.mnuDeleteMaster.setVisible(isMaster);
+                    me.mnuDuplicateLayout.setVisible(!isMaster);
+                    me.mnuDeleteLayout.setVisible(!isMaster);
+
+                    isMaster && me.mnuDeleteMaster.setDisabled(!me.api.asc_CanDeleteMaster());
+                    !isMaster && me.mnuDeleteLayout.setDisabled(!me.api.asc_CanDeleteLayout());
+                },
+                items: [
+                    me.mnuInsertMaster,
+                    me.mnuInsertLayout,
+                    me.mnuDuplicateMaster,
+                    me.mnuDuplicateLayout,
+                    {caption: '--'},
+                    me.mnuDeleteMaster,
+                    me.mnuDeleteLayout
+                ]
+            });
+
             me.mnuTableMerge = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-merge-cells',
                 caption     : me.mergeCellsText
@@ -1559,10 +1615,6 @@ define([
                 })
             });
 
-            var menuHyperlinkSeparator = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-
             me.mnuGroupImg = new Common.UI.MenuItem({
                 caption     : this.txtGroup,
                 iconCls     : 'menu__icon btn-shape-group'
@@ -1844,21 +1896,12 @@ define([
             });
             me.menuAddCommentTable.hide();
 
-            var menuCommentSeparatorImg = new Common.UI.MenuItem({
-                caption     : '--'
-            });
-            menuCommentSeparatorImg.hide();
-
             me.menuAddCommentImg = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-add-comment',
                 caption     : me.addCommentText
             });
             me.menuAddCommentImg.hide();
             /** coauthoring end **/
-
-            me.menuAddToLayoutImg = new Common.UI.MenuItem({
-                caption     : me.addToLayoutText
-            });
 
             me.menuParaCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
@@ -1938,11 +1981,8 @@ define([
                 menu        : me.createEquationMenu('popuptableeqinput', 'tl-tr')
             });
 
-            me.menuAddToLayoutTable = new Common.UI.MenuItem({
-                caption     : me.addToLayoutText
-            });
-
             me.menuImgEditPoints = new Common.UI.MenuItem({
+                iconCls: 'menu__icon btn-edit-points',
                 caption: me.textEditPoints
             });
 
@@ -2185,7 +2225,6 @@ define([
 
                     me.menuAddHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && _.isUndefined(value.hyperProps) && text!==false);
                     menuHyperlinkTable.setVisible(!_.isUndefined(value.paraProps) && !_.isUndefined(value.hyperProps));
-                    menuHyperlinkSeparator.setVisible(me.menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     me.menuEditHyperlinkTable.hyperProps = value.hyperProps;
 
@@ -2203,7 +2242,6 @@ define([
                      /** coauthoring begin **/
                     me.menuAddCommentTable.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
                     me.menuAddCommentTable.setDisabled(!_.isUndefined(value.paraProps) && value.paraProps.locked || disabled);
-                    menuHyperlinkSeparator.setVisible(menuHyperlinkSeparator.isVisible() || me.menuAddCommentTable.isVisible());
                     /** coauthoring end **/
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
@@ -2275,9 +2313,7 @@ define([
                     me.menuAddCommentTable,         //25
                 /** coauthoring end **/
                     me.menuAddHyperlinkTable,       //26
-                    menuHyperlinkTable,             //27
-                    menuHyperlinkSeparator,         //28
-                    me.menuAddToLayoutTable         //29
+                    menuHyperlinkTable             //27
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -2288,6 +2324,14 @@ define([
                 }
 
                 if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            me.menuEditObjectSeparator = new Common.UI.MenuItem({
+                caption: '--'
+            });
+
+            me.menuEditObject = new Common.UI.MenuItem({
+                caption: me.textEditObject
             });
 
             me.pictureMenu = new Common.UI.Menu({
@@ -2307,6 +2351,15 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked),
                         pluginGuid = (value.imgProps) ? value.imgProps.value.asc_getPluginGuid() : null,
                         inSmartartInternal = value.shapeProps && value.shapeProps.value.get_FromSmartArtInternal();
+
+                    var pluginGuidAvailable = (pluginGuid !== null && pluginGuid !== undefined);
+                    me.menuEditObject.setVisible(pluginGuidAvailable);
+                    me.menuEditObjectSeparator.setVisible(pluginGuidAvailable);
+
+                    if (pluginGuidAvailable) {
+                        var plugin = PE.getCollection('Common.Collections.Plugins').findWhere({guid: pluginGuid});
+                        me.menuEditObject.setDisabled(!me.api.asc_canEditTableOleObject() && (plugin === null || plugin === undefined) || disabled);
+                    }
 
                     me.mnuArrangeFront.setDisabled(inSmartartInternal);
                     me.mnuArrangeBack.setDisabled(inSmartartInternal);
@@ -2352,7 +2405,6 @@ define([
                 
                     /** coauthoring begin **/
                     me.menuAddCommentImg.setVisible(me.api.can_AddQuotedComment()!==false && me.mode.canCoAuthoring && me.mode.canComments);
-                    menuCommentSeparatorImg.setVisible(me.menuAddCommentImg.isVisible());
                     me.menuAddCommentImg.setDisabled(disabled);
                     /** coauthoring end **/
                     me.menuImgShapeAlign.setDisabled(disabled);
@@ -2374,12 +2426,13 @@ define([
                     me.menuImgCut.setDisabled(disabled || !cancopy);
                     me.menuImgPaste.setDisabled(disabled);
                     menuImgShapeArrange.setDisabled(disabled);
-                    me.menuAddToLayoutImg.setDisabled(disabled);
                 },
                 items: [
                     me.menuImgCut,
                     me.menuImgCopy,
                     me.menuImgPaste,
+                    me.menuEditObjectSeparator,
+                    me.menuEditObject,
                     { caption: '--' },              //Separator
                     menuImgShapeArrange,
                     me.menuImgShapeAlign,
@@ -2397,10 +2450,57 @@ define([
                     me.menuChartAdvanced,
                     menuAdvancedSettingsSeparator,  //Separator
                 /** coauthoring begin **/
-                    me.menuAddCommentImg,
-                    menuCommentSeparatorImg,        //Separator
-                /** coauthoring end **/
-                    me.menuAddToLayoutImg
+                    me.menuAddCommentImg
+                ]
+            }).on('hide:after', function(menu, e, isFromInputControl) {
+                me.clearCustomItems(menu);
+                me.currentMenu = null;
+                if (me.suppressEditComplete) {
+                    me.suppressEditComplete = false;
+                    return;
+                }
+
+                if (!isFromInputControl) me.fireEvent('editcomplete', me);
+            });
+
+            me.menuAnimStartOnClick = new Common.UI.MenuItem({
+                caption: me.textStartOnClick,
+                checkable: true,
+                value: AscFormat.NODE_TYPE_CLICKEFFECT
+            });
+
+            me.menuAnimStartWithPrevious = new Common.UI.MenuItem({
+                caption: me.textStartWithPrevious,
+                checkable: true,
+                value: AscFormat.NODE_TYPE_WITHEFFECT
+            });
+
+            me.menuAnimStartAfterPrevious = new Common.UI.MenuItem({
+                caption: me.textStartAfterPrevious,
+                checkable: true,
+                value: AscFormat.NODE_TYPE_AFTEREFFECT
+            });
+
+            me.menuAnimRemove = new Common.UI.MenuItem({
+                caption: me.textRemove,
+                value: 'remove'
+            });
+
+            me.animEffectMenu = new Common.UI.Menu({
+                restoreHeightAndTop: true,
+                scrollToCheckedItem: false,
+                style: 'min-width: auto;',
+                initMenu: function(value){
+                    me.menuAnimStartOnClick.setChecked(value.effect === AscFormat.NODE_TYPE_CLICKEFFECT, true);
+                    me.menuAnimStartWithPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_WITHEFFECT, true);
+                    me.menuAnimStartAfterPrevious.setChecked(value.effect === AscFormat.NODE_TYPE_AFTEREFFECT, true);
+                },
+                items: [
+                    me.menuAnimStartOnClick,
+                    me.menuAnimStartWithPrevious,
+                    me.menuAnimStartAfterPrevious,
+                    {caption: '--'},
+                    me.menuAnimRemove
                 ]
             }).on('hide:after', function(menu, e, isFromInputControl) {
                 me.clearCustomItems(menu);
@@ -2712,6 +2812,7 @@ define([
         textCopy: 'Copy',
         textPaste: 'Paste',
         textCut: 'Cut',
+        textEditObject: 'Edit object',
         textSlideSettings: 'Slide Settings',
         directionText: 'Text Direction',
         directHText: 'Horizontal',
@@ -2858,7 +2959,17 @@ define([
         txtInsTable: 'Insert table',
         txtInsVideo: 'Insert video',
         txtInsAudio: 'Insert audio',
-        txtInsSmartArt: 'Insert SmartArt'
+        txtInsSmartArt: 'Insert SmartArt',
+        textStartOnClick: 'Start On Click',
+        textStartWithPrevious: 'Start With Previous',
+        textStartAfterPrevious: 'Start After Previous',
+        textRemove: 'Remove',
+        textInsertSlideMaster: 'Insert Slide Master',
+        textInsertLayout: 'Insert Layout',
+        textDuplicateSlideMaster: 'Duplicate Slide Master',
+        textDeleteMaster: 'Delete Master',
+        textDuplicateLayout: 'Duplicate Layout',
+        textDeleteLayout: 'Delete Layout'
 
     }, PE.Views.DocumentHolder || {}));
 });

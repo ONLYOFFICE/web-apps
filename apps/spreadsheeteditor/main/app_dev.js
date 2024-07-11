@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -47,7 +47,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -65,20 +64,12 @@ require.config({
         irregularstack  : 'common/IrregularStack'
     },
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -112,17 +103,17 @@ require.config({
 
 require([
     'backbone',
-    'bootstrap',
+    'underscore',
     'core',
     'analytics',
     'gateway',
     'locale',
 	'socketio',
-	'underscore'
-], function (Backbone, Bootstrap, Core) {
+], function (Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with SSE namespace defined
@@ -161,6 +152,8 @@ require([
 
     Common.Locale.apply(function(){
         require([
+            'common/main/lib/mods/dropdown',
+            'common/main/lib/mods/tooltip',
             'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Scaling',
             'common/main/lib/controller/Themes',

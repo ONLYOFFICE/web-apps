@@ -1,0 +1,51 @@
+#window-hyperlink-settings {
+    #id-dlg-hyperlink-external {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        .rtl & {
+            .border-radius(@border-radius-small);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+        }
+    }
+
+    #id-dlg-hyperlink-internal {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-width: 0;
+        .margin-left(-1px);
+
+        .rtl & {
+            border: @scaled-one-px-value solid @border-regular-control;
+            .border-radius(@border-radius-small);
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right-width: 0;
+        }
+    }
+}
+
+#window-grid-settings {
+    #grid-spacing-combo {
+        display: inline-block;
+        width:86px;
+    }
+
+    #grid-spacing-spin {
+        display: inline-block;
+    }
+}
+
+#window-header-footer {
+    #hf-dlg-btn-slide {
+        border-radius: 0;
+    }
+
+    #hf-dlg-btn-notes {
+        border-radius: 0;
+        .margin-left(-1px);
+    }
+}
+

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -148,13 +148,14 @@ define([
             this.btnRedo.render($('#id-btn-redo'));
 
             this.btnSubmit = new Common.UI.Button({
-                cls: 'btn-text-default colored margin-left-small margin-right-small',
-                caption: this.textSubmit
+                cls: 'btn-text-default auto colored back-color margin-left-small margin-right-small',
+                caption: this.textSubmit,
+                hint: this.tipSubmit
             });
             this.btnSubmit.render($('#id-submit-group'));
 
             this.btnDownload = new Common.UI.Button({
-                cls: 'btn-text-default colored margin-left-small margin-right-small',
+                cls: 'btn-text-default auto colored yellow margin-left-small margin-right-small',
                 caption: this.txtDownload,
                 hint: this.txtDownloadPdf
             });
@@ -168,6 +169,15 @@ define([
                 value: '1',
                 maskExp: /[0-9]/
             });
+
+            this.btnClose = new Common.UI.Button({
+                cls: 'btn-toolbar margin-left-small',
+                iconCls: 'svg-icon search-close',
+                hint: this.textClose,
+                visible: false,
+                scaling: false
+            });
+            this.btnClose.render($('#id-btn-close-editor'));
 
             return this;
         },
@@ -213,7 +223,9 @@ define([
         txtSearch: 'Search',
         tipUndo: 'Undo',
         tipRedo: 'Redo',
-        textClearField: 'Clear field'
+        textClearField: 'Clear field',
+        textClose: 'Close file',
+        tipSubmit: 'Submit form'
 
     }, DE.Views.ApplicationView || {}));
 });

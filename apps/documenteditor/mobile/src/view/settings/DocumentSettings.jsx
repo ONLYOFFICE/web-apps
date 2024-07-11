@@ -155,14 +155,6 @@ const PageDocumentColorSchemes = props => {
     const [stateScheme, setScheme] = useState(curScheme);
     const storeSettings = props.storeDocumentSettings;
     const allSchemes = storeSettings.allSchemes;
-    const SchemeNames = [ t('Settings.txtScheme22'),
-        t('Settings.txtScheme1'), t('Settings.txtScheme2'), t('Settings.txtScheme3'), t('Settings.txtScheme4'), 
-        t('Settings.txtScheme5'), t('Settings.txtScheme6'), t('Settings.txtScheme7'), t('Settings.txtScheme8'),
-        t('Settings.txtScheme9'), t('Settings.txtScheme10'), t('Settings.txtScheme11'), t('Settings.txtScheme12'),
-        t('Settings.txtScheme13'), t('Settings.txtScheme14'), t('Settings.txtScheme15'), t('Settings.txtScheme16'),
-        t('Settings.txtScheme17'), t('Settings.txtScheme18'), t('Settings.txtScheme19'), t('Settings.txtScheme20'),
-        t('Settings.txtScheme21')
-    ];
 
     return (
         <Page>
@@ -170,9 +162,8 @@ const PageDocumentColorSchemes = props => {
             <List>
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
-                        const name = scheme.get_name();
                         return (
-                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={(index < 22) ? (SchemeNames[index] || name) : name} checked={stateScheme === index}
+                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={scheme.get_name()} checked={stateScheme === index}
                                 onChange={() => {
                                     setScheme(index);
                                     setTimeout(() => props.onColorSchemeChange(index), 10);

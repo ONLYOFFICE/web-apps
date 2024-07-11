@@ -6,6 +6,47 @@
         </div>
     </div>
     <section class="box-controls">
+        <% if ( typeof config !== "undefined" && config.isRestrictedEdit && config.canFillForms && config.isPDFForm) { %>
+        <section class="panel static ">
+            <div class="group no-mask small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-save" data-layout-name="toolbar-save"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-print"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-copy"></span>
+                    <span class="btn-slot" id="slot-btn-paste"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot split" id="slot-btn-undo"></span>
+                    <span class="btn-slot" id="slot-btn-redo"></span>
+                </div>
+            </div>
+            <div class="group small">
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-cut"></span>
+                </div>
+                <div class="elset">
+                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                </div>
+            </div>
+            <div class="separator long"></div>
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-btn-tb-edit-mode"></span>
+            </div>
+            <div class="separator long"></div>
+            <div class="group">
+                <span class="btn-slot text x-huge" id="slot-btn-hand-tool"></span>
+                <span class="btn-slot text x-huge" id="slot-btn-select-tool"></span>
+            </div>
+            <div class="separator long"></div>
+        </section>
+        <% } %>
         <section class="box-panels">
         </section>
     </section>

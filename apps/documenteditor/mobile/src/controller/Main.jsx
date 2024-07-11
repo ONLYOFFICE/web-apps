@@ -19,6 +19,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
+import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
 
 @inject(
     "users",
@@ -44,6 +45,84 @@ class MainController extends Component {
         this.LoadingDocument = -256;
         this.ApplyEditRights = -255;
         this.boxSdk = $$('#editor_sdk');
+        this.fallbackSdkTranslations = {
+            " -Section ": " -Section ",
+            "above": "above",
+            "below": "below",
+            "Caption": "Caption",
+            "Choose an item": "Choose an item",
+            "Click to load image": "Click to load image",
+            "Current Document": "Current Document",
+            "Diagram Title": "Chart Title",
+            "endnote text": "Endnote Text",
+            "Enter a date": "Enter a date",
+            "Error! Bookmark not defined": "Error! Bookmark not defined.",
+            "Error! Main Document Only": "Error! Main Document Only.",
+            "Error! No text of specified style in document": "Error! No text of specified style in document.",
+            "Error! Not a valid bookmark self-reference": "Error! Not a valid bookmark self-reference.",
+            "Even Page ": "Even Page ",
+            "First Page ": "First Page ",
+            "Footer": "Footer",
+            "footnote text": "Footnote Text",
+            "Header": "Header",
+            "Heading 1": "Heading 1",
+            "Heading 2": "Heading 2",
+            "Heading 3": "Heading 3",
+            "Heading 4": "Heading 4",
+            "Heading 5": "Heading 5",
+            "Heading 6": "Heading 6",
+            "Heading 7": "Heading 7",
+            "Heading 8": "Heading 8",
+            "Heading 9": "Heading 9",
+            "Hyperlink": "Hyperlink",
+            "Index Too Large": "Index Too Large",
+            "Intense Quote": "Intense Quote",
+            "Is Not In Table": "Is Not In Table",
+            "List Paragraph": "List Paragraph",
+            "Missing Argument": "Missing Argument",
+            "Missing Operator": "Missing Operator",
+            "No Spacing": "No Spacing",
+            "No table of contents entries found": "There are no headings in the document. Apply a heading style to the text so that it appears in the table of contents.",
+            "No table of figures entries found": "No table of figures entries found.",
+            "None": "None",
+            "Normal": "Normal",
+            "Number Too Large To Format": "Number Too Large To Format",
+            "Odd Page ": "Odd Page ",
+            "Quote": "Quote",
+            "Same as Previous": "Same as Previous",
+            "Series": "Series",
+            "Subtitle": "Subtitle",
+            "Syntax Error": "Syntax Error",
+            "Table Index Cannot be Zero": "Table Index Cannot be Zero",
+            "Table of Contents": "Table of Contents",
+            "table of figures": "Table of figures",
+            "The Formula Not In Table": "The Formula Not In Table",
+            "Title": "Title",
+            "TOC Heading": "TOC Heading",
+            "Type equation here": "Type equation here",
+            "Undefined Bookmark": "Undefined Bookmark",
+            "Unexpected End of Formula": "Unexpected End of Formula",
+            "X Axis": "X Axis XAS",
+            "Y Axis": "Y Axis",
+            "Your text here": "Your text here",
+            "Zero Divide": "Zero Divide",
+            "Default Paragraph Font": "Default Paragraph Font",
+            "No List": "No list",
+            "Intense Emphasis": "Intense Emphasis",
+            "Intense Reference": "Intense Reference",
+            "Subtle Emphasis": "Subtle Emphasis",
+            "Emphasis": "Emphasis",
+            "Strong": "Strong",
+            "Subtle Reference": "Subtle Reference",
+            "Book Title":"Book Title",
+            "footnote reference": "Footnote reference",
+            "endnote reference": "Endnote reference"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -139,6 +218,7 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
 
                     let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
@@ -157,9 +237,19 @@ class MainController extends Component {
                     }
                 }
 
-                let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
-                if (type && typeof type[1] === 'string') {
-                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                const fileType = data?.doc.fileType;
+                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
+                const isPDF = fileType === 'pdf';
+
+                if(isFormType) {
+                    this.changeEditorBrandColorForPdf();
+                }
+
+                if(isPDF) {
+                    if(this.permissions.fillForms === undefined) {
+                        this.permissions.fillForms = this.permissions.edit !== false;
+                    }
+
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
 
@@ -174,8 +264,6 @@ class MainController extends Component {
                 // Document Info
 
                 const storeDocumentInfo = this.props.storeDocumentInfo;
-                // this.document
-
                 storeDocumentInfo.setDataDoc(this.document);
                 storeDocumentInfo.setDocInfo(docInfo);
 
@@ -218,12 +306,17 @@ class MainController extends Component {
                 const config = storeAppOptions.config;
                 const customization = config.customization;
                 const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
+                const isForceView = customization?.mobile?.forceView ?? true;
+
+                if(customization?.mobileForceView !== undefined && customization?.mobileForceView !== null) {
+                    console.warn("Obsolete: The mobileForceView parameter is deprecated. Please use the forceView parameter from customization.mobile block");
+                }
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
-                if(!isForm && isMobileForceView) {
+                if(!isForm && (isMobileForceView || isForceView)) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
                 } else if(!isForm && !isMobileForceView) {
                     storeAppOptions.changeViewerMode(false);
@@ -241,9 +334,10 @@ class MainController extends Component {
 
                 const { t } = this.props;
                 const appOptions = this.props.storeAppOptions;
-                const isForm = appOptions.isForm;
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
+                const customization = appOptions.customization;
+                const isStandardView = customization?.mobile?.standartView ?? false;
 
                 f7.emit('resize');
 
@@ -257,10 +351,10 @@ class MainController extends Component {
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
                 let value = LocalStorage.getItem("de-settings-zoom");
-                const zf = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : 100);
+                const zf = (value !== null) ? parseInt(value) : (customization && customization.zoom ? parseInt(customization.zoom) : 100);
                 (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = LocalStorage.getBool("de-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck === false));
+                value = LocalStorage.getBool("de-mobile-spellcheck", !(customization && customization.spellcheck === false));
                 appSettings.changeSpellCheck(value);
                 this.api.asc_setSpellCheck(value);
 
@@ -274,9 +368,10 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
-                value = LocalStorage.getBool('mobile-view', true);
+               
+                value = LocalStorage.getBool('mobile-view');
 
-                if(value && !isForm) {
+                if(value || !isStandardView) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -308,12 +403,12 @@ class MainController extends Component {
                 if(isOForm) {
                     f7.dialog.create({
                         title: t('Main.notcriticalErrorTitle'),
-                        text: t('Main.textConvertFormSave'),
+                        text: t('Main.textConvertForm'),
                         buttons: [
                             {
-                                text: appOptions.canRequestSaveAs || !!appOptions.saveAsUrl || appOptions.isOffline ? t('Main.textSaveAsPdf') : t('Main.textDownloadPdf'),
+                                text: t('Main.textDownloadPdf'),
                                 onClick: () => {
-                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, appOptions.canRequestSaveAs || !!appOptions.saveAsUrl));
+                                    this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, false))
                                 }
                             },
                             {
@@ -324,41 +419,17 @@ class MainController extends Component {
                 }
             };
 
-            const _process_array = (array, fn) => {
-                let results = [];
-                return array.reduce(function(p, item) {
-                    return p.then(function() {
-                        return fn(item).then(function(data) {
-                            results.push(data);
-                            return results;
-                        });
-                    });
-                }, Promise.resolve());
-            };
-
-            _process_array(dep_scripts, promise_get_script)
-                .then ( result => {
+            processArrayScripts(dep_scripts, promise_get_script)
+                .then(() => {
                     window["flat_desine"] = true;
-                    const {t} = this.props;
-                    let _translate = t('Main.SDK', {returnObjects:true});
-                    for (let item in _translate) {
-                        if (_translate.hasOwnProperty(item)) {
-                            const str = _translate[item];
-                            if (item[item.length-1]===' ' && str[str.length-1]!==' ')
-                                _translate[item] += ' ';
-                        }
-                    }
-                    ["Error! Bookmark not defined",
-                     "No table of contents entries found",
-                     "No table of figures entries found",
-                     "Error! Main Document Only",
-                     "Error! Not a valid bookmark self-reference",
-                     "Error! No text of specified style in document"].forEach(item => {
-                        _translate[item + '.'] = _translate[item];
-                        delete _translate[item];
-                    });
+                    const { t } = this.props;
+                    let _translate = t('Main.SDK', { returnObjects: true });
 
-                    var result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
+                    if (!(typeof _translate === 'object' && _translate !== null && Object.keys(_translate).length > 0)) {
+                        _translate = this.fallbackSdkTranslations
+                    }
+
+                    let result = /[\?\&]fileType=\b(pdf)|(djvu|xps|oxps)\b&?/i.exec(window.location.search),
                         isPDF = (!!result && result.length && typeof result[2] === 'string') || (!!result && result.length && typeof result[1] === 'string') && !window.isPDFForm;
 
                     const config = {
@@ -406,7 +477,8 @@ class MainController extends Component {
                     Common.Gateway.internalMessage('listenHardBack');
                 }, error => {
                     console.log('promise failed ' + error);
-                });
+                }
+            );
         };
 
         if ( About.developVersion() ) {
@@ -421,6 +493,15 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_script_load();
+        }
+    }
+
+    changeEditorBrandColorForPdf() {
+        const bodyElement = document.body;
+        bodyElement.classList.add('pdf-view');
+
+        if(Device.android) {
+            bodyElement.classList.add('pdf-view__android');
         }
     }
 
@@ -519,7 +600,7 @@ class MainController extends Component {
             let value = LocalStorage.getItem("de-opensource-warning");
             value = (value !== null) ? parseInt(value) : 0;
             const now = (new Date).getTime();
-            if (now - value > 86400000 && !isForm) {
+            if (now - value > 86400000) {
                 LocalStorage.setItem("de-opensource-warning", now);
                 f7.dialog.create({
                     title: _t.notcriticalErrorTitle,
@@ -1034,9 +1115,10 @@ class MainController extends Component {
         }
     }
 
-    onDownloadAs () {
+    onDownloadAs(format) {
         const appOptions = this.props.storeAppOptions;
-        if ( !appOptions.canDownload && !appOptions.canDownloadOrigin) {
+
+        if (!appOptions.canDownload && !appOptions.canDownloadOrigin) {
             const { t } = this.props;
             const _t = t('Main', {returnObjects:true});
             Common.Gateway.reportError(Asc.c_oAscError.ID.AccessDeny, _t.errorAccessDeny);
@@ -1044,12 +1126,61 @@ class MainController extends Component {
         }
 
         this._state.isFromGatewayDownloadAs = true;
+
+        let _format = (format && (typeof format == 'string')) ? Asc.c_oAscFileType[format.toUpperCase()] : null,
+            _defaultFormat = null,
+            textParams,
+            _supported = [
+                Asc.c_oAscFileType.TXT,
+                Asc.c_oAscFileType.RTF,
+                Asc.c_oAscFileType.ODT,
+                Asc.c_oAscFileType.DOCX,
+                Asc.c_oAscFileType.HTML,
+                Asc.c_oAscFileType.DOTX,
+                Asc.c_oAscFileType.OTT,
+                Asc.c_oAscFileType.FB2,
+                Asc.c_oAscFileType.EPUB,
+                Asc.c_oAscFileType.DOCM,
+                Asc.c_oAscFileType.JPG,
+                Asc.c_oAscFileType.PNG
+            ];
         const type = /^(?:(pdf|djvu|xps|oxps))$/.exec(this.document.fileType);
 
-        if (type && typeof type[1] === 'string') {
-            this.api.asc_DownloadOrigin(true);
+        if (type && typeof type[1] === 'string' && !appOptions.isForm) {
+            if (!(format && (typeof format == 'string')) || type[1] === format.toLowerCase()) {
+                const options = new Asc.asc_CDownloadOptions();
+                options.asc_setIsDownloadEvent(true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadOrigin(options);
+                return;
+            }
+
+            if (/^xps|oxps$/.test(this.document.fileType))
+                _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+            else if (/^djvu$/.test(this.document.fileType)) {
+                _supported = [Asc.c_oAscFileType.PDF];
+            }
+
+            textParams = new AscCommon.asc_CTextParams(Asc.c_oAscTextAssociation.PlainLine);
         } else {
-            this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            _supported = _supported.concat([Asc.c_oAscFileType.PDF, Asc.c_oAscFileType.PDFA]);
+            _defaultFormat = Asc.c_oAscFileType.DOCX;
+        }
+
+        if (appOptions.canFeatureForms && !/^djvu$/.test(this.document.fileType)) {
+            _supported = _supported.concat([Asc.c_oAscFileType.DOCXF]);
+        }
+        if (!_format || _supported.indexOf(_format) < 0)
+            _format = _defaultFormat;
+
+        const options = new Asc.asc_CDownloadOptions(_format, true);
+        options.asc_setIsSaveAs(true);
+
+        if(_format) {
+            textParams && options.asc_setTextParams(textParams);
+            this.api.asc_DownloadAs(options);
+        } else {
+            this.api.asc_DownloadOrigin(options);
         }
     }
 

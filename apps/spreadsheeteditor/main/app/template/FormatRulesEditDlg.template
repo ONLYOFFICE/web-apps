@@ -1,6 +1,6 @@
 <div class="settings-panel active">
     <div class="inner-content">
-    <table cols="1">
+    <table cols="1" role="presentation">
         <tr>
             <td class="padding-small">
                 <div class="rule margin-right-10">
@@ -151,7 +151,7 @@
         </tr>
         <tr class="iconset">
             <td>
-                <table>
+                <table role="presentation">
                     <tr>
                         <td class="padding-large icon-style">
                             <label class="header"><%= scope.textIconStyle %></label>

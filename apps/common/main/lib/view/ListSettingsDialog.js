@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -330,11 +330,19 @@ define([], function () { 'use strict';
                 }
             });
 
+            var config = this.options.colorConfig || {};
             this.btnColor = new Common.UI.ColorButton({
                 parentEl: $window.find('#id-dlg-list-color'),
                 style: "width:45px;",
                 additionalAlign: this.menuAddAlign,
                 color: this.color,
+                colors: config.colors,
+                dynamiccolors: config.dynamiccolors,
+                themecolors: config.themecolors,
+                effects: config.effects,
+                columns: config.columns,
+                paletteCls: config.cls,
+                paletteWidth: config.paletteWidth,
                 takeFocusOnClose: true
             });
             this.btnColor.on('color:select', _.bind(this.onColorsSelect, this));
@@ -394,7 +402,7 @@ define([], function () { 'use strict';
         },
 
         afterRender: function() {
-            this.updateThemeColors();
+            !this.options.colorConfig && this.updateThemeColors();
             this._setDefaults(this.props);
 
             var me = this;

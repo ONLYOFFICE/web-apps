@@ -121,6 +121,9 @@
             border-radius: 1px;
             cursor: text;
         }
+        .rtl & {
+            direction: rtl;
+        }
     }
 
     #rib-save-status {
@@ -226,6 +229,19 @@
                 opacity: @header-component-hover-icon-opacity;
             }
         }
+
+        .caret {
+            border-color: @icon-toolbar-header-ie;
+            border-color: @icon-toolbar-header;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled){
+            .caret {
+                border-color: @icon-toolbar-header-ie;
+                border-color: @icon-toolbar-header;
+            }
+        }
     }
 
     svg.icon {
@@ -246,14 +262,15 @@
         opacity: @component-disabled-opacity;
     }
 
-    &:hover {
+    &:hover,
+    .highlight-tip & {
         &:not(.disabled) {
             background-color: @highlight-header-button-hover-ie;
             background-color: @highlight-header-button-hover;
         }
     }
 
-    &:active {
+    &:active, &.active {
         &:not(.disabled) {
             background-color: @highlight-header-button-pressed-ie;
             background-color: @highlight-header-button-pressed;
@@ -346,7 +363,7 @@
     width: auto;
 
     .caption {
-        margin: 2px 0 0 2px;
+        margin: 2px 4px 0 2px;
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
     }
@@ -400,6 +417,10 @@
         background-color: @icon-toolbar-header;
         color: @toolbar-header-text-on-background-ie;
         color: @toolbar-header-text-on-background;
+        .pdf-form & {
+            color: @toolbar-header-text-on-background-pdf-ie;
+            color: @toolbar-header-text-on-background-pdf;
+        }
         vertical-align: middle;
         background-size: cover;
         background-position: center;
@@ -514,14 +535,13 @@
 }
 
 #box-document-title {
-    background-color: @header-background-color-ie;
-    background-color: @header-background-color;
+    .header-background-color();
     display: flex;
     height: 100%;
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
-    z-index: 1;
+    z-index: @zindex-navbar + 3;
 
     .btn-slot {
         display: inline-block;
@@ -577,7 +597,9 @@
             border-radius: 1px;
             cursor: text;
         }
-
+        .rtl & {
+            direction: rtl;
+        }
    }
 
     .lr-separator {

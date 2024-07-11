@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -68,12 +68,15 @@ if ( window.AscDesktopEditor ) {
         }
 
         if ( window.RendererProcessVariable.rtl !== undefined ) {
-            const nativevars = window.RendererProcessVariable;
-            localStorage.setItem("ui-rtl", (nativevars.rtl == 'yes' || nativevars.rtl == 'true') ? 1 : 0);
+            window.nativeprocvars = {
+                rtl: window.RendererProcessVariable.rtl === true || window.RendererProcessVariable.rtl == "yes" || window.RendererProcessVariable.rtl == "true"
+            };
         }
     }
 
-    !window.features && (window.features = {});
-    window.features.framesize = {width: window.innerWidth, height: window.innerHeight};
-    window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
+    if ( !params || !params['internal'] ) {
+        !window.features && (window.features = {});
+        window.features.framesize = {width: window.innerWidth, height: window.innerHeight};
+        window.desktop.execCommand('webapps:entry', (window.features && JSON.stringify(window.features)) || '');
+    }
 }

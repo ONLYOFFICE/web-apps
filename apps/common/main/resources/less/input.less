@@ -73,6 +73,12 @@
         position: relative;
     }
 
+    input {
+        .rtl & {
+            direction: rtl;
+        }
+    }
+
     &.form-control:focus,
     .form-control:focus {
         //border-color: @border-control-focus;
@@ -123,6 +129,9 @@ input.error {
 
 input[type="password"] {
     font-size: 16px;
+    &::-ms-reveal {
+        display: none;
+    }
 }
 
 input[type="text"]::selection, textarea::selection {

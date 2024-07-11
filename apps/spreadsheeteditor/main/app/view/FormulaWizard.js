@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -160,9 +160,10 @@ define([], function () { 'use strict';
                 props.name ? $('#formula-wizard-name').html(this.textFunction + ': ' + props.name) : $('#formula-wizard-name').addClass('hidden');
                 this.parseArgsDesc(props.args);
 
-                this.$window.find('#formula-wizard-help').on('click', function (e) {
-                    me.showHelp();
-                })
+                props.custom ?  this.$window.find('#formula-wizard-help').css('visibility', 'hidden') :
+                                this.$window.find('#formula-wizard-help').on('click', function (e) {
+                                    me.showHelp();
+                                })
             }
             this.recalcArgTableSize();
             this.minArgWidth = this.$window.find('#formula-wizard-lbl-func-res').width();
@@ -276,9 +277,10 @@ define([], function () { 'use strict';
         getArgumentName: function(argcount) {
             var name = '',
                 namesLen = this.argsNames.length;
-            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') // no repeated args
+            if ((!this.repeatedArg || this.repeatedArg.length<1) && argcount<namesLen && this.argsNames[argcount]!=='...') { // no repeated args
                 name = this.argsNames[argcount];
-            else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
+                (name==='') && (name = this.textArgument + (this.maxArgCount>1 ? (' ' + (argcount+1)) : ''));
+            } else if (this.repeatedArg && this.repeatedArg.length>0 && this.argsNames[namesLen-1]==='...') {
                 var repeatedLen = this.repeatedArg.length;
                 var req = namesLen-1 - repeatedLen; // required/no-repeated
                 if (argcount<req) // get required args as is

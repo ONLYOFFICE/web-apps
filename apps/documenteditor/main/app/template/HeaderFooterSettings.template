@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td>
             <label class="header"><%= scope.textPosition %></label>
@@ -89,6 +89,12 @@
             <div id="headerfooter-radio-prev"></div>
             <div id="headerfooter-radio-from"></div>
             <div id="headerfooter-spin-from"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label id="headerfooter-label-format" class="input-label"><%= scope.textNumFormat %></label>
+            <div id="headerfooter-combo-format"></div>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

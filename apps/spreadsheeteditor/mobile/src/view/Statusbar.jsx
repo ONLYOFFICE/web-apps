@@ -220,11 +220,11 @@ const StatusbarView = inject('storeAppOptions', 'storeWorksheets', 'users')(obse
         <Fragment>
             <View id="idx-statusbar" className="statusbar" style={viewStyle}>
                 {isEdit &&
-                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked || isProtectedWorkbook ? 'disabled box-tab' : 'box-tab'}`}>
+                    <div id="idx-box-add-tab" className={`${isDisconnected || isWorkbookLocked ? 'disabled box-tab' : 'box-tab'}`}>
                         <Link href={false} id="idx-btn-addtab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={props.onAddTabClicked}>
                             <Icon className={`icon icon-plus ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
-                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked || isProtectedWorkbook  ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
+                        <Link href={false} id="idx-btn-all-list-tab" className={`tab${isDisabledEditSheet || isDisconnected || isWorkbookLocked ? ' disabled' : ''}`} onClick={(e) => f7.popover.open('#idx-all-list', e.target)}>
                             <Icon className={`icon icon-list ${isAndroid ? 'bold' : ''}`}/>
                         </Link>
                     </div>

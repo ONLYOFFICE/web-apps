@@ -296,6 +296,7 @@
               <div id="box-tools" class="dropdown">
                   <button class="control-btn svg-icon more-vertical"></button>
               </div>
+              <button id="id-btn-close-editor" class="control-btn svg-icon search-close hidden"></button>
           </div>
       </div>
 
@@ -303,6 +304,9 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                       <h4 id="id-critical-error-title"></h4>
                   </div>
                   <div class="modal-body">

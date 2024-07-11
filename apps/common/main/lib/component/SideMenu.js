@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -241,7 +241,7 @@ define([
                     index = arr[1];
                 btn.cmpEl.parent().remove();
                 this.buttons.splice(index, 1);
-                this.close();
+                this.close && this.close();
 
                 this.setMoreButton();
             },
@@ -257,7 +257,7 @@ define([
                 return pressed;
             },
 
-            togglePluginButtons: function (toggle) {
+            toggleActivePluginButton: function (toggle) {
                 for (var i=0; i<this.buttons.length; i++) {
                     if (this.buttons[i].options.type === 'plugin' && this.buttons[i].pressed) {
                         this.buttons[i].toggle(toggle, true);
@@ -279,7 +279,7 @@ define([
                         menuItem.cmpEl.find("img").attr("src", src);
                     }
                 });
-            },
+            }
         }
     }()));
 });

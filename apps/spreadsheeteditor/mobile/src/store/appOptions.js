@@ -17,11 +17,14 @@ export class storeAppOptions {
 
             isDocReady: observable,
             changeDocReady: action,
+
+            customization: observable,
         });
     }
 
     isEdit = false;
     config = {};
+    customization;
     
     canViewComments = false;
     changeCanViewComments(value) {
@@ -71,9 +74,30 @@ export class storeAppOptions {
         this.mergeFolderUrl = config.mergeFolderUrl;
         this.canAnalytics = false;
         this.canRequestClose = config.canRequestClose;
-        this.canBackToFolder = (config.canBackToFolder!==false) && (typeof (config.customization) == 'object') && (typeof (config.customization.goback) == 'object')
-            && (!!(config.customization.goback.url) || config.customization.goback.requestClose && this.canRequestClose);
-        this.canBack = this.canBackToFolder === true;
+        this.canCloseEditor = false;
+        
+        let canBack = false;
+
+        if (typeof config.customization === 'object' && config.customization !== null) {
+            const { goback, close } = config.customization;
+
+            if (typeof goback === 'object' && config.canBackToFolder !== false) {
+                const hasUrl = !!goback.url;
+                const requestClose = goback.requestClose && this.canRequestClose;
+
+                canBack = close === undefined ? hasUrl || requestClose : hasUrl && !goback.requestClose;
+
+                if (goback.requestClose) {
+                    console.log("Obsolete: The 'requestClose' parameter of the 'customization.goback' section is deprecated. Please use 'close' parameter in the 'customization' section instead.");
+                }
+            }
+
+            if (typeof close === 'object' && close !== null) {
+                this.canCloseEditor = (close.visible!==false) && this.canRequestClose && !this.isDesktopApp;
+            }
+        }
+        
+        this.canBack = this.canBackToFolder = canBack;
         this.canPlugins = false;
 
         AscCommon.UserInfoParser.setParser(true);
@@ -84,7 +108,7 @@ export class storeAppOptions {
         if (params.asc_getRights() !== Asc.c_oRights.Edit)
             permissions.edit = false;
         this.canBranding = params.asc_getCustomization();
-        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
+        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object' || this.config.plugins);
         this.canModifyFilter = permissions.modifyFilter !== false;
         this.canAutosave = true;
         this.canAnalytics = params.asc_getIsAnalyticsEnable();
@@ -125,7 +149,7 @@ export class storeAppOptions {
         this.canUseCommentPermissions && AscCommon.UserInfoParser.setCommentPermissions(permissions.commentGroups);  
         this.canUseUserInfoPermissions && AscCommon.UserInfoParser.setUserInfoPermissions(permissions.userInfoGroups);
 
-        this.canUseHistory = this.canLicense && !this.isLightVersion && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp;
+        this.canUseHistory = this.canLicense && this.config.canUseHistory && this.canCoAuthoring && !this.isDesktopApp && !this.isOffline;
         this.canHistoryClose = this.config.canHistoryClose;
         this.canHistoryRestore= this.config.canHistoryRestore;
 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -45,7 +45,7 @@ define([
     'use strict';
 
     SSE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
-        var template = '<section class="panel" data-tab="view">' +
+        var template = '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
             '<div class="group sheet-views">' +
                 '<span class="btn-slot text x-huge" id="slot-btn-sheet-view"></span>' +
             '</div>' +
@@ -191,7 +191,7 @@ define([
                 if ( me.appConfig.canFeatureViews && me.appConfig.isEdit ) {
                     this.btnSheetView = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-sheet-view',
+                        iconCls: 'toolbar__icon btn-big-sheet-view',
                         caption: me.capBtnSheetView,
                         lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
                         menu: true,

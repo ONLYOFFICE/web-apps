@@ -5,6 +5,7 @@
     </div>
     <div class="status-group dropup">
         <label id="status-label-pages" class="status-label dropdown-toggle margin-top-large margin-left-7" style="display: none;" data-toggle="dropdown" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= Common.Utils.String.format(scope.pageIndexText, 1, 1) %></label>
+        <label id="status-label-slide-master" class="status-label margin-top-large margin-left-7" style="display: none;" data-hint="0" data-hint-direction="top" data-hint-offset="-3, 0"><%= scope.textSlideMaster %></label>
         <div id="status-goto-box" class="dropdown-menu">
             <label class="float-left"><%= scope.goToPageText %></label>
             <div id="status-goto-page" style="display:inline-block;"></div>
@@ -19,11 +20,11 @@
         <div class="separator short el-edit space"></div>
         <span id="btn-doc-spell" class="el-edit margin-top-small"></span>
         <div class="separator short el-edit el-lang"></div>
-        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtoslide">&nbsp;</i></button>
-        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar margin-top-small" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
+        <button id="btn-zoom-topage" type="button" class="btn small btn-toolbar margin-top-small" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtoslide">&nbsp;</i></button>
+        <button id="btn-zoom-towidth" type="button" class="btn small btn-toolbar margin-top-small" aria-pressed="false" data-hint="0" data-hint-direction="top" data-hint-offset="small"><i class="icon toolbar__icon btn-ic-zoomtowidth">&nbsp;</i></button>
         <button id="btn-zoom-down" type="button" class="btn small btn-toolbar margin-top-small"><i class="icon toolbar__icon btn-zoomdown">&nbsp;</i></button>
         <div class="cnt-zoom">
-            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-hint="0" data-hint-direction="top" role="button" aria-haspopup="menu" aria-expanded="false">
                 <label id="status-label-zoom" class="status-label">Zoom 100%</label>
             </div>
         </div>

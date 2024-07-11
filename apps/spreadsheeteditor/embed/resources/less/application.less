@@ -4,53 +4,138 @@
 // Worksheets
 // -------------------------
 .viewer {
+  display: flex;
+  flex-direction: column;
+
+  .sdk-view {
+    position: relative;
+    flex-grow: 1;
+  }
+
+  .worksheet-list-container {
     display: flex;
-    flex-direction: column;
+    border-top: 1px solid #cacaca;
+    background-color: #f7f7f7;
 
-    .sdk-view {
-        position: relative;
-        flex-grow: 1;
+    .worksheet-list-buttons {
+      display: flex;
+      padding: 1px 12px;
+      height: 24px;
+      position: fixed;
+      background: #f7f7f7;
+      border-right: 1px solid #c0c0cd;
     }
 
-    ul.worksheet-list {
-        flex-grow: 0;
-        flex-shrink: 0;
-        margin: 0;
-        padding: 0 9px;
-        border-top: 1px solid #5A5A5A;
-        border-bottom: 1px solid #BABABA;
-        #gradient > .vertical(#B6B6B6, #CACACA);
-        box-shadow: 0 4px 4px -4px #333 inset;
-
-
-        li {
-            float: left;
-            cursor: pointer;
-            list-style: none;
-            margin: 0 2px 2px 3px;
-            padding: 0 13px;
-            color: #FFFFFF;
-            #gradient > .vertical(#9A9A9A, #828282);
-            box-shadow: 0 4px 4px -4px #333 inset;
-            -webkit-border-bottom-right-radius: 4px;
-//                -moz-border-radius-bottomright: 4px;
-                    border-bottom-right-radius: 4px;
-             -webkit-border-bottom-left-radius: 4px;
-//                 -moz-border-radius-bottomleft: 4px;
-                     border-bottom-left-radius: 4px;
-
-            border-bottom: 1px solid #929292;
-            border-top-color: transparent;
-
-            &.active {
-                margin-top: -1px;
-                padding: 0 12px;
-                border: 1px solid #929292;
-                border-top-color: transparent;
-                background: #DDDDDD;
-                color: #000;
-                box-shadow: none;
-            }
-        }
+    @media screen and (min--moz-device-pixel-ratio:0) {
+      scrollbar-color: #e8e8e8 #eeeeee;
+      scrollbar-width: thin;
     }
+
+    &::-webkit-scrollbar-thumb {
+      height: 14px;
+      border: #c0c0c0 1px solid;
+      background-color: #e8e8e8;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' stroke ='rgb(173,173,173)' height='5px'><line y1='2.5' x1='0' y2='2.5' x2='13' stroke-width = '5' stroke-dasharray ='1px' /%3E%3C/svg%3E");
+
+      &:hover {
+        background-color: #c0c0c0;
+      }
+
+      &:active {
+        background-color: #adadad;
+      }
+
+      &:active, &:hover {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' stroke ='rgb(247,247,247)' height='5px'><line y1='2.5' x1='0' y2='2.5' x2='13' stroke-width = '5' stroke-dasharray ='1px' /%3E%3C/svg%3E");
+      }
+    }
+
+    &::-webkit-scrollbar-track {
+      margin: 0 1px;
+    }
+
+    &::-webkit-scrollbar {
+      height: 14px;
+      border-top: #c0c0c0 1px solid;
+      background-color: #eeeeee;
+    }
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar-button:single-button {
+      height: 14px;
+      width: 16px;
+      border: #c0c0c0 1px solid;
+      background-color: #f0f0f0;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      &:hover {
+        background-color: #c0c0c0;
+      }
+
+      &:active {
+        background-color: #adadad;
+      }
+
+      &:horizontal:increment {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges' width='4' height='8px' fill='rgb(173, 173, 173)'><polygon points='0,0 0,7 4,3.5'/></svg>");
+      }
+
+      &:horizontal:increment:hover, &:horizontal:increment:active {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='8px' fill='rgb(247, 247, 247)'><polygon points='0,0 0,7 4,3.5'/></svg>");
+      }
+
+      &:horizontal:decrement {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='8px' fill='rgb(173, 173, 173)'><polygon points='0,3.5 4,7 4,0'/></svg>");
+      }
+
+      &:horizontal:decrement:hover, &:horizontal:decrement:active {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' shape-rendering='crispEdges' width='4' height='8px' fill='rgb(247, 247, 247)'><polygon points='0,3.5 4,7 4,0'/></svg>");
+      }
+    }
+  }
+
+  ul.worksheet-list {
+    background-color: #F7F7F7;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    margin-left: 68px;
+
+    li {
+      display: inline-block;
+      border-radius: 0;
+      padding: 0 10px 0;
+      line-height: 24px;
+      margin-right: -1px;
+      margin-left: 0;
+      border-right: 1px solid #cacaca;
+      border-left: 1px solid #cacaca;
+      color: rgba(0, 0, 0, 0.8);
+      font-size: 11px;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      text-align: center;
+
+      &.active {
+        box-shadow: inset 0 4px 0 #49795d;
+        background-color: #ffffff;
+        color: #000;
+        font-weight: bold;
+      }
+
+      &::after {
+        content: attr(tabtitle);
+        font-weight: bold;
+        display: block;
+        height: 0;
+        color: transparent;
+      }
+    }
+  }
 }

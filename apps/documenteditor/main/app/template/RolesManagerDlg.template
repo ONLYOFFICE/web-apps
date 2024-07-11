@@ -1,25 +1,25 @@
 <div class="settings-panel active">
     <div class="inner-content">
-        <table cols="2" style="width: 100%;">
+        <table cols="2" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label><%= scope.textDescription %></label>
                 </td>
-                <td class="padding-small" style="width: 60px;">
-                    <div id="roles-manager-btn-down" style="display: inline-block;" class="float-right margin-left-5"></div>
-                    <div id="roles-manager-btn-up" style="display: inline-block;" class="float-right"></div>
+                <td class="padding-small float-right padding-left-10">
+                    <div id="roles-manager-btn-up" style="display: inline-block;"></div>
+                    <div id="roles-manager-btn-down" style="display: inline-block;" class="margin-left-2"></div>
                 </td>
             </tr>
             <tr>
                 <td colspan=2 class="padding-small">
-                    <div id="roles-manager-roles-list" class="roles-tableview no-borders" style="width:480px; height: 170px;"></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan=2 class="padding-large">
                     <button type="button" class="btn btn-text-default margin-right-5" id="roles-manager-btn-new" style="min-width: 100px;"><%= scope.textNew %></button>
                     <button type="button" class="btn btn-text-default" id="roles-manager-btn-edit" style="min-width: 100px;"><%= scope.textEdit %></button>
                     <button type="button" class="btn btn-text-default float-right" id="roles-manager-btn-delete" style="min-width: 100px;"><%= scope.textDelete %></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <div id="roles-manager-roles-list" class="roles-tableview no-borders" style="width:480px; height: 170px;"></div>
                 </td>
             </tr>
         </table>

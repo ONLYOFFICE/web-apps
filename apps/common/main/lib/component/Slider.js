@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -179,7 +179,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.thumb.offset().top) : (e.pageX*Common.Utils.zoom() - me.thumb.offset().left) - 7;
+                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.thumb.offset().top) : (e.pageX*Common.Utils.zoom() - me.thumb.offset().left) - 6;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
@@ -446,7 +446,7 @@ define([
                 var index = e.data.index,
                     thumb = me.thumbs[index].thumb;
 
-                me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - thumb.width()/2;
+                me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - 6.5;
                 setCenters(index);
                 me.setActiveThumb(index);
 

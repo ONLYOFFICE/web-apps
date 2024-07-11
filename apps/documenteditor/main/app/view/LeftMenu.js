@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -71,7 +71,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -86,7 +86,11 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
+            this.btnSearchBar.on('click', _.bind(function () {
+                this.onBtnMenuClick(this.btnSearchBar);
+                if (this.btnSearchBar.pressed)
+                    this.fireEvent('search:aftershow');
+            }, this));
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
@@ -204,7 +208,6 @@ define([
             this.supressEvents = false;
 
             this.onCoauthOptions();
-            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -329,7 +332,7 @@ define([
                     this.panelThumbnails['hide']();
                     this.btnThumbnails.toggle(false, true);
                 }
-                this.togglePluginButtons(false);
+                this.toggleActivePluginButton(false);
             }
         },
 
@@ -389,7 +392,7 @@ define([
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
                         this.panelSearch.focus();
-                        !suspendAfter && this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow');
                     }
                 }
                 /** coauthoring end **/
@@ -516,6 +519,7 @@ define([
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
         txtLimit: 'Limit Access',
-        txtEditor: 'Document Editor'
+        txtEditor: 'Document Editor',
+        ariaLeftMenu: 'Left menu'
     }, DE.Views.LeftMenu || {}));
 });

@@ -15,6 +15,7 @@
   "PE.ApplicationController.downloadTextText": "Загрузка презентации...",
   "PE.ApplicationController.errorAccessDeny": "Вы пытаетесь выполнить действие, на которое у вас нет прав.<br>Пожалуйста, обратитесь к администратору Сервера документов.",
   "PE.ApplicationController.errorDefaultMessage": "Код ошибки: %1",
+  "PE.ApplicationController.errorEditingDownloadas": "В ходе работы с документом произошла ошибка.<br>Используйте опцию 'Скачать как', чтобы сохранить резервную копию файла на диск.",
   "PE.ApplicationController.errorFilePassProtect": "Файл защищен паролем и не может быть открыт.",
   "PE.ApplicationController.errorFileSizeExceed": "Размер файла превышает ограничение, установленное для вашего сервера.<br>Обратитесь к администратору Сервера документов для получения дополнительной информации.",
   "PE.ApplicationController.errorForceSave": "При сохранении файла произошла ошибка. Используйте опцию 'Скачать как', чтобы сохранить файл на жестком диске компьютера или повторите попытку позже.",

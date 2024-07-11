@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -61,7 +61,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -218,6 +218,16 @@ define([
             }
         },
 
+        getFocusElement: function () {
+            var btn = false;
+            if (this.btnChat && this.btnChat.pressed) {
+                btn = this.panelChat.getFocusElement();
+            } else if (this.btnSearchBar && this.btnSearchBar.pressed) {
+                btn = this.panelSearch.getFocusElement();
+            }
+            return btn;
+        },
+
         setOptionsPanel: function(name, panel) {
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');
@@ -272,7 +282,7 @@ define([
                 this.panelSearch['hide']();
                 this.btnSearchBar.toggle(false, true);
             }
-            this.togglePluginButtons(false);
+            this.toggleActivePluginButton(false);
         },
 
         isOpened: function() {
@@ -445,6 +455,7 @@ define([
         tipSpellcheck: 'Spell checking',
         txtTrialDev: 'Trial Developer Mode',
         txtLimit: 'Limit Access',
-        txtEditor: 'Spreadsheet Editor'
+        txtEditor: 'Spreadsheet Editor',
+        ariaLeftMenu: 'Left menu'
     }, SSE.Views.LeftMenu || {}));
 });

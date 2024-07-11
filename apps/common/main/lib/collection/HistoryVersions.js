@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -43,27 +43,29 @@ Common.Collections = Common.Collections || {};
 define([
     'underscore',
     'backbone',
-    'common/main/lib/model/HistoryVersion'
+    'common/main/lib/model/HistoryVersion',
+    'common/main/lib/component/TreeView'
 ], function(_, Backbone){
     'use strict';
 
-    Common.Collections.HistoryVersions = Backbone.Collection.extend({
-        model: Common.Models.HistoryVersion,
+    Common.Collections.HistoryVersions = Common.UI.TreeViewStore.extend(_.extend({
+             model: Common.Models.HistoryVersion,
 
-        findRevision: function(revision) {
-            return this.findWhere({revision: revision});
-        },
+            findRevision: function(revision) {
+                return this.findWhere({revision: revision});
+            },
 
-        findRevisions: function(revision) {
-            return this.where({revision: revision});
-        },
+            findRevisions: function(revision) {
+                return this.where({revision: revision});
+            },
 
-        hasChanges: function() {
-            return !!this.findWhere({isRevision: false});
-        },
+            hasChanges: function() {
+                return !!this.findWhere({hasParent: true});
+            },
 
-        hasCollapsed: function() {
-            return !!this.findWhere({isRevision: true, hasChanges: true, isExpanded: false});
-        }
-    });
+            hasCollapsed: function() {
+                return !!this.findWhere({hasSubItems: true, isExpanded: false});
+            }
+        }, Common.UI.TreeViewStore || {})
+    );
 });

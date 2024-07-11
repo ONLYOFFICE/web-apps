@@ -43,6 +43,10 @@
     font-size: @value;
 }
 
+.font-sans-serif {
+    font-family: @font-family-sans-serif;
+}
+
 // User select
 .user-select(@select: none) {
     -webkit-user-select: @select;
@@ -673,6 +677,10 @@
     .margin-left(12px);
 }
 
+.margin-left-13 {
+    .margin-left(13px);
+}
+
 .margin-left-15 {
     .margin-left(15px);
 }
@@ -816,10 +824,14 @@
 }
 
 .vertical-align-baseline {
-    vertical-align: baseline;
+    vertical-align: baseline !important;
     .ie & {
-        vertical-align: middle;
+        vertical-align: middle !important;
     }
+}
+
+.vertical-align-middle {
+    vertical-align: middle;
 }
 //.adaptive-solid-border(@width, @color, @borderside: all) {
 //    @lb-border: if((@borderside = all), border, e('border-@{borderside}'));
@@ -836,3 +848,23 @@
 //        }
 //    }
 //}
+
+.header-background-color {
+    background-color: @header-background-color-ie;
+    background-color: @header-background-color;
+
+    .pdf-form & {
+        background-color: @header-background-color-pdf-ie;
+        background-color: @header-background-color-pdf;
+    }
+}
+
+.header-border-color {
+    border-color: @header-background-color-ie !important;
+    border-color: @header-background-color !important;
+
+    .pdf-form & {
+        border-color: @header-background-color-pdf-ie !important;
+        border-color: @header-background-color-pdf !important;
+    }
+}

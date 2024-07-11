@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -69,7 +69,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -84,7 +84,11 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnSearchBar.on('click',       _.bind(this.onBtnMenuClick, this));
+            this.btnSearchBar.on('click', _.bind(function () {
+                this.onBtnMenuClick(this.btnSearchBar);
+                if (this.btnSearchBar.pressed)
+                    this.fireEvent('search:aftershow');
+            }, this));
 
             this.btnThumbs = new Common.UI.Button({
                 action: 'thumbs',
@@ -198,7 +202,6 @@ define([
             }
 
             this.fireEvent('panel:show', [this, btn.options.action, btn.pressed]);
-            btn.pressed && btn.options.action == 'advancedsearch' && this.fireEvent('search:aftershow', this);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
@@ -234,6 +237,16 @@ define([
                     this.panelSearch.hide();
                 }
             }
+        },
+
+        getFocusElement: function () {
+            var btn = false;
+            if (this.btnChat && this.btnChat.pressed) {
+                btn = this.panelChat.getFocusElement();
+            } else if (this.btnSearchBar && this.btnSearchBar.pressed) {
+                btn = this.panelSearch.getFocusElement();
+            }
+            return btn;
         },
 
         setOptionsPanel: function(name, panel) {
@@ -288,7 +301,7 @@ define([
                 this.btnSearchBar.toggle(false, true);
             }
             this.fireEvent('panel:show', [this, '', false]);
-            this.togglePluginButtons(false);
+            this.toggleActivePluginButton(false);
         },
 
         isOpened: function() {
@@ -334,7 +347,7 @@ define([
                         !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
                         this.btnSearchBar.toggle(true);
                         this.onBtnMenuClick(this.btnSearchBar);
-                        !suspendAfter && this.fireEvent('search:aftershow', this);
+                        !suspendAfter && this.fireEvent('search:aftershow');
                     }
                 }
                 /** coauthoring end **/
@@ -459,6 +472,7 @@ define([
         txtTrial: 'TRIAL MODE',
         txtTrialDev: 'Trial Developer Mode',
         txtLimit: 'Limit Access',
-        txtEditor: 'Presentation Editor'
+        txtEditor: 'Presentation Editor',
+        ariaLeftMenu: 'Left menu'
     }, PE.Views.LeftMenu || {}));
 });

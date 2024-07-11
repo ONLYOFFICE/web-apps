@@ -4,7 +4,7 @@
         <%= tabsmarkup %>
         <div class="extra right"></div>
     </section>
-    <section class="box-controls">
+    <section class="box-controls" role="tabpanel">
         <section class="panel static">
             <div class="group no-mask small">
                 <div class="elset">
@@ -30,18 +30,18 @@
                     <span class="btn-slot" id="slot-btn-cut"></span>
                 </div>
                 <div class="elset">
-                    <span class="btn-slot" id="slot-btn-select-all"></span>
+                    <span class="btn-slot" id="slot-btn-copystyle"></span>
                 </div>
             </div>
             <div class="separator long"></div>
         </section>
         <section class="box-panels">
-            <section class="panel" data-tab="home">
-                <div class="group">
+            <section class="panel" data-tab="home" role="tabpanel" aria-labelledby="home">
+                <div class="group normal-mode">
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
                 <div class="group" style="display:none;"></div>
-                <div class="group small">
+                <div class="group small normal-mode">
                     <div class="elset">
                         <span class="btn-slot split" id="slot-btn-changeslide"></span>
                     </div>
@@ -49,9 +49,13 @@
                         <span class="btn-slot split" id="slot-btn-preview"></span>
                     </div>
                 </div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
+                    <span class="btn-slot text x-huge slot-addlayout"></span>
+                </div>
                 <div class="separator long"></div>
                 <div class="group small">
-                    <div class="elset" style="width:208px;">
+                    <div class="elset" style="width:230px;">
                         <span class="btn-slot float-left" id="slot-field-fontname"></span>
                         <span class="btn-slot margin-left-2 float-left" id="slot-field-fontsize"></span>
                         <span class="btn-slot margin-left-2" id="slot-btn-incfont"></span>
@@ -67,6 +71,7 @@
                         <span class="btn-slot" id="slot-btn-subscript"></span>
                         <span class="btn-slot split" id="slot-btn-highlight"></span>
                         <span class="btn-slot split" id="slot-btn-fontcolor"></span>
+                        <span class="btn-slot" id="slot-btn-clearstyle"></span>
                     </div>
                 </div>
                 <div class="separator long"></div>
@@ -101,19 +106,44 @@
                 <div class="separator long"></div>
                 <div class="group small">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-clearstyle"></span>
                         <span class="btn-slot split" id="slot-btn-colorschemas"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-copystyle"></span>
                         <span class="btn-slot split" id="slot-btn-slidesize"></span>
                     </div>
                 </div>
                 <div class="separator long invisible"></div>
                 <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 136px;" data-group-width="100%"></div>
+                <div class="group small">
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-replace"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot" id="slot-btn-select-all"></span>
+                    </div>
+                </div>
             </section>
-            <section class="panel" data-tab="ins">
-                <div class="group">
+            <section class="panel" data-tab="ins" role="tabpanel" aria-labelledby="ins">
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
+                    <span class="btn-slot text x-huge slot-addlayout"></span>
+                </div>
+                <div class="separator long master-slide-mode" style="display:none;"></div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge" id="slot-btn-insplaceholder"></span>
+                </div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <div class="elset">
+                        <span class="btn-slot text x-huge" id="slot-chk-title"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot text x-huge" id="slot-chk-footers"></span>
+                    </div>
+                </div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge" id="slot-btn-closeslidemaster"></span>
+                </div>
+                <div class="group normal-mode">
                     <span class="btn-slot text x-huge slot-addslide"></span>
                 </div>
                 <div class="group" style="display:none;"></div>
@@ -123,14 +153,14 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
-                    <span class="btn-slot text x-huge slot-instext"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge slot-insertimg"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
                 </div>
                 <div class="separator long invisible"></div>
                 <div class="group small" id="slot-combo-insertshape"></div>
+                <div class="group small">
+                    <span class="btn-slot text x-huge" id="slot-btn-inssmartart"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insertchart"></span>
+                </div>
                 <div class="separator long"></div>
                 <div class="group">
                     <span class="btn-slot text x-huge slot-comment"></span>
@@ -138,6 +168,8 @@
                 </div>
                 <div class="separator long"></div>
                 <div class="group">
+                    <span class="btn-slot text x-huge slot-instext"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-editheader"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-slidenum"></span>
@@ -153,7 +185,7 @@
                     <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
                 </div>
             </section>
-            <section id="transitions-panel" class="panel" data-tab="transit">
+            <section id="transitions-panel" class="panel" data-tab="transit" role="tabpanel" aria-labelledby="transit">
                 <div class="group flex small" id="transit-field-effects" style="width: 854px; max-width: 854px; min-width: 120px;" data-group-width="854px"></div>
 
                 <div class="group small">
@@ -189,7 +221,7 @@
                     </div>
                 </div>
             </section>
-            <section id="animation-panel" class="panel" data-tab="animate">
+            <section id="animation-panel" class="panel" data-tab="animate" role="tabpanel" aria-labelledby="animate">
                 <div class="group flex small" id="animation-field-effects" style="width: 670px; max-width: 670px; min-width: 220px;" data-group-width="670px"></div>
                 <div class="group small">
                     <span class="btn-slot text x-huge" id="animation-button-parameters"></span>
@@ -244,6 +276,10 @@
                     <div class="elset font-normal">
                         <div class="btn-slot text" id="animation-movelater"></div>
                     </div>
+                </div>
+                <div class="separator long"></div>
+                <div class="group small">
+                    <span class="btn-slot text x-huge" id="animation-button-pane"></span>
                 </div>
             </section>
         </section>
