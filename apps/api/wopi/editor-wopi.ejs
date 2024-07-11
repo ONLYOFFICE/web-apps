@@ -293,6 +293,7 @@ div {
 			let customizationFormSubmit = queryParams.formsubmit === "1";
 			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
 			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
+			sessionId = userAuth.userSessionId;
 			var config = {
 				"width": "100%",
 				"height": "100%",
@@ -325,9 +326,6 @@ div {
                         "print": !fileInfo.DisablePrint && !fileInfo.HidePrintOption,
                         "chat": queryParams.dchat!=="1",
                         "fillForms": permissionsFillForm
-					},
-					"options": {
-						"WOPISrc": userAuth.wopiSrc
 					}
 				},
 				"editorConfig": {
@@ -358,7 +356,8 @@ div {
                     },
                     "wopi": {
                         "FileNameMaxLength": fileInfo.FileNameMaxLength && fileInfo.FileNameMaxLength>0 ? fileInfo.FileNameMaxLength : 250,
-                        "WOPISrc": userAuth.wopiSrc
+                        "WOPISrc": userAuth.wopiSrc,
+                        "UserSessionId": sessionId
                     }
 				},
 				"events": {
@@ -379,7 +378,6 @@ div {
             if (postMessageOrigin && (typeof postMessageOrigin === 'string') && postMessageOrigin.charAt(postMessageOrigin.length-1)=='/')
                 postMessageOrigin = postMessageOrigin.substring(0, postMessageOrigin.length - 1);
             lang = config.editorConfig.lang;
-            sessionId = userAuth.userSessionId;
 
             startTime = Date.now();
             docEditor = new DocsAPI.DocEditor("iframeEditor", config);
