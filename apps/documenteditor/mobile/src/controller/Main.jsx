@@ -337,7 +337,7 @@ class MainController extends Component {
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
                 const customization = appOptions.customization;
-                const isStandardView = customization?.mobile?.standartView ?? false;
+                const isStandardView = customization?.mobile?.standardView ?? false;
 
                 f7.emit('resize');
 
