@@ -239,7 +239,10 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
-                    mobileForceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
+                    mobile: {
+                        forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
+                        standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                    }
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
