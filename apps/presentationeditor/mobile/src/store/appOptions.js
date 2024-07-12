@@ -60,6 +60,7 @@ export class storeAppOptions {
         this.createUrl = config.createUrl;
         this.lang = config.lang;
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
+        this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.fileChoiceUrl = config.fileChoiceUrl;
         this.mergeFolderUrl = config.mergeFolderUrl;
