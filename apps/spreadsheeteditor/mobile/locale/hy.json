@@ -508,7 +508,8 @@
       "txtNotUrl": "Այս դաշտը պիտի լինի URL հասցե՝ \"http://www.example.com\" ձևաչափով։ ",
       "txtSorting": "Տեսակավորում",
       "txtSortSelected": "Ընտրված տեսակավորում",
-      "txtYes": "Այո"
+      "txtYes": "Այո",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Զգուշացում",

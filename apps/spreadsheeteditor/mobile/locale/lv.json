@@ -508,7 +508,8 @@
       "txtNotUrl": "Šim laukam ir jābūt URL formātā \"http://www.example.com\"",
       "txtSorting": "Šķirošana",
       "txtSortSelected": "Šķirot izvēlēto",
-      "txtYes": "Jā"
+      "txtYes": "Jā",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Brīdinājums",

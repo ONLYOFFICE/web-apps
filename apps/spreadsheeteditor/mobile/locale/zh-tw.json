@@ -508,7 +508,8 @@
       "txtNotUrl": "此字段應為格式為“ http://www.example.com”的URL。",
       "txtSorting": "排序",
       "txtSortSelected": "排序已選擇項目",
-      "txtYes": "是"
+      "txtYes": "是",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

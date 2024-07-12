@@ -508,7 +508,8 @@
       "txtNotUrl": "Ruas ini harus berupa sebuah URL dalam format “http://www.contoh.com”",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sortir dipilih",
-      "txtYes": "Ya"
+      "txtYes": "Ya",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Peringatan",

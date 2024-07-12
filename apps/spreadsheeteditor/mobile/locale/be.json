@@ -499,7 +499,8 @@
       "txtNo": "No",
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
-      "txtSortSelected": "Sort selected"
+      "txtSortSelected": "Sort selected",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Увага",

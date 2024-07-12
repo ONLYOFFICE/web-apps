@@ -508,7 +508,8 @@
       "txtNotUrl": "Ennek a mezőnek URL formátumúnak kell lennie, pl.: „http://www.pelda.hu”",
       "txtSorting": "Rendezés",
       "txtSortSelected": "Kiválasztottak rendezése",
-      "txtYes": "Igen"
+      "txtYes": "Igen",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Figyelmeztetés",

@@ -508,7 +508,8 @@
       "txtYes": "Ya",
       "textDone": "Done",
       "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended"
+      "textRecommended": "Recommended",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

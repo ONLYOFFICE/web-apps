@@ -508,7 +508,8 @@
       "txtNotUrl": "Toto pole by mělo obsahovat adresu URL ve formátu \"http://www.example.com\"",
       "txtSorting": "Řazení",
       "txtSortSelected": "Seřadit vybrané",
-      "txtYes": "Ano"
+      "txtYes": "Ano",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Varování",
