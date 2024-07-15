@@ -34,13 +34,13 @@
  *
  *    Contains views for menu 'File'
  *
- *    Created by Maxim Kadushkin on 20 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 20 February 2014
  *
  */
 
 define([
-    'common/main/lib/view/DocumentAccessDialog'
+    'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/CustomizeQuickAccessDialog'
 ], function () {
     'use strict';
 
@@ -346,6 +346,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><div id="fms-chb-annotation-bar"></div></td>',
+                '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -355,13 +358,16 @@ define([
                     '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
                 '</tr>',*/
+                '<tr class="edit quick-access">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
+                '</tr>',
                 '<tr class="themes">',
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td>',
                         '<div><div id="fms-cmb-theme"></div>',
                         '<div id="fms-chb-dark-mode"></div></div></td>',
                 '</tr>',
-                '<tr class="edit">',
+                '<tr class="edit-pdf">',
                     '<td><label><%= scope.strUnit %></label></td>',
                     '<td><span id="fms-cmb-unit"></span></td>',
                 '</tr>',
@@ -409,6 +415,14 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chUseAnnotateBar = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-annotation-bar'),
+                labelText: this.txtUseAnnotateBar,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.chScreenReader = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-scrn-reader'),
@@ -590,6 +604,11 @@ define([
                 dataHintOffset: 'big'
             });
 
+            this.btnCustomizeQuickAccess = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-customize-quick-access')
+            });
+            this.btnCustomizeQuickAccess.on('click', _.bind(this.customizeQuickAccess, this));
+
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
@@ -690,7 +709,8 @@ define([
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
                 canPDFSave = (mode.isPDFAnnotate || mode.isPDFEdit) && mode.canSaveToFile && !mode.isOffline;
 
-            $('tr.edit', this.el)[mode.isPDFEdit?'show':'hide']();
+            $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
+            $('tr.edit-pdf', this.el)[mode.isPDFEdit?'show':'hide']();
             $('tr.autosave', this.el)[mode.isEdit && canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             $('tr.forcesave', this.el)[mode.canForcesave && canPDFSave ? 'show' : 'hide']();
             $('tr.editsave',this.el)[(mode.isEdit  || mode.canForcesave) && canPDFSave ? 'show' : 'hide']();
@@ -709,6 +729,10 @@ define([
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+
+            if (mode.compactHeader) {
+                $('tr.quick-access', this.el).hide();
+            }
         },
 
         setApi: function(o) {
@@ -719,6 +743,7 @@ define([
         updateSettings: function() {
             this.chUseAltKey.setValue(Common.Utils.InternalSettings.get("pdfe-settings-show-alt-hints"));
             this.chScreenReader.setValue(Common.Utils.InternalSettings.get("app-settings-screen-reader"));
+            this.chUseAnnotateBar.setValue(Common.Utils.InternalSettings.get("pdfe-settings-annot-bar"));
 
             var value = Common.Utils.InternalSettings.get("pdfe-settings-zoom");
             value = (value!==null) ? parseInt(value) : (this.mode.customization && this.mode.customization.zoom ? parseInt(this.mode.customization.zoom) : 100);
@@ -788,6 +813,8 @@ define([
             Common.localStorage.setItem("pdfe-settings-zoom", this.cmbZoom.getValue());
             Common.Utils.InternalSettings.set("pdfe-settings-zoom", Common.localStorage.getItem("pdfe-settings-zoom"));
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
+            Common.localStorage.setItem("pdfe-settings-annot-bar", this.chUseAnnotateBar.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("pdfe-settings-annot-bar", Common.localStorage.getBool("pdfe-settings-annot-bar"));
 
             /** coauthoring begin **/
             Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.chLiveComment.isChecked());
@@ -854,6 +881,23 @@ define([
             this._fontRender = combo.getValue();
         },
 
+        customizeQuickAccess: function () {
+            if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
+            this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
+                showSave: this.mode.showSaveButton,
+                showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
+                showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                props: {
+                    save: Common.localStorage.getBool('pdfe-quick-access-save', true),
+                    print: Common.localStorage.getBool('pdfe-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('pdfe-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('pdfe-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('pdfe-quick-access-redo', true)
+                }
+            });
+            this.dlgQuickAccess.show();
+        },
+
         strZoom: 'Default Zoom Value',
         strShowChanges: 'Real-time Collaboration Changes',
         txtAll: 'View All',
@@ -897,7 +941,9 @@ define([
         strUnit: 'Unit of Measurement',
         txtInch: 'Inch',
         txtCm: 'Centimeter',
-        txtPt: 'Point'
+        txtPt: 'Point',
+        txtUseAnnotateBar: 'Use the mini toolbar when selecting text',
+        txtCustomizeQuickAccess: 'Customize quick access'
 
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 

@@ -33,8 +33,7 @@
  *
  *  PivotShowDetailDialog.js
  *
- *  Created by Alexey.Koshelev on 13.08.23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 13.08.23
  *
  */
 

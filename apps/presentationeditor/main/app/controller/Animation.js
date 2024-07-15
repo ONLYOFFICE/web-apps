@@ -32,8 +32,7 @@
 /**
  *  Animation.js
  *
- *  Created by Olga.Animation on 13.10.21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 13.10.21
  *
  */
 

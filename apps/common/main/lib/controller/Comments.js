@@ -32,8 +32,7 @@
 /**
  *  Comments.js
  *
- *  Created by Alexey Musinov on 16.01.14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 16.01.14
  *
  */
 

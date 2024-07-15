@@ -33,8 +33,7 @@
 /**
  *  CaptionDialog.js
  *
- *  Created by Julia Radzhabova on 10.09.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 10.09.2019
  *
  */
 define([

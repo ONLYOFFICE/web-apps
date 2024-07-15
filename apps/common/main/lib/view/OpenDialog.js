@@ -34,8 +34,7 @@
  *
  *  Select Codepage for open CSV/TXT format file.
  *
- *  Created by Alexey.Musinov on 29/04/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 29/04/14
  *
  */
 

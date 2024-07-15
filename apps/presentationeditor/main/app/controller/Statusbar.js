@@ -34,8 +34,7 @@
  *
  *  Statusbar controller
  *
- *  Created by Maxim Kadushkin on 8 April 2014
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 8 April 2014
  *
  */
 

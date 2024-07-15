@@ -32,8 +32,7 @@
 /**
  *  CustomizeQuickAccessDialog.js
  *
- *  Created by Julia Svinareva on 9/04/24
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 9/04/24
  *
  */
 

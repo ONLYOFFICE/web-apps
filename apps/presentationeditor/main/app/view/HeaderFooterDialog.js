@@ -33,8 +33,7 @@
 /**
  *  HeaderFooterDialog.js
  *
- *  Created by Julia Radzhabova on 09.07.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 09.07.2019
  *
  */
 define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',

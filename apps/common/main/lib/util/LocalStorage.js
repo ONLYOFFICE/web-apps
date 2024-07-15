@@ -32,8 +32,7 @@
 /**
  *    LocalStorage.js
  *
- *    Created by Maxim Kadushkin on 31 July 2015
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 31 July 2015
  *
  */
 

@@ -34,8 +34,7 @@
  *
  *  DocumentHolder view
  *
- *  Created by Julia Radzhabova on 3/28/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 3/28/14
  *
  */
 

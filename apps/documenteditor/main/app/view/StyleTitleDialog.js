@@ -30,7 +30,7 @@
  *
  */
 /**
- * Created by Vladimir Karas on 26.05.15.
+ * Created on 26.05.15.
  */
 if (Common === undefined)
     var Common = {};

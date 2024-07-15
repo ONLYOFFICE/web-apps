@@ -34,8 +34,7 @@
  *
  *  Viewport view
  *
- *  Created by Julia Radzhabova on 05/03/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 05/03/23
  *
  */
 

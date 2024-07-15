@@ -32,8 +32,7 @@
 /**
  *  ChartDataRangeDialog.js
  *
- *  Created by Julia Radzhabova on 02.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 02.07.2020
  *
  */
 

@@ -32,8 +32,7 @@
 /**
  *  LineNumbersDialog.js
  *
- *  Created by Julia Svinareva on 18/09/19
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 18/09/19
  *
  */
 

@@ -34,8 +34,7 @@
  *
  *  Main controller
  *
- *  Created by Julia Radzhabova on 05/03/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 05/03/23
  *
  */
 
@@ -1015,6 +1014,8 @@ define([
 
                 value = Common.localStorage.getBool("pdfe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", value);
+                value = Common.localStorage.getBool("pdfe-settings-annot-bar", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-annot-bar", value);
 
                 /** coauthoring begin **/
                 me.onPdfModeCoAuthApply();

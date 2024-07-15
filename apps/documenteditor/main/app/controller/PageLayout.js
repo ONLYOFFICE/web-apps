@@ -38,7 +38,7 @@
  *
  * Extra controller for toolbar
  *
- * Created by Maxim.Kadushkin on 3/31/2017.
+ * Created on 3/31/2017.
  */
 
 define([

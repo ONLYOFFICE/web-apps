@@ -32,8 +32,7 @@
 /**
  *    SearchBar.js
  *
- *    Created by Julia Svinareva on 03.02.2022
- *    Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *    Created on 03.02.2022
  *
  */
 

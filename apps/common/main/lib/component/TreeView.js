@@ -32,7 +32,7 @@
 /**
  *  TreeView.js
  *
- *  Created by Julia Radzhabova on 12/14/17
+ *  Created on 12/14/17
  *
  */
 

@@ -32,8 +32,7 @@
 /**
  *  ProtectDialog.js
  *
- *  Created by Julia Radzhabova on 21.06.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 21.06.2021
  *
  */
 

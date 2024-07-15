@@ -35,8 +35,7 @@
  *  A base class for all menu items that require menu-related functionality such as click handling,
  *  sub-menus, icons, etc.
  *
- *  Created by Alexander Yuzhin on 1/27/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/27/14
  *
  */
 

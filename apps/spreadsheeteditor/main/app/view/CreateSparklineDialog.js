@@ -33,8 +33,7 @@
 /**
  *  CreateSparklineDialog.js
  *
- *  Created by Julia Radzhabova on 23.03.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 23.03.2021
  *
  */
 define([

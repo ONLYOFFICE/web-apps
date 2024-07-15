@@ -34,8 +34,7 @@
  *
  *  A menu object. This is the container to which you may add {@link Common.UI.MenuItem menu items}.
  *
- *  Created by Alexander Yuzhin on 1/28/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/28/14
  *
  */
 

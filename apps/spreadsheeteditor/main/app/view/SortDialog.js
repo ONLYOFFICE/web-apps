@@ -33,8 +33,7 @@
  *
  *  SortDialog.js
  *
- *  Created by Julia.Radzhabova on 05.10.19
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 05.10.19
  *
  */
 

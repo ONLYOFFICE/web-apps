@@ -33,8 +33,7 @@
  *
  *  NameManagerDlg.js
  *
- *  Created by Julia.Radzhabova on 01.06.15
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 01.06.15
  *
  */
 

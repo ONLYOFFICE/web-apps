@@ -33,8 +33,7 @@
 /**
  *  ControlSettingsDialog.js.js
  *
- *  Created by Julia Radzhabova on 12.12.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 12.12.2017
  *
  */
 

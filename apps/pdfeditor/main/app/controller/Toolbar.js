@@ -34,8 +34,7 @@
  *
  *  Toolbar Controller
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 
@@ -1306,7 +1305,7 @@ define([
             (new Promise(function(accept) {
                 accept();
             })).then(function () {
-                var hand = (config.isEdit && !config.isPDFEdit || config.isRestrictedEdit);
+                var hand = !config.isEdit;
                 me.toolbar && me.toolbar.btnHandTool && me.toolbar[hand ? 'btnHandTool' : 'btnSelectTool'].toggle(true, true);
                 me.api && me.api.asc_setViewerTargetType(hand ? 'hand' : 'select');
                 if (config.isRestrictedEdit && me.toolbar && me.toolbar.btnSubmit && me.api && !me.api.asc_IsAllRequiredFormsFilled()) {

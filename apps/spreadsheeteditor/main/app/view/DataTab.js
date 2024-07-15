@@ -32,8 +32,7 @@
 /**
  *  DataTab.js
  *
- *  Created by Julia Radzhabova on 30.05.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 30.05.2019
  *
  */
 

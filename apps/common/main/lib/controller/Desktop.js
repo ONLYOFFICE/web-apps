@@ -32,7 +32,7 @@
 /**
  * Controller wraps up interaction with desktop app
  *
- * Created by Maxim.Kadushkin on 2/16/2018.
+ * Created on 2/16/2018.
  */
 
 define([
@@ -281,8 +281,9 @@ define([
                 console.log('hint keydown', e.keyCode);
             } else
             if ( e.keyCode == 78 /* N */ ) {
-                if (config.canCreateNew && e.ctrlKey && !e.shiftKey &&
-                        ((Common.Utils.isWindows && !e.metaKey) || (Common.Utils.isMac && e.metaKey)))
+                if (config.canCreateNew && !e.shiftKey &&
+                        ((Common.Utils.isWindows && e.ctrlKey && !e.metaKey) ||
+                            (Common.Utils.isMac && e.metaKey && e.ctrlKey)))
                 {
                     this.process('create:new');
                 }
@@ -616,7 +617,8 @@ define([
                                     menu.hide();
                                 } else
                                 if ( action == 'create:fromtemplate' ) {
-                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.PDFE ? 'form' : 'word'));
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.PDFE ? 'form' :
+                                                            window.PDFE || config.isPDFForm ? 'form' : 'word'));
                                     menu.hide();
                                 }
                             },
@@ -647,7 +649,8 @@ define([
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word');
+                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :
+                                                    window.PDFE || config.isPDFForm ? 'form' : 'word');
                             return true;
                         }
                     }

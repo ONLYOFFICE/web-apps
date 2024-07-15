@@ -32,8 +32,7 @@
 /**
  *  Button.js
  *
- *  Created by Alexander Yuzhin on 1/20/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/20/14
  *
  */
 
