@@ -43,7 +43,6 @@ define([
     'underscore',
     'backbone',
     'presentationeditor/main/app/view/Animation',
-    'presentationeditor/main/app/view/AnimationDialog'
 ], function () {
     'use strict';
 

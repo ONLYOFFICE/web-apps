@@ -47,8 +47,6 @@ define([
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/collection/TextArt',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LanguageInfo',
     'common/main/lib/util/LocalStorage',
     'spreadsheeteditor/main/app/collection/ShapeGroups',
@@ -56,11 +54,12 @@ define([
     'spreadsheeteditor/main/app/collection/EquationGroups',
     'spreadsheeteditor/main/app/collection/ConditionalFormatIcons',
     'spreadsheeteditor/main/app/controller/FormulaDialog',
+    'common/main/lib/component/RadioBox',
     'common/main/lib/controller/FocusManager',
-    'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    'common/main/lib/controller/LaunchController',
 ], function () {
     'use strict';
 
@@ -199,9 +198,9 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
-                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.Controllers.LaunchController.init(this.api);
 
                 var value = Common.localStorage.getBool("sse-settings-cachemode", true);
                 Common.Utils.InternalSettings.set("sse-settings-cachemode", value);
@@ -399,6 +398,8 @@ define([
                 me.textNoLicenseTitle = me.textNoLicenseTitle.replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnLicenseExceeded = me.warnLicenseExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
                 me.warnLicenseUsersExceeded = me.warnLicenseUsersExceeded.replace(/%1/g, '{{COMPANY_NAME}}');
+
+                Common.NotificationCenter.on('script:loaded', _.bind(me.onPostLoadComplete, me));
             },
 
             loadConfig: function(data) {
@@ -1087,7 +1088,7 @@ define([
 
                             documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
-                            me.setLanguages();
+                            // me.setLanguages();
 
                             if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram && !me.appOptions.isEditOle) {
                                 var shapes = me.api.asc_getPropertyEditorShapes();
@@ -1167,6 +1168,12 @@ define([
                     this.showRenameUserDialog();
                 if (this._needToSaveAsFile) // warning received before document is ready
                     this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
+            },
+
+            onPostLoadComplete: function() {
+                if (this.appOptions.isEdit) {
+                    this.setLanguages();
+                }
             },
 
             onLicenseChanged: function(params) {

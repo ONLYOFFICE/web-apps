@@ -37,11 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView'
-], function () {
+define([], function () {
     'use strict';
 
     PE.Views.DateTimeDialog = Common.UI.Window.extend(_.extend({

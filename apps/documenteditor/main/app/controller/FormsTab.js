@@ -40,9 +40,7 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/FormsTab',
-    'documenteditor/main/app/view/RolesManagerDlg',
-    'documenteditor/main/app/view/SaveFormDlg'
+    'documenteditor/main/app/view/FormsTab'
 ], function () {
     'use strict';
 

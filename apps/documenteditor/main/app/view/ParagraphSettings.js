@@ -638,25 +638,26 @@ define([
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
                         if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            (new DE.Views.ParagraphSettingsAdvanced(
-                            {
-                                tableStylerRows: 2,
-                                tableStylerColumns: 1,
-                                paragraphProps: elValue,
-                                borderProps: me.borderAdvancedProps,
-                                isChart: me.isChart,
-                                isSmartArtInternal: me.isSmartArtInternal,
-                                api: me.api,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            me.borderAdvancedProps = value.borderProps;
-                                            me.api.paraApply(value.paragraphProps);
+                            if ( Common.Utils.checkComponentLoaded(DE.Views.ParagraphSettingsAdvanced) )
+                                (new DE.Views.ParagraphSettingsAdvanced({
+                                    tableStylerRows: 2,
+                                    tableStylerColumns: 1,
+                                    paragraphProps: elValue,
+                                    borderProps: me.borderAdvancedProps,
+                                    isChart: me.isChart,
+                                    isSmartArtInternal: me.isSmartArtInternal,
+                                    api: me.api,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.borderAdvancedProps = value.borderProps;
+                                                me.api.paraApply(value.paragraphProps);
+                                            }
                                         }
+                                        me.fireEvent('editcomplete', me);
                                     }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            })).show();
+                                })).show();
+
                             break;
                         }
                     }

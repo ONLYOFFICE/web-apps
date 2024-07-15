@@ -42,7 +42,6 @@
 define([
     'core',
     'spreadsheeteditor/main/app/view/CellEditor',
-    'spreadsheeteditor/main/app/view/NameManagerDlg'
 ], function (Viewport) {
     'use strict';
 

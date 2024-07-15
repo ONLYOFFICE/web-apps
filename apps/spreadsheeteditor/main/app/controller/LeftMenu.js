@@ -32,7 +32,6 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/SaveAsDlg',
     'spreadsheeteditor/main/app/view/LeftMenu',
     'spreadsheeteditor/main/app/view/FileMenu'
 ], function () {
@@ -111,6 +110,8 @@ define([
                     this.clickMenuFileItem(null, 'history');
             }, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
+            Common.NotificationCenter.on('script:loaded', _.bind(this.createPostLoadElements, this));
+            Common.NotificationCenter.on('script:loaded:spellcheck', _.bind(this.initializeSpellcheck, this));
         },
 
         onLaunch: function() {
@@ -233,10 +234,6 @@ define([
                 this.leftMenu.btnComments.hide();
             }
 
-            if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
-                Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
-                this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
-            }
             if (this.mode.canUseHistory)
                 this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
@@ -248,6 +245,17 @@ define([
             this.leftMenu.setButtons();
             this.leftMenu.setMoreButton();
             return this;
+        },
+
+        createPostLoadElements: function() {
+
+        },
+
+        initializeSpellcheck: function () {
+            if (this.mode.isEdit && Common.UI.FeaturesManager.canChange('spellcheck')) {
+                Common.UI.LayoutManager.isElementVisible('leftMenu-spellcheck') && this.leftMenu.btnSpellcheck.show();
+                this.leftMenu.setOptionsPanel('spellcheck', this.getApplication().getController('Spellcheck').getView('Spellcheck'));
+            }
         },
 
         enablePlugins: function() {

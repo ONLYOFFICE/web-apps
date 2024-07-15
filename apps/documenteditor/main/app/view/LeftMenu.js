@@ -52,7 +52,6 @@ define([
     'common/main/lib/view/History',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
-    'common/main/lib/view/SearchDialog',
     'documenteditor/main/app/view/FileMenu',
     'documenteditor/main/app/view/Navigation'
 ], function (menuTemplate, $, _, Backbone) {

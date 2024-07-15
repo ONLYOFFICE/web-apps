@@ -40,15 +40,7 @@
 
 define([
     'core',
-    'documenteditor/main/app/view/Links',
-    'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/TableOfContentsSettings',
-    'documenteditor/main/app/view/BookmarksDialog',
-    'documenteditor/main/app/view/CaptionDialog',
-    'documenteditor/main/app/view/NotesRemoveDialog',
-    'documenteditor/main/app/view/CrossReferenceDialog',
-    'common/main/lib/view/OptionsDialog'
+    'documenteditor/main/app/view/Links'
 ], function () {
     'use strict';
 

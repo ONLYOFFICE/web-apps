@@ -42,13 +42,8 @@ define([
     'text!spreadsheeteditor/main/app/template/PivotSettings.template',
     'jquery',
     'underscore',
-    'backbone',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/ListView',
-    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
-], function (menuTemplate, $, _, Backbone, Sortable) {
+    'backbone'
+], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
     SSE.Views.PivotSettings = Backbone.View.extend(_.extend({

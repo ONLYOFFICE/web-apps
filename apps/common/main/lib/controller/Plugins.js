@@ -39,8 +39,6 @@ define([
     'core',
     'common/main/lib/collection/Plugins',
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/PluginDlg',
-    'common/main/lib/view/PluginPanel',
     'common/main/lib/component/Switcher'
 ], function () {
     'use strict';

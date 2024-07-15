@@ -38,11 +38,8 @@
  *
  */
 
-define([  'text!documenteditor/main/app/template/RolesManagerDlg.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView',
-    'documenteditor/main/app/view/RoleEditDlg',
-    'documenteditor/main/app/view/RoleDeleteDlg'
+define([
+    'text!documenteditor/main/app/template/RolesManagerDlg.template'
 ], function (contentTemplate) {
     'use strict';
 

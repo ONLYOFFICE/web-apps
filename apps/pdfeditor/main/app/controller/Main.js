@@ -46,12 +46,9 @@ define([
     'common/main/lib/component/LoadMask',
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
-    'common/main/lib/collection/TextArt',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/controller/FocusManager',
-    'common/main/lib/controller/ScreenReaderFocus',
+    'common/main/lib/controller/LaunchController',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers'
@@ -136,9 +133,9 @@ define([
                 this.api = this.getApplication().getController('Viewport').getApi();
 
                 Common.UI.FocusManager.init();
-                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.Controllers.LaunchController.init(this.api);
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);

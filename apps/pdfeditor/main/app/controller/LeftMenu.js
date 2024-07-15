@@ -42,7 +42,6 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/SaveAsDlg',
     'pdfeditor/main/app/view/LeftMenu',
     'pdfeditor/main/app/view/FileMenu',
     'pdfeditor/main/app/view/ViewTab'

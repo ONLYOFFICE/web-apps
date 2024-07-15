@@ -38,12 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'common/main/lib/view/AdvancedSettingsWindow'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     var _CustomItem = Common.UI.DataViewItem.extend({
         initialize : function(options) {

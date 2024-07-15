@@ -92,6 +92,20 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "options":{
+                    "baseUrl": "../apps/",
+                    "optimize": "none",
+                    "name": "../apps/spreadsheeteditor/main/app_pack.js",
+                    "out": "../deploy/web-apps/apps/spreadsheeteditor/main/code.js",
+                    "inlineText": true,
+                    "findNestedDependencies": false,
+                    "optimizeAllPluginResources": false,
+                    "paths": {
+                        "text": "../vendor/requirejs-text/text"
+                    }
+                }
             }
         },
         "less": {

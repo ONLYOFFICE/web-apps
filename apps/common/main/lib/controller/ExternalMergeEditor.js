@@ -44,7 +44,6 @@ Common.Controllers = Common.Controllers || {};
 
 define([
     'core',
-    'common/main/lib/view/ExternalMergeEditor'
 ], function () { 'use strict';
     Common.Controllers.ExternalMergeEditor = Backbone.Controller.extend(_.extend((function() {
         var appLang         = '{{DEFAULT_LANG}}',
@@ -88,7 +87,7 @@ define([
         };
 
         return {
-            views: ['Common.Views.ExternalMergeEditor'],
+            views: [],
 
             initialize: function() {
                 this.addListeners({
@@ -135,11 +134,14 @@ define([
                     }
                 });
 
-
+                Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
             },
 
-            onLaunch: function() {
-                this.mergeEditorView = this.createView('Common.Views.ExternalMergeEditor', {handler: _.bind(this.handler, this)});
+            onLaunch: function() {},
+
+            onPostLoadComplete: function() {
+                this.views = this.getApplication().getClasseRefs('view', ['Common.Views.ExternalMergeEditor']);
+                this.mergeEditorView = this.createView('Common.Views.ExternalMergeEditor',{handler: this.handler.bind(this)});
             },
 
             setApi: function(api) {

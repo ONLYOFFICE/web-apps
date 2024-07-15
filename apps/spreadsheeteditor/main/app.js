@@ -183,16 +183,14 @@ require([
             'spreadsheeteditor/main/app/controller/ViewTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
-            'spreadsheeteditor/main/app/view/FileMenuPanels',
-            'spreadsheeteditor/main/app/view/ParagraphSettings',
-            'spreadsheeteditor/main/app/view/ImageSettings',
-            'spreadsheeteditor/main/app/view/ChartSettings',
-            'spreadsheeteditor/main/app/view/ShapeSettings',
-            'spreadsheeteditor/main/app/view/TextArtSettings',
-            'spreadsheeteditor/main/app/view/PivotSettings',
-            'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-            'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-            'spreadsheeteditor/main/app/view/SignatureSettings',
+            // 'spreadsheeteditor/main/app/view/FileMenuPanels',
+            // 'spreadsheeteditor/main/app/view/ParagraphSettings',
+            // 'spreadsheeteditor/main/app/view/ImageSettings',
+            // 'spreadsheeteditor/main/app/view/ChartSettings',
+            // 'spreadsheeteditor/main/app/view/ShapeSettings',
+            // 'spreadsheeteditor/main/app/view/TextArtSettings',
+            // 'spreadsheeteditor/main/app/view/PivotSettings',
+            // 'spreadsheeteditor/main/app/view/SignatureSettings',
             'common/main/lib/util/utils',
             'common/main/lib/controller/Fonts',
             'common/main/lib/controller/History',
@@ -204,6 +202,10 @@ require([
             ,'common/main/lib/controller/Protection'
             ,'common/main/lib/controller/Draw'
         ], function() {
+            app.postLaunchScripts = [
+                'spreadsheeteditor/main/code',
+            ];
+
             app.start();
         });
     });

@@ -43,9 +43,7 @@ define([
     'core',
     'spreadsheeteditor/main/app/collection/FormulaGroups',
     'spreadsheeteditor/main/app/view/FormulaDialog',
-    'spreadsheeteditor/main/app/view/FormulaTab',
-    'spreadsheeteditor/main/app/view/FormulaWizard',
-    'spreadsheeteditor/main/app/view/WatchDialog'
+    'spreadsheeteditor/main/app/view/FormulaTab'
 ], function () {
     'use strict';
 

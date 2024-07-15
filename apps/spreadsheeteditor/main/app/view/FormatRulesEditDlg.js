@@ -38,10 +38,8 @@
  *  
  */
 
-define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField'
+define([
+    'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template'
 ], function (contentTemplate) {
     'use strict';
 

@@ -41,10 +41,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.ChartDataRangeDialog = Common.UI.Window.extend(_.extend({
         options: {

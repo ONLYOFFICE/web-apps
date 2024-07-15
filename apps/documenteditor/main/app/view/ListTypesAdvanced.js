@@ -39,9 +39,7 @@
  */
 
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.ListTypesAdvanced = Common.UI.Window.extend(_.extend({
 

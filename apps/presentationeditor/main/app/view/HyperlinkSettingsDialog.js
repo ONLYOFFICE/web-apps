@@ -41,13 +41,12 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/TreeView'
-], function () { 'use strict';
+var c_oHyperlinkType = {
+    InternalLink:0,
+    WebLink: 1
+};
 
+define([], function () { 'use strict';
     PE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 350,

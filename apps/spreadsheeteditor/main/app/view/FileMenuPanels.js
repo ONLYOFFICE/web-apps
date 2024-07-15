@@ -30,9 +30,8 @@
  *
  */
 define([
-    'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/AutoCorrectDialog',
-    'common/main/lib/view/CustomizeQuickAccessDialog'
+    'common/main/lib/component/BaseView',
+    'common/main/lib/component/RadioBox'
 ], function () {
     'use strict';
 

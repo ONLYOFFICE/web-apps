@@ -38,11 +38,7 @@
  *  
  */
 
-define([
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views = SSE.Views || {};

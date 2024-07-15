@@ -37,9 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     DE.Views.ProtectDialog = Common.UI.Window.extend(_.extend({

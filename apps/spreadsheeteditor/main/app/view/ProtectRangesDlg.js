@@ -38,9 +38,8 @@
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView'
+define([
+    'text!spreadsheeteditor/main/app/template/ProtectRangesDlg.template'
 ], function (contentTemplate) {
     'use strict';
 

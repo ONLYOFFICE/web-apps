@@ -40,8 +40,7 @@
 define([
     'core',
     'common/main/lib/view/Protection',
-    'documenteditor/main/app/view/DocProtection',
-    'documenteditor/main/app/view/ProtectDialog'
+    'documenteditor/main/app/view/DocProtection'
 ], function () {
     'use strict';
 

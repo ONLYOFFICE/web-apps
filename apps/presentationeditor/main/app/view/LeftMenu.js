@@ -51,7 +51,6 @@ define([
     'common/main/lib/view/History',
     /** coauthoring end **/
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/SearchDialog',
     'presentationeditor/main/app/view/FileMenu'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';

@@ -64,9 +64,7 @@
 *           undefined value - dialog has all options
 * */
 
- define([
-    'common/main/lib/component/Window'
-], function () {
+ define([], function () {
     'use strict';
 
     Common.UI.SearchDialog = Common.UI.Window.extend(_.extend({

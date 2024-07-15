@@ -45,8 +45,7 @@ Common.Views = Common.Views || {};
 define([
     'backbone',
     'text!common/main/lib/template/Header.template',
-    'core',
-    'common/main/lib/view/RenameDialog'
+    'core'
 ], function (Backbone, headerTemplate) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){

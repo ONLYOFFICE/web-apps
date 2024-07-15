@@ -45,7 +45,8 @@ define([
     'tip',
     'common/main/lib/component/Menu',
     'common/main/lib/component/Window',
-    'documenteditor/main/app/model/Pages'
+    'documenteditor/main/app/model/Pages',
+    'common/main/lib/component/InputField',
  ],
     function(template, $, _, Backbone){
         'use strict';

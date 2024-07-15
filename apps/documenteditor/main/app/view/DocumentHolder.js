@@ -46,16 +46,7 @@ define([
     'gateway',
     'common/main/lib/util/utils',
     'common/main/lib/component/Menu',
-    'common/main/lib/component/Calendar',
-    'common/main/lib/view/InsertTableDialog',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/OptionsDialog',
-    'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/HyperlinkSettingsDialog',
-    'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/NumberingValueDialog',
-    'documenteditor/main/app/view/CellsAddDialog',
-    'documenteditor/main/app/view/ListIndentsDialog'
+    'common/main/lib/component/Calendar'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     DE.Views.DocumentHolder =  Backbone.View.extend(_.extend({

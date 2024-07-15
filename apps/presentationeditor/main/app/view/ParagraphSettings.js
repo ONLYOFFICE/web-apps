@@ -44,7 +44,6 @@ define([
     'backbone',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',
-    'presentationeditor/main/app/view/ParagraphSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

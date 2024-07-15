@@ -37,15 +37,10 @@
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template',
+define([
+    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template',
     'text!spreadsheeteditor/main/app/template/ChartVertAxis.template',
-    'text!spreadsheeteditor/main/app/template/ChartHorAxis.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/InputField',
-    'spreadsheeteditor/main/app/view/CellRangeDialog',
-    'spreadsheeteditor/main/app/view/ChartDataRangeDialog',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
+    'text!spreadsheeteditor/main/app/template/ChartHorAxis.template'
 ], function (contentTemplate, vertTemplate, horTemplate) {
     'use strict';
 

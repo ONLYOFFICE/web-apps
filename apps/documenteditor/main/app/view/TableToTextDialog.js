@@ -38,9 +38,6 @@
  */
 
 define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox'
 ], function () { 'use strict';
 
     DE.Views.TableToTextDialog = Common.UI.Window.extend(_.extend({

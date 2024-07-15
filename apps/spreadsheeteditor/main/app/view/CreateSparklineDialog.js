@@ -37,11 +37,7 @@
  *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
  *
  */
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/view/AdvancedSettingsWindow'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.CreateSparklineDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

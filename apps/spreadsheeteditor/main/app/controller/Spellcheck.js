@@ -35,8 +35,7 @@
  */
 
 define([
-    'core',
-    'spreadsheeteditor/main/app/view/Spellcheck'
+    'core'
 ], function () {
     'use strict';
 
@@ -45,7 +44,7 @@ define([
         collections: [
         ],
         views: [
-            'Spellcheck'
+            // 'Spellcheck'
         ],
 
         initialize: function() {
@@ -67,22 +66,29 @@ define([
                     }
                 }
             });
+
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         events: function() {
         },
 
         onLaunch: function() {
-            this.panelSpellcheck= this.createView('Spellcheck', {
-            });
-            this.panelSpellcheck.on('render:after', _.bind(this.onAfterRender, this));
             this._isDisabled = false;
             this._initSettings = true;
         },
 
+        onPostLoadComplete: function() {
+            this.views = this.getApplication().getClasseRefs('view', ['Spellcheck']);
+            this.panelSpellcheck = this.createView('Spellcheck', {});
+            this.panelSpellcheck.on('render:after', _.bind(this.onAfterRender, this));
+
+            Common.NotificationCenter.trigger('script:loaded:spellcheck');
+            this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+        },
+
         setApi: function(api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
             this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             return this;
         },

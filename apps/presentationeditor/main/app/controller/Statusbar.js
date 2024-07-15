@@ -42,8 +42,7 @@
 define([
     'core',
     'presentationeditor/main/app/view/Statusbar',
-    'common/main/lib/util/LanguageInfo',
-    'common/main/lib/view/LanguageDialog'
+    'common/main/lib/util/LanguageInfo'
 ], function () {
     'use strict';
 

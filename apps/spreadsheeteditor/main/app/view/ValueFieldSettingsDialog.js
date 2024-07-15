@@ -38,13 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'spreadsheeteditor/main/app/view/FormatSettingsDialog'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.ValueFieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

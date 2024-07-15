@@ -35,9 +35,7 @@ if (Common === undefined)
 define([
     'text!common/main/lib/template/ExtendedColorDialog.template',
     'common/main/lib/component/HSBColorPicker',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/MaskedField',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/MaskedField'
 ], function (dlgTemplate) {
     'use strict';
 

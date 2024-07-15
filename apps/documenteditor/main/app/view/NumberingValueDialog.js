@@ -37,10 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.NumberingValueDialog = Common.UI.Window.extend(_.extend({
         options: {

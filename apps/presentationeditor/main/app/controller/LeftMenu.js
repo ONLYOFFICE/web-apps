@@ -42,7 +42,6 @@
 define([
     'core',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/SaveAsDlg',
     'presentationeditor/main/app/view/LeftMenu',
     'presentationeditor/main/app/view/FileMenu'
 ], function () {

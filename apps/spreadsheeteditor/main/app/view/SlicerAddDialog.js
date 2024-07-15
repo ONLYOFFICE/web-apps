@@ -37,10 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ListView'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views.SlicerAddDialog = Common.UI.Window.extend(_.extend({

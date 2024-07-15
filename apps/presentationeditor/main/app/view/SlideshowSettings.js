@@ -37,10 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     PE.Views.SlideshowSettings = Common.UI.Window.extend(_.extend({
         options: {

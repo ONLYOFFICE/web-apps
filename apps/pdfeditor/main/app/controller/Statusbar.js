@@ -42,7 +42,8 @@
 define([
     'core',
     'pdfeditor/main/app/view/Statusbar',
-    'common/main/lib/util/LanguageInfo'
+    'common/main/lib/util/LanguageInfo',
+    'common/main/lib/component/InputField'
 ], function () {
     'use strict';
 
