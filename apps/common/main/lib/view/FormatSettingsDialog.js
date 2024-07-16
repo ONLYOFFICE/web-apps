@@ -368,8 +368,10 @@ define([
                         //     this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
 
                         var selectedItem = this.listType.store.findWhere({value: props.format});
-                        if (selectedItem)
+                        if (selectedItem) {
                             this.listType.selectRecord(selectedItem);
+                            this.listType.scrollToRecord(selectedItem);
+                        }
                     }
                     this.Format = props.format;
                     this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
