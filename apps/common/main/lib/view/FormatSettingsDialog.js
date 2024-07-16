@@ -48,7 +48,7 @@ define([
     Common.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 284,
-            contentHeight: 255
+            contentHeight: 265
         },
 
         initialize : function(options) {
@@ -88,7 +88,7 @@ define([
             this.props      = options.props;
             this.linked     = options.linked || false;
 
-            var height = this.linked ? 275 : 255;
+            var height = this.linked ? 275 : 265;
             _.extend(this.options, {
                 title: this.textTitle,
                 contentHeight: height,
@@ -145,7 +145,7 @@ define([
                         '<tr class="format-type">',
                             '<td class="padding-large">',
                                 '<label class="header">', me.textFormat,'</label>',
-                                '<div id="format-settings-combo-type" class="input-group-nr" style="width:264px;"></div>',
+                                '<div id="format-settings-list-type" class="input-group-nr" style="width:264px; height: 93px;"></div>',
                             '</td>',
                         '</tr>',
                         '<tr class="format-code">',
@@ -230,16 +230,14 @@ define([
             });
             this.cmbSymbols.on('selected', _.bind(this.onSymbolsSelect, this));
 
-            this.cmbType = new Common.UI.ComboBox({
-                el: $('#format-settings-combo-type'),
-                cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:235px;',
-                editable: false,
-                data: [],
-                scrollAlwaysVisible: true,
-                takeFocusOnClose: true
+            this.listType = new Common.UI.ListView({
+                el: $('#format-settings-list-type'),
+                store: new Common.UI.DataViewStore(),
+                tabindex: 1,
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item" style="pointer-events:none;overflow: hidden; text-overflow: ellipsis;"><%= Common.Utils.String.htmlEncode(displayValue) %></div>')
             });
-            this.cmbType.on('selected', _.bind(this.onTypeSelect, this));
+            this.listType.on('item:select', _.bind(this.onListTypeSelect, this));
+            this.listType.on('entervalue', _.bind(this.onPrimary, this));
 
             this.codesList = new Common.UI.ListView({
                 el: $('#format-settings-list-code'),
@@ -311,7 +309,7 @@ define([
         },
 
         getFocusedComponents: function() {
-            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbLang, this.cmbType, this.inputCustomFormat, this.codesList, this.chLinked].concat(this.getFooterButtons());
+            return [this.cmbFormat, this.spnDecimal, this.chSeparator, this.cmbSymbols, this.cmbNegative, this.cmbLang, this.listType, this.inputCustomFormat, this.codesList, this.chLinked].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -358,15 +356,20 @@ define([
                         else
                             this.cmbNegative.setValue(this.api.asc_getLocaleExample(props.format));
                     } else if (this._state.hasType) {
-                        var selectedItem = this.cmbType.store.findWhere({value: props.format});
+                        // TODO: Разобраться, зачем setValue
+                        // var selectedItem = this.cmbType.store.findWhere({value: props.format});
+                        // if (selectedItem)
+                        //     this.cmbType.selectRecord(selectedItem);
+                        // else if (type == Asc.c_oAscNumFormatType.Fraction)
+                        //     this.cmbType.setValue(this.txtCustom);
+                        // else if (type == Asc.c_oAscNumFormatType.Time)
+                        //     this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
+                        // else
+                        //     this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
+
+                        var selectedItem = this.listType.store.findWhere({value: props.format});
                         if (selectedItem)
-                            this.cmbType.selectRecord(selectedItem);
-                        else if (type == Asc.c_oAscNumFormatType.Fraction)
-                            this.cmbType.setValue(this.txtCustom);
-                        else if (type == Asc.c_oAscNumFormatType.Time)
-                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
-                        else
-                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
+                            this.listType.selectRecord(selectedItem);
                     }
                     this.Format = props.format;
                     this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
@@ -481,8 +484,8 @@ define([
             this.chLinked.setValue(false, true);
         },
 
-        onTypeSelect: function(combo, record){
-            this.Format = record.value;
+        onListTypeSelect: function(listView, itemView, record) {
+            this.Format = record.get('value');
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
             this.chLinked.setValue(false, true);
         },
@@ -561,14 +564,20 @@ define([
                         this.cmbNegative.selectRecord(this.cmbNegative.store.at(0));
                         this.cmbNegative.cmpEl.find('li:nth-child(2) a, li:nth-child(4) a').css({color: '#ff0000'});
                     } else {
-                        this.cmbType.setData(data);
-                        this.cmbType.selectRecord(this.cmbType.store.at(0));
+                        this.listType.store.reset(data);
+                        this.listType.selectRecord(this.listType.store.at(0));
+                        this.listType.scrollToRecord(this.listType.store.at(0));
+                        
+                        this.listType.$el[0].style.height = "93px";
                     }
                     this.Format = formatsarr[0];
                 } else if (record.value == Asc.c_oAscNumFormatType.Fraction) {
-                    this.cmbType.setData(this.FractionData);
-                    this.cmbType.selectRecord(this.cmbType.store.at(0));
-                    this.Format = this.cmbType.getValue();
+                    this.listType.store.reset(this.FractionData);
+                    this.listType.selectRecord(this.listType.store.at(0));
+                    this.listType.scrollToRecord(this.listType.store.at(0));   
+                    
+                    this.listType.$el[0].style.height = "139px";
+                    this.Format = this.listType.store.findWhere({selected: true}).get('value');
                 } else {
                     this.Format = this.api.asc_getFormatCells(info)[0];
                 }
@@ -636,8 +645,10 @@ define([
             formatsarr.forEach(function(item) {
                 data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, exampleVal)});
             });
-            this.cmbType.setData(data);
-            this.cmbType.selectRecord(this.cmbType.store.at(0));
+            this.listType.store.reset(data, {silent: false});
+            this.listType.selectRecord(this.listType.store.at(0));
+            this.listType.scrollToRecord(this.listType.store.at(0));   
+
             this.Format = formatsarr[0];
             this.FormatInfo = info;
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
