@@ -15,6 +15,10 @@ require([
     'common/main/lib/view/ListSettingsDialog',
     'common/main/lib/view/ExternalEditor',
     'common/main/lib/view/ExternalOleEditor',
+    'common/main/lib/view/RenameDialog',
+    'common/main/lib/view/PasswordDialog',
+    'common/main/lib/view/PluginDlg',
+    'common/main/lib/view/PluginPanel',
 
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
     'spreadsheeteditor/main/app/view/ChartDataDialog',
@@ -25,6 +29,7 @@ require([
     // 'spreadsheeteditor/main/app/view/ChartSettings',
     'spreadsheeteditor/main/app/view/ChartTypeDialog',
     'spreadsheeteditor/main/app/view/ExternalLinksDlg',
+    // 'spreadsheeteditor/main/app/view/FileMenuPanels',
     'spreadsheeteditor/main/app/view/FormatRulesManagerDlg',
     'spreadsheeteditor/main/app/view/MacroDialog',
     'spreadsheeteditor/main/app/view/NameManagerDlg',
@@ -61,7 +66,8 @@ require([
     'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
     'spreadsheeteditor/main/app/view/ShapeSettingsAdvanced',
     'spreadsheeteditor/main/app/view/ProtectDialog',
-    'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg'
+    'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg',
+    'spreadsheeteditor/main/app/view/CreatePivotDialog'
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });
