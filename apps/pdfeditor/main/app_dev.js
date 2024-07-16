@@ -178,7 +178,8 @@ require([
                 // ,'common/main/lib/controller/ExternalDiagramEditor'
                 // ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/Draw'
-                ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/Protection',
+                'common/main/lib/collection/TextArt'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
@@ -194,7 +195,12 @@ require([
                     'common/main/lib/view/SymbolTableDialog',
                     'common/main/lib/view/OpenDialog',
                     'common/main/lib/view/InsertTableDialog',
-                    'common/main/lib/view/SearchDialog'
+                    'common/main/lib/view/SearchDialog',
+                    'common/main/lib/view/RenameDialog',
+                    'common/main/lib/view/PluginDlg',
+                    'common/main/lib/view/PluginPanel',
+
+                    'pdfeditor/main/app/view/ParagraphSettingsAdvanced'
                 ];
 
                 window.compareVersions = true;

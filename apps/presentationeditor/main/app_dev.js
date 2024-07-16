@@ -211,6 +211,11 @@ require([
                 'common/main/lib/view/ExternalOleEditor',
                 'common/main/lib/view/LanguageDialog',
                 'common/main/lib/view/SearchDialog',
+                'common/main/lib/view/InsertTableDialog',
+                'common/main/lib/view/RenameDialog',
+                'common/main/lib/view/PasswordDialog',
+                'common/main/lib/view/PluginDlg',
+                'common/main/lib/view/PluginPanel',
 
                 'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
                 'presentationeditor/main/app/view/ShapeSettingsAdvanced',

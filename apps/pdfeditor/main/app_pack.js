@@ -12,7 +12,12 @@ require([
     'common/main/lib/view/SymbolTableDialog',
     'common/main/lib/view/OpenDialog',
     'common/main/lib/view/InsertTableDialog',
-    'common/main/lib/view/SearchDialog'
+    'common/main/lib/view/SearchDialog',
+    'common/main/lib/view/RenameDialog',
+    'common/main/lib/view/PluginDlg',
+    'common/main/lib/view/PluginPanel',
+
+    'pdfeditor/main/app/view/ParagraphSettingsAdvanced'
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });
