@@ -508,7 +508,8 @@
       "txtSorting": "Ordenación",
       "txtSortSelected": "Ordenar os obxectos seleccionados",
       "txtYes": "Si",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

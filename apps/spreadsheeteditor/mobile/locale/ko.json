@@ -508,7 +508,8 @@
       "txtNotUrl": "이 필드는 \"http://www.example.com\"형식의 URL이어야합니다.",
       "txtSorting": "정렬",
       "txtSortSelected": "정렬 선택",
-      "txtYes": "확인"
+      "txtYes": "확인",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "경고",

@@ -95,7 +95,8 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "sCustom": "Custom"
     },
     "Edit": {
       "textChangeShape": "Spremeni obliko",

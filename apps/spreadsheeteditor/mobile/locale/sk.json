@@ -508,7 +508,8 @@
       "txtSortSelected": "Zoradiť vybrané",
       "txtYes": "Áno",
       "textDone": "Done",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozornenie",

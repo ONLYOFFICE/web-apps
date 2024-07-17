@@ -508,7 +508,8 @@
       "textDone": "Done",
       "textHeadersTableHint": "Returns the column headers for the table or specified table columns",
       "textPasteImageUrl": "Paste an image URL",
-      "textTotalsTableHint": "Returns the total rows for the table or specified table columns"
+      "textTotalsTableHint": "Returns the total rows for the table or specified table columns",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Uyarı",

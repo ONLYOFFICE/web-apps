@@ -508,7 +508,8 @@
       "txtNotUrl": "Este campo deve ser uma URL no formato \"http://www.example.com\"",
       "txtSorting": "Classificação",
       "txtSortSelected": "Classificar selecionado",
-      "txtYes": "Sim"
+      "txtYes": "Sim",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Aviso",

@@ -508,7 +508,8 @@
       "txtSorting": "ການລຽງລຳດັບ",
       "txtSortSelected": "ຈັດລຽງທີ່ເລືອກ",
       "txtYes": "ແມ່ນແລ້ວ",
-      "textPasteImageUrl": "Paste an image URL"
+      "textPasteImageUrl": "Paste an image URL",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "ເຕືອນ",

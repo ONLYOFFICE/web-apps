@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, Page, Navbar, Icon, BlockTitle, f7 } from 'framework7-react';
@@ -18,19 +18,21 @@ const PageInfo = props => {
     )
 };
 
-const PageGroup = ({name, type, functions, onInsertFunction, f7router}) => {
+const PageGroup = ({ name, type, functions, onInsertFunction, f7router }) => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const items = [];
+
     for (let k in functions) {
-        if (functions[k].group == type)
+        if (functions[k].group == type) {
             items.push(functions[k]);
+        }     
     }
 
     items.sort(function(a, b) {
         return (a.caption.toLowerCase() > b.caption.toLowerCase()) ? 1 : -1;
     });
-
+   
     return (
         <Page>
             <Navbar title={name} backLink={_t.textBack}/>
@@ -67,6 +69,24 @@ const AddFunction = props => {
     const _t = t('View.Add', {returnObjects: true});
     const store = props.storeFunctions;
     const functions = store.functions;
+    const isHaveCustomFunctions = useMemo(() => Object.values(functions).some(func => func.group === 'Custom'), [functions]);
+    const descriptions = useMemo(() => {
+        const initialArrDesc = [
+            'DateAndTime', 
+            'Engineering', 
+            'Financial', 
+            'Information', 
+            'Logical', 
+            'LookupAndReference', 
+            'Mathematic', 
+            'Statistical', 
+            'TextAndData',
+            isHaveCustomFunctions && 'Custom'
+        ].filter(Boolean);
+    
+        return initialArrDesc;
+    }, [isHaveCustomFunctions]);
+
     const quickFunctions = [
         {caption: 'SUM',   type: 'SUM'},
         {caption: 'MIN',   type: 'MIN'},
@@ -74,25 +94,21 @@ const AddFunction = props => {
         {caption: 'COUNT', type: 'COUNT'}
     ];
 
-    if (Object.keys(functions).length) {
-        quickFunctions.forEach((quickFunction) => {
-            const f = functions[quickFunction.type];
-            quickFunction.caption = f.caption;
-            quickFunction.args = f.args;
-            quickFunction.descr = f.descr;
-        });
-    }
-    let name = '';
-    const descriptions = ['DateAndTime', 'Engineering', 'Financial', 'Information', 'Logical', 'LookupAndReference', 'Mathematic', 'Statistical', 'TextAndData' ];
-    const groups = [];
-    for (let i = 0; i < descriptions.length; i++) {
-        name = descriptions[i];
-        name = _t['sCat' + name] || name;
-        groups.push({
-            type: descriptions[i],
-            name: name
-        })
-    }
+    const groups = useMemo(() => descriptions.map((name) => ({
+        type: name,
+        name: _t['sCat' + name] || name,
+    })), []);
+
+    useEffect(() => {
+        if (Object.keys(functions).length) {
+            quickFunctions.forEach((quickFunction) => {
+                const f = functions[quickFunction.type];
+                quickFunction.caption = f.caption;
+                quickFunction.args = f.args;
+                quickFunction.descr = f.descr;
+            });
+        }
+    }, [functions])
 
     const onOptionClick = (page, props) => {
         f7.views.current.router.navigate(page, props);

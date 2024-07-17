@@ -508,7 +508,8 @@
       "txtNotUrl": "Ovo polje treba da bude URL u formatu: \"http://www.example.com\"",
       "txtSorting": "Sortiranje",
       "txtSortSelected": "Sortiraj odabrano",
-      "txtYes": "Da"
+      "txtYes": "Da",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "Upozorenje ",

@@ -508,7 +508,8 @@
       "txtNotUrl": "هذا الحقل يجب ان يحتوي علي رابط بنفس تنسيق\"http://www.example.com\"  ",
       "txtSorting": "الترتيب",
       "txtSortSelected": "الترتيب المحدد",
-      "txtYes": "نعم"
+      "txtYes": "نعم",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": "تحذير",

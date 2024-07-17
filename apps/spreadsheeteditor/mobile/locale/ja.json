@@ -508,7 +508,8 @@
       "txtNotUrl": "このフィールドは、「http://www.example.com」の形式のURLである必要があります。",
       "txtSorting": "並べ替え中",
       "txtSortSelected": "選択したを並べ替える",
-      "txtYes": "Yes"
+      "txtYes": "Yes",
+      "sCustom": "Custom"
     },
     "Edit": {
       "notcriticalErrorTitle": " 警告",
