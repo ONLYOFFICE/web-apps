@@ -125,6 +125,7 @@ export class storeAppOptions {
         this.createUrl = config.createUrl;
         this.lang = config.lang ?? 'en';
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
+        this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
         this.fileChoiceUrl = config.fileChoiceUrl;

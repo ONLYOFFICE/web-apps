@@ -17,6 +17,7 @@ import PluginsController from '../../../../common/mobile/lib/controller/Plugins.
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
+import '../../../../common/main/lib/util/LanguageInfo.js'
 
 @inject(
     "users",
@@ -128,6 +129,8 @@ class MainController extends Component {
 
                 value = LocalStorage.getItem("pe-mobile-allow-macros-request");
                 this.props.storeApplicationSettings.changeMacrosRequest((value !== null) ? parseInt(value)  : 0);
+
+                this.loadDefaultMetricSettings();
             };
 
             const loadDocument = data => {
@@ -315,6 +318,36 @@ class MainController extends Component {
         // Message on window close
         window.onbeforeunload = this.onBeforeUnload.bind(this);
         window.onunload = this.onUnload.bind(this);
+    }
+
+    loadDefaultMetricSettings() {
+        const appOptions = this.props.storeAppOptions;
+        let region = '';
+
+        if (appOptions.location) {
+            console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+            region = appOptions.location;
+        } else if (appOptions.region) {
+            let val = appOptions.region;
+            val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+
+            if (val && typeof val === 'string') {
+                let arr = val.split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        } else {
+            let arr = (appOptions.lang || 'en').split(/[\-_]/);
+
+            if (arr.length > 1) region = arr[arr.length - 1]
+            if (!region) {
+                arr = (navigator.language || '').split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        }
+
+        if (/^(ca|us)$/i.test(region)) {
+            Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+        }
     }
 
     onDocumentModifiedChanged () {

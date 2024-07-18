@@ -24,6 +24,7 @@ import { StatusbarController } from "./Statusbar";
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
+import '../../../../common/main/lib/util/LanguageInfo.js'
 
 @inject(
     "users",
@@ -188,7 +189,7 @@ class MainController extends Component {
                 EditorUIController.isSupportEditFeature();
 
                 this.editorConfig = Object.assign({}, this.editorConfig, data.config);
-                this.appOptions.lang            = this.editorConfig.lang;
+                this.appOptions.lang = this.editorConfig.lang;
 
                 const appOptions = this.props.storeAppOptions;
                 appOptions.setConfigOptions(this.editorConfig, _t);
@@ -204,30 +205,27 @@ class MainController extends Component {
                 if (value !== null) {
                     this.api.asc_setLocale(parseInt(value));
                 } else {
-                     value = appOptions.region;
-                     value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
-                     if (value !== null) {
-                         value = parseInt(value);
-                     } else {
-                         value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
-                     }
-                     this.api.asc_setLocale(value);
+                    value = appOptions.region;
+                    value = Common.util.LanguageInfo.getLanguages().hasOwnProperty(value) ? value : Common.util.LanguageInfo.getLocalLanguageCode(value);
+                    if (value !== null) {
+                        value = parseInt(value);
+                    } else {
+                        value = (appOptions.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(appOptions.lang)) : 0x0409;
+                    }
+                    this.api.asc_setLocale(value);
                 }
 
-                if (appOptions.location == 'us' || appOptions.location == 'ca') {
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
-                }
-
-                //if (!appOptions.customization || !(appOptions.customization.loaderName || appOptions.customization.loaderLogo))
-                    //$('#editor_sdk').append('<div class="doc-placeholder">' + '<div class="columns"></div>'.repeat(2) + '</div>');
+                this.loadDefaultMetricSettings();
 
                 value = LocalStorage.getItem("sse-mobile-macros-mode");
+
                 if (value === null) {
-                     value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
-                     value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
+                    value = appOptions.customization ? appOptions.customization.macrosMode : 'warn';
+                    value = (value === 'enable') ? 1 : (value === 'disable' ? 2 : 0);
                 } else {
                     value = parseInt(value);
                 }
+
                 this.props.storeApplicationSettings.changeMacrosSettings(value);
 
                 value = LocalStorage.getItem("sse-mobile-allow-macros-request");
@@ -392,6 +390,36 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_load_scripts();
+        }
+    }
+
+    loadDefaultMetricSettings() {
+        const appOptions = this.props.storeAppOptions;
+        let region = '';
+
+        if (appOptions.location) {
+            console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+            region = appOptions.location;
+        } else if (appOptions.region) {
+            let val = appOptions.region;
+            val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+
+            if (val && typeof val === 'string') {
+                let arr = val.split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        } else {
+            let arr = (appOptions.lang || 'en').split(/[\-_]/);
+
+            if (arr.length > 1) region = arr[arr.length - 1]
+            if (!region) {
+                arr = (navigator.language || '').split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        }
+
+        if (/^(ca|us)$/i.test(region)) {
+            Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
         }
     }
 
