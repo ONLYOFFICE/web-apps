@@ -1461,6 +1461,13 @@ define([
                                 this.txtChoice.setValue(val ? val : '');
                                 this._state.choice = val;
                             }
+
+                            connected = false;
+                            if (this._state.groupKey) {
+                                val = this.api.asc_GetFormsCountByKey(this._state.groupKey);
+                                connected = (val>1);
+                            }
+                            connected && this.labelConnectedFields.text(this.textConnected + ': ' + val);
                         }
 
                         this.labelFormName.text(ischeckbox ? this.textCheckbox : this.textRadiobox);
