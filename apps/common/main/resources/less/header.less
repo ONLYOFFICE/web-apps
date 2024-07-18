@@ -96,7 +96,7 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
-        padding: 4px 2px;
+        padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
     }
@@ -111,14 +111,19 @@
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
-        padding: 1px 5px;
+        border-radius: 1px;
+        padding: 1px 8px;
         cursor: default;
         line-height: 24px;
 
-        &:hover:not(:disabled),&:focus {
-            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
-            border-radius: 1px;
+        &:hover:not(:disabled):not(:focus){
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
+            cursor: text;
+        }
+        &:focus{
+            background-color: @highlight-header-button-pressed-ie;
+            background-color: @highlight-header-button-pressed;
             cursor: text;
         }
         .rtl & {

@@ -488,8 +488,8 @@
 
         .tabs, .box-tabs .extra {
             background-color: transparent;
-            box-shadow: inset 0 -1px 0 0 @border-regular-control-ie;
-            box-shadow: inset 0 -1px 0 0 @border-regular-control;
+            box-shadow: inset 0 calc(-1 * @scaled-one-px-value-ie) 0 0 @border-regular-control-ie;
+            box-shadow: inset 0 calc(-1 * @scaled-one-px-value) 0 0 @border-regular-control;
         }
 
         .tabs {
@@ -679,9 +679,13 @@
         #rib-doc-name {
             color: @text-normal-ie;
             color: @text-normal;
-            &:hover:not(:disabled),&:focus {
-                box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-button-hover-ie;
-                box-shadow: 0 0 0 @scaled-one-px-value @highlight-button-hover;
+            &:hover:not(:disabled):not(:focus){
+                background-color: @highlight-button-hover-ie;
+                background-color: @highlight-button-hover;
+            }
+            &:focus{
+                background-color: @highlight-button-pressed-ie;
+                background-color: @highlight-button-pressed;
             }
         }
 
@@ -696,6 +700,11 @@
         #box-doc-name > input {
             display: none;
         }
+    }
+
+    #box-doc-name, #box-right-btn-group {
+        padding-bottom: @scaled-one-px-value-ie;
+        padding-bottom: @scaled-one-px-value;
     }
 }
 
