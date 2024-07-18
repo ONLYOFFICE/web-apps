@@ -20,7 +20,7 @@ import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
-
+import '../../../../common/main/lib/util/LanguageInfo.js'
 @inject(
     "users",
     "storeAppOptions",

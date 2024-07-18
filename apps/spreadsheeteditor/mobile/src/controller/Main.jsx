@@ -24,6 +24,7 @@ import { StatusbarController } from "./Statusbar";
 import { Device } from '../../../../common/mobile/utils/device';
 import { Themes } from '../../../../common/mobile/lib/controller/Themes.jsx';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
+import '../../../../common/main/lib/util/LanguageInfo.js'
 
 @inject(
     "users",
