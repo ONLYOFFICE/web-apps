@@ -134,7 +134,7 @@ define([
                             btn = new Common.UI.Button({
                                 cls: 'btn-toolbar x-huge icon-top',
                                 iconImg: _icon_url,
-                                caption: model.get('name'),
+                                caption: Common.Utils.String.htmlEncode(model.get('name')),
                                 menu: modes && modes.length > 1,
                                 split: modes && modes.length > 1,
                                 value: guid,
@@ -476,7 +476,7 @@ define([
                 cls: 'btn-toolbar x-huge icon-top',
                 iconCls: icon_cls,
                 iconImg: icon_url,
-                caption: model.get('name'),
+                caption: Common.Utils.String.htmlEncode(model.get('name')),
                 menu: _menu_items.length > 1,
                 split: _menu_items.length > 1,
                 value: guid,

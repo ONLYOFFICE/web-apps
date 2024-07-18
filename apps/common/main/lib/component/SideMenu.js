@@ -121,7 +121,7 @@ define([
                         if (index >= last) {
                             if (btn.options.iconImg) {
                                 arrMore.push({
-                                    caption: btn.hint,
+                                    caption: Common.Utils.String.htmlEncode(btn.hint),
                                     iconImg: btn.options.iconImg,
                                     template: _.template([
                                         '<a id="<%= id %>" class="menu-item" tabindex="-1" type="menuitem">',
@@ -136,7 +136,7 @@ define([
                                 })
                             } else {
                                 arrMore.push({
-                                    caption: btn.hint,
+                                    caption: Common.Utils.String.htmlEncode(btn.hint),
                                     iconCls: 'menu__icon ' + btn.iconCls,
                                     value: index,
                                     disabled: btn.isDisabled(),

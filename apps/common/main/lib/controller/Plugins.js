@@ -598,13 +598,15 @@ define([
 
         addPluginToSideMenu: function (plugin, langName, menu) {
             function createUniqueName (name) {
-                var n = name.toLowerCase().replace(/\s/g, '-'),
-                    panelId = 'left-panel-plugins-' + name;
-                var length = $('#' + panelId).length;
-                if (length > 0) {
-                    n = n + '-' + length;
+                var n = name.toLowerCase().replace(/[^a-z0-9\-_:\.]/g, '-'),
+                    panelName = n;
+                var index = 0;
+                while(true) {
+                    if ($('#' + 'panel-plugins-' + panelName).length < 1) break;
+                    index++;
+                    panelName = n + '-' + index;
                 }
-                return n;
+                return panelName;
             }
             var pluginGuid = plugin.get_Guid(),
                 model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
@@ -682,7 +684,7 @@ define([
                             guid: plugin.get_Guid(),
                             cls: isCustomWindow ? 'plain' : '',
                             header: !isCustomWindow,
-                            title: plugin.get_Name(lang),
+                            title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
                             width: size[0], // inner width
                             height: size[1], // inner height
                             url: url,
