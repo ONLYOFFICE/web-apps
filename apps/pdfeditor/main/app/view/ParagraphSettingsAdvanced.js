@@ -39,6 +39,7 @@
 
 define([
     'text!pdfeditor/main/app/template/ParagraphSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

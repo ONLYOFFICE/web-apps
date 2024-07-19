@@ -38,7 +38,9 @@
  *
  */
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () { 'use strict';
 
     DE.Views.TableOfContentsSettings = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

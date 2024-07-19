@@ -37,7 +37,9 @@
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
-define([], function () {
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () {
     'use strict';
 
     DE.Views.CaptionDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

@@ -40,6 +40,7 @@
 
 define([
     'text!spreadsheeteditor/main/app/template/FieldSettingsDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.FieldSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

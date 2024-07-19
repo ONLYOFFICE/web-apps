@@ -19,6 +19,7 @@ require([
     'common/main/lib/view/PasswordDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
+    'common/main/lib/view/ShapeShadowDialog',
 
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
     'spreadsheeteditor/main/app/view/ChartDataDialog',

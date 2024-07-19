@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!spreadsheeteditor/main/app/template/WatchDialog.template'
+    'text!spreadsheeteditor/main/app/template/WatchDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

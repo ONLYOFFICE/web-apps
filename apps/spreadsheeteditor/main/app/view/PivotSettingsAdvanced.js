@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.template'
+    'text!spreadsheeteditor/main/app/template/PivotSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.PivotSettingsAdvanced = Common.Views.AdvancedSettingsWindow.extend(_.extend({

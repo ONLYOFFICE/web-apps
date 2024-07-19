@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/RolesManagerDlg.template'
+    'text!documenteditor/main/app/template/RolesManagerDlg.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

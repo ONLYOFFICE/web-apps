@@ -16,6 +16,8 @@ require([
     'common/main/lib/view/RenameDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
+    'common/main/lib/view/ShapeShadowDialog',
+    'common/main/lib/view/ImageFromUrlDialog',
 
     'pdfeditor/main/app/view/ParagraphSettingsAdvanced'
 ], function () {

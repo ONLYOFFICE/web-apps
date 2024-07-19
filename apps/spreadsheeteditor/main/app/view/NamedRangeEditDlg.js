@@ -38,7 +38,9 @@
  *  
  */
 
-define([], function () {
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () {
     'use strict';
 
     SSE.Views = SSE.Views || {};

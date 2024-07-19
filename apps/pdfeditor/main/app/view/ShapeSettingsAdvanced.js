@@ -37,7 +37,8 @@
  *
  */
 
-define([    'text!pdfeditor/main/app/template/ShapeSettingsAdvanced.template',
+define([
+    'text!pdfeditor/main/app/template/ShapeSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/component/ComboBox',
     'common/main/lib/component/MetricSpinner',

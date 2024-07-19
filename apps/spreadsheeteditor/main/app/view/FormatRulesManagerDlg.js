@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.template'
+    'text!spreadsheeteditor/main/app/template/FormatRulesManagerDlg.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

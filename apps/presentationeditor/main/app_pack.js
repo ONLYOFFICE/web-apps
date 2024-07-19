@@ -21,6 +21,7 @@ require([
     'common/main/lib/view/PasswordDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
+    'common/main/lib/view/ShapeShadowDialog',
 
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
     'presentationeditor/main/app/view/ShapeSettingsAdvanced',
