@@ -36,9 +36,11 @@
  *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
-
-define([], function () { 'use strict';
-
+console.log('Common.Views.ExternalDiagramEditor 1');
+define([
+    'common/main/lib/view/ExternalEditor'
+], function () { 'use strict';
+    console.log('Common.Views.ExternalDiagramEditor 2');
     Common.Views.ExternalDiagramEditor = Common.Views.ExternalEditor.extend(_.extend({
         initialize : function(options) {
             var _options = {};

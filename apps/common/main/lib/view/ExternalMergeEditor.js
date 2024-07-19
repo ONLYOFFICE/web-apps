@@ -37,7 +37,9 @@
  *
  */
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/view/ExternalEditor'
+], function () { 'use strict';
 
     Common.Views.ExternalMergeEditor = Common.Views.ExternalEditor.extend(_.extend({
         initialize : function(options) {
