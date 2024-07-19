@@ -39,7 +39,6 @@
  */
 if (Common === undefined)
     var Common = {};
-console.log('Common.Views.AutoCorrectDialog 1');
 define([
     'text!common/main/lib/template/AutoCorrectDialog.template',
     'common/main/lib/view/AdvancedSettingsWindow'
@@ -48,7 +47,6 @@ define([
     var _functionsStore = new Common.UI.DataViewStore();
     var _exciptionsStore = new Common.UI.DataViewStore();
     var _exciptionsLangs = [0x0409, 0x0419];
-    console.log('Common.Views.AutoCorrectDialog 2');
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,

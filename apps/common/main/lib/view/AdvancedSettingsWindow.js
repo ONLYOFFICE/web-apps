@@ -38,7 +38,6 @@
  */
 
 define([], function () { 'use strict';
-    console.log('Common.Views.AdvancedSettingsWindow');
     Common.Views.AdvancedSettingsWindow = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var _options = {};
