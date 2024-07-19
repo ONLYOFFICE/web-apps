@@ -38,7 +38,8 @@ define([
     'text!common/main/lib/template/SearchPanel.template',
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/component/InputField',
 ], function (template) {
     'use strict';
 

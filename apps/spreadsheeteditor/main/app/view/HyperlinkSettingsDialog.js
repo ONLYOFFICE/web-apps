@@ -41,13 +41,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/TreeView'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.HyperlinkSettingsDialog = Common.UI.Window.extend(_.extend({
         options: {

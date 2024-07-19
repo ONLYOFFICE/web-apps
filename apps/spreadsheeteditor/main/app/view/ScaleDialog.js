@@ -37,10 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/MetricSpinner'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.ScaleDialog = Common.UI.Window.extend(_.extend({
         options: {
