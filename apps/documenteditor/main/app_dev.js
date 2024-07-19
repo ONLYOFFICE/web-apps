@@ -179,7 +179,6 @@ require([
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'documenteditor/main/app/view/FileMenuPanels',
-                'common/main/lib/controller/ScreenReaderFocus',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'

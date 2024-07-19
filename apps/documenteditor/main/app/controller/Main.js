@@ -55,7 +55,6 @@ define([
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/controller/LaunchController',
-    'common/main/lib/controller/ScreenReaderFocus',
 ], function () {
     'use strict';
 
@@ -197,7 +196,6 @@ define([
                 Common.UI.FocusManager.init();
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
-                Common.UI.ScreenReaderFocusManager.init(this.api);
                 Common.Controllers.LaunchController.init(this.api);
 
                 if (this.api){
@@ -552,7 +550,7 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
-                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    // docInfo.put_Wopi(this.editorConfig.wopi);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
