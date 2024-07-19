@@ -43,8 +43,7 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/Button',
-    'common/main/lib/component/ComboDataView',
-    'presentationeditor/main/app/view/ChartSettingsAdvanced'
+    'common/main/lib/component/ComboDataView'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

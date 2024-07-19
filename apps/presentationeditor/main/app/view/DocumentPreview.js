@@ -42,7 +42,8 @@ define([
     'underscore',
     'backbone',
     'common/main/lib/component/BaseView',
-    'presentationeditor/main/app/model/Pages'
+    'presentationeditor/main/app/model/Pages',
+    'common/main/lib/component/InputField'
 ], function () {
     'use strict';
 

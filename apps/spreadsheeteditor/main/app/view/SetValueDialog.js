@@ -37,10 +37,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.SetValueDialog = Common.UI.Window.extend(_.extend({
         options: {

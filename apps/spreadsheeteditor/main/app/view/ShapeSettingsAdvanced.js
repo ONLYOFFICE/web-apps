@@ -38,7 +38,8 @@
  */
 
 define([
-    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.template'
+    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

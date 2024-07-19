@@ -39,11 +39,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ColorPaletteExt',
-    'common/main/lib/component/Calendar'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views = SSE.Views || {};

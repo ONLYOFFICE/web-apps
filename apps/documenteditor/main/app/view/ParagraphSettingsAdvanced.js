@@ -37,8 +37,10 @@
  *
  */
 
-define(['text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
-    'common/main/lib/component/TableStyler'
+define([
+    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
+    'common/main/lib/component/TableStyler',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

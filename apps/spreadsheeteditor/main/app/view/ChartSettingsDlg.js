@@ -40,7 +40,8 @@
 define([
     'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template',
     'text!spreadsheeteditor/main/app/template/ChartVertAxis.template',
-    'text!spreadsheeteditor/main/app/template/ChartHorAxis.template'
+    'text!spreadsheeteditor/main/app/template/ChartHorAxis.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate, vertTemplate, horTemplate) {
     'use strict';
 

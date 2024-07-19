@@ -30,7 +30,7 @@
  *
  */
 
-﻿
+
 const helper = function() {
     let $elem;
 

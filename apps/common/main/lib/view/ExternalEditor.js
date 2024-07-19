@@ -39,7 +39,6 @@
 
 define([], function () {
     'use strict';
-
     Common.Views.ExternalEditor = Common.UI.Window.extend(_.extend({
         initialize : function(options) {
             var filter = Common.localStorage.getKeysFilter(),

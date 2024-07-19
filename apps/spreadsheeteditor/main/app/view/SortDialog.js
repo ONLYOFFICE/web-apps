@@ -40,6 +40,7 @@
 
 define([
     'text!spreadsheeteditor/main/app/template/SortDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

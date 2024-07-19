@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.template'
+    'text!spreadsheeteditor/main/app/template/ProtectedRangesManagerDlg.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

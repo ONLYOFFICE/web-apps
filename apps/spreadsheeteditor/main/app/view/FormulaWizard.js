@@ -37,7 +37,9 @@
  *
  */
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () { 'use strict';
 
     SSE.Views.FormulaWizard = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

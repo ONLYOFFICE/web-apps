@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/ControlSettingsDialog.template'
+    'text!documenteditor/main/app/template/ControlSettingsDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) { 'use strict';
 
     DE.Views.ControlSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

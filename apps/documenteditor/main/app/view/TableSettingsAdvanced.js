@@ -39,7 +39,8 @@
 
 define([
     'text!documenteditor/main/app/template/TableSettingsAdvanced.template',
-    'common/main/lib/component/TableStyler'
+    'common/main/lib/component/TableStyler',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

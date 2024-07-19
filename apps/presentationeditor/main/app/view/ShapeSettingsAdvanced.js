@@ -38,7 +38,8 @@
  */
 
 define([
-    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.template'
+    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

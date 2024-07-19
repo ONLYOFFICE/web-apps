@@ -37,7 +37,9 @@
  *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
  *
  */
-define([], function () { 'use strict';
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () { 'use strict';
 
     SSE.Views.CreatePivotDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

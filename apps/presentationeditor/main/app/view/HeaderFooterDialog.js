@@ -38,7 +38,8 @@
  *
  */
 define([
-    'text!presentationeditor/main/app/template/HeaderFooterDialog.template'
+    'text!presentationeditor/main/app/template/HeaderFooterDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (template) { 'use strict';
 
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

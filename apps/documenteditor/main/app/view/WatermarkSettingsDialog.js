@@ -39,7 +39,8 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/WatermarkSettings.template'
+    'text!documenteditor/main/app/template/WatermarkSettings.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (template) { 'use strict';
 
     DE.Views.WatermarkText = new(function() {

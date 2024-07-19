@@ -38,7 +38,8 @@
  */
 
 define([
-    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced.template'
+    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

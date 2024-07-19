@@ -61,11 +61,7 @@ define([
     'core',
     'common/main/lib/util/utils',
     'common/main/lib/util/Shortcuts',
-    'spreadsheeteditor/main/app/view/DocumentHolder',
-    'spreadsheeteditor/main/app/view/HyperlinkSettingsDialog',
-    'spreadsheeteditor/main/app/view/SetValueDialog',
-    'spreadsheeteditor/main/app/view/AutoFilterDialog',
-    'spreadsheeteditor/main/app/view/PivotGroupDialog'
+    'spreadsheeteditor/main/app/view/DocumentHolder'
 ], function () {
     'use strict';
 

@@ -38,6 +38,7 @@
  */
 
 define([
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     DE.Views.TextToTableDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

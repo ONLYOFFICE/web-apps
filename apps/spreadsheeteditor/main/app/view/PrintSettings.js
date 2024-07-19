@@ -39,6 +39,7 @@
 
 define([
     'text!spreadsheeteditor/main/app/template/PrintSettings.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

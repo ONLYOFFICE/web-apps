@@ -179,7 +179,6 @@ require([
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
                 'documenteditor/main/app/view/FileMenuPanels',
-                'common/main/lib/controller/ScreenReaderFocus',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
@@ -223,6 +222,7 @@ require([
                     'common/main/lib/view/ExternalDiagramEditor',
                     'common/main/lib/view/ExternalMergeEditor',
                     'common/main/lib/view/ExternalOleEditor',
+                    'common/main/lib/view/ShapeShadowDialog',
 
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',

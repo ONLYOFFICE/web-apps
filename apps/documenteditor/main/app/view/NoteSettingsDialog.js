@@ -38,7 +38,9 @@
  *
  */
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () { 'use strict';
 
     DE.Views.NoteSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {

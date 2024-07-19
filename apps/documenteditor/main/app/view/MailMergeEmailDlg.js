@@ -36,7 +36,8 @@
  */
 
 define([
-    'text!documenteditor/main/app/template/MailMergeEmailDlg.template'
+    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 

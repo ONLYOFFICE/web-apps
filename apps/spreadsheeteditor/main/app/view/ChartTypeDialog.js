@@ -38,7 +38,9 @@
  *
  */
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () { 'use strict';
 
     var _CustomItem = Common.UI.DataViewItem.extend({
         initialize : function(options) {

@@ -21,6 +21,7 @@ require([
     'common/main/lib/view/PasswordDialog',
     'common/main/lib/view/PluginDlg',
     'common/main/lib/view/PluginPanel',
+    'common/main/lib/view/ShapeShadowDialog',
 
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
     'presentationeditor/main/app/view/ShapeSettingsAdvanced',
@@ -31,6 +32,7 @@ require([
     'presentationeditor/main/app/view/HeaderFooterDialog',
     'presentationeditor/main/app/view/HyperlinkSettingsDialog',
     'presentationeditor/main/app/view/DateTimeDialog',
+    'presentationeditor/main/app/view/ChartSettingsAdvanced'
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });

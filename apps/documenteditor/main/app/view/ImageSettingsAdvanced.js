@@ -39,6 +39,7 @@
 
 define([
     'text!documenteditor/main/app/template/ImageSettingsAdvanced.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (contentTemplate) {
     'use strict';
 
