@@ -1866,7 +1866,10 @@ define([
         },
 
         onDisconnect: function() {
-            this.onKeyChanged(this.cmbKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
+            if (this.type === Asc.c_oAscContentControlSpecificType.CheckBox && (typeof (this._originalCheckProps || new AscCommon.CSdtCheckBoxPr()).get_GroupKey() === 'string'))
+                this.onGroupKeyChanged(this.cmbGroupKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
+            else
+                this.onKeyChanged(this.cmbKey, {value: (this._originalProps || new AscCommon.CContentControlPr()).get_NewKey()});
         },
 
         disableListButtons: function() {
