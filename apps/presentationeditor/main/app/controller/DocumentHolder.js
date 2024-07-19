@@ -164,7 +164,6 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
             Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', Common.localStorage.getBool('pe-equation-toolbar-hide'));
-            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onLaunch: function() {
@@ -203,6 +202,7 @@ define([
                     me.screenTip && (me.screenTip.tipLength = -1);  // redraw link tip
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(api) {
@@ -326,6 +326,7 @@ define([
         createDelayedElements: function(view, type) {
             var me = this,
                 view = me.documentHolder;
+            this.type = type;
 
             if (type=='view') {
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
@@ -428,7 +429,7 @@ define([
                 return;
             }
 
-                        var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
                     var command = message.data.command;
