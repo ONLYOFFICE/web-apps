@@ -356,19 +356,18 @@ define([
                         else
                             this.cmbNegative.setValue(this.api.asc_getLocaleExample(props.format));
                     } else if (this._state.hasType) {
-                        // TODO: Разобраться, зачем setValue
-                        // var selectedItem = this.cmbType.store.findWhere({value: props.format});
-                        // if (selectedItem)
-                        //     this.cmbType.selectRecord(selectedItem);
-                        // else if (type == Asc.c_oAscNumFormatType.Fraction)
-                        //     this.cmbType.setValue(this.txtCustom);
-                        // else if (type == Asc.c_oAscNumFormatType.Time)
-                        //     this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
-                        // else
-                        //     this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
-
                         var selectedItem = this.listType.store.findWhere({value: props.format});
-                        if (selectedItem) {
+                        if(selectedItem) {
+                            this.listType.selectRecord(selectedItem);
+                            this.listType.scrollToRecord(selectedItem);
+                        } else if(type == Asc.c_oAscNumFormatType.Time.Fraction) {
+                            this.listType.deselectAll();
+                        } else {
+                            var defaultNumber = (type == Asc.c_oAscNumFormatType.Time ? 1.534 : 38822);
+                            selectedItem = this.listType.store.unshift({
+                                value: props.format,
+                                displayValue: this.api.asc_getLocaleExample(props.format, defaultNumber)
+                            });
                             this.listType.selectRecord(selectedItem);
                             this.listType.scrollToRecord(selectedItem);
                         }
@@ -579,7 +578,7 @@ define([
                     this.listType.scrollToRecord(this.listType.store.at(0));   
                     
                     this.listType.$el[0].style.height = "139px";
-                    this.Format = this.listType.store.findWhere({selected: true}).get('value');
+                    this.Format = this.listType.getSelectedRec().get('value');
                 } else {
                     this.Format = this.api.asc_getFormatCells(info)[0];
                 }
