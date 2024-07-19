@@ -39,9 +39,7 @@
 
 define([
     'text!pdfeditor/main/app/template/ImageSettingsAdvanced.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox'
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) {
     'use strict';
 

@@ -19,7 +19,9 @@ require([
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/ImageFromUrlDialog',
 
-    'pdfeditor/main/app/view/ParagraphSettingsAdvanced'
+    'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
+    'pdfeditor/main/app/view/ImageSettingsAdvanced',
+    'pdfeditor/main/app/view/HyperlinkSettingsDialog',
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });

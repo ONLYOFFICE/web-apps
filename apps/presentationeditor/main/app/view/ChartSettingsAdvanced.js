@@ -40,7 +40,6 @@
 define([
     'text!presentationeditor/main/app/template/ChartSettingsAdvanced.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/InputField'
 ], function (contentTemplate) {
     'use strict';
 
