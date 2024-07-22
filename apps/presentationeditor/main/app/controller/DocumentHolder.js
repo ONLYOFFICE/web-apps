@@ -324,9 +324,7 @@ define([
         },
 
         createDelayedElements: function(view, type) {
-            var me = this,
-                view = me.documentHolder;
-            this.type = type;
+            var me = this, view = me.documentHolder;
 
             if (type=='view') {
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
@@ -425,7 +423,8 @@ define([
         },
 
         createPostLoadElements: function() {
-            if (this.type !== 'edit') {
+            var me = this;
+            if (!me.mode.isEdit) {
                 return;
             }
 
@@ -445,7 +444,6 @@ define([
                         this.api.asc_onCloseChartFrame();
                         this.api.asc_enableKeyEvents(true);
                     }
-                    var me = this;
                     setTimeout(function(){
                         me.editComplete();
                     }, 10);
@@ -468,7 +466,6 @@ define([
                         this.api.asc_enableKeyEvents(true);
                         this.api.asc_onCloseChartFrame();
                     }
-                    var me = this;
                     setTimeout(function(){
                         me.editComplete();
                     }, 10);
