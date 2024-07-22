@@ -40,7 +40,7 @@
 
 define([
     'text!spreadsheeteditor/main/app/template/DataValidationDialog.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
 
     SSE.Views.DataValidationDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

@@ -40,7 +40,9 @@
 define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/view/OpenDialog',
+    'common/main/lib/component/TextareaField'
 ], function () {
     'use strict';
 

@@ -41,7 +41,8 @@ define([
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
     'common/main/lib/component/Layout',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/Window',
+    'common/main/lib/view/OpenDialog'
 ], function (template) {
     'use strict';
 

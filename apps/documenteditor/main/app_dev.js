@@ -210,7 +210,6 @@ require([
                     'common/main/lib/view/SaveAsDlg',
                     'common/main/lib/view/AutoCorrectDialog',
                     'common/main/lib/view/DocumentAccessDialog',
-                    'common/main/lib/view/OpenDialog',
                     'common/main/lib/view/UserNameDialog',
                     'common/main/lib/view/SearchDialog',
                     'common/main/lib/view/AdvancedSettingsWindow',
@@ -223,6 +222,7 @@ require([
                     'common/main/lib/view/ExternalMergeEditor',
                     'common/main/lib/view/ExternalOleEditor',
                     'common/main/lib/view/ShapeShadowDialog',
+                    'common/main/lib/view/CustomizeQuickAccessDialog',
 
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',

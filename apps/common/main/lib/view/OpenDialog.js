@@ -39,7 +39,9 @@
  *
  */
 
-define([], function () {
+define([
+    'common/main/lib/component/Window'
+], function () {
     'use strict';
 
     Common.Views.OpenDialog = Common.UI.Window.extend(_.extend({
