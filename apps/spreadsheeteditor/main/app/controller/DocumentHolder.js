@@ -331,7 +331,7 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
-            if (!me.type !== 'edit') {
+            if (me.type !== 'edit') {
                 return;
             }
 
