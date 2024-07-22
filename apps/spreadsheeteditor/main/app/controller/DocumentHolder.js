@@ -188,8 +188,6 @@ define([
             var me = this;
             me.type = type;
 
-            this.view = view;
-
             if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
@@ -337,8 +335,6 @@ define([
                 return;
             }
 
-            var view = me.documentHolder;
-
             if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                 var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor) {
@@ -356,7 +352,7 @@ define([
                             me.api.asc_onCloseChartFrame();
                         }
                         setTimeout(function(){
-                            view.fireEvent('editcomplete', view);
+                            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
                         }, 10);
                     }, me));
                 }
