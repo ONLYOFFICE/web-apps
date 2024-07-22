@@ -188,6 +188,8 @@ define([
             var me = this;
             me.type = type;
 
+            this.view = view;
+
             if (type==='edit') {
                 view.pmiCut.on('click',                             _.bind(me.onCopyPaste, me));
                 view.pmiCopy.on('click',                            _.bind(me.onCopyPaste, me));
@@ -334,6 +336,8 @@ define([
             if (me.type !== 'edit') {
                 return;
             }
+
+            var view = me.documentHolder;
 
             if (!me.permissions.isEditMailMerge && !me.permissions.isEditDiagram && !me.permissions.isEditOle) {
                 var oleEditor = me.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
