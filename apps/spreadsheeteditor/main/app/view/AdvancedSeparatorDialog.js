@@ -32,8 +32,7 @@
 /**
  *  AdvancedSeparatorDialog.js
  *
- *  Created by Julia Radzhabova on 26/06/20
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 26/06/20
  *
  */
 

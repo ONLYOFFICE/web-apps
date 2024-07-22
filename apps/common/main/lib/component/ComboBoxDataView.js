@@ -32,8 +32,7 @@
 /**
  *  ComboBoxDataView.js
  *
- *  Created by Julia Radzhabova on 09/13/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 09/13/23
  *
  */
 

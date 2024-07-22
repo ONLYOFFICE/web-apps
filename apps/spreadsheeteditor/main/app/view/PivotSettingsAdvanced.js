@@ -33,8 +33,7 @@
 /**
  *  PivotSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 17.07.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 17.07.2017
  *
  */
 

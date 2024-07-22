@@ -33,8 +33,7 @@
 /**
  *  Links.js
  *
- *  Created by Julia Radzhabova on 22.12.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 22.12.2017
  *
  */
 

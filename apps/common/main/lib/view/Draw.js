@@ -33,8 +33,7 @@
 /**
  *  Draw.js
  *
- *  Created by Julia Radzhabova on 28.03.2023
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 28.03.2023
  *
  */
 

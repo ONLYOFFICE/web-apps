@@ -32,8 +32,7 @@
 /**
  *  FormSettings.js
  *
- *  Created by Julia Radzhabova on 28/09/20
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 28/09/20
  *
  */
 

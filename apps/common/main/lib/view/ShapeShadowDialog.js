@@ -33,8 +33,7 @@
  *
  *  ShapeShadowDialog.js
  *
- *  Created by Alexey Koshelev on 27.09.23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 27.09.23
  *
  */
 

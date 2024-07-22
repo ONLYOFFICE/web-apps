@@ -34,8 +34,7 @@
  *
  *  Toolbar view
  *
- *  Created by Julia Radzhabova on 05/04/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 05/04/23
  *
  */
 if (Common === undefined)

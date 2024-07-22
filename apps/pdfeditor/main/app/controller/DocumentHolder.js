@@ -34,8 +34,7 @@
  *
  *  DocumentHolder controller
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 
@@ -77,7 +76,10 @@ define([
                 'DocumentHolder': {
                     'createdelayedelements': this.createDelayedElements,
                     'equation:callback': this.equationCallback
-                }
+                },
+                'FileMenu': {
+                    'settings:apply': _.bind(this.applySettings, this)
+                },
             });
 
             var me = this;
@@ -2809,7 +2811,7 @@ define([
             }
 
             this.lastAnnotBarBounds = bounds;
-            if (bounds[3] < 0 || bounds[1] > this._Height) {
+            if (bounds[3] < 0 || bounds[1] > this._Height || !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar')) {
                 this.onHideAnnotBar();
                 return;
             }
@@ -2899,6 +2901,10 @@ define([
 
         editComplete: function() {
             this.documentHolder && this.documentHolder.fireEvent('editcomplete', this.documentHolder);
+        },
+
+        applySettings: function() {
+            !Common.Utils.InternalSettings.get('pdfe-settings-annot-bar') && this.onHideAnnotBar();
         }
     });
 });

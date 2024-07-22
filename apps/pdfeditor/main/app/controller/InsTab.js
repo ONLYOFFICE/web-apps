@@ -33,8 +33,7 @@
 /**
  *  InsTab.js
  *
- *  Created by Julia Radzhabova on 12.03.2024
- *  Copyright (c) 2024 Ascensio System SIA. All rights reserved.
+ *  Created on 12.03.2024
  *
  */
 

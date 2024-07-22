@@ -32,8 +32,7 @@
 /**
  *  ConditionalFormatIcons.js
  *
- *  Created by Julia Radzhabova on 25.02.21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 25.02.21
  *
  */
 

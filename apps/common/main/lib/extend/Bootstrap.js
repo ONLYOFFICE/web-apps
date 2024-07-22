@@ -32,8 +32,7 @@
 /**
  *  Bootstrap.js
  *
- *  Created by Alexander Yuzhin on 5/27/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 5/27/14
  *
  */
 

@@ -34,8 +34,7 @@
  *
  *    Controller for the viewport
  *
- *    Created by Julia Radzhabova on 26 March 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 26 March 2014
  *
  */
 

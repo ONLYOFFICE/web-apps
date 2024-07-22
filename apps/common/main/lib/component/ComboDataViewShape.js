@@ -32,8 +32,7 @@
 /**
  *  ComboDataView.js
  *
- *  Created by Julia Svinareva on 6/10/21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 6/10/21
  *
  */
 

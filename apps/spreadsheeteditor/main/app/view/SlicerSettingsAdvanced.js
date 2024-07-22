@@ -32,8 +32,7 @@
 /**
  *  SlicerSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 14.04.2020
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 14.04.2020
  *
  */
 

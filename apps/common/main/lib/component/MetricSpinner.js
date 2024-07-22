@@ -32,8 +32,7 @@
 /**
  *  MetricSpinner.js
  *
- *  Created by Julia Radzhabova on 1/21/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/21/14
  *
  */
 

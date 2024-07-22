@@ -34,8 +34,7 @@
  *
  *    Formula Dialog Controller
  *
- *    Created by Alexey.Musinov on  14/04/2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on  14/04/2014
  *
  */
 

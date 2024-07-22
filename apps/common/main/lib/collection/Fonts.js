@@ -32,8 +32,7 @@
 /**
  *  Fonts.js
  *
- *  Created by Alexander Yuzhin on 2/11/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/11/14
  *
  */
 

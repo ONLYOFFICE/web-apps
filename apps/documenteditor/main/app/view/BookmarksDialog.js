@@ -33,8 +33,7 @@
 /**
  *  BookmarksDialog.js.js
  *
- *  Created by Julia Radzhabova on 15.02.2018
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Created on 15.02.2018
  *
  */
 

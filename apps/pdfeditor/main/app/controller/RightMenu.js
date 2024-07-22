@@ -32,8 +32,7 @@
 /**
  *  RightMenu.js
  *
- *  Created by Julia Radzhabova on 20/03/24
- *  Copyright (c) 2024 Ascensio System SIA. All rights reserved.
+ *  Created on 20/03/24
  *
  */
 

@@ -32,8 +32,7 @@
 /**
  *  HyperlinkSettingsDialog.js
  *
- *  Created by Julia Radzhabova on 04/23/24
- *  Copyright (c) 2024 Ascensio System SIA. All rights reserved.
+ *  Created on 04/23/24
  *
  */
 

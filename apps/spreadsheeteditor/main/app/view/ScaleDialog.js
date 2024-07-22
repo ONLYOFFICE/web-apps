@@ -32,8 +32,7 @@
 /**
  *  ScaleDialog.js
  *
- *  Created by Julia Svinareva on 21/08/19
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 21/08/19
  *
  */
 

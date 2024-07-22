@@ -32,8 +32,7 @@
 /**
  *  Toolbar.js
  *
- *  Created by Alexander Yuzhin on 3/31/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 3/31/14
  *
  */
 

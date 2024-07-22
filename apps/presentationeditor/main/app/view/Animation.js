@@ -34,8 +34,7 @@
  *
  *  View
  *
- *  Created by Olga.Sharova on 13.10.21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 13.10.21
  *
  */
 

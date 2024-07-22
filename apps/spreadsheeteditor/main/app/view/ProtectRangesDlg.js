@@ -33,8 +33,7 @@
  *
  *  ProtectRangesDlg.js
  *
- *  Created by Julia.Radzhabova on 22.06.21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 22.06.21
  *
  */
 

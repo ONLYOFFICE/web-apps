@@ -32,8 +32,7 @@
 /**
  *  DocumentPreview.js
  *
- *  Created by Julia Radzhabova on 4/18/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/18/14
  *
  */
 

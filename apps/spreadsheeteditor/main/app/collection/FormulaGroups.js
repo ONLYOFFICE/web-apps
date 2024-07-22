@@ -32,8 +32,7 @@
 /**
  *  FormulaGroups.js
  *
- *  Created by Alexey.Musinov on 11/04/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 11/04/14
  *
  */
 

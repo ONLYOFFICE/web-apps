@@ -32,8 +32,7 @@
 /**
  *  AnimationDialog.js
  *
- *  Created by Olga Sharova on 29/11/21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 29/11/21
  *
  */
 

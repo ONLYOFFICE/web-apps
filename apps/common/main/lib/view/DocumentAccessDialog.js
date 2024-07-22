@@ -32,8 +32,7 @@
 /**
  *  DocumentAccessDialog.js
  *
- *  Created by Julia Radzhabova on 3/14/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 3/14/14
  *
  */
 

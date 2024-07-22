@@ -33,8 +33,7 @@
 /**
  *  SymbolTableDialog.js
  *
- *  Created by Julia Radzhabova on 07.11.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 07.11.2019
  *
  */
 if (Common === undefined)

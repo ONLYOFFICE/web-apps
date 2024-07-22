@@ -33,8 +33,7 @@
 /**
  *  MacroDialog.js
  *
- *  Created by Julia Radzhabova on 16.02.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 16.02.2021
  *
  */
 

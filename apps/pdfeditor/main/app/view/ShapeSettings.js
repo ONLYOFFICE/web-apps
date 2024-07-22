@@ -32,8 +32,7 @@
 /**
  *  ShapeSettings.js
  *
- *  Created by Julia Radzhabova on 4/14/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/14/14
  *
  */
 
@@ -1833,7 +1832,7 @@ define([
                         '<div ' +
                             'style="margin-bottom:<%= offsetY %>px;' +
                             'margin-right:<%= offsetX %>px;' +
-                            'box-shadow: <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px <% if(Common.Utils.isIE) {%>rgba(0,0,0,0.4)<%} else {%>var(--text-tertiary)<%}%>;"' +
+                            'box-shadow: <% if(Common.Utils.isIE) {%>rgba(0,0,0,0.4)<%} else {%>var(--text-tertiary)<%}%> <%= offsetX %>px <%= offsetY %>px 0px <%= spread %>px ;"' +
                         '>' +
                         '</div>' + 
                     '</div>')

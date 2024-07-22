@@ -33,8 +33,7 @@
 /**
  *  CreatePivotDialog.js
  *
- *  Created by Julia Radzhabova on 08.12.2022
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 08.12.2022
  *
  */
 define([

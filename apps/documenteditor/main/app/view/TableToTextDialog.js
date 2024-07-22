@@ -32,8 +32,7 @@
 /**
  *  TableToTextDialog.js
  *
- *  Created by Julia Radzhabova on 15/04/21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 15/04/21
  *
  */
 

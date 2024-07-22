@@ -33,8 +33,7 @@
 /**
  *  FillSeriesDialog.js
  *
- *  Created by Julia Radzhabova on 07.11.2023
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 07.11.2023
  *
  */
 

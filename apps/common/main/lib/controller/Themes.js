@@ -31,7 +31,7 @@
  */
 
 /**
- * Created by Maxim.Kadushkin on 2/5/2021.
+ * Created on 2/5/2021.
  */
 
 define([

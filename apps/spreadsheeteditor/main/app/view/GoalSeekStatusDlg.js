@@ -33,8 +33,7 @@
 /**
  *  GoalSeekDlg.js
  *
- *  Created by Julia Svinareva on 5.10.2023
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 5.10.2023
  *
  */
 define([

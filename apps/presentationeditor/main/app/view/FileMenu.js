@@ -34,8 +34,7 @@
  *
  *    Describes menu 'File' for the left tool menu
  *
- *    Created by Maxim Kadushkin on 14 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 14 February 2014
  *
  */
 
