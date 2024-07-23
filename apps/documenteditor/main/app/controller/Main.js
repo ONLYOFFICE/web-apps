@@ -1212,6 +1212,11 @@ define([
                         };
                         break;
 
+                    case Asc.c_oAscAsyncAction['Submit']:
+                        title   = this.savingText;
+                        text    = this.savingText;
+                        break;
+
                     default:
                         if (typeof action.id == 'string'){
                             title   = action.id;
@@ -3686,7 +3691,8 @@ define([
             txtScheme_Violet_II: 'Violet II',
             txtScheme_Violet: 'Violet',
             txtScheme_Yellow_Orange: 'Yellow Orange',
-            txtScheme_Yellow: 'Yellow'
+            txtScheme_Yellow: 'Yellow',
+            savingText: 'Saving'
         }
     })(), DE.Controllers.Main || {}))
 });

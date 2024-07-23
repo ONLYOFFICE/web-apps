@@ -869,6 +869,7 @@ define([
                     break;
                 case Asc.c_oAscAsyncAction['Submit']:
                     _submitFail = false;
+                    text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
                     this.view.btnSubmit.setDisabled(true);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
@@ -2100,7 +2101,8 @@ define([
         titleLicenseNotActive: 'License not active',
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
         textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
-        textFilled: 'Filled'
+        textFilled: 'Filled',
+        savingText: 'Saving'
 
     }, DE.Controllers.ApplicationController));
 
