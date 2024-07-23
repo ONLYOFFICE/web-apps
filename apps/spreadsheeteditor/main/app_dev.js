@@ -194,7 +194,8 @@ require([
         ], function() {
             app.postLaunchScripts = [
                 'common/main/lib/controller/ScreenReaderFocus',
-                'common/main/lib/component/ListView',
+                'common/main/lib/component/ColorPaletteExt',
+                'common/main/lib/component/ComboBoxDataView',
                 'common/main/lib/view/AdvancedSettingsWindow',
                 'common/main/lib/view/OptionsDialog',
                 'common/main/lib/view/AutoCorrectDialog',
@@ -205,7 +206,6 @@ require([
                 'common/main/lib/view/ImageFromUrlDialog',
                 'common/main/lib/view/SelectFileDlg',
                 'common/main/lib/view/SymbolTableDialog',
-                'common/main/lib/view/OpenDialog',
                 'common/main/lib/view/ListSettingsDialog',
                 'common/main/lib/view/ExternalEditor',
                 'common/main/lib/view/ExternalOleEditor',
@@ -214,6 +214,7 @@ require([
                 'common/main/lib/view/PluginDlg',
                 'common/main/lib/view/PluginPanel',
                 'common/main/lib/view/ShapeShadowDialog',
+                'common/main/lib/view/CustomizeQuickAccessDialog',
 
                 'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
@@ -261,7 +262,6 @@ require([
                 'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg',
                 'spreadsheeteditor/main/app/view/CreatePivotDialog',
                 'spreadsheeteditor/main/app/view/SortOptionsDialog',
-                'spreadsheeteditor/main/app/view/TableOptionsDialog',
                 'spreadsheeteditor/main/app/view/SetValueDialog',
                 'spreadsheeteditor/main/app/view/ScaleDialog',
                 'spreadsheeteditor/main/app/view/PrintTitlesDialog',

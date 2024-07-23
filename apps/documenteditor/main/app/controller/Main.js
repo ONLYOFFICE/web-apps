@@ -54,6 +54,7 @@ define([
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/controller/LaunchController',
+    'common/main/lib/view/OpenDialog'
 ], function () {
     'use strict';
 

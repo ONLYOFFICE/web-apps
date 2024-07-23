@@ -163,7 +163,6 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
             Common.Utils.InternalSettings.set('pe-equation-toolbar-hide', Common.localStorage.getBool('pe-equation-toolbar-hide'));
-            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onLaunch: function() {
@@ -202,6 +201,7 @@ define([
                     me.screenTip && (me.screenTip.tipLength = -1);  // redraw link tip
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(api) {
@@ -323,8 +323,7 @@ define([
         },
 
         createDelayedElements: function(view, type) {
-            var me = this,
-                view = me.documentHolder;
+            var me = this, view = me.documentHolder;
 
             if (type=='view') {
                 view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
@@ -423,11 +422,12 @@ define([
         },
 
         createPostLoadElements: function() {
-            if (this.type !== 'edit') {
+            var me = this;
+            if (!me.mode.isEdit) {
                 return;
             }
 
-                        var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
+            var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.on('internalmessage', _.bind(function(cmp, message) {
                     var command = message.data.command;
@@ -443,7 +443,6 @@ define([
                         this.api.asc_onCloseChartFrame();
                         this.api.asc_enableKeyEvents(true);
                     }
-                    var me = this;
                     setTimeout(function(){
                         me.editComplete();
                     }, 10);
@@ -466,7 +465,6 @@ define([
                         this.api.asc_enableKeyEvents(true);
                         this.api.asc_onCloseChartFrame();
                     }
-                    var me = this;
                     setTimeout(function(){
                         me.editComplete();
                     }, 10);

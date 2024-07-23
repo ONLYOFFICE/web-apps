@@ -133,7 +133,6 @@ define([
             Common.util.Shortcuts.delegateShortcuts({shortcuts:keymap});
 
             Common.Utils.InternalSettings.set('sse-equation-toolbar-hide', Common.localStorage.getBool('sse-equation-toolbar-hide'));
-            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onLaunch: function() {
@@ -181,6 +180,7 @@ define([
             });
             Common.Gateway.on('processmouse', _.bind(me.onProcessMouse, me));
             Common.Gateway.on('setactionlink', _.bind(me.onSetActionLink, me));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         onCreateDelayedElements: function(view, type) {
@@ -330,7 +330,7 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
-            if (!me.type !== 'edit') {
+            if (me.type !== 'edit') {
                 return;
             }
 
@@ -351,7 +351,7 @@ define([
                             me.api.asc_onCloseChartFrame();
                         }
                         setTimeout(function(){
-                            view.fireEvent('editcomplete', view);
+                            me.documentHolder.fireEvent('editcomplete', me.documentHolder);
                         }, 10);
                     }, me));
                 }

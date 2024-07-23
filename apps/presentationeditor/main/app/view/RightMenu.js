@@ -56,7 +56,8 @@ define([
     'presentationeditor/main/app/view/SlideSettings',
     'presentationeditor/main/app/view/TextArtSettings',
     'presentationeditor/main/app/view/SignatureSettings',
-    'common/main/lib/component/Scroller'
+    'common/main/lib/component/Scroller',
+    'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
