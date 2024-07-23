@@ -19,8 +19,8 @@
             width: 100%;
             overflow: hidden;
             border: none;
-            background: #f0f0f0;
-            background: var(--canvas-background, #f0f0f0);
+            background: #e2e2e2;
+            background: var(--canvas-background, #e2e2e2);
             z-index: 1002;
         }
 
@@ -60,7 +60,8 @@
             height: 12px;
             border-radius: 3px;
             margin: 0 10px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0,0,0,.15);
+            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .brendpanel .circle {
@@ -69,12 +70,13 @@
             height: 20px;
             border-radius: 20px;
             margin: 0 10px;
-            background: rgba(255,255,255,.2);
+            background: rgba(0,0,0,.15);
+            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .sktoolbar {
-            background: #f7f7f7;
-            background: var(--background-toolbar, #f7f7f7);
+            background: #f1f1f1;
+            background: var(--background-toolbar, #f1f1f1);
             border-bottom: 1px solid #cbcbcb;
             border-bottom: var(--scaled-one-px-value, 1px) solid var(--border-toolbar, #cbcbcb);
             height: 46px;
@@ -91,8 +93,8 @@
         }
 
         .loadmask > .sktoolbar li {
-            background: #ccc;
-            background: var(--highlight-button-hover, #ccc);
+            background: #d8dadc;
+            background: var(--highlight-button-hover, #d8dadc);
             border-radius: 3px;
             width: 20px;
             height: 20px;
@@ -159,8 +161,8 @@
             width: 100%;
             background: #fff;
             background: var(--canvas-content-background, #fff);
-            border: 1px solid #ccc;
-            border: var(--scaled-one-px-value, 1px) solid var(--canvas-page-border, #ccc);
+            border: 1px solid #bbbec2;
+            border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
 
             -webkit-animation: flickerAnimation 2s infinite ease-in-out;
             -moz-animation: flickerAnimation 2s infinite ease-in-out;
