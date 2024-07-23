@@ -41,6 +41,7 @@ if (Common === undefined)
     var Common = {};
 
 define([
+    'common/main/lib/component/DataView'
 ], function () {
     'use strict';
 

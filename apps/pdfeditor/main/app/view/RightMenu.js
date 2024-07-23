@@ -56,7 +56,8 @@ define([
     'pdfeditor/main/app/view/ShapeSettings',
     'pdfeditor/main/app/view/TextArtSettings',
     // 'pdfeditor/main/app/view/SignatureSettings',
-    'common/main/lib/component/Scroller'
+    'common/main/lib/component/Scroller',
+    'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 

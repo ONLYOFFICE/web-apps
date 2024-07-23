@@ -1,7 +1,7 @@
 require([
     'common/main/lib/controller/ScreenReaderFocus',
-    'common/main/lib/component/ListView',
     'common/main/lib/component/ColorPaletteExt',
+    'common/main/lib/component/ComboBoxDataView',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/view/OptionsDialog',
     'common/main/lib/view/AutoCorrectDialog',
@@ -68,7 +68,6 @@ require([
     'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg',
     'spreadsheeteditor/main/app/view/CreatePivotDialog',
     'spreadsheeteditor/main/app/view/SortOptionsDialog',
-    'spreadsheeteditor/main/app/view/TableOptionsDialog',
     'spreadsheeteditor/main/app/view/SetValueDialog',
     'spreadsheeteditor/main/app/view/ScaleDialog',
     'spreadsheeteditor/main/app/view/PrintTitlesDialog',

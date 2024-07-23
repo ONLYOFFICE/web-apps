@@ -184,7 +184,6 @@ require([
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
                     'common/main/lib/component/ComboBoxDataView',
-                    'common/main/lib/component/ListView',
                     'common/main/lib/view/AdvancedSettingsWindow',
                     'common/main/lib/view/AutoCorrectDialog',
                     'common/main/lib/view/DocumentAccessDialog',
