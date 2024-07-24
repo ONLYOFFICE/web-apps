@@ -177,8 +177,7 @@ require([
                 // ,'common/main/lib/controller/ExternalDiagramEditor'
                 // ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/Draw'
-                ,'common/main/lib/controller/Protection',
-                'common/main/lib/collection/TextArt'
+                ,'common/main/lib/controller/Protection'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
