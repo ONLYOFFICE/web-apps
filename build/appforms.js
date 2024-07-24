@@ -60,7 +60,10 @@ module.exports = (grunt) => {
                 },
                 compile: {
                     options: packageFile.forms.js.requirejs.options
-                }
+                },
+                postload: {
+                    options: packageFile.forms.js.postload.options
+                },
             },
 
             less: {
@@ -126,6 +129,10 @@ module.exports = (grunt) => {
                 build: {
                     src: [packageFile.forms.js.requirejs.options.out],
                     dest: packageFile.forms.js.requirejs.options.out
+                },
+                postload: {
+                    src: packageFile.forms.js.postload.options.out,
+                    dest: packageFile.forms.js.postload.options.out,
                 },
             },
         });
