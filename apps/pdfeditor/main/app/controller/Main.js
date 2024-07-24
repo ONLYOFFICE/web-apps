@@ -51,7 +51,8 @@ define([
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
-    'common/main/lib/view/OpenDialog'
+    'common/main/lib/view/OpenDialog',
+    'common/main/lib/collection/TextArt'
 ], function () {
     'use strict';
 
