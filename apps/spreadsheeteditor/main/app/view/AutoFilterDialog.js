@@ -855,6 +855,7 @@ define([], function () {
             this.template   =   options.template || [
                     '<div class="box">',
                     '<div class="content-panel" >',
+                        '<div id="id-sort-filter-radio-nosort" style="margin-bottom: 4px;"></div>',
                         '<div id="id-sort-filter-radio-asc" style="margin-bottom: 4px;"></div>',
                         '<div id="id-sort-filter-fields-asc" class="input-group-nr margin-left-22" style="margin-bottom: 10px;"></div>',
                         '<div id="id-sort-filter-radio-desc" style="margin-bottom: 4px;"></div>',
@@ -872,6 +873,17 @@ define([], function () {
         },
         render: function () {
             Common.UI.Window.prototype.render.call(this);
+
+            this.radioNoSort = new Common.UI.RadioBox({
+                el: $('#id-sort-filter-radio-nosort'),
+                labelText: "No sort / Clear sort",
+                name: 'asc-radio-sort',
+                checked: true
+            });
+            this.radioNoSort.on('change', _.bind(function(field, newValue) {
+                newValue && this.cmbFieldsAsc.setDisabled(true);
+                newValue && this.cmbFieldsDesc.setDisabled(true);
+            }, this));
 
             this.radioAsc = new Common.UI.RadioBox({
                 el: $('#id-sort-filter-radio-asc'),
@@ -923,7 +935,7 @@ define([], function () {
         },
 
         getFocusedComponents: function() {
-            return [this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc].concat(this.getFooterButtons());
+            return [this.radioNoSort, this.radioAsc, this.cmbFieldsAsc, this.radioDesc, this.cmbFieldsDesc].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -1004,14 +1016,20 @@ define([], function () {
         },
         save: function () {
             if (this.api && this.properties) {
-                var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
-                var rec = combo.getSelectedRecord();
+                var isNoSort = this.radioNoSort.getValue();
+                var isAsc = this.radioAsc.getValue();
+                if (!isNoSort) {
+                    var combo = isAsc ? this.cmbFieldsAsc : this.cmbFieldsDesc;
+                    var rec = combo.getSelectedRecord();
+                }
                 if (rec) {
                     var filter = rec.filter,
                         pivotObj = filter.asc_getPivotObj();
                     pivotObj.asc_setDataFieldIndexSorting(rec.indexSorting);
                     filter.asc_setSortState(this.radioAsc.getValue() ? Asc.c_oAscSortOptions.Ascending : Asc.c_oAscSortOptions.Descending);
                     this.api.asc_applyAutoFilter(filter);
+                } else if (isNoSort) {
+                    asc_setSortState(null);
                 }
             }
         },
