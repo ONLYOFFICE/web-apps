@@ -479,7 +479,7 @@ define([
                     this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
                     this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                     this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
-
+                    this.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(this.onChangeViewerTargetType, this));
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
@@ -3693,7 +3693,6 @@ define([
                         .onAppReady(config);
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
-                        me.toolbar.btnHandTool.toggle(true, true);
                         me.api.asc_setViewerTargetType('hand');
                     }
                 }
@@ -3866,6 +3865,13 @@ define([
             if (this.api && state) {
                 this.api.asc_setViewerTargetType(type);
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onChangeViewerTargetType: function(isHandMode) {
+            if (this.toolbar && this.toolbar.btnHandTool) {
+                this.toolbar.btnHandTool.toggle(isHandMode, true);
+                this.toolbar.btnSelectTool.toggle(!isHandMode, true);
             }
         },
 

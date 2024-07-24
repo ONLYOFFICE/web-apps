@@ -133,7 +133,7 @@ define([
                 if (config.canUseSelectHandTools) {
                     me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
                     me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
-                    me.statusbar.btnHandTool.toggle(true, true);
+                    me.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(me.onChangeViewerTargetType, me));
                     me.api.asc_setViewerTargetType('hand');
                 }
 
@@ -355,6 +355,13 @@ define([
         onSelectTool: function (type, btn, e) {
             if (this.api) {
                 this.api.asc_setViewerTargetType(type);
+            }
+        },
+
+        onChangeViewerTargetType: function(isHandMode) {
+            if (this.statusbar && this.statusbar.btnHandTool) {
+                this.statusbar.btnHandTool.toggle(isHandMode, true);
+                this.statusbar.btnSelectTool.toggle(!isHandMode, true);
             }
         },
 
