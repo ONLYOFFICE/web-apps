@@ -83,7 +83,7 @@ define([
                                 //'<label id="rib-doc-name" />' +
                                 '<input id="rib-doc-name" autofill="off" autocomplete="off"/></input>' +
                             '</section>' +
-                            '<section style="display: inherit;">' +
+                            '<section id="box-right-btn-group" style="display: inherit;">' +
                                 '<div class="hedset">' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-header-form-submit"></div>' +
                                     '<div class="btn-slot margin-right-2" id="slot-btn-start-fill"></div>' +
