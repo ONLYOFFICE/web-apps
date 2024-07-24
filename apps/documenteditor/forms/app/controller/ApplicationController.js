@@ -41,13 +41,10 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
-    'documenteditor/forms/app/view/ApplicationView'
+    'documenteditor/forms/app/view/ApplicationView',
+    'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
     'use strict';
 
@@ -102,6 +99,7 @@ define([
             });
 
             Common.UI.Themes.init(this.api);
+            Common.Controllers.LaunchController.init(this.api);
 
             $(window).on('resize', this.onDocumentResize.bind(this));
 
