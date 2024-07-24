@@ -177,13 +177,11 @@ require([
                 // ,'common/main/lib/controller/ExternalDiagramEditor'
                 // ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/Draw'
-                ,'common/main/lib/controller/Protection',
-                'common/main/lib/collection/TextArt'
+                ,'common/main/lib/controller/Protection'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
                     'common/main/lib/component/ComboBoxDataView',
-                    'common/main/lib/component/ListView',
                     'common/main/lib/view/AdvancedSettingsWindow',
                     'common/main/lib/view/AutoCorrectDialog',
                     'common/main/lib/view/DocumentAccessDialog',
@@ -193,7 +191,6 @@ require([
                     'common/main/lib/view/ImageFromUrlDialog',
                     'common/main/lib/view/SelectFileDlg',
                     'common/main/lib/view/SymbolTableDialog',
-                    'common/main/lib/view/OpenDialog',
                     'common/main/lib/view/InsertTableDialog',
                     'common/main/lib/view/SearchDialog',
                     'common/main/lib/view/RenameDialog',

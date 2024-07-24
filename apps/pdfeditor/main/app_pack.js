@@ -1,6 +1,5 @@
 require([
     'common/main/lib/controller/ScreenReaderFocus',
-    'common/main/lib/component/ListView',
     'common/main/lib/component/ComboBoxDataView',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/view/AutoCorrectDialog',
@@ -11,7 +10,6 @@ require([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/SelectFileDlg',
     'common/main/lib/view/SymbolTableDialog',
-    'common/main/lib/view/OpenDialog',
     'common/main/lib/view/InsertTableDialog',
     'common/main/lib/view/SearchDialog',
     'common/main/lib/view/RenameDialog',

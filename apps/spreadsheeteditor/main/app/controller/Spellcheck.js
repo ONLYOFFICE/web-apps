@@ -41,11 +41,8 @@ define([
 
     SSE.Controllers.Spellcheck = Backbone.Controller.extend(_.extend({
         models: [],
-        collections: [
-        ],
-        views: [
-            // 'Spellcheck'
-        ],
+        collections: [],
+        views: [],
 
         initialize: function() {
             var me = this;
@@ -66,8 +63,6 @@ define([
                     }
                 }
             });
-
-            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         events: function() {
@@ -76,6 +71,7 @@ define([
         onLaunch: function() {
             this._isDisabled = false;
             this._initSettings = true;
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         onPostLoadComplete: function() {
@@ -84,7 +80,9 @@ define([
             this.panelSpellcheck.on('render:after', _.bind(this.onAfterRender, this));
 
             Common.NotificationCenter.trigger('script:loaded:spellcheck');
-            this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+            if (this.api) {
+                this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+            }
         },
 
         setApi: function(api) {

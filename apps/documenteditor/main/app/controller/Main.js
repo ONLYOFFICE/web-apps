@@ -54,6 +54,7 @@ define([
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/controller/LaunchController',
+    'common/main/lib/view/OpenDialog'
 ], function () {
     'use strict';
 
@@ -1209,6 +1210,11 @@ define([
                                 me.getApplication().getController('Statusbar').showDisconnectTip();
                             }, me._state.unloadTimer || 0);
                         };
+                        break;
+
+                    case Asc.c_oAscAsyncAction['Submit']:
+                        title   = this.savingText;
+                        text    = this.savingText;
                         break;
 
                     default:
@@ -3685,7 +3691,8 @@ define([
             txtScheme_Violet_II: 'Violet II',
             txtScheme_Violet: 'Violet',
             txtScheme_Yellow_Orange: 'Yellow Orange',
-            txtScheme_Yellow: 'Yellow'
+            txtScheme_Yellow: 'Yellow',
+            savingText: 'Saving'
         }
     })(), DE.Controllers.Main || {}))
 });

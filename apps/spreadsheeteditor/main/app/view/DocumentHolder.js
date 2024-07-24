@@ -43,7 +43,8 @@ define([
     'underscore',
     'backbone',
     'gateway',
-    'common/main/lib/component/Menu'
+    'common/main/lib/component/Menu',
+    'common/main/lib/view/OpenDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
     SSE.Views.DocumentHolder =  Backbone.View.extend(_.extend({
