@@ -790,6 +790,7 @@ define([
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                         arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        arrVersions[arrVersions.length-1].set('documentSha256', changes[changes.length-1].documentSha256);
                                         for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
@@ -823,6 +824,7 @@ define([
                                                 isRevision: false,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
+                                                documentSha256: change.documentSha256,
                                                 fileType: 'docx',
                                                 hasParent: true,
                                                 index: index,
@@ -2035,6 +2037,9 @@ define([
                     return;
                 } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
                     this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
+                    return;
+                } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
+                    this.getApplication().getController('Common.Controllers.History').onHashError();
                     return;
                 }
 

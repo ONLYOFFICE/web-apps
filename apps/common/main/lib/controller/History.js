@@ -62,6 +62,7 @@ define([
             this.currentUserName = '';
             this.currentUserColor = '';
             this.currentDateCreated = '';
+            this.currentDocumentSha256 = undefined;
         },
 
         events: {
@@ -142,6 +143,7 @@ define([
             this.currentUserName = record.get('username');
             this.currentUserColor = record.get('usercolor');
             this.currentDateCreated = record.get('created');
+            this.currentDocumentSha256 = record.get('documentSha256');
 
             if ( _.isEmpty(url) || (urlGetTime - record.get('urlGetTime') > 5 * 60000)) {
                 var me = this;
@@ -175,6 +177,7 @@ define([
                 hist.asc_SetUserName(this.currentUserName);
                 hist.asc_SetUserColor(this.currentUserColor);
                 hist.asc_SetDateOfRevision(this.currentDateCreated);
+                hist.asc_setDocumentSha256(this.currentDocumentSha256);
                 this.api.asc_showRevision(hist);
 
                 var reviewController = this.getApplication().getController('Common.Controllers.ReviewChanges');
@@ -245,6 +248,7 @@ define([
                     hist.asc_SetUserName(this.currentUserName);
                     hist.asc_SetUserColor(this.currentUserColor);
                     hist.asc_SetDateOfRevision(this.currentDateCreated);
+                    hist.asc_setDocumentSha256(this.currentDocumentSha256);
                     this.api.asc_showRevision(hist);
                     this.currentRev = data.version;
 
@@ -291,6 +295,22 @@ define([
                         }
                     }
                 });
+            }
+        },
+
+        onHashError: function() {
+            if (!this.panelHistory || !this.panelHistory.storeHistory) return;
+
+            var store = this.panelHistory.storeHistory;
+            store.remove(store.where({revision: this.currentRev, level: 1}));
+
+            var rec = store.findWhere({revision: this.currentRev});
+            if (rec && this.panelHistory.viewHistoryList) {
+                rec.set('hasSubItems', false);
+                rec.set('changeid', undefined);
+                rec.set('url', '');
+                this.panelHistory.viewHistoryList.selectRecord(rec);
+                this.onSelectRevision(null, null, rec);
             }
         },
 
