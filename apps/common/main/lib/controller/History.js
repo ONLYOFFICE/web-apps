@@ -313,6 +313,7 @@ define([
                 this.panelHistory.viewHistoryList.selectRecord(rec);
                 this.onSelectRevision(null, null, rec);
             }
+            console.log('Received changes that are incompatible with the file version');
         },
 
         notcriticalErrorTitle: 'Warning'
