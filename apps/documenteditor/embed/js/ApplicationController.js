@@ -89,7 +89,6 @@ DE.ApplicationController = new(function(){
             ttOffset[1] = 40;
         }
 
-        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -832,6 +831,10 @@ DE.ApplicationController = new(function(){
                 message = me.errorTokenExpire;
                 break;
 
+            case Asc.c_oAscError.ID.VKeyEncrypt:
+                message= me.errorToken;
+                break;
+
             case Asc.c_oAscError.ID.ConvertationOpenFormat:
                 if (errData === 'pdf')
                     message = me.errorInconsistentExtPdf.replace('%1', docConfig.fileType || '');
@@ -1086,6 +1089,7 @@ DE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
-        textDownloadPdf: 'Download pdf'
+        textDownloadPdf: 'Download pdf',
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
     }
 })();
