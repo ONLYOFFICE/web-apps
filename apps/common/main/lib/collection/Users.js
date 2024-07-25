@@ -67,11 +67,11 @@ define([
         },
 
         getEditingOriginalCount: function() {
-            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy('idOriginal').size().value();
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) { return item.get('idOriginal'); }).size().value();
         },
 
         getVisibleEditingOriginalCount: function() {
-            return this.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy('idOriginal').size().value();
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) { return item.get('idOriginal'); }).size().value();
         },
 
         findUser: function(id) {
