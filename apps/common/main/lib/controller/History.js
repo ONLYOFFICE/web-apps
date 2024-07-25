@@ -308,6 +308,7 @@ define([
             if (rec && this.panelHistory.viewHistoryList) {
                 rec.set('hasSubItems', false);
                 rec.set('changeid', undefined);
+                rec.set('documentSha256', undefined);
                 rec.set('url', '');
                 this.panelHistory.viewHistoryList.selectRecord(rec);
                 this.onSelectRevision(null, null, rec);
