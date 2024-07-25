@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.",
   "DE.ApplicationController.errorLoadingFont": "Fonts are not loaded.<br>Please contact your Document Server administrator.",
   "DE.ApplicationController.errorSubmit": "Submit failed.",
+  "DE.ApplicationController.errorToken": "The document security token is not correctly formed.<br>Please contact your Document Server administrator.",
   "DE.ApplicationController.errorTokenExpire": "The document security token has expired.<br>Please contact your Document Server administrator.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.",
   "DE.ApplicationController.errorUserDrop": "The file cannot be accessed right now.",

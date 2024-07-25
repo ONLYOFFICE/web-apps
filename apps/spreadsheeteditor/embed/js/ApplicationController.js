@@ -86,7 +86,6 @@ SSE.ApplicationController = new(function(){
             $('.viewer').addClass('top');
         }
 
-        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -670,6 +669,10 @@ SSE.ApplicationController = new(function(){
                 message = me.errorTokenExpire;
                 break;
 
+            case Asc.c_oAscError.ID.VKeyEncrypt:
+                message= me.errorToken;
+                break;
+
             case Asc.c_oAscError.ID.ConvertationOpenFormat:
                 if (errData === 'pdf')
                     message = me.errorInconsistentExtPdf.replace('%1', docConfig.fileType || '');
@@ -918,5 +921,6 @@ SSE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
     }
 })();
