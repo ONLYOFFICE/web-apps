@@ -218,6 +218,7 @@ define([
                     this._settings[settingsType].panel.isSmartArtInternal = isSmartArtInternal;
                     can_add_table = value.get_CanAddTable();
                     control_lock = control_lock || value.get_Locked();
+                    content_locked = !value.can_EditBlockContentControl();
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
