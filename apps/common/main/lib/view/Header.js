@@ -1089,16 +1089,17 @@ define([
                 }
             },
 
-            getSuitableLogo: function(branding, config, tabStyle) {
+            getSuitableLogo: function(branding, config, tabStyle, tabBackground) {
                 branding = branding || {};
                 var image = branding.logo ? branding.logo.image || branding.logo.imageDark || branding.logo.imageLight : null,
                     isDark = true;
                 tabStyle = tabStyle || Common.Utils.InternalSettings.get("settings-tab-style") || 'tab';
+                tabBackground = tabBackground || Common.Utils.InternalSettings.get("settings-tab-background") || 'header';
                 if (!Common.Utils.isIE) {
                     var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :
                                                                             isDocEditor ? '--toolbar-header-document' : isSSEEditor ? '--toolbar-header-spreadsheet' : '--toolbar-header-presentation'),
                         toolbar_color = Common.UI.Themes.currentThemeColor('--background-toolbar'),
-                        logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabStyle==='underline') ? toolbar_color : header_color;
+                        logo_type = (!config.twoLevelHeader || config.compactHeader) && (tabBackground==='toolbar') ? toolbar_color : header_color;
                     isDark = (new Common.Utils.RGBColor(logo_type)).isDark();
                     image = !branding.logo ? null : isDark ? (branding.logo.imageDark || branding.logo.image || branding.logo.imageLight) :
                                                              (branding.logo.imageLight || branding.logo.image || branding.logo.imageDark) ;
@@ -1108,7 +1109,7 @@ define([
 
             changeLogo: function () {
                 var value = this.branding;
-                var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get("settings-tab-style"));
+                var logo = this.getSuitableLogo(value, appConfig, Common.Utils.InternalSettings.get("settings-tab-style"), Common.Utils.InternalSettings.get("settings-tab-background"));
                 $('#header-logo').toggleClass('logo-light', logo.isLight);
                 if ( value && value.logo && (value.logo.visible!==false) && appConfig && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
                     var image = logo.image; // change logo when image was changed

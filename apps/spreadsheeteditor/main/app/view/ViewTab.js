@@ -507,8 +507,7 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {value: 'tab', caption: me.textTab, checkable: true, toggleGroup: 'tabstyle'},
-                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'},
-                                        {value: 'underline', caption: me.textUnderline, checkable: true, toggleGroup: 'tabstyle'}
+                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
                             });
@@ -668,8 +667,7 @@ define([
             tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
             textTabStyle: 'Tab style',
             textTab: 'Tab',
-            textLine: 'Line',
-            textUnderline: 'Underline'
+            textLine: 'Line'
         }
     }()), SSE.Views.ViewTab || {}));
 });

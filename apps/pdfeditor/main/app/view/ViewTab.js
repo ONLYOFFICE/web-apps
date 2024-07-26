@@ -383,8 +383,7 @@ define([
             textRightMenu: 'Right panel',
             textTabStyle: 'Tab style',
             textTab: 'Tab',
-            textLine: 'Line',
-            textUnderline: 'Underline'
+            textLine: 'Line'
         }
     }()), PDFE.Views.ViewTab || {}));
 });

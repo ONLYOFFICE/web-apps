@@ -206,9 +206,13 @@
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                         roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
                         tabStyle: {
-                            mode: 'tab'/'line'/'underline' // init value, 'tab' by default,
-                            change: true/false // hide/show feature
-                        } / 'tab'/'line'/'underline' // if string - use as init value
+                            mode: 'tab'/'line' // init value, 'tab' by default,
+                            change: true/false // show/hide feature
+                        } / 'tab'/'line' // if string - use as init value
+                        tabBackground: {
+                            mode: 'header'/'toolbar' // init value, 'header' by default
+                            change: true/false // show/hide feature
+                        } / 'header'/'toolbar' // if string - use as init value
                     },
                     font: {
                         name: "Arial",
@@ -229,7 +233,7 @@
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='underline' instead
+                    toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='line' && features.tabBackground='toolbar' instead
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead

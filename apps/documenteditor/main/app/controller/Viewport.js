@@ -71,7 +71,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    //'settings:apply': me.applySettings.bind(me)
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -180,6 +180,7 @@ define([
             }
 
             me.onTabStyleChange();
+            me.onTabBackgroundChange();
             if ( config.customization && config.customization.toolbarHideFileName)
                 me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
@@ -213,7 +214,11 @@ define([
             style = style || Common.Utils.InternalSettings.get("settings-tab-style");
             Common.Utils.InternalSettings.set("settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
-            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', style==='underline');
+        },
+
+        onTabBackgroundChange: function (background) {
+            background = background || Common.Utils.InternalSettings.get("settings-tab-background");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
         },
 
         onAppReady: function (config) {
@@ -271,12 +276,16 @@ define([
             me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
-        /*applySettings: function () {
-            var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
-            Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
-            if (this.header && this.header.btnPrintQuick)
-                this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },*/
+        applySettings: function () {
+            // var value = Common.localStorage.getBool("de-settings-quick-print-button", true);
+            // Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
+            // if (this.header && this.header.btnPrintQuick)
+            //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
+            if (Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                this.onTabBackgroundChange();
+                this.header.changeLogo();
+            }
+        },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {

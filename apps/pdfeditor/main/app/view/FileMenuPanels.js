@@ -346,6 +346,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -625,6 +628,14 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chTabBack = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-tab-background'),
+                labelText: this.txtTabBack,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             /*this.chQuickPrint = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-quick-print'),
                 labelText: '',
@@ -704,7 +715,7 @@ define([
             $('tr.comments', this.el)[mode.canCoAuthoring && !mode.isForm ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
-
+            $('tr.tab-background', this.el)[Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -777,6 +788,7 @@ define([
             this.chDarkMode.setValue(Common.UI.Themes.isContentThemeDark());
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
+            this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
         },
 
         applySettings: function() {
@@ -811,6 +823,10 @@ define([
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
+            if (Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                Common.localStorage.setItem("pdfe-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+            }
 
             Common.localStorage.save();
 
@@ -897,7 +913,8 @@ define([
         strUnit: 'Unit of Measurement',
         txtInch: 'Inch',
         txtCm: 'Centimeter',
-        txtPt: 'Point'
+        txtPt: 'Point',
+        txtTabBack: 'Use toolbar color as tabs background'
 
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 

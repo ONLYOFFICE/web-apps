@@ -494,8 +494,7 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {value: 'tab', caption: me.textTab, checkable: true, toggleGroup: 'tabstyle'},
-                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'},
-                                        {value: 'underline', caption: me.textUnderline, checkable: true, toggleGroup: 'tabstyle'}
+                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
                             });
@@ -608,8 +607,7 @@ define([
             tipSlideMaster: 'Slide master',
             textTabStyle: 'Tab style',
             textTab: 'Tab',
-            textLine: 'Line',
-            textUnderline: 'Underline'
+            textLine: 'Line'
         }
     }()), PE.Views.ViewTab || {}));
 });

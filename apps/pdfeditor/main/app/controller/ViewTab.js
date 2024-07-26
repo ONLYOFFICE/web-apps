@@ -191,8 +191,7 @@ define([
                                     menuAlign: 'tl-tr',
                                     items: [
                                         {value: 'tab', caption: me.view.textTab, checkable: true, toggleGroup: 'tabstyle'},
-                                        {value: 'line', caption: me.view.textLine, checkable: true, toggleGroup: 'tabstyle'},
-                                        {value: 'underline', caption: me.view.textUnderline, checkable: true, toggleGroup: 'tabstyle'}
+                                        {value: 'line', caption: me.view.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
                             });

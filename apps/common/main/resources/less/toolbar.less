@@ -83,14 +83,12 @@
             &:hover {
                 background-color: @highlight-header-button-hover-ie;
                 background-color: @highlight-header-button-hover;
-
                 box-shadow: inset 0 @minus-px 0 0 @border-toolbar-active-panel-top;
             }
 
             &.active {
                 background-color: @background-toolbar-tab-ie;
                 background-color: @background-toolbar-tab;
-
                 box-shadow: inset 0 @minus-px 0 0 @background-toolbar, inset @minus-px 0px 0 0 @border-toolbar-active-tab, inset @scaled-one-px-value @scaled-one-px-value 0 0 @border-toolbar-active-tab;
             }
 
@@ -225,14 +223,10 @@
         //height: @height-controls;         // button has strange offset in IE when odd height
         padding: 7px 0;
         display: flex;
-
-        //background-color: #F2CBBF;
-
         .panel {
             display: table;
             height: 100%;
         }
-        //width: 100%;
     }
 
     .box-panels {
@@ -480,54 +474,6 @@
     }
 }
 
-.lined-tabs,
-.style-off-tabs {
-    .toolbar {
-        @underscore_height: 2px;
-
-        .tabs {
-            ul {
-                padding: 0;
-            }
-
-            li {
-                position: relative;
-
-                &:after {
-                    border-top: @underscore_height solid @text-normal-ie;
-                    border-top: @underscore_height solid @text-normal;
-                    content: '';
-                    position: absolute;
-                    margin-left: 6px;
-                    width: calc(100% - 12px);
-                    bottom: -@underscore_height;
-                    opacity: 0;
-                }
-
-                &.active,
-                &:hover {
-                    background-color: transparent;
-                    box-shadow: none;
-                }
-
-                &.active {
-                    &:after {
-                        opacity: 1;
-                        bottom: 4px;
-                    }
-                }
-
-                &:hover:not(.active) {
-                    &:after {
-                        opacity: 0.4;
-                        bottom: 4px;
-                    }
-                }
-            }
-        }
-    }
-}
-
 .style-off-tabs {
     .toolbar {
         .tabs, .box-tabs .extra {
@@ -537,13 +483,25 @@
 
         .tabs {
             li {
-                &:after {
-                    .tab-toolbar-color();
-                }
-
                 > a {
                     color: @text-normal-ie;
                     color: @text-normal;
+                }
+                &.active {
+                    > a {
+                        color: @text-normal-pressed-ie;
+                        color: @text-normal-pressed;
+                    }
+                }
+                &:hover {
+                    background-color: @highlight-button-hover-ie;
+                    background-color: @highlight-button-hover;
+                    box-shadow: none;
+                }
+                &.active {
+                    background-color: @highlight-button-pressed-ie;
+                    background-color: @highlight-button-pressed;
+                    box-shadow: none;
                 }
             }
         }
@@ -655,11 +613,6 @@
             }
         }
 
-        #slot-btn-start-fill,
-        #slot-btn-header-form-submit {
-            padding: 4px 0;
-        }
-
         #rib-doc-name {
             color: @text-normal-ie;
             color: @text-normal;
@@ -668,41 +621,70 @@
                 box-shadow: 0 0 0 @scaled-one-px-value @highlight-button-hover;
             }
         }
-
-        &.editor-native-color {
-            .tabs li:after {
-                .tab-toolbar-color();
-            }
-        }
-    }
-
-    &.style-skip-docname .toolbar {
-        #box-doc-name > input {
-            display: none;
-        }
     }
 }
 
 .lined-tabs {
     .toolbar {
-        .tabs {
-            li {
-                &:after {
-                    .tab-header-color();
-                }
-
-                &.active {
-                    > a {
-                        color: #fff;
-                        color: var(--text-toolbar-header);
-                    }
-                }
-            }
-        }
-
         #slot-btn-start-fill,
         #slot-btn-header-form-submit {
             padding: 4px 0;
+        }
+
+        @underscore_height: 2px;
+
+        .tabs {
+            ul {
+                padding: 0;
+            }
+
+            li {
+                position: relative;
+
+                &:after {
+                    border-top-style: solid;
+                    border-top-width: @underscore_height;
+                    content: '';
+                    position: absolute;
+                    margin-left: 6px;
+                    width: calc(100% - 12px);
+                    bottom: -@underscore_height;
+                    opacity: 0;
+                    .tab-header-color();
+                    .style-off-tabs& {
+                        .tab-toolbar-color();
+                    }
+                }
+
+                &.active,
+                &:hover {
+                    background-color: transparent;
+                    box-shadow: none;
+                }
+
+                &.active {
+                    &:after {
+                        opacity: 1;
+                        bottom: 4px;
+                    }
+                }
+
+                &:hover:not(.active) {
+                    &:after {
+                        opacity: 0.4;
+                        bottom: 4px;
+                    }
+                }
+
+                & > a {
+                    color: @text-toolbar-header-ie;
+                    color: @text-toolbar-header;
+                    .style-off-tabs& {
+                        color: @text-normal-ie;
+                        color: @text-normal;
+                    }
+                }
+            }
         }
 
         &.editor-native-color {
@@ -710,12 +692,19 @@
                 .tab-header-color();
             }
         }
-    }
-
-    &.style-skip-docname .toolbar {
-        #box-doc-name > input {
-            display: none;
+        &.editor-native-color {
+            .tabs li:after {
+                .style-off-tabs& {
+                    .tab-toolbar-color();
+                }
+            }
         }
+    }
+}
+
+.style-skip-docname .toolbar {
+    #box-doc-name > input {
+        display: none;
     }
 }
 
