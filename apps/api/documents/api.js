@@ -1111,13 +1111,12 @@
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
 
-        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabStyle) {
-            if (typeof config.editorConfig.customization.features.tabStyle === 'object') {
-                params += "&tabStyle=" + (config.editorConfig.customization.features.tabStyle.mode || "tab") + (config.editorConfig.customization.features.tabStyle.change!==false ? "-ls" : "");
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabBackground) {
+            if (typeof config.editorConfig.customization.features.tabBackground === 'object') {
+                params += "&tabBackground=" + (config.editorConfig.customization.features.tabBackground.mode || "header") + (config.editorConfig.customization.features.tabBackground.change!==false ? "-ls" : "");
             } else
-                params += "&tabStyle=" + config.editorConfig.customization.features.tabStyle + "-ls";
+                params += "&tabBackground=" + config.editorConfig.customization.features.tabBackground + "-ls";
         }
-
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";

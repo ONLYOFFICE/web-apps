@@ -28,12 +28,9 @@
         }
 
         .theme-classic-light {
-        }
-
-        .theme-light {
-            --background-toolbar: #f7f7f7;
+            --background-toolbar: #f1f1f1;
             /*--border-toolbar: #cbcbcb;*/
-            --highlight-button-hover: #e0e0e0;
+            --highlight-button-hover: #d8dadc;
             --highlight-header-button-hover: rgba(255,255,255,.15);
             --canvas-background: #eee;
             --loadmask-canvas-page-border: #ccc;
@@ -318,13 +315,13 @@
         notoolbar = params["toolbar"] == 'false',
         compact = params["compact"] == 'true',
         view = params["mode"] == 'view',
-        tabStyle = params["tabStyle"],
+        tabBackground = params["tabBackground"],
         visible = true;
 
     (compact || view || notoolbar) && document.querySelector('.brendpanel > :nth-child(2)').remove();
 
-    if ( !tabStyle || /-ls$/.test(tabStyle)) {// try get tab style from localstorage
-        tabStyle = checkLocalStorage && localStorage.getItem("pdfe-settings-tab-style") !== null ? localStorage.getItem("pdfe-settings-tab-style") : tabStyle ? tabStyle.match(/(.*?)-ls/)[1] : 'tab';
+    if ( !tabBackground || /-ls$/.test(tabBackground)) {// try get tab background from localstorage
+        tabBackground = checkLocalStorage && localStorage.getItem("pdfe-settings-tab-background") !== null ? localStorage.getItem("pdfe-settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
     }
 
     if (compact || view) {
@@ -333,12 +330,12 @@
             visible = false;
         } else {
             document.querySelector('.brendpanel > :nth-child(1)').style.height = '32px';
-            (tabStyle === 'underline') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('underline');
+            (tabBackground==='toolbar') && document.querySelector('.brendpanel > :nth-child(1)').classList.add('underline');
         }
     } else if (notoolbar) {
         document.querySelector('.brendpanel > :nth-child(1)').style.height = '28px';
     } else {
-        (tabStyle==='underline') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('underline');
+        (tabBackground==='toolbar') && document.querySelector('.brendpanel > :nth-child(2)').classList.add('underline');
     }
 
     if (compact) {
@@ -371,8 +368,8 @@
                     var docstyle = getComputedStyle(document.body),
                         header_color = docstyle.getPropertyValue('--toolbar-header-pdf'),
                         toolbar_color = docstyle.getPropertyValue('--background-toolbar')
-                    logo_type = (view || compact) && (tabStyle==='underline') ? toolbar_color : header_color;
-                    isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabStyle==='underline'));
+                    logo_type = (view || compact) && (tabBackground==='toolbar') ? toolbar_color : header_color;
+                    isDark = logo_type ? isDarkColor(logo_type) : isDarkTheme ? true : !((view || compact) && (tabBackground==='toolbar'));
                     image = isDark ? logoDark || logo || logoLight : logoLight || logo || logoDark;
                 }
                 if (image) {
