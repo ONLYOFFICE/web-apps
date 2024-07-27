@@ -174,7 +174,7 @@ if (window.Common === undefined) {
 
         var _onMessage = function(msg) {
             // TODO: check message origin
-            if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
+            // if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
 
             var data = msg.data;
             if (data && data.command === 'openDocumentFromBinary') {
