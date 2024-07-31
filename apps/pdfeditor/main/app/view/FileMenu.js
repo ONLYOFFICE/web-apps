@@ -102,7 +102,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-previtem'
             });
 
             this.miSave = new Common.UI.MenuItem({
@@ -113,7 +114,8 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [2, 14],
-                dataHintTitle: 'S'
+                dataHintTitle: 'S',
+                iconCls: 'menu__icon btn-save'
             });
 
             if ( !!this.options.miSave ) {
@@ -128,7 +130,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-edit'
             });
 
             this.miDownload = new Common.UI.MenuItem({
@@ -138,7 +141,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-download'
             });
 
             this.miSaveCopyAs = new Common.UI.MenuItem({
@@ -148,7 +152,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-save-copy'
             });
 
             this.miSaveAs = new Common.UI.MenuItem({
@@ -158,7 +163,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                dataHintTitle: 'P'
             });
 
             this.miPrintWithPreview = new Common.UI.MenuItem({
@@ -169,7 +175,8 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [2, 14],
-                dataHintTitle: 'P'
+                dataHintTitle: 'P',
+                iconCls: 'menu__icon btn-print'
             });
 
             this.miPrint = new Common.UI.MenuItem({
@@ -180,7 +187,8 @@ define([
                 dataHint: 1,
                 dataHintDirection: 'left-top',
                 dataHintOffset: [2, 14],
-                dataHintTitle: 'P'
+                dataHintTitle: 'P',
+                iconCls: 'menu__icon btn-print'
             });
 
             this.miRename = new Common.UI.MenuItem({
@@ -190,7 +198,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-rename'
             });
 
             if ( !!this.options.miRename ) {
@@ -205,7 +214,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-lock'
             });
 
             if ( !!this.options.miProtect ) {
@@ -230,7 +240,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-create-new'
             });
 
             this.miInfo = new Common.UI.MenuItem({
@@ -240,7 +251,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-menu-about'
             });
 
             this.miAccess = new Common.UI.MenuItem({
@@ -250,7 +262,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-users-share'
             });
 
             this.miSettings = new Common.UI.MenuItem({
@@ -260,7 +273,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-settings'
             });
 
             this.miHelp = new Common.UI.MenuItem({
@@ -270,7 +284,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-help'
             });
 
             this.miBack = new Common.UI.MenuItem({
@@ -280,7 +295,8 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14]
+                dataHintOffset: [2, 14],
+                iconCls: 'menu__icon btn-goback'
             });
 
             this.items = [];
@@ -398,9 +414,9 @@ define([
 
             this.miRecent[this.mode.canOpenRecent?'show':'hide']();
             this.miNew[this.mode.canCreateNew?'show':'hide']();
-            separatorVisible = this.mode.canCreateNew;
-            this.miNew.$el.find('+.devider')[separatorVisible?'show':'hide']();
-            separatorVisible && (lastSeparator = this.miNew.$el.find('+.devider'));
+            if (!this.mode.canOpenRecent && !this.mode.canCreateNew) {
+                this.miRecent.$el.find('+.devider').hide();
+            }
 
             isVisible = Common.UI.LayoutManager.isElementVisible('toolbar-file-info');
             separatorVisible = isVisible;
@@ -473,7 +489,7 @@ define([
 
             if ( Common.Controllers.Desktop.isActive() ) {
                 if (this.$el.find('#fm-btn-local-open').length<1) {
-                    $('<li id="fm-btn-local-open" class="fm-btn"/>').insertAfter($('#fm-btn-recent', this.$el));
+                    $('<li id="fm-btn-local-open" class="fm-btn"/>').insertBefore($('#fm-btn-recent', this.$el));
                     this.items.push(
                         new Common.UI.MenuItem({
                             el      : $('#fm-btn-local-open', this.$el),
@@ -482,7 +498,8 @@ define([
                             canFocused: false,
                             dataHint: 1,
                             dataHintDirection: 'left-top',
-                            dataHintOffset: [2, 14]
+                            dataHintOffset: [2, 14],
+                            iconCls: 'menu__icon btn-open'
                         }));
                 }
 
@@ -497,7 +514,8 @@ define([
                             canFocused: false,
                             dataHint: 1,
                             dataHintDirection: 'left-top',
-                            dataHintOffset: [2, 14]
+                            dataHintOffset: [2, 14],
+                            iconCls: 'menu__icon btn-close'
                         }));
                 }
             } else if (this.mode.canCloseEditor && this.$el.find('#fm-btn-close').length<1) {
@@ -637,7 +655,7 @@ define([
         btnSaveAsCaption        : 'Save as',
         textDownload            : 'Download',
         btnRenameCaption        : 'Rename...',
-        btnCloseMenuCaption     : 'Close Menu',
+        btnCloseMenuCaption     : 'Back',
         btnProtectCaption: 'Protect',
         btnSaveCopyAsCaption    : 'Save Copy as...',
         btnExitCaption          : 'Exit',
