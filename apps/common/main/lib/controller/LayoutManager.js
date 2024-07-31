@@ -112,6 +112,8 @@ Common.UI.LayoutManager = new(function() {
         }
     };
 
+    // add custom items to toolbar
+
     var _findCustomButton = function(toolbar, action, guid, id) {
         if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
             for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
@@ -143,7 +145,7 @@ Common.UI.LayoutManager = new(function() {
         return arr;
     }
 
-    var _fillButtonMenu = function(items, guid, lang, toMenu) {
+    var _fillButtonMenu = function(items, guid, callback, toMenu) {
         if (toMenu)
             toMenu.removeAll();
         else {
@@ -153,7 +155,7 @@ Common.UI.LayoutManager = new(function() {
                 items: []
             });
             toMenu.on('item:click', function(menu, mi, e) {
-                _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
+                callback && callback(mi.options.guid, mi.value);
             });
         }
         items.forEach(function(menuItem) {
@@ -161,7 +163,7 @@ Common.UI.LayoutManager = new(function() {
             menuItem.text && toMenu.addItem({
                 caption: menuItem.text || '',
                 value: menuItem.id,
-                menu: menuItem.items ? _fillButtonMenu(menuItem.items, guid, lang) : false,
+                menu: menuItem.items ? _fillButtonMenu(menuItem.items, guid, callback) : false,
                 iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(menuItem.icons)),
                 guid: guid
             });
@@ -169,11 +171,10 @@ Common.UI.LayoutManager = new(function() {
         return toMenu;
     }
 
-    var _addCustomItems = function (toolbar, data) {
+    var _addCustomItems = function (toolbar, data, callback) {
         if (!data) return;
 
-        var lang = Common.Locale.getCurrentLanguage(),
-            btns = [];
+        var btns = [];
         data.forEach(function(plugin) {
             /*
             plugin = {
@@ -234,10 +235,10 @@ Common.UI.LayoutManager = new(function() {
                                     if (typeof btn.menu !== 'object') {
                                         btn.setMenu(new Common.UI.Menu({items: []}));
                                         btn.menu.on('item:click', function(menu, mi, e) {
-                                            _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
+                                            callback && callback(mi.options.guid, mi.value);
                                         });
                                     }
-                                    _fillButtonMenu(item.items, plugin.guid, lang, btn.menu);
+                                    _fillButtonMenu(item.items, plugin.guid, callback, btn.menu);
                                 }
                             }
                             return;
@@ -265,13 +266,13 @@ Common.UI.LayoutManager = new(function() {
                             if (item.items && typeof item.items === 'object') {
                                 btn.setMenu(new Common.UI.Menu({items: []}));
                                 btn.menu.on('item:click', function(menu, mi, e) {
-                                    _api && _api.onPluginToolbarMenuItemClick(mi.options.guid, mi.value);
+                                    callback && callback(mi.options.guid, mi.value);
                                 });
-                                _fillButtonMenu(item.items, plugin.guid, lang, btn.menu);
+                                _fillButtonMenu(item.items, plugin.guid, callback, btn.menu);
                             }
                             if ( !btn.menu || btn.split) {
                                 btn.on('click', function(b, e) {
-                                    _api && _api.onPluginToolbarMenuItemClick(b.options.guid, b.options.value, b.pressed);
+                                    callback && callback(b.options.guid, b.options.value, b.pressed);
                                 });
                             }
                             added.push(btn);
@@ -292,13 +293,200 @@ Common.UI.LayoutManager = new(function() {
         return btns;
     };
 
+    // add custom items to button menu
+
+    var _addCustomMenuItems = function (toolbar, action, data, callback) {
+        if (!data) return;
+
+        var btns = _findButtonByAction(toolbar, action);
+        if (!btns) return;
+
+        btns.forEach(function(btn) {
+            if (typeof btn.menu === 'object') {
+                _updateCustomMenuItems(btn.menu, data, callback);
+            } else if ( btn.menu === true ) { // delay add items
+
+            }
+        });
+    };
+
+    var _findButtonByAction = function(toolbar, action) {
+        if (!toolbar || !toolbar.lockControls) return;
+
+        var arr = [];
+        toolbar.lockControls.forEach(function(item) {
+            if (item instanceof Common.UI.Button && item.action === action) {
+                arr.push(item);
+            }
+        });
+        return arr;
+    };
+
+    var _findCustomMenuItem = function(menu, guid, id) {
+        if (menu && menu.items.length>0) {
+            for (var i = menu.items.length-1; i >=0 ; i--) {
+                if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                    return menu.items[i];
+                }
+            }
+        }
+    };
+
+    var _getMenu = function(items, guid, callback, toMenu) {
+        var me = this;
+        if (toMenu)
+            toMenu.removeAll();
+        else {
+            toMenu = new Common.UI.Menu({
+                cls: 'shifted-right',
+                menuAlign: 'tl-tr',
+                items: []
+            });
+            toMenu.on('item:click', function(menu, item, e) {
+                !me._preventCustomClick && callback && callback(item.options.guid, item.value);
+            });
+            toMenu.on('menu:click', function(menu, e) {
+                me._preventCustomClick && e.stopPropagation();
+            });
+        }
+        items.forEach(function(item) {
+            item.separator && toMenu.addItem({
+                caption: '--',
+                isCustomItem: true,
+                guid: guid
+            });
+            item.text && toMenu.addItem({
+                caption: item.text || '',
+                isCustomItem: true,
+                value: item.id,
+                menu: item.items ? _getMenu(item.items, guid, callback) : false,
+                iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(item.icons)),
+                guid: guid,
+                disabled: !!item.disabled
+            });
+        });
+        return toMenu;
+    };
+
+    var _updateCustomMenuItems = function (menu, data, callback) {
+        if (!menu || !data || data.length<1) return;
+
+        var me = this;
+
+        me._preventCustomClick && clearTimeout(me._preventCustomClick);
+        menu._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
+            me._preventCustomClick = null;
+        },500)); // set delay only on update existing items
+        menu._hasCustomItems = true;
+
+        var focused;
+        data.forEach(function(plugin) {
+            /*
+             plugin = {
+                    guid: 'plugin-guid',
+                    items: [
+                        {
+                            id: 'item-id',
+                            text: 'caption',
+                            icons: 'template string' or object
+                            separator: true/false - inserted before item,
+                            disabled: true/false,
+                            items: [
+                                {
+                                    id: 'item-id',
+                                    text: 'caption',
+                                    separator: true/false - inserted before item,
+                                    icons: 'template string' or object,
+                                    disabled: true/false,
+                                    items: []
+                                }, ...
+                            ],
+                        },
+                        { ... },
+                        ...
+                    ]
+                }
+            */
+
+            var isnew = !_findCustomMenuItem(menu, plugin.guid);
+            if (plugin && plugin.items && plugin.items.length>0) {
+                plugin.items.forEach(function(item) {
+                    if (item.separator && isnew) {// add separator only to new plugins menu
+                        menu.addItem({
+                            caption: '--',
+                            isCustomItem: true,
+                            guid: plugin.guid
+                        });
+                    }
+
+                    if (!item.text) return;
+                    var mnu = _findCustomMenuItem(menu, plugin.guid, item.id),
+                        caption = item.text || '';
+                    if (mnu) {
+                        mnu.setCaption(caption);
+                        mnu.setDisabled(!!item.disabled);
+                        if (item.items) {
+                            if (mnu.menu) {
+                                if (mnu.menu.isVisible() && mnu.menu.cmpEl.find(' > li:not(.divider):not(.disabled):visible').find('> a').filter(':focus').length>0) {
+                                    mnu.menu.isOver = true;
+                                    focused = mnu.cmpEl;
+                                }
+                                _getMenu(item.items, plugin.guid, callback, mnu.menu);
+                            } else
+                                mnu.setMenu(_getMenu(item.items, plugin.guid, callback));
+                        }
+                    } else {
+                        var mnu = new Common.UI.MenuItem({
+                            caption     : caption,
+                            isCustomItem: true,
+                            value: item.id,
+                            guid: plugin.guid,
+                            menu: item.items && item.items.length>=0 ? _getMenu(item.items, plugin.guid, callback) : false,
+                            iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(item.icons)),
+                            disabled: !!item.disabled
+                        }).on('click', function(item, e) {
+                            !me._preventCustomClick && callback && callback(item.options.guid, item.value);
+                        });
+                        menu.addItem(mnu);
+                    }
+                });
+            }
+        });
+
+        if (focused) {
+            var $subitems = $('> [role=menu]', focused).find('> li:not(.divider):not(.disabled):visible > a');
+            ($subitems.length>0) && $subitems.eq(0).focus();
+        }
+        menu.alignPosition();
+    };
+
+    _clearCustomMenuItems = function(toolbar, action) {
+        if (!toolbar) return;
+
+        var btns = _findButtonByAction(toolbar, action);
+        btns && btns.forEach(function(btn) {
+            var menu = btn.menu;
+            if (menu && typeof menu === 'object' && menu.items.length>0) {
+                for (var i = 0; i < menu.items.length; i++) {
+                    if (menu.items[i].options.isCustomItem) {
+                        menu.removeItem(menu.items[i]);
+                        i--;
+                    }
+                }
+                menu._hasCustomItems = false;
+            }
+        });
+    };
+
     return {
         init: _init,
         applyCustomization: _applyCustomization,
         isElementVisible: _isElementVisible,
         getInitValue: _getInitValue,
         lastTabIdx: _lastInternalTabIdx,
-        addCustomItems: _addCustomItems
+        addCustomItems: _addCustomItems, // add controls to toolbar
+        addCustomMenuItems: _addCustomMenuItems, // add menu items to toolbar buttons
+        clearCustomMenuItems: _clearCustomMenuItems
     }
 })();
 

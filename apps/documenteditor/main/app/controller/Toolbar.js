@@ -483,6 +483,7 @@ define([
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
+            this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
         },
@@ -3876,7 +3877,48 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+            var api = this.api;
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data, function(guid, value, pressed) {
+                api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
+            }));
+        },
+
+        onPluginToolbarCustomMenuItems: function(data) {
+            data = [
+                {
+                    guid: 'plugin-guid',
+                    items: [
+                        {
+                            id: 'item-id',
+                            text: 'caption',
+                            // icons: 'template string' or object
+                            separator: false,
+                            disabled: false,
+                            items: [
+                                {
+                                    id: 'item-id-2',
+                                    text: 'caption 2',
+                                    separator: false,
+                                    // icons: 'template string' or object,
+                                    disabled: false
+                                },
+                                {
+                                    id: 'item-id-3',
+                                    text: 'caption 3',
+                                    separator: true,
+                                    // icons: 'template string' or object,
+                                    disabled: true
+                                }
+                            ],
+                        }
+                    ]
+                }
+            ];
+            var api = this.api;
+            this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(this.toolbar, 'change-case', data, function(guid, value) {
+                console.log(guid + ', ' + value);
+                api && api.onPluginContextMenuItemClick(guid, value);
+            });
         },
 
         onActiveTab: function(tab) {
