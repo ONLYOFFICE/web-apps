@@ -186,12 +186,13 @@ define([
                     if (Common.UI.Themes.available()) {
                         function _fill_themes() {
                             var btn = this.view.btnInterfaceTheme;
-                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
+                            if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll(true);
                             else btn.setMenu(new Common.UI.Menu());
 
-                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId();
+                            var currentTheme = Common.UI.Themes.currentThemeId() || Common.UI.Themes.defaultThemeId(),
+                                idx = 0;
                             for (var t in Common.UI.Themes.map()) {
-                                btn.menu.addItem({
+                                btn.menu.insertItem(idx++, {
                                     value: t,
                                     caption: Common.UI.Themes.get(t).text,
                                     checked: t === currentTheme,

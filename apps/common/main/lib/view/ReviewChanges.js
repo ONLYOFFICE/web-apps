@@ -524,6 +524,7 @@ define([
                     });
                     this.mnuMailRecepients = this.btnMailRecepients.menu;
                     this.lockedControls.push(this.btnMailRecepients);
+                    Common.UI.LayoutManager.addControls(this.lockedControls);
                 }
             },
 
@@ -849,6 +850,7 @@ define([
 
                     this.btnsTurnReview.push(button);
                     this.lockedControls.push(button);
+                    Common.UI.LayoutManager.addControls(button);
                     return button;
                 } else
                 if ( type == 'spelling' ) {
@@ -866,6 +868,7 @@ define([
                     });
                     this.btnsSpelling.push(button);
                     this.lockedControls.push(button);
+                    Common.UI.LayoutManager.addControls(button);
                     return button;
                 } else if (type == 'doclang' && parent == 'statusbar' ) {
                     button = new Common.UI.Button({
@@ -880,6 +883,7 @@ define([
                     });
                     this.btnsDocLang.push(button);
                     this.lockedControls.push(button);
+                    Common.UI.LayoutManager.addControls(button);
                     Common.Utils.lockControls(Common.enumLock.noSpellcheckLangs, true, {array: [button]});
                     return button;
                 }

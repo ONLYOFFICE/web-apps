@@ -188,7 +188,8 @@ define([
                     menu: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
+                    dataHintOffset: 'small',
+                    action: 'interface-theme'
                 });
                 this.lockedControls.push(this.btnInterfaceTheme);
 

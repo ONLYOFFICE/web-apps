@@ -1714,6 +1714,7 @@ define([
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls);
+                    Common.UI.LayoutManager.addControls(this.lockControls);
                     this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     var editStyleMenuUpdate = new Common.UI.MenuItem({
@@ -1899,6 +1900,7 @@ define([
                         this.toolbarControls.push(this.btnEditMode);
 
                         this.lockControls = this.toolbarControls.concat(this.paragraphControls);
+                        Common.UI.LayoutManager.addControls(this.lockControls);
                         this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
                     }
                 }
@@ -2078,6 +2080,7 @@ define([
                         true, true, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsPageBreak);
                 Array.prototype.push.apply(this.lockControls, this.btnsPageBreak);
+                Common.UI.LayoutManager.addControls(this.btnsPageBreak);
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },

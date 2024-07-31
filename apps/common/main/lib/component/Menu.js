@@ -344,7 +344,7 @@ define([
                         } else if (index === 0) {
                             menuRoot.prepend(item.render().el);
                         } else {
-                            menuRoot.children('li:nth-child(' + (index+1) + ')').before(item.render().el);
+                            menuRoot.children('li:nth-child(' + (index) + ')').after(item.render().el);
                         }
 
                         item.on('click',  _.bind(me.onItemClick, me));
@@ -380,15 +380,15 @@ define([
                 this.items.splice(from, len);
             },
 
-            removeAll: function() {
-                var me = this;
-
-                _.each(me.items, function(item){
-                    item.off('click').off('toggle');
-                    item.remove();
-                });
-
-                me.items = [];
+            removeAll: function(keepCustom) {
+                for (var i=0; i<this.items.length; i++) {
+                    if (!keepCustom || !this.items[i].isCustomItem) {
+                        this.items[i].off('click').off('toggle');
+                        this.items[i].remove();
+                        this.items.splice(i, 1);
+                        i--;
+                    }
+                }
             },
 
             onBeforeShowMenu: function(e) {

@@ -265,6 +265,7 @@ define([
                     dataHintOffset: 'medium'
                 });
                 this.paragraphControls.push(this.btnTableFiguresUpdate);
+                Common.UI.LayoutManager.addControls(this.paragraphControls);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.paragraphControls});
                 this._state = {disabled: false};
             },

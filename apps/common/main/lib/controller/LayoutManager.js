@@ -48,7 +48,8 @@ Common.UI.LayoutManager = new(function() {
     var _config,
         _licensed,
         _api,
-        _lastInternalTabIdx = 10;
+        _lastInternalTabIdx = 10,
+        _arrControls = [];
     var _init = function(config, licensed, api) {
         _config = config;
         _licensed = licensed;
@@ -110,6 +111,17 @@ Common.UI.LayoutManager = new(function() {
                     return obj;
             }
         }
+    };
+
+    var _addControls = function(arr) {
+        if (Object.prototype.toString.call(arr) === '[object Array]' || arr instanceof Array)
+            Array.prototype.push.apply(_arrControls, arr);
+        else
+            Array.prototype.push.apply(_arrControls, [arr]);
+    };
+
+    var _getControls = function() {
+        return _arrControls;
     };
 
     // add custom controls to toolbar
@@ -297,10 +309,10 @@ Common.UI.LayoutManager = new(function() {
 
     // add custom items to button menu
 
-    var _addCustomMenuItems = function (toolbar, action, data, callback) {
+    var _addCustomMenuItems = function (action, data, callback) {
         if (!data) return;
 
-        var btns = _findButtonByAction(toolbar, action);
+        var btns = _findButtonByAction(action);
         if (!btns) return;
 
         btns.forEach(function(btn) {
@@ -308,11 +320,11 @@ Common.UI.LayoutManager = new(function() {
         });
     };
 
-    var _findButtonByAction = function(toolbar, action) {
-        if (!toolbar || !toolbar.lockControls) return;
+    var _findButtonByAction = function(action) {
+        if (!_arrControls) return;
 
         var arr = [];
-        toolbar.lockControls.forEach(function(item) {
+        _arrControls.forEach(function(item) {
             if (item instanceof Common.UI.Button && item.action === action) {
                 arr.push(item);
             }
@@ -483,6 +495,8 @@ Common.UI.LayoutManager = new(function() {
         isElementVisible: _isElementVisible,
         getInitValue: _getInitValue,
         lastTabIdx: _lastInternalTabIdx,
+        addControls: _addControls,
+        getControls: _getControls,
         addCustomControls: _addCustomControls, // add controls to toolbar
         addCustomMenuItems: _addCustomMenuItems // add menu items to toolbar buttons
     }
