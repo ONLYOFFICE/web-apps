@@ -519,6 +519,8 @@ define([
             }
             if ( !config.isEditDiagram  && !config.isEditMailMerge  && !config.isEditOle )
                 this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
+                this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
+                Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         // onNewDocument: function(btn, e) {
@@ -5223,7 +5225,27 @@ define([
         },
 
         onPluginToolbarMenu: function(data) {
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data));
+        },
+
+        onPluginToolbarCustomMenuItems: function(action, data) {
+            if (!this._isDocReady) {
+                this._state.customPluginData = (this._state.customPluginData || []).concat([{action: action, data: data}]);
+                return;
+            }
+            var api = this.api;
+            this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(this.toolbar, action, data, function(guid, value) {
+                api && api.onPluginContextMenuItemClick(guid, value);
+            });
+        },
+
+        onDocumentReady: function() {
+            this._isDocReady = true;
+            var me = this;
+            this._state.customPluginData && this._state.customPluginData.forEach(function(plugin) {
+                me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
+            });
+            this._state.customPluginData = null;
         },
 
         onActiveTab: function(tab) {

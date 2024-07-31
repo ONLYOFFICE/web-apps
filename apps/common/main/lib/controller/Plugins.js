@@ -429,7 +429,7 @@ define([
                         return;
                     }
                     if (model.get('tab')) {
-                        me.toolbar && me.toolbar.addCustomItems(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
+                        me.toolbar && me.toolbar.addCustomControls(model.get('tab'), [me.viewPlugins.createPluginButton(model)]);
                         return;
                     }
 

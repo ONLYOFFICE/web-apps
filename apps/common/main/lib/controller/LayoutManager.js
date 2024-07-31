@@ -112,9 +112,9 @@ Common.UI.LayoutManager = new(function() {
         }
     };
 
-    // add custom items to toolbar
+    // add custom controls to toolbar
 
-    var _findCustomButton = function(toolbar, action, guid, id) {
+    var _findCustomControl = function(toolbar, action, guid, id) {
         if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
             for (var i=0; i< toolbar.customButtonsArr[guid].length; i++) {
                 var btn = toolbar.customButtonsArr[guid][i];
@@ -125,7 +125,7 @@ Common.UI.LayoutManager = new(function() {
         }
     }
 
-    var _findRemovedButtons = function(toolbar, action, guid, items) {
+    var _findRemovedControls = function(toolbar, action, guid, items) {
         var arr = [];
         if (toolbar && toolbar.customButtonsArr && toolbar.customButtonsArr[guid] ) {
             if (!items || items.length<1) {
@@ -150,7 +150,6 @@ Common.UI.LayoutManager = new(function() {
             toMenu.removeAll();
         else {
             toMenu = new Common.UI.Menu({
-                cls: 'shifted-right',
                 menuAlign: 'tl-tr',
                 items: []
             });
@@ -158,20 +157,23 @@ Common.UI.LayoutManager = new(function() {
                 callback && callback(mi.options.guid, mi.value);
             });
         }
+        var hasIcons = false;
         items.forEach(function(menuItem) {
-            if (menuItem.separator) toMenu.addItem({caption: '--'});
-            menuItem.text && toMenu.addItem({
+            if (menuItem.separator) toMenu.addItem(new Common.UI.MenuItemCustom({caption: '--'}));
+            menuItem.text && toMenu.addItem(new Common.UI.MenuItemCustom({
                 caption: menuItem.text || '',
                 value: menuItem.id,
                 menu: menuItem.items ? _fillButtonMenu(menuItem.items, guid, callback) : false,
-                iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(menuItem.icons)),
+                iconsSet: menuItem.icons,
                 guid: guid
-            });
+            }));
+            hasIcons = hasIcons || !!menuItem.icons;
         });
+        hasIcons && (toMenu.cmpEl ? toMenu.cmpEl.toggleClass('shifted-right', true) : (toMenu.options.cls = 'shifted-right'));
         return toMenu;
     }
 
-    var _addCustomItems = function (toolbar, data, callback) {
+    var _addCustomControls = function (toolbar, data, callback) {
         if (!data) return;
 
         var btns = [];
@@ -217,9 +219,9 @@ Common.UI.LayoutManager = new(function() {
             plugin.tabs && plugin.tabs.forEach(function(tab) {
                 if (tab) {
                     var added = [],
-                        removed = _findRemovedButtons(toolbar, tab.id, plugin.guid, tab.items);
+                        removed = _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
                     tab.items && tab.items.forEach(function(item, index) {
-                        var btn = _findCustomButton(toolbar, tab.id, plugin.guid, item.id),
+                        var btn = _findCustomControl(toolbar, tab.id, plugin.guid, item.id),
                             _set = Common.enumLock;
                         if (btn) { // change caption, hint, disable state, menu items
                             if (btn instanceof Common.UI.Button) {
@@ -280,7 +282,7 @@ Common.UI.LayoutManager = new(function() {
                         }
                     });
 
-                    toolbar.addCustomItems({action: tab.id, caption: tab.text || ''}, added, removed);
+                    toolbar.addCustomControls({action: tab.id, caption: tab.text || ''}, added, removed);
                     if (!toolbar.customButtonsArr)
                         toolbar.customButtonsArr = [];
                     if (!toolbar.customButtonsArr[plugin.guid])
@@ -302,11 +304,7 @@ Common.UI.LayoutManager = new(function() {
         if (!btns) return;
 
         btns.forEach(function(btn) {
-            if (typeof btn.menu === 'object') {
-                _updateCustomMenuItems(btn.menu, data, callback);
-            } else if ( btn.menu === true ) { // delay add items
-
-            }
+            (typeof btn.menu === 'object') && _updateCustomMenuItems(btn.menu, data, callback);
         });
     };
 
@@ -325,7 +323,7 @@ Common.UI.LayoutManager = new(function() {
     var _findCustomMenuItem = function(menu, guid, id) {
         if (menu && menu.items.length>0) {
             for (var i = menu.items.length-1; i >=0 ; i--) {
-                if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                if (menu.items[i].isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
                     return menu.items[i];
                 }
             }
@@ -333,12 +331,12 @@ Common.UI.LayoutManager = new(function() {
     };
 
     var _getMenu = function(items, guid, callback, toMenu) {
-        var me = this;
+        var me = this,
+            hasIcons = false;
         if (toMenu)
             toMenu.removeAll();
         else {
             toMenu = new Common.UI.Menu({
-                cls: 'shifted-right',
                 menuAlign: 'tl-tr',
                 items: []
             });
@@ -350,36 +348,41 @@ Common.UI.LayoutManager = new(function() {
             });
         }
         items.forEach(function(item) {
-            item.separator && toMenu.addItem({
+            item.separator && toMenu.addItem(new Common.UI.MenuItemCustom({
                 caption: '--',
-                isCustomItem: true,
                 guid: guid
-            });
-            item.text && toMenu.addItem({
+            }));
+            item.text && toMenu.addItem(new Common.UI.MenuItemCustom({
                 caption: item.text || '',
-                isCustomItem: true,
                 value: item.id,
                 menu: item.items ? _getMenu(item.items, guid, callback) : false,
-                iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(item.icons)),
+                iconsSet: item.icons,
                 guid: guid,
                 disabled: !!item.disabled
-            });
+            }));
+            hasIcons = hasIcons || !!item.icons;
         });
+        hasIcons && (toMenu.cmpEl ? toMenu.cmpEl.toggleClass('shifted-right', true) : (toMenu.options.cls = 'shifted-right'));
         return toMenu;
     };
 
     var _updateCustomMenuItems = function (menu, data, callback) {
-        if (!menu || !data || data.length<1) return;
+        if (!menu) return;
+        if (!data || data.length<1) {
+            _removeCustomMenuItems(menu);
+            menu._hasCustomItems = false;
+            return;
+        }
 
         var me = this;
-
         me._preventCustomClick && clearTimeout(me._preventCustomClick);
         menu._hasCustomItems && (me._preventCustomClick = setTimeout(function () {
             me._preventCustomClick = null;
         },500)); // set delay only on update existing items
-        menu._hasCustomItems = true;
 
-        var focused;
+        var focused,
+            hasIcons = false;
+        menu._hasCustomItems = false;
         data.forEach(function(plugin) {
             /*
              plugin = {
@@ -408,15 +411,17 @@ Common.UI.LayoutManager = new(function() {
                 }
             */
 
+            _removeCustomMenuItems(menu, plugin.guid, plugin.items);
+
             var isnew = !_findCustomMenuItem(menu, plugin.guid);
             if (plugin && plugin.items && plugin.items.length>0) {
+                menu._hasCustomItems = true;
                 plugin.items.forEach(function(item) {
                     if (item.separator && isnew) {// add separator only to new plugins menu
-                        menu.addItem({
+                        menu.addItem(new Common.UI.MenuItemCustom({
                             caption: '--',
-                            isCustomItem: true,
                             guid: plugin.guid
-                        });
+                        }));
                     }
 
                     if (!item.text) return;
@@ -436,17 +441,17 @@ Common.UI.LayoutManager = new(function() {
                                 mnu.setMenu(_getMenu(item.items, plugin.guid, callback));
                         }
                     } else {
-                        var mnu = new Common.UI.MenuItem({
+                        var mnu = new Common.UI.MenuItemCustom({
                             caption     : caption,
-                            isCustomItem: true,
                             value: item.id,
                             guid: plugin.guid,
                             menu: item.items && item.items.length>=0 ? _getMenu(item.items, plugin.guid, callback) : false,
-                            iconImg: Common.UI.getSuitableIcons(Common.UI.iconsStr2IconsObj(item.icons)),
+                            iconsSet: item.icons,
                             disabled: !!item.disabled
                         }).on('click', function(item, e) {
                             !me._preventCustomClick && callback && callback(item.options.guid, item.value);
                         });
+                        hasIcons = hasIcons || !!item.icons;
                         menu.addItem(mnu);
                     }
                 });
@@ -457,25 +462,19 @@ Common.UI.LayoutManager = new(function() {
             var $subitems = $('> [role=menu]', focused).find('> li:not(.divider):not(.disabled):visible > a');
             ($subitems.length>0) && $subitems.eq(0).focus();
         }
+        hasIcons && (menu.cmpEl ? menu.cmpEl.toggleClass('shifted-right', true) : (menu.options.cls = 'shifted-right'));
         menu.alignPosition();
     };
 
-    _clearCustomMenuItems = function(toolbar, action) {
-        if (!toolbar) return;
-
-        var btns = _findButtonByAction(toolbar, action);
-        btns && btns.forEach(function(btn) {
-            var menu = btn.menu;
-            if (menu && typeof menu === 'object' && menu.items.length>0) {
-                for (var i = 0; i < menu.items.length; i++) {
-                    if (menu.items[i].options.isCustomItem) {
-                        menu.removeItem(menu.items[i]);
-                        i--;
-                    }
+    _removeCustomMenuItems = function(menu, guid, items) {
+        if (menu && menu.items.length>0) {
+            for (var i = 0; i < menu.items.length; i++) {
+                if (menu.items[i].isCustomItem && (guid===undefined || menu.items[i].options.guid === guid && !_.findWhere((items || []), {id: menu.items[i].options.value}))) {
+                    menu.removeItem(menu.items[i]);
+                    i--;
                 }
-                menu._hasCustomItems = false;
             }
-        });
+        }
     };
 
     return {
@@ -484,9 +483,8 @@ Common.UI.LayoutManager = new(function() {
         isElementVisible: _isElementVisible,
         getInitValue: _getInitValue,
         lastTabIdx: _lastInternalTabIdx,
-        addCustomItems: _addCustomItems, // add controls to toolbar
-        addCustomMenuItems: _addCustomMenuItems, // add menu items to toolbar buttons
-        clearCustomMenuItems: _clearCustomMenuItems
+        addCustomControls: _addCustomControls, // add controls to toolbar
+        addCustomMenuItems: _addCustomMenuItems // add menu items to toolbar buttons
     }
 })();
 

@@ -486,6 +486,7 @@ define([
             this.api.asc_registerCallback('onPluginToolbarCustomMenuItems', _.bind(this.onPluginToolbarCustomMenuItems, this));
             this.api.asc_registerCallback('asc_onDownloadUrl', _.bind(this.onDownloadUrl, this));
             Common.NotificationCenter.on('protect:doclock', _.bind(this.onChangeProtectDocument, this));
+            Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
         },
 
         onChangeCompactView: function(view, compact) {
@@ -3878,12 +3879,12 @@ define([
 
         onPluginToolbarMenu: function(data) {
             var api = this.api;
-            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data, function(guid, value, pressed) {
+            this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomControls(this.toolbar, data, function(guid, value, pressed) {
                 api && api.onPluginToolbarMenuItemClick(guid, value, pressed);
             }));
         },
 
-        onPluginToolbarCustomMenuItems: function(data) {
+        onPluginToolbarCustomMenuItems: function(action, data) {
             data = [
                 {
                     guid: 'plugin-guid',
@@ -3914,11 +3915,23 @@ define([
                     ]
                 }
             ];
+            if (!this._isDocReady) {
+                this._state.customPluginData = (this._state.customPluginData || []).concat([{action: action, data: data}]);
+                return;
+            }
             var api = this.api;
-            this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(this.toolbar, 'change-case', data, function(guid, value) {
-                console.log(guid + ', ' + value);
+            this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(this.toolbar, action, data, function(guid, value) {
                 api && api.onPluginContextMenuItemClick(guid, value);
             });
+        },
+
+        onDocumentReady: function() {
+            this._isDocReady = true;
+            var me = this;
+            this._state.customPluginData && this._state.customPluginData.forEach(function(plugin) {
+                me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
+            });
+            this._state.customPluginData = null;
         },
 
         onActiveTab: function(tab) {
