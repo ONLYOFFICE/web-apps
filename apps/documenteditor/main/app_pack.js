@@ -25,6 +25,7 @@ require([
     'common/main/lib/view/ExternalOleEditor',
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
+    'common/main/lib/view/LanguageDialog',
 
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',
