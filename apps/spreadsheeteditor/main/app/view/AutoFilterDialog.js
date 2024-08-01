@@ -877,8 +877,7 @@ define([], function () {
             this.radioNoSort = new Common.UI.RadioBox({
                 el: $('#id-sort-filter-radio-nosort'),
                 labelText: this.textNoSort,
-                name: 'asc-radio-sort',
-                checked: true
+                name: 'asc-radio-sort'
             });
             this.radioNoSort.on('change', _.bind(function(field, newValue) {
                 newValue && this.cmbFieldsAsc.setDisabled(true);
@@ -1003,6 +1002,9 @@ define([], function () {
                         idx = 1;
                         sort = this.properties.colFilter.asc_getSortState();
                     }
+                    if (sort == null) {
+                        this.radioAsc.setValue(true, true);
+                    }
                 }
 
                 this.cmbFieldsAsc.setData(arr);
@@ -1010,6 +1012,7 @@ define([], function () {
                 this.cmbFieldsDesc.setData(arr);
                 this.cmbFieldsDesc.setValue((idx>=0) ? idx : 0);
 
+                this.radioNoSort.setValue(sort == null, true);
                 this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
                 this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
                 this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
@@ -1022,6 +1025,7 @@ define([], function () {
                     var filter = this.properties.filter;
                     if (filter) {
                         filter.asc_setSortState(null);
+                        this.api.asc_applyAutoFilter(filter);
                     }
                 } else {
                     var combo = this.radioAsc.getValue() ? this.cmbFieldsAsc : this.cmbFieldsDesc;
