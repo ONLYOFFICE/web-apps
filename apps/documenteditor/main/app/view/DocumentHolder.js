@@ -1382,7 +1382,9 @@ define([
                     me.menuTableDirect90.setChecked(dir == Asc.c_oAscCellTextDirection.TBRL);
                     me.menuTableDirect270.setChecked(dir == Asc.c_oAscCellTextDirection.BTLR);
 
-                    var disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
+                    var block_control_lock = (value.paraProps) ? !value.paraProps.value.can_EditBlockContentControl() : false,
+                        disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
+
                     me.tableMenu.items[14].setDisabled(disabled);
                     me.tableMenu.items[15].setDisabled(disabled);
 
@@ -1464,7 +1466,7 @@ define([
                     me._currentParaObjDisabled = disabled = value.paraProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
                     me.menuAddHyperlinkTable.setDisabled(disabled);
                     menuHyperlinkTable.setDisabled(disabled || value.hyperProps!==undefined && value.hyperProps.isSeveralLinks===true);
-                    me.menuParagraphAdvancedInTable.setDisabled(disabled);
+                    me.menuParagraphAdvancedInTable.setDisabled(disabled || block_control_lock);
 
                     me.menuSpellCheckTable.setVisible(value.spellProps!==undefined && value.spellProps.value.get_Checked()===false);
                     me.menuToDictionaryTable.setVisible(me.mode.isDesktopApp);
@@ -1947,6 +1949,7 @@ define([
                     var in_toc = me.api.asc_GetTableOfContentsPr(true),
                         in_control = !in_toc && me.api.asc_IsContentControl(),
                         control_props = in_control ? me.api.asc_GetContentControlProperties() : null,
+                        block_control_lock = (value.paraProps) ? !value.paraProps.value.can_EditBlockContentControl() : false,
                         is_form = control_props && control_props.get_FormPr();
 
                     me.menuParagraphVAlign.setVisible(isInShape && !isInChart && !isEquation && !(is_form && control_props.get_FormPr().get_Fixed())); // после того, как заголовок можно будет растягивать по вертикали, вернуть "|| isInChart" !!
@@ -2030,9 +2033,9 @@ define([
                     me.menuParaFollow.setVisible(move);
                     menuParaFollowSeparator.setVisible(move);
 
-                    me.menuParagraphBreakBefore.setDisabled(disabled || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
-                    me.menuParagraphKeepLines.setDisabled(disabled);
-                    me.menuParagraphAdvanced.setDisabled(disabled || (is_form && is_form.get_Fixed()));
+                    me.menuParagraphBreakBefore.setDisabled(disabled || block_control_lock || !_.isUndefined(value.headerProps) || !_.isUndefined(value.imgProps));
+                    me.menuParagraphKeepLines.setDisabled(disabled || block_control_lock);
+                    me.menuParagraphAdvanced.setDisabled(disabled || block_control_lock || (is_form && is_form.get_Fixed()));
                     me.menuFrameAdvanced.setDisabled(disabled);
                     me.menuDropCapAdvanced.setDisabled(disabled);
                     me.menuParagraphVAlign.setDisabled(disabled);

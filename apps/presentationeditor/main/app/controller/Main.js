@@ -56,7 +56,8 @@ define([
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/controller/LaunchController',
-    'common/main/lib/view/OpenDialog'
+    'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
 ], function () { 'use strict';
 
     PE.Controllers.Main = Backbone.Controller.extend(_.extend((function() {
@@ -1589,6 +1590,9 @@ define([
                 } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
                     this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
                     return;
+                } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
+                    this.getApplication().getController('Common.Controllers.History').onHashError();
+                    return;
                 }
 
                 this.hidePreloader();
@@ -2790,6 +2794,7 @@ define([
                                     if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
                                         arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
                                         arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        arrVersions[arrVersions.length-1].set('documentSha256', changes[changes.length-1].documentSha256);
                                         for (i=changes.length-2; i>=0; i--, index++) {
                                             change = changes[i];
 
@@ -2822,6 +2827,7 @@ define([
                                                 canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
                                                 isVisible: true,
                                                 serverVersion: version.serverVersion,
+                                                documentSha256: change.documentSha256,
                                                 fileType: 'pptx',
                                                 hasParent: true,
                                                 index: index,

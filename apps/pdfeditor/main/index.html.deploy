@@ -66,8 +66,8 @@
             height: 12px;
             border-radius: 3px;
             margin: 0 10px;
-            background: rgba(255,255,255,.2);
-            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+            background: rgba(0,0,0,.15);
+            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .brendpanel .circle {
@@ -76,8 +76,8 @@
             height: 20px;
             border-radius: 20px;
             margin: 0 10px;
-            background: rgba(255,255,255,.2);
-            background: var(--highlight-header-button-hover, rgba(255,255,255,.2));
+            background: rgba(0,0,0,.15);
+            background: var(--highlight-header-button-hover, rgba(0,0,0,.15));
         }
 
         .loadmask > .sktoolbar {

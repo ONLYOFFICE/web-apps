@@ -48,7 +48,9 @@ define([
             // console.log('on_app_ready', app.postLaunchScripts);
 
             require(app.postLaunchScripts, function () {
-                Common.UI.ScreenReaderFocusManager.init(me.api);
+                if (!!Common.UI.ScreenReaderFocusManager) {
+                    Common.UI.ScreenReaderFocusManager.init(me.api);
+                }
 
                 if ( !!window.less ) {                                      // detect development mode
                     Common.NotificationCenter.trigger('script:loaded');
@@ -67,5 +69,6 @@ define([
         };
     }
 
+    !Common.Controllers && (Common.Controllers = {});
     Common.Controllers.LaunchController = new launchController();
 });

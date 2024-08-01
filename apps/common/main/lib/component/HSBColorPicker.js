@@ -43,19 +43,19 @@ define([], function () {
                     '<% if (this.showCurrentColor) { %>'+
                         '<div class="top-panel">'+
                             '<span class="color-value">'+
-                                '<span class="transparent-color img-colorpicker"></span>'+
+                                '<span class="transparent-color"></span>'+
                             '</span>'+
                             '<div class="color-text"></div>'+
                         '</div>'+
                     '<% } %>'+
                     '<div>'+
-                        '<div class="cnt-hb img-colorpicker">'+
+                        '<div class="cnt-hb">'+
                             '<div class="cnt-hb-arrow"></div>'+
                         '</div>'+
                         '<% if (this.changeSaturation) { %>'+
                             '<div class="cnt-root">'+
-                                '<div class="cnt-sat img-colorpicker">'+
-                                    '<div class="cnt-sat-arrow img-colorpicker"></div>'+
+                                '<div class="cnt-sat">'+
+                                    '<div class="cnt-sat-arrow"></div>'+
                                 '</div>'+
                             '</div>'+
                         '<% } %>'+

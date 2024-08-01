@@ -68,7 +68,8 @@ define([
                 markedAsVersion: false,
                 canRestore: false,
                 serverVersion: 0,
-                fileType: 'docx'
+                fileType: 'docx',
+                documentSha256: undefined
             }, Common.UI.TreeViewModel.prototype.defaults() || {});
         }
     });

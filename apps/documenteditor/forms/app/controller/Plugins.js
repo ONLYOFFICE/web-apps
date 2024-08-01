@@ -36,8 +36,7 @@
 
 define([
     'core',
-    'common/main/lib/collection/Plugins',
-    'common/main/lib/view/PluginDlg'
+    'common/main/lib/collection/Plugins'
 ], function () {
     'use strict';
 

@@ -95,22 +95,20 @@ require.config({
     }
 });
 
-require(['underscore'], function(_) {
-    window._ = _
-})
-
 require([
     'backbone',
+    'underscore',
     'core',
     'api',
     'analytics',
     'gateway',
     'locale',
     'socketio',
-], function (Backbone, Core) {
+], function (Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with DE namespace defined
@@ -132,6 +130,8 @@ require([
     Common.Locale.apply(
         function() {
             require([
+                'common/main/lib/mods/dropdown',
+                'common/main/lib/mods/tooltip',
                 'documenteditor/forms/app/controller/ApplicationController',
                 'documenteditor/forms/app/controller/Plugins',
                 'documenteditor/forms/app/controller/SearchBar',
@@ -141,10 +141,17 @@ require([
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
                 'common/main/lib/controller/Desktop',
-                'common/main/lib/view/PluginDlg',
                 'common/main/lib/view/SearchBar',
                 'common/forms/lib/view/modals'
             ], function() {
+                app.postLaunchScripts = [
+                    'common/main/lib/view/PluginDlg',
+                    'common/main/lib/view/CopyWarningDialog',
+                    'common/main/lib/view/ImageFromUrlDialog',
+                    'common/main/lib/view/SelectFileDlg',
+                    'common/main/lib/view/SaveAsDlg',
+                ];
+
                 window.compareVersions = true;
                 app.start();
             });
