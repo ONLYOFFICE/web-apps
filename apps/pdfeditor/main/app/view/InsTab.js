@@ -303,7 +303,7 @@ define([
                     dataHintOffset: '-16, 0'
                 });
                 me.lockedControls.push(me.cmbInsertShape);
-
+                Common.UI.LayoutManager.addControls(me.lockedControls);
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
             },
 
@@ -345,6 +345,7 @@ define([
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddPage);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
+                Common.UI.LayoutManager.addControls(created);
 
                 return this.$el;
             },

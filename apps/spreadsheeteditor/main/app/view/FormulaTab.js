@@ -402,7 +402,7 @@ define([
                     dataHintOffset: 'medium'
                 });
                 this.lockedControls.push(this.btnShowFormulas);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

@@ -374,7 +374,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chLeftMenu);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

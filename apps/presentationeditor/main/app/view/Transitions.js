@@ -278,7 +278,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chDelay);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: this.lockedControls});
 
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));

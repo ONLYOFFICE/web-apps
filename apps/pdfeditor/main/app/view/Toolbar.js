@@ -758,7 +758,7 @@ define([
                     }),
                 });
                 arr.push(this.btnRotatePage);
-
+                Common.UI.LayoutManager.addControls(arr);
                 return arr;
             },
 
@@ -1153,6 +1153,7 @@ define([
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls).concat(me.shapeControls);
+                    Common.UI.LayoutManager.addControls(this.lockControls);
                     this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
 
                     this.on('render:after', _.bind(this.onToolbarAfterRender, this));

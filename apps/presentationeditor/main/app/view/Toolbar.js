@@ -1223,7 +1223,7 @@ define([
                         this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape,
                         this.btnInsertPlaceholder, this.chTitle, this.chFooters
                     ];
-
+                    Common.UI.LayoutManager.addControls(this.lockControls);
                     // Disable all components before load document
                     _.each([me.btnSave]
                             .concat(me.paragraphControls),
@@ -1391,7 +1391,7 @@ define([
 
                 Array.prototype.push.apply(this.slideOnlyControls, created);
                 Array.prototype.push.apply(this.lockControls, created);
-
+                Common.UI.LayoutManager.addControls(created);
                 this.btnPrint.menu && this.btnPrint.$el.addClass('split');
                 return $host;
             },

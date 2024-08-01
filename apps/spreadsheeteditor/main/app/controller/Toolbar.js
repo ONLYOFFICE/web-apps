@@ -4697,6 +4697,7 @@ define([
                         this.btnsComment.add(_comments.buttonAddNew);
                     }
                     Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
+                    Common.UI.LayoutManager.addControls(this.btnsComment);
                 }
             }
 

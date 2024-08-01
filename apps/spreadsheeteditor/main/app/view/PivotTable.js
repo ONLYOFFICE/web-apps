@@ -359,7 +359,7 @@ define([
                     dataHintOffset: '-16, 0'
                 });
                 this.lockedControls.push(this.pivotStyles);
-
+                Common.UI.LayoutManager.addControls(this.btnsAddPivot.concat(this.lockedControls));
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
 

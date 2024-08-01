@@ -2839,6 +2839,7 @@ define([
                 if ( this.btnsComment.length ) {
                     var _comments = PE.getController('Common.Controllers.Comments').getView();
                     Array.prototype.push.apply(me.toolbar.lockControls, this.btnsComment);
+                    Common.UI.LayoutManager.addControls(this.btnsComment);
                     this.btnsComment.forEach(function (btn) {
                         btn.updateHint( _comments.textHintAddComment );
                         btn.on('click', function (btn, e) {

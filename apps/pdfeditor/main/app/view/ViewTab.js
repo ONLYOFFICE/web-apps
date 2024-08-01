@@ -242,7 +242,7 @@ define([
                     dataHintOffset: 'small'
                 });
                 this.lockedControls.push(this.chRightMenu);
-
+                Common.UI.LayoutManager.addControls(this.lockedControls);
                 Common.Utils.lockControls(_set.disableOnStart, true, {array: this.lockedControls});
                 Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             },
@@ -308,7 +308,7 @@ define([
                 var created = this.btnsFitToPage.concat(this.btnsFitToWidth).concat(this.cmbsZoom);
                 Common.Utils.lockControls(Common.enumLock.disableOnStart, true, {array: created});
                 Array.prototype.push.apply(this.lockedControls, created);
-
+                Common.UI.LayoutManager.addControls(created);
                 return this.$el;
             },
 
