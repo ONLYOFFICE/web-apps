@@ -60,6 +60,7 @@ define([
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/controller/LaunchController',
     'common/main/lib/view/OpenDialog',
+    'common/main/lib/view/UserNameDialog',
 ], function () {
     'use strict';
 

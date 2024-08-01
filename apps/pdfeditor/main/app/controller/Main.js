@@ -52,7 +52,8 @@ define([
     'common/main/lib/controller/LayoutManager',
     'common/main/lib/controller/ExternalUsers',
     'common/main/lib/view/OpenDialog',
-    'common/main/lib/collection/TextArt'
+    'common/main/lib/collection/TextArt',
+    'common/main/lib/view/UserNameDialog',
 ], function () {
     'use strict';
 

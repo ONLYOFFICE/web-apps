@@ -6,7 +6,6 @@ require([
     'common/main/lib/view/OptionsDialog',
     'common/main/lib/view/AutoCorrectDialog',
     'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/CopyWarningDialog',
     'common/main/lib/view/ImageFromUrlDialog',

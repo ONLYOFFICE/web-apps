@@ -36,7 +36,9 @@
  *
  */
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/component/Window'
+], function () { 'use strict';
 
     Common.Views.UserNameDialog = Common.UI.Window.extend(_.extend({
         options: {
