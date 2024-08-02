@@ -516,14 +516,17 @@
 
         (function() {
             var result = /[\?\&]placement=(\w+)&?/.exec(window.location.search);
-            if (!!result && result.length) {
-                if (result[1] == 'desktop') {
-                    _config.editorConfig.targetApp = result[1];
-                    // _config.editorConfig.canBackToFolder = false;
-                    if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
-                    _config.editorConfig.customization.about = false;
-                    _config.editorConfig.customization.compactHeader = false;
-                }
+            if (!!result && result.length && result[1] == 'desktop' ) {
+                console.warn('some errors occurred in the desktop app while document opening. please, contact with support team');
+            }
+
+            if (!!window.AscDesktopEditor)
+            {
+                _config.editorConfig.targetApp = 'desktop';
+                // _config.editorConfig.canBackToFolder = false;
+                if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
+                _config.editorConfig.customization.about = false;
+                _config.editorConfig.customization.compactHeader = false;
             }
         })();
 
