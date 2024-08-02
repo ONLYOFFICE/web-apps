@@ -1594,7 +1594,7 @@ define([
             var findCustomItem = function(guid, id) {
                 if (menu && menu.items.length>0) {
                     for (var i = menu.items.length-1; i >=0 ; i--) {
-                        if (menu.items[i].options.isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
+                        if (menu.items[i].isCustomItem && (id===undefined && menu.items[i].options.guid === guid || menu.items[i].options.guid === guid && menu.items[i].value === id)) {
                             return menu.items[i];
                         }
                     }
@@ -1602,6 +1602,7 @@ define([
             }
 
             var getMenu = function(items, guid, toMenu) {
+                var hasIcons = false;
                 if (toMenu)
                     toMenu.removeAll();
                 else {
@@ -1618,21 +1619,21 @@ define([
                     });
                 }
                 items.forEach(function(item) {
-                    item.separator && toMenu.addItem({
+                    item.separator && toMenu.addItem(new Common.UI.MenuItemCustom({
                         caption: '--',
-                        isCustomItem: true,
                         guid: guid
-                    });
-                    item.text && toMenu.addItem({
+                    }));
+                    item.text && toMenu.addItem(new Common.UI.MenuItemCustom({
                         caption: ((typeof item.text == 'object') ? item.text[lang] || item.text['en'] : item.text) || '',
-                        isCustomItem: true,
                         value: item.id,
                         guid: guid,
                         menu: item.items ? getMenu(item.items, guid) : false,
-                        iconImg: me.parseIcons(item.icons),
+                        iconsSet: item.icons,
                         disabled: !!item.disabled
-                    });
+                    }));
+                    hasIcons = hasIcons || !!item.icons;
                 });
+                hasIcons && (toMenu.cmpEl ? toMenu.cmpEl.toggleClass('shifted-right', true) : (toMenu.options.cls = 'shifted-right'));
                 return toMenu;
             }
 
@@ -1642,11 +1643,10 @@ define([
                 if (plugin && plugin.items && plugin.items.length>0) {
                     plugin.items.forEach(function(item) {
                         if (item.separator && isnew) {// add separator only to new plugins menu
-                            menu.addItem({
+                            menu.addItem(new Common.UI.MenuItemCustom({
                                 caption: '--',
-                                isCustomItem: true,
                                 guid: plugin.guid
-                            });
+                            }));
                         }
 
                         if (!item.text) return;
@@ -1666,13 +1666,12 @@ define([
                                     mnu.setMenu(getMenu(item.items, plugin.guid));
                             }
                         } else {
-                            var mnu = new Common.UI.MenuItem({
+                            var mnu = new Common.UI.MenuItemCustom({
                                 caption     : caption,
-                                isCustomItem: true,
                                 value: item.id,
                                 guid: plugin.guid,
                                 menu: item.items && item.items.length>=0 ? getMenu(item.items, plugin.guid) : false,
-                                iconImg: me.parseIcons(item.icons),
+                                iconsSet: item.icons,
                                 disabled: !!item.disabled
                             }).on('click', function(item, e) {
                                 !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
@@ -1693,7 +1692,7 @@ define([
         clearCustomItems: function(menu) {
             if (menu && menu.items.length>0) {
                 for (var i = 0; i < menu.items.length; i++) {
-                    if (menu.items[i].options.isCustomItem) {
+                    if (menu.items[i].isCustomItem) {
                         menu.removeItem(menu.items[i]);
                         i--;
                     }
