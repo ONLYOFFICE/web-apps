@@ -168,10 +168,10 @@ define([
 
                 this.btnsContents = Common.Utils.injectButtons($host.find('.btn-slot.btn-contents'), '', 'toolbar__icon btn-big-contents', me.capBtnInsContents,
                     [_set.inHeader, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                    true, true, undefined, '1', 'bottom', 'small');
+                    true, true, undefined, '1', 'bottom', 'small', undefined, 'table-of-contents');
                 this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote,
                     [_set.paragraphLock, _set.inEquation, _set.inImage, _set.inHeader, _set.controlPlain, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
-                    true, true, undefined, '1', 'bottom', 'small');
+                    true, true, undefined, '1', 'bottom', 'small', undefined, 'notes');
                 this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-big-inserthyperlink', me.capBtnInsLink,
                     [_set.paragraphLock, _set.headerLock, _set.hyperlinkLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                     undefined, undefined, undefined, '1', 'bottom', 'small');

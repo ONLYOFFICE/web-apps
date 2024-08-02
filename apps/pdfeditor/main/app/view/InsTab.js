@@ -141,6 +141,7 @@ define([
                             // {caption: me.mniInsertSSE, value: 'sse'}
                         ]
                     }),
+                    action: 'insert-table',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -167,6 +168,7 @@ define([
                     lock: [_set.lostConnect, _set.disableOnStart],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
+                    action: 'insert-smartart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -181,6 +183,7 @@ define([
                     lock: [_set.paragraphLock, _set.lostConnect, _set.disableOnStart],
                     split: true,
                     menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                    action: 'insert-equation',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -203,6 +206,7 @@ define([
                             })
                         ]
                     }),
+                    action: 'insert-symbol',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -233,6 +237,7 @@ define([
                             {template: _.template('<div id="view-insert-art" class="margin-left-5" style="width: 239px;"></div>')}
                         ]
                     }),
+                    action: 'insert-textart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -275,20 +280,6 @@ define([
                 });
                 me.lockedControls.push(me.btnInsSlideNum);
 */
-                me.btnInsertShape = new Common.UI.Button({
-                    id: 'tlbtn-insertshape',
-                    cls: 'btn-toolbar x-huge icon-top',
-                    iconCls: 'toolbar__icon btn-insertshape',
-                    caption: me.capInsertShape,
-                    lock: [_set.lostConnect, _set.disableOnStart],
-                    menu: true,
-                    enableToggle: true,
-                    dataHint: '1',
-                    dataHintDirection: 'bottom',
-                    dataHintOffset: 'small'
-                });
-                me.lockedControls.push(me.btnInsertShape);
-
                 me.cmbInsertShape = new Common.UI.ComboDataViewShape({
                     cls: 'combo-styles shapes',
                     itemWidth: 20,
@@ -333,13 +324,13 @@ define([
 
                 if (this.toolbar && this.toolbar.$el) {
                     this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg').add(this.toolbar.$el.find('.slot-insertimg')), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
                     this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext').add(this.toolbar.$el.find('.slot-instext')), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small', undefined, 'insert-text');
                     this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape').add(this.toolbar.$el.find('.slot-insertshape')), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small', undefined, 'insert-shape');
                     this.btnsAddPage = Common.Utils.injectButtons($host.find('.slot-inspage').add(this.toolbar.$el.find('.slot-inspage')), 'tlbtn-insertpage-', 'toolbar__icon btn-blankpage', this.capInsPage,
-                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, false, '1', 'bottom', 'small');
+                        [Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, false, '1', 'bottom', 'small', undefined, 'insert-page');
                 }
 
                 var created = this.btnsInsertImage.concat(this.btnsInsertText, this.btnsInsertShape, this.btnsAddPage);

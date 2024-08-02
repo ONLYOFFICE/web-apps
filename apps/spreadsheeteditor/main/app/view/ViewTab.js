@@ -194,6 +194,7 @@ define([
                         caption: me.capBtnSheetView,
                         lock        : [_set.lostConnect, _set.coAuth, _set.editCell],
                         menu: true,
+                        action: 'sheet-view',
                         dataHint    : '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -231,6 +232,7 @@ define([
                         iconCls: 'toolbar__icon btn-freeze-panes',
                         caption: this.capBtnFreeze,
                         menu: true,
+                        action: 'freeze-panes',
                         lock: [_set.sheetLock, _set.lostConnect, _set.coAuth, _set.editCell],
                         dataHint: '1',
                         dataHintDirection: 'bottom',

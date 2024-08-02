@@ -287,6 +287,7 @@ define([
                     caption: this.txtAddEffect,
                     iconCls: 'toolbar__icon icon btn-add-animation',
                     menu: true,
+                    action: 'add-animation',
                     lock: [_set.slideDeleted, _set.noSlides, _set.noGraphic, _set.timingLock],
                     dataHint: '1',
                     dataHintDirection: 'bottom',

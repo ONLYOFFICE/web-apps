@@ -886,6 +886,7 @@ define([
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
+                    action: 'change-case',
                     lock: [_set.selImage, _set.editFormula, _set.selRangeEdit, _set.selSlicer, _set.coAuth, _set.coAuthText, _set.lostConnect, _set.wsLockFormat, _set.userProtected],
                     menu: new Common.UI.Menu({
                         items: [
@@ -1022,6 +1023,7 @@ define([
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     split       : true,
                     menu        : true,
+                    action: 'cell-borders',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1103,6 +1105,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'cell-merge',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1213,6 +1216,7 @@ define([
                             {caption: this.textCellAlign, value: 'options'}
                         ])
                     }),
+                    action: 'text-orientation',
                     dataHint    : '1',
                     dataHintDirection: 'top'
                 });
@@ -1230,6 +1234,7 @@ define([
                             { caption: me.mniImageFromStorage, value: 'storage'}
                         ]
                     }),
+                    action: 'insert-image',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1253,6 +1258,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set.coAuthText, _set['Objects']],
                     caption     : me.capInsertChart,
                     menu        : true,
+                    action: 'insert-chart',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1276,6 +1282,7 @@ define([
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selImage, _set.selShape, _set.selSlicer, _set.multiselect, _set.lostConnect, _set.coAuth, _set.coAuthText, _set.editPivot, _set.wsLock, _set.userProtected],
                     caption     : me.capInsertSpark,
                     menu        : true,
+                    action: 'insert-sparkline',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1288,6 +1295,7 @@ define([
                     lock: [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     caption: me.capBtnInsSmartArt,
                     menu: true,
+                    action: 'insert-smartart',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1301,6 +1309,7 @@ define([
                     caption     : me.capInsertShape,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     menu        : new Common.UI.Menu({cls: 'menu-shapes menu-insert-shape'}),
+                    action: 'insert-shape',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1314,6 +1323,7 @@ define([
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth, _set['Objects']],
                     enableToggle: true,
                     split       : true,
+                    action: 'insert-text',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small', 
@@ -1332,6 +1342,7 @@ define([
                             {template: _.template('<div id="id-toolbar-menu-insart" class="margin-left-5" style="width: 239px;"></div>')}
                         ]
                     }),
+                    action: 'insert-textart',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1345,6 +1356,7 @@ define([
                     split       : true,
                     lock        : [_set.editCell, _set.lostConnect, _set.coAuth],
                     menu        : new Common.UI.Menu({cls: 'menu-shapes'}),
+                    action: 'insert-equation',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1366,6 +1378,7 @@ define([
                             })
                         ]
                     }),
+                    action: 'insert-symbol',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1546,6 +1559,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'accounting-style',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -16'
@@ -1591,6 +1605,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'autosum',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -16'
@@ -1621,6 +1636,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'named-ranges',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -1657,6 +1673,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'number-fill',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -1697,6 +1714,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'clear-style',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -1739,6 +1757,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'add-cell',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -1771,6 +1790,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'delete-cell',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -1782,6 +1802,7 @@ define([
                     iconCls     : 'toolbar__icon btn-cond-format',
                     lock        : [_set.editCell, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.lostConnect, _set.coAuth, _set['FormatCells'], _set.userProtected],
                     menu        : true,
+                    action: 'conditional-format',
                     dataHint    : '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -1798,6 +1819,7 @@ define([
                         items: [],
                         restoreHeight: true
                     }),
+                    action: 'theme-colors',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1834,6 +1856,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'page-orient',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -1888,6 +1911,7 @@ define([
                             {caption: me.textPageMarginsCustom, value: 'advanced'}
                         ]
                     }),
+                    action: 'page-margins',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2016,6 +2040,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'page-size',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2047,6 +2072,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'print-area',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2059,6 +2085,7 @@ define([
                     caption: me.capBtnPageBreak,
                     lock        : [_set.docPropsLock, _set.selChart, _set.selChartText, _set.selShape, _set.selShapeText, _set.selImage, _set.selSlicer, _set.editCell, _set.selRangeEdit, _set.pageBreakLock, _set.lostConnect, _set.coAuth],
                     menu: true,
+                    action: 'page-break',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2079,6 +2106,7 @@ define([
                     menu: new Common.UI.Menu({
                         items: [],
                         cls: 'scale-menu'}),
+                    action: 'page-scale',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2169,6 +2197,7 @@ define([
                     caption: me.capImgAlign,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroup, _set.lostConnect,  _set.coAuth, _set.coAuthText, _set["Objects"]],
                     menu: true,
+                    action: 'object-align',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2180,6 +2209,7 @@ define([
                     caption: me.capImgGroup,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.cantGroupUngroup, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"]],
                     menu: true,
+                    action: 'object-group',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2191,6 +2221,7 @@ define([
                     split: true,
                     lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"], _set.inSmartartInternal],
                     menu: true,
+                    action: 'object-forward',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -2202,6 +2233,7 @@ define([
                     lock        : [_set.selRange, _set.selRangeEdit, _set.lostConnect, _set.coAuth, _set.coAuthText, _set["Objects"], _set.inSmartartInternal],
                     split: true,
                     menu: true,
+                    action: 'object-backward',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

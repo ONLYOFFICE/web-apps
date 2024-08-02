@@ -223,6 +223,7 @@ define([
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
+                    action: 'pivot-layout',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -236,6 +237,7 @@ define([
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
+                    action: 'pivot-blank-rows',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -249,6 +251,7 @@ define([
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
+                    action: 'pivot-subtotals',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -262,6 +265,7 @@ define([
                     disabled    : true,
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     menu        : true,
+                    action: 'pivot-grand-totals',
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -274,6 +278,7 @@ define([
                     caption: this.txtRefresh,
                     disabled    : true,
                     split       : true,
+                    action: 'pivot-refresh',
                     lock        : [_set.lostConnect, _set.coAuth, _set.noPivot, _set.selRangeEdit, _set.pivotLock, _set.wsLock],
                     dataHint    : '1',
                     dataHintDirection: 'bottom',

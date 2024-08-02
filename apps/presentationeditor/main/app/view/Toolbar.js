@@ -170,6 +170,7 @@ define([
                         iconCls: 'toolbar__icon btn-changeslide',
                         lock: [_set.menuFileOpen, _set.slideDeleted, _set.slideLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: true,
+                        action: 'change-slide',
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
@@ -195,6 +196,7 @@ define([
                                 })
                             ]
                         }),
+                        action: 'preview-slide',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -16'
@@ -477,6 +479,7 @@ define([
                         id: 'id-toolbar-btn-case',
                         cls: 'btn-toolbar',
                         iconCls: 'toolbar__icon btn-change-case',
+                        action: 'change-case',
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noTextSelected, _set.shapeLock],
                         menu: new Common.UI.Menu({
                             items: [
@@ -607,6 +610,7 @@ define([
                                 }
                             ]
                         }),
+                        action: 'align-horizontal',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
@@ -651,6 +655,7 @@ define([
                                 }
                             ]
                         }),
+                        action: 'align-vertical',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
@@ -695,6 +700,7 @@ define([
                                 me.mnuLineSpaceOptions = new Common.UI.MenuItem({caption: me.textLineSpaceOptions, value: 'options'})
                             ])
                         }),
+                        action: 'line-space',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
@@ -737,6 +743,7 @@ define([
                                 {caption: this.textColumnsCustom, value: 'advanced'}
                             ]
                         }),
+                        action: 'insert-columns',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
@@ -751,6 +758,7 @@ define([
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
                         menu: true,
                         split: true,
+                        action: 'insert-placeholder',
                         enableToggle: true,
                         currentType: 1,
                         dataHint: '1',
@@ -803,6 +811,7 @@ define([
                                 {caption: me.mniInsertSSE, value: 'sse'}
                             ]
                         }),
+                        action: 'insert-table',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -816,6 +825,7 @@ define([
                         caption: me.capInsertChart,
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         menu: true,
+                        action: 'insert-chart',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -829,6 +839,7 @@ define([
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         caption: me.capBtnInsSmartArt,
                         menu: true,
+                        action: 'insert-smartart',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -843,6 +854,7 @@ define([
                         lock: [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.disableOnStart],
                         split: true,
                         menu: new Common.UI.Menu({cls: 'menu-shapes'}),
+                        action: 'insert-equation',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -865,6 +877,7 @@ define([
                                 })
                             ]
                         }),
+                        action: 'insert-symbol',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -895,6 +908,7 @@ define([
                                 {template: _.template('<div id="view-insert-art" class="margin-left-5" style="width: 239px;"></div>')}
                             ]
                         }),
+                        action: 'insert-textart',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -969,6 +983,7 @@ define([
                             items: [],
                             restoreHeight: true
                         }),
+                        action: 'theme-colors',
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
@@ -1049,6 +1064,7 @@ define([
                                 me.mniAlignObjects
                             ]
                         }),
+                        action: 'object-align',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
@@ -1096,6 +1112,7 @@ define([
                                 })
                             ]
                         }),
+                        action: 'object-arrange',
                         dataHint: '1',
                         dataHintDirection: 'top',
                         dataHintOffset: '0, -6'
@@ -1128,6 +1145,7 @@ define([
                                 }
                             ]
                         }),
+                        action: 'slide-size',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: '0, -6'
@@ -1373,11 +1391,11 @@ define([
                 }
 
                 this.btnsInsertImage = Common.Utils.injectButtons($host.find('.slot-insertimg'), 'tlbtn-insertimage-', 'toolbar__icon btn-insertimage', this.capInsertImage,
-                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, undefined, '1', 'bottom', 'small', undefined, 'insert-image');
                 this.btnsInsertText = Common.Utils.injectButtons($host.find('.slot-instext'), 'tlbtn-inserttext-', 'toolbar__icon btn-big-text', this.capInsertText,
-                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], true, false, true, '1', 'bottom', 'small', undefined, 'insert-text');
                 this.btnsInsertShape = Common.Utils.injectButtons($host.find('.slot-insertshape'), 'tlbtn-insertshape-', 'toolbar__icon btn-insertshape', this.capInsertShape,
-                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small');
+                    [Common.enumLock.slideDeleted, Common.enumLock.lostConnect, Common.enumLock.noSlides, Common.enumLock.disableOnStart], false, true, true, '1', 'bottom', 'small', undefined, 'insert-shape');
                 this.btnsAddSlide = Common.Utils.injectButtons($host.find('.slot-addslide'), 'tlbtn-addslide-', 'toolbar__icon btn-addslide', this.capAddSlide,
                     [Common.enumLock.menuFileOpen, Common.enumLock.lostConnect, Common.enumLock.disableOnStart], true, true, undefined, '1', 'bottom', 'small', undefined, 'add-slide');
 

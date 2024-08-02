@@ -335,6 +335,7 @@ define([
                     pressed: Common.localStorage.getBool("pe-settings-showguides"),
                     split: true,
                     menu: true,
+                    action: 'view-guides',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'
@@ -351,6 +352,7 @@ define([
                     pressed: Common.localStorage.getBool("pe-settings-showgrid"),
                     split: true,
                     menu: true,
+                    action: 'view-gridlines',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'small'

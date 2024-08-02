@@ -337,6 +337,7 @@ define([
                     id: 'id-toolbar-btn-case',
                     cls: 'btn-toolbar',
                     iconCls: 'toolbar__icon btn-change-case',
+                    action: 'change-case',
                     lock: [_set.paragraphLock, _set.lostConnect, _set.noTextSelected, _set.shapeLock, _set.disableOnStart],
                     menu: new Common.UI.Menu({
                         items: [
@@ -460,6 +461,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'align-horizontal',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -505,6 +507,7 @@ define([
                             }
                         ]
                     }),
+                    action: 'align-vertical',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -550,6 +553,7 @@ define([
                             {caption: '3.0', value: 3.0, checkable: true, toggleGroup: 'linesize'}
                         ]
                     }),
+                    action: 'line-space',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -593,6 +597,7 @@ define([
                             {caption: this.textColumnsCustom, value: 'advanced'}
                         ]
                     }),
+                    action: 'insert-columns',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -674,6 +679,7 @@ define([
                             this.mniAlignObjects
                         ]
                     }),
+                    action: 'object-align',
                     dataHint: '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: '0, -6'
@@ -721,6 +727,7 @@ define([
                             // })
                         ]
                     }),
+                    action: 'object-arrange',
                     dataHint: '1',
                     dataHintDirection: 'top',
                     dataHintOffset: '0, -6'
@@ -756,6 +763,7 @@ define([
                             {caption: this.txtRotateLeft, iconCls: 'menu__icon btn-rotate-270', value: -90}
                         ]
                     }),
+                    action: 'rotate-page',
                 });
                 arr.push(this.btnRotatePage);
                 Common.UI.LayoutManager.addControls(arr);
@@ -813,6 +821,7 @@ define([
                         caption: this.capBtnTextComment,
                         menu: true,
                         split: true,
+                        action: 'insert-text-comment',
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
