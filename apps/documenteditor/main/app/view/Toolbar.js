@@ -2659,6 +2659,7 @@ define([
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
@@ -2670,6 +2671,7 @@ define([
                             me.fireEvent('add:chart', [record.get('type')]);
                     });
                     menu.off('show:before', onShowBefore);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
 
@@ -2753,6 +2755,7 @@ define([
                         el: $('#id-toolbar-menu-insart'),
                         store: collection,
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                     });
@@ -2762,6 +2765,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBeforeTextArt);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
 

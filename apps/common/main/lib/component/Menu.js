@@ -353,8 +353,19 @@ define([
                 }
             },
 
-            addItem: function(item) {
-                this.insertItem(-1, item);
+            addItem: function(item, keepCustom) { // if has custom items insert before first custom
+                if (!keepCustom)
+                    this.insertItem(-1, item);
+                else {
+                    var customIdx = -1;
+                    for (var i=0; i<this.items.length; i++) {
+                        if (this.items[i].isCustomItem) {
+                            customIdx = i;
+                            break;
+                        }
+                    }
+                    this.insertItem(customIdx, item);
+                }
             },
 
             removeItem: function(item) {

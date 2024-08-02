@@ -2962,7 +2962,7 @@ define([
             var menuitem = new Common.UI.MenuItem({
                 template: _.template('<div id="id-toolbar-menu-insertshape" class="menu-insertshape"></div>')
             });
-            me.toolbar.btnInsertShape.menu.addItem(menuitem);
+            me.toolbar.btnInsertShape.menu.addItem(menuitem, true);
 
             var recents = Common.localStorage.getItem('de-recent-shapes');
 
@@ -2971,10 +2971,12 @@ define([
                 itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                 groups: me.getApplication().getCollection('ShapeGroups'),
                 parentMenu: me.toolbar.btnInsertShape.menu,
+                outerMenu: {menu: me.toolbar.btnInsertShape.menu, index:0},
                 restoreHeight: 652,
                 textRecentlyUsed: me.textRecentlyUsed,
                 recentShapes: recents ? JSON.parse(recents) : null
             });
+            me.toolbar.btnInsertShape.menu.setInnerMenu([{menu: shapePicker, index: 0}]);
             shapePicker.on('item:click', function(picker, item, record, e) {
                 if (me.api) {
                     if (record) {
