@@ -982,6 +982,7 @@ define([], function () {
                         item && arr.push({value: index, displayValue: item, filter: filter, indexSorting: index});
                     });
                     this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
+                    this.radioNoSort.setValue(sort == null, true);
                 } else if (this.properties.rowFilter && this.properties.colFilter) {
                     this.radioNoSort.setVisible(false);
                     this.setTitle(this.txtTitleValue);
@@ -1012,7 +1013,6 @@ define([], function () {
                 this.cmbFieldsDesc.setData(arr);
                 this.cmbFieldsDesc.setValue((idx>=0) ? idx : 0);
 
-                this.radioNoSort.setValue(sort == null, true);
                 this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
                 this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
                 this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
