@@ -977,6 +977,12 @@ define([
                 var me = this,
                     value;
 
+                value = Common.localStorage.getItem("pdfe-settings-zoom");
+                Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);
+                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
+                value = Common.localStorage.getItem("pdfe-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value):0;
+
                 me._isDocReady = true;
                 Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
@@ -986,12 +992,6 @@ define([
 
                 Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
-
-                value = Common.localStorage.getItem("pdfe-settings-zoom");
-                Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);
-                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
-                value = Common.localStorage.getItem("pdfe-last-zoom");
-                var lastZoom = (value!==null) ? parseInt(value):0;
 
                 if (zf == -1) {
                     this.api.zoomFitToPage();
