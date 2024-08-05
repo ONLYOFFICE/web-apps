@@ -260,7 +260,7 @@ define([
             // Common.Utils.InternalSettings.set("pdfe-settings-quick-print-button", value);
             // if (this.header && this.header.btnPrintQuick)
             //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
-            if (Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 this.onTabBackgroundChange();
                 this.header.changeLogo();
             }

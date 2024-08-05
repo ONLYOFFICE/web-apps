@@ -1333,7 +1333,7 @@ define([
                 }
                 Common.Utils.InternalSettings.set("settings-tab-style", value || 'tab');
                 value = Common.UI.FeaturesManager.getInitValue('tabBackground', true);
-                if (Common.UI.FeaturesManager.canChange('tabBackground', true) && Common.localStorage.itemExists("pe-settings-tab-background")) { // get from local storage
+                if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) && Common.localStorage.itemExists("pe-settings-tab-background")) { // get from local storage
                     value = Common.localStorage.getItem("pe-settings-tab-background");
                 } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
                     value = 'toolbar';
