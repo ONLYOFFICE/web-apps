@@ -129,7 +129,8 @@ define([
                     {title: this.textUnCover, imageUrl: "btn-transition-uncover", value: Asc.c_oAscSlideTransitionTypes.UnCover, id: Common.UI.getId()},
                     {title: this.textCover, imageUrl: "btn-transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
                     {title: this.textClock, imageUrl: "btn-transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
-                    {title: this.textZoom, imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId(),cls: 'last-item'}
+                    {title: this.textZoom, imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()},
+                    {title: this.textRandom, imageUrl: "btn-transition-random", value: Asc.c_oAscSlideTransitionTypes.Random, id: Common.UI.getId(), cls: 'last-item'}
                 ];
                 this._arrEffectName.forEach(function (item) {
                     item.tip = item.title;
@@ -424,7 +425,10 @@ define([
 
                 if (!this.listEffects.isDisabled()) {
                     this.numDelay.setDisabled(this.chDelay.getValue() !== 'checked');
-                    this.btnParameters.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.btnParameters.setDisabled(
+                        effect === Asc.c_oAscSlideTransitionTypes.None || 
+                        effect === Asc.c_oAscSlideTransitionTypes.Random
+                    );
                     this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.lblDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
@@ -448,6 +452,7 @@ define([
             textCover: 'Cover',
             textClock: 'Clock',
             textZoom: 'Zoom',
+            textRandom: 'Random',
             textMorph: 'Morph',
             textSmoothly: 'Smoothly',
             textBlack: 'Through Black',
