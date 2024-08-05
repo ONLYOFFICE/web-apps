@@ -834,3 +834,26 @@
         border-color: @header-background-color-pdf !important;
     }
 }
+
+.tab-header-color {
+    border-top-color: @tab-header-ie;
+    border-top-color: @tab-header;
+
+    .pdf-form & {
+        border-top-color: @tab-header-pdf-ie;
+        border-top-color: @tab-header-pdf;
+    }
+}
+
+.tab-toolbar-color {
+    border-top-color: @tab-toolbar-ie;
+    border-top-color: @tab-toolbar;
+
+    .pdf-form & {
+        border-top-color: @tab-toolbar-pdf-ie;
+        border-top-color: @tab-toolbar-pdf;
+    }
+
+    //border-top-color: @highlight-toolbar-tab-underline-ie;
+    //border-top-color: @highlight-toolbar-tab-underline;
+}

@@ -2104,6 +2104,7 @@
   "PE.Views.FileMenuPanels.Settings.txtWarnMacrosDesc": "Disable all macros with a notification",
   "PE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "PE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "PE.Views.FileMenuPanels.Settings.txtTabBack": "Use toolbar color as tabs background",
   "PE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Download as",
   "PE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save Copy As",
   "PE.Views.GridSettings.textCm": "cm",
@@ -2897,5 +2898,8 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textTabStyle": "Tab style",
+  "PE.Views.ViewTab.textTab": "Tab",
+  "PE.Views.ViewTab.textLine": "Line"
 }

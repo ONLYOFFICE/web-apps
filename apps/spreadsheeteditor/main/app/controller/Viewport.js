@@ -69,7 +69,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    //'settings:apply': me.applySettings.bind(me)
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Statusbar': {
                     'view:compact': function (statusbar, state) {
@@ -112,6 +112,12 @@ define([
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
+                    }
+                },
+                'ViewTab': {
+                    'tabstyle:change': function (style) {
+                        me.onTabStyleChange(style);
+                        me.header.changeLogo();
                     }
                 }
             });
@@ -167,13 +173,10 @@ define([
                 $filemenu.css('top', (Common.UI.LayoutManager.isElementVisible('toolbar') ? _tabs_new_height : 0) + _intvars.get('document-title-height'));
             }
 
-            if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
+            me.onTabStyleChange();
+            me.onTabBackgroundChange();
+            if ( config.customization && config.customization.toolbarHideFileName )
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             me.header.btnSearch.on('toggle', me.onSearchToggle.bind(this));
         },
@@ -282,12 +285,16 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
-        /*applySettings: function () {
-            var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
-            Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
-            if (this.header && this.header.btnPrintQuick)
-                this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },*/
+        applySettings: function () {
+            // var value = Common.localStorage.getBool("sse-settings-quick-print-button", true);
+            // Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
+            // if (this.header && this.header.btnPrintQuick)
+            //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                this.onTabBackgroundChange();
+                this.header.changeLogo();
+            }
+        },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
@@ -341,6 +348,18 @@ define([
 
         isSearchBarVisible: function () {
             return this.searchBar && this.searchBar.isVisible();
+        },
+
+        onTabStyleChange: function (style) {
+            style && Common.localStorage.setItem("sse-settings-tab-style", style);
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            Common.Utils.InternalSettings.set("settings-tab-style", style);
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+        },
+
+        onTabBackgroundChange: function (background) {
+            background = background || Common.Utils.InternalSettings.get("settings-tab-background");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
         },
 
         textHideFBar: 'Hide Formula Bar',

@@ -23,6 +23,7 @@
 
     --background-normal: #fff;
     --background-toolbar: #f7f7f7;
+    --background-toolbar-tab: var(--background-toolbar);
     --background-toolbar-additional: #efefef;
     --background-primary-dialog-button: #444;
     --background-accent-button: #446995;
@@ -51,6 +52,7 @@
 
     --border-toolbar: #cbcbcb;
     --border-toolbar-active-panel-top: var(--background-toolbar);
+    --border-toolbar-active-tab: var(--background-toolbar);
     --border-divider: #dfdfdf;
     --border-regular-control: #c0c0c0;
     --border-toolbar-button-hover: #e0e0e0;
@@ -82,6 +84,16 @@
     --icon-notification-badge: #000;
     --icon-contrast-popover: #fff;
     --icon-success: #090;
+
+    --tab-header-document: var(--text-toolbar-header);
+    --tab-header-spreadsheet: var(--text-toolbar-header);
+    --tab-header-presentation: var(--text-toolbar-header);
+    --tab-header-pdf: var(--text-toolbar-header);
+
+    --tab-toolbar-document: #446995;
+    --tab-toolbar-spreadsheet: #40865c;
+    --tab-toolbar-presentation: #BE664F;
+    --tab-toolbar-pdf: #AA5252;
 
     // Canvas
 
@@ -201,6 +213,7 @@
 // -------------------------
 @background-normal: var(--background-normal);
 @background-toolbar: var(--background-toolbar);
+@background-toolbar-tab: var(--background-toolbar-tab);
 @background-toolbar-additional: var(--background-toolbar-additional);
 @background-primary-dialog-button: var(--background-primary-dialog-button);
 @background-tab-underline: var(--background-tab-underline);
@@ -235,6 +248,7 @@
 @border-divider: var(--border-divider);
 @border-regular-control: var(--border-regular-control);
 @border-toolbar-active-panel-top: var(--border-toolbar-active-panel-top);
+@border-toolbar-active-tab: var(--border-toolbar-active-tab);
 @border-toolbar-button-hover: var(--border-toolbar-button-hover);
 @border-preview-hover: var(--border-preview-hover);
 @border-preview-select: var(--border-preview-select);

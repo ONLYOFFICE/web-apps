@@ -73,6 +73,11 @@ define([
                 type: 'dark',
                 source: 'static',
             },
+            'theme-gray': {
+                text: locale.txtThemeGray || 'Gray',
+                type: 'light',
+                source: 'static',
+            },
         }
 
 
@@ -399,7 +404,7 @@ define([
             this.api.asc_setSkin(colors_obj);
 
             if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                if ( themes_map[id].source != 'static' ) {
+                // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
                     const theme_obj = {
                         id: id,
                         type: themes_map[id].type,
@@ -408,7 +413,7 @@ define([
                     };
 
                     Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                }
+                // }
             }
         }
 

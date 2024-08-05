@@ -396,6 +396,12 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
+                // '<tr>',
+                //     '<td colspan="2"><div id="fms-chb-compact-header"></div></td>',
+                // '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -467,6 +473,22 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            // this.chCompactHeader = new Common.UI.CheckBox({
+            //     el: $markup.findById('#fms-chb-compact-header'),
+            //     labelText: 'Compact header',
+            //     dataHint: '2',
+            //     dataHintDirection: 'left',
+            //     dataHintOffset: 'small'
+            // });
+
+            this.chTabBack = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-tab-background'),
+                labelText: this.txtTabBack,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.chScreenReader = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-scrn-reader'),
@@ -891,6 +913,7 @@ define([
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+            $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -982,6 +1005,9 @@ define([
                 this.rbChangesTip.setValue(value);
                 this.rbChangesBallons.setValue(!value);
             }
+
+            // this.chCompactHeader.setValue(Common.localStorage.getBool("de-settings-compact-header", this.mode.compactHeader));
+            this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
         },
 
         applySettings: function() {
@@ -1038,6 +1064,12 @@ define([
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
+
+            // Common.localStorage.setBool("de-settings-compact-header", this.chCompactHeader.isChecked());
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                Common.localStorage.setItem("de-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+            }
 
             Common.localStorage.save();
 
@@ -1172,7 +1204,8 @@ define([
         txtLastUsed: 'Last used',
         textSmartSelection: 'Use smart paragraph selection',
         txtScreenReader: 'Turn on screen reader support',
-        txtCustomizeQuickAccess: 'Customize quick access'
+        txtCustomizeQuickAccess: 'Customize quick access',
+        txtTabBack: 'Use toolbar color as tabs background'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
