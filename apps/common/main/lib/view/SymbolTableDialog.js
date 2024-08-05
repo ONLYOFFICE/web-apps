@@ -39,7 +39,9 @@
 if (Common === undefined)
     var Common = {};
 
-define([], function () { 'use strict';
+define([
+    'common/main/lib/util/character'
+], function () { 'use strict';
     var oRangeNames = {};
     oRangeNames[1] =  'Basic Latin';
     oRangeNames[2] =  'Latin 1 Supplement';
