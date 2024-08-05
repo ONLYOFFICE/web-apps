@@ -983,6 +983,7 @@ define([], function () {
                     });
                     this.setTitle(this.txtTitle + ' (' + fields[0] + ')');
                     this.radioNoSort.setValue(sort == null, true);
+                    this.cmbFieldsAsc.setDisabled( (sort === Asc.c_oAscSortOptions.Descending) || (sort === null) );
                 } else if (this.properties.rowFilter && this.properties.colFilter) {
                     this.radioNoSort.setVisible(false);
                     this.setTitle(this.txtTitleValue);
@@ -1006,6 +1007,7 @@ define([], function () {
                     if (sort == null) {
                         this.radioAsc.setValue(true, true);
                     }
+                    this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
                 }
 
                 this.cmbFieldsAsc.setData(arr);
@@ -1015,7 +1017,6 @@ define([], function () {
 
                 this.radioDesc.setValue(sort == Asc.c_oAscSortOptions.Descending, true);
                 this.cmbFieldsDesc.setDisabled(sort !== Asc.c_oAscSortOptions.Descending);
-                this.cmbFieldsAsc.setDisabled(sort === Asc.c_oAscSortOptions.Descending);
             }
         },
         save: function () {
