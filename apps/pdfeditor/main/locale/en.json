@@ -1322,6 +1322,7 @@
   "PDFE.Views.FileMenuPanels.Settings.txtUseOptionKey": "Use Option key to navigate the user interface using the keyboard",
   "PDFE.Views.FileMenuPanels.Settings.txtWin": "as Windows",
   "PDFE.Views.FileMenuPanels.Settings.txtWorkspace": "Workspace",
+  "PDFE.Views.FileMenuPanels.Settings.txtTabBack": "Use toolbar color as tabs background",
   "PDFE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Download as",
   "PDFE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save Copy as",
   "PDFE.Views.HyperlinkSettingsDialog.strDisplay": "Display",
@@ -1978,5 +1979,8 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Fit to page",
   "PDFE.Views.ViewTab.tipFitToWidth": "Fit to width",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
+  "PDFE.Views.ViewTab.textTabStyle": "Tab style",
+  "PDFE.Views.ViewTab.textTab": "Tab",
+  "PDFE.Views.ViewTab.textLine": "Line"
 }
