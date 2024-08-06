@@ -165,7 +165,7 @@ Common.UI.LayoutManager = new(function() {
                 menuAlign: 'tl-tr',
                 items: []
             });
-            toMenu.on('item:click', function(menu, mi, e) {
+            toMenu.on('item:custom-click', function(menu, mi, e) {
                 callback && callback(mi.options.guid, mi.value);
             });
         }
@@ -248,7 +248,7 @@ Common.UI.LayoutManager = new(function() {
                                 if (btn.menu && item.items && item.items.length > 0) {// update menu items
                                     if (typeof btn.menu !== 'object') {
                                         btn.setMenu(new Common.UI.Menu({items: []}));
-                                        btn.menu.on('item:click', function(menu, mi, e) {
+                                        btn.menu.on('item:custom-click', function(menu, mi, e) {
                                             callback && callback(mi.options.guid, mi.value);
                                         });
                                     }
@@ -279,7 +279,7 @@ Common.UI.LayoutManager = new(function() {
 
                             if (item.items && typeof item.items === 'object') {
                                 btn.setMenu(new Common.UI.Menu({items: []}));
-                                btn.menu.on('item:click', function(menu, mi, e) {
+                                btn.menu.on('item:custom-click', function(menu, mi, e) {
                                     callback && callback(mi.options.guid, mi.value);
                                 });
                                 _fillButtonMenu(item.items, plugin.guid, callback, btn.menu);
@@ -352,7 +352,7 @@ Common.UI.LayoutManager = new(function() {
                 menuAlign: 'tl-tr',
                 items: []
             });
-            toMenu.on('item:click', function(menu, item, e) {
+            toMenu.on('item:custom-click', function(menu, item, e) {
                 !me._preventCustomClick && callback && callback(item.options.guid, item.value);
             });
             toMenu.on('menu:click', function(menu, e) {

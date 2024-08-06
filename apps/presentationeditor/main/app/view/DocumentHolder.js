@@ -2638,7 +2638,7 @@ define([
                         menuAlign: 'tl-tr',
                         items: []
                     });
-                    toMenu.on('item:click', function(menu, item, e) {
+                    toMenu.on('item:custom-click', function(menu, item, e) {
                         !me._preventCustomClick && me.api && me.api.onPluginContextMenuItemClick && me.api.onPluginContextMenuItemClick(item.options.guid, item.value);
                     });
                     toMenu.on('menu:click', function(menu, e) {

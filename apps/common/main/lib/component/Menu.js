@@ -629,7 +629,7 @@ define([
                     }, 10);
                     return;
                 }
-                this.trigger('item:click', this, item, e);
+                this.trigger(item.isCustomItem ? 'item:custom-click' : 'item:click', this, item, e);
             },
 
             onItemToggle: function(item, state, e) {
