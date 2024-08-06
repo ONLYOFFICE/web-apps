@@ -20,7 +20,6 @@
         "background-toolbar-additional": "#505050",
         "background-primary-dialog-button": "#c681ff",
         "background-accent-button": "#486F9E",
-        "background-tab-underline": "#ddd",
         "background-notification-popover": "#3e5968",
         "background-notification-badge": "#ffd112",
         "background-scrim": "rgba(0, 0, 0, 0.6)",
@@ -36,7 +35,6 @@
         "highlight-accent-button-pressed": "#89afdc",
         "highlight-header-button-hover": "rgba(255, 255, 255, 0.05)",
         "highlight-header-button-pressed": "rgba(255, 255, 255, 0.15)",
-        "highlight-toolbar-tab-underline": "#ddd",
         "highlight-text-select": "#96c8fd",
 
         "border-toolbar": "#616161",
