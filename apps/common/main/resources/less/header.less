@@ -173,6 +173,10 @@
             background-repeat: no-repeat;
         }
 
+        &.logo-light i { // logo from light theme
+            background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
+        }
+
         &.link img {
             cursor: pointer;
         }
@@ -229,6 +233,7 @@
             .icon.toolbar__icon {
                 &.icon--inverse {
                     background-position-x: @button-header-active-icon-offset-x-ie;
+                    background-position-x: @button-header-active-icon-offset-x;
                     opacity: @header-component-active-icon-opacity;
                 }
             }
