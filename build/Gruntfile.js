@@ -149,6 +149,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-terser');
+    grunt.loadNpmTasks('grunt-babel');
 
     function doRegisterTask(name, callbackConfig) {
         return grunt.registerTask(name + '-init', function() {
@@ -452,9 +453,9 @@ module.exports = function(grunt) {
                 localization: {
                     files: packageFile['main']['copy']['localization']
                 },
-                help: {
-                    files: packageFile['main']['copy']['help']
-                },
+                // help: {
+                //     files: packageFile['main']['copy']['help']
+                // },
                 indexhtml: {
                     files: packageFile['main']['copy']['indexhtml']
                 }
@@ -508,6 +509,27 @@ module.exports = function(grunt) {
                     src: packageFile.main.js.postload.options.out,
                     dest: packageFile.main.js.postload.options.out,
                 },
+                iecompat: {
+                    options: {
+                        sourceMap: false,
+                    },
+                    files: [{
+                        expand: true,
+                        cwd: packageFile.main.js.babel.files[0].dest,
+                        src: `*.js`,
+                        dest: packageFile.main.js.babel.files[0].dest
+                    }]
+                },
+            },
+
+            babel: {
+                options: {
+                    sourceMap: false,
+                    presets: ['@babel/preset-env']
+                },
+                dist: {
+                    files: packageFile.main.js.babel.files
+                }
             },
         });
 
@@ -797,7 +819,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-common-embed',           ['common-embed-init', 'clean', 'copy']);
 
     grunt.registerTask('deploy-app-main',               ['prebuild-icons-sprite', 'main-app-init', 'clean:prebuild', 'imagemin', 'less',
-                                                            'requirejs', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
+                                                            'requirejs', 'babel', 'terser', 'concat', 'copy', 'svgmin', 'inline', 'json-minify',
                                                             'replace:writeVersion', 'replace:prepareHelp', 'clean:postbuild']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', /*'cssmin',*/ /*'copy:template-backup',*/

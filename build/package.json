@@ -4,7 +4,10 @@
   "homepage": "http://www.onlyoffice.com",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
     "grunt": "^1.6.1",
+    "grunt-babel": "^8.0.0",
     "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-concat": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
