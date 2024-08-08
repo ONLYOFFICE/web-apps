@@ -865,6 +865,19 @@ define([
                     });
                     this.paragraphControls.push(this.btnInsDateTime);
 
+                    this.btnInsField = new Common.UI.Button({
+                        id: 'id-toolbar-btn-insfield',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnInsField,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnInsField);
+
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -2040,6 +2053,7 @@ define([
                 _injectComponent('#slot-btn-line-numbers', this.btnLineNumbers);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                _injectComponent('#slot-btn-insfield', this.btnInsField);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
@@ -2455,6 +2469,7 @@ define([
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
+                this.btnInsField.updateHint(this.tipInsField);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -3714,7 +3729,9 @@ define([
             textEditMode: 'Edit PDF',
             tipEditMode: 'Edit current file.<br>The page will be reloaded.',
             capBtnPageColor: 'Page Color',
-            tipPageColor: 'Change page color'
+            tipPageColor: 'Change page color',
+            capBtnInsField: 'Field',
+            tipInsField: 'Insert field'
         }
     })(), DE.Views.Toolbar || {}));
 });

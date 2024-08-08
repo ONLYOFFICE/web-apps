@@ -256,7 +256,8 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
-                    'documenteditor/main/app/view/MailMergeEmailDlg'
+                    'documenteditor/main/app/view/MailMergeEmailDlg',
+                    'documenteditor/main/app/view/FieldDialog'
                 ];
 
                 window.compareVersions = true;

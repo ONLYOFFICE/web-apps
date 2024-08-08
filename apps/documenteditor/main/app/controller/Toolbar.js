@@ -385,6 +385,7 @@ define([
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
+            toolbar.btnInsField.on('click',                             _.bind(this.onInsFieldClick, this));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
             toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
@@ -3776,6 +3777,20 @@ define([
                     if (result == 'ok') {
                         if (me.api) {
                             me.api.asc_addDateTime(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onInsFieldClick: function() {
+            var me = this;
+            (new DE.Views.FieldDialog({
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            me.api.asc_AddComplexFieldWithInstruction(value);
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
