@@ -653,7 +653,7 @@ define([
                 presetClass = presetClass ? presetClass.caption : '';
                 var preset = _.findWhere(Common.define.effectData.getEffectData(), {value: effect[2]});
                 preset = preset ? preset.displayValue : '';
-                var name = effect[3] || '';
+                var name = Common.Utils.String.htmlEncode(effect[3]) || '';
                 result = nodeType + '\n' + presetClass + '\n' + preset + ' : ' + name;
             }
             return result;
