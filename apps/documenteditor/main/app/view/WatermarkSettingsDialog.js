@@ -477,7 +477,7 @@ define([
                 this.cmbText.setData(data);
                 this.cmbText.setValue(data[0].value);
             }
-            return item ? item.get('displayValue') : null;
+            return item ? item.get('value') : null;
         },
 
         onImageSelect: function(menu, item) {
@@ -526,7 +526,11 @@ define([
                     if (val) {
                         var lang = Common.util.LanguageInfo.getLocalLanguageName(val.get_Lang());
                         this.lang = {value: lang[0], displayValue: lang[1]};
-                        this.cmbLang.setValue(lang[1]);
+                        var langKey = lang[0];
+                        var cmbLangLi = this.cmbLang.store.findWhere({value: langKey});
+                        if (!cmbLangLi)
+                            langKey = langKey.split(/[\-\_]/)[0];
+                        this.cmbLang.setValue(langKey, lang[1]);
                         this.loadWMText(lang[0]);
 
                         var font = val.get_FontFamily().get_Name();
