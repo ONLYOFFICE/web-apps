@@ -707,11 +707,9 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.view.btnInsertEquation.rendered || this.view.btnInsertEquation.menu.items.length>0) return;
+            if (!this.view.btnInsertEquation.rendered || this.view.btnInsertEquation.menu.getItemsLength()>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
-
-            me.view.btnInsertEquation.menu.removeAll();
             var onShowAfter = function(menu) {
                 for (var i = 0; i < equationsStore.length; ++i) {
                     var equationPicker = new Common.UI.DataViewSimple({
@@ -760,7 +758,7 @@ define([
                         ]
                     })
                 });
-                me.view.btnInsertEquation.menu.addItem(menuItem);
+                me.view.btnInsertEquation.menu.addItem(menuItem, true);
             }
         },
 

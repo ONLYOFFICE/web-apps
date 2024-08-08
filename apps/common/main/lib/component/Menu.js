@@ -764,6 +764,16 @@ define([
                     if (item.setChecked)
                         item.setChecked(false, true);
                 });
+            },
+
+            getItemsLength: function(keepCustom) {
+                if (keepCustom) return this.items.length;
+
+                var len = 0;
+                for (var i=0; i<this.items.length; i++) {
+                    if (!this.items[i].isCustomItem)
+                        len++;
+                }
             }
 
         }), {

@@ -49,7 +49,9 @@ Common.UI.LayoutManager = new(function() {
         _licensed,
         _api,
         _lastInternalTabIdx = 10,
-        _arrControls = [];
+        _arrControls = [],
+        _actionsStack = [],
+        _processActions = 0; // 0 - processing stopped, 1 - in process, 2 - need to process again
     var _init = function(config, licensed, api) {
         _config = config;
         _licensed = licensed;
@@ -118,6 +120,7 @@ Common.UI.LayoutManager = new(function() {
             Array.prototype.push.apply(_arrControls, arr);
         else
             Array.prototype.push.apply(_arrControls, [arr]);
+        _actionsStack.length && _tryToProcessActions();
     };
 
     var _getControls = function() {
@@ -313,11 +316,41 @@ Common.UI.LayoutManager = new(function() {
         if (!data) return;
 
         var btns = _findButtonByAction(action);
-        if (!btns) return;
+        if (!btns || btns.length==0) {
+            _actionsStack.push({action: action, data: data, callback: callback});
+            return;
+        }
 
         btns.forEach(function(btn) {
-            (typeof btn.menu === 'object') && _updateCustomMenuItems(btn.menu, data, callback);
+            if (typeof btn.menu === 'object')
+                _updateCustomMenuItems(btn.menu, data, callback);
+            else if (btn.menu) {
+                let btnData = data,
+                    btnCallback = callback;
+                btn.on('menu:created', function() {
+                    _updateCustomMenuItems(btn.menu, btnData, btnCallback);
+                });
+            }
         });
+    };
+
+    var _tryToProcessActions = function() { //
+        if (_processActions) {
+            _processActions = 2;
+            return;
+        }
+        _processActions = 1;
+        let arrLen = _actionsStack.length;
+        while (arrLen>0) {
+            let data = _actionsStack.shift();
+            _addCustomMenuItems(data.action, data.data, data.callback);
+            arrLen--;
+        }
+        if (_processActions===2) {
+            _processActions = 0;
+            _tryToProcessActions();
+        } else
+            _processActions = 0;
     };
 
     var _findButtonByAction = function(action) {
@@ -393,7 +426,8 @@ Common.UI.LayoutManager = new(function() {
         },500)); // set delay only on update existing items
 
         var focused,
-            hasIcons = false;
+            hasIcons = false,
+            newItems = [];
         menu._hasCustomItems = false;
         data.forEach(function(plugin) {
             /*
@@ -465,6 +499,7 @@ Common.UI.LayoutManager = new(function() {
                         });
                         hasIcons = hasIcons || !!item.icons;
                         menu.addItem(mnu);
+                        newItems.push(mnu);
                     }
                 });
             }
@@ -474,8 +509,13 @@ Common.UI.LayoutManager = new(function() {
             var $subitems = $('> [role=menu]', focused).find('> li:not(.divider):not(.disabled):visible > a');
             ($subitems.length>0) && $subitems.eq(0).focus();
         }
-        hasIcons && (menu.cmpEl ? menu.cmpEl.toggleClass('shifted-right', true) : (menu.options.cls = 'shifted-right'));
-        menu.alignPosition();
+        if (hasIcons) {
+            for (var i=0; i<newItems.length; i++) {
+                hasIcons && (newItems[i].cmpEl ? newItems[i].cmpEl.toggleClass('shifted-right', true) : (newItems[i].options.cls = 'shifted-right'));
+            }
+        }
+        // hasIcons && (menu.cmpEl ? menu.cmpEl.toggleClass('shifted-right', true) : (menu.options.cls = 'shifted-right'));
+        menu.rendered && menu.alignPosition();
     };
 
     _removeCustomMenuItems = function(menu, guid, items) {

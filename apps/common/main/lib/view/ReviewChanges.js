@@ -534,8 +534,8 @@ define([
                     });
                     this.mnuMailRecepients = this.btnMailRecepients.menu;
                     this.lockedControls.push(this.btnMailRecepients);
-                    Common.UI.LayoutManager.addControls(this.lockedControls);
                 }
+                Common.UI.LayoutManager.addControls(this.lockedControls);
             },
 
             render: function (el) {

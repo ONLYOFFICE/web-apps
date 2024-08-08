@@ -1068,6 +1068,7 @@ define([
                                             this.mnuNoControlsColor = new Common.UI.MenuItem({
                                                 id: 'id-toolbar-menu-no-highlight-controls',
                                                 caption: this.textNoHighlight,
+                                                cls: 'shifted-right',
                                                 checkable: true
                                             }),
                                             {caption: '--'},

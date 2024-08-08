@@ -960,6 +960,7 @@ define([
                     this.menu.render(this.cmpEl);
                     this.options.canFocused && this.attachKeyEvents();
                 }
+                this.trigger('menu:created', this);
             }
         },
 

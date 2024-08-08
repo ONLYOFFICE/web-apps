@@ -445,6 +445,7 @@ define([
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
@@ -456,6 +457,7 @@ define([
                             me.fireEvent('insert:chart', [record.get('type')]);
                     });
                     menu.off('show:before', onShowBefore);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
 
@@ -539,6 +541,7 @@ define([
                         el: $('#view-insert-art', menu.$el),
                         store: collection,
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                     });
@@ -548,6 +551,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBeforeTextArt);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
 
@@ -706,7 +710,7 @@ define([
                     template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
                     index: index
                 });
-                menuShape.addItem(menuitem);
+                menuShape.addItem(menuitem, true);
 
                 var recents = Common.localStorage.getItem('pdfe-recent-shapes');
                 recents = recents ? JSON.parse(recents) : null;
@@ -716,6 +720,7 @@ define([
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: collection,
                     parentMenu: menuShape,
+                    outerMenu: {menu: menuShape, index:0},
                     restoreHeight: 652,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents
@@ -727,7 +732,7 @@ define([
                         me.cmbInsertShape.updateComboView(record);
                     }
                 });
-
+                menuShape.setInnerMenu([{menu: shapePicker, index: 0}]);
             },
 
             tipInsertTable: 'Insert Table',

@@ -142,6 +142,7 @@ define([
             applyLayout: function (config) {
                 var me = this;
                 me.lockControls = [];
+                me.nolockControls = [];
                 if ( config.isEdit ) {
                     Common.UI.Mixtbar.prototype.initialize.call(this, {
                             template: _.template(template),
@@ -176,6 +177,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnChangeSlide);
+                    me.lockControls.push(me.btnChangeSlide);
 
                     me.btnPreview = new Common.UI.Button({
                         id: 'id-toolbar-button-preview',
@@ -202,6 +204,8 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     me.slideOnlyControls.push(me.btnPreview);
+                    me.nolockControls.push(me.btnPreview);
+                    me.lockControls.push(me.mnuShowSettings);
 
                     me.btnPrint = new Common.UI.Button({
                         id: 'id-toolbar-btn-print',
@@ -217,6 +221,7 @@ define([
                         printType: 'print'
                     });
                     me.slideOnlyControls.push(me.btnPrint);
+                    me.nolockControls.push(me.btnPrint);
 
                     me.btnSave = new Common.UI.Button({
                         id: 'id-toolbar-btn-save',
@@ -229,6 +234,7 @@ define([
                         dataHintTitle: 'S'
                     });
                     me.btnCollabChanges = me.btnSave;
+                    me.lockControls.push(me.btnSave);
 
                     me.btnUndo = new Common.UI.Button({
                         id: 'id-toolbar-btn-undo',
@@ -241,6 +247,7 @@ define([
                         dataHintTitle: 'Z'
                     });
                     me.slideOnlyControls.push(me.btnUndo);
+                    me.lockControls.push(me.btnUndo);
 
                     me.btnRedo = new Common.UI.Button({
                         id: 'id-toolbar-btn-redo',
@@ -253,6 +260,7 @@ define([
                         dataHintTitle: 'Y'
                     });
                     me.slideOnlyControls.push(me.btnRedo);
+                    me.lockControls.push(me.btnRedo);
 
                     me.btnCopy = new Common.UI.Button({
                         id: 'id-toolbar-btn-copy',
@@ -264,6 +272,7 @@ define([
                         dataHintTitle: 'C'
                     });
                     me.slideOnlyControls.push(me.btnCopy);
+                    me.lockControls.push(me.btnCopy);
 
                     me.btnPaste = new Common.UI.Button({
                         id: 'id-toolbar-btn-paste',
@@ -275,6 +284,7 @@ define([
                         dataHintTitle: 'V'
                     });
                     me.paragraphControls.push(me.btnPaste);
+                    me.lockControls.push(me.btnPaste);
 
                     me.btnCut = new Common.UI.Button({
                         id: 'id-toolbar-btn-cut',
@@ -286,6 +296,7 @@ define([
                         dataHintTitle: 'X'
                     });
                     me.paragraphControls.push(me.btnCut);
+                    me.lockControls.push(me.btnCut);
 
                     me.btnSelectAll = new Common.UI.Button({
                         id: 'id-toolbar-btn-select-all',
@@ -296,6 +307,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.slideOnlyControls.push(me.btnSelectAll);
+                    me.lockControls.push(me.btnSelectAll);
 
                     me.btnReplace = new Common.UI.Button({
                         id: 'id-toolbar-btn-replace',
@@ -306,6 +318,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.slideOnlyControls.push(me.btnReplace);
+                    me.lockControls.push(me.btnReplace);
 
                     me.cmbFontName = new Common.UI.ComboBoxFonts({
                         cls: 'input-group-nr',
@@ -318,6 +331,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.cmbFontName);
+                    me.lockControls.push(me.cmbFontName);
 
                     me.cmbFontSize = new Common.UI.ComboBox({
                         cls: 'input-group-nr',
@@ -347,6 +361,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.cmbFontSize);
+                    me.lockControls.push(me.cmbFontSize);
 
                     me.btnIncFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-incfont',
@@ -357,6 +372,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnIncFontSize);
+                    me.lockControls.push(me.btnIncFontSize);
 
                     me.btnDecFontSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-decfont',
@@ -367,6 +383,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnDecFontSize);
+                    me.lockControls.push(me.btnDecFontSize);
 
                     me.btnBold = new Common.UI.Button({
                         id: 'id-toolbar-btn-bold',
@@ -378,6 +395,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnBold);
+                    me.lockControls.push(me.btnBold);
 
                     me.btnItalic = new Common.UI.Button({
                         id: 'id-toolbar-btn-italic',
@@ -389,6 +407,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnItalic);
+                    me.lockControls.push(me.btnItalic);
 
                     me.btnUnderline = new Common.UI.Button({
                         id: 'id-toolbar-btn-underline',
@@ -400,6 +419,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnUnderline);
+                    me.lockControls.push(me.btnUnderline);
 
                     me.btnStrikeout = new Common.UI.Button({
                         id: 'id-toolbar-btn-strikeout',
@@ -411,6 +431,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnStrikeout);
+                    me.lockControls.push(me.btnStrikeout);
 
                     me.btnSuperscript = new Common.UI.Button({
                         id: 'id-toolbar-btn-superscript',
@@ -423,6 +444,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnSuperscript);
+                    me.lockControls.push(me.btnSuperscript);
 
                     me.btnSubscript = new Common.UI.Button({
                         id: 'id-toolbar-btn-subscript',
@@ -435,6 +457,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnSubscript);
+                    me.lockControls.push(me.btnSubscript);
 
                     me.btnHighlightColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-highlight',
@@ -460,6 +483,7 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnHighlightColor);
+                    me.lockControls.push(me.btnHighlightColor);
 
                     me.btnFontColor = new Common.UI.ButtonColored({
                         id: 'id-toolbar-btn-fontcolor',
@@ -474,6 +498,7 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnFontColor);
+                    me.lockControls.push(me.btnFontColor);
 
                     me.btnChangeCase = new Common.UI.Button({
                         id: 'id-toolbar-btn-case',
@@ -495,6 +520,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnChangeCase);
+                    me.lockControls.push(me.btnChangeCase);
                     me.mnuChangeCase = me.btnChangeCase.menu;
 
                     me.btnClearStyle = new Common.UI.Button({
@@ -506,6 +532,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.paragraphControls.push(me.btnClearStyle);
+                    me.lockControls.push(me.btnClearStyle);
 
                     me.btnCopyStyle = new Common.UI.Button({
                         id: 'id-toolbar-btn-copystyle',
@@ -517,6 +544,7 @@ define([
                         dataHintDirection: 'bottom'
                     });
                     me.slideOnlyControls.push(me.btnCopyStyle);
+                    me.lockControls.push(me.btnCopyStyle);
 
                     me.btnMarkers = new Common.UI.Button({
                         id: 'id-toolbar-btn-markers',
@@ -532,6 +560,7 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnMarkers);
+                    me.lockControls.push(me.btnMarkers);
 
                     me.btnNumbers = new Common.UI.Button({
                         id: 'id-toolbar-btn-numbering',
@@ -547,6 +576,7 @@ define([
                         dataHintOffset: '0, -16'
                     });
                     me.paragraphControls.push(me.btnNumbers);
+                    me.lockControls.push(me.btnNumbers);
 
                     var clone = function (source) {
                         var obj = {};
@@ -616,6 +646,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnHorizontalAlign);
+                    me.lockControls.push(me.btnHorizontalAlign);
 
                     me.btnVerticalAlign = new Common.UI.Button({
                         id: 'id-toolbar-btn-valign',
@@ -661,6 +692,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnVerticalAlign);
+                    me.lockControls.push(me.btnVerticalAlign);
 
                     me.btnDecLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-decoffset',
@@ -671,6 +703,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnDecLeftOffset);
+                    me.lockControls.push(me.btnDecLeftOffset);
 
                     me.btnIncLeftOffset = new Common.UI.Button({
                         id: 'id-toolbar-btn-incoffset',
@@ -681,6 +714,7 @@ define([
                         dataHintDirection: 'top'
                     });
                     me.paragraphControls.push(me.btnIncLeftOffset);
+                    me.lockControls.push(me.btnIncLeftOffset);
 
                     me.btnLineSpace = new Common.UI.Button({
                         id: 'id-toolbar-btn-linespace',
@@ -706,6 +740,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnLineSpace);
+                    me.lockControls.push(me.btnLineSpace);
 
                     me.btnColumns = new Common.UI.Button({
                         id: 'id-toolbar-btn-columns',
@@ -749,6 +784,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.paragraphControls.push(me.btnColumns);
+                    me.lockControls.push(me.btnColumns);
 
                     me.btnInsertPlaceholder = new Common.UI.Button({
                         id: 'tlbtn-insertplaceholder',
@@ -766,6 +802,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertPlaceholder);
+                    me.lockControls.push(me.btnInsertPlaceholder);
 
                     this.chTitle = new Common.UI.CheckBox({
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
@@ -775,6 +812,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.slideOnlyControls.push(this.chTitle);
+                    this.lockControls.push(this.chTitle);
 
                     this.chFooters = new Common.UI.CheckBox({
                         lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart, _set.inSlideMaster],
@@ -784,6 +822,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.slideOnlyControls.push(this.chFooters);
+                    this.lockControls.push(this.chFooters);
 
                     me.btnCloseSlideMaster = new Common.UI.Button({
                         id: 'tlbtn-close-slide-master',
@@ -796,6 +835,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnCloseSlideMaster);
+                    me.lockControls.push(me.btnCloseSlideMaster);
 
                     me.btnInsertTable = new Common.UI.Button({
                         id: 'tlbtn-inserttable',
@@ -817,6 +857,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertTable);
+                    me.lockControls.push(me.btnInsertTable);
 
                     me.btnInsertChart = new Common.UI.Button({
                         id: 'tlbtn-insertchart',
@@ -831,6 +872,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertChart);
+                    me.lockControls.push(me.btnInsertChart);
 
                     this.btnInsertSmartArt = new Common.UI.Button({
                         id: 'tlbtn-insertsmartart',
@@ -845,6 +887,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(this.btnInsertSmartArt);
+                    me.lockControls.push(this.btnInsertSmartArt);
 
                     me.btnInsertEquation = new Common.UI.Button({
                         id: 'tlbtn-insertequation',
@@ -860,6 +903,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(this.btnInsertEquation);
+                    me.lockControls.push(this.btnInsertEquation);
 
                     me.btnInsertSymbol = new Common.UI.Button({
                         id: 'tlbtn-insertsymbol',
@@ -883,6 +927,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.paragraphControls.push(me.btnInsertSymbol);
+                    me.lockControls.push(me.btnInsertSymbol);
 
                     me.btnInsertHyperlink = new Common.UI.Button({
                         id: 'tlbtn-insertlink',
@@ -895,6 +940,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.paragraphControls.push(me.btnInsertHyperlink);
+                    me.lockControls.push(me.btnInsertHyperlink);
 
                     me.btnInsertTextArt = new Common.UI.Button({
                         id: 'tlbtn-inserttextart',
@@ -914,6 +960,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsertTextArt);
+                    me.lockControls.push(me.btnInsertTextArt);
 
                     me.btnEditHeader = new Common.UI.Button({
                         id: 'id-toolbar-btn-editheader',
@@ -926,6 +973,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnEditHeader);
+                    me.lockControls.push(me.btnEditHeader);
 
                     me.btnInsDateTime = new Common.UI.Button({
                         id: 'id-toolbar-btn-datetime',
@@ -938,6 +986,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsDateTime);
+                    me.lockControls.push(me.btnInsDateTime);
 
                     me.btnInsSlideNum = new Common.UI.Button({
                         id: 'id-toolbar-btn-slidenum',
@@ -950,6 +999,7 @@ define([
                         dataHintOffset: 'small'
                     });
                     me.slideOnlyControls.push(me.btnInsSlideNum);
+                    me.lockControls.push(me.btnInsSlideNum);
 
                     if (Common.Controllers.Desktop.isActive() &&
                             Common.Controllers.Desktop.isFeatureAvailable("IsSupportMedia") && Common.Controllers.Desktop.call("IsSupportMedia"))
@@ -962,6 +1012,7 @@ define([
                             lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
                         });
                         me.slideOnlyControls.push(me.btnInsAudio);
+                        me.lockControls.push(me.btnInsAudio);
 
                         me.btnInsVideo = new Common.UI.Button({
                             id: 'tlbtn-insvideo',
@@ -971,6 +1022,7 @@ define([
                             lock: [_set.slideDeleted, _set.lostConnect, _set.noSlides, _set.disableOnStart]
                         });
                         me.slideOnlyControls.push(me.btnInsVideo);
+                        me.lockControls.push(me.btnInsVideo);
                     }
 
                     me.btnColorSchemas = new Common.UI.Button({
@@ -989,6 +1041,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnColorSchemas);
+                    me.lockControls.push(me.btnColorSchemas);
 
                     me.mniAlignToSlide = new Common.UI.MenuItem({
                         caption: me.txtSlideAlign,
@@ -1071,6 +1124,7 @@ define([
                     });
                     me.shapeControls.push(me.btnShapeAlign);
                     me.slideOnlyControls.push(me.btnShapeAlign);
+                    me.lockControls.push(me.btnShapeAlign);
 
                     me.btnShapeArrange = new Common.UI.Button({
                         id: 'id-toolbar-btn-shape-arrange',
@@ -1118,6 +1172,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnShapeArrange);
+                    me.lockControls.push(me.btnShapeArrange);
 
                     me.btnSlideSize = new Common.UI.Button({
                         id: 'id-toolbar-btn-slide-size',
@@ -1151,6 +1206,7 @@ define([
                         dataHintOffset: '0, -6'
                     });
                     me.slideOnlyControls.push(me.btnSlideSize);
+                    me.lockControls.push(me.btnSlideSize);
 
                     me.listTheme = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
@@ -1216,6 +1272,7 @@ define([
                             }
                         }
                     });
+                    me.lockControls.push(me.listTheme);
 
                     this.cmbInsertShape = new Common.UI.ComboDataViewShape({
                         cls: 'combo-styles shapes',
@@ -1231,17 +1288,10 @@ define([
                         dataHintOffset: '-16, 0'
                     });
                     this.slideOnlyControls.push(this.cmbInsertShape);
+                    this.lockControls.push(this.cmbInsertShape);
 
-                    this.lockControls = [this.btnChangeSlide, this.btnSave,
-                        this.btnCopy, this.btnPaste, this.btnCut, this.btnSelectAll, this.btnReplace,this.btnUndo, this.btnRedo, this.cmbFontName, this.cmbFontSize, this.btnIncFontSize, this.btnDecFontSize,
-                        this.btnBold, this.btnItalic, this.btnUnderline, this.btnStrikeout, this.btnSuperscript, this.btnChangeCase, this.btnHighlightColor,
-                        this.btnSubscript, this.btnFontColor, this.btnClearStyle, this.btnCopyStyle, this.btnMarkers,
-                        this.btnNumbers, this.btnDecLeftOffset, this.btnIncLeftOffset, this.btnLineSpace, this.btnHorizontalAlign, this.btnColumns,
-                        this.btnVerticalAlign, this.btnShapeArrange, this.btnShapeAlign, this.btnInsertTable, this.btnInsertChart, this.btnInsertSmartArt,
-                        this.btnInsertEquation, this.btnInsertSymbol, this.btnInsertHyperlink, this.btnColorSchemas, this.btnSlideSize, this.listTheme, this.mnuShowSettings, this.cmbInsertShape,
-                        this.btnInsertPlaceholder, this.chTitle, this.chFooters
-                    ];
                     Common.UI.LayoutManager.addControls(this.lockControls);
+                    Common.UI.LayoutManager.addControls(this.nolockControls);
                     // Disable all components before load document
                     _.each([me.btnSave]
                             .concat(me.paragraphControls),
@@ -1643,6 +1693,7 @@ define([
                     var picker = new Common.UI.DataView({
                         el: $('#id-toolbar-menu-insertchart'),
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         restoreHeight: 535,
                         groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
@@ -1654,6 +1705,7 @@ define([
                             me.fireEvent('add:chart', [record.get('type')]);
                     });
                     menu.off('show:before', onShowBefore);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertChart.menu.on('show:before', onShowBefore);
 
@@ -1737,6 +1789,7 @@ define([
                         el: $('#view-insert-art', menu.$el),
                         store: collection,
                         parentMenu: menu,
+                        outerMenu: {menu: menu, index:0},
                         showLast: false,
                         itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                     });
@@ -1746,6 +1799,7 @@ define([
                         if (e.type !== 'click') menu.hide();
                     });
                     menu.off('show:before', onShowBeforeTextArt);
+                    menu.setInnerMenu([{menu: picker, index: 0}]);
                 };
                 this.btnInsertTextArt.menu.on('show:before', onShowBeforeTextArt);
 
@@ -2208,7 +2262,7 @@ define([
                     template: _.template('<div id="id-toolbar-menu-insertshape-<%= options.index %>" class="menu-insertshape"></div>'),
                     index: index
                 });
-                menuShape.addItem(menuitem);
+                menuShape.addItem(menuitem, true);
 
                 var recents = Common.localStorage.getItem('pe-recent-shapes');
                 recents = recents ? JSON.parse(recents) : null;
@@ -2218,6 +2272,7 @@ define([
                     itemTemplate: _.template('<div class="item-shape" id="<%= id %>"><svg width="20" height="20" class=\"icon uni-scale\"><use xlink:href=\"#svg-icon-<%= data.shapeType %>\"></use></svg></div>'),
                     groups: collection,
                     parentMenu: menuShape,
+                    outerMenu: {menu: menuShape, index:0},
                     restoreHeight: 652,
                     textRecentlyUsed: me.textRecentlyUsed,
                     recentShapes: recents
@@ -2229,7 +2284,7 @@ define([
                         me.cmbInsertShape.updateComboView(record);
                     }
                 });
-
+                menuShape.setInnerMenu([{menu: shapePicker, index: 0}]);
             },
 
             updateComboAutoshapeMenu: function (collection) {
@@ -2248,7 +2303,7 @@ define([
                         var picker = new Common.UI.DataView({
                             el: $('.menu-layouts', menu.$el),
                             parentMenu: menu,
-                            outerMenu:  !change ? {menu: menu, index: 0} : undefined,
+                            outerMenu:  {menu: menu, index: 0},
                             showLast: change,
                             restoreHeight: 300,
                             restoreWidth: 302,
@@ -2280,7 +2335,7 @@ define([
                                 } else
                                     picker.scroller.scrollTop(0);
                             });
-                            !change && menu.setInnerMenu([{menu: picker, index: 0}]);
+                            menu.setInnerMenu([{menu: picker, index: 0}]);
                         }
                         menu.off('show:before', me.binding.onShowBeforeAddSlide);
                         if (change && this.mnuSlidePicker)
