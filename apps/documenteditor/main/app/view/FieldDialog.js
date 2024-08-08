@@ -78,7 +78,7 @@ define([], function () { 'use strict';
                 style       : 'width: 100%;',
                 validateOnBlur: false
             });
-
+            me.inputLabel.setValue(me.options.code || '');
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
         },

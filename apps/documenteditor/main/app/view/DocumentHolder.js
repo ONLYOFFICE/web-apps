@@ -1234,6 +1234,9 @@ define([
             me.menuTableRefreshField = new Common.UI.MenuItem({
                 caption: me.textRefreshField
             });
+            me.menuTableEditField = new Common.UI.MenuItem({
+                caption: me.textEditField
+            });
 
             var menuTableFieldSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -1342,7 +1345,7 @@ define([
 
                     var isEquation= (value.mathProps && value.mathProps.value);
 
-                    for (var i = 11; i < 30; i++) {
+                    for (var i = 11; i < 31; i++) { // from menuEquationSeparatorInTable to menuAddCommentTable (except menuAddCommentTable)
                         me.tableMenu.items[i].setVisible(!isEquation);
                     }
 
@@ -1385,8 +1388,8 @@ define([
                     var block_control_lock = (value.paraProps) ? !value.paraProps.value.can_EditBlockContentControl() : false,
                         disabled = value.tableProps.locked || (value.headerProps!==undefined && value.headerProps.locked);
 
-                    me.tableMenu.items[14].setDisabled(disabled);
-                    me.tableMenu.items[15].setDisabled(disabled);
+                    me.menuTableInsertText.setDisabled(disabled);
+                    me.menuTableDeleteText.setDisabled(disabled);
 
                     if (me.api) {
                         me.mnuTableMerge.setDisabled(disabled || !me.api.CheckBeforeMergeCells());
@@ -1544,6 +1547,8 @@ define([
                     var in_field = me.api.asc_HaveFields(true);
                     me.menuTableRefreshField.setVisible(!!in_field);
                     me.menuTableRefreshField.setDisabled(disabled);
+                    me.menuTableEditField.setVisible(!!in_field);
+                    me.menuTableEditField.setDisabled(disabled);
                     menuTableFieldSeparator.setVisible(!!in_field);
                 },
                 items: [
@@ -1559,6 +1564,7 @@ define([
                     menuTableReviewSeparator,
                     menuEquationSeparatorInTable,
                     me.menuTableRefreshField,
+                    me.menuTableEditField,
                     menuTableFieldSeparator,
                     me.menuTableSelectText,
                     me.menuTableInsertText,
@@ -1905,6 +1911,9 @@ define([
             me.menuParaRefreshField = new Common.UI.MenuItem({
                 caption: me.textRefreshField
             });
+            me.menuParaEditField = new Common.UI.MenuItem({
+                caption: me.textEditField
+            });
 
             var menuParaFieldSeparator = new Common.UI.MenuItem({
                 caption     : '--'
@@ -2146,6 +2155,8 @@ define([
                     var in_field = me.api.asc_HaveFields(true);
                     me.menuParaRefreshField.setVisible(!!in_field);
                     me.menuParaRefreshField.setDisabled(disabled);
+                    me.menuParaEditField.setVisible(!!in_field);
+                    me.menuParaEditField.setDisabled(disabled);
                     menuParaFieldSeparator.setVisible(!!in_field);
 
                     var listId = me.api.asc_GetCurrentNumberingId(),
@@ -2193,6 +2204,7 @@ define([
                     me.menuParaControlSettings,
                     menuParaControlSeparator,
                     me.menuParaRefreshField,
+                    me.menuParaEditField,
                     menuParaFieldSeparator,
                     me.menuParaTOCSettings,
                     me.menuParaTOCRefresh,
@@ -3438,7 +3450,8 @@ define([
         txtInsImage: 'Insert image from File',
         txtInsImageUrl: 'Insert image from URL',
         textClearField: 'Clear field',
-        textRedo: 'Redo'
+        textRedo: 'Redo',
+        textEditField: 'Edit field'
 
 }, DE.Views.DocumentHolder || {}));
 });

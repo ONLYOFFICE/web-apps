@@ -169,7 +169,8 @@ define([
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 },
                 'DocumentHolder': {
-                    'list:settings': this.onMarkerSettingsClick.bind(this)
+                    'list:settings': this.onMarkerSettingsClick.bind(this),
+                    'field:edit': this.onInsFieldClick.bind(this, 'edit')
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:mailmerge':  _.bind(this.onSelectRecepientsClick, this)
@@ -385,7 +386,7 @@ define([
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
-            toolbar.btnInsField.on('click',                             _.bind(this.onInsFieldClick, this));
+            toolbar.btnInsField.on('click',                             _.bind(this.onInsFieldClick, this, 'add'));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
             toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
@@ -822,9 +823,9 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
 
             this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
-                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol, toolbar.btnInsField ])});
             this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
-                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol, toolbar.btnInsField ])});
 
             this.toolbar.lockToolbar(Common.enumLock.inChart,       in_chart,           {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnInsertEquation])});
             this.toolbar.lockToolbar(Common.enumLock.inSmartart,    in_smart_art,       {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnContentControls])});
@@ -894,7 +895,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
-            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
@@ -3784,13 +3785,14 @@ define([
             })).show();
         },
 
-        onInsFieldClick: function() {
+        onInsFieldClick: function(type) {
             var me = this;
             (new DE.Views.FieldDialog({
+                code: type==='edit' ? me.api.asc_getComplexFieldInstruction() : '',
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            me.api.asc_AddComplexFieldWithInstruction(value);
+                            type==='edit' ? me.api.asc_EditComplexFieldWithInstruction(value) : me.api.asc_AddComplexFieldWithInstruction(value);
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
