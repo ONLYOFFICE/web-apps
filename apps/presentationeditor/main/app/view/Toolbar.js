@@ -2145,7 +2145,7 @@ define([
                 if (cls !== this.btnSaveCls && this.btnCollabChanges.rendered) {
                     this.btnSaveTip = ((length > 1) ? this.tipSaveCoauth : this.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     this.btnCollabChanges.updateHint(this.btnSaveTip);
-                    this.btnCollabChanges.$icon.removeClass(this.btnSaveCls).addClass(cls);
+                    this.btnCollabChanges.changeIcon({next: cls, curr: this.btnSaveCls});
                     this.btnSaveCls = cls;
                 }
             },
