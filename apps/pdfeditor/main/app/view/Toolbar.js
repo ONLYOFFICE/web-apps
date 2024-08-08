@@ -1751,7 +1751,7 @@ define([
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
-                    me.btnCollabChanges.$icon.removeClass(me.btnSaveCls).addClass(cls);
+                    me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
                     me.btnSaveCls = cls;
                 }
             },
