@@ -56,7 +56,7 @@ const helper = function() {
         }
 
         $elem.text('');
-        setTimeout(e => {
+        setTimeout(function(e) {
             $elem.text(text);
         }, 0);
     }
