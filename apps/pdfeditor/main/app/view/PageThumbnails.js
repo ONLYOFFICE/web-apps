@@ -30,7 +30,6 @@
  *
  */
 /**
- * User: Julia.Svinareva
  * Date: 23.08.2021
  */
 

@@ -30,7 +30,6 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 30.07.19
  */
 

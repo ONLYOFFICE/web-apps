@@ -30,9 +30,7 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 15.04.15
- * Time: 16:47
  */
 
 define([

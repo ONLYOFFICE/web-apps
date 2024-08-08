@@ -30,7 +30,6 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 26.02.15
  */
 

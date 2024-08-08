@@ -32,8 +32,7 @@
 /**
  *  ScreenReaderFocus.js
  *
- *  Created by Julia Svinareva on 22.11.2023
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 22.11.2023
  *
  */
 
