@@ -426,10 +426,14 @@ define([
                 if (data.length) {
                     me.cmbLang.setData(data);
                     var res = me.loadWMText(me.lang.value);
+                    var langKey = me.lang.value;
+                    var cmbLangLi = me.cmbLang.store.findWhere({value: langKey});
+                    if (!cmbLangLi)
+                        langKey = langKey.split(/[\-\_]/)[0];
                     if (res && me.lang.default)
-                        me.cmbLang.setValue(res);
+                        me.cmbLang.setValue(me.lang.value, res);
                     else
-                        me.cmbLang.setValue(me.lang.displayValue);
+                        me.cmbLang.setValue(me.lang.value, me.lang.displayValue);
                     me.cmbLang.setDisabled(!me.radioText.getValue());
                     me.text && me.cmbText.setValue(me.text);
                 } else
@@ -526,7 +530,11 @@ define([
                     if (val) {
                         var lang = Common.util.LanguageInfo.getLocalLanguageName(val.get_Lang());
                         this.lang = {value: lang[0], displayValue: lang[1]};
-                        this.cmbLang.setValue(lang[1]);
+                        var langKey = lang[0];
+                        var cmbLangLi = this.cmbLang.store.findWhere({value: langKey});
+                        if (!cmbLangLi)
+                            langKey = langKey.split(/[\-\_]/)[0];
+                        this.cmbLang.setValue(langKey, lang[1]);
                         this.loadWMText(lang[0]);
 
                         var font = val.get_FontFamily().get_Name();
