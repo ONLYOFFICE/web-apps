@@ -93,7 +93,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     var _showFocus = function () {
         if (_currentControls.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
             _getControls();
-            console.log(_currentControls);
+            // console.log(_currentControls);
         }
         if (!_focusVisible) {
             if ($('#file-menu-panel').is(':visible')) {
@@ -114,7 +114,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             _setFocusInSideMenu($(_currentSection).prop('id') === 'left-menu');
         }
         var currItem = _currentControls[_currentItemIndex];
-        console.log(_currentControls[_currentItemIndex]);
+        // console.log(_currentControls[_currentItemIndex]);
         if (currItem) {
             if ($(currItem).parent().hasClass('ribtab') && !$(currItem).parent().hasClass('active') && $(currItem).data('tab') !== 'file') {
                 $(currItem).trigger(jQuery.Event('click', {which: 1}));
