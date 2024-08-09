@@ -32,8 +32,7 @@
 /**
  *  ScreenReaderFocus.js
  *
- *  Created by Julia Svinareva on 22.11.2023
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 22.11.2023
  *
  */
 
@@ -94,7 +93,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     var _showFocus = function () {
         if (_currentControls.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
             _getControls();
-            console.log(_currentControls);
+            // console.log(_currentControls);
         }
         if (!_focusVisible) {
             if ($('#file-menu-panel').is(':visible')) {
@@ -115,7 +114,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
             _setFocusInSideMenu($(_currentSection).prop('id') === 'left-menu');
         }
         var currItem = _currentControls[_currentItemIndex];
-        console.log(_currentControls[_currentItemIndex]);
+        // console.log(_currentControls[_currentItemIndex]);
         if (currItem) {
             if ($(currItem).parent().hasClass('ribtab') && !$(currItem).parent().hasClass('active') && $(currItem).data('tab') !== 'file') {
                 $(currItem).trigger(jQuery.Event('click', {which: 1}));

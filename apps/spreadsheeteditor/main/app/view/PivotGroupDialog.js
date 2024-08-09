@@ -32,8 +32,7 @@
 /**
  *  PivotGroupDialog.js
  *
- *  Created by Julia Radzhabova 04.03.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 04.03.2021
  *
  */
 
