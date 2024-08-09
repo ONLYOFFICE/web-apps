@@ -3788,11 +3788,11 @@ define([
         onInsFieldClick: function(type) {
             var me = this;
             (new DE.Views.FieldDialog({
-                code: type==='edit' ? me.api.asc_getComplexFieldInstruction() : '',
+                code: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {
-                            type==='edit' ? me.api.asc_EditComplexFieldWithInstruction(value) : me.api.asc_AddComplexFieldWithInstruction(value);
+                            type==='edit' ? me.api.asc_EditComplexFieldInstruction(value) : me.api.asc_AddComplexFieldWithInstruction(value);
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
