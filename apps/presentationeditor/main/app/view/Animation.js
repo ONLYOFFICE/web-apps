@@ -611,7 +611,7 @@ define([
                     this.isColor = effect.color;
                 }
                 if((this._effectId != effectId && updateFamilyEffect) || (this._groupName != effectGroup)) {
-                    this.btnParameters.menu.removeItems(this.startIndexParam,this.btnParameters.menu.items.length-this.startIndexParam);
+                    this.btnParameters.menu.removeItems(this.startIndexParam,this.btnParameters.menu.getItemsLength()-this.startIndexParam);
                 }
                 if (arrEffectOptions){
                     if (this.btnParameters.menu.items.length == this.startIndexParam) {
@@ -630,8 +630,8 @@ define([
                         }
                         (effect && effect.familyEffect) && this.btnParameters.menu.addItem({caption: '--'});
                     } else {
-                        this.btnParameters.menu.clearAll();
-                        this.btnParameters.menu.items.forEach(function (opt) {
+                        this.btnParameters.menu.clearAll(true);
+                        this.btnParameters.menu.getItems().forEach(function (opt) {
                             if((opt.toggleGroup == 'animateeffects' || effectGroup==='menu-effect-group-path' && effectId===AscFormat.MOTION_CUSTOM_PATH) && (opt.value == option || option===undefined && !!opt.options.defvalue))
                                 selectedElement = opt;
                         },this);
@@ -645,11 +645,11 @@ define([
                             opt.checkable = true;
                             opt.toggleGroup = 'animatesimilareffects';
                             this.btnParameters.menu.addItem(opt);
-                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.items.length - 1].setChecked(true);
+                            (opt.value == effectId) && this.btnParameters.menu.items[this.btnParameters.menu.getItemsLength() - 1].setChecked(true);
                         }, this);
                     }
                     else {
-                        this.btnParameters.menu.items.forEach(function (opt) {
+                        this.btnParameters.menu.getItems().forEach(function (opt) {
                             if(opt.toggleGroup == 'animatesimilareffects' && opt.value == effectId)
                                 opt.setChecked(true);
                         });
@@ -658,7 +658,7 @@ define([
 
                 if(this.isColor) {
                     this.btnParameters.menu.items[0].show();
-                    this.btnParameters.menu.items.length > this.startIndexParam && this.btnParameters.menu.items[1].show();
+                    this.btnParameters.menu.getItemsLength() > this.startIndexParam && this.btnParameters.menu.items[1].show();
                 }
                 else {
                     this.btnParameters.menu.items[0].hide();

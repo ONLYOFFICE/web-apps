@@ -2699,10 +2699,11 @@ define([
                                 {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
-                        })});
+                        })}, true);
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
-                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                    var sa_items = me.btnInsertSmartArt.menu.getItems(true);
+                    sa_items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
                             items.push({
@@ -2711,7 +2712,7 @@ define([
                         }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
-                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            parentMenu: sa_items[index].menu,
                             itemTemplate: _.template([
                                 '<% if (isLoading) { %>',
                                     '<div class="loading-item" style="width: 70px; height: 70px;">',
@@ -3132,7 +3133,7 @@ define([
             },
 
             updateMetricUnit: function () {
-                var items = this.btnPageMargins.menu.items;
+                var items = this.btnPageMargins.menu.getItems(true);
                 for (var i = 0; i < items.length; i++) {
                     var mnu = items[i];
                     if (mnu.checkable) {
@@ -3145,7 +3146,7 @@ define([
                         if (checked) mnu.setChecked(checked);
                     }
                 }
-                items = this.btnPageSize.menu.items;
+                items = this.btnPageSize.menu.getItems(true);
                 for (var i = 0; i < items.length; i++) {
                     var mnu = items[i];
                     if (mnu.checkable) {
@@ -3199,13 +3200,7 @@ define([
             },
 
             onSendThemeColorSchemes: function (schemas) {
-                var me = this;
-
-                if (this.mnuColorSchema && this.mnuColorSchema.items.length > 0) {
-                    _.each(this.mnuColorSchema.items, function (item) {
-                        item.remove();
-                    });
-                }
+                this.mnuColorSchema && this.mnuColorSchema.removeAll(true);
 
                 if (this.mnuColorSchema == null) {
                     this.mnuColorSchema = new Common.UI.Menu({
@@ -3213,7 +3208,6 @@ define([
                         restoreHeight: true
                     });
                 }
-                this.mnuColorSchema.items = [];
 
                 var itemTemplate = _.template([
                     '<a id="<%= id %>"  tabindex="-1" type="menuitem" class="<%= options.cls %>">',
@@ -3237,7 +3231,7 @@ define([
                     if (index == 24) {
                         this.mnuColorSchema.addItem({
                             caption: '--'
-                        });
+                        }, true);
                     }
                     this.mnuColorSchema.addItem({
                         template: itemTemplate,
@@ -3247,7 +3241,7 @@ define([
                         value: index,
                         checkable: true,
                         toggleGroup: 'menuSchema'
-                    });
+                    }, true);
                 }, this);
             },
 

@@ -562,7 +562,7 @@ define([
                     var btn = this.btnMore,
                         mnu;
                     if (btn.menu && btn.menu.rendered) {
-                        for (var i = 0; i < btn.menu.items.length; i++) {
+                        for (var i = 0; i < btn.menu.getItemsLength(true); i++) {
                             if (btn.menu.items[i].options.value===name) {
                                 mnu = btn.menu.items[i];
                                 break;
@@ -641,7 +641,7 @@ define([
                     this.setButtonMenu(this.btnMath, 'Mathematic');
                     this.setButtonMenu(this.btnRecent, 'Last10');
 
-                    var formulas = this.btnAutosum.menu.items;
+                    var formulas = this.btnAutosum.menu.getItems(true);
                     for (var i=0; i<Math.min(4,formulas.length); i++) {
                         this.api && formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
                     }
@@ -652,7 +652,7 @@ define([
                         morearr = [],
                         visiblecount = 0;
 
-                    btn.menu && btn.menu.rendered && btn.menu.removeAll();
+                    btn.menu && btn.menu.rendered && btn.menu.removeAll(true);
 
                     ['Cube', 'Database', 'Engineering',  'Information', 'Statistical', 'Custom'].forEach(function(name) {
                         var mnu = me.setMenuItemMenu(name);
@@ -664,14 +664,14 @@ define([
                     if (morearr.length) {
                         if (btn.menu && btn.menu.rendered) {
                             morearr.forEach(function(item){
-                                btn.menu.addItem(item);
+                                btn.menu.addItem(item, true);
                             });
                         } else {
                             btn.setMenu(new Common.UI.Menu({
                                 items: morearr
                             }));
                         }
-                        btn.menu.items.forEach(function(mnu){
+                        btn.menu.getItems(true).forEach(function(mnu){
                             var menuContainer = mnu.menu.items[0].cmpEl.children(':first'),
                                 menu = mnu.menu._innerMenu;
                             menu.render(menuContainer);
@@ -698,7 +698,7 @@ define([
                 if (mnu) {
                     var hasvisible = false;
                     if (btn.menu && btn.menu.rendered) {
-                        for (var i = 0; i < btn.menu.items.length; i++) {
+                        for (var i = 0; i < btn.menu.getItemsLength(true); i++) {
                             if (btn.menu.items[i].visible) {
                                 hasvisible = true;
                                 break;

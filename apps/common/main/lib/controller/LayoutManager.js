@@ -407,7 +407,7 @@ Common.UI.LayoutManager = new(function() {
             }));
             hasIcons = hasIcons || !!item.icons;
         });
-        hasIcons && (toMenu.cmpEl ? toMenu.cmpEl.toggleClass('shifted-right', true) : (toMenu.options.cls = 'shifted-right'));
+        hasIcons && (toMenu.cmpEl ? toMenu.cmpEl.toggleClass('shifted-right', true) : (toMenu.options.cls = toMenu.cls = 'shifted-right'));
         return toMenu;
     };
 
@@ -511,7 +511,7 @@ Common.UI.LayoutManager = new(function() {
         }
         if (hasIcons) {
             for (var i=0; i<newItems.length; i++) {
-                hasIcons && (newItems[i].cmpEl ? newItems[i].cmpEl.toggleClass('shifted-right', true) : (newItems[i].options.cls = 'shifted-right'));
+                hasIcons && (newItems[i].cmpEl ? newItems[i].cmpEl.toggleClass('shifted-right', true) : (newItems[i].options.cls = newItems[i].cls = 'shifted-right'));
             }
         }
         // hasIcons && (menu.cmpEl ? menu.cmpEl.toggleClass('shifted-right', true) : (menu.options.cls = 'shifted-right'));

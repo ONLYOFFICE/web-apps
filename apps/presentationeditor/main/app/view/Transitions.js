@@ -406,7 +406,7 @@ define([
 
                 var selectedElement;
 
-                _.each(this.btnParameters.menu.items, function (element, index) {
+                _.each(this.btnParameters.menu.getItems(), function (element, index) {
                     if ((index >= minMax[0]) && (index <= minMax[1])) {
                         element.setVisible(true);
                         if (value != undefined) {

@@ -247,7 +247,7 @@ define([
                 if (this.toolbar.btnInsertShape.pressed) this.toolbar.btnInsertShape.toggle(false, true);
                 if (this.toolbar.btnInsertText.pressed) {
                     this.toolbar.btnInsertText.toggle(false, true);
-                    this.toolbar.btnInsertText.menu.clearAll();
+                    this.toolbar.btnInsertText.menu.clearAll(true);
                 }
                 $(document.body).off('mouseup', checkInsertAutoshape);
             };
@@ -796,7 +796,7 @@ define([
         onBorders: function(btn) {
             var menuItem;
 
-            _.each(btn.menu.items, function(item) {
+            _.each(btn.menu.getItems(true), function(item) {
                 if (btn.options.borderId == item.options.borderId) {
                     menuItem = item;
                     return false;
@@ -1317,12 +1317,12 @@ define([
         },
 
         onBtnInsertTextClick: function(btn, e) {
-            btn.menu.items.forEach(function(item) {
+            btn.menu.getItems(true).forEach(function(item) {
                 if(item.value == btn.options.textboxType) 
                 item.setChecked(true);
             });
             if(!this.toolbar.btnInsertText.pressed) {
-                this.toolbar.btnInsertText.menu.clearAll();
+                this.toolbar.btnInsertText.menu.clearAll(true);
             } 
             this.onInsertText(btn.options.textboxType, btn, e);
         },
@@ -1335,7 +1335,7 @@ define([
             if(newType != oldType){
                 this.toolbar.btnInsertText.changeIcon({
                     next: e.options.iconClsForMainBtn,
-                    curr: this.toolbar.btnInsertText.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                    curr: this.toolbar.btnInsertText.menu.getItems(true).filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
                 });
                 this.toolbar.btnInsertText.updateHint([e.caption, this.views.Toolbar.prototype.tipInsertText]);
                 this.toolbar.btnInsertText.options.textboxType = newType;
@@ -1740,8 +1740,8 @@ define([
         onColorSchemaShow: function(menu) {
             if (this.api) {
                 var value = this.api.asc_GetCurrentColorSchemeIndex();
-                var item = _.find(menu.items, function(item) { return item.value == value; });
-                (item) ? item.setChecked(true) : menu.clearAll();
+                var item = _.find(menu.getItems(true), function(item) { return item.value == value; });
+                (item) ? item.setChecked(true) : menu.clearAll(true);
             }
         },
 
@@ -2125,7 +2125,7 @@ define([
                                 (selectionType === Asc.c_oAscSelectionType.RangeCol) && !me.toolbar.btnAddCell.menu.items[3].isDisabled() && me.api.asc_insertCells(Asc.c_oAscInsertOptions.InsertColumns);
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             } else {
-                                var items = me.toolbar.btnAddCell.menu.items,
+                                var items = me.toolbar.btnAddCell.menu.getItems(true),
                                     arr = [],
                                     enabled = false;
                                 for (var i=0; i<4; i++) {
@@ -2155,7 +2155,7 @@ define([
                                 me.api.asc_deleteCells(selectionType === Asc.c_oAscSelectionType.RangeRow ? Asc.c_oAscDeleteOptions.DeleteRows :Asc.c_oAscDeleteOptions.DeleteColumns );
                                 Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                             } else {
-                                var items = me.toolbar.btnDeleteCell.menu.items,
+                                var items = me.toolbar.btnDeleteCell.menu.getItems(true),
                                     arr = [],
                                     enabled = false;
                                 for (var i=0; i<4; i++) {
@@ -2672,8 +2672,8 @@ define([
                 Math.abs(this._state.pgsize[1] - h) > 0.1) {
                 this._state.pgsize = [w, h];
                 if (this.toolbar.mnuPageSize) {
-                    this.toolbar.mnuPageSize.clearAll();
-                    _.each(this.toolbar.mnuPageSize.items, function(item){
+                    this.toolbar.mnuPageSize.clearAll(true);
+                    _.each(this.toolbar.mnuPageSize.getItems(true), function(item){
                         if (item.value && typeof(item.value) == 'object' &&
                             Math.abs(item.value[0] - w) < 0.1 && Math.abs(item.value[1] - h) < 0.1) {
                             item.setChecked(true);
@@ -2696,8 +2696,8 @@ define([
                     Math.abs(this._state.pgmargins[3] - right) > 0.1) {
                     this._state.pgmargins = [top, left, bottom, right];
                     if (this.toolbar.btnPageMargins.menu) {
-                        this.toolbar.btnPageMargins.menu.clearAll();
-                        _.each(this.toolbar.btnPageMargins.menu.items, function(item){
+                        this.toolbar.btnPageMargins.menu.clearAll(true);
+                        _.each(this.toolbar.btnPageMargins.menu.getItems(true), function(item){
                             if (item.value && typeof(item.value) == 'object' &&
                                 Math.abs(item.value[0] - top) < 0.1 && Math.abs(item.value[1] - left) < 0.1 &&
                                 Math.abs(item.value[2] - bottom) < 0.1 && Math.abs(item.value[3] - right) < 0.1) {
@@ -2729,8 +2729,8 @@ define([
                     } else {
                         this.toolbar.setValueCustomScale(this.api.asc_getPageOptions().asc_getPageSetup().asc_getScale());
                     }
-                    this.toolbar.menuWidthScale.clearAll();
-                    this.toolbar.menuWidthScale.items.forEach(function (item) {
+                    this.toolbar.menuWidthScale.clearAll(true);
+                    this.toolbar.menuWidthScale.getItems(true).forEach(function (item) {
                         if (item.value === width) {
                             item.setChecked(true);
                             isWidth = true;
@@ -2740,8 +2740,8 @@ define([
                     if (!isWidth) {
                         this.toolbar.menuWidthScale.items[11].setChecked(true);
                     }
-                    this.toolbar.menuHeightScale.clearAll();
-                    this.toolbar.menuHeightScale.items.forEach(function (item) {
+                    this.toolbar.menuHeightScale.clearAll(true);
+                    this.toolbar.menuHeightScale.getItems(true).forEach(function (item) {
                         if (item.value === height) {
                             item.setChecked(true);
                             isHeight = true;
@@ -2824,7 +2824,7 @@ define([
 
                     btnSubscript.toggle(index>-1, true);
                     if (index < 0) {
-                        btnSubscript.menu.clearAll();
+                        btnSubscript.menu.clearAll(true);
                     } else {
                         btnSubscript.menu.items[index].setChecked(true);
                         if ( btnSubscript.rendered && btnSubscript.$icon ) {
@@ -3003,7 +3003,7 @@ define([
 
                     btnSubscript.toggle(index>-1, true);
                     if (index < 0) {
-                        btnSubscript.menu.clearAll();
+                        btnSubscript.menu.clearAll(true);
                     } else {
                         btnSubscript.menu.items[index].setChecked(true);
                         if ( btnSubscript.rendered ) {
@@ -3252,7 +3252,7 @@ define([
 
             val = xfs.asc_getAngle();
             if (this._state.angle !== val) {
-                toolbar.btnTextOrient.menu.clearAll();
+                toolbar.btnTextOrient.menu.clearAll(true);
                 switch(val) {
                     case 45:    toolbar.btnTextOrient.menu.items[1].setChecked(true, true); break;
                     case -45:   toolbar.btnTextOrient.menu.items[2].setChecked(true, true); break;
@@ -3310,14 +3310,14 @@ define([
             need_disable = selCol || val || !(selRow || selMax) && this._state.wsLock || selRow && this._state.wsProps['DeleteRows'] || selMax && this._state.wsProps['DeleteColumns'] && this._state.wsProps['DeleteRows'];
             toolbar.btnDeleteCell.menu.items[1].setDisabled(need_disable);
 
-            var items = toolbar.btnAddCell.menu.items,
+            var items = toolbar.btnAddCell.menu.getItems(true),
                 enabled = false;
             for (var i=0; i<4; i++) {
                 !items[i].isDisabled() && (enabled = true);
             }
             toolbar.lockToolbar(Common.enumLock.itemsDisabled, !enabled, {array: [toolbar.btnAddCell]});
 
-            items = me.toolbar.btnDeleteCell.menu.items;
+            items = me.toolbar.btnDeleteCell.menu.getItems(true);
             enabled = false;
             for (var i=0; i<4; i++) {
                 !items[i].isDisabled() && (enabled = true);
@@ -3673,7 +3673,7 @@ define([
                 if (!(index < 0)) {
                     toolbar.btnHorizontalAlign.menu.items[index].setChecked(true);
                 } else if (index == -255) {
-                    toolbar.btnHorizontalAlign.menu.clearAll();
+                    toolbar.btnHorizontalAlign.menu.clearAll(true);
                 }
                 if ( toolbar.btnHorizontalAlign.rendered && toolbar.btnHorizontalAlign.$icon ) {
                     toolbar.btnHorizontalAlign.$icon.removeClass(toolbar.btnHorizontalAlign.options.icls).addClass(align);
@@ -3697,7 +3697,7 @@ define([
                 if (!(index < 0)) {
                     toolbar.btnVerticalAlign.menu.items[index].setChecked(true);
                 } else if (index == -255) {
-                    toolbar.btnVerticalAlign.menu.clearAll();
+                    toolbar.btnVerticalAlign.menu.clearAll(true);
                 }
                 if ( toolbar.btnVerticalAlign.rendered && toolbar.btnVerticalAlign.$icon ) {
                     toolbar.btnVerticalAlign.$icon.removeClass(toolbar.btnVerticalAlign.options.icls).addClass(align);
@@ -4024,7 +4024,7 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.getItemsLength()>0) return;
+            if (!this.toolbar.btnInsertEquation.rendered || this.toolbar.btnInsertEquation.menu.getItemsLength(true)>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
             var onShowAfter = function(menu) {
@@ -4547,7 +4547,7 @@ define([
 
         applyFormulaSettings: function() {
             if (this.toolbar.btnInsertFormula && this.toolbar.btnInsertFormula.rendered) {
-                var formulas = this.toolbar.btnInsertFormula.menu.items;
+                var formulas = this.toolbar.btnInsertFormula.menu.getItems(true);
                 for (var i=0; i<Math.min(4,formulas.length); i++) {
                     formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
                 }
@@ -5107,7 +5107,7 @@ define([
 
         onApiBeginSmartArtPreview: function (type) {
             this.smartArtGenerating = type;
-            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.items;
+            this.smartArtGroups = this.toolbar.btnInsertSmartArt.menu.getItems(true);
             var menuPicker = _.findWhere(this.smartArtGroups, {value: type}).menuPicker;
             menuPicker.loaded = true;
             this.smartArtData = Common.define.smartArt.getSmartArtData();
@@ -5216,10 +5216,10 @@ define([
 
         onShowBeforeFillNumMenu: function() {
             if (this.api) {
-                var items = this.toolbar.btnFillNumbers.menu.items,
+                var items = this.toolbar.btnFillNumbers.menu.getItems(true),
                     props = this.api.asc_GetSeriesSettings().asc_getToolbarMenuAllowedProps();
 
-                for (var i = 0; i < items.length; i++) {
+                for (var i = 0; i < items.length ; i++) {
                     items[i].setDisabled(!props[items[i].value]);
                 }
             }

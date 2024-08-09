@@ -1732,10 +1732,11 @@ define([
                                 {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                             ],
                             menuAlign: 'tl-tr',
-                        })});
+                        })}, true);
                 });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
-                    me.btnInsertSmartArt.menu.items.forEach(function (item, index) {
+                    var sa_items = me.btnInsertSmartArt.menu.getItems(true);
+                    sa_items.forEach(function (item, index) {
                         var items = [];
                         for (var i=0; i<item.options.itemsLength; i++) {
                             items.push({
@@ -1744,7 +1745,7 @@ define([
                         }
                         item.menuPicker = new Common.UI.DataView({
                             el: $('#' + item.options.itemId),
-                            parentMenu: me.btnInsertSmartArt.menu.items[index].menu,
+                            parentMenu: sa_items[index].menu,
                             itemTemplate: _.template([
                                 '<% if (isLoading) { %>',
                                     '<div class="loading-item" style="width: 70px; height: 70px;">',
@@ -2085,24 +2086,17 @@ define([
             },
 
             onSendThemeColorSchemes: function (schemas) {
-                var me = this,
-                    mnuColorSchema = me.btnColorSchemas.menu;
+                var mnuColorSchema = this.btnColorSchemas.menu;
+                mnuColorSchema && mnuColorSchema.removeAll(true);
+
+                if (mnuColorSchema == null) {
+                    mnuColorSchema = new Common.UI.Menu({
+                        cls: 'shifted-left',
+                        restoreHeight: true
+                    });
+                }
 
                 if (mnuColorSchema) {
-                    if (mnuColorSchema && mnuColorSchema.items.length > 0) {
-                        _.each(mnuColorSchema.items, function (item) {
-                            item.remove();
-                        });
-                    }
-
-                    if (mnuColorSchema == null) {
-                        mnuColorSchema = new Common.UI.Menu({
-                            cls: 'shifted-left',
-                            restoreHeight: true
-                        });
-                    }
-                    mnuColorSchema.items = [];
-
                     var itemTemplate = _.template([
                         '<a id="<%= id %>" class="<%= options.cls %>" tabindex="-1" type="menuitem">',
                         '<span class="colors">',
@@ -2125,7 +2119,7 @@ define([
                         if (index == 24) {
                             mnuColorSchema.addItem({
                                 caption: '--'
-                            });
+                            }, true);
                         }
                         mnuColorSchema.addItem({
                             template: itemTemplate,
@@ -2135,7 +2129,7 @@ define([
                             value: index,
                             checkable: true,
                             toggleGroup: 'menuSchema'
-                        });
+                        }, true);
                     }, this);
                 }
             },

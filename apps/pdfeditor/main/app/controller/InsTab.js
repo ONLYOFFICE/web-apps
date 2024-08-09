@@ -262,7 +262,7 @@ define([
             if ( this.view.btnsInsertText.pressed() ) {
                 this.view.btnsInsertText.toggle(false, true);
                 this.view.btnsInsertText.forEach(function(button) {
-                    button.menu.clearAll();
+                    button.menu.clearAll(true);
                 });
             }
 
@@ -473,12 +473,12 @@ define([
         },
 
         onBtnInsertTextClick: function(btn, e) {
-            btn.menu.items.forEach(function(item) {
+            btn.menu.getItems(true).forEach(function(item) {
                 if(item.value == btn.options.textboxType)
                     item.setChecked(true);
             });
             if(!btn.pressed) {
-                btn.menu.clearAll();
+                btn.menu.clearAll(true);
             }
             this.onInsertText(btn.options.textboxType, btn, e);
         },
@@ -494,7 +494,7 @@ define([
                     button.updateHint([e.caption, self.views.tipInsertText]);
                     button.changeIcon({
                         next: e.options.iconClsForMainBtn,
-                        curr: button.menu.items.filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
+                        curr: button.menu.getItems(true).filter(function(item){return item.value == oldType})[0].options.iconClsForMainBtn
                     });
                     button.options.textboxType = newType;
                 });
@@ -707,7 +707,7 @@ define([
         },
 
         fillEquations: function() {
-            if (!this.view.btnInsertEquation.rendered || this.view.btnInsertEquation.menu.getItemsLength()>0) return;
+            if (!this.view.btnInsertEquation.rendered || this.view.btnInsertEquation.menu.getItemsLength(true)>0) return;
 
             var me = this, equationsStore = this.getApplication().getCollection('EquationGroups');
             var onShowAfter = function(menu) {

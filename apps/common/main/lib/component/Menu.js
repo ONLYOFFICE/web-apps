@@ -353,8 +353,8 @@ define([
                 }
             },
 
-            addItem: function(item, keepCustom) { // if has custom items insert before first custom
-                if (!keepCustom)
+            addItem: function(item, beforeCustom) { // if has custom items insert before first custom
+                if (!beforeCustom)
                     this.insertItem(-1, item);
                 else {
                     var customIdx = -1;
@@ -391,7 +391,7 @@ define([
                 this.items.splice(from, len);
             },
 
-            removeAll: function(keepCustom) {
+            removeAll: function(keepCustom) { // remove only not-custom items when keepCustom is true
                 for (var i=0; i<this.items.length; i++) {
                     if (!keepCustom || !this.items[i].isCustomItem) {
                         this.items[i].off('click').off('toggle');
@@ -751,29 +751,35 @@ define([
                 }
             },
 
-            getChecked: function() {
+            getChecked: function(exceptCustom) { // check only not-custom items if exceptCustom is true
                 for (var i=0; i<this.items.length; i++) {
                     var item = this.items[i];
-                    if (item.isChecked && item.isChecked())
+                    if (item.isChecked && item.isChecked() && (!exceptCustom || !item.isCustomItem))
                         return item;
                 }
             },
 
-            clearAll: function() {
+            clearAll: function(keepCustom) { // clear only not-custom items when keepCustom is true
                 _.each(this.items, function(item){
-                    if (item.setChecked)
+                    if (item.setChecked && (!keepCustom || !item.isCustomItem))
                         item.setChecked(false, true);
                 });
             },
 
-            getItemsLength: function(keepCustom) {
-                if (keepCustom) return this.items.length;
+            getItems: function(exceptCustom) { // return only not-custom items when exceptCustom is true
+                if (!exceptCustom) return this.items;
 
-                var len = 0;
-                for (var i=0; i<this.items.length; i++) {
-                    if (!this.items[i].isCustomItem)
-                        len++;
-                }
+                return _.reject(this.items, function (item) {
+                    return !!item.isCustomItem;
+                });
+            },
+
+            getItemsLength: function(exceptCustom) { // return count of not-custom items when exceptCustom is true
+                if (!exceptCustom) return this.items.length;
+
+                return _.reject(this.items, function (item) {
+                    return !!item.isCustomItem;
+                }).length;
             }
 
         }), {
