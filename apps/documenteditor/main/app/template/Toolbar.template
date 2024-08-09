@@ -116,9 +116,9 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-instext"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-instextart"></span>
-                    <span class="btn-slot text x-huge" id="slot-btn-insfield"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-dropcap"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-datetime"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-insfield"></span>
                 </div>
                 <div class="separator long"></div>
                 <div class="group">

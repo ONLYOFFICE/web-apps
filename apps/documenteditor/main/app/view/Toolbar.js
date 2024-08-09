@@ -868,7 +868,7 @@ define([
                     this.btnInsField = new Common.UI.Button({
                         id: 'id-toolbar-btn-insfield',
                         cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-field',
+                        iconCls: 'toolbar__icon btn-quick-field',
                         lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: me.capBtnInsField,
