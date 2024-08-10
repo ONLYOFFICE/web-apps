@@ -332,6 +332,9 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
+
+            me.permissions.isEdit ? me.documentHolder.createDelayedElements() : me.documentHolder.createDelayedElementsViewer();
+
             if (me.type !== 'edit') {
                 return;
             }

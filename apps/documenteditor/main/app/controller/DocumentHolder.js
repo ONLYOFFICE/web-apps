@@ -263,6 +263,9 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
+
+            me.mode.isEdit ? me.documentHolder.createDelayedElements() : me.documentHolder.createDelayedElementsViewer();
+
             if (!me.mode.isEdit) {
                 return;
             }

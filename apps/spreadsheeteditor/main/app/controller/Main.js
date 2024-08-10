@@ -1087,7 +1087,7 @@ define([
 
                             Common.NotificationCenter.trigger('comments:updatefilter', ['doc', 'sheet' + me.api.asc_getActiveWorksheetId()]);
 
-                            documentHolderView.createDelayedElements();
+                            // documentHolderView.createDelayedElements();
                             toolbarController.createDelayedElements();
                             // me.setLanguages();
 
@@ -1122,7 +1122,7 @@ define([
                 } else {
                     var formulasDlgController = application.getController('FormulaDialog');
                     formulasDlgController && formulasDlgController.setMode(me.appOptions).setApi(me.api);
-                    documentHolderView.createDelayedElementsViewer();
+                    // documentHolderView.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');
                     me.applyLicense();

@@ -22,6 +22,7 @@ require([
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/DocumentHolderExt',
 
+    'spreadsheeteditor/main/app/view/DocumentHolderExt',
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
     'spreadsheeteditor/main/app/view/ChartDataDialog',
     'spreadsheeteditor/main/app/view/SortDialog',
