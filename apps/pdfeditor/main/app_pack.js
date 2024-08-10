@@ -16,6 +16,7 @@ require([
     'common/main/lib/view/PluginPanel',
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/DocumentHolderExt',
 
     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
     'pdfeditor/main/app/view/ImageSettingsAdvanced',

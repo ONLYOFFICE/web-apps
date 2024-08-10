@@ -61,6 +61,7 @@ define([
             var me = this;
             me._preventCustomClick = null;
             me._hasCustomItems = false;
+            me._currentTranslateObj = undefined;
 
             this.setApi = function(api) {
                 me.api = api;

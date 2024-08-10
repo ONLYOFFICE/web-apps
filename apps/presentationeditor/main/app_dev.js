@@ -215,6 +215,7 @@ require([
                 'common/main/lib/view/PluginPanel',
                 'common/main/lib/view/ShapeShadowDialog',
                 'common/main/lib/view/CustomizeQuickAccessDialog',
+                'common/main/lib/view/DocumentHolderExt',
 
                 'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
                 'presentationeditor/main/app/view/ShapeSettingsAdvanced',
