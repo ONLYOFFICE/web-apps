@@ -358,6 +358,8 @@ define([
                 this._input.on('keydown',   _.bind(this.onInputKeyDown, this));
                 this._input.on('focus',     _.bind(function() {this.inFormControl = true;}, this));
                 this._input.on('blur',      _.bind(function() {this.inFormControl = false;}, this));
+                this._input.on('compositionstart', _.bind(function() {this._isComposition = true;}, this));
+                this._input.on('compositionend',   _.bind(function() {this._isComposition = false;}, this));
 
                 return this;
             },
@@ -407,7 +409,7 @@ define([
                     e.keyCode !== Common.UI.Keys.INSERT && e.keyCode !== Common.UI.Keys.TAB){
                     e.stopPropagation();
                     this.selectCandidate(e.keyCode == Common.UI.Keys.DELETE || e.keyCode == Common.UI.Keys.BACKSPACE);
-                    if (this._selectedItem) {
+                    if (this._selectedItem && !this._isComposition) {
                         var me = this;
                         if (me._timerSelection===undefined)
                             me._timerSelection = setInterval(function(){
