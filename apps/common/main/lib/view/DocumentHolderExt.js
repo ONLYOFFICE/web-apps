@@ -30,9 +30,7 @@
  *
  */
 
-define([
-    'underscore'
-], function (_) {
+define([], function () {
     'use strict';
 
     let _editor = window.DE || window.PDFE ||window.PDFE || window.PE || window.SSE;
