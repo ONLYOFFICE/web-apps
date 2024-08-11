@@ -18,6 +18,7 @@ require([
     'common/main/lib/view/ImageFromUrlDialog',
     'common/main/lib/view/DocumentHolderExt',
 
+    'pdfeditor/main/app/view/DocumentHolderExt',
     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
     'pdfeditor/main/app/view/ImageSettingsAdvanced',
     'pdfeditor/main/app/view/HyperlinkSettingsDialog',

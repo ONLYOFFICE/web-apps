@@ -423,6 +423,9 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
+
+            me.mode.isEdit ? me.getView().createDelayedElements() : me.getView().createDelayedElementsViewer();
+
             if (!me.mode.isEdit) {
                 return;
             }
