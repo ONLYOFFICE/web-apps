@@ -2862,6 +2862,7 @@
   "PE.Views.Transitions.textWedge": "Wedge",
   "PE.Views.Transitions.textWipe": "Wipe",
   "PE.Views.Transitions.textZoom": "Zoom",
+  "PE.Views.Transitions.textRandom": "Random",
   "PE.Views.Transitions.textZoomIn": "Zoom In",
   "PE.Views.Transitions.textZoomOut": "Zoom Out",
   "PE.Views.Transitions.textZoomRotate": "Zoom and Rotate",
