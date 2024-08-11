@@ -1441,8 +1441,7 @@ define([
                             clearInterval(timer_sl);
 
                             toolbarController.createDelayedElements();
-
-                            // documentHolderController.getView().createDelayedElements();
+                            documentHolderController.getView().createDelayedElements();
                             me.setLanguages();
 
                             var shapes = me.api.asc_getPropertyEditorShapes();
@@ -1470,8 +1469,7 @@ define([
                             me.api.UpdateInterfaceState();
                         }
                     }
-
-                    // documentHolderController.getView().createDelayedElementsViewer();
+                    documentHolderController.getView().createDelayedElementsViewer();
                     toolbarController.createDelayedElementsViewer();
                     Common.Utils.injectSvgIcons();
                     Common.NotificationCenter.trigger('document:ready', 'main');

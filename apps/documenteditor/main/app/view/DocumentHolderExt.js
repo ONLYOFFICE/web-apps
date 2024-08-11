@@ -39,6 +39,7 @@ define([], function () {
         dh.createDelayedElements = function() {
             var me = this;
 
+            if (me.menuInsertCaption || !window.styles_loaded) return; // menu is already inited or editor styles are not loaded
             me.menuInsertCaption = new Common.UI.MenuItem({
                 caption : me.txtInsertCaption
             });
@@ -2001,6 +2002,8 @@ define([], function () {
         dh.createDelayedElementsViewer = function() {
             var me = this;
 
+            if (me.menuViewCopy) return; // menu is already inited
+
             me.menuViewCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption: me.textCopy,
@@ -2131,6 +2134,8 @@ define([], function () {
         dh.createDelayedElementsPDFViewer = function() {
             var me = this;
 
+            if (me.menuPDFViewCopy) return; // menu is already inited
+
             me.menuPDFViewCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption: me.textCopy,
@@ -2161,6 +2166,8 @@ define([], function () {
 
         dh.createDelayedElementsPDFForms = function() {
             var me = this;
+
+            if (me.menuPDFFormsCopy) return; // menu is already inited
 
             me.menuPDFFormsCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',

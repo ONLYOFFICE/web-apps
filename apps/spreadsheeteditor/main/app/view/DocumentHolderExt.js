@@ -39,6 +39,8 @@ define([], function () {
         dh.createDelayedElementsViewer = function() {
             var me = this;
 
+            if (me.menuViewCopy) return; // menu is already inited
+
             me.menuViewCopy = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-copy',
                 caption: me.txtCopy,
@@ -96,6 +98,7 @@ define([], function () {
         dh.createDelayedElements = function() {
             var me = this;
 
+            if (me.pmiCut || !(window.styles_loaded || me.mode.isEditDiagram || me.mode.isEditMailMerge || me.mode.isEditOle)) return; // menu is already inited or editor styles are not loaded
             me.pmiCut = new Common.UI.MenuItem({
                 iconCls: 'menu__icon btn-cut',
                 caption     : me.txtCut,
