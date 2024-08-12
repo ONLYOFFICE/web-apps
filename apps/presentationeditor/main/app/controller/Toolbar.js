@@ -1858,10 +1858,6 @@ define([
                                     me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                                } else {
-                                    Common.UI.warning({
-                                        msg: this.textEmptyImgUrl
-                                    });
                                 }
                             }
 
@@ -3088,7 +3084,6 @@ define([
             Common.UI.TooltipManager.closeTip('masterSlide');
         },
 
-        textEmptyImgUrl : 'You need to specify image URL.',
         textWarning     : 'Warning',
         textFontSizeErr : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
         confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',

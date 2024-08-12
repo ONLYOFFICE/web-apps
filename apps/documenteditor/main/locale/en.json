@@ -1307,7 +1307,7 @@
   "DE.Controllers.Toolbar.textConvertFormDownload": "Download file as a fillable PDF form to be able to fill it out.",
   "DE.Controllers.Toolbar.textConvertFormSave": "Save file as a fillable PDF form to be able to fill it out.",
   "DE.Controllers.Toolbar.textDownloadPdf": "Download PDF",
-  "DE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
+  "del_DE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
   "DE.Controllers.Toolbar.textEmptyMMergeUrl": "You need to specify URL.",
   "DE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "DE.Controllers.Toolbar.textFraction": "Fractions",

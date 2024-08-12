@@ -1828,10 +1828,6 @@ define([
                                     me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                                } else {
-                                    Common.UI.warning({
-                                        msg: this.textEmptyImgUrl
-                                    });
                                 }
                             }
 
@@ -3905,7 +3901,6 @@ define([
             Common.UI.TooltipManager.closeTip('pageColor');
         },
 
-        textEmptyImgUrl                            : 'You need to specify image URL.',
         textWarning                                : 'Warning',
         textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
         textSymbols                                : 'Symbols',
