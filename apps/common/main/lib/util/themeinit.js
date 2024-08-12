@@ -94,6 +94,11 @@
                 }
 
                 if ( objtheme.colors ) {
+                    ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                        .forEach(function (i) {
+                            !!objtheme.colors[i] && document.documentElement.style.setProperty('--' + i, objtheme.colors[i]);
+                        });
+
                     let colors = [];
                     for (let c in objtheme.colors) {
                         colors.push('--' + c + ':' + objtheme.colors[c]);
