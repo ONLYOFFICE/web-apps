@@ -102,7 +102,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-previtem'
             });
 
@@ -113,7 +113,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 dataHintTitle: 'S',
                 iconCls: 'menu__icon btn-save'
             });
@@ -130,7 +130,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-edit'
             });
 
@@ -141,7 +141,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-download'
             });
 
@@ -152,7 +152,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-save-copy'
             });
 
@@ -173,7 +173,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 dataHintTitle: 'P',
                 iconCls: 'menu__icon btn-print'
             });
@@ -185,7 +185,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 dataHintTitle: 'P',
                 iconCls: 'menu__icon btn-print'
             });
@@ -197,7 +197,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-rename'
             });
 
@@ -213,7 +213,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-lock'
             });
 
@@ -239,7 +239,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-create-new'
             });
 
@@ -250,7 +250,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-menu-about'
             });
 
@@ -261,7 +261,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-users-share'
             });
 
@@ -272,7 +272,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-version-history'
             });
             if ( !!this.options.miHistory ) {
@@ -287,7 +287,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-settings'
             });
 
@@ -298,7 +298,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-help'
             });
 
@@ -309,7 +309,7 @@ define([
                 canFocused: false,
                 dataHint: 1,
                 dataHintDirection: 'left-top',
-                dataHintOffset: [2, 14],
+                dataHintOffset: [-2, 22],
                 iconCls: 'menu__icon btn-goback'
             });
 
@@ -521,7 +521,7 @@ define([
                             canFocused: false,
                             dataHint: 1,
                             dataHintDirection: 'left-top',
-                            dataHintOffset: [2, 14],
+                            dataHintOffset: [-2, 22],
                             iconCls: 'menu__icon btn-open'
                         }));
                 }
@@ -537,7 +537,7 @@ define([
                             canFocused: false,
                             dataHint: 1,
                             dataHintDirection: 'left-top',
-                            dataHintOffset: [2, 14],
+                            dataHintOffset: [-2, 22],
                             iconCls: 'menu__icon btn-close'
                         }));
                 }
@@ -552,7 +552,8 @@ define([
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
-                        dataHintOffset: [2, 14]
+                        dataHintOffset: [2, 14],
+                        iconCls: 'menu__icon btn-close'
                     }));
             }
         },

@@ -228,6 +228,10 @@ label {
                 padding: 4px 16px 4px 12px;
                 cursor: pointer;
 
+                .rtl & {
+                    padding: 4px 12px 4px 16px;
+                }
+
                 &:hover:not(.disabled) {
                     background-color: @highlight-button-hover-ie;
                     background-color: @highlight-button-hover;
@@ -242,6 +246,10 @@ label {
                         color: @text-normal-pressed-ie;
                         color: @text-normal-pressed;
                     }
+
+                    .menu-item-icon {
+                        background-position-x: var(--button-small-active-icon-offset-x, 0);
+                    }
                 }
 
                 &.disabled > a {
@@ -253,12 +261,18 @@ label {
 
             &.devider {
                 .dropdown-menu .divider;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            &.devider-small {
                 margin-top: 7px;
                 margin-bottom: 7px;
             }
 
             &.devider-last {
                 margin-top: auto;
+                margin-bottom: -4px;
             }
 
             .menu-item-icon {
@@ -266,6 +280,9 @@ label {
                 height: 20px;
                 line-height: 20px;
                 position: relative;
+                &:not(:disabled) {
+                    opacity: var(--component-normal-icon-opacity, 0.8);
+                }
             }
 
             &.disabled {
