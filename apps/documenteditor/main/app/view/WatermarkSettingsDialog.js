@@ -215,6 +215,7 @@ define([
                 menuStyle   : 'min-width: 100%;max-height: 210px;',
                 scrollAlwaysVisible: true,
                 displayField: 'value',
+                focusWhenNoSelection: false,
                 data        : [{value: "ASAP"}, {value: "CONFIDENTIAL"}, {value: "COPY"}, {value: "DO NOT COPY"}, {value: "DRAFT"}, {value: "ORIGINAL"}, {value: "PERSONAL"}, {value: "SAMPLE"}, {value: "TOP SECRET"}, {value: "URGENT"} ],
                 takeFocusOnClose: true
             }).on('selected', _.bind(function(combo, record) {
