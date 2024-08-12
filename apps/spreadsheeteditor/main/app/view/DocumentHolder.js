@@ -44,6 +44,7 @@ define([
     'backbone',
     'gateway',
     'common/main/lib/component/Menu',
+    'common/main/lib/component/Calendar',
     'common/main/lib/view/OpenDialog'
 ], function ($, _, Backbone, gateway) { 'use strict';
 
