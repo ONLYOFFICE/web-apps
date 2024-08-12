@@ -1418,9 +1418,6 @@ define([], function () {
             }
         }
 
-        console.log(icons);
-        console.log(iconsObject);
-
         return iconsObject;
     }
 
