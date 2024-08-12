@@ -426,8 +426,8 @@ define([
                 if (data.length) {
                     me.cmbLang.setData(data);
                     var res = me.loadWMText(me.lang.value);
-                    if (res && me.lang.default)
-                        me.cmbLang.setValue(res);
+                    if (res && (me.lang.default || res.foundSameLang))
+                        me.cmbLang.setValue(res.value);
                     else
                         me.cmbLang.setValue(me.lang.displayValue);
                     me.cmbLang.setDisabled(!me.radioText.getValue());
@@ -461,12 +461,15 @@ define([
         loadWMText: function(lang) {
             if (!lang) return;
 
-            var data = [];
+            var data = [],
+                foundSameLang = true;
             var item = this.cmbLang.store.findWhere({value: lang});
             if (!item)
                 item = this.cmbLang.store.findWhere({value: lang.split(/[\-\_]/)[0]});
-            if (!item)
+            if (!item) {
+                foundSameLang = false;
                 item = this.cmbLang.store.findWhere({value: 'en'});
+            }
             if (!item)
                 item = this.cmbLang.store.at(0);
 
@@ -477,7 +480,7 @@ define([
                 this.cmbText.setData(data);
                 this.cmbText.setValue(data[0].value);
             }
-            return item ? item.get('value') : null;
+            return item ? {value: item.get('value'), foundSameLang: foundSameLang } : null;
         },
 
         onImageSelect: function(menu, item) {
