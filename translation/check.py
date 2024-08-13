@@ -32,7 +32,7 @@ def compareDicts(keypath, dict1, dict2):
             dict2[k] = compareDicts(k_path, v, dict2[k])
         else:
             sum_key_count += 1
-            if k not in dict2:
+            if not k.startswith("del_") and k not in dict2:
                 lost_key_count += 1
                 dict2[k] = v
                 if verbose_out: print(f'  key {k_path} not exists')
@@ -44,7 +44,7 @@ def compareFile(mjson, path):
         
         if merge_dicts and lost_key_count:
             cf.seek(0)
-            cf.write(json.dumps(res_dict, indent = 2))
+            cf.write(json.dumps(res_dict, indent = 2, ensure_ascii=False))
             cf.truncate()
 
 def compareJsonInFolder(path):
@@ -71,7 +71,7 @@ if os.path.exists(f'{path_to_compare}/en.json'):
     compareJsonInFolder(f'{path_to_compare}/en.json')
 else:
     for editor in ['documenteditor','spreadsheeteditor','presentationeditor']:
-        path = f'{path_to_compare}/{editor}/mobile/locale/en.json'
+        path = f'{path_to_compare}/{editor}/main/locale/en.json'
         if os.path.exists(path):
             compareJsonInFolder(path)
         else: print(f'wrong path: {path}')
