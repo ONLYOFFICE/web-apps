@@ -28,6 +28,7 @@ require([
     'common/main/lib/view/LanguageDialog',
     'common/main/lib/view/DocumentHolderExt',
 
+    'documenteditor/main/app/view/FileMenuPanels',
     'documenteditor/main/app/view/DocumentHolderExt',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',

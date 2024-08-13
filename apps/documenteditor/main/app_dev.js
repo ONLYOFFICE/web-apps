@@ -177,7 +177,6 @@ require([
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
-                'documenteditor/main/app/view/FileMenuPanels',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
@@ -223,6 +222,7 @@ require([
                     'common/main/lib/view/LanguageDialog',
                     'common/main/lib/view/DocumentHolderExt',
 
+                    'documenteditor/main/app/view/FileMenuPanels',
                     'documenteditor/main/app/view/DocumentHolderExt',
                     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
                     'documenteditor/main/app/view/ImageSettingsAdvanced',
