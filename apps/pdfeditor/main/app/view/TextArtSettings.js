@@ -1773,7 +1773,7 @@ define([
         UpdateThemeColors: function() {
             if (this._initSettings) return;
             if (!this.btnBackColor) {
-                var config = Common.define.simpleColorsConfig;
+                var config = Common.UI.simpleColorsConfig;
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#textart-back-color-btn'),
                     transparent: true,

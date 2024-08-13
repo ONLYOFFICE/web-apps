@@ -272,8 +272,8 @@ define([
                     var type = props.asc_getType(),
                         styleChanged = false;
                     if (this._state.SparkType !== type) {
-                        var record = this.mnuSparkTypePicker.store.findWhere({type: type});
-                        this.mnuSparkTypePicker.selectRecord(record, true);
+                        var record = this.mnuSparkTypePicker ? this.mnuSparkTypePicker.store.findWhere({type: type}) : null;
+                        this.mnuSparkTypePicker && this.mnuSparkTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnSparkType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
@@ -281,6 +281,7 @@ define([
                         this._state.SparkType = type;
                         styleChanged = true;
                     }
+                    this.btnSparkType.setDisabled(!this.mnuSparkTypePicker || this._locked);
 
                     var w = props.asc_getLineWeight(),
                         check_value = (Math.abs(this._state.LineWeight-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
@@ -721,20 +722,8 @@ define([
                     ]
                 })
             });
-            this.btnSparkType.on('render:after', function(btn) {
-                me.mnuSparkTypePicker = new Common.UI.DataView({
-                    el: $('#id-spark-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 120,
-                    allowScrollbar: false,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
-                    delayRenderTips: true
-                });
-            });
+            this.btnSparkType.on('render:after', _.bind(this.createSparkTypeMenu, this));
             this.btnSparkType.render($('#spark-button-type'));
-            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
             this.lockedControls.push(this.btnSparkType);
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
@@ -1039,11 +1028,36 @@ define([
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
+        createSparkTypeMenu: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded() || this.mnuChartTypePicker) return;
+
+            this.mnuSparkTypePicker = new Common.UI.DataView({
+                el: $('#id-spark-menu-type'),
+                parentMenu: this.btnSparkType.menu,
+                restoreHeight: 120,
+                allowScrollbar: false,
+                groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
+                store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                delayRenderTips: true
+            });
+            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
+            var record = this.mnuSparkTypePicker.store.findWhere({type: this._state.SparkType});
+            this.mnuSparkTypePicker.selectRecord(record, true);
+            this.btnSparkType.setIconCls(record ? 'svgicon ' + 'chart-' + record.get('iconCls') : 'svgicon');
+            this.btnSparkType.setDisabled(this._locked);
+        },
+
         createDelayedElements: function() {
             this._initSettings = false;
+            Common.NotificationCenter.on('script:loaded', _.bind(this.createPostLoadElements, this));
             this.createDelayedControls();
             this.updateMetricUnit();
             this.UpdateThemeColors();
+        },
+
+        createPostLoadElements: function() {
+            this.createSparkTypeMenu();
         },
 
         ShowHideElem: function(isChart, is3D) {

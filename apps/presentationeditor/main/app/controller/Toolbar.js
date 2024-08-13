@@ -42,7 +42,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/util/define',
     'presentationeditor/main/app/collection/SlideThemes',
     'presentationeditor/main/app/controller/Transitions',
     'presentationeditor/main/app/controller/Animation',

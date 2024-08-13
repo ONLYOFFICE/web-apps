@@ -41,7 +41,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
     'documenteditor/main/app/controller/PageLayout',
 ], function () {

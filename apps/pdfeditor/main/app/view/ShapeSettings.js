@@ -1839,7 +1839,7 @@ define([
             this.viewShadowShapePresets.on('item:click', _.bind(this.onSelectShadowPreset, this));
             this.btnShadowShape.menu.setInnerMenu([{menu: this.viewShadowShapePresets, index: 0}]);
 
-            var config = Common.define.simpleColorsConfig;
+            var config = Common.UI.simpleColorsConfig;
             this.mnuShadowShapeColorPicker = new Common.UI.ThemeColorPalette({
                 el: $('#shape-button-shadow-shape-menu-picker'),
                 outerMenu: {menu: this.mnuShadowShapeColor.menu, index: 0},
@@ -2097,7 +2097,7 @@ define([
         UpdateThemeColors: function() {
             if (this._initSettings) return;
 
-            var config = Common.define.simpleColorsConfig;
+            var config = Common.UI.simpleColorsConfig;
             if (!this.btnBackColor) {
                 this.btnBackColor = new Common.UI.ColorButton({
                     parentEl: $('#shape-back-color-btn'),

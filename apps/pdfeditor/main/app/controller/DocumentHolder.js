@@ -93,6 +93,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
             me.lastTextBarBounds = [];
             me.lastAnnotBarBounds = [];
 
@@ -168,6 +169,7 @@ define([
                     me.onDocumentHolderResize();
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(o) {
@@ -222,6 +224,10 @@ define([
                 : Common.util.Shortcuts.resumeEvents(this.hkComments);
             /** coauthoring end **/
             this.documentHolder.setMode(m);
+        },
+
+        createPostLoadElements: function() {
+            this.showMathTrackOnLoad && this.onShowMathTrack(this.lastMathTrackBounds);
         },
 
         createDelayedElements: function(view, type) {
@@ -1703,6 +1709,10 @@ define([
             if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pdfe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -1845,6 +1855,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

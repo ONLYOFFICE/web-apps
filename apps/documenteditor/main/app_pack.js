@@ -1,4 +1,5 @@
 require([
+    'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ComboBoxDataView',
     'common/main/lib/view/OptionsDialog',

@@ -126,6 +126,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -331,6 +332,8 @@ define([
                     }, 10);
                 }, this));
             }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
         },
 
         createDelayedElements: function(view, type) {
@@ -2523,6 +2526,11 @@ define([
             if (this.mode && !this.mode.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
+
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('de-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2672,6 +2680,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

@@ -1345,7 +1345,7 @@ define([
                 }), true);
                 button.currentColor = button.options.penOptions.color;
                 button.setColor(button.currentColor);
-                var config = Common.define.simpleColorsConfig;
+                var config = Common.UI.simpleColorsConfig;
                 var picker = new Common.UI.ThemeColorPalette({
                     el: $('#id-toolbar-menu-' + id),
                     colors: button.options.penOptions.colors || config.colors,

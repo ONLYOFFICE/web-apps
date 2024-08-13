@@ -110,6 +110,7 @@ define([
             me.mode = {};
             me._isDisabled = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
 
@@ -473,6 +474,8 @@ define([
                     }, 10);
                 }, this));
             }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
         },
 
         getView: function (name) {
@@ -1634,6 +1637,8 @@ define([
         },
 
         onInsertImageUrl: function(placeholder, obj, x, y) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             if (placeholder) {
                 this.hideScreenTip();
                 this.onHidePlaceholderActions();
@@ -1661,7 +1666,7 @@ define([
         },
 
         onClickPlaceholderChart: function(obj, x, y) {
-            if (!this.api) return;
+            if (!this.api || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             this._state.placeholderObj = obj;
             var menu = this.placeholderMenuChart,
@@ -1776,7 +1781,7 @@ define([
         },
 
         onClickPlaceholderSmartArt: function (obj, x, y) {
-            if (!this.api) return;
+            if (!this.api || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             this._state.placeholderObj = obj;
             var menu = this.placeholderMenuSmartArt,
@@ -2555,6 +2560,10 @@ define([
             if (this.mode && !this.mode.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2697,6 +2706,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

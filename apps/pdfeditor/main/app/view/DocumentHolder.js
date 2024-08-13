@@ -262,7 +262,7 @@ define([
             });
             textBarBtns.push(this.btnSubscript);
 
-            var config = Common.define.simpleColorsConfig;
+            var config = Common.UI.simpleColorsConfig;
             this.btnFontColor = new Common.UI.ButtonColored({
                 parentEl: $('#text-bar-textcolor', container),
                 cls: 'btn-toolbar',
@@ -317,7 +317,7 @@ define([
             });
             annotBarBtns.push(this.btnAddComment);
 
-            var config = Common.define.simpleColorsConfig;
+            var config = Common.UI.simpleColorsConfig;
             this.btnUnderline = new Common.UI.ButtonColored({
                 parentEl: $('#annot-bar-underline', container),
                 cls         : 'btn-toolbar',

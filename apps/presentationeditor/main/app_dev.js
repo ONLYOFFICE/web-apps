@@ -216,6 +216,7 @@ require([
                 'common/main/lib/view/ShapeShadowDialog',
                 'common/main/lib/view/CustomizeQuickAccessDialog',
                 'common/main/lib/view/DocumentHolderExt',
+                'common/main/lib/util/define',
 
                 'presentationeditor/main/app/view/DocumentHolderExt',
                 'presentationeditor/main/app/view/ParagraphSettingsAdvanced',

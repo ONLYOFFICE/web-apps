@@ -39,8 +39,8 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/util/define',
     'common/main/lib/view/SearchBar',
+    'spreadsheeteditor/main/app/view/define',
     'spreadsheeteditor/main/app/view/Toolbar',
     'spreadsheeteditor/main/app/collection/TableTemplates',
     'spreadsheeteditor/main/app/controller/PivotTable',

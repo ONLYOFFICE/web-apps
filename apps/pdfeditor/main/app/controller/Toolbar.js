@@ -41,7 +41,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/util/define',
     'pdfeditor/main/app/view/Toolbar'
 ], function () {
     'use strict';
@@ -1881,7 +1880,7 @@ define([
                     api: me.api,
                     props: props,
                     type: type,
-                    colorConfig: Common.define.simpleColorsConfig,
+                    colorConfig: Common.UI.simpleColorsConfig,
                     storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                     interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {

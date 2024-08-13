@@ -198,6 +198,7 @@ require([
                     'common/main/lib/view/ShapeShadowDialog',
                     'common/main/lib/view/ImageFromUrlDialog',
                     'common/main/lib/view/DocumentHolderExt',
+                    'common/main/lib/util/define',
 
                     'pdfeditor/main/app/view/DocumentHolderExt',
                     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',

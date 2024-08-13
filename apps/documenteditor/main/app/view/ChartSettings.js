@@ -139,8 +139,8 @@ define([
                 } else {
                     var type = this.chartProps.getType();
                     if (this._state.ChartType !== type) {
-                        var record = this.mnuChartTypePicker.store.findWhere({type: type});
-                        this.mnuChartTypePicker.selectRecord(record, true);
+                        var record = this.mnuChartTypePicker ? this.mnuChartTypePicker.store.findWhere({type: type}) : null;
+                        this.mnuChartTypePicker && this.mnuChartTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnChartType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
@@ -151,6 +151,7 @@ define([
                         this._state.ChartType = type;
                     }
                 }
+                this.btnChartType.setDisabled(!this.mnuChartTypePicker || this._locked);
 
                 if (!(type==Asc.c_oAscChartTypeSettings.comboBarLine || type==Asc.c_oAscChartTypeSettings.comboBarLineSecondary ||
                     type==Asc.c_oAscChartTypeSettings.comboAreaBar || type==Asc.c_oAscChartTypeSettings.comboCustom)) {
@@ -312,20 +313,8 @@ define([
                 dataHintOffset: 'big',
                 ariaLabel: this.textChartType
             });
-            this.btnChartType.on('render:after', function(btn) {
-                me.mnuChartTypePicker = new Common.UI.DataView({
-                    el: $('#id-chart-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 535,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
-                    delayRenderTips: true,
-                    delaySelect: Common.Utils.isSafari
-                });
-            });
+            this.btnChartType.on('render:after', _.bind(this.createChartTypeMenu, this));
             this.btnChartType.render($('#chart-button-type'));
-            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
             this.lockedControls.push(this.btnChartType);
 
             this.btnEditData = new Common.UI.Button({
@@ -547,10 +536,35 @@ define([
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
+        createChartTypeMenu: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded() || this.mnuChartTypePicker) return;
+
+            this.mnuChartTypePicker = new Common.UI.DataView({
+                el: $('#id-chart-menu-type'),
+                parentMenu: this.btnChartType.menu,
+                restoreHeight: 535,
+                groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getChartGroupData()),
+                store: new Common.UI.DataViewStore(Common.define.chartData.getChartData()),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                delayRenderTips: true,
+                delaySelect: Common.Utils.isSafari
+            });
+            this.mnuChartTypePicker.on('item:click', _.bind(this.onSelectType, this, this.btnChartType));
+            var record = this.mnuChartTypePicker.store.findWhere({type: this._state.ChartType});
+            this.mnuChartTypePicker.selectRecord(record, true);
+            this.btnChartType.setIconCls(record ? 'svgicon ' + 'chart-' + record.get('iconCls') : 'svgicon');
+            this.btnChartType.setDisabled(this._locked);
+        },
+
         createDelayedElements: function() {
+            Common.NotificationCenter.on('script:loaded', _.bind(this.createPostLoadElements, this));
             this.createDelayedControls();
             this.updateMetricUnit();
             this._initSettings = false;
+        },
+
+        createPostLoadElements: function() {
+            this.createChartTypeMenu();
         },
 
         _ChartWrapStyleChanged: function(style) {
@@ -591,6 +605,7 @@ define([
         },
 
         setEditData: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.setEditMode(true);

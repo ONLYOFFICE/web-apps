@@ -110,6 +110,7 @@ define([
             me.fastcoauthtips = [];
             me._TtHeight = 20;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
 
             /** coauthoring begin **/
             this.wrapEvents = {
@@ -361,6 +362,8 @@ define([
                     }, me));
                 }
             }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
         },
 
         loadConfig: function(data) {
@@ -4335,6 +4338,11 @@ define([
             if (this.permissions && !this.permissions.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
+
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('sse-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -4470,6 +4478,12 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
+
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

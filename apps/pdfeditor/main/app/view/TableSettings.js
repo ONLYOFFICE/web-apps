@@ -641,7 +641,7 @@ define([
         UpdateThemeColors: function() {
             if (this._initSettings) return;
             if (!this.btnBackColor) {
-                var config = Common.define.simpleColorsConfig;
+                var config = Common.UI.simpleColorsConfig;
                 this.btnBorderColor = new Common.UI.ColorButton({
                     parentEl: $('#table-border-color-btn'),
                     color: 'auto',
