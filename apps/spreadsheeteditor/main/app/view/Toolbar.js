@@ -2331,6 +2331,8 @@ define([
                 tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                 is_file_active = me.isTabActive('file');
 
+            if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
             if ( is_file_active ) {

@@ -172,7 +172,6 @@ require([
             'spreadsheeteditor/main/app/controller/ViewTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
-            // 'spreadsheeteditor/main/app/view/FileMenuPanels',
             // 'spreadsheeteditor/main/app/view/ParagraphSettings',
             // 'spreadsheeteditor/main/app/view/ImageSettings',
             // 'spreadsheeteditor/main/app/view/ChartSettings',
@@ -217,6 +216,7 @@ require([
                 'common/main/lib/view/DocumentHolderExt',
                 'common/main/lib/util/define',
 
+                'spreadsheeteditor/main/app/view/FileMenuPanels',
                 'spreadsheeteditor/main/app/view/DocumentHolderExt',
                 'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
