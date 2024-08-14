@@ -38,10 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-], function () {
+define([], function () {
     'use strict';
 
     !PE.Views.FileMenuPanels && (PE.Views.FileMenuPanels = {});

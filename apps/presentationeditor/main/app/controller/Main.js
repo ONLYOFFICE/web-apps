@@ -1495,8 +1495,10 @@ define([
                 documentHolder.setMode(this.appOptions);
                 viewport.applyCommonMode();
 
-                var printController = app.getController('Print');
-                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                if (this.appOptions.canPreviewPrint) {
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                }
 
                 this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));

@@ -167,7 +167,6 @@ require([
             'presentationeditor/main/app/controller/ViewTab',
             'presentationeditor/main/app/controller/Search',
             'presentationeditor/main/app/controller/Print',
-            'presentationeditor/main/app/view/FileMenuPanels',
             // 'presentationeditor/main/app/view/ParagraphSettings',
             // 'presentationeditor/main/app/view/ImageSettings',
             // 'presentationeditor/main/app/view/ShapeSettings',
@@ -195,6 +194,7 @@ require([
             app.postLaunchScripts = [
                 'common/main/lib/controller/ScreenReaderFocus',
                 'common/main/lib/component/ComboBoxDataView',
+                'common/main/lib/component/RadioBox',
                 'common/main/lib/view/AdvancedSettingsWindow',
                 'common/main/lib/view/AutoCorrectDialog',
                 'common/main/lib/view/DocumentAccessDialog',
@@ -218,6 +218,7 @@ require([
                 'common/main/lib/view/DocumentHolderExt',
                 'common/main/lib/util/define',
 
+                'presentationeditor/main/app/view/FileMenuPanels',
                 'presentationeditor/main/app/view/DocumentHolderExt',
                 'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
                 'presentationeditor/main/app/view/ShapeSettingsAdvanced',

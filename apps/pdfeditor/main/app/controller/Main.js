@@ -1559,8 +1559,10 @@ define([
 
                 viewport.applyCommonMode();
 
-                var printController = app.getController('Print');
-                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                if (this.appOptions.canPreviewPrint) {
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                }
 
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));

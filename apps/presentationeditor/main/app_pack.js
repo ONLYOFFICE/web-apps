@@ -2,6 +2,7 @@ require([
     'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ComboBoxDataView',
+    'common/main/lib/component/RadioBox',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/view/AutoCorrectDialog',
     'common/main/lib/view/DocumentAccessDialog',
@@ -24,6 +25,7 @@ require([
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/DocumentHolderExt',
 
+    'presentationeditor/main/app/view/FileMenuPanels',
     'presentationeditor/main/app/view/DocumentHolderExt',
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
     'presentationeditor/main/app/view/ShapeSettingsAdvanced',

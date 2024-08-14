@@ -54,10 +54,7 @@
    if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/BaseView',
-    'underscore'
-], function (base, _) {
+define([], function () {
     'use strict';
 
     Common.UI.RadioBox = Common.UI.BaseView.extend({

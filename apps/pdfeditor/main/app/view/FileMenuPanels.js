@@ -38,10 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/RadioBox'
-], function () {
+define([], function () {
     'use strict';
 
     !PDFE.Views.FileMenuPanels && (PDFE.Views.FileMenuPanels = {});

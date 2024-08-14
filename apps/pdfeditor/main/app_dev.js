@@ -168,7 +168,6 @@ require([
                 'pdfeditor/main/app/controller/InsTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
-                'pdfeditor/main/app/view/FileMenuPanels',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/Comments'
@@ -181,6 +180,7 @@ require([
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',
+                    'common/main/lib/component/RadioBox',
                     'common/main/lib/component/ComboBoxDataView',
                     'common/main/lib/view/AdvancedSettingsWindow',
                     'common/main/lib/view/AutoCorrectDialog',
@@ -200,6 +200,7 @@ require([
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
 
+                    'pdfeditor/main/app/view/FileMenuPanels',
                     'pdfeditor/main/app/view/DocumentHolderExt',
                     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
                     'pdfeditor/main/app/view/ImageSettingsAdvanced',
