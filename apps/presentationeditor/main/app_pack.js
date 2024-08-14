@@ -2,7 +2,6 @@ require([
     'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ComboBoxDataView',
-    'common/main/lib/component/RadioBox',
     'common/main/lib/view/AdvancedSettingsWindow',
     'common/main/lib/view/AutoCorrectDialog',
     'common/main/lib/view/DocumentAccessDialog',

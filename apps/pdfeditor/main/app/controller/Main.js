@@ -43,6 +43,7 @@ define([
     'irregularstack',
     'common/main/lib/component/Window',
     'common/main/lib/component/LoadMask',
+    'common/main/lib/component/RadioBox',
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
     'common/main/lib/util/LocalStorage',
