@@ -389,6 +389,7 @@ class MainController extends Component {
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
                 Common.Gateway.on('setfavorite', this.onSetFavorite.bind(this));
+                Common.Gateway.on('insertimage', this.insertImage.bind(this));
 
                 Common.Gateway.sendInfo({
                     mode: appOptions.isEdit ? 'edit' : 'view'
@@ -497,6 +498,30 @@ class MainController extends Component {
         } else {
             on_script_load();
         }
+    }
+
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) {
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        Common.Notifications.trigger('storage:image-insert', data);
     }
 
     loadDefaultMetricSettings() {
@@ -932,6 +957,13 @@ class MainController extends Component {
         });
 
         Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
+        Common.Notifications.on('storage:image-insert', this.insertImageFromStorage.bind(this));
+    }
+
+    insertImageFromStorage(data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.AddImageUrl(data._urls, undefined, data.token);
+        }
     }
 
     markFavorite(favorite) {

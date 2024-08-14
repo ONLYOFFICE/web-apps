@@ -440,6 +440,7 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
 
         Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
+        Common.Notifications.on('storage:image-insert', this.insertImageFromStorage.bind(this));
 
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
@@ -583,6 +584,12 @@ class MainController extends Component {
 
         const storeAppOptions = this.props.storeAppOptions;
         this.api.asc_setFilteringMode && this.api.asc_setFilteringMode(storeAppOptions.canModifyFilter);
+    }
+
+    insertImageFromStorage (data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.asc_addImageDrawingObject(data._urls, undefined, data.token);
+        }
     }
 
     onNeedUpdateExternalReference() {
@@ -732,6 +739,7 @@ class MainController extends Component {
         Common.Gateway.on('processrightschange',    this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas',             this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose',           this.onRequestClose.bind(this));
+        Common.Gateway.on('insertimage',            this.insertImage.bind(this));
 
         Common.Gateway.sendInfo({
             mode: appOptions.isEdit ? 'edit' : 'view'
@@ -748,6 +756,30 @@ class MainController extends Component {
         f7.emit('resize');
 
         appOptions.changeDocReady(true);
+    }
+
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) { 
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        Common.Notifications.trigger('storage:image-insert', data);
     }
 
     applyMode (appOptions) {
