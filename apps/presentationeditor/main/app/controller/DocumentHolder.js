@@ -1481,6 +1481,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && chart) {
@@ -1577,6 +1578,7 @@ define([
         },
         /** coauthoring end **/
         editChartClick: function(chart, placeholder){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
@@ -1592,6 +1594,7 @@ define([
         },
 
         onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.api) {
                 var oleobj = this.api.asc_canEditTableOleObject(true);
                 if (oleobj) {

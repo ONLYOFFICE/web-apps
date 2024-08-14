@@ -475,6 +475,7 @@ define([
         },
 
         onEditData: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             var mergeEditor = DE.getController('Common.Controllers.ExternalMergeEditor').getView('Common.Views.ExternalMergeEditor');
             if (mergeEditor) {
                 mergeEditor.show();

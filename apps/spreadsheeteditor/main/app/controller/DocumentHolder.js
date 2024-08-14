@@ -436,6 +436,7 @@ define([
         },
 
         onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.api) {
                 var oleobj = this.api.asc_canEditTableOleObject(true);
                 if (oleobj) {
@@ -4324,6 +4325,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(obj) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.permissions.isEdit && !this._isDisabled) {
                 var oleEditor = SSE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && obj) {

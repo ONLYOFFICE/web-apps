@@ -1412,6 +1412,8 @@ define([
         },
 
         onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             if (this.api) {
                 var oleobj = this.api.asc_canEditTableOleObject(true);
                 if (oleobj) {
@@ -1428,6 +1430,8 @@ define([
         },
 
         onDoubleClickOnChart: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1440,6 +1444,8 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -1833,6 +1839,8 @@ define([
         },
 
         editChartClick: function(){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.setEditMode(true);

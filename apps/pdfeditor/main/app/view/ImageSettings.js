@@ -144,6 +144,7 @@ define([
 
             this.btnOriginalSize.on('click', _.bind(this.setOriginalSize, this));
             this.btnEditObject.on('click', _.bind(function(btn){
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if (this.api) {
                     var oleobj = this.api.asc_canEditTableOleObject(true);
                     if (oleobj) {

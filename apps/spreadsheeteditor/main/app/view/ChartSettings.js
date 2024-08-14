@@ -1114,7 +1114,7 @@ define([
         },
 
         openAdvancedSettings:   function() {
-            if (this.linkAdvanced.hasClass('disabled')) return;
+            if (this.linkAdvanced.hasClass('disabled') || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             var me = this;
             var win, props;

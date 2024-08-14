@@ -1108,7 +1108,7 @@ define([
         },
 
         onEditChart: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) return;
             var me = this, info = me.api.asc_getCellInfo();
             var selectType = info.asc_getSelectionType();
             if (selectType !== Asc.c_oAscSelectionType.RangeImage) {
@@ -1180,7 +1180,7 @@ define([
         },
 
         onEditChartType: function(btn) {
-            if (!this.editMode) return;
+            if (!this.editMode || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             var me = this;
             var props;
