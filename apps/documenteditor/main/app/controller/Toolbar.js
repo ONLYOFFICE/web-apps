@@ -1475,23 +1475,13 @@ define([
                 color = this.api.asc_getPageColor();
 
             this.toolbar.mnuPageNoFill.setChecked(!color, true);
-            picker.clearSelection();
             if (color) {
-                color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ?
-                    color = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()} :
-                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-
-                if ( typeof(color) == 'object' ) {
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                            picker.select(color,true);
-                            break;
-                        }
-                    }
-                } else {
-                    picker.select(color,true);
-                }
+                color = color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ? {
+                    color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                    effectValue: color.get_value()
+                } : Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
             }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(color, picker);
         },
 
         onApiUpdateListPatterns: function(data) {
@@ -2880,20 +2870,7 @@ define([
             if ( (type1 !== type2) || (type1=='object' &&
                 (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
                 (type1!='object' && this._state.clrback.indexOf(clr)<0 )) {
-
-                if ( typeof(clr) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue ) {
-                            picker.select(clr,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) picker.clearSelection();
-                } else
-                    picker.select(clr,true);
-
+                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                 this._state.clrback = clr;
             }
             this._state.clrshd_asccolor = shd;
@@ -2923,19 +2900,7 @@ define([
                     (type1!='object' && this._state.clrtext.indexOf(clr)<0 )) {
 
                     this.toolbar.btnFontColor.setAutoColor(false);
-                    if ( typeof(clr) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue ) {
-                                picker.select(clr,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) picker.clearSelection();
-                    } else {
-                        picker.select(clr,true);
-                    }
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                     this._state.clrtext = clr;
                 }
             }

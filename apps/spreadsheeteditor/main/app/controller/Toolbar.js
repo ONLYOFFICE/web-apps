@@ -2867,19 +2867,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             this.toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -3040,19 +3028,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -3079,19 +3055,7 @@ define([
                     (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
                     (type1!='object' && this._state.clrback!==undefined && this._state.clrback.indexOf(clr)<0 )) {
 
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                paragraphColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) paragraphColorPicker.clearSelection();
-                    } else {
-                        paragraphColorPicker.select(clr, true);
-                    }
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, paragraphColorPicker);
                     this._state.clrback = clr;
                 }
                 this._state.clrshd_asccolor = color;
@@ -3590,19 +3554,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }
@@ -3629,19 +3581,7 @@ define([
                         (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
                     (type1!='object' && this._state.clrback!==undefined && this._state.clrback.indexOf(clr)<0 )) {
 
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                paragraphColorPicker.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) paragraphColorPicker.clearSelection();
-                    } else {
-                        paragraphColorPicker.select(clr, true);
-                    }
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, paragraphColorPicker);
                     this._state.clrback = clr;
                 }
                 this._state.clrshd_asccolor = color;
@@ -3854,19 +3794,7 @@ define([
                             (type1!='object' && this._state.clrtext!==undefined && this._state.clrtext.indexOf(clr)<0 )) {
 
                             this.toolbar.btnTextColor.setAutoColor(false);
-                            if (_.isObject(clr)) {
-                                var isselected = false;
-                                for (var i = 0; i < 10; i++) {
-                                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                                        fontColorPicker.select(clr, true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) fontColorPicker.clearSelection();
-                            } else {
-                                fontColorPicker.select(clr, true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
                             this._state.clrtext = clr;
                         }
                     }

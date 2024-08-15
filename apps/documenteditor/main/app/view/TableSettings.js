@@ -605,19 +605,7 @@ define([
                     (type1!='object' && this._state.BackColor.indexOf(this.CellColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.CellColor.Color);
-                    if ( typeof(this.CellColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue ) {
-                                this.colorsBack.select(this.CellColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.CellColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
                     this._state.BackColor = this.CellColor.Color;
                 }
 

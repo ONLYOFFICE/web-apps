@@ -315,19 +315,7 @@ define([
                             (type1!='object' && (this._state.SparkColor.indexOf(this.SparkColor)<0 || typeof(this.btnSparkColor.color)=='object'))) {
 
                             this.btnSparkColor.setColor(this.SparkColor);
-                            if ( typeof(this.SparkColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.SparkColor.effectValue ) {
-                                        this.colorsSpark.select(this.SparkColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsSpark.clearSelection();
-                            } else
-                                this.colorsSpark.select(this.SparkColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.SparkColor, this.colorsSpark);
                             this._state.SparkColor = this.SparkColor;
                         }
                     }
@@ -353,19 +341,7 @@ define([
                             (type1!='object' && (this._state.MarkersColor.indexOf(this.MarkersColor)<0 || typeof(this.btnMarkersColor.color)=='object'))) {
 
                             this.btnMarkersColor.setColor(this.MarkersColor);
-                            if ( typeof(this.MarkersColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.MarkersColor.effectValue ) {
-                                        this.colorsMarkers.select(this.MarkersColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsMarkers.clearSelection();
-                            } else
-                                this.colorsMarkers.select(this.MarkersColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.MarkersColor, this.colorsMarkers);
                             this._state.MarkersColor = this.MarkersColor;
                             styleChanged = true;
                         }
@@ -389,19 +365,7 @@ define([
                             (type1!='object' && (this._state.HighColor.indexOf(this.HighColor)<0 || typeof(this.btnHighColor.color)=='object'))) {
 
                             this.btnHighColor.setColor(this.HighColor);
-                            if ( typeof(this.HighColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.HighColor.effectValue ) {
-                                        this.colorsHigh.select(this.HighColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsHigh.clearSelection();
-                            } else
-                                this.colorsHigh.select(this.HighColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.HighColor, this.colorsHigh);
                             this._state.HighColor = this.HighColor;
                             styleChanged = true;
                         }
@@ -425,19 +389,7 @@ define([
                             (type1!='object' && (this._state.LowColor.indexOf(this.LowColor)<0 || typeof(this.btnLowColor.color)=='object'))) {
 
                             this.btnLowColor.setColor(this.LowColor);
-                            if ( typeof(this.LowColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.LowColor.effectValue ) {
-                                        this.colorsLow.select(this.LowColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsLow.clearSelection();
-                            } else
-                                this.colorsLow.select(this.LowColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.LowColor, this.colorsLow);
                             this._state.LowColor = this.LowColor;
                             styleChanged = true;
                         }
@@ -461,19 +413,7 @@ define([
                             (type1!='object' && (this._state.FirstColor.indexOf(this.FirstColor)<0 || typeof(this.btnFirstColor.color)=='object'))) {
 
                             this.btnFirstColor.setColor(this.FirstColor);
-                            if ( typeof(this.FirstColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.FirstColor.effectValue ) {
-                                        this.colorsFirst.select(this.FirstColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsFirst.clearSelection();
-                            } else
-                                this.colorsFirst.select(this.FirstColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.FirstColor, this.colorsFirst);
                             this._state.FirstColor = this.FirstColor;
                             styleChanged = true;
                         }
@@ -497,19 +437,7 @@ define([
                             (type1!='object' && (this._state.LastColor.indexOf(this.LastColor)<0 || typeof(this.btnLastColor.color)=='object'))) {
 
                             this.btnLastColor.setColor(this.LastColor);
-                            if ( typeof(this.LastColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.LastColor.effectValue ) {
-                                        this.colorsLast.select(this.LastColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsLast.clearSelection();
-                            } else
-                                this.colorsLast.select(this.LastColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.LastColor, this.colorsLast);
                             this._state.LastColor = this.LastColor;
                             styleChanged = true;
                         }
@@ -533,19 +461,7 @@ define([
                             (type1!='object' && (this._state.NegativeColor.indexOf(this.NegativeColor)<0 || typeof(this.btnNegativeColor.color)=='object'))) {
 
                             this.btnNegativeColor.setColor(this.NegativeColor);
-                            if ( typeof(this.NegativeColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.NegativeColor.effectValue ) {
-                                        this.colorsNegative.select(this.NegativeColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsNegative.clearSelection();
-                            } else
-                                this.colorsNegative.select(this.NegativeColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.NegativeColor, this.colorsNegative);
                             this._state.NegativeColor = this.NegativeColor;
                             styleChanged = true;
                         }

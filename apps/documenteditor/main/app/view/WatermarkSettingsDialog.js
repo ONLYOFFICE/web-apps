@@ -555,19 +555,7 @@ define([
                                     clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value()} :
                                     clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                             }
-                            if ( typeof(clr) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue ) {
-                                        this.mnuTextColorPicker.select(clr,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.mnuTextColorPicker.clearSelection();
-                            } else {
-                                this.mnuTextColorPicker.select(clr,true);
-                            }
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.mnuTextColorPicker);
                         }
                         this.btnTextColor.currentColor = clr;
                         this.btnTextColor.setColor( this.btnTextColor.currentColor);

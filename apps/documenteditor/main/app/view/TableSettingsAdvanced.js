@@ -1405,32 +1405,10 @@ define([
                     this.CellColor = {Value: 0, Color: 'transparent'};
 
                 this.btnBackColor.setColor(this.CellColor.Color);
-                if ( typeof(this.CellColor.Color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue ) {
-                            this.colorsBack.select(this.CellColor.Color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsBack.clearSelection();
-                } else
-                    this.colorsBack.select(this.CellColor.Color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
 
                 this.btnTableBackColor.setColor(this.TableColor.Color);
-                if ( typeof(this.TableColor.Color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.TableColor.Color.effectValue ) {
-                            this.colorsTableBack.select(this.TableColor.Color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsTableBack.clearSelection();
-                } else
-                    this.colorsTableBack.select(this.TableColor.Color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.TableColor.Color, this.colorsTableBack);
 
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 

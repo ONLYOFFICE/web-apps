@@ -459,6 +459,25 @@ define([], function () {
                     }
                 }
                 return clr;
+            },
+
+            selectPickerColorByEffect: function(color, picker) {
+                if (!color)
+                    picker.clearSelection();
+                else {
+                    if ( typeof(color) == 'object' ) {
+                        var isselected = false;
+                        for (var i=0; i<10; i++) {
+                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                                picker.select(color, true);
+                                isselected = true;
+                                break;
+                            }
+                        }
+                        if (!isselected) picker.clearSelection();
+                    } else
+                        picker.select(color,true);
+                }
             }
         }
     })();

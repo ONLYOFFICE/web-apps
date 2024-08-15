@@ -1537,19 +1537,7 @@ define([
                         (type1 !== 'object' && this._state.BackgroundColor.indexOf(this.BackgroundColor)<0 )) {
 
                         this.btnBGColor.setColor(this.BackgroundColor);
-                        if ( typeof(this.BackgroundColor) == 'object' ) {
-                            var isselected = false;
-                            for (i=0; i<10; i++) {
-                                if ( Common.Utils.ThemeColor.ThemeValues[i] === this.BackgroundColor.effectValue ) {
-                                    this.mnuBGColorPicker.select(this.BackgroundColor, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.mnuBGColorPicker.clearSelection();
-                        } else
-                            this.mnuBGColorPicker.select(this.BackgroundColor,true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.BackgroundColor, this.mnuBGColorPicker);
                         this._state.BackgroundColor = this.BackgroundColor;
                     }
 
