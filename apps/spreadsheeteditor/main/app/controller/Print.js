@@ -544,10 +544,10 @@ define([
         },
 
         registerControlEvents: function(panel) {
+            panel.cmbPaperSize.on('selected', _.bind(this.updatePrintRenderContainerSize, this));
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.cmbPaperSize.on('selected', _.bind(this.onChangeZoomToPage, this));
+            panel.cmbPaperOrientation.on('selected', _.bind(this.updatePrintRenderContainerSize, this));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.cmbPaperOrientation.on('selected', _.bind(this.onChangeZoomToPage, this));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
             panel.cmbPaperMargins.on('selected', _.bind(this.propertyChange, this, panel, 'margins'));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
@@ -816,10 +816,11 @@ define([
 
         onClickZoomToPageButton: function(button) {
             this.isPaperZoom = button.pressed;
-            this.onChangeZoomToPage();
+            this.updatePrintRenderContainerSize();
+            this.updatePreview();
         },
 
-        onChangeZoomToPage: function() {
+        updatePrintRenderContainerSize: function() {
             var $preview = $('#print-preview');
 
             if (this.isPaperZoom) {
@@ -838,7 +839,6 @@ define([
             $('#print-preview-wrapper').css('display', this.isPaperZoom ? 'flex' : '');
 
             this.printSettings.printScroller.scrollTop(0);
-            this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
         },
 
         onPreviewWheel: function (e) {
