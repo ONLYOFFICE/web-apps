@@ -953,8 +953,7 @@
             }
             #print-navigation {
                 height: 50px;
-                .padding-left-20();
-                padding-top: 10px;
+                padding: 10px 20px 0;
                 display: flex;
                 #print-prev-page {
                     display: inline-block;
@@ -963,7 +962,7 @@
                 #print-next-page {
                     display: inline-block;
                 }
-                .btn-prev-page, .btn-next-page {
+                .btn-prev-page, .btn-next-page, .btn-zoom-to-page {
                     background-color: transparent;
                     padding: 0;
                     height: 20px;
@@ -998,6 +997,26 @@
                         transform: rotate(135deg) translate(4px, 0px);
                     }
                 }
+                #print-zoom-to-page {
+                    margin-left: auto;
+                }
+                .btn-zoom-to-page {
+                    border: 0;
+
+                    i {
+                        width: 20px;
+                        height: 20px;
+                        display: block;
+                        line-height: 20px;
+                    }
+
+                    &.active {
+                        color: #fff;
+                        color: var(--text-normal-pressed);
+                        background-color: #7d858c;
+                        background-color: var(--highlight-button-pressed);
+                    }
+                }
                 .page-number {
                     display: flex;
                     align-items: center;
@@ -1012,9 +1031,17 @@
                     line-height: 20px;
                     }
                 }
-            #print-preview {
+
+            #print-preview-wrapper {
+                overflow: hidden;
                 height: calc(100% - 50px);
+                position: relative;
+                justify-content: center;
+                #print-preview {
+                    height: 100%;
+                }
             }
+
             #print-preview-box {
                 position: absolute;
                 left: 280px;

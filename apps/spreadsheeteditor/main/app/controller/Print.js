@@ -60,6 +60,7 @@ define([
             };
 
             this._isPreviewVisible = false;
+            this.isPaperZoom = false;
 
             this.addListeners({
                 'PrintWithPreview': {
@@ -104,6 +105,7 @@ define([
             }
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
+            this.printSettings.btnZoomToPage.on('click', _.bind(this.onClickZoomToPageButton, this));
             this.printSettings.txtNumberPage.on({
                 'keypress:after':  _.bind(this.onKeypressPageNumber, this),
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
@@ -543,7 +545,9 @@ define([
 
         registerControlEvents: function(panel) {
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.cmbPaperSize.on('selected', _.bind(this.onChangeZoomToPage, this));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
+            panel.cmbPaperOrientation.on('selected', _.bind(this.onChangeZoomToPage, this));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
             panel.cmbPaperMargins.on('selected', _.bind(this.propertyChange, this, panel, 'margins'));
             panel.chPrintGrid.on('change', _.bind(this.propertyChange, this, panel));
@@ -808,6 +812,33 @@ define([
             this.api.asc_drawPrintPreview(index);
 
             this.updateNavigationButtons(index, this._navigationPreview.pageCount);
+        },
+
+        onClickZoomToPageButton: function(button) {
+            this.isPaperZoom = button.pressed;
+            this.onChangeZoomToPage();
+        },
+
+        onChangeZoomToPage: function() {
+            var $preview = $('#print-preview');
+
+            if (this.isPaperZoom) {
+                var paperSize = this.printSettings.cmbPaperSize.getValue();
+                var width = AscCommon.mm2pix(parseFloat(/^\d{3}\.?\d*/.exec(paperSize)));
+                var height = AscCommon.mm2pix(parseFloat(/\d{3}\.?\d*$/.exec(paperSize)));
+                var isLandscape = this.printSettings.cmbPaperOrientation.getValue() === 1;
+
+                $preview.css({ width: isLandscape ? height : width + 'px', height: isLandscape ? width : height + 'px' });
+                this.printSettings.printScroller.update({ suppressScrollX: false, suppressScrollY: false });
+            } else {
+                $preview.css({ width: '', height: '' })
+                this.printSettings.printScroller.update({ suppressScrollX: true, suppressScrollY: true });
+            }
+
+            $('#print-preview-wrapper').css('display', this.isPaperZoom ? 'flex' : '');
+
+            this.printSettings.printScroller.scrollTop(0);
+            this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
         },
 
         onPreviewWheel: function (e) {
