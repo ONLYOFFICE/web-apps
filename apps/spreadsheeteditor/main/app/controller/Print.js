@@ -829,7 +829,10 @@ define([
                 var height = AscCommon.mm2pix(parseFloat(/\d{3}\.?\d*$/.exec(paperSize)));
                 var isLandscape = this.printSettings.cmbPaperOrientation.getValue() === 1;
 
-                $preview.css({ width: isLandscape ? height : width + 'px', height: isLandscape ? width : height + 'px' });
+                $preview.css({
+                    width: 'max(100%, {}px)'.replace('{}', isLandscape ? height : width),
+                    height: 'max(100%, {}px)'.replace('{}', isLandscape ? width : height)
+                });
                 this.printSettings.printScroller.update({ suppressScrollX: false, suppressScrollY: false });
             } else {
                 $preview.css({ width: '', height: '' })
