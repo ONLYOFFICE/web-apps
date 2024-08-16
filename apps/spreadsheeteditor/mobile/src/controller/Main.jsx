@@ -440,7 +440,6 @@ class MainController extends Component {
         this.api.asc_registerCallback('asc_onEndAction',                  this._onLongActionEnd.bind(this));
 
         Common.Notifications.on('download:cancel', this.onDownloadCancel.bind(this));
-        Common.Notifications.on('storage:image-insert', this.insertImageFromStorage.bind(this));
 
         EditorUIController.initCellInfo && EditorUIController.initCellInfo(this.props);
 
@@ -779,7 +778,7 @@ class MainController extends Component {
             data._urls = arr;
         }
 
-        Common.Notifications.trigger('storage:image-insert', data);
+        this.insertImageFromStorage(data);
     }
 
     applyMode (appOptions) {

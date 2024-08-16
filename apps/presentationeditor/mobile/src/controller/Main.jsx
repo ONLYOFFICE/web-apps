@@ -519,8 +519,6 @@ class MainController extends Component {
                 storePresentationInfo.changeTitle(meta.title);
             }
         });
-
-        Common.Notifications.on('storage:image-insert', this.insertImageFromStorage.bind(this));
     }
 
     insertImageFromStorage(data) {
@@ -612,7 +610,7 @@ class MainController extends Component {
             data._urls = arr;
         }
 
-        Common.Notifications.trigger('storage:image-insert', data);
+        this.insertImageFromStorage(data);
     }
 
     onLicenseChanged (params) {

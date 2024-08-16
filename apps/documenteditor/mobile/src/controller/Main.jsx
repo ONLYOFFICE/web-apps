@@ -521,7 +521,7 @@ class MainController extends Component {
             data._urls = arr;
         }
 
-        Common.Notifications.trigger('storage:image-insert', data);
+        this.insertImageFromStorage(data);
     }
 
     loadDefaultMetricSettings() {
@@ -957,7 +957,6 @@ class MainController extends Component {
         });
 
         Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
-        Common.Notifications.on('storage:image-insert', this.insertImageFromStorage.bind(this));
     }
 
     insertImageFromStorage(data) {
