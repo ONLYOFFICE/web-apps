@@ -430,48 +430,8 @@ define([
                     this.lblDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
                 return (selectedElement) ? selectedElement.value : -1;
-            },
+            }
 
-            txtSec: 's',
-            txtPreview: 'Preview',
-            txtParameters: 'Parameters',
-            txtApplyToAll: 'Apply to All Slides',
-            strDuration: 'Duration',
-            strDelay: 'Delay',
-            strStartOnClick: 'Start On Click',
-            textNone: 'None',
-            textFade: 'Fade',
-            textPush: 'Push',
-            textWipe: 'Wipe',
-            textSplit: 'Split',
-            textUnCover: 'UnCover',
-            textCover: 'Cover',
-            textClock: 'Clock',
-            textZoom: 'Zoom',
-            textMorph: 'Morph',
-            textSmoothly: 'Smoothly',
-            textBlack: 'Through Black',
-            textLeft: 'Left',
-            textTop: 'Top',
-            textRight: 'Right',
-            textBottom: 'Bottom',
-            textTopLeft: 'Top-Left',
-            textTopRight: 'Top-Right',
-            textBottomLeft: 'Bottom-Left',
-            textBottomRight: 'Bottom-Right',
-            textVerticalIn: 'Vertical In',
-            textVerticalOut: 'Vertical Out',
-            textHorizontalIn: 'Horizontal In',
-            textHorizontalOut: 'Horizontal Out',
-            textClockwise: 'Clockwise',
-            textCounterclockwise: 'Counterclockwise',
-            textWedge: 'Wedge',
-            textZoomIn: 'Zoom In',
-            textZoomOut: 'Zoom Out',
-            textZoomRotate: 'Zoom and Rotate',
-            textMorphObjects: 'Objects',
-            textMorphWord: 'Words',
-            textMorphLetters: 'Letters'
         }
     }()), PE.Views.Transitions || {}));
 

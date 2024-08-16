@@ -1586,48 +1586,7 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
-        },
-
-        textKeepRatio: 'Constant Proportions',
-        textSize:       'Size',
-        textWidth:      'Width',
-        textHeight:     'Height',
-        textEditData: 'Edit Data and Location',
-        textChartType: 'Change Chart Type',
-        textStyle:          'Style',
-        textAdvanced:       'Show advanced settings',
-        strSparkColor:      'Color',
-        strLineWeight:      'Line Weight',
-        textMarkers:        'Markers',
-        textHighPoint: 'High Point',
-        textLowPoint: 'Low Point',
-        textNegativePoint: 'Negative Point',
-        textFirstPoint: 'First Point',
-        textLastPoint: 'Last Point',
-        strTemplate: 'Template',
-        textShow: 'Show',
-        textType:           'Type',
-        textSelectData: 'Select Data',
-        textRanges: 'Data Range',
-        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
-        textChangeType: 'Change type',
-        textSwitch: 'Switch Row/Column',
-        errorMaxRows: 'The maximum number of data series per chart is 255.',
-        text3dRotation: '3D Rotation',
-        textX: 'X rotation',
-        textY: 'Y rotation',
-        textPerspective: 'Perspective',
-        text3dDepth: 'Depth (% of base)',
-        text3dHeight: 'Height (% of base)',
-        textLeft: 'Left',
-        textRight: 'Right',
-        textUp: 'Up',
-        textDown: 'Down',
-        textNarrow: 'Narrow field of view',
-        textWiden: 'Widen field of view',
-        textRightAngle: 'Right Angle Axes',
-        textAutoscale: 'Autoscale',
-        textDefault: 'Default Rotation'
+        }
 
     }, SSE.Views.ChartSettings || {}));
 });
