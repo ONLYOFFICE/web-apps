@@ -545,7 +545,7 @@ define([
                         canFocused: false,
                         dataHint: 1,
                         dataHintDirection: 'left-top',
-                        dataHintOffset: [2, 14],
+                        dataHintOffset: [-2, 22],
                         iconCls: 'menu__icon btn-close'
                     }));
             }
