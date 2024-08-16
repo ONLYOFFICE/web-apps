@@ -275,6 +275,7 @@
     "errorChangeArray": "You cannot change part of an array.",
     "errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
     "errorChangeOnProtectedSheet": "The cell or chart you are trying to change is on a protected sheet. To make a change, unprotect the sheet. You might be requested to enter a password.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorConnectToServer": "Can't save this doc. Check your connection settings or contact your admin.<br>When you click the 'OK' button, you will be prompted to download the document.",
     "errorCopyMultiselectArea": "This command cannot be used with multiple selections.<br>Select a single range and try again.",
@@ -366,8 +367,7 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageExtMessage": "Unknown image format.",
     "uploadImageFileCountMessage": "No images uploaded.",
-    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB."
   },
   "LongActions": {
     "textCancel": "Anuluj",
@@ -457,6 +457,7 @@
       "sCatMathematic": "Math and trigonometry",
       "sCatStatistical": "Statistical",
       "sCatTextAndData": "Text and data",
+      "sCustom": "Custom",
       "textAllTableHint": "Returns the entire contents of the table or specified table columns including column headers, data and total rows",
       "textChart": "Chart",
       "textComment": "Comment",
@@ -499,8 +500,7 @@
       "txtNotUrl": "This field should be a URL in the format \"http://www.example.com\"",
       "txtSorting": "Sorting",
       "txtSortSelected": "Sort selected",
-      "txtYes": "Yes",
-      "sCustom": "Custom"
+      "txtYes": "Yes"
     },
     "Edit": {
       "textAddCustomColor": "Dodaj niestandardowy kolor",

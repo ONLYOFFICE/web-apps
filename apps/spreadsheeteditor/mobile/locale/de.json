@@ -266,6 +266,7 @@
     "errorChangeArray": "Sie können einen Teil eines Arrays nicht ändern.",
     "errorChangeFilteredRange": "Hierdurch wird ein gefilterter Bereich in Ihrem Arbeitsblatt geändert.<br> Um diesen Vorgang abzuschließen, entfernen Sie bitte die AutoFilter.",
     "errorChangeOnProtectedSheet": "Die Zelle oder das Diagramm, die bzw. das Sie ändern möchten, befindet sich auf einem schreibgeschützten Blatt. Um eine Änderung vorzunehmen, heben Sie den Schutz des Blatts auf. Möglicherweise werden Sie aufgefordert, ein Kennwort einzugeben.",
+    "errorCircularReference": "Es gibt einen oder mehrere zirkuläre Verweise, bei denen eine Formel direkt oder indirekt auf ihre eigene Zelle verweist.<br>Versuchen Sie, diese Verweise zu entfernen oder zu ändern oder die Formeln in andere Zellen zu verschieben.",
     "errorComboSeries": "Um ein Kombinationsdiagramm zu erstellen, wählen Sie mindestens zwei Datenreihen aus.",
     "errorConnectToServer": "Das Dokument kann nicht gespeichert werden. Überprüfen Sie Ihre Verbindungseinstellungen oder wenden Sie sich an den Administrator.<br>Beim Klicken auf OK können Sie das Dokument herunterladen.",
     "errorCopyMultiselectArea": "Bei einer Markierung von nicht angrenzenden Zellen ist die Ausführung dieses Befehls nicht möglich.<br>Wählen Sie nur einen einzelnen Bereich aus und versuchen Sie es noch mal.",
@@ -366,8 +367,7 @@
     "uploadDocSizeMessage": "Die maximale Dokumentgröße wurde überschritten.",
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
-    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",
@@ -461,6 +461,7 @@
       "sCatMathematic": "Mathematik und Trigonometrie",
       "sCatStatistical": "Statistik",
       "sCatTextAndData": "Text und Daten",
+      "sCustom": "Benutzerdefiniert",
       "textAddLink": "Link hinzufügen",
       "textAddress": "Adresse",
       "textAllTableHint": "Gibt den gesamten Inhalt der Tabelle oder der angegebenen Tabellenspalten zurück, einschließlich der Spaltenüberschriften, der Daten und der Gesamtergebnisse",
@@ -508,8 +509,7 @@
       "txtNotUrl": "Dieser Bereich soll eine URL im Format \"http://www.example.com\" sein.",
       "txtSorting": "Sortierung",
       "txtSortSelected": "Ausgewählte sortieren",
-      "txtYes": "Ja",
-      "sCustom": "Custom"
+      "txtYes": "Ja"
     },
     "Edit": {
       "notcriticalErrorTitle": "Warnung",

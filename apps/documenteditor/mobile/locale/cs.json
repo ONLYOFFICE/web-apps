@@ -396,7 +396,7 @@
     "textTableOptions": "Možnosti tabulky",
     "textText": "Text",
     "textTextOrientation": "Orientace textu",
-    "textTextWrapping": "Obtékaní textu",
+    "textTextWrapping": "Zalomení textu",
     "textTh": "čt",
     "textThrough": "Skrz",
     "textTight": "Těsné",
@@ -407,7 +407,7 @@
     "textType": "Typ",
     "textWe": "st",
     "textWrap": "Obtékání",
-    "textWrappingStyle": "Obtékání textu",
+    "textWrappingStyle": "Styl zalomení",
     "textYourOption": "Váš výběr"
   },
   "Error": {
@@ -572,7 +572,7 @@
       "Missing Operator": "Chybí operátor",
       "No List": "Bez seznamu",
       "No Spacing": "Žádné mezery",
-      "No table of contents entries found": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na ně v textu styly pro nadpisy, aby se objevily v tabulce obsahu.",
+      "No table of contents entries found": "V dokumentu nebyly nalezeny žádné nadpisy. Použijte na text styly pro nadpisy, aby se objevily v obsahu.",
       "No table of figures entries found": "Pro seznam obrázků aj. nebyly nalezeny vstupní hodnoty.",
       "None": "Žádné",
       "Normal": "Normální",
