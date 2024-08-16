@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Aviso",
-  "Common.Controllers.Chat.textEnterMessage": "Insira a súa mensaxe aquí",
   "Common.Translation.textMoreButton": "Máis",
   "Common.Translation.warnFileLocked": "Non pode editar este ficheiro porque está sendo editado noutro aplicativo.",
   "Common.Translation.warnFileLockedBtnEdit": "Crear unha copia",

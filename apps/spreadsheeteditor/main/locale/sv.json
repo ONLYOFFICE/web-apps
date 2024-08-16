@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Avbryt",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Varning",
-  "Common.Controllers.Chat.textEnterMessage": "Skriv ditt meddelande här",
   "Common.Controllers.History.notcriticalErrorTitle": "Varning",
   "Common.define.chartData.textArea": "Område",
   "Common.define.chartData.textAreaStacked": "Staplad yta",
@@ -256,10 +255,8 @@
   "Common.Views.Header.txtAccessRights": "Ändra behörigheter",
   "Common.Views.Header.txtRename": "Döp om",
   "Common.Views.History.textCloseHistory": "Stäng historik",
-  "Common.Views.History.textHide": "Dra ihop",
   "Common.Views.History.textHideAll": "Dölj detaljerade ändringar",
   "Common.Views.History.textRestore": "Återställ",
-  "Common.Views.History.textShow": "Expandera",
   "Common.Views.History.textShowAll": "Visa detaljerade ändringar",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Klistra in en bilds URL:",

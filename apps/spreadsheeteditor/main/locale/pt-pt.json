@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Cancelar",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Aviso",
-  "Common.Controllers.Chat.textEnterMessage": "Inserir sua mensagem aqui",
   "Common.Controllers.History.notcriticalErrorTitle": "Aviso",
   "Common.define.chartData.textArea": "Área",
   "Common.define.chartData.textAreaStacked": "Área empilhada",
@@ -306,10 +305,8 @@
   "Common.Views.Header.txtAccessRights": "Alterar direitos de acesso",
   "Common.Views.Header.txtRename": "Mudar nome",
   "Common.Views.History.textCloseHistory": "Fechar histórico",
-  "Common.Views.History.textHide": "Recolher",
   "Common.Views.History.textHideAll": "Ocultar alterações detalhadas",
   "Common.Views.History.textRestore": "Restaurar",
-  "Common.Views.History.textShow": "Expandir",
   "Common.Views.History.textShowAll": "Mostrar alterações detalhadas",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Colar URL de uma imagem:",

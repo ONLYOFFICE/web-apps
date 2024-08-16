@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "تحذير",
-  "Common.Controllers.Chat.textEnterMessage": "أدخل رسالتك هنا",
   "Common.Controllers.Desktop.hintBtnHome": "إظهار النافذة الرئيسية",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "إنشاء باستخدام قالب",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "مجهول",
@@ -576,10 +575,8 @@
   "Common.Views.Header.txtAccessRights": "تغيير حقوق الوصول",
   "Common.Views.Header.txtRename": "إعادة تسمية",
   "Common.Views.History.textCloseHistory": "إغلاق التاريخ",
-  "Common.Views.History.textHide": "طىّ",
   "Common.Views.History.textHideAll": "إخفاء التغييرات المفصلة",
   "Common.Views.History.textRestore": "إستعادة",
-  "Common.Views.History.textShow": "توسيع",
   "Common.Views.History.textShowAll": "إظهار التغييرات المفصلة",
   "Common.Views.History.textVer": "الإصدار",
   "Common.Views.ImageFromUrlDialog.textUrl": "لصق رابط صورة",

@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Amaran",
-  "Common.Controllers.Chat.textEnterMessage": "Masukkan mesej anda di sini",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Tanpa Nama",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Tutup",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objek telah dinyahdaya kerana ia sedang diedit oleh pengguna yang lain.",
@@ -314,10 +313,8 @@
   "Common.Views.Header.txtAccessRights": "Ubah hak akses",
   "Common.Views.Header.txtRename": "Namakan Semula",
   "Common.Views.History.textCloseHistory": "Tutup Sejarah",
-  "Common.Views.History.textHide": "Runtuhkan",
   "Common.Views.History.textHideAll": "Sembunyikan perubahan butiran",
   "Common.Views.History.textRestore": "Simpan Semula",
-  "Common.Views.History.textShow": "Kembangkan",
   "Common.Views.History.textShowAll": "Tunjukkan perubahan terperinci",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Tampal URL imej:",

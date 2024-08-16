@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "İptal Et",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Dikkat",
-  "Common.Controllers.Chat.textEnterMessage": "Mesajınızı buraya giriniz",
   "Common.Controllers.History.notcriticalErrorTitle": "Dikkat",
   "Common.define.chartData.textArea": "Bölge Grafiği",
   "Common.define.chartData.textAreaStacked": "Yığılmış alan",
@@ -238,10 +237,8 @@
   "Common.Views.Header.txtAccessRights": "Erişim haklarını değiştir",
   "Common.Views.Header.txtRename": "Yeniden adlandır",
   "Common.Views.History.textCloseHistory": "Geçmişi kapat",
-  "Common.Views.History.textHide": "Daralt",
   "Common.Views.History.textHideAll": "Detaylı değişiklikleri sakla",
   "Common.Views.History.textRestore": "Geri yükle",
-  "Common.Views.History.textShow": "Genişlet",
   "Common.Views.History.textShowAll": "Ayrıntılı değişiklikleri göster",
   "Common.Views.History.textVer": "sür.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Resim URL'sini yapıştır:",

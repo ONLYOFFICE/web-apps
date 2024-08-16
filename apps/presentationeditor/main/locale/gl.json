@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Aviso",
-  "Common.Controllers.Chat.textEnterMessage": "Insira a súa mensaxe aquí",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anónimo",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Pechar",
   "Common.Controllers.ExternalDiagramEditor.warningText": "O obxecto está desabilitado porque está sendo editado por outro usuario.",
@@ -423,10 +422,8 @@
   "Common.Views.Header.txtAccessRights": "Cambiar dereitos de acceso",
   "Common.Views.Header.txtRename": "Renomear",
   "Common.Views.History.textCloseHistory": "Pechar historial",
-  "Common.Views.History.textHide": "Contraer",
   "Common.Views.History.textHideAll": "Agochar cambios detallados",
   "Common.Views.History.textRestore": "Restaurar",
-  "Common.Views.History.textShow": "Expandir",
   "Common.Views.History.textShowAll": "Amosar cambios detallados",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Pegar URL da imaxe:",

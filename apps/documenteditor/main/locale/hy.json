@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Զգուշացում",
-  "Common.Controllers.Chat.textEnterMessage": "Այստեղ մուտքագրեք Ձեր ուղերձը",
   "Common.Controllers.Desktop.hintBtnHome": "Ցույց տալ հիմնական պատուհանը",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Ստեղծել ձևանմուշից",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Անանուն",
@@ -554,10 +553,8 @@
   "Common.Views.Header.txtAccessRights": "Փոխել մատչման իրավունքները",
   "Common.Views.Header.txtRename": "Վերանվանել",
   "Common.Views.History.textCloseHistory": "Փակել պատմությունը",
-  "Common.Views.History.textHide": "Ամփոփել",
   "Common.Views.History.textHideAll": "Թաքցնել մանրամասն փոփոխությունները",
   "Common.Views.History.textRestore": "Վերականգնել",
-  "Common.Views.History.textShow": "Ընդարձակել",
   "Common.Views.History.textShowAll": "Ցուցադրել մանրամասն փոփոխությունները ",
   "Common.Views.History.textVer": "Վեր",
   "Common.Views.ImageFromUrlDialog.textUrl": "Փակցնել նկարի URL՝",

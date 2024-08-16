@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Advarsel",
-  "Common.Controllers.Chat.textEnterMessage": "Skriv din besked her",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonym",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Luk",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objektet er slået fra da det bliver redigeret af en anden bruger. ",
@@ -187,10 +186,8 @@
   "Common.Views.Header.txtAccessRights": "Skift adgangsrettigheder",
   "Common.Views.Header.txtRename": "Omdøb",
   "Common.Views.History.textCloseHistory": "Luk historik",
-  "Common.Views.History.textHide": "Kollaps",
   "Common.Views.History.textHideAll": "Skjul detaljerede ændringer",
   "Common.Views.History.textRestore": "Gendan",
-  "Common.Views.History.textShow": "Udvid",
   "Common.Views.History.textShowAll": "Vis detaljerede ændringer",
   "Common.Views.History.textVer": "Ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Indsæt et billede URL: ",

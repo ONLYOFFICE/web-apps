@@ -323,6 +323,7 @@
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
     "errorChangeFilteredRange": "This will change a filtered range on your worksheet.<br>To complete this task, please remove AutoFilters.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorComboSeries": "To create a combination chart, select at least two series of data.",
     "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
@@ -366,8 +367,7 @@
     "textOk": "Ok",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "advDRMPassword": "Kata laluan",
@@ -506,10 +506,10 @@
       "txtSorting": "Pengisihan",
       "txtSortSelected": "Isih Terpilih",
       "txtYes": "Ya",
+      "sCustom": "Custom",
       "textDone": "Done",
       "textPasteImageUrl": "Paste an image URL",
-      "textRecommended": "Recommended",
-      "sCustom": "Custom"
+      "textRecommended": "Recommended"
     },
     "Edit": {
       "notcriticalErrorTitle": "Amaran",

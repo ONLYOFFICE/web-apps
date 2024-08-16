@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Увага",
-  "Common.Controllers.Chat.textEnterMessage": "Увядзіце сюды сваё паведамленне",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Ананімны карыстальнік",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Закрыць",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Аб’ект недаступны, бо рэдагуецца іншым карыстальнікам.",
@@ -586,10 +585,8 @@
   "Common.Views.Header.txtAccessRights": "Змяніць правы на доступ",
   "Common.Views.Header.txtRename": "Змяніць назву",
   "Common.Views.History.textCloseHistory": "Закрыць гісторыю",
-  "Common.Views.History.textHide": "Згарнуць",
   "Common.Views.History.textHideAll": "Схаваць падрабязныя змены",
   "Common.Views.History.textRestore": "Аднавіць",
-  "Common.Views.History.textShow": "Пашырыць",
   "Common.Views.History.textShowAll": "Паказаць падрабязныя змены",
   "Common.Views.History.textVer": "вер.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Устаўце URL выявы:",
