@@ -26,6 +26,7 @@
   "DE.ApplicationController.errorInconsistentExtXlsx": "Beim Öffnen der Datei ist ein Fehler aufgetreten.<br>Der Inhalt der Datei entspricht Tabellenkalkulationen (z.B. xlsx), aber die Datei hat die inkonsistente Erweiterung: %1.",
   "DE.ApplicationController.errorLoadingFont": "Schriftarten nicht hochgeladen.<br>Bitte wenden Sie sich an Administratoren von Ihrem Document Server.",
   "DE.ApplicationController.errorSubmit": "Fehler beim Senden.",
+  "DE.ApplicationController.errorToken": "Sicherheitstoken des Dokuments ist nicht korrekt gebildet.<br>Bitte wenden Sie sich an Ihren Administrator von Document Server.",
   "DE.ApplicationController.errorTokenExpire": "Sicherheitstoken des Dokuments ist abgelaufen.<br>Wenden Sie sich an Ihren Serveradministrator.",
   "DE.ApplicationController.errorUpdateVersionOnDisconnect": "Die Internetverbindung wurde wiederhergestellt und die Dateiversion wurde geändert.<br>Bevor Sie weiterarbeiten können, müssen Sie die Datei herunterladen oder den Inhalt kopieren, um sicherzustellen, dass nichts verloren geht, und diese Seite anschließend neu laden.",
   "DE.ApplicationController.errorUserDrop": "Der Zugriff auf diese Datei ist nicht möglich.",

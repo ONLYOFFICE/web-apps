@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Annuller",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Advarsel",
-  "Common.Controllers.Chat.textEnterMessage": "Skriv din besked her",
   "Common.Controllers.History.notcriticalErrorTitle": "Advarsel",
   "Common.define.chartData.textArea": "Område",
   "Common.define.chartData.textAreaStacked": "Stablet område",
@@ -252,10 +251,8 @@
   "Common.Views.Header.txtAccessRights": "Skift adgangsrettigheder",
   "Common.Views.Header.txtRename": "Omdøb",
   "Common.Views.History.textCloseHistory": "Luk historik",
-  "Common.Views.History.textHide": "Kollaps",
   "Common.Views.History.textHideAll": "Skjul detaljerede ændringer",
   "Common.Views.History.textRestore": "Gendan",
-  "Common.Views.History.textShow": "Udvid",
   "Common.Views.History.textShowAll": "Vis detaljerede ændringer",
   "Common.Views.History.textVer": "Ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Indsæt et billede URL: ",

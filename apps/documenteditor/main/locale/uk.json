@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Застереження",
-  "Common.Controllers.Chat.textEnterMessage": "ВВедіть своє повідомлення тут",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Гість",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Закрити",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Об'єкт вимкнено, оскільки його редагує інший користувач.",
@@ -359,10 +358,8 @@
   "Common.Views.Header.txtAccessRights": "Змінити права доступу",
   "Common.Views.Header.txtRename": "Перейменувати",
   "Common.Views.History.textCloseHistory": "Закрити історію",
-  "Common.Views.History.textHide": "Згорнути",
   "Common.Views.History.textHideAll": "Сховати детальні зміни",
   "Common.Views.History.textRestore": "Відновити",
-  "Common.Views.History.textShow": "Розгорнути",
   "Common.Views.History.textShowAll": "Показати детальні зміни",
   "Common.Views.History.textVer": "вер.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Вставити URL зображення:",

@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "ແຈ້ງເຕືອນ",
-  "Common.Controllers.Chat.textEnterMessage": "ໃສ່ຂໍ້ຄວາມຂອງທ່ານທີ່ນີ້",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "ບໍ່ລະບຸຊື່",
   "Common.Controllers.ExternalDiagramEditor.textClose": "ປິດ",
   "Common.Controllers.ExternalDiagramEditor.warningText": "ປິດຈຸດປະສົງເນື່ອງຈາກຖືກແກ້ໄຂໂດຍຜູ້ໃຊ້ຄົນອື່ນ.",
@@ -294,10 +293,8 @@
   "Common.Views.Header.txtAccessRights": "ປ່ຽນສິດການເຂົ້າເຖິງ",
   "Common.Views.Header.txtRename": "ປ່ຽນຊື່",
   "Common.Views.History.textCloseHistory": "ປິດປະຫວັດການເຄື່ອນໄຫວ",
-  "Common.Views.History.textHide": "ພັງທະລາຍ",
   "Common.Views.History.textHideAll": "ເຊື່ອງລາຍລະອຽດການປ່ຽນແປງ",
   "Common.Views.History.textRestore": "ກູ້ຄືນ",
-  "Common.Views.History.textShow": "ຂະຫຍາຍສ່ວນ",
   "Common.Views.History.textShowAll": "ສະແດງການປ່ຽນແປງໂດຍລະອຽດ",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "ວາງ URL ຂອງຮູບພາບ:",

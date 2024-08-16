@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "警告",
-  "Common.Controllers.Chat.textEnterMessage": "在此輸入您的訊息",
   "Common.Controllers.Desktop.hintBtnHome": "顯示主視窗",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "從模板創建",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "匿名",
@@ -537,10 +536,8 @@
   "Common.Views.Header.txtAccessRights": "變更存取權限",
   "Common.Views.Header.txtRename": "重新命名",
   "Common.Views.History.textCloseHistory": "關閉歷史紀錄",
-  "Common.Views.History.textHide": "折疊",
   "Common.Views.History.textHideAll": "隱藏詳細更改",
   "Common.Views.History.textRestore": "還原",
-  "Common.Views.History.textShow": "展開",
   "Common.Views.History.textShowAll": "顯示詳細變更",
   "Common.Views.History.textVer": "版本",
   "Common.Views.ImageFromUrlDialog.textUrl": "貼上圖片URL：",

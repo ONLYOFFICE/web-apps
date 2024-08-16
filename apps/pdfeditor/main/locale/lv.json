@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Brīdinājums",
-  "Common.Controllers.Chat.textEnterMessage": "Ievadiet savu ziņu šeit",
   "Common.Translation.textMoreButton": "Vairāk",
   "Common.Translation.tipFileLocked": "Dokuments ir bloķēts rediģēšanai. Jūs varat veikt izmaiņas un saglabāt to kā vietējo kopiju vēlāk.",
   "Common.Translation.tipFileReadOnly": "Fails ir tikai lasāms. Lai saglabātu izmaiņas, saglabājiet failu ar jaunu nosaukumu vai citā vietā.",

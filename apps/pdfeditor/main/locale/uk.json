@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Застереження",
-  "Common.Controllers.Chat.textEnterMessage": "Введіть своє повідомлення тут",
   "Common.Translation.textMoreButton": "Більше",
   "Common.Translation.tipFileLocked": "Документ заблоковано для редагування. Ви можете внести зміни та зберегти його як локальну копію.",
   "Common.Translation.tipFileReadOnly": "Файл лише для читання. Щоби зберегти зміни, збережіть файл під іншим ім'ям або в іншому місці.",

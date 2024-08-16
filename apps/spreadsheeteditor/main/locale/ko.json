@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "취소",
   "Common.Controllers.Chat.notcriticalErrorTitle": "경고",
-  "Common.Controllers.Chat.textEnterMessage": "여기에 메시지를 입력하십시오",
   "Common.Controllers.Desktop.hintBtnHome": "메인 창 표시",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "템플릿에서 만들기",
   "Common.Controllers.History.notcriticalErrorTitle": "경고",
@@ -469,10 +468,8 @@
   "Common.Views.Header.txtAccessRights": "액세스 권한 변경",
   "Common.Views.Header.txtRename": "이름 바꾸기",
   "Common.Views.History.textCloseHistory": "버전 기록 닫기",
-  "Common.Views.History.textHide": "축소",
   "Common.Views.History.textHideAll": "자세한 변경 사항 숨기기",
   "Common.Views.History.textRestore": "복구",
-  "Common.Views.History.textShow": "확장",
   "Common.Views.History.textShowAll": "자세한 변경 사항 표시",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "이미지 URL 붙여 넣기 :",

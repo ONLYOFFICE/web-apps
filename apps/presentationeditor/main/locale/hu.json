@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Figyelmeztetés",
-  "Common.Controllers.Chat.textEnterMessage": "Írja be ide az üzenetet",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonim",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Bezár",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Az objektum le van tiltva, mert azt egy másik felhasználó szerkeszti.",
@@ -594,10 +593,8 @@
   "Common.Views.Header.txtAccessRights": "Hozzáférési jogok módosítása",
   "Common.Views.Header.txtRename": "Név változtatása",
   "Common.Views.History.textCloseHistory": "Előzmények bezárása",
-  "Common.Views.History.textHide": "Minimalizálás",
   "Common.Views.History.textHideAll": "Részletes módosítások elrejtése",
   "Common.Views.History.textRestore": "Visszaállítás",
-  "Common.Views.History.textShow": "Kibont",
   "Common.Views.History.textShowAll": "Módosítások részletes megjelenítése",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Illesszen be egy kép hivatkozást:",

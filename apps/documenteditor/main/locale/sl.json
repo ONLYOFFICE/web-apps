@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Opozorilo",
-  "Common.Controllers.Chat.textEnterMessage": "Svoje sporočilo vnesite tu",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimno",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zapri",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je onemogočen, saj ga ureja drug uporabnik.",
@@ -312,7 +311,6 @@
   "Common.Views.History.textCloseHistory": "Zapri zgodovino",
   "Common.Views.History.textHideAll": "Skrij podrobne spremembe",
   "Common.Views.History.textRestore": "Obnovi",
-  "Common.Views.History.textShow": "Razširi",
   "Common.Views.ImageFromUrlDialog.textUrl": "Prilepi URL slike:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "To polje je obvezno",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "To polje mora biti URL v \"http://www.example.com\" formatu",
