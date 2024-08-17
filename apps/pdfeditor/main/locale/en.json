@@ -1558,7 +1558,7 @@
   "PDFE.Views.PrintWithPreview.textMarginsModerate": "Moderate",
   "PDFE.Views.PrintWithPreview.textMarginsNarrow": "Narrow",
   "PDFE.Views.PrintWithPreview.textMarginsNormal": "Normal",
-  "PDFE.Views.PrintWithPreview.textMarginsUsNormal": "US Normal",
+  "del_PDFE.Views.PrintWithPreview.textMarginsUsNormal": "US Normal",
   "PDFE.Views.PrintWithPreview.textMarginsWide": "Wide",
   "PDFE.Views.PrintWithPreview.txtAllPages": "All pages",
   "PDFE.Views.PrintWithPreview.txtBothSides": "Print on both sides",
