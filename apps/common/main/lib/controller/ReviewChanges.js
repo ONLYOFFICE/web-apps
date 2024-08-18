@@ -701,7 +701,7 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     (new Common.Views.ImageFromUrlDialog({
-                        title: me.textUrl,
+                        label: me.textUrl,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
@@ -750,7 +750,7 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     (new Common.Views.ImageFromUrlDialog({
-                        title: me.textUrl,
+                        label: me.textUrl,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 if (me.api) {

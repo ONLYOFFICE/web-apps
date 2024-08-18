@@ -39,11 +39,6 @@
 define([], function () { 'use strict';
 
     Common.Views.TextInputDialog = Common.UI.Window.extend(_.extend({
-        options: {
-            width: 330,
-            cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
-        },
 
         initialize : function(options) {
             var _options = {};
@@ -52,7 +47,7 @@ define([], function () { 'use strict';
                 header: !!options.title,
                 label: options.label || '',
                 description: options.description || '',
-                width: 450 || options.width,
+                width: 330 || options.width,
                 cls: 'modal-dlg',
                 buttons: ['ok', 'cancel']
             }, options || {});
@@ -136,4 +131,30 @@ define([], function () { 'use strict';
         }
 
     }, Common.Views.TextInputDialog || {}));
+
+    Common.Views.ImageFromUrlDialog = Common.Views.TextInputDialog.extend(_.extend({
+
+        initialize : function(options) {
+
+            var _options = {},
+                me = this;
+            _.extend(_options, {
+                header: false,
+                label: options.label || me.textUrl,
+                inputConfig: {
+                    allowBlank  : false,
+                    blankError  : me.txtEmpty,
+                    validation  : function(value) {
+                        return (/((^https?)|(^ftp)):\/\/.+/i.test(value)) ? true : me.txtNotUrl;
+                    }
+                }
+            }, options || {});
+
+            Common.Views.TextInputDialog.prototype.initialize.call(this, _options);
+        },
+
+        textUrl         : 'Paste an image URL:',
+        txtEmpty        : 'This field is required',
+        txtNotUrl       : 'This field should be a URL in the format \"http://www.example.com\"'
+    }, Common.Views.ImageFromUrlDialog || {}));
 });

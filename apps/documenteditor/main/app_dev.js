@@ -198,7 +198,6 @@ require([
                     'common/main/lib/component/ComboBoxDataView',
                     'common/main/lib/view/OptionsDialog',
                     'common/main/lib/view/CopyWarningDialog',
-                    'common/main/lib/view/ImageFromUrlDialog',
                     'common/main/lib/view/InsertTableDialog',
                     'common/main/lib/view/SelectFileDlg',
                     'common/main/lib/view/SymbolTableDialog',

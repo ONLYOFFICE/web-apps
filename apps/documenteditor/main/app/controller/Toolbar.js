@@ -3436,7 +3436,7 @@ define([
                 this.api && this.api.asc_StartMailMerge();
             } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
-                    title: me.dataUrl,
+                    label: me.dataUrl,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
