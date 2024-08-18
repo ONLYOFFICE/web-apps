@@ -3787,8 +3787,12 @@ define([
 
         onInsFieldClick: function(type) {
             var me = this;
-            (new DE.Views.FieldDialog({
-                code: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
+            (new Common.Views.TextInputDialog({
+                width: 450,
+                title: me.textFieldTitle,
+                label: me.textFieldLabel,
+                description: me.textFieldExample,
+                value: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {

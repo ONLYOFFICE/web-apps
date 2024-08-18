@@ -285,6 +285,7 @@
   "Common.UI.ExtendedColorDialog.textNew": "New",
   "Common.UI.ExtendedColorDialog.textRGBErr": "The entered value is incorrect.<br>Please enter a numeric value between 0 and 255.",
   "Common.UI.HSBColorPicker.textNoColor": "No Color",
+  "Common.UI.InputField.txtEmpty": "This field is required",
   "Common.UI.InputFieldBtnPassword.textHintHidePwd": "Hide password",
   "Common.UI.InputFieldBtnPassword.textHintHold": "Press and hold to show password",
   "Common.UI.InputFieldBtnPassword.textHintShowPwd": "Show password",

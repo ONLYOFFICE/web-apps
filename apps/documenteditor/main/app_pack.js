@@ -26,6 +26,7 @@ require([
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/LanguageDialog',
+    'common/main/lib/view/TextInputDialog',
 
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',
@@ -40,7 +41,6 @@ require([
     'documenteditor/main/app/view/RoleEditDlg',
     'documenteditor/main/app/view/RolesManagerDlg',
     'documenteditor/main/app/view/SaveFormDlg',
-    'documenteditor/main/app/view/AddNewCaptionLabelDialog',
     'documenteditor/main/app/view/CaptionDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
     'documenteditor/main/app/view/HyperlinkSettingsDialog',
@@ -61,8 +61,7 @@ require([
     'documenteditor/main/app/view/NumberingValueDialog',
     'documenteditor/main/app/view/ListIndentsDialog',
     'documenteditor/main/app/view/ProtectDialog',
-    'documenteditor/main/app/view/MailMergeEmailDlg',
-    'documenteditor/main/app/view/FieldDialog'
+    'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });

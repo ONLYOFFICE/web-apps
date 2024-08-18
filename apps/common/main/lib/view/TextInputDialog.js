@@ -30,40 +30,51 @@
  *
  */
 /**
- *  EditNameDialog.js
+ *  TextInputDialog.js
  *
- *  Created on 10.07.2020
+ *  Created on 17/08/24
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/InputField'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
-    Common.Views.EditNameDialog = Common.UI.Window.extend(_.extend({
+    Common.Views.TextInputDialog = Common.UI.Window.extend(_.extend({
         options: {
             width: 330,
-            header: false,
             cls: 'modal-dlg',
             buttons: ['ok', 'cancel']
         },
 
         initialize : function(options) {
-            _.extend(this.options, options || {});
+            var _options = {};
+
+            _.extend(_options, {
+                header: !!options.title,
+                label: options.label || '',
+                description: options.description || '',
+                width: 450 || options.width,
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel']
+            }, options || {});
 
             this.template = [
                 '<div class="box">',
-                '<div class="input-row">',
-                '<label>' + (this.options.label ? this.options.label : this.textLabel) + '</label>',
-                '</div>',
-                '<div id="id-dlg-label-caption" class="input-row"></div>',
+                    '<div class="input-row <% if (!label) { %> hidden <% } %>">',
+                        '<label><%= label %></label>',
+                    '</div>',
+                    '<div id="id-dlg-label-custom-input" class="input-row"></div>',
+                    '<div class="input-row <% if (!description) { %> hidden <% } %>">',
+                        '<label class="light"><%= description %></label>',
+                    '</div>',
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template)(this.options);
+            this.inputConfig = _.extend({
+                allowBlank: true
+            }, options.inputConfig || {});
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            _options.tpl = _.template(this.template)(_options);
+            Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
         render: function() {
@@ -71,17 +82,14 @@ define([
 
             var me = this;
             me.inputLabel = new Common.UI.InputField({
-                el          : $('#id-dlg-label-caption'),
-                allowBlank  : false,
-                blankError  : me.options.error ? me.options.error : me.textLabelError,
+                el          : $('#id-dlg-label-custom-input'),
+                allowBlank  : me.inputConfig.allowBlank,
+                blankError  : me.inputConfig.blankError,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
-                validation  : me.options.validation || function(value) {
-                    return value ? true : '';
-                }
+                validation  : me.inputConfig.validation
             });
-            me.inputLabel.setValue(this.options.value || '' );
-
+            me.inputLabel.setValue(me.options.value || '');
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
         },
@@ -125,9 +133,7 @@ define([
             }
 
             this.close();
-        },
+        }
 
-        textLabel: 'Label:',
-        textLabelError: 'Label must not be empty.'
-    }, Common.Views.EditNameDialog || {}));
+    }, Common.Views.TextInputDialog || {}));
 });

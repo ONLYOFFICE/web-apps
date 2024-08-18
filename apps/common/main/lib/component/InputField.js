@@ -110,7 +110,7 @@ define([
                 this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
-                this.blankError     = me.options.blankError || 'This field is required';
+                this.blankError     = me.options.blankError || me.txtEmpty;
                 this.validateOnChange = me.options.validateOnChange;
                 this.validateOnBlur = me.options.validateOnBlur;
                 this.maxLength      = me.options.maxLength;
@@ -399,7 +399,9 @@ define([
 
             showWarning: function(errors) {
                 this.showError(errors, true);
-            }
+            },
+
+            txtEmpty: 'This field is required'
         }
     })());
 

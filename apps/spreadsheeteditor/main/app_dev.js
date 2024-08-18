@@ -214,6 +214,7 @@ require([
                 'common/main/lib/view/PluginPanel',
                 'common/main/lib/view/ShapeShadowDialog',
                 'common/main/lib/view/CustomizeQuickAccessDialog',
+                'common/main/lib/view/TextInputDialog',
 
                 'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
