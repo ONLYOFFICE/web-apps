@@ -206,7 +206,8 @@ define([
                 var view = new Common.UI.DataViewItem({
                     template: this.itemTemplate,
                     model: record,
-                    role: this.options.roleItem
+                    role: this.options.roleItem,
+                    tabindex: this.itemTabindex
                 });
 
                 if (view) {
