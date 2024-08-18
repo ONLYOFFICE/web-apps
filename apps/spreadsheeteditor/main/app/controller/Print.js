@@ -390,7 +390,7 @@ define([
             !!pageCount && this.updatePreview();
         },
 
-        openPrintSettings: function(type, cmp, format, asUrl) {
+        openPrintSettings: function(type, cmp, format, asUrl, wopiPath) {
             if (this.printSettingsDlg && this.printSettingsDlg.isVisible()) {
                 asUrl && Common.NotificationCenter.trigger('download:cancel');
                 return;
@@ -400,6 +400,7 @@ define([
                 Common.UI.Menu.Manager.hideAll();
                 this.asUrl = asUrl;
                 this.downloadFormat = format;
+                this.downloadWopiPath = wopiPath;
                 this.printSettingsDlg = (new SSE.Views.PrintSettings({
                     type: type,
                     handler: _.bind(this.resultPrintSettings,this),
@@ -478,6 +479,7 @@ define([
                     var opts = new Asc.asc_CDownloadOptions(this.downloadFormat, this.asUrl);
                     opts.asc_setAdvancedOptions(this.adjPrintParams);
                     opts.asc_setIsSaveAs(this.asUrl);
+                    this.downloadWopiPath && opts.asc_setWopiSaveAsPath(this.downloadWopiPath);
                     this.api.asc_DownloadAs(opts);
                 }
                 Common.component.Analytics.trackEvent((this.printSettingsDlg.type=='print') ? 'Print' : 'DownloadAs');

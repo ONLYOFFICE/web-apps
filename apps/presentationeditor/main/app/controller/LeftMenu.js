@@ -89,7 +89,12 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
-                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
+                    'savecopy:format': _.bind(function(menu, format, ext) {
+                        if (this.mode && this.mode.wopi && ext!==undefined) { // save copy as in wopi
+                            this.saveAsInWopi(menu, format, ext);
+                        } else
+                            this.clickSaveCopyAsFormat(menu, format, ext);
+                    }, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -286,13 +291,36 @@ define([
             menu.hide();
         },
 
-        clickSaveCopyAsFormat: function(menu, format, ext) {
+        clickSaveCopyAsFormat: function(menu, format, ext, wopiPath) {
             this.isFromFileDownloadAs = ext;
             var options = new Asc.asc_CDownloadOptions(format, true);
             options.asc_setIsSaveAs(true);
+            wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
             this.api.asc_DownloadAs(options);
 
             menu.hide();
+        },
+
+        saveAsInWopi: function(menu, format, ext) {
+            var me = this,
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption(),
+                fileInfo = this.getApplication().getController('Main').document.info;
+            !defFileName && (defFileName = me.txtUntitled);
+
+            if (typeof ext === 'string') {
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + ext;
+            }
+            (new Common.Views.TextInputDialog({
+                label: me.textSelectPath,
+                value: (fileInfo ? fileInfo.folder || '' : '') + (defFileName || ''),
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        me.clickSaveCopyAsFormat(menu, format, ext, value);
+                    }
+                }
+            })).show();
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -859,6 +887,7 @@ define([
         textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
         textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.',
         textLoadHistory         : 'Loading version history...',
-        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+        textSelectPath: 'Enter a path for saving file copy'
     }, PE.Controllers.LeftMenu || {}));
 });
