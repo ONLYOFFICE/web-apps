@@ -176,7 +176,6 @@ require([
             'presentationeditor/main/app/controller/ViewTab',
             'presentationeditor/main/app/controller/Search',
             'presentationeditor/main/app/controller/Print',
-            'presentationeditor/main/app/view/FileMenuPanels',
             // 'presentationeditor/main/app/view/ParagraphSettings',
             // 'presentationeditor/main/app/view/ImageSettings',
             // 'presentationeditor/main/app/view/ShapeSettings',

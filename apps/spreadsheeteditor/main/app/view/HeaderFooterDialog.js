@@ -977,19 +977,7 @@ define([], function () { 'use strict';
                     clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                 }
             }
-            if (_.isObject(clr)) {
-                var isselected = false;
-                for (var i = 0; i < 10; i++) {
-                    if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                        fontColorPicker.select(clr, true);
-                        isselected = true;
-                        break;
-                    }
-                }
-                if (!isselected) fontColorPicker.clearSelection();
-            } else {
-                fontColorPicker.select(clr, true);
-            }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(clr, fontColorPicker);
         },
 
         tipFontName: 'Font',

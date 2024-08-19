@@ -459,6 +459,25 @@ define([], function () {
                     }
                 }
                 return clr;
+            },
+
+            selectPickerColorByEffect: function(color, picker) {
+                if (!color)
+                    picker.clearSelection();
+                else {
+                    if ( typeof(color) == 'object' ) {
+                        var isselected = false;
+                        for (var i=0; i<10; i++) {
+                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
+                                picker.select(color, true);
+                                isselected = true;
+                                break;
+                            }
+                        }
+                        if (!isselected) picker.clearSelection();
+                    } else
+                        picker.select(color,true);
+                }
             }
         }
     })();
@@ -1478,4 +1497,17 @@ define([], function () {
             };
         }
     }
+
+    Common.UI.simpleColorsConfig = {
+        colors: [
+            '1755A0', 'D43230', 'F5C346', 'EA3368', '12A489', '552F8B', '9D1F87', 'BB2765', '479ED2', '67C9FA',
+            '3D8A44', '80CA3D', '1C19B4', '7F4B0F', 'FF7E07', 'FFFFFF', 'D3D3D4', '879397', '575757', '000000'
+        ],
+        dynamiccolors: 5,
+        themecolors: 0,
+        effects: 0,
+        columns: 5,
+        cls: 'palette-large',
+        paletteWidth: 174
+    };
 });

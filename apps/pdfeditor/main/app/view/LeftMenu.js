@@ -352,6 +352,7 @@ define([
         showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if ( !this.menuFile.isVisible() ) {
                     // this.btnFile.toggle(true);
                 }

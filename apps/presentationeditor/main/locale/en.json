@@ -1340,7 +1340,7 @@
   "PE.Controllers.Toolbar.helpMasterSlideHeader": "Slide Master",
   "PE.Controllers.Toolbar.textAccent": "Accents",
   "PE.Controllers.Toolbar.textBracket": "Brackets",
-  "PE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
+  "del_PE.Controllers.Toolbar.textEmptyImgUrl": "You need to specify image URL.",
   "PE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PE.Controllers.Toolbar.textFraction": "Fractions",
   "PE.Controllers.Toolbar.textFunction": "Functions",

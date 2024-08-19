@@ -915,19 +915,7 @@ define([
                     this.paragraphShade = 'transparent';
                 }
                 this.btnBackColor.setColor(this.paragraphShade);
-                if ( typeof(this.paragraphShade) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.paragraphShade.effectValue ) {
-                            this.colorsBack.select(this.paragraphShade,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsBack.clearSelection();
-                } else
-                    this.colorsBack.select(this.paragraphShade,true);
-
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.paragraphShade, this.colorsBack);
                 this._UpdateBorders();
 
                 // Font

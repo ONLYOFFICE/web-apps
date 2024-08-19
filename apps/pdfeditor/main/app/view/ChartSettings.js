@@ -558,6 +558,7 @@ define([
         },
 
         setEditData:   function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.setEditMode(true);

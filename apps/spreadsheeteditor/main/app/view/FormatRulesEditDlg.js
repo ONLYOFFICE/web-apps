@@ -1298,19 +1298,7 @@ define([
                 color = picker.options.transparent ? 'transparent' : '000000';
             }
             control && control.setColor(color);
-            if (_.isObject(color)) {
-                var isselected = false;
-                for (var i = 0; i < 10; i++) {
-                    if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
-                        picker.select(color, true);
-                        isselected = true;
-                        break;
-                    }
-                }
-                if (!isselected) picker.clearSelection();
-            } else {
-                picker.select(color, true);
-            }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(color, picker);
             picker && (picker.currentColor = color);
             control && (control.currentColor = color);
             return color;
