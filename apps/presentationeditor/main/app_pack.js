@@ -1,4 +1,5 @@
 require([
+    'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ComboBoxDataView',
     'common/main/lib/view/AdvancedSettingsWindow',
@@ -21,7 +22,10 @@ require([
     'common/main/lib/view/PluginPanel',
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
+    'common/main/lib/view/DocumentHolderExt',
 
+    'presentationeditor/main/app/view/FileMenuPanels',
+    'presentationeditor/main/app/view/DocumentHolderExt',
     'presentationeditor/main/app/view/ParagraphSettingsAdvanced',
     'presentationeditor/main/app/view/ShapeSettingsAdvanced',
     'presentationeditor/main/app/view/TableSettingsAdvanced',

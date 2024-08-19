@@ -38,10 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/RadioBox'
-], function () {
+define([], function () {
     'use strict';
 
     !PDFE.Views.FileMenuPanels && (PDFE.Views.FileMenuPanels = {});
@@ -2539,7 +2536,6 @@ define([
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.textMarginsNormal, size: [20, 30, 20, 15]},
-                    { value: 1, displayValue: this.textMarginsUsNormal, size: [25.4, 25.4, 25.4, 25.4]},
                     { value: 2, displayValue: this.textMarginsNarrow, size: [12.7, 12.7, 12.7, 12.7]},
                     { value: 3, displayValue: this.textMarginsModerate, size: [25.4, 19.1, 25.4, 19.1]},
                     { value: 4, displayValue: this.textMarginsWide, size: [25.4, 50.8, 25.4, 50.8]},
@@ -2728,7 +2724,6 @@ define([
         txtPages: 'Pages',
         textMarginsLast: 'Last Custom',
         textMarginsNormal: 'Normal',
-        textMarginsUsNormal: 'US Normal',
         textMarginsNarrow: 'Narrow',
         textMarginsModerate: 'Moderate',
         textMarginsWide: 'Wide',

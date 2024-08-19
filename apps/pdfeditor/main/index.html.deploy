@@ -260,7 +260,6 @@
         window.parentOrigin = params["parentOrigin"];
     </script>
 
-    <link rel="stylesheet" type="text/css" href="../../../apps/pdfeditor/main/resources/css/app.css">
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
@@ -409,5 +408,6 @@
             startApp();
         }
     </script>
+    <link rel="stylesheet" href="../../../apps/pdfeditor/main/resources/css/app.css" media="print" onload="this.media='all'">
 </body>
 </html>

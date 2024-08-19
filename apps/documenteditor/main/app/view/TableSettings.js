@@ -605,19 +605,7 @@ define([
                     (type1!='object' && this._state.BackColor.indexOf(this.CellColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.CellColor.Color);
-                    if ( typeof(this.CellColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue ) {
-                                this.colorsBack.select(this.CellColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.CellColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
                     this._state.BackColor = this.CellColor.Color;
                 }
 
@@ -1000,72 +988,7 @@ define([
 
         onEyedropperEnd: function () {
             this.fireEvent('eyedropper', false);
-        },
-
-        textBorders:        'Border\'s Style',
-        textBorderColor:    'Color',
-        textBackColor:      'Background color',
-        textEdit:           'Rows & Columns',
-        selectRowText           : 'Select Row',
-        selectColumnText        : 'Select Column',
-        selectCellText          : 'Select Cell',
-        selectTableText         : 'Select Table',
-        insertRowAboveText      : 'Insert Row Above',
-        insertRowBelowText      : 'Insert Row Below',
-        insertColumnLeftText    : 'Insert Column Left',
-        insertColumnRightText   : 'Insert Column Right',
-        deleteRowText           : 'Delete Row',
-        deleteColumnText        : 'Delete Column',
-        deleteTableText         : 'Delete Table',
-        mergeCellsText          : 'Merge Cells',
-        splitCellsText          : 'Split Cell...',
-        splitCellTitleText      : 'Split Cell',
-        textSelectBorders       : 'Select borders that you want to change',
-        textAdvanced            : 'Show advanced settings',
-        txtNoBorders            : 'No borders',
-        textTemplate            : 'Select From Template',
-        textRows                : 'Rows',
-        textColumns             : 'Columns',
-        textHeader              : 'Header',
-        textTotal               : 'Total',
-        textBanded              : 'Banded',
-        textFirst               : 'First',
-        textLast                : 'Last',
-        textEmptyTemplate       : 'No templates',
-        strRepeatRow            : 'Repeat as header row at the top of each page',
-        tipTop:             'Set Outer Top Border Only',
-        tipLeft:            'Set Outer Left Border Only',
-        tipBottom:          'Set Outer Bottom Border Only',
-        tipRight:           'Set Outer Right Border Only',
-        tipAll:             'Set Outer Border and All Inner Lines',
-        tipNone:            'Set No Borders',
-        tipInner:           'Set Inner Lines Only',
-        tipInnerVert:       'Set Vertical Inner Lines Only',
-        tipInnerHor:        'Set Horizontal Inner Lines Only',
-        tipOuter:           'Set Outer Border Only',
-        textCellSize: 'Rows & Columns Size',
-        textHeight: 'Height',
-        textWidth: 'Width',
-        textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns',
-        textAddFormula: 'Add formula',
-        txtTable_TableGrid: 'Table Grid',
-        txtTable_PlainTable: 'Plain Table',
-        txtTable_GridTable: 'Grid Table',
-        txtTable_ListTable: 'List Table',
-        txtTable_Light: 'Light',
-        txtTable_Dark: 'Dark',
-        txtTable_Colorful: 'Colorful',
-        txtTable_Accent: 'Accent',
-        txtTable_Lined: 'Lined',
-        txtTable_Bordered: 'Bordered',
-        txtTable_BorderedAndLined: 'Bordered & Lined',
-        txtGroupTable_Custom: 'Custom',
-        txtGroupTable_Plain: 'Plain Tables',
-        txtGroupTable_Grid: 'Grid Tables',
-        txtGroupTable_List: 'List Tables',
-        txtGroupTable_BorderedAndLined: 'Bordered & Lined Tables',
-        textConvert: 'Convert Table to Text',
+        }
 
     }, DE.Views.TableSettings || {}));
 });

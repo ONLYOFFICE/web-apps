@@ -126,6 +126,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -263,6 +264,9 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
+
+            me.mode.isEdit ? me.documentHolder.createDelayedElements() : me.documentHolder.createDelayedElementsViewer();
+
             if (!me.mode.isEdit) {
                 return;
             }
@@ -328,6 +332,8 @@ define([
                     }, 10);
                 }, this));
             }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
         },
 
         createDelayedElements: function(view, type) {
@@ -448,6 +454,8 @@ define([
             view.menuTableDirection.menu.on('item:click', _.bind(me.tableDirection, me));
             view.menuTableRefreshField.on('click', _.bind(me.onRefreshField, me));
             view.menuParaRefreshField.on('click', _.bind(me.onRefreshField, me));
+            view.menuTableEditField.on('click', _.bind(me.onEditField, me));
+            view.menuParaEditField.on('click', _.bind(me.onEditField, me));
             view.menuParagraphBreakBefore.on('click', _.bind(me.onParagraphBreakBefore, me));
             view.menuParagraphKeepLines.on('click', _.bind(me.onParagraphKeepLines, me));
             view.menuParagraphVAlign.menu.on('item:click', _.bind(me.paragraphVAlign, me));
@@ -1404,6 +1412,8 @@ define([
         },
 
         onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             if (this.api) {
                 var oleobj = this.api.asc_canEditTableOleObject(true);
                 if (oleobj) {
@@ -1420,6 +1430,8 @@ define([
         },
 
         onDoubleClickOnChart: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1432,6 +1444,8 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -1762,58 +1776,8 @@ define([
             }
         },
 
-        equationCallback: function(eqProps) {
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    this.api.asc_SetMathProps(eqObj);
-                }
-            }
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
             this.editComplete();
         },
 
@@ -1875,6 +1839,8 @@ define([
         },
 
         editChartClick: function(){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var diagramEditor = DE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
                 diagramEditor.setEditMode(true);
@@ -2499,6 +2465,10 @@ define([
             this.editComplete();
         },
 
+        onEditField: function(item, e){
+            this.documentHolder.fireEvent('field:edit', ['edit']);
+        },
+
         onParagraphBreakBefore: function(item, e){
             this.api && this.api.put_PageBreak(item.checked);
         },
@@ -2564,6 +2534,11 @@ define([
             if (this.mode && !this.mode.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
+
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('de-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2713,6 +2688,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

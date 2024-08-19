@@ -38,10 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox',
-], function () {
+define([], function () {
     'use strict';
 
     !PE.Views.FileMenuPanels && (PE.Views.FileMenuPanels = {});
@@ -1492,7 +1489,7 @@ define([
         txtAddText: 'Add Text',
         txtMinutes: 'min',
         okButtonText: 'Apply',
-        txtPresentationInfo: 'Presentation Info'
+        txtPresentationInfo: 'Info'
     }, PE.Views.FileMenuPanels.DocumentInfo || {}));
 
     PE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
