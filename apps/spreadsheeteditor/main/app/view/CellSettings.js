@@ -999,19 +999,7 @@ define([
                         (type1 != 'object' && this._state.CellColor !== undefined && this._state.CellColor.indexOf(this.CellColor.Color) < 0)) {
 
                         this.btnBackColor.setColor(this.CellColor.Color);
-                        if (_.isObject(this.CellColor.Color)) {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue) {
-                                    this.colorsBack.select(this.CellColor.Color, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsBack.clearSelection();
-                        } else {
-                            this.colorsBack.select(this.CellColor.Color, true);
-                        }
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
                         this._state.CellColor = this.CellColor.Color;
                     }
 
@@ -1024,19 +1012,7 @@ define([
                         (type1 != 'object' && this._state.FGColor.indexOf(this.FGColor.Color) < 0)) {
 
                         this.btnFGColor.setColor(this.FGColor.Color);
-                        if (typeof (this.FGColor.Color) == 'object') {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.FGColor.Color.effectValue) {
-                                    this.colorsFG.select(this.FGColor.Color, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsFG.clearSelection();
-                        } else
-                            this.colorsFG.select(this.FGColor.Color, true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.FGColor.Color, this.colorsFG);
                         this._state.FGColor = this.FGColor.Color;
                     }
 
@@ -1048,19 +1024,7 @@ define([
                         (type1 != 'object' && this._state.BGColor.indexOf(this.BGColor.Color) < 0)) {
 
                         this.btnBGColor.setColor(this.BGColor.Color);
-                        if (typeof (this.BGColor.Color) == 'object') {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == this.BGColor.Color.effectValue) {
-                                    this.colorsBG.select(this.BGColor.Color, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsBG.clearSelection();
-                        } else
-                            this.colorsBG.select(this.BGColor.Color, true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(this.BGColor.Color, this.colorsBG);
                         this._state.BGColor = this.BGColor.Color;
                     }
 
@@ -1074,19 +1038,7 @@ define([
                         (type1 != 'object' && this._state.GradColor.indexOf(gradColor) < 0)) {
 
                         this.btnGradColor.setColor(gradColor);
-                        if (typeof (gradColor) == 'object') {
-                            var isselected = false;
-                            for (var i = 0; i < 10; i++) {
-                                if (Common.Utils.ThemeColor.ThemeValues[i] == gradColor.effectValue) {
-                                    this.colorsGrad.select(gradColor, true);
-                                    isselected = true;
-                                    break;
-                                }
-                            }
-                            if (!isselected) this.colorsGrad.clearSelection();
-                        } else
-                            this.colorsGrad.select(gradColor, true);
-
+                        Common.Utils.ThemeColor.selectPickerColorByEffect(gradColor, this.colorsGrad);
                         this._state.GradColor = gradColor;
                     }
 
@@ -1608,57 +1560,7 @@ define([
 
         onEyedropperEnd: function () {
             this.fireEvent('eyedropper', false);
-        },
-
-        textBorders:        'Border\'s Style',
-        textBorderColor:    'Color',
-        textBackColor:      'Background color',
-        textSelectBorders       : 'Select borders that you want to change',
-        tipTop:             'Set Outer Top Border Only',
-        tipLeft:            'Set Outer Left Border Only',
-        tipBottom:          'Set Outer Bottom Border Only',
-        tipRight:           'Set Outer Right Border Only',
-        tipAll:             'Set Outer Border and All Inner Lines',
-        tipNone:            'Set No Borders',
-        tipInner:           'Set Inner Lines Only',
-        tipInnerVert:       'Set Vertical Inner Lines Only',
-        tipInnerHor:        'Set Horizontal Inner Lines Only',
-        tipOuter:           'Set Outer Border Only',
-        tipDiagU:           'Set Diagonal Up Border',
-        tipDiagD:           'Set Diagonal Down Border',
-        textOrientation:    'Text Orientation',
-        textAngle:          'Angle',
-        textFill:           'Fill',
-        textNoFill:         'No Fill',
-        textGradientFill:   'Gradient Fill',
-        textPatternFill:    'Pattern',
-        textColor:          'Color Fill',
-        textDirection:      'Direction',
-        textLinear:         'Linear',
-        textRadial:         'Radial',
-        textPattern:        'Pattern',
-        textForeground:     'Foreground color',
-        textBackground:     'Background color',
-        textGradient:       'Gradient',
-        textControl: 'Text Control',
-        strWrap: 'Wrap text',
-        strShrink: 'Shrink to fit',
-        textGradientColor: 'Color',
-        textPosition: 'Position',
-        tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point',
-        textIndent: 'Indent',
-        textCondFormat: 'Conditional formatting',
-        textDataBars: 'Data Bars',
-        textColorScales: 'Color Scales',
-        textNewRule: 'New Rule',
-        textClearRule: 'Clear Rules',
-        textSelection: 'From current selection',
-        textThisSheet: 'From this worksheet',
-        textThisTable: 'From this table',
-        textThisPivot: 'From this pivot',
-        textManageRule: 'Manage Rules',
-        textItems: 'Items'
+        }
 
     }, SSE.Views.CellSettings || {}));
 });

@@ -110,6 +110,7 @@
                     logo: {
                         image: url,
                         imageDark: url, // logo for dark theme
+                        imageLight: url, // logo for light header
                         imageEmbedded: url, // deprecated, use image instead
                         url: http://...,
                         visible: true // hide logo if visible=false
@@ -204,6 +205,14 @@
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                         roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
+                        tabStyle: {
+                            mode: 'tab'/'line' // init value, 'tab' by default,
+                            change: true/false // show/hide feature
+                        } / 'tab'/'line' // if string - use as init value
+                        tabBackground: {
+                            mode: 'header'/'toolbar' // init value, 'header' by default
+                            change: true/false // show/hide feature
+                        } / 'header'/'toolbar' // if string - use as init value
                     },
                     font: {
                         name: "Arial",
@@ -224,7 +233,7 @@
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: false,
+                    toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='line' && features.tabBackground='toolbar' instead
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
@@ -516,14 +525,17 @@
 
         (function() {
             var result = /[\?\&]placement=(\w+)&?/.exec(window.location.search);
-            if (!!result && result.length) {
-                if (result[1] == 'desktop') {
-                    _config.editorConfig.targetApp = result[1];
-                    // _config.editorConfig.canBackToFolder = false;
-                    if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
-                    _config.editorConfig.customization.about = false;
-                    _config.editorConfig.customization.compactHeader = false;
-                }
+            if (!!result && result.length && result[1] == 'desktop' ) {
+                console.warn('some errors occurred in the desktop app while document opening. please, contact with support team');
+            }
+
+            if (!!window.AscDesktopEditor)
+            {
+                _config.editorConfig.targetApp = 'desktop';
+                // _config.editorConfig.canBackToFolder = false;
+                if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
+                _config.editorConfig.customization.about = false;
+                _config.editorConfig.customization.compactHeader = false;
             }
         })();
 
@@ -1068,9 +1080,11 @@
                     } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.imageDark)) {
                         (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded) && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
-                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
+                        config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
+                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark || config.editorConfig.customization.logo.imageLight)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+                        config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
                     }
                 }
             }
@@ -1102,6 +1116,13 @@
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
+
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabBackground) {
+            if (typeof config.editorConfig.customization.features.tabBackground === 'object') {
+                params += "&tabBackground=" + (config.editorConfig.customization.features.tabBackground.mode || "header") + (config.editorConfig.customization.features.tabBackground.change!==false ? "-ls" : "");
+            } else
+                params += "&tabBackground=" + config.editorConfig.customization.features.tabBackground + "-ls";
+        }
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";

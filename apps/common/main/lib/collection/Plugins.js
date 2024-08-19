@@ -30,9 +30,7 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 17.05.16
- * Time: 15:54
  */
 
 if (Common === undefined)

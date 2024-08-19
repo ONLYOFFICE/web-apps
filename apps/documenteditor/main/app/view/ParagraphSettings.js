@@ -568,19 +568,7 @@ define([
                     (type1!='object' && this._state.BackColor.indexOf(this.BackColor)<0 )) {
 
                     this.btnColor.setColor(this.BackColor);
-                    if ( typeof(this.BackColor) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BackColor.effectValue ) {
-                                this.mnuColorPicker.select(this.BackColor,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.mnuColorPicker.clearSelection();
-                    } else
-                        this.mnuColorPicker.select(this.BackColor,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.BackColor, this.mnuColorPicker);
                     this._state.BackColor = this.BackColor;
                 }
             }

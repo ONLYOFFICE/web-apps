@@ -110,6 +110,7 @@ define([
             me.mode = {};
             me._isDisabled = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
 
@@ -423,6 +424,9 @@ define([
 
         createPostLoadElements: function() {
             var me = this;
+
+            me.mode.isEdit ? me.getView().createDelayedElements() : me.getView().createDelayedElementsViewer();
+
             if (!me.mode.isEdit) {
                 return;
             }
@@ -470,6 +474,8 @@ define([
                     }, 10);
                 }, this));
             }
+
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
         },
 
         getView: function (name) {
@@ -1286,58 +1292,8 @@ define([
             }
         },
 
-        equationCallback: function(eqProps) {
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    this.api.asc_SetMathProps(eqObj);
-                }
-            }
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
             this.editComplete();
         },
 
@@ -1525,6 +1481,7 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var oleEditor = PE.getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
                 if (oleEditor && chart) {
@@ -1621,6 +1578,7 @@ define([
         },
         /** coauthoring end **/
         editChartClick: function(chart, placeholder){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.mode.isEdit && !this._isDisabled) {
                 var diagramEditor = PE.getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
 
@@ -1636,6 +1594,7 @@ define([
         },
 
         onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             if (this.api) {
                 var oleobj = this.api.asc_canEditTableOleObject(true);
                 if (oleobj) {
@@ -1681,6 +1640,8 @@ define([
         },
 
         onInsertImageUrl: function(placeholder, obj, x, y) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             if (placeholder) {
                 this.hideScreenTip();
                 this.onHidePlaceholderActions();
@@ -1708,7 +1669,7 @@ define([
         },
 
         onClickPlaceholderChart: function(obj, x, y) {
-            if (!this.api) return;
+            if (!this.api || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             this._state.placeholderObj = obj;
             var menu = this.placeholderMenuChart,
@@ -1823,7 +1784,7 @@ define([
         },
 
         onClickPlaceholderSmartArt: function (obj, x, y) {
-            if (!this.api) return;
+            if (!this.api || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             this._state.placeholderObj = obj;
             var menu = this.placeholderMenuSmartArt,
@@ -2602,6 +2563,10 @@ define([
             if (this.mode && !this.mode.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2744,6 +2709,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

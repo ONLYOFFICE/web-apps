@@ -1,4 +1,5 @@
 require([
+    'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ComboBoxDataView',
     'common/main/lib/view/OptionsDialog',
@@ -26,7 +27,10 @@ require([
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/LanguageDialog',
+    'common/main/lib/view/DocumentHolderExt',
 
+    'documenteditor/main/app/view/FileMenuPanels',
+    'documenteditor/main/app/view/DocumentHolderExt',
     'documenteditor/main/app/view/ParagraphSettingsAdvanced',
     'documenteditor/main/app/view/ImageSettingsAdvanced',
     'documenteditor/main/app/view/TableSettingsAdvanced',
@@ -61,7 +65,8 @@ require([
     'documenteditor/main/app/view/NumberingValueDialog',
     'documenteditor/main/app/view/ListIndentsDialog',
     'documenteditor/main/app/view/ProtectDialog',
-    'documenteditor/main/app/view/MailMergeEmailDlg'
+    'documenteditor/main/app/view/MailMergeEmailDlg',
+    'documenteditor/main/app/view/FieldDialog'
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });

@@ -32,14 +32,11 @@
 /**
  *  PivotGroupDialog.js
  *
- *  Created by Julia Radzhabova 04.03.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 04.03.2021
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () {
+define([], function () {
     'use strict';
 
     SSE.Views.PivotGroupDialog = Common.UI.Window.extend(_.extend({

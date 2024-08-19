@@ -168,7 +168,6 @@ require([
                 'pdfeditor/main/app/controller/InsTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
-                'pdfeditor/main/app/view/FileMenuPanels',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/Comments'
@@ -197,7 +196,11 @@ require([
                     'common/main/lib/view/PluginPanel',
                     'common/main/lib/view/ShapeShadowDialog',
                     'common/main/lib/view/ImageFromUrlDialog',
+                    'common/main/lib/view/DocumentHolderExt',
+                    'common/main/lib/util/define',
 
+                    'pdfeditor/main/app/view/FileMenuPanels',
+                    'pdfeditor/main/app/view/DocumentHolderExt',
                     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
                     'pdfeditor/main/app/view/ImageSettingsAdvanced',
                     'pdfeditor/main/app/view/HyperlinkSettingsDialog',

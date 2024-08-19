@@ -266,6 +266,7 @@
     "errorChangeArray": "您不能更改数组的一部分。",
     "errorChangeFilteredRange": "这将更改工作表上的筛选区域<br>若要完成此任务，请删除自动筛选器。",
     "errorChangeOnProtectedSheet": "您试图更改的单元格或图表位于受保护的工作表上。若要进行更改，请取消对工作表的保护。可能会要求您输入密码。",
+    "errorCircularReference": "存在一个或多个循环引用，公式直接或间接引用其自己的单元格。<br>尝试删除或更改这些引用，或将公式移动到不同的单元格。",
     "errorComboSeries": "若要创建组合图表，请至少选择两个系列的数据。",
     "errorConnectToServer": "无法保存此文档。请检查您的连接设置或与管理员联系<br>单击“确定”按钮时，系统将提示您下载文档。",
     "errorCopyMultiselectArea": "该命令不能与多个选择一起使用。<br>选择一个范围，然后重试。",
@@ -366,8 +367,7 @@
     "uploadDocSizeMessage": "超出最大文件大小限制。",
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有上传图片",
-    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadImageSizeMessage": "图像太大。最大大小为25 MB。"
   },
   "LongActions": {
     "advDRMPassword": "密码",
@@ -461,6 +461,7 @@
       "sCatMathematic": "数学和三角学",
       "sCatStatistical": "统计",
       "sCatTextAndData": "文字和数据",
+      "sCustom": "自定义",
       "textAddLink": "添加链接",
       "textAddress": "地址",
       "textAllTableHint": "返回表或指定表列的全部内容，包括列标题、数据和汇总行",
@@ -508,8 +509,7 @@
       "txtNotUrl": "该字段应为“http://www.example.com”格式的URL",
       "txtSorting": "排序中",
       "txtSortSelected": "对所选内容排序",
-      "txtYes": "是",
-      "sCustom": "Custom"
+      "txtYes": "是"
     },
     "Edit": {
       "notcriticalErrorTitle": "警告",

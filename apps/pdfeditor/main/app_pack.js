@@ -1,4 +1,5 @@
 require([
+    'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ComboBoxDataView',
     'common/main/lib/view/AdvancedSettingsWindow',
@@ -16,7 +17,10 @@ require([
     'common/main/lib/view/PluginPanel',
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/ImageFromUrlDialog',
+    'common/main/lib/view/DocumentHolderExt',
 
+    'pdfeditor/main/app/view/FileMenuPanels',
+    'pdfeditor/main/app/view/DocumentHolderExt',
     'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
     'pdfeditor/main/app/view/ImageSettingsAdvanced',
     'pdfeditor/main/app/view/HyperlinkSettingsDialog',

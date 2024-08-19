@@ -747,19 +747,7 @@ define([
                     (type1!='object' && this._state.ShapeColor.indexOf(this.ShapeColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.ShapeColor.Color);
-                    if ( typeof(this.ShapeColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.ShapeColor.Color.effectValue ) {
-                                this.colorsBack.select(this.ShapeColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.ShapeColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.ShapeColor.Color, this.colorsBack);
                     this._state.ShapeColor = this.ShapeColor.Color;
                 }
 
@@ -807,19 +795,7 @@ define([
                     (type1!='object' && (this._state.StrokeColor.indexOf(this.BorderColor.Color)<0 || typeof(this.btnBorderColor.color)=='object'))) {
 
                     this.btnBorderColor.setColor(this.BorderColor.Color);
-                    if ( typeof(this.BorderColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BorderColor.Color.effectValue ) {
-                                this.colorsBorder.select(this.BorderColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBorder.clearSelection();
-                    } else
-                        this.colorsBorder.select(this.BorderColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.BorderColor.Color, this.colorsBorder);
                     this._state.StrokeColor = this.BorderColor.Color;
                 }
 
@@ -870,19 +846,7 @@ define([
                     (type1!='object' && this._state.GradColor.indexOf(color)<0 )) {
 
                     this.btnGradColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colorsGrad.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsGrad.clearSelection();
-                    } else
-                        this.colorsGrad.select(color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colorsGrad);
                     this._state.GradColor = color;
                 }
 

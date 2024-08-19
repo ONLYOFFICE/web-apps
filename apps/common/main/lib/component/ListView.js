@@ -230,7 +230,8 @@ define([
             createNewItem: function(record) {
                 return new Common.UI.DataViewItem({
                     template: this.itemTemplate,
-                    model: record
+                    model: record,
+                    tabindex: this.itemTabindex
                 });
             },
 

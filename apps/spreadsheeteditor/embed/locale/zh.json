@@ -25,6 +25,7 @@
   "SSE.ApplicationController.errorInconsistentExtPptx": "打开文件时出错<br>文件内容对应于演示文稿（例如pptx），但文件的扩展名不一致：%1。",
   "SSE.ApplicationController.errorInconsistentExtXlsx": "打开文件时出错<br>文件内容对应于电子表格（例如xlsx），但文件的扩展名不一致：%1。",
   "SSE.ApplicationController.errorLoadingFont": "字体未加载<br>请与您的文档服务器管理员联系。",
+  "SSE.ApplicationController.errorToken": "文档安全令牌的格式不正确<br>请与您的文档服务器管理员联系。",
   "SSE.ApplicationController.errorTokenExpire": "文档安全令牌已过期。<br>请与您的文档服务器管理员联系。",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "网络连接已恢复，文件版本已更改<br>在继续工作之前，您需要下载文件或复制其内容以确保不会丢失任何内容，然后重新加载此页面。",
   "SSE.ApplicationController.errorUserDrop": "该文件现在无法访问。",

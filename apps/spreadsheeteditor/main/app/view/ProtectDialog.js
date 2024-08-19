@@ -172,7 +172,8 @@ define([], function () {
                         '<div style="flex-grow: 1;"><%= Common.Utils.String.htmlEncode(value) %></div>',
                         '</div>',
                         '</div>'
-                    ].join(''))
+                    ].join('')),
+                    tabindex: 1
                 });
                 this.optionsList.on({
                     'item:change': this.onItemChanged.bind(this),

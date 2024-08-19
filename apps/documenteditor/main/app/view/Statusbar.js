@@ -29,13 +29,6 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-/**
- *  StatusBar View
- *
- *  Created by Maxim Kadushkin
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
- *
- */
 
 define([
     'text!documenteditor/main/app/template/StatusBar.template',

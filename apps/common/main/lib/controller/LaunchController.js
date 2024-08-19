@@ -34,6 +34,8 @@
 define([
 ], function () {
     const launchController = function () {
+        let _all_scripts_loaded = false;
+
         const init = function (api) {
             this.api = api;
             Common.NotificationCenter.on('app:ready', on_app_ready.bind(this));
@@ -51,6 +53,7 @@ define([
                 if (!!Common.UI.ScreenReaderFocusManager) {
                     Common.UI.ScreenReaderFocusManager.init(me.api);
                 }
+                _all_scripts_loaded = true;
 
                 if ( !!window.less ) {                                      // detect development mode
                     Common.NotificationCenter.trigger('script:loaded');
@@ -64,8 +67,13 @@ define([
 
         const on_hide_loader = function (config) {}
 
+        const is_script_loaded = function () {
+            return _all_scripts_loaded;
+        }
+
         return {
-            init: init
+            init: init,
+            isScriptLoaded: is_script_loaded
         };
     }
 
