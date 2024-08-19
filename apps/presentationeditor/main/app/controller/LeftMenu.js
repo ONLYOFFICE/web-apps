@@ -304,8 +304,10 @@ define([
         saveAsInWopi: function(menu, format, ext) {
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption(),
-                fileInfo = this.getApplication().getController('Main').document.info;
+                fileInfo = this.getApplication().getController('Main').document.info,
+                folder = fileInfo ? fileInfo.folder || '' : '';
             !defFileName && (defFileName = me.txtUntitled);
+            folder && (folder.charAt(folder.length-1) !== '/') && (folder = folder + '/');
 
             if (typeof ext === 'string') {
                 var idx = defFileName.lastIndexOf('.');
@@ -314,7 +316,7 @@ define([
             }
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
-                value: (fileInfo ? fileInfo.folder || '' : '') + (defFileName || ''),
+                value: folder + (defFileName || ''),
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.clickSaveCopyAsFormat(menu, format, ext, value);
