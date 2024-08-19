@@ -136,6 +136,21 @@ define([
                 hint: this.textCloseHistory
             });
 
+            var buttonMenuItems = [
+                this.btnExpand = new Common.UI.MenuItem({
+                    caption: this.textHideAll,
+                    checkable: false
+                })
+            ];
+            if(!!window.DE) {
+                buttonMenuItems.push(
+                    this.chHighlightDeleted = new Common.UI.MenuItem({
+                        caption: this.textHighlightDeleted,
+                        value: 'highlight',
+                        checkable: true,
+                    })
+                );
+            }
             this.buttonMenu = new Common.UI.Button({
                 parentEl: $('#history-btn-menu', this.$el),
                 cls: 'btn-toolbar no-caret',
@@ -143,27 +158,8 @@ define([
                 hint: this.textMore,
                 menu: new Common.UI.Menu({
                     style: 'min-width: auto;',
-                    items: [
-                        this.btnExpand = new Common.UI.MenuItem({
-                            caption: this.textHideAll,
-                            checkable: false
-                        }),
-                        {
-                            caption: this.textHighlightDeleted,
-                            value: 'highlight',
-                            checkable: true,
-                            checked: true,
-                        },                        
-                    ]
+                    items: buttonMenuItems
                 })
-            });
-            this.buttonMenu.menu.on('show:before', function(e) {
-                //TODO: Call get method from SDK
-            });
-            this.buttonMenu.menu.on('item:toggle', function(menu, item, state) {
-                if(item.value == 'highlight') {
-                    //TODO: Call set method from SDK
-                }
             });
 
             this.trigger('render:after', this);
