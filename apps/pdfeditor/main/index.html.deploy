@@ -394,7 +394,7 @@
     <script>
         function startApp() {
             var script = document.createElement("script");
-            script.setAttribute("data-main", "app");
+            script.setAttribute("data-main", isIE === true ? "ie/app" : "app");
             script.src = "../../../vendor/requirejs/require.js";
             document.body.appendChild(script);
         }
