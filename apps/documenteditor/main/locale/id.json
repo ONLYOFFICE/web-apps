@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Peringatan",
-  "Common.Controllers.Chat.textEnterMessage": "Tuliskan pesan Anda di sini",
   "Common.Controllers.Desktop.hintBtnHome": "Tampilkan jendela utama",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Buat dari templat",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonim",
@@ -552,10 +551,8 @@
   "Common.Views.Header.txtAccessRights": "Ubah hak akses",
   "Common.Views.Header.txtRename": "Ganti nama",
   "Common.Views.History.textCloseHistory": "Tutup riwayat",
-  "Common.Views.History.textHide": "Collapse",
   "Common.Views.History.textHideAll": "Sembunyikan detail perubahan",
   "Common.Views.History.textRestore": "Pemulihan",
-  "Common.Views.History.textShow": "Perluas",
   "Common.Views.History.textShowAll": "Tampilkan detail perubahan",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Tempel URL gambar:",

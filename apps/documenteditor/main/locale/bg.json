@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Внимание",
-  "Common.Controllers.Chat.textEnterMessage": "Въведете съобщението си тук",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Анонимен",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Затвори",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Обектът е деактивиран, защото се редактира от друг потребител.",
@@ -191,10 +190,8 @@
   "Common.Views.Header.txtAccessRights": "Промяна на правото за достъп",
   "Common.Views.Header.txtRename": "Преименувам",
   "Common.Views.History.textCloseHistory": "Затваряне на историята",
-  "Common.Views.History.textHide": "Свиване",
   "Common.Views.History.textHideAll": "Скриване на подробни промени",
   "Common.Views.History.textRestore": "Възстанови",
-  "Common.Views.History.textShow": "Разширете",
   "Common.Views.History.textShowAll": "Показване на подробни промени",
   "Common.Views.History.textVer": "вер.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Поставете URL адрес на изображение:",

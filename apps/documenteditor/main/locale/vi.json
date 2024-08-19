@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Cảnh báo",
-  "Common.Controllers.Chat.textEnterMessage": "Nhập tin nhắn của bạn ở đây",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Nặc danh",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Đóng",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Đối tượng bị vô hiệu vì nó đang được chỉnh sửa bởi một người dùng khác.",
@@ -170,10 +169,8 @@
   "Common.Views.Header.txtAccessRights": "Thay đổi quyền truy cập",
   "Common.Views.Header.txtRename": "Đổi tên",
   "Common.Views.History.textCloseHistory": "Đóng lịch sử",
-  "Common.Views.History.textHide": "Thu gọn",
   "Common.Views.History.textHideAll": "Ẩn thay đổi chi tiết",
   "Common.Views.History.textRestore": "Khôi phục",
-  "Common.Views.History.textShow": "Mở rộng",
   "Common.Views.History.textShowAll": "Hiển thị thay đổi chi tiết",
   "Common.Views.ImageFromUrlDialog.textUrl": "Dán URL hình ảnh:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "Trường bắt buộc",

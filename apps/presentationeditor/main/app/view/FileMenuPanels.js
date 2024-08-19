@@ -1489,7 +1489,7 @@ define([], function () {
         txtAddText: 'Add Text',
         txtMinutes: 'min',
         okButtonText: 'Apply',
-        txtPresentationInfo: 'Presentation Info'
+        txtPresentationInfo: 'Info'
     }, PE.Views.FileMenuPanels.DocumentInfo || {}));
 
     PE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

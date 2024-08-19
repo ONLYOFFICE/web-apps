@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Abisua",
-  "Common.Controllers.Chat.textEnterMessage": "Idatzi mezua hemen",
   "Common.Controllers.Desktop.hintBtnHome": "Erakutsi leiho nagusia",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Sortu txantiloitik",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimoa",
@@ -550,10 +549,8 @@
   "Common.Views.Header.txtAccessRights": "Aldatu sarbide-eskubideak",
   "Common.Views.Header.txtRename": "Aldatu izena",
   "Common.Views.History.textCloseHistory": "Itxi historia",
-  "Common.Views.History.textHide": "Tolestu",
   "Common.Views.History.textHideAll": "Ezkutatu aldaketa xehatuak",
   "Common.Views.History.textRestore": "Berrezarri",
-  "Common.Views.History.textShow": "Zabaldu",
   "Common.Views.History.textShowAll": "Erakutsi aldaketa xehatuak",
   "Common.Views.History.textVer": "ber.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Itsatsi irudiaren URLa:",

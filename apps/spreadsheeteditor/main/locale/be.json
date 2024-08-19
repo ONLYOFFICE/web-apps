@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Скасаваць",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Увага",
-  "Common.Controllers.Chat.textEnterMessage": "Увядзіце сюды сваё паведамленне",
   "Common.Controllers.History.notcriticalErrorTitle": "Увага",
   "Common.define.chartData.textArea": "Вобласць",
   "Common.define.chartData.textAreaStacked": "Дыяграма з абласцямі і накапленнем",
@@ -423,10 +422,8 @@
   "Common.Views.Header.txtAccessRights": "Змяніць правы на доступ",
   "Common.Views.Header.txtRename": "Змяніць назву",
   "Common.Views.History.textCloseHistory": "Закрыць гісторыю",
-  "Common.Views.History.textHide": "Згарнуць",
   "Common.Views.History.textHideAll": "Схаваць падрабязныя змены",
   "Common.Views.History.textRestore": "Аднавіць",
-  "Common.Views.History.textShow": "Пашырыць",
   "Common.Views.History.textShowAll": "Паказаць падрабязныя змены",
   "Common.Views.History.textVer": "вер.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Устаўце URL выявы:",

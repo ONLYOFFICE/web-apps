@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Advertencia",
-  "Common.Controllers.Chat.textEnterMessage": "Introduzca su mensaje aquí",
   "Common.Controllers.Desktop.hintBtnHome": "Mostrar ventana principal",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Crear a partir de una plantilla",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Los plugins se han instalado correctamente. Puede acceder a todos los plugins de fondo aquí.",

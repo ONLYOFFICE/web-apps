@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Ləğv edin",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Xəbərdarlıq",
-  "Common.Controllers.Chat.textEnterMessage": "Mesajınızı buraya daxil edin",
   "Common.Controllers.History.notcriticalErrorTitle": "Xəbərdarlıq",
   "Common.define.chartData.textArea": "Sahə",
   "Common.define.chartData.textAreaStacked": "Nisbətli sahə",
@@ -234,10 +233,8 @@
   "Common.Views.Header.txtAccessRights": "Giriş hüquqlarını dəyiş",
   "Common.Views.Header.txtRename": "Adını dəyişin",
   "Common.Views.History.textCloseHistory": "Tarixçəni bağlayın",
-  "Common.Views.History.textHide": "Yığışdır",
   "Common.Views.History.textHideAll": "Ətraflı dəyişiklikləri gizlədin",
   "Common.Views.History.textRestore": "Bərpa edin",
-  "Common.Views.History.textShow": "Genişləndirin",
   "Common.Views.History.textShowAll": "Detallı dəyişiklikləri göstərin",
   "Common.Views.History.textVer": "versiya",
   "Common.Views.ImageFromUrlDialog.textUrl": "Təsvir URL-ni yerləşdirin:",

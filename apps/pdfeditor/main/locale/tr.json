@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Uyarı",
-  "Common.Controllers.Chat.textEnterMessage": "Mesajınızı buraya giriniz",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Şablondan oluştur",
   "Common.Translation.textMoreButton": "Daha fazla",
   "Common.Translation.warnFileLocked": "Başka bir uygulamada düzenlendiği için bu dosyayı düzenleyemezsiniz. ",

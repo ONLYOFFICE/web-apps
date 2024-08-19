@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "ແຈ້ງເຕືອນ",
-  "Common.Controllers.Chat.textEnterMessage": "ໃສ່ຂໍ້ຄວາມຂອງທ່ານທີ່ນີ້",
   "Common.Translation.textMoreButton": "ຫຼາຍກວ່າ",
   "Common.Translation.warnFileLocked": "ແຟ້ມ ກຳ ລັງຖືກດັດແກ້ຢູ່ໃນແອັບ  ອື່ນ. ທ່ານສາມາດສືບຕໍ່ດັດແກ້ແລະບັນທຶກເປັນ ສຳ ເນົາ",
   "Common.Translation.warnFileLockedBtnEdit": "ສ້າງສຳເນົາ",

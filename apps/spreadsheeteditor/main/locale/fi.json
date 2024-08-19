@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Peruuta",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Varoitus",
-  "Common.Controllers.Chat.textEnterMessage": "Syötä viestisi tässä",
   "Common.UI.ButtonColored.textNewColor": "Lisää uusi mukautettu väri",
   "Common.UI.ComboBorderSize.txtNoBorders": "Ei reunuksia",
   "Common.UI.ComboBorderSizeEditable.txtNoBorders": "Ei reunuksia",

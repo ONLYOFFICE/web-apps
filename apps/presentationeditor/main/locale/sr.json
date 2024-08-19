@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Upozorenje ",
-  "Common.Controllers.Chat.textEnterMessage": "Unesi svoju poruku ovde",
   "Common.Controllers.Desktop.hintBtnHome": "Prikaži Glavni prozor",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Kreiraj iz šablona",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimno",
@@ -649,10 +648,8 @@
   "Common.Views.Header.txtAccessRights": "Promeni prava pristupa",
   "Common.Views.Header.txtRename": "Preimenuj",
   "Common.Views.History.textCloseHistory": "Zatvori Istoriju",
-  "Common.Views.History.textHide": "Poruši",
   "Common.Views.History.textHideAll": "Sakrij detaljne izmene",
   "Common.Views.History.textRestore": "Obnovi",
-  "Common.Views.History.textShow": "Proširi ",
   "Common.Views.History.textShowAll": "Pokaži detaljne promene",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Nalepi URL slike:",

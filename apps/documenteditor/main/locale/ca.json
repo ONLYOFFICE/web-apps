@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Advertiment",
-  "Common.Controllers.Chat.textEnterMessage": "Introduïu el missatge aquí",
   "Common.Controllers.Desktop.hintBtnHome": "Mostra la finestra principal",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Crea a partir de la plantilla",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anònim",
@@ -541,10 +540,8 @@
   "Common.Views.Header.txtAccessRights": "Canvia els drets d’accés",
   "Common.Views.Header.txtRename": "Canviar el nom",
   "Common.Views.History.textCloseHistory": "Tanca l'historial",
-  "Common.Views.History.textHide": "Redueix",
   "Common.Views.History.textHideAll": "Amaga els canvis detallats",
   "Common.Views.History.textRestore": "Restaurar",
-  "Common.Views.History.textShow": "Expandeix",
   "Common.Views.History.textShowAll": "Mostrar els canvis al detall",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Enganxa un URL d'imatge:",

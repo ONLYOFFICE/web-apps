@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Внимание",
-  "Common.Controllers.Chat.textEnterMessage": "Въведете съобщението си тук",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Анонимен",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Затвори",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Обектът е деактивиран, а кой е редактиран от друг потребител.",

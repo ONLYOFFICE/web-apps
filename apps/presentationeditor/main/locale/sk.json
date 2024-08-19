@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Upozornenie",
-  "Common.Controllers.Chat.textEnterMessage": "Zadať svoju správu tu",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonymný",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zatvoriť",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je blokovaný, pretože ho práve upravuje iný používateľ.",
@@ -379,10 +378,8 @@
   "Common.Views.Header.txtAccessRights": "Zmeniť prístupové práva",
   "Common.Views.Header.txtRename": "Premenovať",
   "Common.Views.History.textCloseHistory": "Zatvoriť históriu",
-  "Common.Views.History.textHide": "Stiahnuť/zbaliť/zvinúť",
   "Common.Views.History.textHideAll": "Skryť podrobné zmeny",
   "Common.Views.History.textRestore": "Obnoviť",
-  "Common.Views.History.textShow": "Expandovať/rozšíriť",
   "Common.Views.History.textShowAll": "Zobraziť detailné zmeny",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Vložte obrázok URL:",

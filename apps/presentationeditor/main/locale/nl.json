@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Waarschuwing",
-  "Common.Controllers.Chat.textEnterMessage": "Voer hier uw bericht in",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anoniem",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Sluiten",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Het object is gedeactiveerd omdat het wordt bewerkt door een andere gebruiker.",
@@ -288,10 +287,8 @@
   "Common.Views.Header.txtAccessRights": "Toegangsrechten wijzigen",
   "Common.Views.Header.txtRename": "Hernoemen",
   "Common.Views.History.textCloseHistory": "Sluit geschiedenis",
-  "Common.Views.History.textHide": "Samenvouwen",
   "Common.Views.History.textHideAll": "Details van wijzigingen verbergen",
   "Common.Views.History.textRestore": "Herstellen",
-  "Common.Views.History.textShow": "Uitvouwen",
   "Common.Views.History.textShowAll": "Details van wijzigingen weergeven",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "URL van een afbeelding plakken:",

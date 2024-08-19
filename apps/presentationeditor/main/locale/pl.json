@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Ostrzeżenie",
-  "Common.Controllers.Chat.textEnterMessage": "Wprowadź swoją wiadomość tutaj",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Utwórz z szablonu",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimowy użytkownik ",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zamknąć",
@@ -268,10 +267,8 @@
   "Common.Views.Header.txtAccessRights": "Zmień prawa dostępu",
   "Common.Views.Header.txtRename": "Zmień nazwę",
   "Common.Views.History.textCloseHistory": "Zamknij Historię",
-  "Common.Views.History.textHide": "Zwiń",
   "Common.Views.History.textHideAll": "Ukryj szczegółowe zmiany",
   "Common.Views.History.textRestore": "Przywrócić",
-  "Common.Views.History.textShow": "Rozwiń",
   "Common.Views.History.textShowAll": "Pokaż szczegółowe zmiany",
   "Common.Views.History.textVer": "wer.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Wklej link URL do obrazu:",

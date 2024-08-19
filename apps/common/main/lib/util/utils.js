@@ -1302,107 +1302,142 @@ define([], function () {
     };
 
     Common.UI.iconsStr2IconsObj = function (icons) {
-        let result = icons;
-        if (typeof result === 'string') {
-            if (result.indexOf('%') !== -1) {
-                /*
-                    valid params:
-                    theme-type - {string} theme type (light|dark|common)
-                    theme-name - {string} the name of theme
-                    state - {string} state of icons for different situations (normal|hover|active)
-                    scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
-                    extension - {string} use it after symbol "." (png|jpeg|svg)
+        if (typeof icons !== 'string')
+            return icons;
+       
+        /*
+            valid params:
+            theme-type - {string} theme type (light|dark|common)
+            theme-name - {string} the name of theme
+            state - {string} state of icons for different situations (normal|hover|active)
+            scale - {string} list of avaliable scales (100|125|150|175|200|default|extended)
+            extension - {string} use it after symbol "." (png|jpeg|svg)
 
-                    Example: "resources/%theme-type%(light|dark)/%state%(normal)icon%scale%(default).%extension%(png)"
-                */
-                let scaleValue = {
-                    '100%': '.',
-                    '125%': '@1.25x.',
-                    '150%': '@1.5x.',
-                    '175%': '@1.75x.',
-                    '200%': '@2x.'
+            Example: "resources/%theme-type%(light|dark)/%state%(normal)/icon%scale%(default).%extension%(png)"
+        */
+        let params_array = {
+            "theme-name" : { origin : "", values : [""] },
+            "theme-type" : { origin : "", values : [""] },
+            "state" : { origin : "", values : ["normal"] },
+            "scale" : { origin : "", values : [] },
+            "extension" : { origin : "", values : [] }
+        };
+
+        let param_parse = function(name) {
+            let posOrigin = icons.indexOf("%" + name + "%");
+            if (posOrigin === -1)
+                return;
+            let pos = posOrigin + name.length + 2;
+            let pos1 = icons.indexOf("(", pos);
+            if (pos1 != pos)
+                return;
+            let pos2 = icons.indexOf(")", pos1);
+            params_array[name].origin = icons.substring(posOrigin, pos2 + 1);
+            params_array[name].values = icons.substring(pos1 + 1, pos2).split("|");                    
+        };
+
+        for (let name in params_array)
+            param_parse(name);
+
+        for (let styleIndex = 0, stylesLen = params_array["scale"].values.length; styleIndex < stylesLen; styleIndex++) {
+            if ("default" === params_array["scale"].values[styleIndex])
+                params_array["scale"].values.splice(styleIndex, 1, "100", "125", "150", "175", "200");
+        }
+
+        let rasterExt = "";
+        let isSvgPresent = false;
+
+        for (let extIndex = 0, extsLen = params_array["extension"].values.length; extIndex < extsLen; extIndex++) {
+            if ("svg" === params_array["extension"].values[extIndex])
+                isSvgPresent = true;
+            else
+                rasterExt = params_array["extension"].values[extIndex];
+        }
+        if (isSvgPresent && rasterExt === "")
+            rasterExt = "svg";
+
+        let iconsObject = [];
+        for (let themeNameIndex = 0, themeNamesLen = params_array["theme-name"].values.length; themeNameIndex < themeNamesLen; themeNameIndex++) {
+            let themeName = params_array["theme-name"].values[themeNameIndex];
+            for (let themeTypeIndex = 0, themeTypesLen = params_array["theme-type"].values.length; themeTypeIndex < themeTypesLen; themeTypeIndex++) {
+                let url = icons;
+                let themeType = params_array["theme-type"].values[themeTypeIndex];
+                
+                let obj = {};
+                if ("" !== themeName)
+                    obj["theme"] = themeName;
+                
+                if ("" !== themeType)
+                    obj["style"] = themeType;
+
+                if ("" != params_array["theme-name"].origin)
+                    url = url.replaceAll(params_array["theme-name"].origin, themeName);
+                if ("" != params_array["theme-type"].origin)
+                    url = url.replaceAll(params_array["theme-type"].origin, themeType);
+
+                let scalesLen = params_array["scale"].values.length;
+                if (0 == scalesLen) {
+                    params_array["scale"].values.push("100");
+                    scalesLen++;
                 }
-                let arrParams = ['theme-type', 'theme-name', 'state', 'scale', 'extension'],
-                    start = result.indexOf('%'),
-                    template = result.substring(start).replace(/[/.]/g, ('')),
-                    commonPart = result.substring(0, start),
-                    end = 0,
-                    param = null,
-                    values = null,
-                    iconName = '',
-                    tempObj = {};
+                for (let scaleIndex = 0; scaleIndex < scalesLen; scaleIndex++) {
+                    let scaleValue = params_array["scale"].values[scaleIndex];
+                    let isAll = false;
 
-                result = [];
+                    if (scaleValue.length > 0) {
+                        if (scaleValue === "*")
+                            isAll = true;
+                        else if (scaleValue.charAt(scaleValue.length - 1) === "%")
+                            scaleValue = scaleValue.substring(0, scaleValue.length - 1);
+                    } else {
+                        isAll = true;
+                        scaleValue = "*";
+                    }                    
 
-                for (let index = 0; index < arrParams.length; index++) {
-                    param = arrParams[index];
-                    start = template.indexOf(param) - 1;
-                    if (start < 0)
-                        continue;
-
-                    end = param.length + 2;
-                    template = template.substring(0, start) + template.substring(start + end);
-                    start = template.indexOf('(', 0);
-                    end = template.indexOf(')', 0);
-                    values = template.substring((start + 1), end);
-                    template = template.substring(0, start) + template.substring(++end);
-                    tempObj[param] = values.split('|');
-                }
-
-                if (template.length) {
-                    iconName = template;
-                } else {
-                    let arr = commonPart.split('/');
-                    iconName = arr.pop().replace(/\./g, '');
-                    commonPart = arr.join('/') + '/';
-                }
-
-                // we don't work with svg yet. Change it when we will work with it (extended variant).
-                if (tempObj['scale'] && (tempObj['scale'] == 'default' || tempObj['scale'] == 'extended')) {
-                    tempObj['scale'] = ['100', '125', '150', '175', '200'];
-                } else if (!tempObj['scale']) {
-                    tempObj['scale'] = ['100'];
-                }
-
-                if (!tempObj['state']) {
-                    tempObj['state'] = ['normal'];
-                }
-
-                if (!iconName) {
-                    iconName = 'icon';
-                }
-
-                let bHasName = !!tempObj['theme-name'];
-                let bHasType = (tempObj['theme-type'] && tempObj['theme-type'][0] !== 'common');
-                let arrThemes = bHasName ? tempObj['theme-name'] : (bHasType ? tempObj['theme-type'] : []);
-                let paramName = bHasName ? 'theme' : 'style';
-                if (arrThemes.length) {
-                    for (let thInd = 0; thInd < arrThemes.length; thInd++) {
-                        let obj = {};
-                        obj[paramName] = arrThemes[thInd];
-                        result.push(obj);
-                    }
-                } else {
-                    result.push({});
-                }
-
-                for (let index = 0; index < result.length; index++) {
-                    for (let scaleInd = 0; scaleInd < tempObj['scale'].length; scaleInd++) {
-                        let themePath = (result[index][paramName] || 'img') + '/';
-                        let scale = tempObj['scale'][scaleInd] + '%';
-                        let obj = {};
-                        for (let stateInd = 0; stateInd < tempObj['state'].length; stateInd++) {
-                            let state = tempObj['state'][stateInd];
-                            obj[state] = commonPart + themePath + (state == 'normal' ? '' : (state + '_')) + iconName + (scaleValue[scale] || '.') + tempObj['extension'][0];
+                    let addonScale = "";
+                    if (!isAll) {
+                        let intScale = parseInt(scaleValue);
+                        if (intScale !== 100) {
+                            let addon100 = intScale % 100;
+                            addonScale = "@" + ((intScale / 100) >> 0);
+                            if (addon100 !== 0) {
+                                if (0 === (addon100 % 10))
+                                    addon100 /= 10;
+                                addonScale += ("." + addon100);
+                            }
+                            addonScale += "x";
                         }
-                        result[index][scale] = obj;
+                        scaleValue = scaleValue + "%";
                     }
-                }
-            } else {
-                return [icons];
+
+                    let urlAll = url;
+                    if (params_array["scale"].origin != "")
+                        urlAll = urlAll.replaceAll(params_array["scale"].origin, addonScale);
+                    if (params_array["extension"].origin != "")
+                        urlAll = urlAll.replaceAll(params_array["extension"].origin, (isAll && isSvgPresent) ? "svg" : rasterExt);
+
+                    obj[scaleValue] = {};
+                    let states =  params_array["state"].values;
+                    for (let stateIndex = 0, statesLen = states.length; stateIndex < statesLen; stateIndex++) {
+                        let stateValue = params_array["state"].values[stateIndex];
+                        if (params_array["state"].origin !== "") {
+                            if ("normal" === stateValue) {
+                                let statePos = urlAll.indexOf(params_array["state"].origin);
+                                obj[scaleValue][stateValue] = urlAll.replace(params_array["state"].origin, "");
+                                if (obj[scaleValue][stateValue].charAt(statePos) == "/")
+                                    obj[scaleValue][stateValue] = obj[scaleValue][stateValue].substring(0, statePos) + obj[scaleValue][stateValue].substring(statePos + 1);
+                            } else {
+                                obj[scaleValue][stateValue] = urlAll.replace(params_array["state"].origin, "_" + stateValue);
+                            }
+                        } else
+                            obj[scaleValue][stateValue] = urlAll;
+                    }                            
+                }                        
+                iconsObject.push(obj);
             }
         }
-        return result;
+
+        return iconsObject;
     }
 
     Common.UI.getSuitableIcons = function (icons) {

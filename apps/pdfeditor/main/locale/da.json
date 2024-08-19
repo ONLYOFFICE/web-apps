@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Advarsel",
-  "Common.Controllers.Chat.textEnterMessage": "Skriv din besked her",
   "Common.Translation.textMoreButton": "Mere",
   "Common.Translation.warnFileLocked": "Dokumentet er i brug af en anden applikation. Du kan fortsætte med at redigere og gemme en kopi.",
   "Common.Translation.warnFileLockedBtnEdit": "Opret en kopi",

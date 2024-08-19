@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Aviso",
-  "Common.Controllers.Chat.textEnterMessage": "Introduzca su mensaje aquí",
   "Common.Controllers.Desktop.hintBtnHome": "Mostrar ventana principal",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Crear a partir de plantilla",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anónimo",
@@ -656,10 +655,8 @@
   "Common.Views.Header.txtAccessRights": "Cambiar permisos de acceso",
   "Common.Views.Header.txtRename": "Renombrar",
   "Common.Views.History.textCloseHistory": "Cerrar historial",
-  "Common.Views.History.textHide": "Contraer",
   "Common.Views.History.textHideAll": "Ocultar cambios detallados",
   "Common.Views.History.textRestore": "Restaurar",
-  "Common.Views.History.textShow": "Expandir",
   "Common.Views.History.textShowAll": "Mostrar cambios detallados",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "URL de la imagen:",

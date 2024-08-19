@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Annuleren",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Waarschuwing",
-  "Common.Controllers.Chat.textEnterMessage": "Voer hier uw bericht in",
   "Common.Controllers.History.notcriticalErrorTitle": "Waarschuwing",
   "Common.define.chartData.textArea": "Vlak",
   "Common.define.chartData.textAreaStacked": "Gestapeld gebied ",
@@ -239,10 +238,8 @@
   "Common.Views.Header.txtAccessRights": "Toegangsrechten wijzigen",
   "Common.Views.Header.txtRename": "Hernoemen",
   "Common.Views.History.textCloseHistory": "Geschiedenis sluiten",
-  "Common.Views.History.textHide": "Samenvouwen",
   "Common.Views.History.textHideAll": "Uitgebreide wijzigingen verbergen",
   "Common.Views.History.textRestore": "Herstel",
-  "Common.Views.History.textShow": "Uitvouwen",
   "Common.Views.History.textShowAll": "Uitgebreide wijzigingen tonen",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "URL van een afbeelding plakken:",

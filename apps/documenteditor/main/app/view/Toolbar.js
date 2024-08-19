@@ -1214,13 +1214,6 @@ define([
                                     value: [20, 30, 20, 15]
                                 },
                                 {
-                                    caption: this.textMarginsUsNormal,
-                                    checkable: true,
-                                    template: pageMarginsTemplate,
-                                    toggleGroup: 'menuPageMargins',
-                                    value: [25.4, 25.4, 25.4, 25.4]
-                                },
-                                {
                                     caption: this.textMarginsNarrow,
                                     checkable: true,
                                     template: pageMarginsTemplate,

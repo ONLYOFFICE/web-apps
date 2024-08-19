@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Cảnh báo",
-  "Common.Controllers.Chat.textEnterMessage": "Nhập tin nhắn của bạn ở đây",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Nặc danh",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Đóng",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Đối tượng bị vô hiệu vì nó đang được chỉnh sửa bởi một người dùng khác.",

@@ -266,6 +266,7 @@
     "errorChangeArray": "Nu puteți modifica parte dintr-o matrice.",
     "errorChangeFilteredRange": "Operațiunea va afecta zonă filtrată din foaia de calcul.<br>Pentru a termina operațiunea dezactivați filtrarea automată. ",
     "errorChangeOnProtectedSheet": "Celula sau diagrama pe care încercați să schimbați este din foaia de calcul protejată. Dezactivați protejarea foii de calcul dacă doriți s-o schimați.Este posibil să fie necesară introducerea parolei.",
+    "errorCircularReference": "Există una sau mai multe referințe circulare în formula care în mod direct sau indirect face referire la celula în care se află.<br> Încercați să eliminați sau să schimbați aceste referințe, sau să mutați formulele în celule diferite.",
     "errorComboSeries": "Pentru a crea o diagramă combinație, trebuie să selectați cel puțin două serii de date.",
     "errorConnectToServer": "Salvarea documentului nu este posibilă. Verificați configurarea conexeunii sau contactaţi administratorul dumneavoastră de reţea<br>Când faceți clic pe OK, vi se va solicita să descărcați documentul.",
     "errorCopyMultiselectArea": "Această comandă nu poate fi aplicată la selecții multiple<br>Selectați o singură zonă și încercați din nou.",
@@ -366,8 +367,7 @@
     "uploadDocSizeMessage": "Dimensiunea documentului depășește limita permisă.",
     "uploadImageExtMessage": "Format de imagine nerecunoscut.",
     "uploadImageFileCountMessage": "Nicio imagine nu a fost încărcată.",
-    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadImageSizeMessage": "Imaginea este prea mare. Limita de dimensiune este de 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Parola",
@@ -461,6 +461,7 @@
       "sCatMathematic": "Funcții matematice și trigonometrice",
       "sCatStatistical": "Funcții statistice",
       "sCatTextAndData": "Text și date",
+      "sCustom": "Particularizat",
       "textAddLink": "Adăugare link",
       "textAddress": "Adresă",
       "textAllTableHint": "Returnează tot conţinutul unui tabel sau coloanele selectate într-un tabel inclusiv anteturi de coloane, rânduri de date și rânduri de totaluri ",
@@ -508,8 +509,7 @@
       "txtNotUrl": "Câmpul trebuie să conțină adresa URL in format \"http://www.example.com\"",
       "txtSorting": "Sortare",
       "txtSortSelected": "Sortarea selecției",
-      "txtYes": "Da",
-      "sCustom": "Custom"
+      "txtYes": "Da"
     },
     "Edit": {
       "notcriticalErrorTitle": "Avertisment",

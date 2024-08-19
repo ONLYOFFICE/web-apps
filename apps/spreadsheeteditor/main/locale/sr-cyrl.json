@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Откажи",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Упозорење",
-  "Common.Controllers.Chat.textEnterMessage": "Унеси своју поруку овде",
   "Common.Controllers.Desktop.hintBtnHome": "Прикажи Главни прозор",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Креирај из шаблона",
   "Common.Controllers.History.notcriticalErrorTitle": "Упозорење",
@@ -488,10 +487,8 @@
   "Common.Views.Header.txtAccessRights": "Промени права приступа",
   "Common.Views.Header.txtRename": "Преименуј",
   "Common.Views.History.textCloseHistory": "Затвори Историју",
-  "Common.Views.History.textHide": "Поруши",
   "Common.Views.History.textHideAll": "Сакриј детаљне измене",
   "Common.Views.History.textRestore": "Обнови",
-  "Common.Views.History.textShow": "Прошири",
   "Common.Views.History.textShowAll": "Покажи детаљне промене",
   "Common.Views.History.textVer": "вер.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Налепи URL слике:",

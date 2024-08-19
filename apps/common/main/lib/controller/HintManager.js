@@ -379,6 +379,13 @@ Common.UI.HintManager = new(function() {
                 }
                 var hint = $('<div style="" class="hint-div">' + item.attr('data-hint-title-lang') + '</div>');
                 var direction = item.attr('data-hint-direction');
+                if (Common.UI.isRTL() && direction) {
+                    if (direction.indexOf('left')>-1)
+                        direction = direction.replace('left', 'right');
+                    else if (direction.indexOf('right')>-1)
+                        direction = direction.replace('right', 'left');
+                }
+
                 // exceptions
                 if (window.SSE && !_isEditDiagram && _currentSection.nodeType !== 9 &&
                     _currentSection.prop('id') === 'toolbar' && item.closest('.panel').attr('data-tab') === 'data') {
@@ -415,12 +422,16 @@ Common.UI.HintManager = new(function() {
                     }
                 } else {
                     offsets = offsets ? item.attr('data-hint-offset').split(',').map(function (item) { return parseInt(item); }) : [0, 0];
+                    Common.UI.isRTL() && (offsets[1] = -offsets[1]);
                 }
                 var offset = item.offset();
                 var top, left;
                 if (direction === 'left-top') {
                     top = offset.top - 10 + offsets[0];
                     left = offset.left - 10 + offsets[1];
+                } else if (direction === 'right-top') {
+                    top = offset.top - 10 + offsets[0];
+                    left = offset.left + (item.outerWidth() - 18) + 10 + offsets[1];
                 } else if (direction === 'top') {
                     top = offset.top - 18 + offsets[0];
                     left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
@@ -430,7 +441,7 @@ Common.UI.HintManager = new(function() {
                 } else if (direction === 'left') {
                     top = offset.top + (item.outerHeight() - 18) / 2 + offsets[0];
                     left = offset.left - 18 + offsets[1];
-                } else {
+                } else { // bottom
                     top = offset.top + item.outerHeight() + offsets[0];
                     left = offset.left + (item.outerWidth() - 18) / 2 + offsets[1];
                 }

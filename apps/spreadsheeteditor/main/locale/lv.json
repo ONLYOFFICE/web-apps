@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Atcelt",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Brīdinājums",
-  "Common.Controllers.Chat.textEnterMessage": "Ievadiet savu ziņu šeit",
   "Common.Controllers.History.notcriticalErrorTitle": "Brīdinājums",
   "Common.define.chartData.textArea": "Apgabals",
   "Common.define.chartData.textAreaStacked": "Sagrupēts apgabals",
@@ -433,10 +432,8 @@
   "Common.Views.Header.txtAccessRights": "Izmainīt pieejas tiesības",
   "Common.Views.Header.txtRename": "Pārdēvēt",
   "Common.Views.History.textCloseHistory": "Aizvērt vēsturi",
-  "Common.Views.History.textHide": "Sašaurināt",
   "Common.Views.History.textHideAll": "Slēpt detalizētās izmaiņas",
   "Common.Views.History.textRestore": "Atjaunot",
-  "Common.Views.History.textShow": "Izvērst",
   "Common.Views.History.textShowAll": "Rādīt detalizētas izmaiņas",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Ielīmēt attēla vietrādi URL:",

@@ -1,7 +1,6 @@
 {
   "cancelButtonText": "Отказ",
   "Common.Controllers.Chat.notcriticalErrorTitle": "Внимание",
-  "Common.Controllers.Chat.textEnterMessage": "Въведете съобщението си тук",
   "Common.define.chartData.textArea": "Площ",
   "Common.define.chartData.textBar": "Бар",
   "Common.define.chartData.textCharts": "Диаграми",
@@ -111,7 +110,6 @@
   "Common.Views.Header.txtAccessRights": "Промяна на правата за достъп",
   "Common.Views.Header.txtRename": "Преименувам",
   "Common.Views.History.textRestore": "Възстанови",
-  "Common.Views.History.textShow": "Разширете",
   "Common.Views.ImageFromUrlDialog.textUrl": "Поставете URL адрес на изображение:",
   "Common.Views.ImageFromUrlDialog.txtEmpty": "Това поле е задължително",
   "Common.Views.ImageFromUrlDialog.txtNotUrl": "Това поле трябва да е URL адрес във формат \"http://www.example.com\"",

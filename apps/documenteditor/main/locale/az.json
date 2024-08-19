@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Xəbərdarlıq",
-  "Common.Controllers.Chat.textEnterMessage": "Mesajınızı buraya daxil edin",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonim",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Bağla",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Obyekt deaktiv edilib, çünki o, başqa istifadəçi tərəfindən redaktə olunur.",
@@ -289,10 +288,8 @@
   "Common.Views.Header.txtAccessRights": "Giriş hüquqlarını dəyiş",
   "Common.Views.Header.txtRename": "Adını dəyiş",
   "Common.Views.History.textCloseHistory": "Tarixçəni bağlayın",
-  "Common.Views.History.textHide": "Yığcamlaşdır",
   "Common.Views.History.textHideAll": "Ətraflı dəyişiklikləri gizlədin",
   "Common.Views.History.textRestore": "Bərpa et",
-  "Common.Views.History.textShow": "Genişləndirin",
   "Common.Views.History.textShowAll": "Detallı dəyişiklikləri göstərin",
   "Common.Views.History.textVer": "ver.",
   "Common.Views.ImageFromUrlDialog.textUrl": "Təsvir URL-ni yerləşdirin:",

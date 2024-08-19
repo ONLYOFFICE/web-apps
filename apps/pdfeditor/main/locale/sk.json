@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Upozornenie",
-  "Common.Controllers.Chat.textEnterMessage": "Zadať svoju správu tu",
   "Common.Translation.textMoreButton": "Viac",
   "Common.Translation.warnFileLocked": "Dokument nie je možné editovať, pretože je používaný inou aplikáciou.",
   "Common.Translation.warnFileLockedBtnEdit": "Vytvoriť kópiu",

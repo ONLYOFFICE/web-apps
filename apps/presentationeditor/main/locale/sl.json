@@ -1,6 +1,5 @@
 {
   "Common.Controllers.Chat.notcriticalErrorTitle": "Opozorilo",
-  "Common.Controllers.Chat.textEnterMessage": "Svoje sporočilo vnesite tu",
   "Common.Controllers.ExternalDiagramEditor.textAnonymous": "Anonimno",
   "Common.Controllers.ExternalDiagramEditor.textClose": "Zapri",
   "Common.Controllers.ExternalDiagramEditor.warningText": "Objekt je onemogočen, saj ga ureja drug uporabnik.",

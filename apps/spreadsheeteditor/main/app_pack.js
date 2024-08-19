@@ -80,6 +80,7 @@ require([
     'spreadsheeteditor/main/app/view/HeaderFooterDialog',
     'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
+    'spreadsheeteditor/main/app/view/PivotGroupDialog',
 ], function () {
     Common.NotificationCenter.trigger('script:loaded');
 });

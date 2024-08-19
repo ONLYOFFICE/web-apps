@@ -266,6 +266,7 @@
     "errorChangeArray": "Нельзя изменить часть массива.",
     "errorChangeFilteredRange": "Это приведет к изменению отфильтрованного диапазона листа.<br>Чтобы выполнить эту задачу, необходимо удалить автофильтры.",
     "errorChangeOnProtectedSheet": "Ячейка или диаграмма, которую вы пытаетесь изменить, находится на защищенном листе. Чтобы внести изменения, снимите защиту листа. Может потребоваться пароль.",
+    "errorCircularReference": "Существует одна или несколько циклических ссылок, в которых формула ссылается на свою собственную ячейку прямо или косвенно.<br>Попробуйте удалить или изменить эти ссылки или переместить формулы в другие ячейки.",
     "errorComboSeries": "Для создания комбинированной диаграммы выберите не менее двух рядов данных.",
     "errorConnectToServer": "Не удается сохранить документ. Проверьте параметры подключения или обратитесь к вашему администратору.<br>Когда вы нажмете на кнопку 'OK', вам будет предложено скачать документ.",
     "errorCopyMultiselectArea": "Данная команда неприменима для несвязных диапазонов.<br>Выберите один диапазон и повторите попытку.",
@@ -366,8 +367,7 @@
     "uploadDocSizeMessage": "Превышен максимальный размер документа.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",
@@ -461,6 +461,7 @@
       "sCatMathematic": "Математические",
       "sCatStatistical": "Статистические",
       "sCatTextAndData": "Текст и данные",
+      "sCustom": "Пользовательские",
       "textAddLink": "Добавить ссылку",
       "textAddress": "Адрес",
       "textAllTableHint": "Возвращает все содержимое таблицы или указанные столбцы таблицы, включая заголовки столбцов, данные и строки итогов",
@@ -508,8 +509,7 @@
       "txtNotUrl": "Это поле должно быть URL-адресом в формате \"http://www.example.com\"",
       "txtSorting": "Сортировка",
       "txtSortSelected": "Сортировать выделенное",
-      "txtYes": "Да",
-      "sCustom": "Custom"
+      "txtYes": "Да"
     },
     "Edit": {
       "notcriticalErrorTitle": "Внимание",

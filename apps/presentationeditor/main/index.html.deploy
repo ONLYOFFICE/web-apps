@@ -294,7 +294,6 @@
         window.uitype = 'slide';
     </script>
 
-    <link rel="stylesheet" type="text/css" href="../../../apps/presentationeditor/main/resources/css/app.css">
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
@@ -440,5 +439,6 @@
     <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 
+    <link rel="stylesheet" href="../../../apps/presentationeditor/main/resources/css/app.css" media="print" onload="this.media='all'">
 </body>
 </html>
