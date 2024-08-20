@@ -4618,7 +4618,8 @@ define([
         },
 
         onPluginContextMenu: function(data) {
-            if (data && data.length>0 && this.documentHolder && this.currentMenu && this.currentMenu.isVisible()){
+            if (data && data.length>0 && this.documentHolder && this.currentMenu && (this.currentMenu !== this.documentHolder.copyPasteMenu) &&
+                                                                (this.currentMenu !== this.documentHolder.fillMenu) && this.currentMenu.isVisible()){
                 this.documentHolder.updateCustomItems(this.currentMenu, data);
             }
         },
