@@ -3396,7 +3396,7 @@ define([
                 this.api && this.api.asc_StartMailMerge();
             } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
-                    title: me.dataUrl,
+                    label: me.dataUrl,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -3747,8 +3747,12 @@ define([
 
         onInsFieldClick: function(type) {
             var me = this;
-            (new DE.Views.FieldDialog({
-                code: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
+            (new Common.Views.TextInputDialog({
+                width: 450,
+                title: me.textFieldTitle,
+                label: me.textFieldLabel,
+                description: me.textFieldExample,
+                value: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (me.api) {

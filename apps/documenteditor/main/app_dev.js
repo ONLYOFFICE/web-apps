@@ -197,7 +197,6 @@ require([
                     'common/main/lib/component/ComboBoxDataView',
                     'common/main/lib/view/OptionsDialog',
                     'common/main/lib/view/CopyWarningDialog',
-                    'common/main/lib/view/ImageFromUrlDialog',
                     'common/main/lib/view/InsertTableDialog',
                     'common/main/lib/view/SelectFileDlg',
                     'common/main/lib/view/SymbolTableDialog',
@@ -220,6 +219,7 @@ require([
                     'common/main/lib/view/ShapeShadowDialog',
                     'common/main/lib/view/CustomizeQuickAccessDialog',
                     'common/main/lib/view/LanguageDialog',
+                    'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
 
@@ -238,7 +238,6 @@ require([
                     'documenteditor/main/app/view/RoleEditDlg',
                     'documenteditor/main/app/view/RolesManagerDlg',
                     'documenteditor/main/app/view/SaveFormDlg',
-                    'documenteditor/main/app/view/AddNewCaptionLabelDialog',
                     'documenteditor/main/app/view/CaptionDialog',
                     'documenteditor/main/app/view/NoteSettingsDialog',
                     'documenteditor/main/app/view/HyperlinkSettingsDialog',
@@ -259,8 +258,7 @@ require([
                     'documenteditor/main/app/view/NumberingValueDialog',
                     'documenteditor/main/app/view/ListIndentsDialog',
                     'documenteditor/main/app/view/ProtectDialog',
-                    'documenteditor/main/app/view/MailMergeEmailDlg',
-                    'documenteditor/main/app/view/FieldDialog'
+                    'documenteditor/main/app/view/MailMergeEmailDlg'
                 ];
 
                 window.compareVersions = true;

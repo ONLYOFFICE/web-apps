@@ -861,6 +861,7 @@
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
   "PDFE.Controllers.LeftMenu.warnDownloadAsPdf": "Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.",
   "PDFE.Controllers.LeftMenu.warnDownloadAsRTF": "If you continue saving in this format some of the formatting might be lost.<br>Are you sure you want to continue?",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
   "PDFE.Controllers.Main.applyChangesTextText": "Loading the changes...",
   "PDFE.Controllers.Main.applyChangesTitleText": "Loading the changes",
   "PDFE.Controllers.Main.confirmMaxChangesSize": "The size of actions exceeds the limitation set for your server.<br>Press \"Undo\" to cancel your last action or press \"Continue\" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).",
