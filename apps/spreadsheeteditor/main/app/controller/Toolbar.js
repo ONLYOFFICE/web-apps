@@ -3187,7 +3187,13 @@ define([
                 this._state.multiselect = info.asc_getMultiselect();
                 toolbar.lockToolbar(Common.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink, toolbar.btnInsertTable]});
 
-                this._state.inpivot = !!info.asc_getPivotTableInfo();
+                var inpivot = !!info.asc_getPivotTableInfo();
+                if (this._state.inpivot !== inpivot) {
+                    if ( !inpivot && this.toolbar.isTabActive('pivot') )
+                        this.toolbar.setTab('home');
+                    this.toolbar.setVisible('pivot', !!inpivot);
+                    this._state.inpivot = inpivot;
+                }
                 toolbar.lockToolbar(Common.enumLock.editPivot, this._state.inpivot, { array: toolbar.btnsSetAutofilter.concat(toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnInsertTable, toolbar.btnRemoveDuplicates, toolbar.btnDataValidation)});
                 toolbar.lockToolbar(Common.enumLock.noSlicerSource, !(this._state.inpivot || formatTableInfo), { array: [toolbar.btnInsertSlicer]});
 
@@ -4495,7 +4501,7 @@ define([
                 var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, layoutname: 'toolbar-collaboration', dataHintTitle: 'U'};
                 var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 7);
+                    me.toolbar.addTab(tab, $panel, 6);
                     me.toolbar.setVisible('review', (config.isEdit || config.canViewReview || config.canCoAuthoring && config.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                 }
             }
@@ -4547,8 +4553,8 @@ define([
                         pivottab.setApi(me.api).setConfig({toolbar: me});
                         $panel = pivottab.createToolbarPanel();
                         if ($panel) {
-                            me.toolbar.addTab(tab, $panel, 6);
-                            me.toolbar.setVisible('pivot', true);
+                            me.toolbar.addTab(tab, $panel, Common.UI.LayoutManager.lastTabIdx+1);
+                            me._state.inpivot && me.toolbar.setVisible('pivot', true);
                             Array.prototype.push.apply(me.toolbar.lockControls, pivottab.getView('PivotTable').getButtons());
                         }
                     }
@@ -4574,7 +4580,7 @@ define([
                             (config.isSignatureSupport || config.isPasswordSupport) && $panel.append($('<div class="separator long"></div>'));
                             var wbtab = me.getApplication().getController('WBProtection');
                             $panel.append(wbtab.createToolbarPanel());
-                            me.toolbar.addTab(tab, $panel, 8);
+                            me.toolbar.addTab(tab, $panel, 7);
                             me.toolbar.setVisible('protect', Common.UI.LayoutManager.isElementVisible('toolbar-protect'));
                             Array.prototype.push.apply(me.toolbar.lockControls, wbtab.getView('WBProtection').getButtons());
                         }
@@ -4587,7 +4593,7 @@ define([
                 viewtab.setApi(me.api).setConfig({toolbar: me, mode: config});
                 var $panel = viewtab.createToolbarPanel();
                 if ($panel) {
-                    me.toolbar.addTab(tab, $panel, 9);
+                    me.toolbar.addTab(tab, $panel, 8);
                     me.toolbar.setVisible('view', Common.UI.LayoutManager.isElementVisible('toolbar-view'));
                 }
                 config.isEdit && Array.prototype.push.apply(me.toolbar.lockControls, viewtab.getView('ViewTab').getButtons());
