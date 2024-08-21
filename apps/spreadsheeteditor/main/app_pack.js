@@ -1,4 +1,5 @@
 require([
+    'common/main/lib/util/define',
     'common/main/lib/controller/ScreenReaderFocus',
     'common/main/lib/component/ColorPaletteExt',
     'common/main/lib/component/ComboBoxDataView',
@@ -20,7 +21,10 @@ require([
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/TextInputDialog',
+    'common/main/lib/view/DocumentHolderExt',
 
+    'spreadsheeteditor/main/app/view/FileMenuPanels',
+    'spreadsheeteditor/main/app/view/DocumentHolderExt',
     'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
     'spreadsheeteditor/main/app/view/ChartDataDialog',
     'spreadsheeteditor/main/app/view/SortDialog',

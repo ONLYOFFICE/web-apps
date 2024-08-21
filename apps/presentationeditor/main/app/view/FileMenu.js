@@ -364,7 +364,7 @@ define([
         },
 
         show: function(panel, opts) {
-            if (this.isVisible() && panel===undefined || !this.mode) return;
+            if (this.isVisible() && panel===undefined || !this.mode || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             if ( !this.rendered )
                 this.render();

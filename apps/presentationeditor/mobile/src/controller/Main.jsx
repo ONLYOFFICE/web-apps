@@ -521,6 +521,12 @@ class MainController extends Component {
         });
     }
 
+    insertImageFromStorage(data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.AddImageUrl(data._urls, undefined, data.token);
+        }
+    }
+
     onApiTextReplaced(found, replaced) {
         const { t } = this.props;
 
@@ -563,6 +569,7 @@ class MainController extends Component {
         Common.Gateway.on('processrightschange', this.onProcessRightsChange.bind(this));
         Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
         Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
+        Common.Gateway.on('insertimage', this.insertImage.bind(this));
 
         Common.Gateway.sendInfo({
             mode: appOptions.isEdit ? 'edit' : 'view'
@@ -580,6 +587,30 @@ class MainController extends Component {
         Common.Notifications.trigger('document:ready');
 
         appOptions.changeDocReady(true);
+    }
+
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) {
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        this.insertImageFromStorage(data);
     }
 
     onLicenseChanged (params) {

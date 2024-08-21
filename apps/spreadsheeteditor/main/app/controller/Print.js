@@ -30,8 +30,7 @@
  *
  */
 define([
-    'core',
-    'spreadsheeteditor/main/app/view/FileMenuPanels'
+    'core'
 ], function () {
     'use strict';
 
@@ -75,10 +74,16 @@ define([
             Common.NotificationCenter.on('print', _.bind(this.openPrintSettings, this, 'print'));
             Common.NotificationCenter.on('download:settings', _.bind(this.openPrintSettings, this, 'download'));
             Common.NotificationCenter.on('export:to', _.bind(this.openPrintSettings, this, 'export'));
+            Common.NotificationCenter.on('script:loaded', _.bind(this.onPostLoadComplete, this));
         },
 
         onLaunch: function() {
+        },
+
+        onPostLoadComplete: function() {
+            this.views = this.getApplication().getClasseRefs('view', ['PrintWithPreview']);
             this.printSettings = this.createView('PrintWithPreview');
+            this.setMode(this.mode);
         },
 
         onAfterRender: function(view) {
@@ -142,7 +147,7 @@ define([
         },
 
         updateSheetsInfo: function() {
-            if (this.printSettings.isVisible()) {
+            if (this.printSettings && this.printSettings.isVisible()) {
                 this.updateSettings(this.printSettings);
             } else {
                 this.isFillSheets = false;

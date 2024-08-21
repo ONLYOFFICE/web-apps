@@ -938,19 +938,8 @@ define([
             this.btnColor.menu.items[0].setChecked(color===undefined, true);
             this.btnColor.menu.items[1].setChecked(!!color && color.get_auto(), true);
             if (color && !color.get_auto()) {
-                if ( typeof(color) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                            this.colors.select(color,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colors.clearSelection();
-                    color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
-                } else
-                    this.colors.select(color,true);
+                Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colors);
+                ( typeof(color) == 'object' ) && (color = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()));
             } else {
                 this.colors.clearSelection();
                 color = '000000';

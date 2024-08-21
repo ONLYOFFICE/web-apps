@@ -546,18 +546,7 @@ define([], function () { 'use strict';
                         color = 'transparent';
                     this.color = Common.Utils.ThemeColor.colorValue2EffectId(color);
                     this.btnColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colors.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colors.clearSelection();
-                    } else
-                        this.colors.select(color,true);
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colors);
 
                     if (this.originalType == AscFormat.BULLET_TYPE_BULLET_NONE) {
                         this.cmbNumFormat.setValue(-1);

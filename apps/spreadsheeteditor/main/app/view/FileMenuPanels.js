@@ -29,10 +29,7 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-define([
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/RadioBox'
-], function () {
+define([], function () {
     'use strict';
 
     !SSE.Views.FileMenuPanels && (SSE.Views.FileMenuPanels = {});

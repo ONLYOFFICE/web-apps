@@ -272,8 +272,8 @@ define([
                     var type = props.asc_getType(),
                         styleChanged = false;
                     if (this._state.SparkType !== type) {
-                        var record = this.mnuSparkTypePicker.store.findWhere({type: type});
-                        this.mnuSparkTypePicker.selectRecord(record, true);
+                        var record = this.mnuSparkTypePicker ? this.mnuSparkTypePicker.store.findWhere({type: type}) : null;
+                        this.mnuSparkTypePicker && this.mnuSparkTypePicker.selectRecord(record, true);
                         if (record) {
                             this.btnSparkType.setIconCls('svgicon ' + 'chart-' + record.get('iconCls'));
                         } else
@@ -281,6 +281,7 @@ define([
                         this._state.SparkType = type;
                         styleChanged = true;
                     }
+                    this.btnSparkType.setDisabled(!this.mnuSparkTypePicker || this._locked);
 
                     var w = props.asc_getLineWeight(),
                         check_value = (Math.abs(this._state.LineWeight-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
@@ -314,19 +315,7 @@ define([
                             (type1!='object' && (this._state.SparkColor.indexOf(this.SparkColor)<0 || typeof(this.btnSparkColor.color)=='object'))) {
 
                             this.btnSparkColor.setColor(this.SparkColor);
-                            if ( typeof(this.SparkColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.SparkColor.effectValue ) {
-                                        this.colorsSpark.select(this.SparkColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsSpark.clearSelection();
-                            } else
-                                this.colorsSpark.select(this.SparkColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.SparkColor, this.colorsSpark);
                             this._state.SparkColor = this.SparkColor;
                         }
                     }
@@ -352,19 +341,7 @@ define([
                             (type1!='object' && (this._state.MarkersColor.indexOf(this.MarkersColor)<0 || typeof(this.btnMarkersColor.color)=='object'))) {
 
                             this.btnMarkersColor.setColor(this.MarkersColor);
-                            if ( typeof(this.MarkersColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.MarkersColor.effectValue ) {
-                                        this.colorsMarkers.select(this.MarkersColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsMarkers.clearSelection();
-                            } else
-                                this.colorsMarkers.select(this.MarkersColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.MarkersColor, this.colorsMarkers);
                             this._state.MarkersColor = this.MarkersColor;
                             styleChanged = true;
                         }
@@ -388,19 +365,7 @@ define([
                             (type1!='object' && (this._state.HighColor.indexOf(this.HighColor)<0 || typeof(this.btnHighColor.color)=='object'))) {
 
                             this.btnHighColor.setColor(this.HighColor);
-                            if ( typeof(this.HighColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.HighColor.effectValue ) {
-                                        this.colorsHigh.select(this.HighColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsHigh.clearSelection();
-                            } else
-                                this.colorsHigh.select(this.HighColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.HighColor, this.colorsHigh);
                             this._state.HighColor = this.HighColor;
                             styleChanged = true;
                         }
@@ -424,19 +389,7 @@ define([
                             (type1!='object' && (this._state.LowColor.indexOf(this.LowColor)<0 || typeof(this.btnLowColor.color)=='object'))) {
 
                             this.btnLowColor.setColor(this.LowColor);
-                            if ( typeof(this.LowColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.LowColor.effectValue ) {
-                                        this.colorsLow.select(this.LowColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsLow.clearSelection();
-                            } else
-                                this.colorsLow.select(this.LowColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.LowColor, this.colorsLow);
                             this._state.LowColor = this.LowColor;
                             styleChanged = true;
                         }
@@ -460,19 +413,7 @@ define([
                             (type1!='object' && (this._state.FirstColor.indexOf(this.FirstColor)<0 || typeof(this.btnFirstColor.color)=='object'))) {
 
                             this.btnFirstColor.setColor(this.FirstColor);
-                            if ( typeof(this.FirstColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.FirstColor.effectValue ) {
-                                        this.colorsFirst.select(this.FirstColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsFirst.clearSelection();
-                            } else
-                                this.colorsFirst.select(this.FirstColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.FirstColor, this.colorsFirst);
                             this._state.FirstColor = this.FirstColor;
                             styleChanged = true;
                         }
@@ -496,19 +437,7 @@ define([
                             (type1!='object' && (this._state.LastColor.indexOf(this.LastColor)<0 || typeof(this.btnLastColor.color)=='object'))) {
 
                             this.btnLastColor.setColor(this.LastColor);
-                            if ( typeof(this.LastColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.LastColor.effectValue ) {
-                                        this.colorsLast.select(this.LastColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsLast.clearSelection();
-                            } else
-                                this.colorsLast.select(this.LastColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.LastColor, this.colorsLast);
                             this._state.LastColor = this.LastColor;
                             styleChanged = true;
                         }
@@ -532,19 +461,7 @@ define([
                             (type1!='object' && (this._state.NegativeColor.indexOf(this.NegativeColor)<0 || typeof(this.btnNegativeColor.color)=='object'))) {
 
                             this.btnNegativeColor.setColor(this.NegativeColor);
-                            if ( typeof(this.NegativeColor) == 'object' ) {
-                                var isselected = false;
-                                for (var i=0; i<10; i++) {
-                                    if ( Common.Utils.ThemeColor.ThemeValues[i] == this.NegativeColor.effectValue ) {
-                                        this.colorsNegative.select(this.NegativeColor,true);
-                                        isselected = true;
-                                        break;
-                                    }
-                                }
-                                if (!isselected) this.colorsNegative.clearSelection();
-                            } else
-                                this.colorsNegative.select(this.NegativeColor,true);
-
+                            Common.Utils.ThemeColor.selectPickerColorByEffect(this.NegativeColor, this.colorsNegative);
                             this._state.NegativeColor = this.NegativeColor;
                             styleChanged = true;
                         }
@@ -721,20 +638,8 @@ define([
                     ]
                 })
             });
-            this.btnSparkType.on('render:after', function(btn) {
-                me.mnuSparkTypePicker = new Common.UI.DataView({
-                    el: $('#id-spark-menu-type'),
-                    parentMenu: btn.menu,
-                    restoreHeight: 120,
-                    allowScrollbar: false,
-                    groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
-                    store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
-                    itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
-                    delayRenderTips: true
-                });
-            });
+            this.btnSparkType.on('render:after', _.bind(this.createSparkTypeMenu, this));
             this.btnSparkType.render($('#spark-button-type'));
-            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
             this.lockedControls.push(this.btnSparkType);
 
             this.cmbBorderSize = new Common.UI.ComboBorderSizeEditable({
@@ -1039,11 +944,36 @@ define([
             $(this.el).on('click', '#chart-advanced-link', _.bind(this.openAdvancedSettings, this));
         },
 
+        createSparkTypeMenu: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded() || this.mnuChartTypePicker) return;
+
+            this.mnuSparkTypePicker = new Common.UI.DataView({
+                el: $('#id-spark-menu-type'),
+                parentMenu: this.btnSparkType.menu,
+                restoreHeight: 120,
+                allowScrollbar: false,
+                groups: new Common.UI.DataViewGroupStore(Common.define.chartData.getSparkGroupData()),
+                store: new Common.UI.DataViewStore(Common.define.chartData.getSparkData()),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist"><svg width="40" height="40" class=\"icon uni-scale\"><use xlink:href=\"#chart-<%= iconCls %>\"></use></svg></div>'),
+                delayRenderTips: true
+            });
+            this.mnuSparkTypePicker.on('item:click', _.bind(this.onSelectSparkType, this, this.btnSparkType));
+            var record = this.mnuSparkTypePicker.store.findWhere({type: this._state.SparkType});
+            this.mnuSparkTypePicker.selectRecord(record, true);
+            this.btnSparkType.setIconCls(record ? 'svgicon ' + 'chart-' + record.get('iconCls') : 'svgicon');
+            this.btnSparkType.setDisabled(this._locked);
+        },
+
         createDelayedElements: function() {
             this._initSettings = false;
+            Common.NotificationCenter.on('script:loaded', _.bind(this.createPostLoadElements, this));
             this.createDelayedControls();
             this.updateMetricUnit();
             this.UpdateThemeColors();
+        },
+
+        createPostLoadElements: function() {
+            this.createSparkTypeMenu();
         },
 
         ShowHideElem: function(isChart, is3D) {
@@ -1100,7 +1030,7 @@ define([
         },
 
         openAdvancedSettings:   function() {
-            if (this.linkAdvanced.hasClass('disabled')) return;
+            if (this.linkAdvanced.hasClass('disabled') || !Common.Controllers.LaunchController.isScriptLoaded()) return;
 
             var me = this;
             var win, props;
@@ -1656,48 +1586,7 @@ define([
                 });
                 this.linkAdvanced.toggleClass('disabled', disable);
             }
-        },
-
-        textKeepRatio: 'Constant Proportions',
-        textSize:       'Size',
-        textWidth:      'Width',
-        textHeight:     'Height',
-        textEditData: 'Edit Data and Location',
-        textChartType: 'Change Chart Type',
-        textStyle:          'Style',
-        textAdvanced:       'Show advanced settings',
-        strSparkColor:      'Color',
-        strLineWeight:      'Line Weight',
-        textMarkers:        'Markers',
-        textHighPoint: 'High Point',
-        textLowPoint: 'Low Point',
-        textNegativePoint: 'Negative Point',
-        textFirstPoint: 'First Point',
-        textLastPoint: 'Last Point',
-        strTemplate: 'Template',
-        textShow: 'Show',
-        textType:           'Type',
-        textSelectData: 'Select Data',
-        textRanges: 'Data Range',
-        textBorderSizeErr: 'The entered value is incorrect.<br>Please enter a value between 0 pt and 1584 pt.',
-        textChangeType: 'Change type',
-        textSwitch: 'Switch Row/Column',
-        errorMaxRows: 'The maximum number of data series per chart is 255.',
-        text3dRotation: '3D Rotation',
-        textX: 'X rotation',
-        textY: 'Y rotation',
-        textPerspective: 'Perspective',
-        text3dDepth: 'Depth (% of base)',
-        text3dHeight: 'Height (% of base)',
-        textLeft: 'Left',
-        textRight: 'Right',
-        textUp: 'Up',
-        textDown: 'Down',
-        textNarrow: 'Narrow field of view',
-        textWiden: 'Widen field of view',
-        textRightAngle: 'Right Angle Axes',
-        textAutoscale: 'Autoscale',
-        textDefault: 'Default Rotation'
+        }
 
     }, SSE.Views.ChartSettings || {}));
 });

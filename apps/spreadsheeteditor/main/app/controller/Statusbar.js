@@ -768,21 +768,9 @@ define([
                         } else {
                             clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
                         }
-                    }
-
-                    if (_.isObject(clr)) {
-                        var isselected = false;
-                        for (i = 0; i < 10; i++) {
-                            if (Common.Utils.ThemeColor.ThemeValues[i] === clr.effectValue) {
-                                this.statusbar.mnuTabColor.select(clr, true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.statusbar.mnuTabColor.clearSelection();
-                    } else {
-                        this.statusbar.mnuTabColor.select(clr || 'transparent', true);
-                    }
+                    } else
+                        clr = 'transparent';
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, this.statusbar.mnuTabColor);
                 }
             }
 
