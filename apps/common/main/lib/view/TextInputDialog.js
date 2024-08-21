@@ -30,64 +30,71 @@
  *
  */
 /**
- *  ImageFromUrlDialog.js
+ *  TextInputDialog.js
  *
- *  Created on 2/18/14
+ *  Created on 17/08/24
  *
  */
 
 define([], function () { 'use strict';
 
-    Common.Views.ImageFromUrlDialog = Common.UI.Window.extend(_.extend({
-        options: {
-            width: 330,
-            header: false,
-            cls: 'modal-dlg',
-            buttons: ['ok', 'cancel']
-        },
+    Common.Views.TextInputDialog = Common.UI.Window.extend(_.extend({
 
         initialize : function(options) {
-            _.extend(this.options, options || {});
+            var _options = {};
+
+            _.extend(_options, {
+                header: !!options.title,
+                label: options.label || '',
+                description: options.description || '',
+                width: 330 || options.width,
+                cls: 'modal-dlg',
+                buttons: ['ok', 'cancel']
+            }, options || {});
 
             this.template = [
                 '<div class="box">',
-                    '<div class="input-row">',
-                        '<label>' + (this.options.title || this.textUrl) + '</label>',
+                    '<div class="input-row <% if (!label) { %> hidden <% } %>">',
+                        '<label><%= label %></label>',
                     '</div>',
-                    '<div id="id-dlg-url" class="input-row"></div>',
+                    '<div id="id-dlg-label-custom-input" class="input-row"></div>',
+                    '<div class="input-row <% if (!description) { %> hidden <% } %>">',
+                        '<label class="light"><%= description %></label>',
+                    '</div>',
                 '</div>'
             ].join('');
 
-            this.options.tpl = _.template(this.template)(this.options);
+            this.inputConfig = _.extend({
+                allowBlank: true
+            }, options.inputConfig || {});
 
-            Common.UI.Window.prototype.initialize.call(this, this.options);
+            _options.tpl = _.template(this.template)(_options);
+            Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
             var me = this;
-            me.inputUrl = new Common.UI.InputField({
-                el          : $('#id-dlg-url'),
-                allowBlank  : false,
-                blankError  : me.txtEmpty,
+            me.inputLabel = new Common.UI.InputField({
+                el          : $('#id-dlg-label-custom-input'),
+                allowBlank  : me.inputConfig.allowBlank,
+                blankError  : me.inputConfig.blankError,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
-                validation  : function(value) {
-                    return (/((^https?)|(^ftp)):\/\/.+/i.test(value)) ? true : me.txtNotUrl;
-                }
+                validation  : me.inputConfig.validation
             });
-
+            me.inputLabel.setValue(me.options.value || '');
             var $window = this.getChild();
             $window.find('.dlg-btn').on('click',     _.bind(this.onBtnClick, this));
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl].concat(this.getFooterButtons());
+            return [this.inputLabel].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            return this.inputUrl;
+            return this.inputLabel;
         },
 
         show: function() {
@@ -96,7 +103,7 @@ define([], function () { 'use strict';
             var me = this;
             _.delay(function(){
                 me.getChild('input').focus();
-            },100);
+            },50);
         },
 
         onPrimary: function(event) {
@@ -111,16 +118,39 @@ define([], function () { 'use strict';
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    if (this.inputUrl.checkValidate() !== true)  {
-                        this.inputUrl.cmpEl.find('input').focus();
+                    if (this.inputLabel.checkValidate() !== true)  {
+                        this.inputLabel.cmpEl.find('input').focus();
                         return;
                     }
                 }
 
-                this.options.handler.call(this, state, this.inputUrl.getValue());
+                this.options.handler.call(this, state, this.inputLabel.getValue());
             }
 
             this.close();
+        }
+
+    }, Common.Views.TextInputDialog || {}));
+
+    Common.Views.ImageFromUrlDialog = Common.Views.TextInputDialog.extend(_.extend({
+
+        initialize : function(options) {
+
+            var _options = {},
+                me = this;
+            _.extend(_options, {
+                header: false,
+                label: options.label || me.textUrl,
+                inputConfig: {
+                    allowBlank  : false,
+                    blankError  : me.txtEmpty,
+                    validation  : function(value) {
+                        return (/((^https?)|(^ftp)):\/\/.+/i.test(value)) ? true : me.txtNotUrl;
+                    }
+                }
+            }, options || {});
+
+            Common.Views.TextInputDialog.prototype.initialize.call(this, _options);
         },
 
         textUrl         : 'Paste an image URL:',

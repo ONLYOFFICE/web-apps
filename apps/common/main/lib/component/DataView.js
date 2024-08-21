@@ -143,7 +143,7 @@ define([
             el.html(this.template(this.model.toJSON()));
             el.addClass('item canfocused');
             el.toggleClass('selected', this.model.get('selected') && this.model.get('allowSelected'));
-            el.attr('tabindex', 0);
+            el.attr('tabindex', this.options.tabindex || 0);
             el.attr('role', this.options.role ? this.options.role : 'listitem');
             
             if (this.dataHint !== '') {
@@ -313,6 +313,7 @@ define([
             me.minScrollbarLength = me.options.minScrollbarLength || 40;
             me.scrollYStyle    = me.options.scrollYStyle;
             me.tabindex = me.options.tabindex || 0;
+            me.itemTabindex = me.options.itemTabindex!==undefined ? me.options.itemTabindex : me.tabindex>0 ? -1 : 0; //do not set focus to items when dataview get focus
             me.delayRenderTips = me.options.delayRenderTips || false;
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
@@ -507,7 +508,8 @@ define([
                 scaling: this.options.scaling,
                 dataHint: this.itemDataHint,
                 dataHintDirection: this.itemDataHintDirection,
-                dataHintOffset: this.itemDataHintOffset
+                dataHintOffset: this.itemDataHintOffset,
+                tabindex: this.itemTabindex
             });
 
             if (view) {
@@ -964,7 +966,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
-                        this.dataViewItems[idx] && this.dataViewItems[idx].$el.focus();
+                        (this.itemTabindex!==-1) && this.dataViewItems[idx] && this.dataViewItems[idx].$el.focus();
                         this._fromKeyDown = false;
                     }
                 }
@@ -1127,7 +1129,7 @@ define([
             '<div class="dataview inner" style="<%= style %>" role="list">',
             '<% _.each(items, function(item) { %>',
                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                '<div class="item" role="listitem" tabindex="0" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
+                '<div class="item" role="listitem" <% if(typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
             '<% }) %>',
             '</div>'
         ].join('')),
@@ -1147,6 +1149,7 @@ define([
             me.style          = me.options.style        || '';
             me.scrollAlwaysVisible = me.options.scrollAlwaysVisible || false;
             me.tabindex = me.options.tabindex || 0;
+            me.itemTabindex = me.options.itemTabindex!==undefined ? me.options.itemTabindex : me.tabindex>0 ? -1 : 0; //do not set focus to items when dataview get focus
 
             if (me.parentMenu)
                 me.parentMenu.options.restoreHeight = (me.options.restoreHeight>0);
@@ -1169,7 +1172,8 @@ define([
                 this.cmpEl = $(this.template({
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
-                    style: me.style
+                    style: me.style,
+                    itemTabindex: me.itemTabindex || 0
                 }));
 
                 parentEl.html(this.cmpEl);
@@ -1179,7 +1183,8 @@ define([
                     items: me.store.toJSON(),
                     itemTemplate: me.itemTemplate,
                     style: me.style,
-                    options: me.options
+                    options: me.options,
+                    itemTabindex: me.itemTabindex || 0
                 }));
             }
             var modalParents = this.cmpEl.closest('.asc-window');
@@ -1293,13 +1298,14 @@ define([
             var template = _.template([
                 '<% _.each(items, function(item) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item" role="listitem" tabindex="0" <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
+                    '<div class="item" role="listitem" <% if(typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> <% if(!!item.tip) { %> data-toggle="tooltip" <% } %> data-hint="<%= item.dataHint %>" data-hint-direction="<%= item.dataHintDirection %>" data-hint-offset="<%= item.dataHintOffset %>"><%= itemTemplate(item) %></div>',
                 '<% }) %>'
             ].join(''));
             this.cmpEl && this.cmpEl.find('.inner').html(template({
                 items: this.store.toJSON(),
                 itemTemplate: this.itemTemplate,
-                style : this.style
+                style : this.style,
+                itemTabindex: this.itemTabindex || 0
             }));
 
             if (!_.isUndefined(this.scroller)) {
@@ -1484,7 +1490,7 @@ define([
                         this._fromKeyDown = true;
                         this.selectRecord(rec);
                         this.scrollToRecord(rec);
-                        this.dataViewItems[idx] && $(this.dataViewItems[idx].el).focus();
+                        (this.itemTabindex!==-1) && this.dataViewItems[idx] && $(this.dataViewItems[idx].el).focus();
                         this._fromKeyDown = false;
                     }
                 }
@@ -1637,7 +1643,7 @@ define([
                         '<div class="group-items-container <% if (index === 0) { %> recent-items <% } %>">',
                             '<% _.each(group.groupStore.toJSON(), function(item, index) { %>',
                                 '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                                    '<div class="item canfocused" role="listitem" tabindex="0" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                                    '<div class="item canfocused" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                                 '<% }); %>',
                         '</div>',
                     '</div>',
@@ -1938,13 +1944,14 @@ define([
                 var template = _.template([
                     '<% _.each(items, function(item, index) { %>',
                     '<% if (!item.id) item.id = Common.UI.getId(); %>',
-                    '<div class="item canfocused" role="listitem" tabindex="0" data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
+                    '<div class="item canfocused" role="listitem" <% if (typeof itemTabindex !== undefined) { %> tabindex="<%= itemTabindex %>" <% } %> data-index="<%= index %>"<% if(!!item.tip) { %> data-toggle="tooltip" <% } %> ><%= itemTemplate(item) %></div>',
                     '<% }) %>'
                 ].join(''));
                 me.cmpEl && me.cmpEl.find('.recent-items').html(template({
                     items: me.recentShapes,
                     itemTemplate: this.itemTemplate,
-                    style : this.style
+                    style : this.style,
+                    itemTabindex: this.itemTabindex || 0
                 }));
 
                 me.updateDataViewItems = true;

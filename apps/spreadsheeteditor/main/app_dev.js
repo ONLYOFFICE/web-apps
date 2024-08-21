@@ -172,7 +172,6 @@ require([
             'spreadsheeteditor/main/app/controller/ViewTab',
             'spreadsheeteditor/main/app/controller/Search',
             'spreadsheeteditor/main/app/controller/WBProtection',
-            // 'spreadsheeteditor/main/app/view/FileMenuPanels',
             // 'spreadsheeteditor/main/app/view/ParagraphSettings',
             // 'spreadsheeteditor/main/app/view/ImageSettings',
             // 'spreadsheeteditor/main/app/view/ChartSettings',
@@ -200,10 +199,8 @@ require([
                 'common/main/lib/view/OptionsDialog',
                 'common/main/lib/view/AutoCorrectDialog',
                 'common/main/lib/view/DocumentAccessDialog',
-                'common/main/lib/view/UserNameDialog',
                 'common/main/lib/view/SaveAsDlg',
                 'common/main/lib/view/CopyWarningDialog',
-                'common/main/lib/view/ImageFromUrlDialog',
                 'common/main/lib/view/SelectFileDlg',
                 'common/main/lib/view/SymbolTableDialog',
                 'common/main/lib/view/ListSettingsDialog',
@@ -215,7 +212,12 @@ require([
                 'common/main/lib/view/PluginPanel',
                 'common/main/lib/view/ShapeShadowDialog',
                 'common/main/lib/view/CustomizeQuickAccessDialog',
+                'common/main/lib/view/TextInputDialog',
+                'common/main/lib/view/DocumentHolderExt',
+                'common/main/lib/util/define',
 
+                'spreadsheeteditor/main/app/view/FileMenuPanels',
+                'spreadsheeteditor/main/app/view/DocumentHolderExt',
                 'spreadsheeteditor/main/app/view/PivotShowDetailDialog',
                 'spreadsheeteditor/main/app/view/ChartDataDialog',
                 'spreadsheeteditor/main/app/view/SortDialog',
@@ -271,6 +273,7 @@ require([
                 'spreadsheeteditor/main/app/view/HeaderFooterDialog',
                 'spreadsheeteditor/main/app/view/AdvancedSeparatorDialog',
                 'spreadsheeteditor/main/app/view/AutoFilterDialog',
+                'spreadsheeteditor/main/app/view/PivotGroupDialog',
             ];
 
             window.compareVersions = true;

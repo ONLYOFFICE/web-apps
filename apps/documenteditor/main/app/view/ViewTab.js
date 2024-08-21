@@ -400,7 +400,10 @@ define([
             tipInterfaceTheme: 'Interface theme',
             tipDarkDocument: 'Dark document',
             textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel'
+            textRightMenu: 'Right panel',
+            textTabStyle: 'Tab style',
+            textTab: 'Tab',
+            textLine: 'Line'
         }
     }()), DE.Views.ViewTab || {}));
 });

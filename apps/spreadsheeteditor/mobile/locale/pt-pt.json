@@ -341,6 +341,7 @@
     "uploadImageSizeMessage": "A imagem é muito grande. O tamanho máximo é de 25 MB.",
     "errNoDuplicates": "No duplicate values found.",
     "errorCannotUngroup": "Cannot ungroup. To start an outline, select the detail rows or columns and group them.",
+    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorDeleteColumnContainsLockedCell": "You are trying to delete a column that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDeleteRowContainsLockedCell": "You are trying to delete a row that contains a locked cell. Locked cells cannot be deleted while the worksheet is protected.<br>To delete a locked cell, unprotect the sheet. You might be requested to enter a password.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
@@ -366,8 +367,7 @@
     "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
-    "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells."
+    "uploadDocSizeMessage": "Maximum document size limit exceeded."
   },
   "LongActions": {
     "advDRMPassword": "Palavra-passe",

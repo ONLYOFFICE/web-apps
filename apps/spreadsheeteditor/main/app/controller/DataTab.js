@@ -249,7 +249,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
-                    title: me.txtUrlTitle,
+                    label: me.txtUrlTitle,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {

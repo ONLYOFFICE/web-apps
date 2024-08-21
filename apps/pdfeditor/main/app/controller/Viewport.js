@@ -70,7 +70,7 @@ define([
                 'FileMenu': {
                     'menu:hide': me.onFileMenu.bind(me, 'hide'),
                     'menu:show': me.onFileMenu.bind(me, 'show'),
-                    //'settings:apply': me.applySettings.bind(me)
+                    'settings:apply': me.applySettings.bind(me)
                 },
                 'Toolbar': {
                     'render:before' : function (toolbar) {
@@ -103,6 +103,12 @@ define([
                     'save:disabled' : function (state) {
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
+                    }
+                },
+                'ViewTab': {
+                    'tabstyle:change': function (style) {
+                        me.onTabStyleChange(style);
+                        me.header.changeLogo();
                     }
                 }
             });
@@ -174,13 +180,10 @@ define([
                 if ( panel ) panel.height = _intvars.get('toolbar-height-tabs');
             }
 
-            if ( config.customization ) {
-                if ( config.customization.toolbarNoTabs )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-off-tabs');
-
-                if ( config.customization.toolbarHideFileName )
-                    me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
-            }
+            me.onTabStyleChange();
+            me.onTabBackgroundChange();
+            if ( config.customization && config.customization.toolbarHideFileName )
+                me.viewport.vlayout.getItem('toolbar').el.addClass('style-skip-docname');
 
             if ( config.twoLevelHeader && !config.compactHeader) {
                 var $title = me.viewport.vlayout.getItem('title').el;
@@ -251,12 +254,16 @@ define([
             me.header.lockHeaderBtns( 'users', _need_disable );
         },
 
-        /*applySettings: function () {
-            var value = Common.localStorage.getBool("pdfe-settings-quick-print-button", true);
-            Common.Utils.InternalSettings.set("pdfe-settings-quick-print-button", value);
-            if (this.header && this.header.btnPrintQuick)
-                this.header.btnPrintQuick[value ? 'show' : 'hide']();
-        },*/
+        applySettings: function () {
+            // var value = Common.localStorage.getBool("pdfe-settings-quick-print-button", true);
+            // Common.Utils.InternalSettings.set("pdfe-settings-quick-print-button", value);
+            // if (this.header && this.header.btnPrintQuick)
+            //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                this.onTabBackgroundChange();
+                this.header.changeLogo();
+            }
+        },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
             if (this.header) {
@@ -347,6 +354,18 @@ define([
             if (!this._initEditing) {
                 this.getApplication().getController('RightMenu').onRightMenuHide(undefined, this.mode.isPDFEdit && !Common.Utils.InternalSettings.get("pdfe-hidden-rightmenu"), true);
             }
+        },
+
+        onTabStyleChange: function (style) {
+            style && Common.localStorage.setItem("pdfe-settings-tab-style", style);
+            style = style || Common.Utils.InternalSettings.get("settings-tab-style");
+            Common.Utils.InternalSettings.set("settings-tab-style", style);
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
+        },
+
+        onTabBackgroundChange: function (background) {
+            background = background || Common.Utils.InternalSettings.get("settings-tab-background");
+            this.viewport.vlayout.getItem('toolbar').el.toggleClass('style-off-tabs', background==='toolbar');
         },
 
         textFitPage: 'Fit to Page',

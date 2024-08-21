@@ -93,6 +93,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
             me.lastTextBarBounds = [];
             me.lastAnnotBarBounds = [];
 
@@ -168,6 +169,7 @@ define([
                     me.onDocumentHolderResize();
                 }
             });
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(o) {
@@ -222,6 +224,10 @@ define([
                 : Common.util.Shortcuts.resumeEvents(this.hkComments);
             /** coauthoring end **/
             this.documentHolder.setMode(m);
+        },
+
+        createPostLoadElements: function() {
+            this.showMathTrackOnLoad && this.onShowMathTrack(this.lastMathTrackBounds);
         },
 
         createDelayedElements: function(view, type) {
@@ -1703,6 +1709,10 @@ define([
             if (this.mode && !(this.mode.isPDFEdit && this.mode.isEdit)) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('pdfe-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -1845,6 +1855,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();
@@ -1880,58 +1894,8 @@ define([
             }
         },
 
-        equationCallback: function(eqProps) {
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    this.api.asc_SetMathProps(eqObj);
-                }
-            }
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
             this.editComplete();
         },
 
@@ -2595,19 +2559,7 @@ define([
                     (clr.effectValue !== this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color) < 0)) ||
                 (type1 != 'object' && this._state.clrtext.indexOf(clr) < 0)) {
 
-                if (typeof(clr) == 'object') {
-                    var isselected = false;
-                    for ( var i = 0; i < 10; i++) {
-                        if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                            picker.select(clr, true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) picker.clearSelection();
-                } else {
-                    picker.select(clr,true);
-                }
+                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;

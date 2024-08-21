@@ -41,7 +41,6 @@
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/util/define',
     'pdfeditor/main/app/view/Toolbar'
 ], function () {
     'use strict';
@@ -1881,7 +1880,7 @@ define([
                     api: me.api,
                     props: props,
                     type: type,
-                    colorConfig: Common.define.simpleColorsConfig,
+                    colorConfig: Common.UI.simpleColorsConfig,
                     storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
                     interfaceLang: me.toolbar.mode.lang,
                     handler: function(result, value) {
@@ -2271,19 +2270,7 @@ define([
                     (clr.effectValue !== this._state.clrtext.effectValue || this._state.clrtext.color.indexOf(clr.color) < 0)) ||
                 (type1 != 'object' && this._state.clrtext.indexOf(clr) < 0)) {
 
-                if (typeof(clr) == 'object') {
-                    var isselected = false;
-                    for ( var i = 0; i < 10; i++) {
-                        if (Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue) {
-                            picker.select(clr, true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) picker.clearSelection();
-                } else {
-                    picker.select(clr,true);
-                }
+                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                 this._state.clrtext = clr;
             }
             this._state.clrtext_asccolor = color;

@@ -178,7 +178,6 @@ require([
                 'pdfeditor/main/app/controller/InsTab',
                 'pdfeditor/main/app/controller/Search',
                 'pdfeditor/main/app/controller/Print',
-                'pdfeditor/main/app/view/FileMenuPanels',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/Comments',

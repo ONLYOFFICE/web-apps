@@ -324,6 +324,7 @@ define([
         showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
                 /** coauthoring begin **/

@@ -1419,19 +1419,7 @@ define([
                     (type1!='object' && this._state.SlideColor.indexOf(this.SlideColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.SlideColor.Color);
-                    if ( typeof(this.SlideColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.SlideColor.Color.effectValue ) {
-                                this.colorsBack.select(this.SlideColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.SlideColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.SlideColor.Color, this.colorsBack);
                     this._state.SlideColor = this.SlideColor.Color;
                 }
 
@@ -1444,19 +1432,7 @@ define([
                     (type1!='object' && this._state.FGColor.indexOf(this.FGColor.Color)<0 )) {
 
                     this.btnFGColor.setColor(this.FGColor.Color);
-                    if ( typeof(this.FGColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.FGColor.Color.effectValue ) {
-                                this.colorsFG.select(this.FGColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsFG.clearSelection();
-                    } else
-                        this.colorsFG.select(this.FGColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.FGColor.Color, this.colorsFG);
                     this._state.FGColor = this.FGColor.Color;
                 }
 
@@ -1468,19 +1444,7 @@ define([
                     (type1!='object' && this._state.BGColor.indexOf(this.BGColor.Color)<0 )) {
 
                     this.btnBGColor.setColor(this.BGColor.Color);
-                    if ( typeof(this.BGColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BGColor.Color.effectValue ) {
-                                this.colorsBG.select(this.BGColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBG.clearSelection();
-                    } else
-                        this.colorsBG.select(this.BGColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.BGColor.Color, this.colorsBG);
                     this._state.BGColor = this.BGColor.Color;
                 }
 
@@ -1493,19 +1457,7 @@ define([
                     (type1!='object' && this._state.GradColor.indexOf(color)<0 )) {
 
                     this.btnGradColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colorsGrad.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsGrad.clearSelection();
-                    } else
-                        this.colorsGrad.select(color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colorsGrad);
                     this._state.GradColor = color;
                 }
 
@@ -1648,53 +1600,7 @@ define([
 
         onEyedropperEnd: function () {
             this.fireEvent('eyedropper', false);
-        },
+        }
 
-        strColor                : 'Color',
-        strFill                 : 'Background',
-        textColor               : 'Color Fill',
-        textImageTexture        : 'Picture or Texture',
-        textTexture             : 'From Texture',
-        textFromUrl             : 'From URL',
-        textFromFile            : 'From File',
-        textStretch             : 'Stretch',
-        textTile                : 'Tile',
-        txtCanvas               : 'Canvas',
-        txtCarton               : 'Carton',
-        txtDarkFabric           : 'Dark Fabric',
-        txtGrain                : 'Grain',
-        txtGranite              : 'Granite',
-        txtGreyPaper            : 'Grey Paper',
-        txtKnit                 : 'Knit',
-        txtLeather              : 'Leather',
-        txtBrownPaper           : 'Brown Paper',
-        txtPapyrus              : 'Papyrus',
-        txtWood                 : 'Wood',
-        textAdvanced            : 'Show advanced settings',
-        textNoFill              : 'No Fill',
-        textSelectTexture       : 'Select',
-        textGradientFill: 'Gradient Fill',
-        textPatternFill: 'Pattern',
-        strBackground: 'Background color',
-        strForeground: 'Foreground color',
-        strPattern: 'Pattern',
-        textEmptyPattern: 'No Pattern',
-        textLinear: 'Linear',
-        textRadial: 'Radial',
-        textDirection: 'Direction',
-        textStyle: 'Style',
-        textGradient: 'Gradient Points',
-        strBackgroundReset: 'Reset Background',
-        strApplyAllSlides: 'Apply to All Slides',
-        strBackgroundGraphics: 'Show Background graphics',
-        strSlideNum: 'Show Slide Number',
-        strDateTime: 'Show Date and Time',
-        textFromStorage: 'From Storage',
-        textSelectImage: 'Select Picture',
-        textPosition: 'Position',
-        tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle',
-        strTransparency: 'Opacity'
     }, PE.Views.SlideSettings || {}));
 });

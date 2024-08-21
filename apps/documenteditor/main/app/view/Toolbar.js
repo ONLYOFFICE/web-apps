@@ -874,6 +874,19 @@ define([
                     });
                     this.paragraphControls.push(this.btnInsDateTime);
 
+                    this.btnInsField = new Common.UI.Button({
+                        id: 'id-toolbar-btn-insfield',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-quick-field',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock, _set.noParagraphSelected, _set.previewReviewMode,
+                            _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnInsField,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnInsField);
+
                     this.btnBlankPage = new Common.UI.Button({
                         id: 'id-toolbar-btn-blankpage',
                         cls: 'btn-toolbar x-huge icon-top',
@@ -1217,13 +1230,6 @@ define([
                                     template: pageMarginsTemplate,
                                     toggleGroup: 'menuPageMargins',
                                     value: [20, 30, 20, 15]
-                                },
-                                {
-                                    caption: this.textMarginsUsNormal,
-                                    checkable: true,
-                                    template: pageMarginsTemplate,
-                                    toggleGroup: 'menuPageMargins',
-                                    value: [25.4, 25.4, 25.4, 25.4]
                                 },
                                 {
                                     caption: this.textMarginsNarrow,
@@ -1987,6 +1993,8 @@ define([
                     tab = $(e.currentTarget).find('> a[data-tab]').data('tab'),
                     is_file_active = me.isTabActive('file');
 
+                if (tab === 'file' && !Common.Controllers.LaunchController.isScriptLoaded()) return;
+
                 Common.UI.Mixtbar.prototype.onTabClick.apply(me, arguments);
 
                 if ( is_file_active ) {
@@ -2071,6 +2079,7 @@ define([
                 _injectComponent('#slot-btn-line-numbers', this.btnLineNumbers);
                 _injectComponent('#slot-btn-editheader', this.btnEditHeader);
                 _injectComponent('#slot-btn-datetime', this.btnInsDateTime);
+                _injectComponent('#slot-btn-insfield', this.btnInsField);
                 _injectComponent('#slot-btn-blankpage', this.btnBlankPage);
                 _injectComponent('#slot-btn-insshape', this.btnInsertShape);
                 _injectComponent('#slot-btn-inssmartart', this.btnInsertSmartArt);
@@ -2487,6 +2496,7 @@ define([
                 this.btnInsertTextArt.updateHint(this.tipInsertTextArt);
                 this.btnEditHeader.updateHint(this.tipEditHeader);
                 this.btnInsDateTime.updateHint(this.tipDateTime);
+                this.btnInsField.updateHint(this.tipInsField);
                 this.btnBlankPage.updateHint(this.tipBlankPage);
                 this.btnInsertShape.updateHint(this.tipInsertShape);
                 this.btnInsertSmartArt.updateHint(this.tipInsertSmartArt);
@@ -2681,27 +2691,27 @@ define([
                     items: []
                 }));
 
-                var smartArtData = Common.define.smartArt.getSmartArtData();
-                smartArtData.forEach(function (item, index) {
-                    var length = item.items.length,
-                        width = 399;
-                    if (length < 5) {
-                        width = length * (70 + 8) + 9; // 4px margin + 4px margin
-                    }
-                    me.btnInsertSmartArt.menu.addItem({
-                        caption: item.caption,
-                        value: item.sectionId,
-                        itemId: item.id,
-                        itemsLength: length,
-                        iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
-                        menu: new Common.UI.Menu({
-                            items: [
-                                {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
-                            ],
-                            menuAlign: 'tl-tr',
-                        })}, true);
-                });
                 var onShowBeforeSmartArt = function (menu) { // + <% if(typeof imageUrl === "undefined" || imageUrl===null || imageUrl==="") { %> style="visibility: hidden;" <% } %>/>',
+                    var smartArtData = Common.define.smartArt.getSmartArtData();
+                    smartArtData.forEach(function (item, index) {
+                        var length = item.items.length,
+                            width = 399;
+                        if (length < 5) {
+                            width = length * (70 + 8) + 9; // 4px margin + 4px margin
+                        }
+                        me.btnInsertSmartArt.menu.addItem({
+                            caption: item.caption,
+                            value: item.sectionId,
+                            itemId: item.id,
+                            itemsLength: length,
+                            iconCls: item.icon ? 'menu__icon ' + item.icon : undefined,
+                            menu: new Common.UI.Menu({
+                                items: [
+                                    {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
+                                ],
+                                menuAlign: 'tl-tr',
+                            })}, true);
+                    });
                     var sa_items = me.btnInsertSmartArt.menu.getItems(true);
                     sa_items.forEach(function (item, index) {
                         var items = [];
@@ -3317,7 +3327,7 @@ define([
                 if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
-                    me.btnCollabChanges.$icon.removeClass(me.btnSaveCls).addClass(cls);
+                    me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
                     me.btnSaveCls = cls;
                 }
             },
@@ -3460,291 +3470,7 @@ define([
 
             lockToolbar: function (causes, lock, opts) {
                 Common.Utils.lockControls(causes, lock, opts, this.lockControls);
-            },
-
-            textBold: 'Bold',
-            textItalic: 'Italic',
-            textUnderline: 'Underline',
-            textStrikeout: 'Strikeout',
-            textSuperscript: 'Superscript',
-            textSubscript: 'Subscript',
-            strMenuNoFill: 'No Fill',
-            tipFontName: 'Font Name',
-            tipFontSize: 'Font Size',
-            tipParagraphStyle: 'Paragraph Style',
-            tipCopy: 'Copy',
-            tipPaste: 'Paste',
-            tipUndo: 'Undo',
-            tipRedo: 'Redo',
-            tipPrint: 'Print',
-            tipPrintQuick: 'Quick print',
-            tipSave: 'Save',
-            tipIncFont: 'Increment font size',
-            tipDecFont: 'Decrement font size',
-            tipHighlightColor: 'Highlight color',
-            tipFontColor: 'Font color',
-            tipMarkers: 'Bullets',
-            tipNumbers: 'Numbering',
-            tipMultilevels: 'Outline',
-            tipAlignLeft: 'Align Left',
-            tipAlignRight: 'Align Right',
-            tipAlignCenter: 'Align Center',
-            tipAlignJust: 'Justified',
-            tipDecPrLeft: 'Decrease Indent',
-            tipIncPrLeft: 'Increase Indent',
-            tipShowHiddenChars: 'Nonprinting Characters',
-            tipLineSpace: 'Paragraph Line Spacing',
-            tipPrColor: 'Background color',
-            tipInsertTable: 'Insert Table',
-            tipInsertImage: 'Insert Image',
-            tipPageBreak: 'Insert Page or Section break',
-            tipInsertNum: 'Insert Page Number',
-            tipClearStyle: 'Clear Style',
-            tipCopyStyle: 'Copy Style',
-            tipPageSize: 'Page Size',
-            tipPageOrient: 'Page Orientation',
-            tipBack: 'Back',
-            tipInsertShape: 'Insert Autoshape',
-            tipInsertEquation: 'Insert Equation',
-            tipInsertSmartArt: 'Insert SmartArt',
-            mniImageFromFile: 'Image from File',
-            mniImageFromUrl: 'Image from URL',
-            mniCustomTable: 'Insert Custom Table',
-            textTitleError: 'Error',
-            textInsertPageNumber: 'Insert page number',
-            textToCurrent: 'To Current Position',
-            tipEditHeader: 'Edit header or footer',
-            mniEditHeader: 'Edit Header',
-            mniEditFooter: 'Edit Footer',
-            mniHiddenChars: 'Nonprinting Characters',
-            mniHiddenBorders: 'Hidden Table Borders',
-            tipSynchronize: 'The document has been changed by another user. Please click to save your changes and reload the updates.',
-            textNewColor: 'Add New Custom Color',
-            textAutoColor: 'Automatic',
-            tipInsertChart: 'Insert Chart',
-            tipColorSchemas: 'Change Color Scheme',
-            tipInsertHorizontalText: 'Insert horizontal text box',
-            tipInsertVerticalText: 'Insert vertical text box',
-            tipInsertText: 'Insert text box',
-            tipInsertTextArt: 'Insert Text Art',
-            mniEditDropCap: 'Drop Cap Settings',
-            textNone: 'None',
-            textInText: 'In Text',
-            textInMargin: 'In Margin',
-            tipDropCap: 'Insert drop cap',
-            textInsPageBreak: 'Insert Page Break',
-            textInsColumnBreak: 'Insert Column Break',
-            textInsSectionBreak: 'Insert Section Break',
-            textNextPage: 'Next Page',
-            textContPage: 'Continuous Page',
-            textEvenPage: 'Even Page',
-            textOddPage: 'Odd Page',
-            tipSaveCoauth: 'Save your changes for the other users to see them.',
-            textStyleMenuUpdate: 'Update from select',
-            textStyleMenuRestore: 'Restore to default',
-            textStyleMenuDelete: 'Delete style',
-            textStyleMenuRestoreAll: 'Restore all to default styles',
-            textStyleMenuDeleteAll: 'Delete all custom styles',
-            textStyleMenuNew: 'New style from selection',
-            tipColumns: 'Insert columns',
-            textColumnsOne: 'One',
-            textColumnsTwo: 'Two',
-            textColumnsThree: 'Three',
-            textColumnsLeft: 'Left',
-            textColumnsRight: 'Right',
-            tipPageMargins: 'Page Margins',
-            textMarginsLast: 'Last Custom',
-            textMarginsNormal: 'Normal',
-            textMarginsUsNormal: 'US Normal',
-            textMarginsNarrow: 'Narrow',
-            textMarginsModerate: 'Moderate',
-            textMarginsWide: 'Wide',
-            textPageMarginsCustom: 'Custom margins',
-            textTop: 'Top: ',
-            textLeft: 'Left: ',
-            textBottom: 'Bottom: ',
-            textRight: 'Right: ',
-            textPageSizeCustom: 'Custom Page Size',
-            textPortrait: 'Portrait',
-            textLandscape: 'Landscape',
-            textInsertPageCount: 'Insert number of pages',
-            tipChangeChart: 'Change Chart Type',
-            capBtnInsPagebreak: 'Page Break',
-            capBtnInsImage: 'Image',
-            capBtnInsTable: 'Table',
-            capBtnInsChart: 'Chart',
-            textTabFile: 'File',
-            textTabHome: 'Home',
-            textTabInsert: 'Insert',
-            textTabLayout: 'Layout',
-            textTabReview: 'Review',
-            capBtnInsShape: 'Shape',
-            capBtnInsTextbox: 'Text Box',
-            capBtnInsTextart: 'Text Art',
-            capBtnInsDropcap: 'Drop Cap',
-            capBtnInsEquation: 'Equation',
-            capBtnInsHeader: 'Header/Footer',
-            capBtnColumns: 'Columns',
-            capBtnPageOrient: 'Orientation',
-            capBtnMargins: 'Margins',
-            capBtnPageSize: 'Size',
-            capBtnInsSmartArt: 'SmartArt',
-            tipImgAlign: 'Align objects',
-            tipImgGroup: 'Group objects',
-            tipImgWrapping: 'Wrap text',
-            tipSendForward: 'Bring forward',
-            tipSendBackward: 'Send backward',
-            capImgAlign: 'Align',
-            capImgGroup: 'Group',
-            capImgForward: 'Bring Forward',
-            capImgBackward: 'Send Backward',
-            capImgWrapping: 'Wrapping',
-            capBtnComment: 'Comment',
-            textColumnsCustom: 'Custom Columns',
-            textTabCollaboration: 'Collaboration',
-            textTabProtect: 'Protection',
-            textTabLinks: 'References',
-            capBtnInsControls: 'Content Control',
-            textRichControl: 'Rich text',
-            textPlainControl: 'Plain text',
-            textRemoveControl: 'Remove',
-            mniEditControls: 'Settings',
-            tipControls: 'Insert content control',
-            mniHighlightControls: 'Highlight settings',
-            textNoHighlight: 'No highlighting',
-            mniImageFromStorage: 'Image from Storage',
-            capBtnBlankPage: 'Blank Page',
-            tipBlankPage: 'Insert blank page',
-            txtDistribHor: 'Distribute Horizontally',
-            txtDistribVert: 'Distribute Vertically',
-            txtPageAlign: 'Align to Page',
-            txtMarginAlign: 'Align to Margin',
-            txtObjectsAlign: 'Align Selected Objects',
-            capBtnWatermark: 'Watermark',
-            textEditWatermark: 'Custom Watermark',
-            textRemWatermark: 'Remove Watermark',
-            tipWatermark: 'Edit watermark',
-            textPictureControl: 'Picture',
-            textComboboxControl: 'Combo box',
-            textCheckboxControl: 'Check box',
-            textDropdownControl: 'Drop-down list',
-            textDateControl: 'Date',
-            capBtnAddComment: 'Add Comment',
-            capBtnInsSymbol: 'Symbol',
-            tipInsertSymbol: 'Insert symbol',
-            mniDrawTable: 'Draw Table',
-            mniEraseTable: 'Erase Table',
-            textListSettings: 'List Settings',
-            capBtnDateTime: 'Date & Time',
-            tipDateTime: 'Insert current date and time',
-            capBtnLineNumbers: 'Line Numbers',
-            textContinuous: 'Continuous',
-            textRestartEachPage: 'Restart Each Page',
-            textRestartEachSection: 'Restart Each Section',
-            textSuppressForCurrentParagraph: 'Suppress for Current Paragraph',
-            textCustomLineNumbers: 'Line Numbering Options',
-            tipLineNumbers: 'Show line numbers',
-            tipChangeCase: 'Change case',
-            mniSentenceCase: 'Sentence case.',
-            mniLowerCase: 'lowercase',
-            mniUpperCase: 'UPPERCASE',
-            mniCapitalizeWords: 'Capitalize Each Word',
-            mniToggleCase: 'tOGGLE cASE',
-            textChangeLevel: 'Change List Level',
-            mniTextToTable: 'Convert Text to Table',
-            mniFromFile: 'From File',
-            mniFromUrl: 'From URL',
-            mniFromStorage: 'From Storage',
-            tipNumCapitalLetters: 'A. B. C.',
-            tipNumLettersParentheses: 'a) b) c)',
-            tipNumLettersPoints: 'a. b. c.',
-            tipNumNumbersPoint: '1. 2. 3.',
-            tipNumNumbersParentheses: '1) 2) 3)',
-            tipNumRoman: 'I. II. III.',
-            tipNumRomanSmall: 'i. ii. iii.',
-            tipMultiLevelVarious: 'Multi-level various numbered bullets',
-            tipMultiLevelNumbered: 'Multi-level numbered bullets',
-            tipMultiLevelSymbols: 'Multi-level symbols bullets',
-            tipMarkersFRound: 'Filled round bullets',
-            tipMarkersHRound: 'Hollow round bullets',
-            tipMarkersFSquare: 'Filled square bullets',
-            tipMarkersStar: 'Star bullets',
-            tipMarkersArrow: 'Arrow bullets',
-            tipMarkersCheckmark: 'Checkmark bullets',
-            tipMarkersFRhombus: 'Filled rhombus bullets',
-            tipMarkersDash: 'Dash bullets',
-            textTabView: 'View',
-            mniRemoveHeader: 'Remove Header',
-            mniRemoveFooter: 'Remove Footer',
-            mniInsertSSE: 'Insert Spreadsheet',
-            tipSelectAll: 'Select all',
-            tipCut: 'Cut',
-            tipRusUpperPoints: 'А. Б. В.',
-            tipRusUpperParentheses: 'А) Б) В)',
-            tipRusLowerPoints: 'а. б. в.',
-            tipRusLowerParentheses: 'а) б) в)',
-            tipMultiLevelArticl: '',
-            tipMultiLevelChapter: '',
-            tipMultiLevelHeadings: '',
-            tipMultiLevelHeadVarious: '',
-            txtGroupRecent: 'Recently used',
-            txtGroupBulletLib: 'Bullet library',
-            txtGroupNumLib: 'Numbering library',
-            txtGroupMultiLib: 'List library',
-            txtGroupBulletDoc: 'Document bullets',
-            txtGroupNumDoc: 'Document numbering formats',
-            txtGroupMultiDoc: 'Lists in current document',
-            textTabDraw: 'Draw',
-            textMoreSymbols: 'More symbols',
-            textAlpha: 'Greek Small Letter Alpha',
-            textBetta: 'Greek Small Letter Betta',
-            textBlackHeart: 'Black Heart Suit',
-            textBullet: 'Bullet',
-            textCopyright: 'Copyright Sign',
-            textDegree: 'Degree Sign',
-            textDelta: 'Greek Small Letter Delta',
-            textDivision: 'Division Sign',
-            textDollar: 'Dollar Sign',
-            textEuro: 'Euro Sign',
-            textGreaterEqual: 'Greater-Than Or Equal To',
-            textInfinity: 'Infinity',
-            textLessEqual: 'Less-Than Or Equal To',
-            textLetterPi: 'Greek Small Letter Pi',
-            textNotEqualTo: 'Not Equal To',
-            textOneHalf: 'Vulgar Fraction One Half',
-            textOneQuarter: 'Vulgar Fraction One Quarter',
-            textPlusMinus: 'Plus-Minus Sign',
-            textRegistered: 'Registered Sign',
-            textSection: 'Section Sign',
-            textSmile: 'White Smiling Fase',
-            textSquareRoot: 'Square Root',
-            textTilde: 'Tilde',
-            textTradeMark: 'Trade Mark Sign',
-            textYen: 'Yen Sign',
-            capBtnHyphenation: 'Hyphenation',
-            textAuto: 'Automatic',
-            textCustomHyphen: 'Hyphenation options',
-            tipHyphenation: 'Change hyphenation',
-            capColorScheme: 'Color Scheme',
-            tipReplace: 'Replace',
-            capBtnSelect: 'Select',
-            capBtnHand: 'Hand',
-            tipSelectTool: 'Select tool',
-            tipHandTool: 'Hand tool',
-            textLineSpaceOptions: 'Line spacing options',
-            textAddSpaceBefore: 'Add space before paragraph',
-            textAddSpaceAfter: 'Add space after paragraph',
-            textRemSpaceBefore: 'Remove space before paragraph',
-            textRemSpaceAfter: 'Remove space after paragraph',
-            textIndLeft: 'Left indent',
-            textIndRight: 'Right indent',
-            textSpaceBefore: 'Space before',
-            textSpaceAfter: 'Space after',
-            txtAutoText: 'Auto',
-            textEditMode: 'Edit PDF',
-            tipEditMode: 'Edit current file.<br>The page will be reloaded.',
-            capBtnPageColor: 'Page Color',
-            tipPageColor: 'Change page color'
+            }
         }
     })(), DE.Views.Toolbar || {}));
 });

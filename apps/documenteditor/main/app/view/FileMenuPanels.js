@@ -38,9 +38,7 @@
  *
  */
 
-define([
-    'common/main/lib/component/BaseView',
-], function () {
+define([], function () {
     'use strict';
 
     !DE.Views.FileMenuPanels && (DE.Views.FileMenuPanels = {});
@@ -396,6 +394,9 @@ define([
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -467,6 +468,14 @@ define([
                 dataHintOffset: 'small'
             });
             (Common.Utils.isIE || Common.Utils.isMac && Common.Utils.isGecko) && this.chUseAltKey.$el.parent().parent().hide();
+
+            this.chTabBack = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-tab-background'),
+                labelText: this.txtTabBack,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
 
             this.chScreenReader = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-scrn-reader'),
@@ -891,6 +900,7 @@ define([
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
+            $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
             }
@@ -982,6 +992,8 @@ define([
                 this.rbChangesTip.setValue(value);
                 this.rbChangesBallons.setValue(!value);
             }
+
+            this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
         },
 
         applySettings: function() {
@@ -1038,6 +1050,11 @@ define([
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
+
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                Common.localStorage.setItem("de-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+            }
 
             Common.localStorage.save();
 
@@ -1172,7 +1189,8 @@ define([
         txtLastUsed: 'Last used',
         textSmartSelection: 'Use smart paragraph selection',
         txtScreenReader: 'Turn on screen reader support',
-        txtCustomizeQuickAccess: 'Customize quick access'
+        txtCustomizeQuickAccess: 'Customize quick access',
+        txtTabBack: 'Use toolbar color as tabs background'
     }, DE.Views.FileMenuPanels.Settings || {}));
 
     DE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({
@@ -2773,7 +2791,6 @@ define([
                 cls: 'input-group-nr',
                 data: [
                     { value: 0, displayValue: this.textMarginsNormal, size: [20, 30, 20, 15]},
-                    { value: 1, displayValue: this.textMarginsUsNormal, size: [25.4, 25.4, 25.4, 25.4]},
                     { value: 2, displayValue: this.textMarginsNarrow, size: [12.7, 12.7, 12.7, 12.7]},
                     { value: 3, displayValue: this.textMarginsModerate, size: [25.4, 19.1, 25.4, 19.1]},
                     { value: 4, displayValue: this.textMarginsWide, size: [25.4, 50.8, 25.4, 50.8]},
@@ -2962,7 +2979,6 @@ define([
         txtPages: 'Pages',
         textMarginsLast: 'Last Custom',
         textMarginsNormal: 'Normal',
-        textMarginsUsNormal: 'US Normal',
         textMarginsNarrow: 'Narrow',
         textMarginsModerate: 'Moderate',
         textMarginsWide: 'Wide',
