@@ -486,7 +486,7 @@ define([
                         function _add_tab_styles() {
                             let btn = me.btnInterfaceTheme;
                             if ( typeof(btn.menu) === 'object' )
-                                btn.menu.addItem({caption: '--'});
+                                btn.menu.addItem({caption: '--'}, true);
                             else
                                 btn.setMenu(new Common.UI.Menu());
                             let mni = new Common.UI.MenuItem({
@@ -506,7 +506,7 @@ define([
                             mni.menu.on('item:click', _.bind(function (menu, item) {
                                 me.fireEvent('tabstyle:change', [item.value]);
                             }, me));
-                            btn.menu.addItem(mni);
+                            btn.menu.addItem(mni, true);
                         }
                         function _fill_themes() {
                             let btn = this.btnInterfaceTheme;

@@ -485,7 +485,7 @@ define([
                                     {template: _.template('<div id="' + item.id + '" class="menu-add-smart-art margin-left-5" style="width: ' + width + 'px; height: 500px;"></div>')}
                                 ],
                                 menuAlign: 'tl-tr',
-                            })});
+                            })}, true);
                     });
                     var sa_items = me.btnInsertSmartArt.menu.getItems(true);
                     sa_items.forEach(function (item, index) {
