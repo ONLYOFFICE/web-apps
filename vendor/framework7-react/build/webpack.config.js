@@ -56,6 +56,21 @@ const config = {
       chunks: 'all',
       minSize: 20000,
       maxSize: 244000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/, // Включаем все модули из node_modules
+          name: 'vendors', // Имя чанка для сторонних библиотек
+          chunks: 'all', // Применяется ко всем чанкам
+          enforce: true, // Принудительное создание чанка
+        },
+        common: {
+          name: 'common', // Имя для общего чанка
+          minChunks: 2, // Включаем модули, которые используются более чем в одном месте
+          chunks: 'all', // Применяется ко всем чанкам
+          reuseExistingChunk: true, // Повторно используем существующий чанк, если такой уже был создан
+          enforce: true, // Принудительное создание чанка
+        }
+      }
     },
     runtimeChunk: 'single',
     minimizer: [
@@ -130,7 +145,7 @@ const config = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                path: path.resolve(__dirname, '..'),
+                config: path.resolve(__dirname, '..'),
               },
             },
           },
