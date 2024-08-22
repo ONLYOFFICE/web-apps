@@ -280,7 +280,8 @@ define([
                 this.api.asc_AddContentControlTextForm(props);
             } else if (type == 'complex') {
                 this.api.asc_AddComplexForm();
-            }
+            } else if (type === 'signature')
+                this.api.asc_AddContentControlSignature(oFormPr);
 
             var me = this;
             if (!this._state.formCount) { // add first form

@@ -69,6 +69,7 @@ define([
                 '<span class="btn-slot text x-huge" id="slot-btn-form-checkbox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-radiobox"></span>' +
                 '<span class="btn-slot text x-huge" id="slot-btn-form-image"></span>' +
+                '<span class="btn-slot text x-huge" id="slot-btn-form-signature"></span>' +
             '</div>' +
             '<div class="separator long forms-buttons" style="display: none;"></div>' +
             '<div class="group forms-buttons" style="display: none;">' +
@@ -160,6 +161,9 @@ define([
             });
             this.btnImageField && this.btnImageField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['picture']);
+            });
+            this.btnSignField && this.btnSignField.on('click', function (b, e) {
+                me.fireEvent('forms:insert', ['signature']);
             });
             this.btnComplexField && this.btnComplexField.on('click', function (b, e) {
                 me.fireEvent('forms:insert', ['complex']);
@@ -404,6 +408,17 @@ define([
                         dataHintOffset: 'small'
                     });
                     this.paragraphControls.push(this.btnImageField);
+
+                    this.btnSignField = new Common.UI.Button({
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-ic-signature',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.controlPlain, _set.contentLock, _set.complexForm, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.inSmartart, _set.inSmartartInternal, _set.viewMode],
+                        caption: this.capBtnSignature,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnSignField);
 
                     this.btnManager = new Common.UI.Button({
                         cls: 'btn-toolbar x-huge icon-top',
@@ -664,6 +679,7 @@ define([
                         me.btnCheckBox.updateHint(me.tipCheckBox);
                         me.btnRadioBox.updateHint(me.tipRadioBox);
                         me.btnImageField.updateHint(me.tipImageField);
+                        me.btnSignField.updateHint(me.tipSignField);
                         me.btnViewFormRoles.updateHint(me.tipViewForm);
                         me.btnManager.updateHint(me.tipManager);
                         me.btnEmailField.updateHint(me.tipEmailField);
@@ -709,6 +725,7 @@ define([
                     this.btnCheckBox.render($host.find('#slot-btn-form-checkbox'));
                     this.btnRadioBox.render($host.find('#slot-btn-form-radiobox'));
                     this.btnImageField.render($host.find('#slot-btn-form-image'));
+                    this.btnSignField.render($host.find('#slot-btn-form-signature'));
                     this.btnViewFormRoles.render($host.find('#slot-btn-form-view-roles'));
                     this.btnManager.render($host.find('#slot-btn-manager'));
                     // this.btnHighlight.render($host.find('#slot-form-highlight'));
@@ -868,7 +885,9 @@ define([
             tipFirstPage: 'Go to the first page',
             tipLastPage: 'Go to the last page',
             tipPrevPage: 'Go to the previous page',
-            tipNextPage: 'Go to the next page'
+            tipNextPage: 'Go to the next page',
+            capBtnSignature: 'Signature Field',
+            tipSignField: 'Insert signature field'
         }
     }()), DE.Views.FormsTab || {}));
 });

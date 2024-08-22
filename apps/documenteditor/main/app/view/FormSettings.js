@@ -109,6 +109,7 @@ define([
             this.DateOnlySettings = el.find('.form-datetime');
             this.DefValueText = el.find('#form-txt-def-value').closest('tr');
             this.DefValueDropDown = el.find('#form-combo-def-value').closest('tr');
+            this.TagSettings = el.find('#form-txt-tag').closest('tr');
 
             !Common.UI.FeaturesManager.isFeatureEnabled('roles', true) && el.find('#form-combo-roles').closest('tr').hide();
         },
@@ -1391,8 +1392,8 @@ define([
                 if (formPr) {
                     this._originalFormProps = formPr;
 
-                    if (type == Asc.c_oAscContentControlSpecificType.Picture) 
-                        this.labelFormName.text(this.textImage);
+                    if (type == Asc.c_oAscContentControlSpecificType.Picture)
+                        this.labelFormName.text(props.is_Signature() ? this.textSignature : this.textImage);
 
                     var data = this.api.asc_GetFormKeysByType(type);
                     if (!this._state.arrKey || this._state.arrKey.length!==data.length || _.difference(this._state.arrKey, data).length>0) {
@@ -1543,9 +1544,11 @@ define([
 
                 }
 
-                var pictPr = props.get_PictureFormPr();
+                var pictPr = props.get_PictureFormPr(),
+                    isSignature = false;
                 if (pictPr) {
                     this._originalPictProps = pictPr;
+                    isSignature = props.is_Signature();
                     val = pictPr.get_ConstantProportions();
                     if ( this._state.Aspect!==val ) {
                         this.chAspect.setValue(!!val, true);
@@ -1578,6 +1581,7 @@ define([
                     var disableSliders = this._state.scaleFlag === Asc.c_oAscPictureFormScaleFlag.Always && !this._state.Aspect || this._state.DisabledControls;
                     this.sldrPreviewPositionX.setDisabled(disableSliders);
                     this.sldrPreviewPositionY.setDisabled(disableSliders);
+                    this.chRequired.setDisabled(isSignature || this._state.DisabledControls);
                 }
 
                 var formTextPr = props.get_TextFormPr();
@@ -1704,12 +1708,14 @@ define([
                 this.ConnectedSettings.toggleClass('hidden', !connected);
                 this.TextOnlySettingsMask.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.Mask);
                 this.TextOnlySettingsRegExp.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.None && !!formTextPr) || this._state.FormatType!==Asc.TextFormFormatType.RegExp);
-                if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls || type == Asc.c_oAscContentControlSpecificType.CheckBox)
-                    this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex);
+                if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex || needUpdateTextControls ||
+                    type == Asc.c_oAscContentControlSpecificType.CheckBox || this.isSignature !== isSignature)
+                    this.showHideControls(type, formTextPr, specProps, isSimpleInsideComplex, isSignature);
                 if (this.type !== type || this.isSimpleInsideComplex !== isSimpleInsideComplex)
                     this.fireEvent('updatescroller', this);
                 this.type = type;
                 this.isSimpleInsideComplex = isSimpleInsideComplex;
+                this.isSignature = isSignature;
 
                 this._state.internalId = this.internalId;
             }
@@ -1804,9 +1810,10 @@ define([
             this.sldrPreviewPositionY.setDisabled(disableSliders || this._state.DisabledControls);
             this.btnListAdd.setDisabled(this.txtNewValue.length<1 || this._state.DisabledControls);
             this.btnLockForm.setDisabled(disable);
+            this.chRequired.setDisabled(this.isSignature || this._state.DisabledControls);
         },
 
-        showHideControls: function(type, textProps, specProps, isSimpleInsideComplex) {
+        showHideControls: function(type, textProps, specProps, isSimpleInsideComplex, isSignature) {
             var textOnly = false,
                 checkboxOnly = false,
                 radioboxOnly = false,
@@ -1830,17 +1837,18 @@ define([
             this.TextOnlySettings.toggleClass('hidden', !textOnly);
             this.TextOnlySimpleSettings.toggleClass('hidden', !textOnly || isSimpleInsideComplex);
             this.ListOnlySettings.toggleClass('hidden', !listOnly);
-            this.ImageOnlySettings.toggleClass('hidden', !imageOnly);
+            this.ImageOnlySettings.toggleClass('hidden', !imageOnly || isSignature);
             this.RadioOnlySettings.toggleClass('hidden', !radioboxOnly);
             this.KeySettings.toggleClass('hidden', radioboxOnly || isSimpleInsideComplex);
             var value = (checkboxOnly || radioboxOnly);
             this.PlaceholderSettings.toggleClass('hidden', value);
             this.CheckOnlySettings.toggleClass('hidden', !value);
-            this.FixedSettings.toggleClass('hidden', imageOnly || isSimpleInsideComplex);
+            this.FixedSettings.toggleClass('hidden', imageOnly || isSimpleInsideComplex || isSignature);
             this.NotInComplexSettings.toggleClass('hidden', isSimpleInsideComplex);
             this.DateOnlySettings.toggleClass('hidden', !dateOnly);
             this.DefValueText.toggleClass('hidden', !(type === Asc.c_oAscContentControlSpecificType.ComboBox || textOnly));
             this.DefValueDropDown.toggleClass('hidden', type !== Asc.c_oAscContentControlSpecificType.DropDownList);
+            this.TagSettings.toggleClass('hidden', isSignature || isSimpleInsideComplex);
         },
 
         onSelectItem: function(listView, itemView, record) {
