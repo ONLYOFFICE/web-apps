@@ -675,7 +675,6 @@ define([], function () {
                     }
                 }
             }
-
             var getMenu = function(items, guid, toMenu) {
                 var hasIcons = false;
                 if (toMenu)
@@ -774,14 +773,6 @@ define([], function () {
                 }
             }
             this._hasCustomItems = false;
-        };
-
-        dh.parseIcons = function(icons) {
-            var plugins = _editor.getController('Common.Controllers.Plugins').getView('Common.Views.Plugins');
-            if (icons && icons.length && plugins && plugins.parseIcons) {
-                icons = plugins.parseIcons(icons);
-                return icons ? icons['normal'] : undefined;
-            }
         };
     }
 

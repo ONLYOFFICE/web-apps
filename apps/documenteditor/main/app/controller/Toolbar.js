@@ -3865,36 +3865,6 @@ define([
         },
 
         onPluginToolbarCustomMenuItems: function(action, data) {
-            data = [
-                {
-                    guid: 'plugin-guid',
-                    items: [
-                        {
-                            id: 'item-id',
-                            text: 'caption',
-                            // icons: 'template string' or object
-                            separator: false,
-                            disabled: false,
-                            items: [
-                                {
-                                    id: 'item-id-2',
-                                    text: 'caption 2',
-                                    separator: false,
-                                    // icons: 'template string' or object,
-                                    disabled: false
-                                },
-                                {
-                                    id: 'item-id-3',
-                                    text: 'caption 3',
-                                    separator: true,
-                                    // icons: 'template string' or object,
-                                    disabled: true
-                                }
-                            ],
-                        }
-                    ]
-                }
-            ];
             if (!this._isDocReady) {
                 this._state.customPluginData = (this._state.customPluginData || []).concat([{action: action, data: data}]);
                 return;

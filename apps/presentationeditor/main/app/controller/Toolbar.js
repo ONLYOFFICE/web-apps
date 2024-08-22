@@ -2965,7 +2965,6 @@ define([
             }
             var api = this.api;
             this.toolbar && Common.UI.LayoutManager.addCustomMenuItems(action, data, function(guid, value) {
-                console.log(guid + ', ' + value);
                 api && api.onPluginContextMenuItemClick(guid, value);
             });
         },
