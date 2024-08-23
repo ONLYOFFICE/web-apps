@@ -973,6 +973,7 @@
   "DE.Controllers.Main.textTryQuickPrint": "You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?",
   "DE.Controllers.Main.textTryUndoRedo": "The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the 'Strict mode' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.",
   "DE.Controllers.Main.textTryUndoRedoWarn": "The Undo/Redo functions are disabled for the Fast co-editing mode.",
+  "DE.Controllers.Main.textSignature": "Signature",
   "DE.Controllers.Main.textUndo": "Undo",
   "DE.Controllers.Main.titleLicenseExp": "License expired",
   "DE.Controllers.Main.titleLicenseNotActive": "License not active",
