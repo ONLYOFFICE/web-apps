@@ -197,6 +197,7 @@ require([
                     'common/main/lib/view/ShapeShadowDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
+                    'common/main/lib/view/ListSettingsDialog',
 
                     'pdfeditor/main/app/view/FileMenuPanels',
                     'pdfeditor/main/app/view/DocumentHolderExt',
