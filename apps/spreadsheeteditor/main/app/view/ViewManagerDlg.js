@@ -274,12 +274,15 @@ define([
             var rec = this.viewList.getSelectedRec();
             if (rec) {
                 var me = this;
-                (new Common.Views.EditNameDialog({
-                    label: this.textRenameLabel,
-                    error: this.textRenameError,
+                (new Common.Views.TextInputDialog({
+                    label: me.textRenameLabel,
                     value: rec.get('name'),
-                    validation: function(value) {
-                        return value.length<128 ? true : me.textLongName;
+                    inputConfig: {
+                        allowBlank  : false,
+                        blankError  : me.textRenameError,
+                        validation: function(value) {
+                            return value.length<128 ? true : me.textLongName;
+                        }
                     },
                     handler: function(result, value) {
                         if (result == 'ok') {

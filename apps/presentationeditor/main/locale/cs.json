@@ -1855,7 +1855,7 @@
   "PE.Views.DocumentHolder.textSnapObjects": "Připnout objekt k mřížce",
   "PE.Views.DocumentHolder.textStartAfterPrevious": "Začít po předchozí",
   "PE.Views.DocumentHolder.textStartOnClick": "Začněte kliknutím",
-  "PE.Views.DocumentHolder.textStartWithPrevious": "Začít s předchozí",
+  "PE.Views.DocumentHolder.textStartWithPrevious": "Start With Previous",
   "PE.Views.DocumentHolder.textUndo": "Zpět",
   "PE.Views.DocumentHolder.tipGuides": "Zobrazit vodítka",
   "PE.Views.DocumentHolder.tipIsLocked": "Tento prvek je právě upravován jiným uživatelem.",
@@ -2894,12 +2894,13 @@
   "Common.Views.ReviewPopover.textComment": "Comment",
   "Common.Views.SearchPanel.textSearchResultsTable": "Search results",
   "PE.Views.DocumentHolder.textEditObject": "Edit object",
-  "PE.Views.DocumentHolder.textStartWithPrevious": "Start With Previous",
   "PE.Views.FileMenu.ariaFileMenu": "File menu",
   "PE.Views.FileMenuPanels.Settings.txtTabBack": "Use toolbar color as tabs background",
   "PE.Views.LeftMenu.ariaLeftMenu": "Left menu",
   "PE.Views.RightMenu.ariaRightMenu": "Right menu",
   "PE.Views.ViewTab.textTabStyle": "Tab style",
   "PE.Views.ViewTab.textTab": "Tab",
-  "PE.Views.ViewTab.textLine": "Line"
+  "PE.Views.ViewTab.textLine": "Line",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Views.Transitions.textRandom": "Random"
 }

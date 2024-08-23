@@ -2547,28 +2547,16 @@ define([
                     cls: 'shifted-right',
                     items: [
                         {
-                            caption     : this.textOutBorders,
-                            iconCls     : 'menu__icon btn-border-out',
-                            icls        : 'btn-border-out',
-                            borderId    : 'outer'
-                        },
-                        {
-                            caption     : this.textAllBorders,
-                            iconCls     : 'menu__icon btn-border-all',
-                            icls        : 'btn-border-all',
-                            borderId    : 'all'
+                            caption     : this.textBottomBorders,
+                            iconCls     : 'menu__icon btn-border-bottom',
+                            icls        : 'btn-border-bottom',
+                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textTopBorders,
                             iconCls     : 'menu__icon btn-border-top',
                             icls        : 'btn-border-top',
                             borderId    : Asc.c_oAscBorderOptions.Top
-                        },
-                        {
-                            caption     : this.textBottomBorders,
-                            iconCls     : 'menu__icon btn-border-bottom',
-                            icls        : 'btn-border-bottom',
-                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textLeftBorders,
@@ -2582,18 +2570,37 @@ define([
                             icls        : 'btn-border-right',
                             borderId    : Asc.c_oAscBorderOptions.Right
                         },
+                        {caption: '--'},
                         {
                             caption     : this.textNoBorders,
                             iconCls     : 'menu__icon btn-border-no',
                             icls        : 'btn-border-no',
                             borderId    : 'none'
                         },
-                        {caption: '--'},
+                        {
+                            caption     : this.textAllBorders,
+                            iconCls     : 'menu__icon btn-border-all',
+                            icls        : 'btn-border-all',
+                            borderId    : 'all'
+                        },
+                        {
+                            caption     : this.textOutBorders,
+                            iconCls     : 'menu__icon btn-border-out',
+                            icls        : 'btn-border-out',
+                            borderId    : 'outer'
+                        },
                         {
                             caption     : this.textInsideBorders,
                             iconCls     : 'menu__icon btn-border-inside',
                             icls        : 'btn-border-inside',
                             borderId    : 'inner'
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textMiddleBorders,
+                            iconCls     : 'menu__icon btn-border-insidehor',
+                            icls        : 'btn-border-insidehor',
+                            borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
                             caption     : this.textCenterBorders,
@@ -2602,22 +2609,16 @@ define([
                             borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
-                            caption     : this.textMiddleBorders,
-                            iconCls     : 'menu__icon btn-border-insidehor',
-                            icls        : 'btn-border-insidehor',
-                            borderId    : Asc.c_oAscBorderOptions.InnerH
+                            caption     : this.textDiagDownBorder,
+                            iconCls     : 'menu__icon btn-border-diagdown',
+                            icls        : 'btn-border-diagdown',
+                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {
                             caption     : this.textDiagUpBorder,
                             iconCls     : 'menu__icon btn-border-diagup',
                             icls        : 'btn-border-diagup',
                             borderId    : Asc.c_oAscBorderOptions.DiagU
-                        },
-                        {
-                            caption     : this.textDiagDownBorder,
-                            iconCls     : 'menu__icon btn-border-diagdown',
-                            icls        : 'btn-border-diagdown',
-                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {caption: '--'},
                         {

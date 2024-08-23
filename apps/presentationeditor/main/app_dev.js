@@ -199,7 +199,7 @@ require([
                 'common/main/lib/view/DocumentAccessDialog',
                 'common/main/lib/view/SaveAsDlg',
                 'common/main/lib/view/CopyWarningDialog',
-                'common/main/lib/view/ImageFromUrlDialog',
+                'common/main/lib/view/TextInputDialog',
                 'common/main/lib/view/SelectFileDlg',
                 'common/main/lib/view/SymbolTableDialog',
                 'common/main/lib/view/ExternalEditor',
@@ -216,6 +216,7 @@ require([
                 'common/main/lib/view/CustomizeQuickAccessDialog',
                 'common/main/lib/view/DocumentHolderExt',
                 'common/main/lib/util/define',
+                'common/main/lib/view/ListSettingsDialog',
 
                 'presentationeditor/main/app/view/FileMenuPanels',
                 'presentationeditor/main/app/view/DocumentHolderExt',

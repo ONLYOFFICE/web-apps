@@ -216,7 +216,15 @@ define([
             });
             this.btnAdd.on('click', _.bind(function (e) {
                 var me = this;
-                (new DE.Views.AddNewCaptionLabelDialog({
+                (new Common.Views.TextInputDialog({
+                    label: me.textLabel,
+                    inputConfig: {
+                        allowBlank  : false,
+                        blankError  : me.textLabelError,
+                        validation: function(value) {
+                            return value ? true : '';
+                        }
+                    },
                     handler: function(result, value) {
                         if (result == 'ok') {
                             var rec = _.findWhere(me.arrLabel, {value: value});
@@ -478,7 +486,8 @@ define([
         textEquation: 'Equation',
         textFigure: 'Figure',
         textTable: 'Table',
-        textExclude: 'Exclude label from caption'
+        textExclude: 'Exclude label from caption',
+        textLabelError: 'Label must not be empty.'
 
     }, DE.Views.CaptionDialog || {}))
 });

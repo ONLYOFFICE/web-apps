@@ -3618,5 +3618,11 @@
   "DE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "DE.Views.ViewTab.textTabStyle": "Tab style",
   "DE.Views.ViewTab.textTab": "Tab",
-  "DE.Views.ViewTab.textLine": "Line"
+  "DE.Views.ViewTab.textLine": "Line",
+  "Common.UI.InputField.txtEmpty": "This field is required",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.Toolbar.textFieldExample": "Example of writing code: TIME \\@ \"dddd, MMMM d, yyyy\"",
+  "DE.Controllers.Toolbar.textFieldLabel": "Field codes",
+  "DE.Controllers.Toolbar.textFieldTitle": "Field",
+  "DE.Views.CaptionDialog.textLabelError": "Label must not be empty."
 }

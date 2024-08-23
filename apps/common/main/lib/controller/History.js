@@ -95,11 +95,18 @@ define([
             historyView.viewHistoryList.on('item:click', _.bind(this.onSelectRevision, this));
             historyView.btnBackToDocument.on('click', _.bind(this.onClickBackToDocument, this));
             historyView.btnExpand.on('click', _.bind(this.onClickExpand, this));
+            historyView.buttonMenu.menu.on('show:before', _.bind(this.onShowBeforeButtonMenu, this));
+            historyView.buttonMenu.menu.on('item:toggle', _.bind(this.onItemToggleButtonMenu, this));
         },
 
         onResetStore: function() {
             var hasChanges = this.panelHistory.storeHistory.hasChanges();
             this.panelHistory.btnExpand.setDisabled(!hasChanges);
+            
+            //If in menu only button expand and it disabled then menu hide
+            if(!this.panelHistory.chHighlightDeleted) {
+                this.panelHistory.buttonMenu.setVisible(hasChanges);
+            }
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -279,6 +286,22 @@ define([
                 this.panelHistory.viewHistoryList.collapseAll();
             }
             this.panelHistory.btnExpand.setCaption(needExpand ? this.panelHistory.textHideAll : this.panelHistory.textShowAll);
+        },
+
+        onShowBeforeButtonMenu: function() {
+            if(this.api && this.panelHistory.chHighlightDeleted) {
+                this.panelHistory.chHighlightDeleted.setChecked(this.api.asc_isShowedDeletedTextInVersionHistory(), true);
+            }
+        },
+
+        onItemToggleButtonMenu: function(menu, item, state) {
+            if(this.api && item.value == 'highlight') {
+                if(state) {
+                    this.api.asc_showDeletedTextInVersionHistory();
+                } else {
+                    this.api.asc_hideDeletedTextInVersionHistory();
+                }
+            }
         },
 
         avatarsUpdate: function(type, users) {
