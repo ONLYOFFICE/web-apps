@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(startdatum; stoppdatum; enhet)",
-		"d": "Beräknar antalet dagar, månader eller år mellan två datum"
+		"d": "Beräknar antalet dagar, månader eller år mellan två datum",
+		"ad": "Ett datum som representerar det första eller det första startdatumet för en viss period!Ett datum som representerar det sista datumet i perioden!Den typ av information som du vill returnera"
 	},
 	"DATEVALUE": {
 		"a": "(datumtext)",
 		"d": "Konverterar ett datum i form av text till ett tal som representerar datumet i datum-tidskod",
-		"ad": "är text som representerar ett datum i datumformat för Microsoft Excel, mellan 1900-01-01  eller 1904-01-01 (beroende på arbetsboken datumsystem) och 9999-12-31"
+		"ad": "är text som representerar ett datum i datumformat för Spreadsheet Editor, mellan 1900-01-01  eller 1904-01-01 (beroende på arbetsboken datumsystem) och 9999-12-31"
 	},
 	"DAY": {
 		"a": "(serienummer)",
 		"d": "Returnerar dagen i månaden, ett tal mellan 1 och 31.",
-		"ad": "är ett tal i datum-tidkoden som används av Microsoft Excel"
+		"ad": "är ett tal i datum-tidkoden som används av Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(stoppdatum; startdatum)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(serienummer)",
 		"d": "Returnerar timmen som ett tal mellan 0 (12:00) och 23 (11:00).",
-		"ad": "är ett tal i datum-tidkoden som används av Microsoft Excel, eller text i tidsformat, till exempel 16:48:00"
+		"ad": "är ett tal i datum-tidkoden som används av Spreadsheet Editor, eller text i tidsformat, till exempel 16:48:00"
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
 		"d": "Returnerar veckonumret (ISO) för ett visst datum",
-		"ad": "är datum/tid-koden som används i Microsoft Excel för datum- och tidsberäkningar"
+		"ad": "är datum/tid-koden som används i Spreadsheet Editor för datum- och tidsberäkningar"
 	},
 	"MINUTE": {
 		"a": "(serienummer)",
 		"d": "Returnerar minuten, ett tal från 0 till 59.",
-		"ad": "är ett tal i datum-tidkoden som används av Microsoft Excel eller text i tidsformat, till exempel 16:48:00"
+		"ad": "är ett tal i datum-tidkoden som används av Spreadsheet Editor eller text i tidsformat, till exempel 16:48:00"
 	},
 	"MONTH": {
 		"a": "(serienummer)",
 		"d": "Returnerar månaden, ett tal mellan 1 (januari) och 12 (december).",
-		"ad": "är ett tal i datum-tidkoden som används av Microsoft Excel"
+		"ad": "är ett tal i datum-tidkoden som används av Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(startdatum; stoppdatum; [lediga])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(serienummer)",
 		"d": "Returnerar sekunden, ett tal från 0 till 59.",
-		"ad": "är ett tal i datum-tidkoden som används av  Microsoft Excel eller text i tidsformat, till exempel 16:48:23"
+		"ad": "är ett tal i datum-tidkoden som används av  Spreadsheet Editor eller text i tidsformat, till exempel 16:48:23"
 	},
 	"TIME": {
 		"a": "(timme; minut; sekund)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(tidstext)",
 		"d": "Konverterar en texttid till ett serienummer för en tid, ett tal från 0 (00:00:00) till  0,999988426 (23:59:59). Formatera talet med ett tidsformat när du angett formeln",
-		"ad": "är en sträng som anger en tid i något av tidsformaten i Microsoft Excel (datuminformation i strängen ignoreras)"
+		"ad": "är en sträng som anger en tid i något av tidsformaten i Spreadsheet Editor (datuminformation i strängen ignoreras)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(tal; [returtyp])",
 		"d": "Omvandlar ett serienummer till ett veckonummer",
-		"ad": "är datum/tid-koden som används av Microsoft Excel för datum- och tidsberäkningar!är ett tal (1, 2 eller 3) som bestämmer typen på returvärdet"
+		"ad": "är datum/tid-koden som används av Spreadsheet Editor för datum- och tidsberäkningar!är ett tal (1, 2 eller 3) som bestämmer typen på returvärdet"
 	},
 	"WORKDAY": {
 		"a": "(startdatum; dagar; [lediga])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(serienummer)",
 		"d": "Returnerar året för ett datum, ett heltal mellan 1900-9999.",
-		"ad": "är ett tal i datum-tid-koden som används av Microsoft Excel"
+		"ad": "är ett tal i datum-tid-koden som används av Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(startdatum; stoppdatum; [bas])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(sök; inom_text; [startpos])",
-		"d": "Söker efter en textsträng i en annan textsträng och returnerar numret på startpositionen för den första strängen från det första tecknet i den andra textsträngen, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Söker efter en textsträng i en annan textsträng och returnerar numret på startpositionen för den första strängen från det första tecknet i den andra textsträngen, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är texten du söker efter. Om du vill matcha de första bokstäverna i inom_text använder du dubbla citattecken (ingen text); jokertecken tillåts inte.!är den text som innehåller den text som du vill hitta.!anger vid vilken bokstav sökningen ska börja. Första bokstaven i inom_text är bokstav nummer 1. Om den utelämnas så är startpos = 1."
 	},
 	"FIXED": {
 		"a": "(tal; [decimaler]; [ej_komma])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(text; [antal_tecken])",
-		"d": "Returnerar det första tecknet eller tecknen i en textsträng, baserat på antal angivna byte, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Returnerar det första tecknet eller tecknen i en textsträng, baserat på antal angivna byte, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är den textsträng som innehåller tecknen du vill ha fram.!anger hur många tecken du vill att LEFTB ska extrahera; 1 om det utelämnas."
 	},
 	"LEN": {
 		"a": "(text)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(text)",
-		"d": "Returnerar antalet byte som används för att representera tecknen i en textsträng, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Returnerar antalet byte som används för att representera tecknen i en textsträng, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är den text vars längd du vill veta. Blanksteg räknas som tecken."
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(text; startpos; antal_tecken)",
-		"d": "Returnerar ett angivet antal tecken ur en textsträng med början från en angiven position, baserat på antalet byte du anger, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Returnerar ett angivet antal tecken ur en textsträng med början från en angiven position, baserat på antalet byte du anger, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är texten som innehåller de tecken du vill ta fram.!är positionen för det första tecknet du vill ta fram. Första tecknet i Texten är 1.!anger hur många tecken som ska returneras från texten."
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimaltecken]; [tusentalsavgränsare])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(gammal_text; startpos; antal_tecken; ny_text)",
-		"d": "Ersätter en del av en textsträng, baserat på det antal tecken du anger, med en annan textsträng, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Ersätter en del av en textsträng, baserat på det antal tecken du anger, med en annan textsträng, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är texten som du vill ersätta vissa tecken i.!är positionen för det tecken i Gammal_text som du vill ersätta med Ny_text.!är antalet tecken i Gammal_text som du vill ersätta.!är texten som ersätter tecken i Gammal_text."
 	},
 	"REPT": {
 		"a": "(text; antal_gånger)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(text; [antal_tecken])",
-		"d": "Returnerar det eller de sista tecknen i en textsträng, baserat på det antal byte du anger, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Returnerar det eller de sista tecknen i en textsträng, baserat på det antal byte du anger, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är textsträngen som innehåller de tecken du vill ta fram.!anger hur många tecken du vill ta fram, 1 om utelämnat."
 	},
 	"SEARCH": {
 		"a": "(sök; inom; [startpos])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(sök; inom; [startpos])",
-		"d": "Söker efter en textsträng i en annan textsträng och returnerar numret på startpositionen för den första strängen från det första tecknet i den andra textsträngen, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska"
+		"d": "Söker efter en textsträng i en annan textsträng och returnerar numret på startpositionen för den första strängen från det första tecknet i den andra textsträngen, är avsedd att användas med språk som använder DBCS-teckenuppsättningen (Double-Byte Character Set) -  japanska, kinesiska och koreanska",
+		"ad": "är texten som du vill hitta. Du kan använda jokertecknen ? och *; använd ~? och ~* om du vill hitta tecknen ? och *.!är texten som du vill söka efter i söktext.!är antalet tecken i inom_text, från vänster räknat, som du vill starta sökning vid. Om den utelämnas används 1."
 	},
 	"SUBSTITUTE": {
 		"a": "(text; gammal_text; ny_text; [antal_förekomster])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(måldatum; värden; tidslinje; [säsongsberoende]; [färdigställande_av_data]; [aggregering])",
-		"d": "Returnerar det beräknade värdet för ett specifikt framtida måldatum med exponentiell utjämning."
+		"d": "Returnerar det beräknade värdet för ett specifikt framtida måldatum med exponentiell utjämning.",
+		"ad": "är datapunkten som ett värde förutsägs för via Spreadsheet Editor. Det bör baseras på mönster av värden på tidslinjen.!är matrisen eller intervallet med numeriska data som du förutsäger.! är den oberoende matrisen eller det oberoende intervallet med numeriska data. Det måste finnas ett regelbundet mellanrum mellan datumen på tidslinjen och det får inte vara noll.!är ett valfritt numeriskt värde som indikerar längden på det säsongsberoende mönstret. Standardvärdet 1 indikerar att säsongsberoende identifieras automatiskt.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med samma tidsstämpel. Om tomt beräknar Spreadsheet Editor medelvärdet av värdena."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(måldatum; värden; tidslinje; [konfidensnivå]; [säsongsberoende]; [färdigställande_av_data]; [aggregering])",
 		"d": "Returnerar ett konfidensintervall för prognosvärdet vid angivet måldatum.",
-		"ad": "är datapunkten som ett värde förutsägs för via Microsoft Excel. Det bör baseras på mönster av värden på tidslinjen.!är matrisen eller intervallet med numeriska data som du förutsäger.! är den oberoende matrisen eller det oberoende intervallet med numeriska data. Det måste finnas ett regelbundet mellanrum mellan datumen på tidslinjen och det får inte vara noll.!är ett tal mellan 0 och 1 som anger konfidensnivån för det beräknade konfidensintervallet. Standardvärdet är 0,95.!är ett valfritt numeriskt värde som indikerar längden på det säsongsberoende mönstret. Standardvärdet 1 indikerar att säsongsberoende identifieras automatiskt.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med "
+		"ad": "är datapunkten som ett värde förutsägs för via Spreadsheet Editor. Det bör baseras på mönster av värden på tidslinjen.!är matrisen eller intervallet med numeriska data som du förutsäger.! är den oberoende matrisen eller det oberoende intervallet med numeriska data. Det måste finnas ett regelbundet mellanrum mellan datumen på tidslinjen och det får inte vara noll.!är ett tal mellan 0 och 1 som anger konfidensnivån för det beräknade konfidensintervallet. Standardvärdet är 0,95.!är ett valfritt numeriskt värde som indikerar längden på det säsongsberoende mönstret. Standardvärdet 1 indikerar att säsongsberoende identifieras automatiskt.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med samma tidsstämpel. Om tomt beräknar Spreadsheet Editor medelvärdet av värdena."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(värden; tidslinje; [färdigställande_av_data]; [aggregering])",
 		"d": "Returnerar längden på det repetitiva mönster som identifieras för de angivna tidsserierna.",
-		"ad": "är matrisen eller intervallet med numeriska data du förutsäger.!är den oberoende matrisen eller det oberoende intervallet med numeriska data. Det måste finnas konsekventa steg mellan datumen på tidslinjen och de får inte vara noll.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med samma tidsstämpel. Om tomt beräknar Microsoft Excel medelvärdet av värdena."
+		"ad": "är matrisen eller intervallet med numeriska data du förutsäger.!är den oberoende matrisen eller det oberoende intervallet med numeriska data. Det måste finnas konsekventa steg mellan datumen på tidslinjen och de får inte vara noll.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med samma tidsstämpel. Om tomt beräknar Spreadsheet Editor medelvärdet av värdena."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(värden; tidslinje; statistisk_typ; [säsongsberoende]; [färdigställande_av_data]; [aggregering])",
 		"d": "Returnerar begärd statistik för prognosen.",
-		"ad": "är matrisen eller intervallet med numeriska data som du förutsäger.!är matrisen eller intervallet med numeriska data. Det måste finnas konsekventa steg mellan datumen på tidslinjen och de får inte vara noll.!är ett nummer mellan 1 och 8, som indikerar vilken statistik Microsoft Excel returnerar för den beräknade prognosen.! är ett valfritt numeriskt värde som indikerar längden på det säsongsberoende mönstret. Standardvärdet 1 indikerar att säsongsberoende identifieras automatiskt.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med samma tidsstämpel. Om tomt beräknar Microsoft Excel medelvärdet av värdena"
+		"ad": "är matrisen eller intervallet med numeriska data som du förutsäger.!är matrisen eller intervallet med numeriska data. Det måste finnas konsekventa steg mellan datumen på tidslinjen och de får inte vara noll.!är ett nummer mellan 1 och 8, som indikerar vilken statistik Spreadsheet Editor returnerar för den beräknade prognosen.! är ett valfritt numeriskt värde som indikerar längden på det säsongsberoende mönstret. Standardvärdet 1 indikerar att säsongsberoende identifieras automatiskt.!är ett valfritt värde för hantering av saknade värden. Standardvärdet 1 ersätter saknade värden genom interpolation, och 0 ersätter dem med nollor.!är ett valfritt numeriskt värde för aggregering av flera värden med samma tidsstämpel. Om tomt beräknar Spreadsheet Editor medelvärdet av värdena"
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; kända_y; kända_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(kostnad; inköpsdatum; första_perioden; restvärde; period; takt; [bas])",
-		"d": "Returnerar den linjära avskrivningen för en tillgång för varje redovisningsperiod."
+		"d": "Returnerar den linjära avskrivningen för en tillgång för varje redovisningsperiod.",
+		"ad": "är tillgångens kostnad!är det datum då tillgången köptes in!är det datum då första perioden slutar!är restvärdet i slutet av tillgångens livscykel.!är perioden!är avskrivningstakten!årsbasis: 0 för år med 360 dagar, 1 för faktiskt, 3 för år med 365 dagar."
 	},
 	"AMORLINC": {
 		"a": "(kostnad; inköpsdatum; första_perioden; restvärde; period; takt; [bas])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(text)",
-		"d": "För språk med DBCS-teckenuppsättningar (teckenuppsättningar med dubbla byte) ändrar den gär funktionen tecken med hel bredd (två byte) till halvbreddstecken (en byte)"
+		"d": "För språk med DBCS-teckenuppsättningar (teckenuppsättningar med dubbla byte) ändrar den gär funktionen tecken med hel bredd (två byte) till halvbreddstecken (en byte)",
+		"ad": "är det text som du vill ändra."
 	},
 	"ASIN": {
 		"a": "(tal)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(tal; [signifikans])",
-		"d": "Returnerar ett tal som har rundats upp till närmaste heltal eller närmaste signifikanta multipel"
+		"d": "Returnerar ett tal som har rundats upp till närmaste heltal eller närmaste signifikanta multipel",
+		"ad": "är värdet som du vill runda av.!är den multipel som du vill avrunda till."
 	},
 	"COMBIN": {
 		"a": "(antal; valt_antal)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(tal; signifikans)",
-		"d": "Avrundar ett tal uppåt, till närmaste signifikanta multipel"
+		"d": "Avrundar ett tal uppåt, till närmaste signifikanta multipel",
+		"ad": "är värdet som du vill runda av.!är den multipel som du vill avrunda till."
 	},
 	"EVEN": {
 		"a": "(tal)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(tal; [signifikans])",
-		"d": "Returnerar ett tal som har rundats av nedåt till närmaste heltal eller närmaste signifikanta multipel"
+		"d": "Returnerar ett tal som har rundats av nedåt till närmaste heltal eller närmaste signifikanta multipel",
+		"ad": "är värdet som du vill runda av.!är den multipel som du vill avrunda till."
 	},
 	"FLOOR.MATH": {
 		"a": "(tal; [signifikans]; [typvärde])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(tal; [signifikans])",
-		"d": "Returnerar ett tal som har rundats upp till närmaste heltal eller närmaste signifikanta multipel. Oavsett talets tecken rundas talet uppåt. Om talet eller signifikansen är noll returneras dock noll."
+		"d": "Returnerar ett tal som har rundats upp till närmaste heltal eller närmaste signifikanta multipel. Oavsett talets tecken rundas talet uppåt. Om talet eller signifikansen är noll returneras dock noll.",
+		"ad": "är värdet som du vill runda av.!är den multipel som du vill avrunda till."
 	},
 	"LCM": {
 		"a": "(tal1; [tal2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(kalkylarkets_webbadress; intervallsträng)",
-		"d": "Importerar ett cellområde från ett angivet kalkylark."
+		"d": "Importerar ett cellområde från ett angivet kalkylark.",
+		"ad": "webbadressen till kalkylarket som data importeras från!intervallet som ska importeras"
 	}
 }

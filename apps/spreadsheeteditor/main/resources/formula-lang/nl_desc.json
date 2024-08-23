@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(begindatum; einddatum; eenheid)",
-		"d": "Berekent het aantal dagen, maanden of jaren tussen twee datums"
+		"d": "Berekent het aantal dagen, maanden of jaren tussen twee datums",
+		"ad": "Een datum die de eerste datum, of begindatum, van de periode aangeeft!Een datum die de laatste datum, of einddatum, van de periode aangeeft!Het type informatie dat u wilt laten retourneren"
 	},
 	"DATEVALUE": {
 		"a": "(datum_tekst)",
 		"d": "Zet de opgegeven datum in de vorm van tekst om in de code voor de datum/tijd",
-		"ad": "is tekst die overeenkomt met een datum in een Microsoft Excel-datumnotatie, tussen 1-1-1900 of 1-1-1904 (afhankelijk van het datumsysteem van de werkmap) en 31-12-9999"
+		"ad": "is tekst die overeenkomt met een datum in een Spreadsheet Editor-datumnotatie, tussen 1-1-1900 of 1-1-1904 (afhankelijk van het datumsysteem van de werkmap) en 31-12-9999"
 	},
 	"DAY": {
 		"a": "(serieel-getal)",
 		"d": "Geeft als resultaat de dag van de maand, een getal tussen 1 en 31.",
-		"ad": "is een getal in het systeem dat in Microsoft Excel wordt gebruikt voor datumberekeningen"
+		"ad": "is een getal in het systeem dat in Spreadsheet Editor wordt gebruikt voor datumberekeningen"
 	},
 	"DAYS": {
 		"a": "(einddatum; begindatum)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(serieel-getal)",
 		"d": "Geeft als resultaat het aantal uren als een getal van 0 (00:00) tot 23 (23:00).",
-		"ad": "is een getal dat een dag of tijd aangeeft in het systeem dat in Microsoft Excel wordt gebruikt voor datum- en tijdberekeningen of tekst in tijdnotatie, zoals 16:48:00 of 4:48:00 PM"
+		"ad": "is een getal dat een dag of tijd aangeeft in het systeem dat in Spreadsheet Editor wordt gebruikt voor datum- en tijdberekeningen of tekst in tijdnotatie, zoals 16:48:00 of 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(datum)",
 		"d": "Geeft als resultaat het ISO-weeknummer van het jaar voor een bepaalde datum",
-		"ad": "is de datum-tijdcode die door Microsoft Excel wordt gebruikt voor de berekening van de datum en tijd"
+		"ad": "is de datum-tijdcode die door Spreadsheet Editor wordt gebruikt voor de berekening van de datum en tijd"
 	},
 	"MINUTE": {
 		"a": "(serieel-getal)",
 		"d": "Geeft als resultaat het aantal minuten (een getal van 0 tot en met 59).",
-		"ad": "is een getal dat een dag of tijd aangeeft in het systeem dat in Microsoft Excel wordt gebruikt voor datum- en tijdberekeningen of tekst in tijdopmaak, zoals 16:48:00 of 4:48:00 PM"
+		"ad": "is een getal dat een dag of tijd aangeeft in het systeem dat in Spreadsheet Editor wordt gebruikt voor datum- en tijdberekeningen of tekst in tijdopmaak, zoals 16:48:00 of 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(serieel-getal)",
 		"d": "Geeft als resultaat de maand, een getal van 1 (januari) tot en met 12 (december).",
-		"ad": "is een getal in het systeem dat in Microsoft Excel wordt gebruikt voor datumberekeningen"
+		"ad": "is een getal in het systeem dat in Spreadsheet Editor wordt gebruikt voor datumberekeningen"
 	},
 	"NETWORKDAYS": {
 		"a": "(begindatum; einddatum; [vakantiedagen])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(serieel-getal)",
 		"d": "Geeft als resultaat het aantal seconden (een getal van 0 tot en met 59).",
-		"ad": "is het seriële getal dat een dag of tijd aangeeft in het systeem dat in Microsoft Excel wordt gebruikt voor datum- en tijdberekeningen of een tekst in tijdopmaak, zoals 16:48:23 of 4:48:23 PM"
+		"ad": "is het seriële getal dat een dag of tijd aangeeft in het systeem dat in Spreadsheet Editor wordt gebruikt voor datum- en tijdberekeningen of een tekst in tijdopmaak, zoals 16:48:23 of 4:48:23 PM"
 	},
 	"TIME": {
 		"a": "(uur; minuut; seconde)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(tijd_tekst)",
 		"d": "Converteert een tijd in tekstnotatie naar een serieel getal voor tijd, een getal van 0 (00:00:00) tot 0,999988426 (23:59:59). Pas na het opgeven van de formule een tijdnotatie toe op het getal",
-		"ad": "is een tekenreeks die een tijd aangeeft in een van de tijdnotaties van Microsoft Excel (datuminformatie in de reeks wordt genegeerd)"
+		"ad": "is een tekenreeks die een tijd aangeeft in een van de tijdnotaties van Spreadsheet Editor (datuminformatie in de reeks wordt genegeerd)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(serieel_getal; [type_resultaat])",
 		"d": "Zet een serieel getal om in een weeknummer",
-		"ad": "is het seriële getal dat een dag of tijd aangeeft in het systeem dat Microsoft Excel gebruikt voor datum- en tijdberekeningen!is een getal (1 of 2) waarmee u het type waarde bepaalt dat u als resultaat wilt hebben"
+		"ad": "is het seriële getal dat een dag of tijd aangeeft in het systeem dat Spreadsheet Editor gebruikt voor datum- en tijdberekeningen!is een getal (1 of 2) waarmee u het type waarde bepaalt dat u als resultaat wilt hebben"
 	},
 	"WORKDAY": {
 		"a": "(begindatum; aantal_dagen; [vakantiedagen])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(serieel-getal)",
 		"d": "Geeft als resultaat het jaar van een datum, een geheel getal in het bereik 1900 - 9999.",
-		"ad": "is een getal in het systeem dat in Microsoft Excel wordt gebruikt voor datumberekeningen"
+		"ad": "is een getal in het systeem dat in Spreadsheet Editor wordt gebruikt voor datumberekeningen"
 	},
 	"YEARFRAC": {
 		"a": "(begindatum; einddatum; [soort_jaar])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(zoeken_tekst; in_tekst; [begin_getal])",
-		"d": "Wordt naar een tekenreeks binnen een andere tekenreeks gezocht en wordt als resultaat het nummer van de beginpositie van de eerste tekenreeks gegeven, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans."
+		"d": "Wordt naar een tekenreeks binnen een andere tekenreeks gezocht en wordt als resultaat het nummer van de beginpositie van de eerste tekenreeks gegeven, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans.",
+		"ad": "is de tekst die u zoekt. Gebruik dubbele aanhalingstekens (een lege tekenreeks) om het eerste teken in In_tekst te zoeken. Jokertekens zijn niet toegestaan!is de tekst die de door u gezochte tekenreeks bevat!geeft de positie aan van het teken waar u wilt beginnen met zoeken. Het eerste teken in In_tekst is teken nummer 1. Als u dit weglaat, is Begin_getal = 1"
 	},
 	"FIXED": {
 		"a": "(getal; [decimalen]; [geen-punten])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(tekst; [aantal-tekens])",
-		"d": "Geeft het eerste teken of de eerste tekens in een tekenreeks als resultaat, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
+		"d": "Geeft het eerste teken of de eerste tekens in een tekenreeks als resultaat, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans",
+		"ad": "is de tekenreeks met de tekens die u wilt ophalen!geeft aan hoeveel tekens LEFTB moet ophalen. Als dit wordt weggelaten, wordt uitgegaan van 1"
 	},
 	"LEN": {
 		"a": "(tekst)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(tekst)",
-		"d": "Geeft als resultaat het aantal bytes dat is gebruikt voor de tekens in een tekenreeks, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
+		"d": "Geeft als resultaat het aantal bytes dat is gebruikt voor de tekens in een tekenreeks, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans",
+		"ad": "is de tekst waarvan u de lengte wilt bepalen. Spaties tellen mee als tekens"
 	},
 	"LOWER": {
 		"a": "(tekst)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(tekst; begin_getal; aantal-tekens)",
-		"d": "Geeft als resultaat een bepaald aantal tekens uit een tekenreeks, gerekend vanaf de opgegeven positie en op basis van het aantal opgegeven bytes, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
+		"d": "Geeft als resultaat een bepaald aantal tekens uit een tekenreeks, gerekend vanaf de opgegeven positie en op basis van het aantal opgegeven bytes, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans",
+		"ad": "is de tekenreeks waaruit u de tekens wilt ophalen!is de positie van het eerste teken dat u wilt ophalen uit de tekenreeks. Het eerste teken in Tekst is 1!geeft aan hoeveel tekens u wilt ophalen uit Tekst"
 	},
 	"NUMBERVALUE": {
 		"a": "(tekst; [decimaal_scheidingsteken]; [groep_scheidingsteken])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(oud_tekst; begin_getal; aantal-tekens; nieuw_tekst)",
-		"d": "Wordt een deel van een tekenreeks vervangen door een andere tekenreeks, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
+		"d": "Wordt een deel van een tekenreeks vervangen door een andere tekenreeks, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans",
+		"ad": "is tekst waarvan u een aantal tekens wilt vervangen!is de positie van het teken in oud_tekst dat u door nieuw_tekst wilt vervangen!is het aantal tekens in oud_tekst die u wilt vervangen!is de tekst waardoor u tekens in oud_tekst wilt vervangen"
 	},
 	"REPT": {
 		"a": "(tekst; aantal-malen)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(tekst; [aantal-tekens])",
-		"d": "Geeft het laatste teken of de laatste tekens in een tekenreeks als resultaat, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
+		"d": "Geeft het laatste teken of de laatste tekens in een tekenreeks als resultaat, op basis van het aantal bytes dat u opgeeft, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans",
+		"ad": "is de tekenreeks met de tekens die u wilt ophalen!geeft aan hoeveel tekens u wilt ophalen. Als dit wordt weggelaten, wordt uitgegaan van 1"
 	},
 	"SEARCH": {
 		"a": "(zoeken_tekst; in_tekst; [begin_getal])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(zoeken_tekst; in_tekst; [begin_getal])",
-		"d": "Wordt naar een tekenreeks gezocht binnen een andere tekenreeks en wordt het nummer van de beginpositie van de eerste tekenreeks als resultaat gegeven, berekend vanaf het eerste teken van de tweede tekenreeks, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans"
+		"d": "Wordt naar een tekenreeks gezocht binnen een andere tekenreeks en wordt het nummer van de beginpositie van de eerste tekenreeks als resultaat gegeven, berekend vanaf het eerste teken van de tweede tekenreeks, is bedoeld voor talen met DBCS-tekenset (Double-Byte Character Set) - Japans, Chinees en Koreaans",
+		"ad": "is de tekenreeks die u zoekt. U kunt de jokertekens ? en * gebruiken. Gebruik ~? en ~* om de tekens ? en * te zoeken!is de tekst die de door u gezochte tekenreeks bevat!geeft de positie, tellend van links naar rechts, aan in in_tekst van het teken waar u wilt beginnen met zoeken. Als dit wordt weggelaten, wordt 1 gebruikt"
 	},
 	"SUBSTITUTE": {
 		"a": "(tekst; oud_tekst; nieuw_tekst; [rang_getal])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [aggregation])",
-		"d": "Retourneert de voorspelde waarde voor een specifieke doeldatum in de toekomst met de methode voor exponentieel vloeiend maken."
+		"d": "Retourneert de voorspelde waarde voor een specifieke doeldatum in de toekomst met de methode voor exponentieel vloeiend maken.",
+		"ad": "is het gegevenspunt waarvoor in Spreadsheet Editor een waarde wordt voorspeld. Hiermee moet het waardepatroon op de tijdlijn worden doorgevoerd.!is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een optionele numerieke waarde die de lengte van het seizoensgebonden patroon aangeeft. De standaardwaarde 1 geeft aan dat seizoensgebondenheid automatisch wordt gedetecteerd.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgelegen waarden en 0 vervangt ontbrekende waarden door nullen.!is een optionele numerieke waarde die meerdere waarden met dezelfde tijdstempel samenvoegt. Indien leeg, dan wordt in Spreadsheet Editor de gemiddelde waarde berekend."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(target_date; values; timeline; [confidence_level]; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Hiermee wordt een betrouwbaarheidsinterval geretourneerd voor de voorspelde waarde op de opgegeven doeldatum.",
-		"ad": "is het gegevenspunt waarvoor in Microsoft Excel een waarde wordt voorspeld. Hiermee moet het waardepatroon op de tijdlijn worden doorgevoerd.!is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een getal tussen 0 en 1 dat de betrouwbaarheidswaarde van het berekende betrouwbaarheidsinterval aangeeft. De standaardwaarde is .95.!is een optionele numerieke waarde die de lengte van het seizoensgebonden patroon aangeeft. De standaardwaarde 1 geeft aan dat seizoensgebondenheid automatisch wordt gedetecteerd.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgele"
+		"ad": "is het gegevenspunt waarvoor in Spreadsheet Editor een waarde wordt voorspeld. Hiermee moet het waardepatroon op de tijdlijn worden doorgevoerd.!is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een getal tussen 0 en 1 dat de betrouwbaarheidswaarde van het berekende betrouwbaarheidsinterval aangeeft. De standaardwaarde is .95.!is een optionele numerieke waarde die de lengte van het seizoensgebonden patroon aangeeft. De standaardwaarde 1 geeft aan dat seizoensgebondenheid automatisch wordt gedetecteerd.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgelegen waarden en 0 vervangt ontbrekende waarden door nullen.!is een optionele numerieke waarde die meerdere waarden met dezelfde tijdstempel samenvoegt. Indien leeg, dan wordt in Spreadsheet Editor de gemiddelde waarde berekend."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
 		"d": "Retourneert de lengte van het herhaalde patroon dat in applicatie wordt gedetecteerd voor de opgegeven tijdreeks.",
-		"ad": "is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgelegen waarden en 0 vervangt ontbrekende waarden door nullen!.is een optionele numerieke waarde die meerdere waarden met dezelfde tijdstempel samenvoegt. Indien leeg, dan wordt in Microsoft Excel de gemiddelde waarde berekend."
+		"ad": "is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgelegen waarden en 0 vervangt ontbrekende waarden door nullen!.is een optionele numerieke waarde die meerdere waarden met dezelfde tijdstempel samenvoegt. Indien leeg, dan wordt in Spreadsheet Editor de gemiddelde waarde berekend."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Retourneert de aangevraagde statistische gegevens voor de voorspelling.",
-		"ad": "is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een getal tussen 1 en 8, dat aangeeft welke statistische gegevens in Microsoft Excel worden geretourneerd voor de berekende voorspelling.!is een optionele numerieke waarde die de lengte van het seizoensgebonden patroon aangeeft. De standaardwaarde 1 geeft aan dat seizoensgebondenheid automatisch wordt gedetecteerd.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgelegen waarden en 0 vervangt ontbrekende waarden door nullen.!is een optionele numerieke waarde die meerdere waarden met dezelfde tijdstempel samenvoegt. Indien blanco, dan wordt in Microsoft "
+		"ad": "is de matrix of het bereik met numerieke gegevens die u voorspelt.!is de onafhankelijke matrix of het onafhankelijke bereik met numerieke gegevens. De datums op de tijdlijn moeten een consistent interval hebben en mogen niet nul zijn.!is een getal tussen 1 en 8, dat aangeeft welke statistische gegevens in Spreadsheet Editor worden geretourneerd voor de berekende voorspelling.!is een optionele numerieke waarde die de lengte van het seizoensgebonden patroon aangeeft. De standaardwaarde 1 geeft aan dat seizoensgebondenheid automatisch wordt gedetecteerd.!is een optionele waarde voor het verwerken van ontbrekende waarden. De standaardwaarde 1 vervangt ontbrekende waarden door nabijgelegen waarden en 0 vervangt ontbrekende waarden door nullen.!is een optionele numerieke waarde die meerdere waarden met dezelfde tijdstempel samenvoegt. Indien leeg, dan wordt in Spreadsheet Editor de gemiddelde waarde berekend."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; known_ys; known_xs)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(kosten; aankoopdatum; eerste_termijn; restwaarde; termijn; snelheid; [basis])",
-		"d": "Berekent de evenredig verdeelde lineaire afschrijving van activa over elke boekhoudperiode."
+		"d": "Berekent de evenredig verdeelde lineaire afschrijving van activa over elke boekhoudperiode.",
+		"ad": "zijn de kosten van activa!is de datum waarop activa zijn aangeschaft!is de einddatum van de eerste termijn!is de restwaarde aan het eind van de levensduur van activa.!is de termijn!is de snelheid van de afschrijving !jaar_basis : 0 voor een jaar van 360 dagen, 1 voor een werkelijk jaar, 3 voor een jaar van 365 dagen."
 	},
 	"AMORLINC": {
 		"a": "(kosten; aankoopdatum; eerste_termijn; restwaarde; termijn; snelheid; [basis])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(tekst)",
-		"d": "Voor talen met DBCS-tekensets (Double Byte Character Set). Wijzigt de functie tekens met volledige breedte (dubbel-byte) in tekens met halve breedte (enkel-byte)"
+		"d": "Voor talen met DBCS-tekensets (Double Byte Character Set). Wijzigt de functie tekens met volledige breedte (dubbel-byte) in tekens met halve breedte (enkel-byte)",
+		"ad": "is de tekst waarvan u een deel wilt wijzigen"
 	},
 	"ASIN": {
 		"a": "(getal)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(getal; [significantie])",
-		"d": "Geeft als resultaat een getal dat is afgerond naar boven op het dichtstbijzijnde gehele getal of het dichtstbijzijnde meervoud van de significantie"
+		"d": "Geeft als resultaat een getal dat is afgerond naar boven op het dichtstbijzijnde gehele getal of het dichtstbijzijnde meervoud van de significantie",
+		"ad": "is de waarde die u wilt afronden!is het veelvoud waarop u wilt afronden"
 	},
 	"COMBIN": {
 		"a": "(getal; aantal-gekozen)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(getal; significantie)",
-		"d": "Rondt een getal naar boven af op het dichtstbijzijnde significante veelvoud"
+		"d": "Rondt een getal naar boven af op het dichtstbijzijnde significante veelvoud",
+		"ad": "is de waarde die u wilt afronden!is het veelvoud waarop u wilt afronden"
 	},
 	"EVEN": {
 		"a": "(getal)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(getal; [significantie])",
-		"d": "Geeft als resultaat een getal dat naar beneden is afgerond op het dichtstbijzijnde gehele getal of het dichtstbijzijnde significante veelvoud"
+		"d": "Geeft als resultaat een getal dat naar beneden is afgerond op het dichtstbijzijnde gehele getal of het dichtstbijzijnde significante veelvoud",
+		"ad": "is de waarde die u wilt afronden!is het veelvoud waarop u wilt afronden"
 	},
 	"FLOOR.MATH": {
 		"a": "(getal; [significantie]; [modus])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(getal; significantie)",
-		"d": "Geeft als resultaat een getal dat is afgerond naar boven op het dichtstbijzijnde gehele getal of het dichtstbijzijnde meervoud van de significantie. Het getal wordt afgerond ongeacht het teken van het getal. Als het getal of de significantie echter nul is, is nul het resultaat."
+		"d": "Geeft als resultaat een getal dat is afgerond naar boven op het dichtstbijzijnde gehele getal of het dichtstbijzijnde meervoud van de significantie. Het getal wordt afgerond ongeacht het teken van het getal. Als het getal of de significantie echter nul is, is nul het resultaat.",
+		"ad": "is de waarde die u wilt afronden!is het veelvoud waarop u wilt afronden"
 	},
 	"LCM": {
 		"a": "(complex_getal1; [complex_getal2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(spreadsheet_url; bereik_tekenreeks)",
-		"d": "Importeert een bereik van cellen uit een bepaalde spreadsheet."
+		"d": "Importeert een bereik van cellen uit een bepaalde spreadsheet.",
+		"ad": "de URL van de spreadsheet waaruit gegevens worden geïmporteerd!te importeren bereik"
 	}
 }

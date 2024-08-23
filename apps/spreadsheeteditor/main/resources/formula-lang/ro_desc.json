@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(dată_început; dată_sfârșit; unitate)",
-		"d": "Calculează numărul de zile, luni sau ani dintre două date calendaristice"
+		"d": "Calculează numărul de zile, luni sau ani dintre două date calendaristice",
+		"ad": "O dată care reprezintă prima sau data de început a unei perioade date!O dată care reprezintă ultima zi sau data de sfârșit a perioadei!Tipul de informații care doriți să fie returnate"
 	},
 	"DATEVALUE": {
 		"a": "(text_dată)",
 		"d": "Transformă o dată sub formă de text într-un număr care reprezintă data în cod dată-oră",
-		"ad": "este textul care reprezintă o dată într-un format de dată Microsoft Excel, între 1.01.1900 sau 1.01.1904 (în funcție de sistemul de date al registrului de lucru) și 31.12.9999"
+		"ad": "este textul care reprezintă o dată într-un format de dată Spreadsheet Editor, între 1.01.1900 sau 1.01.1904 (în funcție de sistemul de date al registrului de lucru) și 31.12.9999"
 	},
 	"DAY": {
 		"a": "(număr_serie)",
 		"d": "Returnează ziua din lună, un număr de la 1 la 31.",
-		"ad": "este un număr în cod dată-oră utilizat de Microsoft Excel"
+		"ad": "este un număr în cod dată-oră utilizat de Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(dată_sfârșit; dată_început)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(număr_serie)",
 		"d": "Returnează ora ca număr de la 0 (12:00 A.M.) la 23 (11:00 P.M.).",
-		"ad": "este un număr în cod dată-oră utilizat de Microsoft Excel sau text în format de oră, cum ar fi 16:48:00 sau 4:48:00 PM"
+		"ad": "este un număr în cod dată-oră utilizat de Spreadsheet Editor sau text în format de oră, cum ar fi 16:48:00 sau 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(dată)",
 		"d": "Returnează numărul de săptămână ISO din an pentru o anumită dată",
-		"ad": "este codul dată-oră utilizat de Microsoft Excel pentru calculul datei și orei"
+		"ad": "este codul dată-oră utilizat de Spreadsheet Editor pentru calculul datei și orei"
 	},
 	"MINUTE": {
 		"a": "(număr_serie)",
 		"d": "Returnează minutul ca număr de la 0 la 59.",
-		"ad": "este un număr în cod dată-oră utilizat de Microsoft Excel sau text în format de oră, cum ar fi 16:48:00 sau 4:48:00 PM"
+		"ad": "este un număr în cod dată-oră utilizat de Spreadsheet Editor sau text în format de oră, cum ar fi 16:48:00 sau 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(număr_serie)",
 		"d": "Returnează luna, un număr de la 1 (ianuarie) la 12 (decembrie).",
-		"ad": "este un număr în cod dată-oră utilizat de Microsoft Excel"
+		"ad": "este un număr în cod dată-oră utilizat de Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(dată_start; dată_sfârșit; [sărbători])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(număr_serie)",
 		"d": "Returnează secunda ca număr în intervalul de la 0 la 59.",
-		"ad": "este un număr în cod dată-oră utilizat de Microsoft Excel sau text în format de oră, cum ar fi 16:48:23 sau 4:48:47 PM"
+		"ad": "este un număr în cod dată-oră utilizat de Spreadsheet Editor sau text în format de oră, cum ar fi 16:48:23 sau 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(oră; minut; secundă)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(text_oră)",
 		"d": "Transformă o oră din format text într-un număr serial pentru oră, un număr de la 0 (12:00:00 AM) la 0,999988426 (11:59:59 PM). Formatați numărul cu format de oră după introducerea formulei",
-		"ad": "este un șir text care dă o oră în orice format de oră Microsoft Excel (informațiile despre dată din șir se ignoră)"
+		"ad": "este un șir text care dă o oră în orice format de oră Spreadsheet Editor (informațiile despre dată din șir se ignoră)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(număr_serie; [tip_returnare])",
 		"d": "Returnează numărul de săptămâni dintr-un an",
-		"ad": "este codul zi-oră utilizat de Microsoft Excel pentru calcularea datelor și duratelor!este un număr (1 sau 2) care determină tipul de date care se returnează"
+		"ad": "este codul zi-oră utilizat de Spreadsheet Editor pentru calcularea datelor și duratelor!este un număr (1 sau 2) care determină tipul de date care se returnează"
 	},
 	"WORKDAY": {
 		"a": "(dată_start; zile; [sărbători])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(număr_serie)",
 		"d": "Returnează anul, un întreg în intervalul 1900 - 9999.",
-		"ad": "este un număr în cod dată-oră utilizat de Microsoft Excel"
+		"ad": "este un număr în cod dată-oră utilizat de Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(dată_start; dată_sfârșit; [bază])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(text_de_căutat; în_text; [num_start])",
-		"d": "Găsesc un șir text într-un al doilea șir text, apoi returnează numărul poziției de început a primului șir text începând cu primul caracter al celui de-al doilea șir text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Găsesc un șir text într-un al doilea șir text, apoi returnează numărul poziției de început a primului șir text începând cu primul caracter al celui de-al doilea șir text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este textul de găsit. Utilizați ghilimele duble (text gol) pentru a corespunde primului caracter din în_text; metacaracterele nu se admit!este textul care conține textul de găsit!precizează de la care caracter începe căutarea. Primul caracter din în_text este caracterul numărul 1. Dacă se omite, Start_num = 1"
 	},
 	"FIXED": {
 		"a": "(număr; [zecimale]; [nr_virgule])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(text; [car_num])",
-		"d": "Returnează primul caracter sau primele caractere dintr-un șir text, în funcție de numărul de byți specificat, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Returnează primul caracter sau primele caractere dintr-un șir text, în funcție de numărul de byți specificat, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este șirul text care conține caracterele de extras!precizează câte caractere să extragă LEFTB; 1 dacă se omite"
 	},
 	"LEN": {
 		"a": "(text)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(text)",
-		"d": "Returnează numărul de byți utilizați pentru reprezentarea caracterelor dintr-un șir text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Returnează numărul de byți utilizați pentru reprezentarea caracterelor dintr-un șir text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este textul a cărui lungime se calculează. Spațiile sunt numărate drept caractere"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(text; num_start; car_num)",
-		"d": "Returnează un anumit număr de caractere dintr-un șir de text, începând din poziția specificată, pe baza numărului de byți specificat, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Returnează un anumit număr de caractere dintr-un șir de text, începând din poziția specificată, pe baza numărului de byți specificat, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este șirul text din care se extrag caracterele!este poziția primului caracter de extras. Primul caracter din Text este 1!specifică câte caractere se întorc din Text"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [separator_zecimale]; [separator_grup])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(text_vechi; num_start; car_num; text_nou)",
-		"d": "Înlocuiește o parte dintr-un șir de text, pe baza numărului de byți specificat, cu un alt șir de text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Înlocuiește o parte dintr-un șir de text, pe baza numărului de byți specificat, cu un alt șir de text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este textul în care se înlocuiesc unele caractere!este poziția caracterului din text_vechi care se înlocuiește cu text_nou!este numărul de caractere din text_vechi care se înlocuiește!este textul care va înlocui caracterele din text_vechi"
 	},
 	"REPT": {
 		"a": "(text; număr_ori)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(text; [car_num])",
-		"d": "Întoarce ultimul caracter sau caractere dintr-un șir de text, pe baza unui număr de byți specificat, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Întoarce ultimul caracter sau caractere dintr-un șir de text, pe baza unui număr de byți specificat, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este șirul text care conține caracterele de extras!precizează numărul de caractere de extras, 1 dacă se omite"
 	},
 	"SEARCH": {
 		"a": "(text_de_căutat; în_text; [num_start])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(text_de_căutat; în_text; [num_start])",
-		"d": "Găsesc un șir text într-un al doilea șir text, apoi returnează numărul poziției de început a primului șir text începând cu primul caracter al celui de-al doilea șir text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană"
+		"d": "Găsesc un șir text într-un al doilea șir text, apoi returnează numărul poziției de început a primului șir text începând cu primul caracter al celui de-al doilea șir text, are ca scop utilizarea cu limbi care întrebuințează setul de caractere dublu-octet (DBCS) -  limba japoneză, limba chineză și limba coreeană",
+		"ad": "este textul de găsit. Utilizați metacaracterele ? și *; utilizați ~? și ~* pentru a găsi caracterele ? și *!este textul în care se caută text_de_căutat!este numărul caracterului din în_text, numărând de la stânga, de la care se începe căutarea. Dacă este omis, se utilizează 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; text_vechi; text_nou; [num_instanță])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(data_țintă; valori; cronologie; [sezonalitate]; [date_complete]; [agregare])",
-		"d": "Returnează valoarea prognozată pentru o dată țintă viitoare specificată utilizând metoda ponderată exponențială."
+		"d": "Returnează valoarea prognozată pentru o dată țintă viitoare specificată utilizând metoda ponderată exponențială.",
+		"ad": " este punctul de date pentru care Spreadsheet Editor prognozează o valoare. Acesta ar trebui să continue modelul de valori din cronologie.! este matricea sau zona de date numerice prognozată.! este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.! este o valoare numerică opțională care indică lungimea modelului sezonier. Valoarea implicită 1 indică faptul că sezonalitatea este detectată automat.! este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.! este o valoare numerică opțională pentru agregarea mai multor valori cu aceeași marcă de timp. Dacă este necompletată, Spreadsheet Editor calculează media valorilor."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(data_țintă; valori; cronologie; [nivel_încredere]; [sezonalitate]; [date_complete]; [agregare])",
 		"d": "Returnează un interval de încredere pentru valoarea prognozată, la data țintă specificată.",
-		"ad": " este punctul de date pentru care Microsoft Excel prognozează o valoare. Acesta ar trebui să continue modelul de valori din cronologie.! este matricea sau zona de date numerice prognozată.! este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.! este un număr între 0 și 1, indicând nivelul de încredere pentru intervalul de încredere calculat. Valoarea implicită este 0,95.! este o valoare numerică opțională care indică lungimea modelului sezonier. Valoarea implicită 1 indică faptul că sezonalitatea este detectată automat.! este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.! este o valoare numerică opțională pentru agregarea mai multor valori cu ac"
+		"ad": " este punctul de date pentru care Spreadsheet Editor prognozează o valoare. Acesta ar trebui să continue modelul de valori din cronologie.! este matricea sau zona de date numerice prognozată.! este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.! este un număr între 0 și 1, indicând nivelul de încredere pentru intervalul de încredere calculat. Valoarea implicită este 0,95.! este o valoare numerică opțională care indică lungimea modelului sezonier. Valoarea implicită 1 indică faptul că sezonalitatea este detectată automat.! este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.! este o valoare numerică opțională pentru agregarea mai multor valori cu aceeași marcă de timp. Dacă este necompletată, Spreadsheet Editor calculează media valorilor."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(valori; cronologie; [date_complete]; [agregare])",
 		"d": "Returnează lungimea modelului repetitiv pe care aplicația îl detectează pentru seria de timp specificată.",
-		"ad": "este matricea sau zona de date numerice prognozată.!este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.!este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.!este o valoare numerică opțională pentru agregarea mai multor valori cu aceeași marcă de timp. Dacă este necompletată, Microsoft Excel calculează media valorilor."
+		"ad": "este matricea sau zona de date numerice prognozată.!este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.!este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.!este o valoare numerică opțională pentru agregarea mai multor valori cu aceeași marcă de timp. Dacă este necompletată, Spreadsheet Editor calculează media valorilor."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(valori; cronologie; tip_statistic; [sezonalitate]; [date_complete]; [agregare])",
 		"d": "Returnează datele statistice solicitate pentru prognoză.",
-		"ad": "este matricea sau zona de date numerice prognozată.!este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.!este un număr între 1 și 8, care indică ce date statistice va returna Microsoft Excel pentru prognoza calculată.!este o valoare numerică opțională care indică lungimea modelului sezonier. Valoarea implicită 1 indică faptul că sezonalitatea este detectată automat.!este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.!este o valoare numerică opțională pentru agregarea mai multor valori cu aceeași marcă de timp. Dacă este necompletată, Microsoft Excel calculează media valorilor."
+		"ad": "este matricea sau zona de date numerice prognozată.!este matricea sau zona de date numerice independentă. Datele din cronologie trebuie să aibă un decalaj uniform între ele și nu pot fi zero.!este un număr între 1 și 8, care indică ce date statistice va returna Spreadsheet Editor pentru prognoza calculată.!este o valoare numerică opțională care indică lungimea modelului sezonier. Valoarea implicită 1 indică faptul că sezonalitatea este detectată automat.!este o valoare opțională pentru tratarea valorilor lipsă. Valoarea implicită 1 înlocuiește valorile lipsă prin interpolare, iar 0 le înlocuiește cu zerouri.!este o valoare numerică opțională pentru agregarea mai multor valori cu aceeași marcă de timp. Dacă este necompletată, Spreadsheet Editor calculează media valorilor."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; y_cunoscute; x_cunoscute)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cost; data_cump; prima_per; recuperat; perioadă; rată; [bază])",
-		"d": "Returnează deprecierea lineară proporțională pentru un bun pentru fiecare perioadă de contabilizare."
+		"d": "Returnează deprecierea lineară proporțională pentru un bun pentru fiecare perioadă de contabilizare.",
+		"ad": "este costul activului!este data de cumpărare a activului!este data de sfârșit a primei perioade!este valoarea de recuperat la sfârșitul vieții activului.!este perioada!este rata de depreciere!într-o perioadă de un an: 0 pentru un an de 360 de zile, 1 pentru anul actual, 3 pentru un an de 365 de zile."
 	},
 	"AMORLINC": {
 		"a": "(cost; data_cump; prima_per; recuperat; perioadă; rată; [bază])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(text)",
-		"d": "Pentru limbile cu set de caractere pe doi octeți (DBCS), funcția modifică caracterele cu lățime întreagă (doi octeți) în caractere cu lățime pe jumătate (un octet)"
+		"d": "Pentru limbile cu set de caractere pe doi octeți (DBCS), funcția modifică caracterele cu lățime întreagă (doi octeți) în caractere cu lățime pe jumătate (un octet)",
+		"ad": "textul a cărui modificare se dorește"
 	},
 	"ASIN": {
 		"a": "(număr)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(număr; [semnificație])",
-		"d": "Returnează un număr care este rotunjit la cel mai apropiat întreg sau la cel mai apropiat multiplu semnificativ"
+		"d": "Returnează un număr care este rotunjit la cel mai apropiat întreg sau la cel mai apropiat multiplu semnificativ",
+		"ad": "este valoarea de rotunjit!este multiplul la care se face rotunjirea"
 	},
 	"COMBIN": {
 		"a": "(număr; număr_ales)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(număr; semnificație)",
-		"d": "Rotunjește prin adaos un număr, la cel mai apropiat multiplu de argument de precizie"
+		"d": "Rotunjește prin adaos un număr, la cel mai apropiat multiplu de argument de precizie",
+		"ad": "este valoarea de rotunjit!este multiplul la care se face rotunjirea"
 	},
 	"EVEN": {
 		"a": "(număr)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(număr; [semnificație])",
-		"d": "Returnează un număr care este rotunjit prin lipsă la cel mai apropiat întreg sau la cel mai apropiat multiplu al semnificației"
+		"d": "Returnează un număr care este rotunjit prin lipsă la cel mai apropiat întreg sau la cel mai apropiat multiplu al semnificației",
+		"ad": "este valoarea de rotunjit!este multiplul la care se face rotunjirea"
 	},
 	"FLOOR.MATH": {
 		"a": "(număr; [semnificație]; [mod])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(număr; [semnif])",
-		"d": "Returnează un număr care este rotunjit la cel mai apropiat întreg sau la cel mai apropiat multiplu semnificativ. Indiferent de semnul numărului, numărul este rotunjit. Însă, dacă numărul sau semnificația este zero, se returnează zero."
+		"d": "Returnează un număr care este rotunjit la cel mai apropiat întreg sau la cel mai apropiat multiplu semnificativ. Indiferent de semnul numărului, numărul este rotunjit. Însă, dacă numărul sau semnificația este zero, se returnează zero.",
+		"ad": "este valoarea de rotunjit!este multiplul la care se face rotunjirea"
 	},
 	"LCM": {
 		"a": "(număr1; [număr2]; ...)",

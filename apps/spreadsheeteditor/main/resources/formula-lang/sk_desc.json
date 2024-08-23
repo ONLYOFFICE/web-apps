@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(počiatočný_dátum; koncový_dátum; jednotka)",
-		"d": "Vypočíta počet dní, mesiacov alebo rokov medzi dvomi dátumami"
+		"d": "Vypočíta počet dní, mesiacov alebo rokov medzi dvomi dátumami",
+		"ad": "Dátum, ktorý predstavuje prvý alebo počiatočný dátum daného obdobia!Dátum, ktorý predstavuje koncový dátum príslušného obdobia!Typ informácií, ktoré chcete vrátiť"
 	},
 	"DATEVALUE": {
 		"a": "(text_dátumu)",
 		"d": "Konvertuje dátum v textovom formáte na číslo, ktoré v kóde pre dátum a čas predstavuje dátum",
-		"ad": "je text predstavujúci dátum vo formáte programu Microsoft Excel pre dátum, ktorý musí byť v rozsahu od 1.1.1900 alebo 1.1.1904 (v závislosti od systému dátumov použitého v zošite) do 31.12.9999"
+		"ad": "je text predstavujúci dátum vo formáte programu Spreadsheet Editor pre dátum, ktorý musí byť v rozsahu od 1.1.1900 alebo 1.1.1904 (v závislosti od systému dátumov použitého v zošite) do 31.12.9999"
 	},
 	"DAY": {
 		"a": "(poradové_číslo)",
 		"d": "Vráti deň v mesiaci, číslo od 1 do 31.",
-		"ad": "je číslo v kóde programu Microsoft Excel pre dátum a čas"
+		"ad": "je číslo v kóde programu Spreadsheet Editor pre dátum a čas"
 	},
 	"DAYS": {
 		"a": "(end_date; start_date)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(poradové_číslo)",
 		"d": "Vráti hodinu, číslo od 0 (12:00 dop.) do 23 (11:00 odp.).",
-		"ad": "je číslo v kóde programu Microsoft Excel pre dátum a čas alebo text vo formáte času, napríklad 16:48:00 alebo 4:48:00 odp."
+		"ad": "je číslo v kóde programu Spreadsheet Editor pre dátum a čas alebo text vo formáte času, napríklad 16:48:00 alebo 4:48:00 odp."
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
 		"d": "Vráti číslo týždňa v roku pre daný dátum podľa normy ISO. idate",
-		"ad": "je kód dátumu a času, ktorý sa v programe Microsoft Excel používa vo výpočtoch dátumu a času"
+		"ad": "je kód dátumu a času, ktorý sa v programe Spreadsheet Editor používa vo výpočtoch dátumu a času"
 	},
 	"MINUTE": {
 		"a": "(poradové_číslo)",
 		"d": "Vráti minútu, číslo od 0 do 59.",
-		"ad": "je číslo v kóde programu Microsoft Excel pre dátum a čas alebo text vo formáte času, napríklad 16:48:00 alebo 4:48:00 odp."
+		"ad": "je číslo v kóde programu Spreadsheet Editor pre dátum a čas alebo text vo formáte času, napríklad 16:48:00 alebo 4:48:00 odp."
 	},
 	"MONTH": {
 		"a": "(poradové_číslo)",
 		"d": "Vráti mesiac, číslo od 1 (január) do 12 (december).",
-		"ad": "je číslo v kóde programu Microsoft Excel pre dátum a čas"
+		"ad": "je číslo v kóde programu Spreadsheet Editor pre dátum a čas"
 	},
 	"NETWORKDAYS": {
 		"a": "(počiatočný_dátum; dátum_ukončenia; [sviatky])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(poradové_číslo)",
 		"d": "Vráti sekundu, číslo od 0 do 59.",
-		"ad": "je číslo v kóde programu Microsoft Excel pre dátum a čas alebo text vo formáte času, napríklad 16:48:23 alebo 4:48:47 odp."
+		"ad": "je číslo v kóde programu Spreadsheet Editor pre dátum a čas alebo text vo formáte času, napríklad 16:48:23 alebo 4:48:47 odp."
 	},
 	"TIME": {
 		"a": "(hodina; minúta; sekunda)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(text_času)",
 		"d": "Konvertuje čas vo formáte textového reťazca na poradové číslo pre čas, číslo od 0 (12:00:00 dop.) do 0,999988426 (11:59:59 odp.). Po zadaní vzorca číslo sformátujte do formátu času",
-		"ad": "je textový reťazec, ktorý predstavuje čas v ľubovoľnom formáte programu Microsoft Excel pre čas (informácie o dátume sa v reťazci ignorujú)"
+		"ad": "je textový reťazec, ktorý predstavuje čas v ľubovoľnom formáte programu Spreadsheet Editor pre čas (informácie o dátume sa v reťazci ignorujú)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(poradové_číslo; [vrátený_typ])",
 		"d": "Vráti číselné označenie týždňa v roku",
-		"ad": "je kód dátumu a času, ktorý používa program Microsoft Excel na výpočty dátumu a času!je číslo (1 alebo 2), ktoré určuje typ vrátenej hodnoty"
+		"ad": "je kód dátumu a času, ktorý používa program Spreadsheet Editor na výpočty dátumu a času!je číslo (1 alebo 2), ktoré určuje typ vrátenej hodnoty"
 	},
 	"WORKDAY": {
 		"a": "(počiatočný_dátum; dni; [sviatky])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(poradové_číslo)",
 		"d": "Vráti rok dátumu, celé číslo v rozsahu od 1900 do 9999.",
-		"ad": "je číslo v kóde programu Microsoft Excel pre dátum a čas"
+		"ad": "je číslo v kóde programu Spreadsheet Editor pre dátum a čas"
 	},
 	"YEARFRAC": {
 		"a": "(počiatočný_dátum; dátum_ukončenia; [základ])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(nájsť_text; v_texte; [počiatočné_číslo])",
-		"d": "Vráti jeden textový reťazec vo vnútri druhého reťazca a vracajú počiatočnú pozíciu prvého reťazca od prvého znaku druhého reťazca, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Vráti jeden textový reťazec vo vnútri druhého reťazca a vracajú počiatočnú pozíciu prvého reťazca od prvého znaku druhého reťazca, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je text, ktorý hľadáte. Použite úvodzovky (bez textu) na hľadanie prvého zodpovedajúceho znaku argumentu V_texte. Zástupné znaky nie sú povolené!je text obsahujúci hľadaný text!určuje znak, od ktorého začne hľadanie. Prvý znak argumentu V_texte je číslo znaku 1. Ak argument Počiatočné_číslo nezadáte, bude jeho hodnota 1"
 	},
 	"FIXED": {
 		"a": "(číslo; [desatinné_miesta]; [bez_čiarok])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(text; [počet_znakov])",
-		"d": "Vráti prvý znak alebo prvé znaky v textovom reťazci, pričom ich počet je určený veľkosťou v bajtoch, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Vráti prvý znak alebo prvé znaky v textovom reťazci, pričom ich počet je určený veľkosťou v bajtoch, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je textový reťazec obsahujúci znaky, ktoré chcete extrahovať!určuje, koľko znakov má funkcia LEFTB extrahovať. Ak tento argument nezadáte, bude jeho hodnota 1"
 	},
 	"LEN": {
 		"a": "(text)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(text)",
-		"d": "Vráti počet bajtov použitých pre zobrazenie znakov v textovom reťazci, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Vráti počet bajtov použitých pre zobrazenie znakov v textovom reťazci, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je text, ktorého dĺžku chcete zistiť. Medzery sú považované za znaky"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(text; počiatočná_pozícia; počet_znakov)",
-		"d": "Vráti časť textového reťazca od zadanej pozície a podľa zadaného počtu bajtov, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Vráti časť textového reťazca od zadanej pozície a podľa zadaného počtu bajtov, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je textový reťazec, z ktorého chcete znaky extrahovať!je pozícia prvého znaku, ktorý chcete extrahovať. Prvý znak v texte je 1!určí počet znakov textu, ktoré sa majú vrátiť"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimal_separator]; [group_separator])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(starý_text; počiatočné_číslo; počet_znakov; nový_text)",
-		"d": "Nahradí časť textového reťazca so zadaným počtom bajtov odlišným textovým reťazcom, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Nahradí časť textového reťazca so zadaným počtom bajtov odlišným textovým reťazcom, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je text, v ktorom chcete nahradiť niektoré znaky!je pozícia znaku v texte označenom argumentom Starý_text, ktorý chcete zameniť za text označený argumentom Nový_text!je počet znakov textu argumentu Starý_text, ktoré chcete nahradiť!je text, ktorý nahradí znaky v texte označenom argumentom Starý_text"
 	},
 	"REPT": {
 		"a": "(text; počet_opakovaní)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(text; [počet_znakov])",
-		"d": "Vráti znaky z konca textového reťazca, pričom dĺžka výsledku je zadaná v bajtoch, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Vráti znaky z konca textového reťazca, pričom dĺžka výsledku je zadaná v bajtoch, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je textový reťazec obsahujúci znaky, ktoré chcete extrahovať!určuje počet znakov, ktoré chcete extrahovať. Ak tento argument nezadáte, bude jeho hodnota 1"
 	},
 	"SEARCH": {
 		"a": "(nájsť_text; v_texte; [pozícia_začiatku])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(nájsť_text; v_texte; [pozícia_začiatku])",
-		"d": "Vyhľadávajú jeden textový reťazec v rámci druhého textového reťazca a vrátia číslo počiatočnej pozície prvého textového reťazca od prvého znaku druhého textového reťazca, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina"
+		"d": "Vyhľadávajú jeden textový reťazec v rámci druhého textového reťazca a vrátia číslo počiatočnej pozície prvého textového reťazca od prvého znaku druhého textového reťazca, je určená pre jazyky, ktoré používajú dvojbajtovú tabuľku znakov (DBCS) - japončina, čínština a kórejčina",
+		"ad": "je text, ktorý chcete nájsť. Môžete použiť zástupné znaky ? a *. Nájdete ich pomocou reťazcov ~? a ~*!je text, v ktorom chcete vyhľadať znak alebo textový reťazec!Je číslo znaku (zľava) v argumente V_texte, pri ktorom chcete začať hľadať. Ak tento argument nezadáte, bude jeho hodnota 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; starý_text; nový_text; [číslo_inštancie])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(cieľový_dátum; hodnoty; časová_os; [sezónnosť]; [dopĺňanie_údajov]; [agregácia])",
-		"d": "Vráti predpovedanú hodnotu pre konkrétny budúci cieľový dátum pomocou metódy exponenciálneho vyrovnávania."
+		"d": "Vráti predpovedanú hodnotu pre konkrétny budúci cieľový dátum pomocou metódy exponenciálneho vyrovnávania.",
+		"ad": "je údajový bod, pre ktorý Spreadsheet Editor predpovedá hodnotu. Mal by pokračovať vo vzore hodnôt na časovej osi.!je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je voliteľná číselná hodnota označujúca dĺžku vzoru sezónnosti. Predvolená hodnota 1 znamená, že sezónnosť sa zisťuje automaticky.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto možnosť prázdna, Spreadsheet Editor vypočíta priemer hodnôt."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(cieľový_dátum; hodnoty; časová_os; [úroveň_spoľahlivosti]; [sezónnosť]; [dopĺňanie_údajov]; [agregácia])",
 		"d": "Vráti interval spoľahlivosti pre predpovedanú hodnotu v zadanom cieľovom dátume.",
-		"ad": "je údajový bod, pre ktorý Microsoft Excel predpovedá hodnotu. Mal by pokračovať vo vzore hodnôt na časovej osi.!je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je číslo v rozsahu 0 až 1, ktoré označuje úroveň spoľahlivosti vypočítaného intervalu spoľahlivosti. Predvolená hodnota je 0,95.!je voliteľná číselná hodnota označujúca dĺžku vzoru sezónnosti. Predvolená hodnota 1 znamená, že sezónnosť sa zisťuje automaticky.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto"
+		"ad": "je údajový bod, pre ktorý Spreadsheet Editor predpovedá hodnotu. Mal by pokračovať vo vzore hodnôt na časovej osi.!je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je číslo v rozsahu 0 až 1, ktoré označuje úroveň spoľahlivosti vypočítaného intervalu spoľahlivosti. Predvolená hodnota je 0,95.!je voliteľná číselná hodnota označujúca dĺžku vzoru sezónnosti. Predvolená hodnota 1 znamená, že sezónnosť sa zisťuje automaticky.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto možnosť prázdna, Spreadsheet Editor vypočíta priemer hodnôt."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(hodnoty; časová_os; [dopĺňanie_údajov]; [agregácia])",
 		"d": "Vráti dĺžku opakujúceho sa vzoru, ktorý aplikácia zistí pre zadaný časový rad.",
-		"ad": "je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto možnosť prázdna, Microsoft Excel vypočíta priemer hodnôt."
+		"ad": "je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto možnosť prázdna, Spreadsheet Editor vypočíta priemer hodnôt."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(hodnoty; časová_os; typ_štatistiky; [sezónnosť]; [dopĺňanie_údajov]; [agregácia])",
 		"d": "Vráti požadovanú štatistiku pre prognózu.",
-		"ad": "je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je číslo v rozsahu 1 až 8 označujúce typ štatistiky, ktorú Microsoft Excel vráti pre vypočítanú prognózu.!je voliteľná číselná hodnota označujúca dĺžku vzoru sezónnosti. Predvolená hodnota 1 znamená, že sezónnosť sa zisťuje automaticky.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto možnosť prázdna, Microsoft Excel vypočíta priemer hodnôt."
+		"ad": "je pole alebo rozsah číselných údajov, ktoré predpovedáte.!je nezávislé pole alebo rozsah číselných údajov. Medzi dátumami na časovej osi musí byť konzistentný krok a tieto dátumy nesmú mať nulovú hodnotu.!je číslo v rozsahu 1 až 8 označujúce typ štatistiky, ktorú Spreadsheet Editor vráti pre vypočítanú prognózu.!je voliteľná číselná hodnota označujúca dĺžku vzoru sezónnosti. Predvolená hodnota 1 znamená, že sezónnosť sa zisťuje automaticky.!je voliteľná hodnota na zaobchádzanie s chýbajúcimi hodnotami. Predvolená hodnota 1 nahradí chýbajúce hodnoty pomocou interpolácie, v prípade hodnoty 0 sa nahradia nulami.!je voliteľná číselná hodnota na agregáciu viacerých hodnôt s rovnakou časovou pečiatkou. Ak je táto možnosť prázdna, Spreadsheet Editor vypočíta priemer hodnôt."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; známe_y; známe_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cena; dátum_nákupu; prvé_obdobie; zostatok; obdobie; sadzba; [základ])",
-		"d": "Vráti pomernú časť lineárneho odpisu majetku za každé účtovné obdobie."
+		"d": "Vráti pomernú časť lineárneho odpisu majetku za každé účtovné obdobie.",
+		"ad": "je vstupná cena majetku!je dátum obstarania majetku!je dátum konca prvého obdobia!je zostatková cena na konci životnosti majetku.!je obdobie!je odpisová sadzba!ročný_základ: 0 pre rok s 360 dňami, 1 pre aktuálny základ, 3 pre rok s 365 dňami."
 	},
 	"AMORLINC": {
 		"a": "(cena; dátum_nákupu; prvé_obdobie; zostatok; obdobie; sadzba; [základ])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(text)",
-		"d": "Pre jazyky s dvojbajtovými tabuľkami znakov (DBCS) sa menia znaky s plnou šírkou (dvojbajtové) na znaky s polovičnou šírkou (jednobajtové)"
+		"d": "Pre jazyky s dvojbajtovými tabuľkami znakov (DBCS) sa menia znaky s plnou šírkou (dvojbajtové) na znaky s polovičnou šírkou (jednobajtové)",
+		"ad": "je text, ktorý chcete zmeniť"
 	},
 	"ASIN": {
 		"a": "(číslo)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(číslo; [významnosť])",
-		"d": "Vráti číslo zaokrúhlené na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty"
+		"d": "Vráti číslo zaokrúhlené na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty",
+		"ad": "je hodnota, ktorú chcete zaokrúhliť!je násobok, na ktorý chcete číslo zaokrúhliť"
 	},
 	"COMBIN": {
 		"a": "(počet; vybratý_počet)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(číslo; významnosť)",
-		"d": "Zaokrúhli číslo smerom nahor na najbližší násobok zadanej hodnoty"
+		"d": "Zaokrúhli číslo smerom nahor na najbližší násobok zadanej hodnoty",
+		"ad": "je hodnota, ktorú chcete zaokrúhliť!je násobok, na ktorý chcete číslo zaokrúhliť"
 	},
 	"EVEN": {
 		"a": "(číslo)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(číslo; [významnosť])",
-		"d": "Vráti číslo, ktoré je zaokrúhlené nadol na najbližšie celé číslo alebo na násobok zadanej hodnoty"
+		"d": "Vráti číslo, ktoré je zaokrúhlené nadol na najbližšie celé číslo alebo na násobok zadanej hodnoty",
+		"ad": "je hodnota, ktorú chcete zaokrúhliť!je násobok, na ktorý chcete číslo zaokrúhliť"
 	},
 	"FLOOR.MATH": {
 		"a": "(number; [significance]; [mode])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(číslo; [významnosť])",
-		"d": "Vráti číslo zaokrúhlené na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty. Číslo sa bez ohľadu na znamienko zaokrúhli nahor. Ak je však dané číslo alebo násobok nula, vráti sa nula."
+		"d": "Vráti číslo zaokrúhlené na najbližšie celé číslo alebo na najbližší násobok zadanej hodnoty. Číslo sa bez ohľadu na znamienko zaokrúhli nahor. Ak je však dané číslo alebo násobok nula, vráti sa nula.",
+		"ad": "je hodnota, ktorú chcete zaokrúhliť!je násobok, na ktorý chcete číslo zaokrúhliť"
 	},
 	"LCM": {
 		"a": "(číslo1; [číslo2]; ...)",

@@ -2,21 +2,22 @@
 	"DATE": {
 		"a": "(yıl; ay; gün)",
 		"d": "Tarih-saat kodundaki tarihi gösteren sayıyı verir.",
-		"ad": "Windows için Microsoft Excel'de 1900 veya 1904 ile (çalışma kitabının tarih sistemine göre) 9999 arasındaki bir sayı!yılın ayını gösteren 1 ile 12 arasındaki sayı!ayın gününü gösteren 1 ile 31 arasındaki sayı"
+		"ad": "Windows için Spreadsheet Editor'de 1900 veya 1904 ile (çalışma kitabının tarih sistemine göre) 9999 arasındaki bir sayı!yılın ayını gösteren 1 ile 12 arasındaki sayı!ayın gününü gösteren 1 ile 31 arasındaki sayı"
 	},
 	"DATEDIF": {
 		"a": "(başlangıç_tarihi; bitiş_tarihi; birim)",
-		"d": "İki tarih arasındaki gün, ay veya yıl sayısını hesaplar"
+		"d": "İki tarih arasındaki gün, ay veya yıl sayısını hesaplar",
+		"ad": "Belirli bir dönemin ilk veya başlangıç tarihini temsil eden tarih!Dönemin son veya bitiş tarihini gösterir!Döndürülmesini istediğiniz bilgi türü"
 	},
 	"DATEVALUE": {
 		"a": "(tarih_metni)",
 		"d": "Metin formunda bulunan bir tarihi tarih-saat kodunu gösteren bir sayıya dönüştürür",
-		"ad": "Bir tarihi Microsoft Excel tarih biçiminde 1/1/1900 ile 1/1/1904 veya (çalışma kitabının tarih sistemine göre) 12/31/9999 arasında gösteren metin"
+		"ad": "Bir tarihi Spreadsheet Editor tarih biçiminde 1/1/1900 ile 1/1/1904 veya (çalışma kitabının tarih sistemine göre) 12/31/9999 arasında gösteren metin"
 	},
 	"DAY": {
 		"a": "(seri_no)",
 		"d": "1 ile 31 arasındaki, ayın gününü döndürür.",
-		"ad": "Microsoft Excel tarafından kullanılan tarih-saat kodundaki sayı"
+		"ad": "Spreadsheet Editor tarafından kullanılan tarih-saat kodundaki sayı"
 	},
 	"DAYS": {
 		"a": "(bitiş_tarihi; başlangıç_tarihi)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(seri_no)",
 		"d": "Saati verir, bir seri numarasına karşılık gelen 0 (12:00)'dan 23 (11:00)'e kadar bir tamsayı.",
-		"ad": "Microsoft Excel tarafından kullanılan tarih-saat kodundaki sayı ya da zaman biçiminde metin, örneğin 16:48:00 ya da 4:48:00"
+		"ad": "Spreadsheet Editor tarafından kullanılan tarih-saat kodundaki sayı ya da zaman biçiminde metin, örneğin 16:48:00 ya da 4:48:00"
 	},
 	"ISOWEEKNUM": {
 		"a": "(tarih)",
 		"d": "Verilen tarih için yıl içinde ISO hafta numarasını döndürür",
-		"ad": "tarih ve saat hesaplama için Microsoft Excel tarafından kullanılan tarih-saat kodu"
+		"ad": "tarih ve saat hesaplama için Spreadsheet Editor tarafından kullanılan tarih-saat kodu"
 	},
 	"MINUTE": {
 		"a": "(seri_no)",
 		"d": "Bir seri numarasına karşılık gelen, 0-59 arasında bir tamsayı olan dakikayı verir.",
-		"ad": "Microsoft Excel tarafından kullanılan tarih-saat kodundaki sayı ya da zaman biçimindeki metin, örneğin 16:48:00 ya da 4:48:00"
+		"ad": "Spreadsheet Editor tarafından kullanılan tarih-saat kodundaki sayı ya da zaman biçimindeki metin, örneğin 16:48:00 ya da 4:48:00"
 	},
 	"MONTH": {
 		"a": "(seri_no)",
 		"d": "1 (Ocak) ile 12 (Aralık) arasındaki bir sayı ile ifade edilen ayı döndürür.",
-		"ad": "Microsoft Excel tarafından kullanılan tarih-saat kodundaki sayı"
+		"ad": "Spreadsheet Editor tarafından kullanılan tarih-saat kodundaki sayı"
 	},
 	"NETWORKDAYS": {
 		"a": "(başlangıç_tarihi; bitiş_tarihi; [tatiller])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(seri_no)",
 		"d": "Saniyeyi seri numarasına karşılık gelen 0 ile 59 arasında bir tamsayı cinsinden verir.",
-		"ad": "Microsoft Excel tarafından kullanılan tarih-saat kodundaki sayı ya da saat biçimindeki metin, örneğin 16:48:23 ya da 4:48:47"
+		"ad": "Spreadsheet Editor tarafından kullanılan tarih-saat kodundaki sayı ya da saat biçimindeki metin, örneğin 16:48:23 ya da 4:48:47"
 	},
 	"TIME": {
 		"a": "(saat; dakika; saniye)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(saat_metni)",
 		"d": "Bir metin dizesiyle (saat_metni) gösterilen bir saati 0 (00:00:00) ile 0,999988426 (23:59:59) arasındaki saat seri numarasına çevirir. Formülü girdikten sonra sayıyı saat biçiminde biçimlendirin",
-		"ad": "saati Microsoft Excel saat biçimlerinden herhangi biriyle gösteren metin dizesi (dizedeki tarih bilgisi yoksayılır)"
+		"ad": "saati Spreadsheet Editor saat biçimlerinden herhangi biriyle gösteren metin dizesi (dizedeki tarih bilgisi yoksayılır)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(seri_num; [dönüş_türü])",
 		"d": "Yıl içinde haftanın numarasını döndürür",
-		"ad": "Microsoft Excel tarafından tarih ve zaman hesaplamalarında kullanılan tarih-zaman kodu!döndürülen değerin türünü belirleyen sayı(1 veya 2)"
+		"ad": "Spreadsheet Editor tarafından tarih ve zaman hesaplamalarında kullanılan tarih-zaman kodu!döndürülen değerin türünü belirleyen sayı(1 veya 2)"
 	},
 	"WORKDAY": {
 		"a": "(başlangıç_tarihi; gün_sayısı; [tatiller])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(seri_no)",
 		"d": "1900 - 9999 aralığındaki bir tamsayı ile ifade edilen tarihin yılını döndürür.",
-		"ad": "Microsoft Excel tarafından kullanılan tarih-saat kodundaki sayı"
+		"ad": "Spreadsheet Editor tarafından kullanılan tarih-saat kodundaki sayı"
 	},
 	"YEARFRAC": {
 		"a": "(başlangıç_tarihi; bitiş_tarihi; [temel])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(bul_metin; metin_içinde; [başlangıç_sayısı])",
-		"d": "Bir metin dizesi içinde bir metin dizesi bulur ve ikinci metin dizesinin ilk karakterinden ilk metin dizesinin başlangıç konumuna ait sayıyı verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Bir metin dizesi içinde bir metin dizesi bulur ve ikinci metin dizesinin ilk karakterinden ilk metin dizesinin başlangıç konumuna ait sayıyı verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "bulmak istediğiniz metin. Metin_içindeki ilk karakteri eşleştirmek için çift tırnak (boş metin) kullanın; eşleştirme karakterleri kullanılamaz!bulmak istediğiniz metni içeren metin!aramanın başlayacağı karakteri belirtir. Metin_içindeki ilk karakterin numarası 1'dir. Atlanırsa Başl_num = 1"
 	},
 	"FIXED": {
 		"a": "(sayı; [onluklar]; [virgül_yok])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(metin; [sayı_karakterler])",
-		"d": "Belirteceğiniz bayt sayısına göre bir metin dizesindeki ilk karakteri veya karakterleri verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Belirteceğiniz bayt sayısına göre bir metin dizesindeki ilk karakteri veya karakterleri verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "çıkartmak istediğiniz karakterleri içeren metin!SOLDAN fonksiyonunun çıkarmasını istediğiniz karakter sayısını belirtir; atlanırsa 1"
 	},
 	"LEN": {
 		"a": "(metin)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(metin)",
-		"d": "Bir metin dizesinde karakterleri temsil etmek üzere kullanılan bayt sayısını verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Bir metin dizesinde karakterleri temsil etmek üzere kullanılan bayt sayısını verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "karakter sayısını bulmak istediğiniz metin. Boşluklar karakter olarak sayılır"
 	},
 	"LOWER": {
 		"a": "(metin)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(metin; başlangıç_sayısı; sayı_karakterler)",
-		"d": "Bir metin dizesinden, belirttiğiniz yerden başlayarak, belirttiğiniz bayt sayısına göre belirli sayıda karakteri verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Bir metin dizesinden, belirttiğiniz yerden başlayarak, belirttiğiniz bayt sayısına göre belirli sayıda karakteri verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "çıkartmak istediğiniz karakterlerin bulunduğu metin dizesi!çıkartmak istediğiniz ilk karakterin konumu. Metindeki ilk karakter 1'dir!Metinden kaç tane karakterin geleceğini belirtir"
 	},
 	"NUMBERVALUE": {
 		"a": "(metin; [ondalık_ayırıcı]; [grup_ayırıcı])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(eski_metin; başlangıç_sayısı; sayı_karakterler; yeni_metin)",
-		"d": "Belirteceğiniz bayt sayısına göre, bir metin dizesinin bir kısmını farklı bir metin dizesi ile değiştirir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Belirteceğiniz bayt sayısına göre, bir metin dizesinin bir kısmını farklı bir metin dizesi ile değiştirir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "bazı karakterlerini değiştirmek istediğiniz metin!Yeni_metin ile değiştirmek istediğiniz Eski_metin'deki karakterin konumu!Eski_metin'de değiştirmek istediğiniz karakter sayısı!Eski_metin'deki karakterleri dönüştürecek olan metin"
 	},
 	"REPT": {
 		"a": "(metin; sayı_kere)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(metin; [sayı_karakterler])",
-		"d": "Belirteceğiniz bayt sayısına göre, bir metin dizesindeki son karakteri veya karakterleri verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Belirteceğiniz bayt sayısına göre, bir metin dizesindeki son karakteri veya karakterleri verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "çıkarmak istediğiniz karakterleri içeren metin dizesi!kaç tane karakter çıkarmak istediğinizi belirtir, atlanırsa 1"
 	},
 	"SEARCH": {
 		"a": "(bul_metin; metin; [başlangıç_sayısı])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(bul_metin; metin; [başlangıç_sayısı])",
-		"d": "Bir metin dizesi içinde bir metin dizesi bulur ve ikinci metin dizesinin ilk karakterinden ilk metin dizesinin başlangıç konumuna ait sayıyı verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir"
+		"d": "Bir metin dizesi içinde bir metin dizesi bulur ve ikinci metin dizesinin ilk karakterinden ilk metin dizesinin başlangıç konumuna ait sayıyı verir, ise çift baytlık karakter kümesi (DBCS) kullanan dillerle kullanım için tasarlanmıştır - Japonca, Çince ve Korecedir",
+		"ad": "bulmak istediğiniz metin. ? ve * eşleştirme karakterlerini kullanabilirsiniz; ? ve * karakterlerini bulmak için ~? ve ~* kullanın!Bul_metin'de kullanılan metin!aramanın başlayacağı Metin_içinde bulunan karakter sayısı (soldan sayıldığında). Atlanırsa, 1 kullanılır"
 	},
 	"SUBSTITUTE": {
 		"a": "(metin; eski_metin; yeni_metin; [yineleme_sayısı])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(hedef_tarih; değerler; zaman_çizelgesi; [mevsimsellik]; [veri_tamamlama]; [toplama])",
-		"d": "Üstel düzeltme yöntemini kullanarak belirtilen hedef gelecek tarihi için tahmin edilen bir değer verir."
+		"d": "Üstel düzeltme yöntemini kullanarak belirtilen hedef gelecek tarihi için tahmin edilen bir değer verir.",
+		"ad": "Spreadsheet Editor uygulamasının bir değer tahmin ettiği veri noktasıdır. Zaman çizelgesindeki değer desenlerini sürdürmesi gerekir.!tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!mevsimsel desenin uzunluğunu gösteren isteğe bağlı sayısal bir değerdir. Varsayılan değer olan 1, mevsimselliğin otomatik olarak algılandığını gösterir.!eksik değerleri işlemek için kullanılan isteğe bağlı bir değerdir. Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değerdir. Boş bırakılırsa Spreadsheet Editor değerlerin ortalamasını verir."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(hedef_tarih; değerler; zaman_çizelgesi; [güven_düzeyi]; [mevsimsellik]; [veri_tamamlama]; [toplama])",
 		"d": "Belirtilen hedef tarihteki tahmin değeri için bir güvenilirlik aralığını verir.",
-		"ad": "Microsoft Excel uygulamasının bir değer tahmin ettiği veri noktasıdır. Zaman çizelgesindeki değer desenlerini sürdürmesi gerekir.!tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!hesaplanan güven aralığının güven düzeyini gösteren 0 ve 1 arasında bir sayıdır.Varsayılan değer .95'tir.!mevsimsel desenin uzunluğunu gösteren isteğe bağlı sayısal bir değerdir. Varsayılan değer olan 1, mevsimselliğin otomatik olarak algılandığını gösterir.!eksik değerleri işlemek için kullanılan isteğe bağlı bir değerdir. Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değer"
+		"ad": "Spreadsheet Editor uygulamasının bir değer tahmin ettiği veri noktasıdır. Zaman çizelgesindeki değer desenlerini sürdürmesi gerekir.!tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!hesaplanan güven aralığının güven düzeyini gösteren 0 ve 1 arasında bir sayıdır.Varsayılan değer .95'tir.!mevsimsel desenin uzunluğunu gösteren isteğe bağlı sayısal bir değerdir. Varsayılan değer olan 1, mevsimselliğin otomatik olarak algılandığını gösterir.!eksik değerleri işlemek için kullanılan isteğe bağlı bir değerdir. Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değerdir. Boş bırakılırsa Spreadsheet Editor değerlerin ortalamasını verir."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(değerler; zaman_çizelgesi; [veri_tamamlama]; [toplama])",
 		"d": "Belirtilen zaman dizisi için uygulama tarafından algılanan tekrarlanan desenin uzunluğunu verir.",
-		"ad": "tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!eksik değerleri işlemek için isteğe bağlı bir değer.Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değerdir. Boş bırakılırsa Microsoft Excel değerlerin ortalamasını verir."
+		"ad": "tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!eksik değerleri işlemek için isteğe bağlı bir değer.Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değerdir. Boş bırakılırsa Spreadsheet Editor değerlerin ortalamasını verir."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(değerler; zaman_çizelgesi; istatistik_türü; [mevsimsellik]; [veri_tamamlama]; [toplama])",
 		"d": "Tahmin için istenen istatistiği döndürür.",
-		"ad": "tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!Microsoft Excel uygulamasının hesaplanan tahmin için vereceği istatistiği gösteren 1 ve 8 arasında bir sayıdır. !mevsimsel desenin uzunluğunu gösteren isteğe bağlı sayısal bir değerdir. Varsayılan değer olan 1, mevsimselliğin otomatik olarak algılandığını gösterir.!eksik değerleri işlemek için kullanılan isteğe bağlı bir değerdir. Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değerdir. Boş bırakılırsa Microsoft Excel değerlerin ortalamasını verir."
+		"ad": "tahmin ettiğiniz sayısal veri aralığı veya dizisidir.!bağımsız sayısal veri aralığı veya dizisidir. Zaman çizelgesindeki tarihler arasında tutarlı bir adım olmalıdır ve sıfır olamaz.!Spreadsheet Editor uygulamasının hesaplanan tahmin için vereceği istatistiği gösteren 1 ve 8 arasında bir sayıdır. !mevsimsel desenin uzunluğunu gösteren isteğe bağlı sayısal bir değerdir. Varsayılan değer olan 1, mevsimselliğin otomatik olarak algılandığını gösterir.!eksik değerleri işlemek için kullanılan isteğe bağlı bir değerdir. Varsayılan değer olan 1 eksik değerleri ilişkilendirme yoluyla değiştirir ve 0 da bunları sıfırlarla değiştirir.!aynı zaman damgasına sahip birden fazla değeri toplamak için kullanılan isteğe bağlı bir sayısal değerdir. Boş bırakılırsa Spreadsheet Editor değerlerin ortalamasını verir."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; bilinen_y'ler; bilinen_x'ler)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(maliyet; alış_tarihi; ilk_dönem; hurda; dönem; oran; [temel])",
-		"d": "Bir malın her hesap dönemi için doğrusal amortisman eşdağılımını döndürür"
+		"d": "Bir malın her hesap dönemi için doğrusal amortisman eşdağılımını döndürür",
+		"ad": "malın değeri!malın satın alındığı tarih!ilk dönemin son günü!malın ömrü sonundaki hurda değeri!dönem!amortisman oranı!temel alınacak yıl: 360 gün için 0, gerçek değeri için 1, 365 gün için 3."
 	},
 	"AMORLINC": {
 		"a": "(maliyet; alış_tarihi; ilk_dönem; hurda; dönem; oran; [temel])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(metin)",
-		"d": "Çift bayt karakter kümeli (DBCS) dillerde, işlev tam genişlikli (çift bayt) karakterleri yarı genişlikli (tek bayt) karakterlere dönüştürür"
+		"d": "Çift bayt karakter kümeli (DBCS) dillerde, işlev tam genişlikli (çift bayt) karakterleri yarı genişlikli (tek bayt) karakterlere dönüştürür",
+		"ad": "Değiştirmek istediğiniz metin veya değiştirmek istediğiniz metnin bulunduğu hücreye başvurudur."
 	},
 	"ASIN": {
 		"a": "(sayı)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(sayı; [anlam])",
-		"d": "En yakın tam sayıya ya da en yakın katına yuvarlanmış sayıyı verir"
+		"d": "En yakın tam sayıya ya da en yakın katına yuvarlanmış sayıyı verir",
+		"ad": "yuvarlamak istediğiniz değer!yuvarlamak istediğiniz kat"
 	},
 	"COMBIN": {
 		"a": "(sayı; sayı_seçilen)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(sayı; anlam)",
-		"d": "Bir sayıyı, yukarı doğru en yakın anlamlı sayı katına yuvarlar"
+		"d": "Bir sayıyı, yukarı doğru en yakın anlamlı sayı katına yuvarlar",
+		"ad": "yuvarlamak istediğiniz değer!yuvarlamak istediğiniz kat"
 	},
 	"EVEN": {
 		"a": "(sayı)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(sayı; [anlam])",
-		"d": "En yakın sayıya veya en yakın anlam katına aşağı yuvarlanmış bir sayı verir"
+		"d": "En yakın sayıya veya en yakın anlam katına aşağı yuvarlanmış bir sayı verir",
+		"ad": "yuvarlamak istediğiniz değer!yuvarlamak istediğiniz kat"
 	},
 	"FLOOR.MATH": {
 		"a": "(sayı; [anlam]; [mod])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(sayı; [anlam])",
-		"d": "En yakın tam sayıya ya da en yakın katına yuvarlanmış sayıyı verir. Sayının işareti dikkate alınmadan sayı yuvarlanır. Ancak, sayı veya anlam sıfırsa, sıfır verilir."
+		"d": "En yakın tam sayıya ya da en yakın katına yuvarlanmış sayıyı verir. Sayının işareti dikkate alınmadan sayı yuvarlanır. Ancak, sayı veya anlam sıfırsa, sıfır verilir.",
+		"ad": "yuvarlamak istediğiniz değer!yuvarlamak istediğiniz kat"
 	},
 	"LCM": {
 		"a": "(sayı1; [sayı2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(e-tablo_url'si; aralık_dizesi)",
-		"d": "Belirtilen bir e-tablodan bir hücre aralığını içe aktarır."
+		"d": "Belirtilen bir e-tablodan bir hücre aralığını içe aktarır.",
+		"ad": "Verilerin içe aktarılacağı e-tablonun URL'si!aktarılacak aralığı belirten bir dize"
 	}
 }

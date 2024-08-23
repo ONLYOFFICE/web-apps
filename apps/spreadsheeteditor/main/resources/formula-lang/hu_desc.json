@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(kezdő_dátum; záró_dátum; egység)",
-		"d": "Két dátum közé eső napok, hónapok vagy évek számát számítja ki"
+		"d": "Két dátum közé eső napok, hónapok vagy évek számát számítja ki",
+		"ad": "Egy adott időszak első vagy kezdő dátumát jelölő dátum!Az időszak utolsó, vagyis záró dátumát megadó dátum!A visszaadni kívánt információ típusa"
 	},
 	"DATEVALUE": {
 		"a": "(dátum_szöveg)",
 		"d": "Szövegként megadott dátumot olyan számmá alakít át, amely dátum- és időértékben adja meg a dátumot.",
-		"ad": "a(z) Microsoft Excel valamely dátumformátumában szövegesen megadott dátum 1900. 01. 01. vagy 1904. 01. 01. (a munkafüzet dátumrendszerétől függően) és 9999. 12. 31. között"
+		"ad": "a(z) Spreadsheet Editor valamely dátumformátumában szövegesen megadott dátum 1900. 01. 01. vagy 1904. 01. 01. (a munkafüzet dátumrendszerétől függően) és 9999. 12. 31. között"
 	},
 	"DAY": {
 		"a": "(időérték)",
 		"d": "A hónap napját adja meg 1 és 31 közötti számmal",
-		"ad": "Microsoft Excel dátum- és időértékben megadott szám"
+		"ad": "Spreadsheet Editor dátum- és időértékben megadott szám"
 	},
 	"DAYS": {
 		"a": "(kezdő_dátum; záró_dátum)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(időérték)",
 		"d": "Az órát adja meg 0 (0:00, azaz éjfél) és 23 (este 11:00) közötti számmal.",
-		"ad": " Microsoft Excel dátum- és időértékben megadott szám, illetve időformátumú szöveg, például 16:48:00 vagy 4:48:00 du."
+		"ad": " Spreadsheet Editor dátum- és időértékben megadott szám, illetve időformátumú szöveg, például 16:48:00 vagy 4:48:00 du."
 	},
 	"ISOWEEKNUM": {
 		"a": "(dátum)",
 		"d": "Egy adott dátumhoz tartozó hét ISO rendszer szerinti sorszámát adja eredményül az évben.",
-		"ad": "a dátumok és időpontok számolásához az Microsoft Excel által haszonált dátum- és időérték"
+		"ad": "a dátumok és időpontok számolásához az Spreadsheet Editor által haszonált dátum- és időérték"
 	},
 	"MINUTE": {
 		"a": "(időérték)",
 		"d": "A percet adja meg 0 és 59 közötti számmal.",
-		"ad": "Microsoft Excel dátum- és időértékben megadott szám, illetve időformátumú szöveg, például 16:48:00 vagy 4:48:00 du."
+		"ad": "Spreadsheet Editor dátum- és időértékben megadott szám, illetve időformátumú szöveg, például 16:48:00 vagy 4:48:00 du."
 	},
 	"MONTH": {
 		"a": "(időérték)",
 		"d": "A hónapot adja meg 1 (január) és 12 (december) közötti számmal.",
-		"ad": "Microsoft Excel dátum- és időértékben megadott szám"
+		"ad": "Spreadsheet Editor dátum- és időértékben megadott szám"
 	},
 	"NETWORKDAYS": {
 		"a": "(kezdő_dátum; vég_dátum; [ünnepek])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(időérték)",
 		"d": "A másodpercet adja meg 0 és 59 közötti számmal.",
-		"ad": "Microsoft Excel dátum- és időértékben megadott szám, illetve időformátumú szöveg, például 16:48:23 vagy 4:48:47 du."
+		"ad": "Spreadsheet Editor dátum- és időértékben megadott szám, illetve időformátumú szöveg, például 16:48:23 vagy 4:48:47 du."
 	},
 	"TIME": {
 		"a": "(óra; perc; másodperc)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(idő_szöveg)",
 		"d": "A szövegként megadott időpontot időértékké, azaz 0 (0:00:00, vagyis éjfél) és 0,999988426 (este 11:59:59) közötti számmá alakítja át. A képlet beírását követően időformátumot kell hozzárendelni",
-		"ad": "a(z) Microsoft Excel valamely időformátumában szövegként megadott időpont (a szövegben lévő dátumadatok nem lesznek figyelembe véve)"
+		"ad": "a(z) Spreadsheet Editor valamely időformátumában szövegként megadott időpont (a szövegben lévő dátumadatok nem lesznek figyelembe véve)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(sorszám; [eredmény_típusa])",
 		"d": "Egy adott dátumhoz tartozó hét sorszámát adja eredményül az évben.",
-		"ad": "a dátumok és időpontok számolásához az Microsoft Excel által haszonált dátum- és időérték!szám (1 vagy 2), amely a hét kezdőnapját határozza meg"
+		"ad": "a dátumok és időpontok számolásához az Spreadsheet Editor által haszonált dátum- és időérték!szám (1 vagy 2), amely a hét kezdőnapját határozza meg"
 	},
 	"WORKDAY": {
 		"a": "(kezdő_dátum; napok; [ünnepek])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(időérték)",
 		"d": "Kiszámítja, hogy az adott dátum melyik évre esik (1900 és 9999 közötti egész szám).",
-		"ad": "Microsoft Excel dátum- és időértékben megadott szám"
+		"ad": "Spreadsheet Editor dátum- és időértékben megadott szám"
 	},
 	"YEARFRAC": {
 		"a": "(kezdő_dátum; vég_dátum; [alap])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(keres_szöveg; szöveg; [kezdet])",
-		"d": "Egy karaktersorozatban egy másikat keres, és eredményül az első karakterlánc első karakterének helyét adja a második karakterlánc elejétől számítva, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "Egy karaktersorozatban egy másikat keres, és eredményül az első karakterlánc első karakterének helyét adja a második karakterlánc elejétől számítva, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "a megkeresendő szövegrész. Két idézőjel (üres szöveg) segítségével a szöveg első karaktere található meg; helyettesítő karakterek nem használhatók!az a szövegrész, amelyben keresni kell!azt a karaktert adja meg, amelytől a keresést el kell kezdeni. A szöveg első karaktere az 1-es számú karakter. Ha elhagyjuk, a kezdet = 1"
 	},
 	"FIXED": {
 		"a": "(szám; [tizedesek]; [nincs_pont])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(szöveg; [hány_karakter])",
-		"d": "A szöveg első karaktereit adja vissza a megadott bájtszám alapján, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "A szöveg első karaktereit adja vissza a megadott bájtszám alapján, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "az a szövegrész, amelyből ki kell venni a karaktereket!azt határozza meg, hogy a LEFTB függvény hány karaktert adjon eredményül; elhagyása esetén értéke 1"
 	},
 	"LEN": {
 		"a": "(szöveg)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(szöveg)",
-		"d": "A szöveg karaktereinek ábrázolására használt bájtok számát adja vissza, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "A szöveg karaktereinek ábrázolására használt bájtok számát adja vissza, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "az a szöveg, amelynek a hosszát meg kell határozni. A szóköz is karakternek számít."
 	},
 	"LOWER": {
 		"a": "(szöveg)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(szöveg; honnantól; hány_karakter)",
-		"d": "A karakterek által elfoglalt bájtok alapján megadott pozíciójú karaktertől kezdve adott számú karaktert ad vissza szövegből, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "A karakterek által elfoglalt bájtok alapján megadott pozíciójú karaktertől kezdve adott számú karaktert ad vissza szövegből, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "az a szövegdarab, amely a kívánt karaktereket tartalmazza!a szöveg e karakterétől kezdve kell adott számút kiolvasni. A szöveg első karaktere az 1-es számú karakter!a kívánt eredmény karaktereinek száma"
 	},
 	"NUMBERVALUE": {
 		"a": "(szöveg; [tizedes_elv]; [ezres_elv])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(régi_szöveg; honnantól; hány_karakter; új_szöveg)",
-		"d": "Egy adott bájtszám alapján a szöveg adott részét másik karaktersorozatra cseréli, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "Egy adott bájtszám alapján a szöveg adott részét másik karaktersorozatra cseréli, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "az a szöveg, amelyben néhány karaktert ki kell cserélni!az a régi_szövegbeli karakterhely, amelytől kezdve a karaktereket az új_szövegre ki kell cserélni!a régi_szövegben kicserélendő karakterek száma!az a szövegdarab, amely a régi_szövegbeli karaktereket helyettesíteni fogja"
 	},
 	"REPT": {
 		"a": "(szöveg; hányszor)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(szöveg; [hány_karakter])",
-		"d": "Szöveg utolsó karaktereit adja vissza a megadott bájtszám alapján, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "Szöveg utolsó karaktereit adja vissza a megadott bájtszám alapján, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "az a szövegrész, amelyből ki kell venni a karaktereket!azt határozza meg, hogy hány karaktert adjon eredményül; elhagyása esetén értéke 1"
 	},
 	"SEARCH": {
 		"a": "(keres_szöveg; szöveg; [kezdet])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(keres_szöveg; szöveg; [kezdet])",
-		"d": "Egy szöveges karakterláncot keres egy második karakterláncban, és visszaadja az első karakterlánc kezdő pozíciójának számát a második karakterlánc első karakterében, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai"
+		"d": "Egy szöveges karakterláncot keres egy második karakterláncban, és visszaadja az első karakterlánc kezdő pozíciójának számát a második karakterlánc első karakterében, kétbájtos (DBCS) karakterkészletet alkalmazó nyelvekhez készült - a japán, a kínai és a koreai",
+		"ad": "a megkeresendő szövegdarab. Használhatja a ? vagy * joker karaktereket; a ? és a * kereséséhez használja a ~? és a ~* kombinációkat!az a szöveg, amelyben a keres_szöveget meg kell keresni!a szövegnek az a balról számított karakterhelye, amelytől a keresést el kell kezdeni. Ha elhagyjuk, 1 lesz"
 	},
 	"SUBSTITUTE": {
 		"a": "(szöveg; régi_szöveg; új_szöveg; [melyiket])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(cél_dátum; értékek; idősor; [szezonalitás]; [adatkiegészítés]; [aggregáció])",
-		"d": "Ez a függvény a megadott jövőbeli céldátumra vonatkozó előre jelzett értéket adja vissza exponenciális simítás alkalmazásával."
+		"d": "Ez a függvény a megadott jövőbeli céldátumra vonatkozó előre jelzett értéket adja vissza exponenciális simítás alkalmazásával.",
+		"ad": "az az adatpont, amelyre az Spreadsheet Editor előre jelzi az értéket. Az idősor értékeinek formátumát kell követnie.!az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!opcionális számérték, amely a szezonális minta hosszát jelöli. Az alapértelmezett 1-es érték azt jelenti, hogy a szezonalitás észlelése automatikus.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Spreadsheet Editor átlagolja az értékeket."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(cél_dátum; értékek; idősor; [konfidenciaszint]; [szezonalitás]; [adatkiegészítés]; [aggregáció])",
 		"d": "Ez a függvény a megadott céldátumra előre jelzett érték konfidencia-intervallumát adja vissza.",
-		"ad": "az az adatpont, amelyre az Microsoft Excel előre jelzi az értéket. Az idősor értékeinek formátumát kell követnie.!az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!egy 0 és 1 közé eső szám, amely a számított konfidencia-intervallum konfidenciaszintjét jelöli. Az alapértelmezett érték 0,95.!opcionális számérték, amely a szezonális minta hosszát jelöli. Az alapértelmezett 1-es érték azt jelenti, hogy a szezonalitás észlelése automatikus.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Microso"
+		"ad": "az az adatpont, amelyre az Spreadsheet Editor előre jelzi az értéket. Az idősor értékeinek formátumát kell követnie.!az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!egy 0 és 1 közé eső szám, amely a számított konfidencia-intervallum konfidenciaszintjét jelöli. Az alapértelmezett érték 0,95.!opcionális számérték, amely a szezonális minta hosszát jelöli. Az alapértelmezett 1-es érték azt jelenti, hogy a szezonalitás észlelése automatikus.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Spreadsheet Editor átlagolja az értékeket."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(értékek; idősor; [adatkiegészítés]; [aggregáció])",
 		"d": "Ez a függvény a megadott idősorban az alkalmazás által észlelt ismétlődő minta hosszát adja vissza.",
-		"ad": "az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Microsoft Excel átlagolja az értékeket."
+		"ad": "az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Spreadsheet Editor átlagolja az értékeket."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(értékek; idősor; statisztika_típusa; [szezonalitás]; [adatkiegészítés]; [aggregáció])",
 		"d": "Ez a függvény az előrejelzés megadott statisztikai adatait adja vissza.",
-		"ad": "az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!a számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!egy 1 és 8 közé eső szám, amely jelzi, hogy a Microsoft Excel mely statisztikai adatokat adja vissza a kiszámított előrejelzéshez.!opcionális számérték, amely a szezonális minta hosszát jelöli. Az alapértelmezett 1-es érték azt jelenti, hogy a szezonalitás észlelése automatikus.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Microsoft Excel átlagolja az értékeket."
+		"ad": "az előrejelzés alapjául szolgáló számadatok tömbje vagy tartománya.!a számadatok független tömbje vagy tartománya. Az idősor dátumai között konzisztens, nem nulla értékű távolság kell legyen.!egy 1 és 8 közé eső szám, amely jelzi, hogy a Spreadsheet Editor mely statisztikai adatokat adja vissza a kiszámított előrejelzéshez.!opcionális számérték, amely a szezonális minta hosszát jelöli. Az alapértelmezett 1-es érték azt jelenti, hogy a szezonalitás észlelése automatikus.!opcionális érték a hiányzó értékek kezelésére. Az alapértelmezett 1-es érték a hiányzó értékeket interpolálással pótolja, a 0 érték nullákkal helyettesíti őket.!opcionális számérték, amely az azonos időbélyeggel rendelkező értékeket összesíti. Ha üres, az Spreadsheet Editor átlagolja az értékeket."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; ismert_y-ok; ismert_x-ek)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(költség; beszerzés_dátuma; első_időszak; maradványérték; időszak; ráta; [alap])",
-		"d": "Egy adott tárgyi eszköznek az egyes könyvelési időszakokra eső, arányosan felosztott lineáris értékcsökkenését számítja ki."
+		"d": "Egy adott tárgyi eszköznek az egyes könyvelési időszakokra eső, arányosan felosztott lineáris értékcsökkenését számítja ki.",
+		"ad": "a tárgyi eszköz költsége!a tárgyi eszköz beszerzésének dátuma!az első időszak végének dátuma!a tárgyi eszköz maradványértéke az élettartam eltelte után!az az időszak, amelyre az értékcsökkenést ki kell számítani!az értékcsökkenés rátája!évalap: 0 = 360 napos év, 1 = tényleges napszámot tartalmazó év, 3 = 365 napos év"
 	},
 	"AMORLINC": {
 		"a": "(költség; beszerzés_dátuma; első_időszak; maradványérték; időszak; ráta; [alap])",
@@ -1432,7 +1442,7 @@
 	"DDB": {
 		"a": "(költség; maradványérték; leírási_idő; időszak; [faktor])",
 		"d": "Egy eszköz értékcsökkenését számítja ki egy adott időszakra vonatkozóan a progresszív vagy egyéb megadott leírási modell alkalmazásával.",
-		"ad": "az eszköz beszerzési ára!az eszköz maradványértéke a leírási idő eltelte után!a leírási időszakok teljes száma (azaz az eszköz hasznos élettartama)!az az időszak, amelyre az értékcsökkenés mértékét ki kell számítani; ugyanazt a mértékegységet kell használni, mint az élettartam megadásánál!a leírás gyorsasága. Ha nincs megadva, akkor értékét a Microsoft Excel 2-nek veszi, azaz progresszív leírási modellel számol."
+		"ad": "az eszköz beszerzési ára!az eszköz maradványértéke a leírási idő eltelte után!a leírási időszakok teljes száma (azaz az eszköz hasznos élettartama)!az az időszak, amelyre az értékcsökkenés mértékét ki kell számítani; ugyanazt a mértékegységet kell használni, mint az élettartam megadásánál!a leírás gyorsasága. Ha nincs megadva, akkor értékét a Spreadsheet Editor 2-nek veszi, azaz progresszív leírási modellel számol."
 	},
 	"DISC": {
 		"a": "(elszámolás; lejárat; ár; visszaváltás; [alap])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(szöveg)",
-		"d": "Ez a függvény a kétbájtos (DBCS) karakterkészletet használó nyelveknél egybájtos karakterekre cseréli a kétbájtos karaktereket"
+		"d": "Ez a függvény a kétbájtos (DBCS) karakterkészletet használó nyelveknél egybájtos karakterekre cseréli a kétbájtos karaktereket",
+		"ad": "Az a szöveg vagy azt a szöveget tartalmazó cellára mutató hivatkozás, amelyet módosítani kíván."
 	},
 	"ASIN": {
 		"a": "(szám)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(szám; [pontosság])",
-		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére kerekít"
+		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére kerekít",
+		"ad": "a kerekítendő szám!az a szám, amelynek legközelebbi többszörösére kerekíteni kell"
 	},
 	"COMBIN": {
 		"a": "(szám; hány_kiválasztott)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(szám; pontosság)",
-		"d": "Egy számot a pontosságként megadott érték legközelebb eső többszörösére kerekít fel"
+		"d": "Egy számot a pontosságként megadott érték legközelebb eső többszörösére kerekít fel",
+		"ad": "a kerekítendő szám!az a szám, amelynek legközelebbi többszörösére kerekíteni kell"
 	},
 	"EVEN": {
 		"a": "(szám)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(szám; [pontosság])",
-		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére lefelé kerekít"
+		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére lefelé kerekít",
+		"ad": "a kerekítendő szám!az a szám, amelynek legközelebbi többszörösére kerekíteni kell"
 	},
 	"FLOOR.MATH": {
 		"a": "(szám; [pontosság]; [mód])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(szám; [pontosság])",
-		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére kerekít. A szám előjelétől függetlenül a számot felfelé kerekíti. Ugyanakkor ha a szám vagy a pontosságként megadott érték nulla, a függvény nullát ad vissza."
+		"d": "Egy számot a legközelebbi egészre vagy a pontosságként megadott érték legközelebb eső többszörösére kerekít. A szám előjelétől függetlenül a számot felfelé kerekíti. Ugyanakkor ha a szám vagy a pontosságként megadott érték nulla, a függvény nullát ad vissza.",
+		"ad": "a kerekítendő szám!az a szám, amelynek legközelebbi többszörösére kerekíteni kell"
 	},
 	"LCM": {
 		"a": "(szám1; [szám2]; ...)",

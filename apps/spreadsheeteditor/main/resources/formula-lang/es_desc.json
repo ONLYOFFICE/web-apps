@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "( fecha-inicio; fecha-final; unidad )",
-		"d": "Devuelve la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado"
+		"d": "Devuelve la diferencia entre dos valores de fecha (fecha de inicio y fecha de fin), según el intervalo (unidad) especificado",
+		"ad": "Es una fecha que representa la primera o la fecha inicial de un período determinado!Una fecha que representa la última del período o al fecha de finalización!El tipo de información que desea que se devuelva"
 	},
 	"DATEVALUE": {
 		"a": "(texto_de_fecha)",
 		"d": "Convierte una fecha en forma de texto en un número que representa la fecha en código de fecha y hora",
-		"ad": "es el texto que representa una fecha en formato de fecha de Microsoft Excel, entre 1/1/1900 o 1/1/1904 (en función del sistema de fecha del libro) y 31/12/9999"
+		"ad": "es el texto que representa una fecha en formato de fecha de Spreadsheet Editor, entre 1/1/1900 o 1/1/1904 (en función del sistema de fecha del libro) y 31/12/9999"
 	},
 	"DAY": {
 		"a": "(núm_de_serie)",
 		"d": "Devuelve el día del mes (un número de 1 a 31).",
-		"ad": "es un número en el código de fecha y hora usado por Microsoft Excel"
+		"ad": "es un número en el código de fecha y hora usado por Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(fecha_inicial; fecha_final)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(núm_de_serie)",
 		"d": "Devuelve la hora como un número de 0 (12:00 a.m.) a 23 (11:00 p.m.).",
-		"ad": "es un número en el código de fecha y hora usado por Microsoft Excel, o texto en formato de hora, como por ejemplo 16:48:00 o 4:48:00 p.m."
+		"ad": "es un número en el código de fecha y hora usado por Spreadsheet Editor, o texto en formato de hora, como por ejemplo 16:48:00 o 4:48:00 p.m."
 	},
 	"ISOWEEKNUM": {
 		"a": "(fecha)",
 		"d": "Devuelve el número de semana ISO del año para una fecha determinada",
-		"ad": "Es el código de fecha y hora que usa Microsoft Excel para calcular la fecha y la hora"
+		"ad": "Es el código de fecha y hora que usa Spreadsheet Editor para calcular la fecha y la hora"
 	},
 	"MINUTE": {
 		"a": "(núm_de_serie)",
 		"d": "Devuelve el minuto, un número de 0 a 59.",
-		"ad": "es un número en el código de fecha y hora usado por Microsoft Excel, o texto en formato de hora, como por ejemplo 16:48:00 o 4:48:00 p.m."
+		"ad": "es un número en el código de fecha y hora usado por Spreadsheet Editor, o texto en formato de hora, como por ejemplo 16:48:00 o 4:48:00 p.m."
 	},
 	"MONTH": {
 		"a": "(núm_de_serie)",
 		"d": "Devuelve el mes, un número entero de 1 (enero) a 12 (diciembre).",
-		"ad": "es un número en el código de fecha y hora usado por Microsoft Excel"
+		"ad": "es un número en el código de fecha y hora usado por Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(fecha_inicial; fecha_final; [vacaciones])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(núm_de_serie)",
 		"d": "Devuelve el segundo, un número de 0 a 59.",
-		"ad": "es un número en el código de fecha y hora usado por Microsoft Excel, o texto en formato de hora, como por ejemplo 16:48:23 o 4:48:47 p.m."
+		"ad": "es un número en el código de fecha y hora usado por Spreadsheet Editor, o texto en formato de hora, como por ejemplo 16:48:23 o 4:48:47 p.m."
 	},
 	"TIME": {
 		"a": "(hora; minuto; segundo)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(texto_de_hora)",
 		"d": "Convierte una hora de texto en un número de serie para una hora, un número de 0 (12:00:00 a.m.) a 0.999988426 (11:59:59 p.m.). Da formato al número con un formato de hora después de introducir la fórmula",
-		"ad": "es una cadena de texto que indica la hora en cualquiera de los formatos de hora de Microsoft Excel (se omite la información de fecha en la cadena)"
+		"ad": "es una cadena de texto que indica la hora en cualquiera de los formatos de hora de Spreadsheet Editor (se omite la información de fecha en la cadena)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(número_serie; [tipo_devuelto])",
 		"d": "Devuelve el número de semanas en el año",
-		"ad": "es el código de fecha-hora utilizado por Microsoft Excel para los cálculos de fecha y hora!es un número (1 o 2) que determina el tipo de valor devuelto"
+		"ad": "es el código de fecha-hora utilizado por Spreadsheet Editor para los cálculos de fecha y hora!es un número (1 o 2) que determina el tipo de valor devuelto"
 	},
 	"WORKDAY": {
 		"a": "(fecha_inicial; días; [vacaciones])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(núm_de_serie)",
 		"d": "Devuelve el año, un número entero en el rango 1900-9999.",
-		"ad": "es un número en el código de fecha y hora usado por Microsoft Excel"
+		"ad": "es un número en el código de fecha y hora usado por Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(fecha_inicial; fecha_final; [base])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(cadena-1; cadena-2; [posición-inicio])",
-		"d": "Encuentra la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Encuentra la subcadena especificada (cadena-1) dentro de una cadena (cadena-2) y está destinada a los idiomas del conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es el texto que se desea encontrar. Use comillas dobles (sin texto) para que coincida con  el primer carácter en cadena-2. No se permiten caracteres comodín!es el texto que a su vez contiene el texto que se desea encontrar!especifica el carácter a partir del cual se iniciará la búsqueda. El primer carácter en cadena-2 es 1. Si se omite, Núm_inicial = 1"
 	},
 	"FIXED": {
 		"a": "(número; [decimales]; [no_separar_millares])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(cadena; [número-caracteres])",
-		"d": "Extrae la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Extrae la subcadena de la cadena especificada a partir del carácter izquierdo y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es la cadena de texto que contiene los caracteres que desea extraer!especifica el número de caracteres que se desea que IZQUIERDAB extraiga. Si se omite, se asume 1"
 	},
 	"LEN": {
 		"a": "(texto)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "( cadena )",
-		"d": "Analiza la cadena especificada y devolver el número de caracteres que contiene y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Analiza la cadena especificada y devolver el número de caracteres que contiene y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es el texto cuya longitud desea conocer. Los espacios cuentan como caracteres"
 	},
 	"LOWER": {
 		"a": "(texto)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(cadena; posición-empiece; número-caracteres)",
-		"d": "Extrae los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Extrae los caracteres de la cadena especificada a partir de cualquier posición y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es la cadena de texto de la cual se desea extraer los caracteres!es la posición del primer carácter que se desea extraer del argumento texto. El primer carácter en Cadena es 1!especifica el número de caracteres de Cadena que se debe devolver"
 	},
 	"NUMBERVALUE": {
 		"a": "(texto; [separador_decimal]; [separador_grupo])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(cadena-1; pos-inicio; número-caracteres; cadena-2)",
-		"d": "Reemplaza un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Reemplaza un conjunto de caracteres, basado en el número de caracteres y la posición inicial que especifique, por un nuevo conjunto de caracteres y está destinada a idiomas que utilizan el conjunto de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es el texto en el que se desea reemplazar ciertos caracteres!es la posición del carácter dentro de cadena-1 que se desea reemplazar con cadena-2!es el número de caracteres en cadena-1 que se desea reemplazar!es el texto que reemplaza caracteres en cadena-1"
 	},
 	"REPT": {
 		"a": "(texto; núm_de_veces)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(cadena; [número-caracteres])",
-		"d": "Extrae una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Extrae una subcadena de una cadena a partir del carácter más a la derecha, basada en el número especificado de caracteres y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es la cadena de texto que contiene los caracteres que se desea extraer!especifica el número de caracteres que se desea extraer; si se omite, se asume 1"
 	},
 	"SEARCH": {
 		"a": "(texto_buscado; dentro_del_texto; [núm_inicial])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(cadena-1; cadena-2; [posición-inicio])",
-		"d": "Devuelve la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc."
+		"d": "Devuelve la ubicación de la subcadena especificada en una cadena y está destinada a idiomas que utilizan el juego de caracteres de doble bit (DBCS) como el japonés, chino, coreano, etc.",
+		"ad": "es el texto que se desea encontrar. Puede usar ? y * como caracteres comodín; puede usar ~? y ~* para encontrar los caracteres ? y *!es el texto en el que se desea encontrar cadena-1!es, contando desde la izquierda, el número del carácter en cadena-2 desde donde se desea iniciar la búsqueda. Si se omite, se usa 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(texto; texto_original; texto_nuevo; [núm_de_repeticiones])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(fecha_objetivo; valores; escaladetiempo; [estacionalidad]; [finalización_datos]; [agregación])",
-		"d": "Devuelve el valor previsto para una fecha objetivo usando el método de suavizado exponencial."
+		"d": "Devuelve el valor previsto para una fecha objetivo usando el método de suavizado exponencial.",
+		"ad": "es el punto de datos para el que Spreadsheet Editor predice un valor. Se debe llevar a cabo en el patrón de valores de la escala de tiempo.!es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un valor numérico opcional que indica la longitud del patrón estacional. El valor predeterminado de 1 indica que la estacionalidad se detecta automáticamente.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores por interpolación y 0 los reemplaza con ceros.!es un valor numérico opcional para agregar varios valores con la misma marca temporal. Si está en blanco, Spreadsheet Editor calcula la media de los valores"
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(fecha_objetivo; valores; escaladetiempo; [nivel_confianza]; [estacionalidad]; [finalización_datos]; [agregación])",
 		"d": "Devuelve un rango de confianza para el valor previsto en la fecha objetivo especificada.",
-		"ad": "es el punto de datos para el que Microsoft Excel predice un valor. Se debe llevar a cabo en el patrón de valores de la escala de tiempo.!es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un número entre 0 y 1, que indica el nivel de confianza para el rango de confianza calculado. El valor predeterminado es 0,95.!es un valor numérico opcional que indica la longitud del patrón estacional. El valor predeterminado de 1 indica que la estacionalidad se detecta automáticamente.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores que faltan por interpolación y 0 reemplaza los valores que falta"
+		"ad": "es el punto de datos para el que Spreadsheet Editor predice un valor. Se debe llevar a cabo en el patrón de valores de la escala de tiempo.!es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un número entre 0 y 1, que indica el nivel de confianza para el rango de confianza calculado. El valor predeterminado es 0,95.!es un valor numérico opcional que indica la longitud del patrón estacional. El valor predeterminado de 1 indica que la estacionalidad se detecta automáticamente.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores por interpolación y 0 los reemplaza con ceros.!es un valor numérico opcional para agregar varios valores con la misma marca temporal. Si está en blanco, Spreadsheet Editor calcula la media de los valores"
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(valores; escaladetiempo; [finalización_datos]; [agregación])",
 		"d": "Devuelve la longitud del patrón repetitivo que la aplicación detecta para la serie de tiempo especificado.",
-		"ad": "es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores que faltan por interpolación y 0 los reemplaza con ceros.!es un valor numérico opcional para agregar varios valores con la misma marca temporal. Si está en blanco, Microsoft Excel calcula la media de los valores."
+		"ad": "es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores que faltan por interpolación y 0 los reemplaza con ceros.!es un valor numérico opcional para agregar varios valores con la misma marca temporal. Si está en blanco, Spreadsheet Editor calcula la media de los valores."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(valores; escaladetiempo; tipo_estadística; [estacionalidad]; [completación_datos]; [agregación])",
 		"d": "Devuelve la estadística requerida de la previsión.",
-		"ad": "es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un número entre 1 y 8 que indica qué estadística Microsoft Excel devolverá para la previsión calculada.!es un valor numérico opcional que indica la longitud del patrón estacional. El valor predeterminado 1 indica que la estacionalidad se detecta automáticamente.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores por interpolación y 0 los reemplaza con ceros.!es un valor numérico opcional para agregar varios valores con la misma marca temporal. Si está en blanco, Microsoft Excel calcula la media de los valores."
+		"ad": "es la matriz o el rango de datos numéricos que está prediciendo.!es la matriz o el rango de datos numéricos independiente. Las fechas de la escala de tiempo deben tener un paso coherente entre ellas, que no puede ser cero.!es un número entre 1 y 8 que indica qué estadística Spreadsheet Editor devolverá para la previsión calculada.!es un valor numérico opcional que indica la longitud del patrón estacional. El valor predeterminado 1 indica que la estacionalidad se detecta automáticamente.!es un valor opcional para el tratamiento de los valores que faltan. El valor predeterminado 1 reemplaza los valores por interpolación y 0 los reemplaza con ceros.!es un valor numérico opcional para agregar varios valores con la misma marca temporal. Si está en blanco, Spreadsheet Editor calcula la media de los valores."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; conocido_y; conocido_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(costo; fecha_compra; primer_período; valor_residual; período; tasa; [base])",
-		"d": "Devuelve la depreciación lineal prorrateada de un activo para cada período contable especificado."
+		"d": "Devuelve la depreciación lineal prorrateada de un activo para cada período contable especificado.",
+		"ad": "es el costo de un activo!es la fecha de compra de un activo!es la fecha del final del primer período!es el valor residual al final de la vida de un activo.!es el período!es la tasa de depreciación!base_año: 0 para un año de 360 días, 1 para real, 3 para años de 365 días."
 	},
 	"AMORLINC": {
 		"a": "(costo; fecha_compra; primer_período; valor_residual; período; tasa; [base])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(texto)",
-		"d": "Para los idiomas que empleen juegos de caracteres de dos bytes (DBCS), convierte los caracteres de ancho completo (de dos bytes) en caracteres de ancho medio (de un byte)"
+		"d": "Para los idiomas que empleen juegos de caracteres de dos bytes (DBCS), convierte los caracteres de ancho completo (de dos bytes) en caracteres de ancho medio (de un byte)",
+		"ad": "El texto que se desea reemplazar"
 	},
 	"ASIN": {
 		"a": "(número)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "( x; [significado])",
-		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano."
+		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano.",
+		"ad": "es el valor que se desea redondear!es el múltiplo hacia el que se desea redondear"
 	},
 	"COMBIN": {
 		"a": "(número; tamaño)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "( x; significado)",
-		"d": "Redondea el número hasta el múltiplo de significación más cercano"
+		"d": "Redondea el número hasta el múltiplo de significación más cercano",
+		"ad": "es el valor que se desea redondear!es el múltiplo hacia el que se desea redondear"
 	},
 	"EVEN": {
 		"a": "(número)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "( x; [significado])",
-		"d": "Devuelve un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano."
+		"d": "Devuelve un número que se redondea hacia abajo al entero más cercano o al múltiplo de significación más cercano.",
+		"ad": "es el valor que se desea redondear!es el múltiplo hacia el que se desea redondear"
 	},
 	"FLOOR.MATH": {
 		"a": "(número; [cifra_significativa]; [moda])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(número; [significado])",
-		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero."
+		"d": "Devuelve un número que se redondea hacia arriba al entero más cercano o al múltiplo de significación más cercano, independientemente del signo del número. Sin embargo, si el número o el significado es cero, se devuelve cero.",
+		"ad": "es el valor que se desea redondear!es el múltiplo hacia el que se desea redondear"
 	},
 	"LCM": {
 		"a": "(número1; [número2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(url_hoja_cálculo; cadena_intervalo)",
-		"d": "Importa un intervalo de celdas de una hoja de cálculo específica."
+		"d": "Importa un intervalo de celdas de una hoja de cálculo específica.",
+		"ad": "URL de la hoja de la que se van a importar los datos!el intervalo que se desea importar"
 	}
 }

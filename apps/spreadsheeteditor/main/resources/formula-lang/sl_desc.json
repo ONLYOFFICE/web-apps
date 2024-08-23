@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(začetni_datum; končni_datum; enota)",
-		"d": "Izračuna število dni, mesecev ali let med dvema datumoma"
+		"d": "Izračuna število dni, mesecev ali let med dvema datumoma",
+		"ad": "Datum, ki predstavlja prvi ali začetni datum danega obdobja!Datum, ki predstavlja zadnji, končni datum nekega obdobja!Vrsta informacij, ki jo želite pridobiti"
 	},
 	"DATEVALUE": {
 		"a": "(besedilo_datuma)",
 		"d": "Pretvori datum v obliki besedila v število, ki predstavlja datum v kodi za datum in uro.",
-		"ad": "je besedilo, ki predstavlja datum v obliki datuma med 1.1.1900 ali 1.1.1904 (kar je odvisno od sistema datumov v delovnem zvezku) in 31.12.9999 v programu Microsoft Excel"
+		"ad": "je besedilo, ki predstavlja datum v obliki datuma med 1.1.1900 ali 1.1.1904 (kar je odvisno od sistema datumov v delovnem zvezku) in 31.12.9999 v programu Spreadsheet Editor"
 	},
 	"DAY": {
 		"a": "(serijska_številka)",
 		"d": "Vrne dan v mesecu, število med 1 in 31.",
-		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Microsoft Excel"
+		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(končni_datum; začetni_datum)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(serijska_številka)",
 		"d": "Vrne uro, ki je število med 0 (polnoč) in 23 (23:00).",
-		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Microsoft Excel, ali besedilo v časovni obliki, na primer 16:48:00 ali 4:48:00 PM"
+		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Spreadsheet Editor, ali besedilo v časovni obliki, na primer 16:48:00 ali 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(datum)",
 		"d": "Vrne število ISO številke tedna v letu za dani datum",
-		"ad": "je datumsko-časovna koda, ki jo uporablja Microsoft Excel za izračun datuma in ure"
+		"ad": "je datumsko-časovna koda, ki jo uporablja Spreadsheet Editor za izračun datuma in ure"
 	},
 	"MINUTE": {
 		"a": "(serijska_številka)",
 		"d": "Vrne minute, ki so celo število med 0 in 59.",
-		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Microsoft Excel, ali besedilo v časovni obliki, na primer 16:48:00 ali 4:48:00 PM"
+		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Spreadsheet Editor, ali besedilo v časovni obliki, na primer 16:48:00 ali 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(serijska_številka)",
 		"d": "Vrne mesec, ki je število od 1 (januar) do 12 (december).",
-		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Microsoft Excel"
+		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(začetni_datum; končni_datum; [prazniki])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(serijska_številka)",
 		"d": "Vrne sekunde, ki so celo število med 0 in 59.",
-		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Microsoft Excel, ali besedilo v časovni obliki, na primer 16:48:23 ali 4:48:47 PM"
+		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Spreadsheet Editor, ali besedilo v časovni obliki, na primer 16:48:23 ali 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(ura; minuta; sekunda)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(besedilo_ure)",
 		"d": "Pretvori uro, zapisano v besedilni obliki, v zaporedno število za uro; števila od 0 (12:00:00) do 0,999988426 (23:59:59). Po vnosu formule oblikujte število z obliko zapisa ure.",
-		"ad": "je besedilni niz, ki navaja uro v eni od oblik zapisa ure programa Microsoft Excel (informacije o datumu v nizu so prezrte)."
+		"ad": "je besedilni niz, ki navaja uro v eni od oblik zapisa ure programa Spreadsheet Editor (informacije o datumu v nizu so prezrte)."
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(serijska_številka; [vrsta_vrednosti])",
 		"d": "Vrne število tednov v letu",
-		"ad": "je datumsko-časovna koda, ki jo uporablja program Microsoft Excel za izračune datuma in časa!je število (1 ali 2), ki določa vrsto vrnjene vrednosti"
+		"ad": "je datumsko-časovna koda, ki jo uporablja program Spreadsheet Editor za izračune datuma in časa!je število (1 ali 2), ki določa vrsto vrnjene vrednosti"
 	},
 	"WORKDAY": {
 		"a": "(začetni_datum; dnevi; [prazniki])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(serijska_številka)",
 		"d": "Vrne leto datuma, ki je celo število v intervalu od 1900 - 9999.",
-		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Microsoft Excel"
+		"ad": "je število v datumsko-časovni kodi, ki jo uporablja Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(začetni_datum; končni_datum; [osnova])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(iskano_besedilo; v_besedilu; [začetni_znak])",
-		"d": "Je mogoče en besedilni niz poiskati z drugim in vrniti število začetnih mest prvega besedilnega niza iz prvega znaka drugega besedilnega niza, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Je mogoče en besedilni niz poiskati z drugim in vrniti število začetnih mest prvega besedilnega niza iz prvega znaka drugega besedilnega niza, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilo, ki ga želite poiskati. Uporabite dvojne narekovaje (prazno besedilo), če želite primerjati s prvim znakom v argumentu »V_besedilu«; uporaba nadomestnih znakov ni dovoljena.!je besedilo, ki vsebuje iskano besedilo.!določi znak, pri katerem se iskanje začne. Prvi znak v argumentu »V_besedilu« je znak številka 1. Če izpuščeno, velja »Začetni_znak = 1«."
 	},
 	"FIXED": {
 		"a": "(število; [decimalna_mesta]; [brez_vejic])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(besedilo; [št_znakov])",
-		"d": "Vrne prvi znak ali znake v nizu besedila na osnovi navedenega števila bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Vrne prvi znak ali znake v nizu besedila na osnovi navedenega števila bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilni niz, v katerem so znaki, ki jih želite izvleči.!določa, koliko znakov naj izvleče LEFTB; enega, če je izpuščeno."
 	},
 	"LEN": {
 		"a": "(besedilo)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(besedilo)",
-		"d": "Vrne število bajtov, ki predstavljajo znake v besedilnem nizu, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Vrne število bajtov, ki predstavljajo znake v besedilnem nizu, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilo, ki mu želite poiskati dolžino. Presledki se štejejo kot znaki."
 	},
 	"LOWER": {
 		"a": "(besedilo)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(besedilo; prvi_znak; št_znakov)",
-		"d": "Vrne določeno število znakov iz besedilnega niza z začetkom pri navedenem položaju in na osnovi navedenega števila bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Vrne določeno število znakov iz besedilnega niza z začetkom pri navedenem položaju in na osnovi navedenega števila bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilni niz, v katerem so znaki, ki jih želite izvleči.!je položaj prvega znaka, ki ga želite izvleči iz besedila. Prvi znak v besedilu je 1.!določa število znakov, ki jih vrne iz besedila."
 	},
 	"NUMBERVALUE": {
 		"a": "(besedilo; [decimalno_ločilo]; [skupina_ločilo])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(staro_besedilo; mesto_znaka; št_znakov; novo_besedilo)",
-		"d": "Nadomesti del besedilnega niza z drugim besedilnim nizom glede na navedeno število bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Nadomesti del besedilnega niza z drugim besedilnim nizom glede na navedeno število bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilo, v katerem želite zamenjati nekatere znake.!je mesto znaka v starem besedilu, ki ga želite zamenjati z novim besedilom.!je število znakov v »staro_besedilo«, ki ga želite zamenjati z »novo_besedilo«.!je besedilo, ki bo zamenjalo znake v starem besedilu."
 	},
 	"REPT": {
 		"a": "(besedilo; št_ponovitev)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(besedilo; [št_znakov])",
-		"d": "Vrne zadnji znak ali znake v besedilnem nizu, in sicer na podlagi navedenega števila bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Vrne zadnji znak ali znake v besedilnem nizu, in sicer na podlagi navedenega števila bajtov, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilni niz, v katerem so znaki, ki jih želite izvleči.!določa, koliko znakov želite izvleči. Enega, če je izpuščeno."
 	},
 	"SEARCH": {
 		"a": "(iskano_besedilo; v_besedilu; [št_začetka])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(iskano_besedilo; v_besedilu; [št_začetka])",
-		"d": "Je mogoče en besedilni niz poiskati z drugim in vrniti število začetnih mest prvega besedilnega niza iz prvega znaka drugega besedilnega niza, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina"
+		"d": "Je mogoče en besedilni niz poiskati z drugim in vrniti število začetnih mest prvega besedilnega niza iz prvega znaka drugega besedilnega niza, uporablja v jezikih z dvobajtnim naborom znakov (DBCS) - japonščina, kitajščina in korejščina",
+		"ad": "je besedilo, ki ga želite poiskati. Uporabite lahko nadomestna znaka »?« in »*«. Če želite iskati znaka »?« in »*«, uporabite »~?« in »~*«.!je besedilo, v katerem želite najti »Iskano_besedilo«.!je številka znaka v argumentu »V_besedilu«, šteto od leve, pri katerem želite začeti iskanje. Če je izpuščeno, se uporabi 1."
 	},
 	"SUBSTITUTE": {
 		"a": "(besedilo; staro_besedilo; novo_besedilo; [št_primerka])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(ciljni_datum; vrednosti; časovna_premica; [sezonskost]; [dokončanje_podatkov]; [združevanje])",
-		"d": "Vrne predvideno vrednost za določen prihodnji datum tako, da uporabi metodo eksponentnega glajenja."
+		"d": "Vrne predvideno vrednost za določen prihodnji datum tako, da uporabi metodo eksponentnega glajenja.",
+		"ad": "je podatkovna točka, za katero Spreadsheet Editor predvidi vrednost. Nadaljevati bi moral vzorec vrednosti na časovni premici.!je matrika obsega številskih podatkov, ki jih predvidevate.!je neodvisna metrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je opcijska številska vrednost, ki označuje dolžino vzorca sezonskosti. Privzeta vrednost 1 označuje, da je sezonskost zaznana samodejno.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z istim časovnim žigom. Če je vrednost prazna, Spreadsheet Editor izračuna povprečje vrednosti."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(ciljni_datum; vrednosti; časovna_premica; [raven_zanesljivosti]; [sezonskost]; [dokončanje_podatkov]; [združevanje])",
 		"d": "Vrne interval zanesljivosti za vrednost napovedi za določen ciljni datum.",
-		"ad": "je podatkovna točka, za katero Microsoft Excel predvidi vrednost. Nadaljevati bi moral vzorec vrednosti na časovni premici.!je matrika obsega številskih podatkov, ki jih predvidevate.!je neodvisna metrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je število med 0 in 1, ki prikazuje raven zanesljivosti izračunanega intervala zanesljivosti. Privzeta vrednost je .95.!je opcijska številska vrednost, ki označuje dolžino vzorca sezonskosti. Privzeta vrednost 1 označuje, da je sezonskost zaznana samodejno.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z istim časovnim žigom. Če je vrednost prazna, Microsoft Excel "
+		"ad": "je podatkovna točka, za katero Spreadsheet Editor predvidi vrednost. Nadaljevati bi moral vzorec vrednosti na časovni premici.!je matrika obsega številskih podatkov, ki jih predvidevate.!je neodvisna metrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je število med 0 in 1, ki prikazuje raven zanesljivosti izračunanega intervala zanesljivosti. Privzeta vrednost je .95.!je opcijska številska vrednost, ki označuje dolžino vzorca sezonskosti. Privzeta vrednost 1 označuje, da je sezonskost zaznana samodejno.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z istim časovnim žigom. Če je vrednost prazna, Spreadsheet Editor izračuna povprečje vrednosti."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(vrednosti; časovna_premica; [dokončanje_podatkov]; [združevanje])",
 		"d": "Vrne dolžino ponavljajočega se vzorca, ki ga aplikacijo zazna za določen časovni niz.",
-		"ad": "je matrica ali obseg številskih podatkov, ki jih predvidevate.!je neodvisna matrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z isto časovno štampiljko. Če je vrednost prazna, Microsoft Excel izračuna povprečje vrednosti."
+		"ad": "je matrica ali obseg številskih podatkov, ki jih predvidevate.!je neodvisna matrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z isto časovno štampiljko. Če je vrednost prazna, Spreadsheet Editor izračuna povprečje vrednosti."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(vrednosti; časovna_premica; vrsta_statistike; [sezonskost]; [dokončanje_podatkov]; [združevanje])",
 		"d": "Vrne zahtevane statistične podatke za napoved.",
-		"ad": "je matrica ali obseg številskih podatkov, ki jih napovedujete.!je neodvisna matrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je število med 1 in 8. Označuje, katero statistiko bo Microsoft Excel vrnil za izračunano napoved.!je opcijska številska vrednost, ki označuje dolžino vzorca sezonskosti. Privzeta vrednost 1 označuje, da je sezonskost zaznana samodejno.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z isto časovno štampiljko. Če je vrednost prazna, Microsoft Excel izračuna povprečje vrednosti."
+		"ad": "je matrica ali obseg številskih podatkov, ki jih napovedujete.!je neodvisna matrika ali obseg številskih podatkov. Med datumi na časovni premici mora biti dosleden korak in ne more biti nič.!je število med 1 in 8. Označuje, katero statistiko bo Spreadsheet Editor vrnil za izračunano napoved.!je opcijska številska vrednost, ki označuje dolžino vzorca sezonskosti. Privzeta vrednost 1 označuje, da je sezonskost zaznana samodejno.!je opcijska vrednost za obravnavo manjkajočih vrednosti. Privzeta vrednost 1 zamenja manjkajoče vrednosti z interpolacijo, 0 pa jih zamenja z ničlami.!je opcijska številska vrednost za združevanje več vrednosti z isto časovno štampiljko. Če je vrednost prazna, Spreadsheet Editor izračuna povprečje vrednosti."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; znani_y-i; znani_x-i)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(stroški; datum_nakupa; prvo_obdobje; amortizacija; obdobje; stopnja; [osnova])",
-		"d": "Vrne sorazmerno linearno razvrednotenje sredstva za posamezno računovodsko obdobje."
+		"d": "Vrne sorazmerno linearno razvrednotenje sredstva za posamezno računovodsko obdobje.",
+		"ad": "is cena sredstva!je datum nakupa sredstva!je datum konca prvega obdobja!je rešena vrednost ob koncu življenjske dobe sredstva.!je obdobje!je stopnja razvrednotenja!na_osnovi_leta: 0 za leto 360 dni, 1 za dejansko, 3 za leto 265 dni."
 	},
 	"AMORLINC": {
 		"a": "(stroški; datum_nakupa; prvo_obdobje; amortizacija; obdobje; stopnja; [osnova])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(besedilo)",
-		"d": "Za jezike z dvobajtnim naborom znakov (DBCS) spremeni funkcija znake polne širine (dvobajtne) v znake polovične (enobajtne) širine"
+		"d": "Za jezike z dvobajtnim naborom znakov (DBCS) spremeni funkcija znake polne širine (dvobajtne) v znake polovične (enobajtne) širine",
+		"ad": "Besedilo ali sklic na celico, ki vsebuje besedilo, v katerem hočete zamenjati znake"
 	},
 	"ASIN": {
 		"a": "(število)",
@@ -1716,11 +1727,13 @@
 	"CEILING.MATH": {
 		"a": "(število; [osnova]; [način])",
 		"d": "Zaokroži število na najbližje celo število ali večkratnik osnove navzgor",
-		"ad": "je vrednost, ki jo želite zaokrožiti!je večkratnik, na katerega želite zaokrožiti!če je dana in je neničelna, bo ta funkcija zaokrožila na število, ki ni nič"
+		"ad": "je vrednost, ki jo želite zaokrožiti!je večkratnik, na katerega želite zaokrožiti!če je dana in je neničelna, bo ta funkcija zaokrožila na število, ki ni nič",
+		"ad": "je vrednost, ki jo želite zaokrožiti.!je mnogokratnik, s katerim želite zaokroževati."
 	},
 	"CEILING.PRECISE": {
 		"a": "(število; [pomembnost])",
-		"d": "Vrne število, ki je zaokroženo na najbližje celo število ali na najbližji mnogokratnik značilnega števila"
+		"d": "Vrne število, ki je zaokroženo na najbližje celo število ali na najbližji mnogokratnik značilnega števila",
+		"ad": "je vrednost, ki jo želite zaokrožiti.!je mnogokratnik, s katerim želite zaokroževati."
 	},
 	"COMBIN": {
 		"a": "(število; izbrano_število)",
@@ -1774,7 +1787,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(število; pomembnost)",
-		"d": "Zaokroži število navzgor, na najbližji mnogokratnik značilnega števila"
+		"d": "Zaokroži število navzgor, na najbližji mnogokratnik značilnega števila",
+		"ad": "je vrednost, ki jo želite zaokrožiti.!je mnogokratnik, s katerim želite zaokroževati."
 	},
 	"EVEN": {
 		"a": "(število)",
@@ -1803,7 +1817,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(število; [pomembnost])",
-		"d": "Vrne število, ki je zaokroženo navzdol na najbližje celo število ali na najbližji večkratnik osnove"
+		"d": "Vrne število, ki je zaokroženo navzdol na najbližje celo število ali na najbližji večkratnik osnove",
+		"ad": "je vrednost, ki jo želite zaokrožiti.!je mnogokratnik, s katerim želite zaokroževati."
 	},
 	"FLOOR.MATH": {
 		"a": "(število; [osnova]; [način])",
@@ -1822,7 +1837,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(število; [pomembnost])",
-		"d": "Vrne število, ki je zaokroženo na najbližje celo število ali na najbližji mnogokratnik značilnega števila. Ne glede na znak števila, je število zaokroženo navzgor. Če je vrednost števila ali značilnega števila nič, je vrnjena vrednost nič."
+		"d": "Vrne število, ki je zaokroženo na najbližje celo število ali na najbližji mnogokratnik značilnega števila. Ne glede na znak števila, je število zaokroženo navzgor. Če je vrednost števila ali značilnega števila nič, je vrnjena vrednost nič.",
+		"ad": "je vrednost, ki jo želite zaokrožiti.!je mnogokratnik, s katerim želite zaokroževati."
 	},
 	"LCM": {
 		"a": "(število1; [število2]; ...)",

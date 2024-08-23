@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(date_début; date_fin; unité)",
-		"d": "Renvoie la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié"
+		"d": "Renvoie la différence entre deux dates (date_début et date_fin) sur la base d'un intervalle (unité) spécifié",
+		"ad": "Date qui représente la première ou la date de début d’une période donnée!Date qui représente la dernière date ou la date de fin de la période!Type d’informations à retourner"
 	},
 	"DATEVALUE": {
 		"a": "(date_texte)",
 		"d": "Convertit une date donnée sous forme de texte en un numéro représentant la date dans le code de date et d’heure",
-		"ad": "est du texte représentant une date dans un format de date de Microsoft Excel, entre le 01/01/1900 ou le 01/01/1904 (en fonction du calendrier du classeur), et le 31/12/9999"
+		"ad": "est du texte représentant une date dans un format de date de Spreadsheet Editor, entre le 01/01/1900 ou le 01/01/1904 (en fonction du calendrier du classeur), et le 31/12/9999"
 	},
 	"DAY": {
 		"a": "(numéro_de_série)",
 		"d": "Donne le jour du mois (un nombre entre 1 et 31).",
-		"ad": "est un nombre dans le code date-heure utilisé par Microsoft Excel"
+		"ad": "est un nombre dans le code date-heure utilisé par Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(date_fin; date_début)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(numéro_de_série)",
 		"d": "Renvoie l’heure, un nombre entier entre 0 (12:00 A.M.) et 23 (11:00 P.M.).",
-		"ad": "est un nombre dans le code date-heure utilisé par Microsoft Excel, ou du texte au format horaire, par exemple 16:48:00 ou 4:48:00 P.M"
+		"ad": "est un nombre dans le code date-heure utilisé par Spreadsheet Editor, ou du texte au format horaire, par exemple 16:48:00 ou 4:48:00 P.M"
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
 		"d": "Renvoie le numéro ISO de la semaine de l’année correspondant à une date donnée",
-		"ad": "est le code de date et d’heure utilisé par Microsoft Excel pour le calcul de la date et de l’heure"
+		"ad": "est le code de date et d’heure utilisé par Spreadsheet Editor pour le calcul de la date et de l’heure"
 	},
 	"MINUTE": {
 		"a": "(numéro_de_série)",
 		"d": "Renvoie les minutes, un entier entre 0 et 59.",
-		"ad": "est un nombre dans le code date-heure utilisé par Microsoft Excel, ou du texte au format horaire, par exemple 16:48:00 ou 4:48:00 P.M"
+		"ad": "est un nombre dans le code date-heure utilisé par Spreadsheet Editor, ou du texte au format horaire, par exemple 16:48:00 ou 4:48:00 P.M"
 	},
 	"MONTH": {
 		"a": "(numéro_de_série)",
 		"d": "Donne le mois, un nombre de 1 (janvier) à 12 (décembre)",
-		"ad": "est un nombre dans le code date-heure utilisé par Microsoft Excel"
+		"ad": "est un nombre dans le code date-heure utilisé par Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(date_départ; date_fin; [jours_fériés])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(numéro_de_série)",
 		"d": "Donne les secondes, un entier entre 0 et 59. ",
-		"ad": "est un nombre dans le code date-heure utilisé par Microsoft Excel, ou du texte au format horaire, par exemple 16:48:23 ou 4:48:47 P.M"
+		"ad": "est un nombre dans le code date-heure utilisé par Spreadsheet Editor, ou du texte au format horaire, par exemple 16:48:23 ou 4:48:47 P.M"
 	},
 	"TIME": {
 		"a": "(heure; minute; seconde)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(heure_texte)",
 		"d": "Convertit une heure donnée sous forme de texte en un numéro de série (temps_texte)",
-		"ad": "est une chaîne de texte entre guillemets qui indique une heure dans un des formats d’heure de Microsoft Excel (l’information sur la date dans la chaîne de caractères est ignorée)"
+		"ad": "est une chaîne de texte entre guillemets qui indique une heure dans un des formats d’heure de Spreadsheet Editor (l’information sur la date dans la chaîne de caractères est ignorée)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(numéro_de_série; [type_renvoi])",
 		"d": "Renvoie le numéro de la semaine de l’année",
-		"ad": "est le code de date et d’heure utilisé par Microsoft Excel pour le calcul de la date et de l’heure!est un nombre (1 ou 2) qui détermine le type de la valeur renvoyée"
+		"ad": "est le code de date et d’heure utilisé par Spreadsheet Editor pour le calcul de la date et de l’heure!est un nombre (1 ou 2) qui détermine le type de la valeur renvoyée"
 	},
 	"WORKDAY": {
 		"a": "(date_départ; nb_jours; [jours_fériés])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(numéro_de_série)",
 		"d": "Renvoie l’année, un entier entre 1900 et 9999.",
-		"ad": "est un nombre dans le code date-heure utilisé par Microsoft Excel"
+		"ad": "est un nombre dans le code date-heure utilisé par Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(date_début; date_fin; [base])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(texte_cherché; texte; [no_départ])",
-		"d": "Recherche la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Recherche la sous-chaîne spécifiée (texte_cherché) dans une chaîne (texte) et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est le texte que vous recherchez. Utilisez des guillemets (sans texte) pour trouver le premier caractère dans Texte; les caractères génériques ne sont pas autorisés!est le texte contenant le texte recherché!indique le caractère à partir duquel commencer la recherche. Le premier caractère dans l'argument texte est le chiffre 1. S'il est omis, No_départ = 1"
 	},
 	"FIXED": {
 		"a": "(nombre; [décimales]; [no_séparateur])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(texte; [no_car])",
-		"d": "Extrait la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Extrait la sous-chaîne d’une chaîne spécifiée à partir du caractère de gauche et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est la chaîne de texte contenant les caractères à extraire!indique le nombre de caractères que la fonction GAUCHEB doit renvoyer; 1 si omis"
 	},
 	"LEN": {
 		"a": "(texte)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(texte)",
-		"d": "Analyse la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Analyse la chaîne spécifiée et renvoyer le nombre de caractères qu’elle contient et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est le texte dont vous voulez connaître la longueur. Les espaces sont considérés comme des caractères"
 	},
 	"LOWER": {
 		"a": "(texte)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(texte; no_départ; no_car)",
-		"d": "Extrait les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Extrait les caractères d’une chaîne spécifiée à partir de n’importe quelle position et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est la chaîne de texte qui contient les caractères que vous voulez extraire!est la position du premier caractère à extraire. Le premier caractère du texte porte le numéro 1!indique le nombre de caractères à extraire du texte"
 	},
 	"NUMBERVALUE": {
 		"a": "(texte; [séparateur_décimal]; [séparateur_groupe])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(ancien_texte; no_départ; no_car; nouveau_texte)",
-		"d": "Remplace un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Remplace un jeu de caractères, en fonction du nombre de caractères et de la position de départ que vous spécifiez, avec un nouvel ensemble de caractères et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est le texte dans lequel vous voulez remplacer des caractères!est la position du caractère dans ancien_texte que vous voulez remplacer par nouveau_texte!est le nombre de caractères que vous voulez remplacer dans l'ancien texte!est le texte qui va remplacer des caractères de ancien_texte"
 	},
 	"REPT": {
 		"a": "(texte; no_fois)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(texte; [no_car])",
-		"d": "Extrait une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Extrait une sous-chaîne d'une chaîne à partir du caractère le plus à droite, en fonction du nombre de caractères spécifié et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est la chaîne de texte contenant les caractères à extraire!indique le nombre de caractères à extraire, 1 par défaut"
 	},
 	"SEARCH": {
 		"a": "(texte_cherché; texte; [no_départ])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(texte_cherché; texte; [no_départ])",
-		"d": "Renvoie l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc."
+		"d": "Renvoie l'emplacement de la sous-chaîne spécifiée dans une chaîne et destinée aux langues qui utilisent le jeu de caractères à deux octets (DBCS) comme le Japonais, le Chinois, le Coréen etc.",
+		"ad": "est le texte à trouver. Vous pouvez utiliser les caractères génériques ? et *; utilisez ~? et ~* pour trouver les caractères ? et *.!est le texte comprenant la chaîne de texte à trouver!indique le numéro du caractère dans l'argument texte à partir duquel la recherche doit débuter (en comptant à partir de la gauche). 1 est utilisé par défaut"
 	},
 	"SUBSTITUTE": {
 		"a": "(texte; ancien_texte; nouveau_texte; [no_position])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(date_cible; valeurs; chronologie; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
-		"d": "Renvoie la valeur prévue pour une date cible ultérieure spécifiée à l’aide de la méthode de lissage exponentiel."
+		"d": "Renvoie la valeur prévue pour une date cible ultérieure spécifiée à l’aide de la méthode de lissage exponentiel.",
+		"ad": "représente le point de données pour lequel Spreadsheet Editor prévoit une valeur. Il doit porter sur le modèle des valeurs de la chronologie.!représente la matrice ou la plage de données numériques pour laquelle vous effectuez une prédiction.!représente la matrice ou plage de données numériques indépendante. Les dates de la chronologie doivent être séparées de manière cohérente et être différentes de zéro.!représente une valeur numérique facultative qui indique la longueur du modèle saisonnier. La valeur par défaut 1 indique que le caractère saisonnier est détecté automatiquement.!représente une valeur facultative pour la gestion des valeurs manquantes. La valeur par défaut 1 remplace les valeurs manquantes par interpolation, et 0 les remplace par des zéros.!est une valeur numérique facultative pour l'agrégation de plusieurs valeurs avec le même horodatage. Si elle est vide, Spreadsheet Editor calcule la moyenne des valeurs."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(date_cible; valeurs; chronologie; [niveau_confiance]; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
 		"d": "Renvoie un intervalle de confiance pour la valeur de prévision à la date cible spécifiée.",
-		"ad": "représente le point de données pour lequel Microsoft Excel prévoit une valeur. Il doit porter sur le modèle des valeurs de la chronologie.!représente la matrice ou la plage de données numériques pour laquelle vous effectuez une prédiction.!représente la matrice ou plage de données numériques indépendante. Les dates de la chronologie doivent être séparées de manière cohérente et être différentes de zéro.!représente un nombre compris entre 0 et 1 qui indique le niveau de confiance de l’intervalle de confiance calculé. La valeur par défaut est .95.!représente une valeur numérique facultative qui indique la longueur du modèle saisonnier. La valeur par défaut 1 indique que le caractère saisonnier est détecté automatiquement.!représente une valeur facultative pour la gestion des valeurs manquantes. La valeur par défaut 1 remp"
+		"ad": "représente le point de données pour lequel Spreadsheet Editor prévoit une valeur. Il doit porter sur le modèle des valeurs de la chronologie.!représente la matrice ou la plage de données numériques pour laquelle vous effectuez une prédiction.!représente la matrice ou plage de données numériques indépendante. Les dates de la chronologie doivent être séparées de manière cohérente et être différentes de zéro.!représente un nombre compris entre 0 et 1 qui indique le niveau de confiance de l’intervalle de confiance calculé. La valeur par défaut est .95.!représente une valeur numérique facultative qui indique la longueur du modèle saisonnier. La valeur par défaut 1 indique que le caractère saisonnier est détecté automatiquement.!représente une valeur facultative pour la gestion des valeurs manquantes. La valeur par défaut 1 remplace les valeurs manquantes par interpolation, et 0 les remplace par des zéros.!est une valeur numérique facultative pour l'agrégation de plusieurs valeurs avec le même horodatage. Si elle est vide, Spreadsheet Editor calcule la moyenne des valeurs."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(valeurs; chronologie; [achèvement_données]; [agrégation])",
 		"d": "Renvoie la longueur du motif répétitif détecté par l'application pour la série temporelle spécifiée.",
-		"ad": "représente la matrice ou la plage de données numériques que vous prévoyez !représente la matrice ou plage de données numériques indépendante. Les dates de la chronologie doivent être séparées de manière cohérente et être différentes de zéro. !représente une valeur facultative pour la gestion des valeurs manquantes. La valeur par défaut 1 remplace les valeurs manquantes par interpolation, et la valeur 0 les remplace par des zéros.!représente une valeur numérique facultative pour l’agrégation de plusieurs valeurs avec le même horodatage. En l’absence de valeur, Microsoft Excel effectue la moyenne des valeurs."
+		"ad": "représente la matrice ou la plage de données numériques que vous prévoyez !représente la matrice ou plage de données numériques indépendante. Les dates de la chronologie doivent être séparées de manière cohérente et être différentes de zéro. !représente une valeur facultative pour la gestion des valeurs manquantes. La valeur par défaut 1 remplace les valeurs manquantes par interpolation, et la valeur 0 les remplace par des zéros.!représente une valeur numérique facultative pour l’agrégation de plusieurs valeurs avec le même horodatage. En l’absence de valeur, Spreadsheet Editor effectue la moyenne des valeurs."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(valeurs; chronologie; type_statistique; [caractère_saisonnier]; [achèvement_données]; [agrégation])",
 		"d": "Renvoie les statistiques demandées pour la prévision.",
-		"ad": "est le tableau ou la plage de données numériques que vous prévoyez.!est le tableau ou la plage de données numériques indépendants. Les dates de la chronologie doivent être séparées par un pas cohérent et ne peuvent pas être nulles.!est un nombre compris entre 1 et 8, indiquant quelle statistique Microsoft Excel sera retournée pour la prévision calculée.!est une valeur numérique facultative qui indique la longueur du modèle saisonnier. La valeur par défaut de 1 indique que la saisonnalité est détectée automatiquement.!est une valeur facultative pour le traitement des valeurs manquantes. La valeur par défaut de 1 remplace les valeurs manquantes par interpolation, et 0 les remplace par des zéros.!est une valeur numérique facultative pour l'agrégation de plusieurs valeurs avec le même horodatage. Si elle est vide, Microsoft Excel calcule la moyenne des valeurs. "
+		"ad": "est le tableau ou la plage de données numériques que vous prévoyez.!est le tableau ou la plage de données numériques indépendants. Les dates de la chronologie doivent être séparées par un pas cohérent et ne peuvent pas être nulles.!est un nombre compris entre 1 et 8, indiquant quelle statistique Spreadsheet Editor sera retournée pour la prévision calculée.!est une valeur numérique facultative qui indique la longueur du modèle saisonnier. La valeur par défaut de 1 indique que la saisonnalité est détectée automatiquement.!est une valeur facultative pour le traitement des valeurs manquantes. La valeur par défaut de 1 remplace les valeurs manquantes par interpolation, et 0 les remplace par des zéros.!est une valeur numérique facultative pour l'agrégation de plusieurs valeurs avec le même horodatage. Si elle est vide, Spreadsheet Editor calcule la moyenne des valeurs. "
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; y_connus; x_connus)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(coût; date_achat; première_période; val_résiduelle; périodicité; taux; [base])",
-		"d": "Renvoie l'amortissement linéaire proportionnel d'un bien pour chaque période comptable."
+		"d": "Renvoie l'amortissement linéaire proportionnel d'un bien pour chaque période comptable.",
+		"ad": "représente le coût du bien!représente la date d'acquisition du bien!représente la date de fin de la première période!est la valeur résiduelle en fin de vie du bien.!représente la périodicité!représente le taux d'amortissement!base_annuelle : 0 pour une année de 360 jours, 1 pour le nombre de jours réels, 3 pour une année de 365 jours."
 	},
 	"AMORLINC": {
 		"a": "(coût; date_achat; première_période; val_résiduelle; périodicité; taux; [base])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(texte)",
-		"d": "En ce qui concerne les langues à jeu de caractères codés sur deux octets (DBCS, Double-byte Character Set), la fonction remplace les caractères à pleine chasse (codés sur deux octets) en caractères à demi-chasse (codés sur un octet)"
+		"d": "En ce qui concerne les langues à jeu de caractères codés sur deux octets (DBCS, Double-byte Character Set), la fonction remplace les caractères à pleine chasse (codés sur deux octets) en caractères à demi-chasse (codés sur un octet)",
+		"ad": "est le texte que vous souhaitez modifier"
 	},
 	"ASIN": {
 		"a": "(nombre)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(x; [précision])",
-		"d": "Arrondit le nombre à l'excès à l'entier ou au multiple significatif le plus proche."
+		"d": "Arrondit le nombre à l'excès à l'entier ou au multiple significatif le plus proche.",
+		"ad": "représente la valeur que vous voulez arrondir!représente le multiple auquel vous voulez arrondir"
 	},
 	"COMBIN": {
 		"a": "(nombre_éléments; nb_éléments_choisis)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(x; précision)",
-		"d": "Arrondit le nombre au multiple le plus proche de l'argument de précision."
+		"d": "Arrondit le nombre au multiple le plus proche de l'argument de précision.",
+		"ad": "représente la valeur que vous voulez arrondir!représente le multiple auquel vous voulez arrondir"
 	},
 	"EVEN": {
 		"a": "(nombre)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(x; [précision])",
-		"d": "Arrondit le nombre par défaut à l'entier ou au multiple significatif le plus proche."
+		"d": "Arrondit le nombre par défaut à l'entier ou au multiple significatif le plus proche.",
+		"ad": "représente la valeur que vous voulez arrondir!représente le multiple auquel vous voulez arrondir"
 	},
 	"FLOOR.MATH": {
 		"a": "(nombre; [précision]; [mode])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(nombre; [précision])",
-		"d": "Renvoie un nombre arrondi au nombre entier le plus proche ou au multiple le plus proche de l’argument précision en s’éloignant de zéro. Quel que soit son signe, ce nombre est arrondi à l’entier supérieur. Toutefois, si le nombre ou l’argument précision est égal à zéro, zéro est retourné."
+		"d": "Renvoie un nombre arrondi au nombre entier le plus proche ou au multiple le plus proche de l’argument précision en s’éloignant de zéro. Quel que soit son signe, ce nombre est arrondi à l’entier supérieur. Toutefois, si le nombre ou l’argument précision est égal à zéro, zéro est retourné.",
+		"ad": "représente la valeur que vous voulez arrondir!représente le multiple auquel vous voulez arrondir"
 	},
 	"LCM": {
 		"a": "(nombre1; [nombre2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(url_feuille; chaîne_plage)",
-		"d": "Importe une plage de cellules depuis une feuille de calcul spécifiée."
+		"d": "Importe une plage de cellules depuis une feuille de calcul spécifiée.",
+		"ad": "URL de la feuille de calcul contenant les données à importer!la plage à importer"
 	}
 }

@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(data_inizio; data_fine; unit)",
-		"d": "Restituisce la differenza tra le due date in ingresso (data_inizio e data_fine), basato sull'unità (unit) specificata"
+		"d": "Restituisce la differenza tra le due date in ingresso (data_inizio e data_fine), basato sull'unità (unit) specificata",
+		"ad": "Data che rappresenta la prima o la data iniziale di un determinato periodo!Data che rappresenta l'ultima data, o data finale, del periodo!Tipo di informazioni da restituire"
 	},
 	"DATEVALUE": {
 		"a": "(data)",
 		"d": "Converte una data in formato testo in un numero che rappresenta la data nel codice data-ora.",
-		"ad": "è il testo che rappresenta una data in formato data di Microsoft Excel, compreso tra 01/01/1900 o 01/01/1904 (a seconda del sistema data della cartella di lavoro) e 31/12/9999"
+		"ad": "è il testo che rappresenta una data in formato data di Spreadsheet Editor, compreso tra 01/01/1900 o 01/01/1904 (a seconda del sistema data della cartella di lavoro) e 31/12/9999"
 	},
 	"DAY": {
 		"a": "(num_seriale)",
 		"d": "Restituisce il giorno del mese, un numero compreso tra 1 e 31.",
-		"ad": "è un numero nel codice data-ora utilizzato da Microsoft Excel"
+		"ad": "è un numero nel codice data-ora utilizzato da Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(data_fine; data_inizio)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(num_seriale)",
 		"d": "Restituisce l'ora come numero compreso tra 0 e 23.",
-		"ad": "è un numero nel codice data-ora utilizzato da Microsoft Excel o testo in formato ora, quale 16.48.00"
+		"ad": "è un numero nel codice data-ora utilizzato da Spreadsheet Editor o testo in formato ora, quale 16.48.00"
 	},
 	"ISOWEEKNUM": {
 		"a": "(data)",
 		"d": "Restituisce il numero settimana ISO dell'anno per una data specificata",
-		"ad": "è il codice data-ora usato da Microsoft Excel per il calcolo della data e dell'ora"
+		"ad": "è il codice data-ora usato da Spreadsheet Editor per il calcolo della data e dell'ora"
 	},
 	"MINUTE": {
 		"a": "(num_seriale)",
 		"d": "Restituisce il minuto, un numero compreso tra 0 e 59.",
-		"ad": "è un numero nel codice data-ora utilizzato da Microsoft Excel o testo in formato ora, quale 16.48.00"
+		"ad": "è un numero nel codice data-ora utilizzato da Spreadsheet Editor o testo in formato ora, quale 16.48.00"
 	},
 	"MONTH": {
 		"a": "(num_seriale)",
 		"d": "Restituisce il mese, un numero compreso tra 1 (gennaio) e 12 (dicembre).",
-		"ad": "è un numero nel codice data-ora utilizzato da Microsoft Excel"
+		"ad": "è un numero nel codice data-ora utilizzato da Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(data_iniziale; data_finale; [vacanze])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(num_seriale)",
 		"d": "Restituisce il secondo, un numero compreso tra 0 e 59.",
-		"ad": "è un numero nel codice data-ora utilizzato da Microsoft Excel o testo in formato ora, quale 16.48.23"
+		"ad": "è un numero nel codice data-ora utilizzato da Spreadsheet Editor o testo in formato ora, quale 16.48.23"
 	},
 	"TIME": {
 		"a": "(ora; minuto; secondo)",
@@ -100,7 +101,7 @@
 	"WEEKNUM": {
 		"a": "(num_seriale; [tipo_restituito])",
 		"d": "Restituisce il numero della settimana dell'anno.",
-		"ad": "è il codice data-ora utilizzato da Microsoft Excel per il calcolo della data e dell'ora!è un numero (1 o 2) che determina il tipo del valore restituito"
+		"ad": "è il codice data-ora utilizzato da Spreadsheet Editor per il calcolo della data e dell'ora!è un numero (1 o 2) che determina il tipo del valore restituito"
 	},
 	"WORKDAY": {
 		"a": "(data_iniziale; giorni; [vacanze])",
@@ -115,7 +116,7 @@
 	"YEAR": {
 		"a": "(num_seriale)",
 		"d": "Restituisce l'anno di una data, un intero nell'intervallo compreso tra 1900 e 9999.",
-		"ad": "è un numero nel codice data-ora utilizzato da Microsoft Excel"
+		"ad": "è un numero nel codice data-ora utilizzato da Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(data_iniziale; data_finale; [base])",
@@ -488,7 +489,8 @@
 	},
 	"FINDB": {
 		"a": "(testo-1; stringa; [inizio])",
-		"d": "Trova una stringa di testo all'interno di un'altra stringa e restituisce il numero corrispondente alla posizione iniziale della stringa trovata. Distingue tra maiuscole e minuscole, set (DBSC) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Trova una stringa di testo all'interno di un'altra stringa e restituisce il numero corrispondente alla posizione iniziale della stringa trovata. Distingue tra maiuscole e minuscole, set (DBSC) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "Utilizzare le virgolette (testo vuoto) per trovare una corrispondenza con il primo carattere nella casella Stringa. Non sono ammessi caratteri jolly.!è il testo contenente il testo da trovare!specifica il carattere in corrispondenza del quale iniziare la ricerca. Il primo carattere nella casella Stringa è il carattere numero 1. Se viene omesso, Inizio = 1"
 	},
 	"FIXED": {
 		"a": "(num; [decimali]; [nessun_separatore])",
@@ -502,7 +504,8 @@
 	},
 	"LEFTB": {
 		"a": "(testo; [num_caratt])",
-		"d": "Restituisce il carattere o i caratteri più a sinistra di una stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Restituisce il carattere o i caratteri più a sinistra di una stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "è la stringa di testo che contiene i caratteri da estrarre!specifica il numero di caratteri da estrarre da LEFTB; 1 se omesso"
 	},
 	"LEN": {
 		"a": "(testo)",
@@ -511,7 +514,8 @@
 	},
 	"LENB": {
 		"a": "(testo)",
-		"d": "Restituisce il numero di caratteri in una stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Restituisce il numero di caratteri in una stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "è il testo di cui conoscere la lunghezza. Gli spazi sono contati come caratteri."
 	},
 	"LOWER": {
 		"a": "(testo)",
@@ -525,7 +529,8 @@
 	},
 	"MIDB": {
 		"a": "(testo; inizio; num_caratt)",
-		"d": "Restituisce un numero specifico di caratteri da una stringa di testo iniziando dalla posizione specificata set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Restituisce un numero specifico di caratteri da una stringa di testo iniziando dalla posizione specificata set (DBCS) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "è la stringa di testo da cui estrarre i caratteri!è la posizione del primo carattere da estrarre. Il primo carattere in Testo è 1!specifica il numero di caratteri che devono essere restituiti da Testo"
 	},
 	"NUMBERVALUE": {
 		"a": "(testo; [separatore_decimale]; [separatore_gruppo])",
@@ -544,7 +549,8 @@
 	},
 	"REPLACEB": {
 		"a": "(testo_prec; inizio; num_caratt; nuovo_testo)",
-		"d": "Sostituisce parte di una stringa di testo con un'altra stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Sostituisce parte di una stringa di testo con un'altra stringa di testo set (DBCS) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "è il testo nel quale si desidera sostituire alcuni caratteri!è la posizione del carattere in Testo_prec da sostituire con Nuovo_testo!è il numero di caratteri in Testo_prec da sostituire con Nuovo_testo!è il testo che sostituirà i caratteri in Testo_prec"
 	},
 	"REPT": {
 		"a": "(testo; volte)",
@@ -558,7 +564,8 @@
 	},
 	"RIGHTB": {
 		"a": "(testo; [num_caratt])",
-		"d": "Restituisce l'ultimo o gli ultimi caratteri di una stringa di testo, in base al numero di byte specificati set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Restituisce l'ultimo o gli ultimi caratteri di una stringa di testo, in base al numero di byte specificati set (DBCS) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "è la stringa di testo che contiene i caratteri da estrarre!specifica il numero dei caratteri da estrarre, 1 se omesso"
 	},
 	"SEARCH": {
 		"a": "(testo; stringa; [inizio])",
@@ -567,7 +574,8 @@
 	},
 	"SEARCHB": {
 		"a": "(testo; stringa; [inizio])",
-		"d": "Restituisce il numero corrispondente al carattere o alla stringa di testo trovata in una seconda stringa di testo (non distingue tra maiuscole e minuscole) set (DBCS) per linguaggi come Japanese, Chinese, Korean etc."
+		"d": "Restituisce il numero corrispondente al carattere o alla stringa di testo trovata in una seconda stringa di testo (non distingue tra maiuscole e minuscole) set (DBCS) per linguaggi come Japanese, Chinese, Korean etc.",
+		"ad": "è il testo da trovare. È possibile utilizzare i caratteri jolly ? e *. Utilizzare ~? e ~* per trovare i caratteri ? e *.!è il testo all'interno del quale effettuare la ricerca di Testo!è il numero del carattere in Stringa, a partire da sinistra,  dal quale si desidera iniziare la ricerca. Se omesso, verrà utilizzato 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(testo; testo_prec; nuovo_testo; [occorrenza])",
@@ -1340,7 +1348,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(costo; data_acquisto; primo_periodo; valore_residuo; periodo; tasso_int; [base])",
-		"d": "Restituisce l'ammortamento lineare ripartito proporzionalmente di un bene per ogni periodo contabile."
+		"d": "Restituisce l'ammortamento lineare ripartito proporzionalmente di un bene per ogni periodo contabile.",
+		"ad": "è il costo del bene!è la data di acquisto del bene!è la data di fine del primo periodo!è il valore residuo al termine della vita utile del bene!è il periodo!è il tasso di ammortamento!base_annua: 0 per un anno di 360 giorni, 1 per l'anno effettivo, 3 per un anno di 365 giorni"
 	},
 	"AMORLINC": {
 		"a": "(costo; data_acquisto; primo_periodo; valore_residuo; periodo; tasso_int; [base])",
@@ -1634,7 +1643,8 @@
 	},
 	"ASC": {
 		"a": "(testo)",
-		"d": "Nelle lingue che utilizzano set di caratteri a byte doppio (DBCS, Double-Byte Character Set), la funzione converte i caratteri latini a byte doppio (DB, Double-Byte) in caratteri a byte singolo (SB, Single-Byte)"
+		"d": "Nelle lingue che utilizzano set di caratteri a byte doppio (DBCS, Double-Byte Character Set), la funzione converte i caratteri latini a byte doppio (DB, Double-Byte) in caratteri a byte singolo (SB, Single-Byte)",
+		"ad": "è il testo che si desidera modificare"
 	},
 	"ASIN": {
 		"a": "(num)",
@@ -1678,7 +1688,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "( x; [peso] )",
-		"d": "Arrotonda un numero per eccesso all'intero più vicino o al multiplo più vicino a peso."
+		"d": "Arrotonda un numero per eccesso all'intero più vicino o al multiplo più vicino a peso.",
+		"ad": "è il valore da arrotondare!è il multiplo per il quale si desidera arrotondare"
 	},
 	"COMBIN": {
 		"a": "(num; classe)",
@@ -1731,7 +1742,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "( x; peso )",
-		"d": "Arrotonda un numero per eccesso al multiplo più vicino a peso"
+		"d": "Arrotonda un numero per eccesso al multiplo più vicino a peso",
+		"ad": "è il valore da arrotondare!è il multiplo per il quale si desidera arrotondare"
 	},
 	"EVEN": {
 		"a": "(num)",
@@ -1760,7 +1772,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "( x; peso )",
-		"d": "Arrotonda un numero per difetto all'intero più vicino o al multiplo più vicino a peso."
+		"d": "Arrotonda un numero per difetto all'intero più vicino o al multiplo più vicino a peso.",
+		"ad": "è il valore da arrotondare!è il multiplo per il quale si desidera arrotondare"
 	},
 	"FLOOR.MATH": {
 		"a": "(num; [peso]; [modalità])",
@@ -1779,7 +1792,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(num; [peso])",
-		"d": "Restituisce un numero arrotondato per eccesso all'intero più vicino o al multiplo più vicino a peso. Indipendentemente dal segno di num, il numero viene arrotondato per eccesso. Se tuttavia num o peso è zero, verrà restituito il valore zero."
+		"d": "Restituisce un numero arrotondato per eccesso all'intero più vicino o al multiplo più vicino a peso. Indipendentemente dal segno di num, il numero viene arrotondato per eccesso. Se tuttavia num o peso è zero, verrà restituito il valore zero.",
+		"ad": "è il valore da arrotondare!è il multiplo per il quale si desidera arrotondare"
 	},
 	"LCM": {
 		"a": "(num1; [num2]; ...)",
@@ -2337,6 +2351,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(url_foglio_di_lavoro; stringa_intervallo)",
-		"d": "Importa un intervallo di celle da un foglio di lavoro specificato."
+		"d": "Importa un intervallo di celle da un foglio di lavoro specificato.",
+		"ad": "l'URL del foglio di lavoro da cui importare i dati!l'intervallo da importare"
 	}
 }

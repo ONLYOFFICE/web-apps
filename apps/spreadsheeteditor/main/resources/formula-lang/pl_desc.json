@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(data_początkowa; data_końcowa; jednostka)",
-		"d": "Oblicza liczbę dni, miesięcy lub lat między dwiema datami"
+		"d": "Oblicza liczbę dni, miesięcy lub lat między dwiema datami",
+		"ad": "Data reprezentująca pierwszą lub początkową datę danego okresu!data reprezentująca ostatnią lub końcową datę okresu!Typ informacji, które mają zostać zwrócone"
 	},
 	"DATEVALUE": {
 		"a": "(data_tekst)",
 		"d": "Konwertuje datę w postaci tekstu na liczbę reprezentującą datę w kodzie data-godzina",
-		"ad": "- tekst reprezentujący datę w formacie daty programu Microsoft Excel z przedziału od 1.1.1900 lub 1.1.1904 (zależnie od systemu dat skoroszytu) do 31.12.9999"
+		"ad": "- tekst reprezentujący datę w formacie daty programu Spreadsheet Editor z przedziału od 1.1.1900 lub 1.1.1904 (zależnie od systemu dat skoroszytu) do 31.12.9999"
 	},
 	"DAY": {
 		"a": "(kolejna_liczba)",
 		"d": "Zwraca dzień miesiąca, liczbę od 1 do 31.",
-		"ad": "- liczba w kodzie data-godzina używanym w programie Microsoft Excel"
+		"ad": "- liczba w kodzie data-godzina używanym w programie Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(data_końcowa; data_początkowa)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(kolejna_liczba)",
 		"d": "Zwraca godzinę jako liczbę od 0 (0:00) do 23 (23:00).",
-		"ad": "- liczba w kodzie data-godzina używanym w programie Microsoft Excel albo tekst w formacie godziny, taki jak 16:48:00 albo 4:48:00 PM"
+		"ad": "- liczba w kodzie data-godzina używanym w programie Spreadsheet Editor albo tekst w formacie godziny, taki jak 16:48:00 albo 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(data)",
 		"d": "Zwraca dla danej daty numer tygodnia roku w formacie ISO.",
-		"ad": "- kod data-godzina używany przez program Microsoft Excel do obliczania daty i godziny"
+		"ad": "- kod data-godzina używany przez program Spreadsheet Editor do obliczania daty i godziny"
 	},
 	"MINUTE": {
 		"a": "(kolejna_liczba)",
 		"d": "Zwraca minutę, liczbę od 0 do 59.",
-		"ad": "- liczba w kodzie data-godzina używanym w programie Microsoft Excel lub tekst w formacie godziny, na przykład 16:48:00 albo 4:48:00 PM"
+		"ad": "- liczba w kodzie data-godzina używanym w programie Spreadsheet Editor lub tekst w formacie godziny, na przykład 16:48:00 albo 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(kolejna_liczba)",
 		"d": "Zwraca miesiąc, liczbę od 1 (styczeń) do 12 (grudzień).",
-		"ad": "- liczba w kodzie data-godzina używanym w programie Microsoft Excel"
+		"ad": "- liczba w kodzie data-godzina używanym w programie Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(data_pocz; data_końc; [święta])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(kolejna_liczba)",
 		"d": "Zwraca sekundę, liczbę od 0 do 59.",
-		"ad": "- liczba w kodzie data-godzina używanym w programie Microsoft Excel lub tekst w formacie godziny, na przykład 16:48:23 albo 4:48:47 PM"
+		"ad": "- liczba w kodzie data-godzina używanym w programie Spreadsheet Editor lub tekst w formacie godziny, na przykład 16:48:23 albo 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(godzina; minuta; sekunda)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(godzina_tekst)",
 		"d": "Konwertuje czas w formacie tekstowym na kolejną liczbę czasu: liczbę od 0 (00:00:00) do 0,999988426 (23:59:59). Liczbę należy formatować za pomocą formatu czasu po wprowadzeniu formuły",
-		"ad": "- ciąg tekstowy podający czas w dowolnym formacie czasu programu Microsoft Excel (informacje o dacie w ciągu są ignorowane)"
+		"ad": "- ciąg tekstowy podający czas w dowolnym formacie czasu programu Spreadsheet Editor (informacje o dacie w ciągu są ignorowane)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(liczba_seryjna; [typ_wyniku])",
 		"d": "Zwraca numer tygodnia w roku",
-		"ad": "– liczba seryjna daty i czasy, używana przez program Microsoft Excel przy przeliczaniu daty i czasu!– liczba (1 lub 2) określająca typ zwracanej wartości"
+		"ad": "– liczba seryjna daty i czasy, używana przez program Spreadsheet Editor przy przeliczaniu daty i czasu!– liczba (1 lub 2) określająca typ zwracanej wartości"
 	},
 	"WORKDAY": {
 		"a": "(data_pocz; dni; [święta])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(kolejna_liczba)",
 		"d": "Zwraca rok z daty, liczbę całkowitą z zakresu 1900-9999.",
-		"ad": "- liczba w kodzie data-godzina używanym w programie Microsoft Excel"
+		"ad": "- liczba w kodzie data-godzina używanym w programie Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(data_pocz; data_końc; [podstawa])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(szukany_tekst; w_tekście; [liczba_początkowa])",
-		"d": "Lokalizują ciąg tekstowy wewnątrz innego ciągu tekstowego i zwracają pozycję początkową pierwszego ciągu, licząc od pierwszego znaku drugiego ciągu, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Lokalizują ciąg tekstowy wewnątrz innego ciągu tekstowego i zwracają pozycję początkową pierwszego ciągu, licząc od pierwszego znaku drugiego ciągu, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "- tekst do znalezienia. Użyj podwójnego cudzysłowu (pusty tekst), aby dopasować pierwszy znak w argumencie wewnątrz_tekst; symbole wieloznaczne są niedozwolone!- tekst zawierający szukany tekst!- określa znak, od którego ma się rozpocząć wyszukiwanie. Pierwszy znak w argumencie wewnątrz_tekst to znak o numerze 1. Jeśli pominięto, liczba_początkowa =1"
 	},
 	"FIXED": {
 		"a": "(liczba; [miejsca_dziesiętne]; [bez_przecinka])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(tekst; [liczba_znaków])",
-		"d": "Zwraca pierwsze znaki w ciągu tekstowym na podstawie określonej liczby znaków, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Zwraca pierwsze znaki w ciągu tekstowym na podstawie określonej liczby znaków, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "- ciąg tekstowy zawierający znaki do wyodrębnienia!- określa, ile znaków ma być wyodrębnionych przez funkcję LEFTB; jeśli pominięto, 1"
 	},
 	"LEN": {
 		"a": "(tekst)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(tekst)",
-		"d": "Zwraca liczbę bajtów reprezentujących znaki w ciągu tekstowym, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Zwraca liczbę bajtów reprezentujących znaki w ciągu tekstowym, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "- tekst, którego długość ma zostać obliczona. Spacje liczą się za znaki"
 	},
 	"LOWER": {
 		"a": "(tekst)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(tekst; liczba_początkowa; liczba_znaków)",
-		"d": "Zwraca określoną liczbę znaków z ciągu tekstowego, począwszy od określonej pozycji, na podstawie podanej liczby bajtów, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Zwraca określoną liczbę znaków z ciągu tekstowego, począwszy od określonej pozycji, na podstawie podanej liczby bajtów, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "- ciąg znaków, z którego mają być wyodrębnione znaki!- pozycja pierwszego znaku, który ma być wyodrębniony. Pierwszy znak w tekście to 1!- określa, ile znaków ma zostać zwróconych z tekstu"
 	},
 	"NUMBERVALUE": {
 		"a": "(tekst; [separator_dziesiętny]; [separator_grup])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(stary_tekst; liczba_początkowa; liczba_znaków; nowy_tekst)",
-		"d": "Zamienia część ciągu tekstowego na inny ciąg tekstowy z uwzględnieniem określonej liczby bajtów, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Zamienia część ciągu tekstowego na inny ciąg tekstowy z uwzględnieniem określonej liczby bajtów, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "- tekst, w którym chcesz zamienić niektóre znaki!- pozycja znaku w starym_tekście, który ma być zamieniony nowym_tekstem!- liczba znaków w starym_tekście, które mają być zamienione!- tekst, który zamieni znaki w starym_tekście"
 	},
 	"REPT": {
 		"a": "(tekst; ile_razy)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(tekst; [liczba_znaków])",
-		"d": "Zwraca ostatnie znaki w ciągu tekstowym, na podstawie określonej liczby bajtów, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Zwraca ostatnie znaki w ciągu tekstowym, na podstawie określonej liczby bajtów, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "- tekst zawierający znaki do wyodrębnienia!określa, ile znaków ma być wyodrębnionych; jeśli pominięto, 1"
 	},
 	"SEARCH": {
 		"a": "(szukany_tekst; obejmujący_tekst; [liczba_początkowa])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(szukany_tekst; obejmujący_tekst; [liczba_początkowa])",
-		"d": "Służy do odnajdywania jednego ciągu tekstowego wewnątrz innego ciągu tekstowego i zwracania pozycji początkowej szukanego tekstu liczonej od pierwszego znaku tekstu przeszukiwanego, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański"
+		"d": "Służy do odnajdywania jednego ciągu tekstowego wewnątrz innego ciągu tekstowego i zwracania pozycji początkowej szukanego tekstu liczonej od pierwszego znaku tekstu przeszukiwanego, do używania z językami o zestawach znaków dwubajtowych (DBCS) -  japoński, chiński i koreański",
+		"ad": "jest tekstem, który chcesz znaleźć. Możesz użyć symboli wieloznacznych ? i *; użyj kombinacji ~? i ~*, aby znaleźć znaki ? i *!- tekst, w którym ma nastąpić szukanie ciągu szukany_tekst!- numer znaku liczony od lewej strony w obejmujący_tekst, ustalający punkt, od którego rozpocznie się poszukiwanie. Jeśli pominięto używany jest numer 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(tekst; stary_tekst; nowy_tekst; [wystapienie_liczba])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(data_docelowa; wartości; oś_czasu; [sezonowość]; [kompletność_danych]; [agregacja])",
-		"d": "Zwraca prognozowaną wartość dla konkretnej daty docelowej w przyszłości przy użyciu wykładniczej metody wygładzania."
+		"d": "Zwraca prognozowaną wartość dla konkretnej daty docelowej w przyszłości przy użyciu wykładniczej metody wygładzania.",
+		"ad": "punkt danych, dla którego program Spreadsheet Editor przewiduje wartość. Powinien być częścią wzorca wartości na osi czasu.!tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!opcjonalna wartość liczbowa wskazująca długość wzorca sezonowego. Wartość domyślna 1 oznacza, że sezonowość jest wykrywana automatycznie.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 powoduje zamianę brakujących wartości przez interpolację, a wartość 0 powoduje ich zamianę na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pusta, program Spreadsheet Editor oblicza średnią wartości."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(data_docelowa; wartości; oś_czasu; [poziom_ufności]; [sezonowość]; [kompletność_danych]; [agregacja])",
 		"d": "Zwraca przedział ufności dla wartości prognozy dla określonej daty docelowej.",
-		"ad": "punkt danych, dla którego program Microsoft Excel przewiduje wartość. Powinien być częścią wzorca wartości na osi czasu.!tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!liczba od 0 do 1, która pokazuje poziom ufności dla obliczanego interwału ufności. Wartość domyślna to 0,95.!opcjonalna wartość liczbowa wskazująca długość wzorca sezonowego. Wartość domyślna 1 oznacza, że sezonowość jest wykrywana automatycznie.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 powoduje zamianę brakujących wartości przez interpolację, a wartość 0 powoduje ich zamianę na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pu"
+		"ad": "punkt danych, dla którego program Spreadsheet Editor przewiduje wartość. Powinien być częścią wzorca wartości na osi czasu.!tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!liczba od 0 do 1, która pokazuje poziom ufności dla obliczanego interwału ufności. Wartość domyślna to 0,95.!opcjonalna wartość liczbowa wskazująca długość wzorca sezonowego. Wartość domyślna 1 oznacza, że sezonowość jest wykrywana automatycznie.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 powoduje zamianę brakujących wartości przez interpolację, a wartość 0 powoduje ich zamianę na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pusta, program Spreadsheet Editor oblicza średnią wartości."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(wartości; oś_czasu; [kompletność_danych]; [agregacja])",
 		"d": "Zwraca długość powtarzającego się wzorca wykrywanego przez program dla określonego szeregu czasowego.",
-		"ad": "tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 zamienia brakujące wartości przez interpolację, a wartość 0 zamienia je na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pusta, program Microsoft Excel oblicza średnią wartości."
+		"ad": "tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 zamienia brakujące wartości przez interpolację, a wartość 0 zamienia je na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pusta, program Spreadsheet Editor oblicza średnią wartości."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(wartości; oś_czasu; typ_statystyki; [sezonowość]; [kompletność_danych]; [agregacja])",
 		"d": "Zwraca żądaną statystykę dla prognozy.",
-		"ad": "tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!liczba z przedziału od 1 do 8 wskazująca, które statystyki program Microsoft Excel zwróci dla obliczanej prognozy.!opcjonalna wartość liczbowa wskazująca długość wzorca sezonowego. Wartość domyślna 1 oznacza, że sezonowość jest wykrywana automatycznie.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 zamienia brakujące wartości przez interpolację, a wartość 0 zamienia je na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pusta, program Microsoft Excel oblicza średnią wartości."
+		"ad": "tablica lub zakres przewidywanych danych liczbowych.!niezależna tablica lub niezależny zakres danych liczbowych. Daty na osi czasu muszą mieć spójną odległość między sobą i nie mogą być zerami.!liczba z przedziału od 1 do 8 wskazująca, które statystyki program Spreadsheet Editor zwróci dla obliczanej prognozy.!opcjonalna wartość liczbowa wskazująca długość wzorca sezonowego. Wartość domyślna 1 oznacza, że sezonowość jest wykrywana automatycznie.!opcjonalna wartość na potrzeby obsługi brakujących wartości. Wartość domyślna 1 zamienia brakujące wartości przez interpolację, a wartość 0 zamienia je na zera.!opcjonalna wartość liczbowa na potrzeby agregowania wielu wartości o tej samej sygnaturze czasowej. Jeśli jest pusta, program Spreadsheet Editor oblicza średnią wartości."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; znane_y; znane_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cena; data_zakupu; pierwszy_okres; odzysk; okres; stopa; [podstawa])",
-		"d": "Zwraca wartość amortyzacji dla każdego okresu rozliczeniowego"
+		"d": "Zwraca wartość amortyzacji dla każdego okresu rozliczeniowego",
+		"ad": "– cena zakupu środka trwałego!– data zakupu środka trwałego!– data kończąca pierwszy okres!– wartość odzysku na koniec okresu amortyzacji!– okres amortyzacji!– stopa amortyzacji!– rodzaj podstawy wyliczania dni"
 	},
 	"AMORLINC": {
 		"a": "(cena; data_zakupu; pierwszy_okres; odzysk; okres; stopa; [podstawa])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(tekst)",
-		"d": "W językach korzystających z dwubajtowego zestawu znaków (DBCS) funkcja zmienia znaki o pełnej szerokości (dwubajtowe) na znaki o połówkowej szerokości (jednobajtowe)"
+		"d": "W językach korzystających z dwubajtowego zestawu znaków (DBCS) funkcja zmienia znaki o pełnej szerokości (dwubajtowe) na znaki o połówkowej szerokości (jednobajtowe)",
+		"ad": "- tekst, który ma zostać zmieniony."
 	},
 	"ASIN": {
 		"a": "(liczba)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(liczba; [istotność])",
-		"d": "Zaokrągla liczbę w górę do najbliższej wartości całkowitej lub wielokrotności podanej istotności"
+		"d": "Zaokrągla liczbę w górę do najbliższej wartości całkowitej lub wielokrotności podanej istotności",
+		"ad": "- wartość, która ma być zaokrąglona!- parametr określający wielokrotność zaokrąglenia"
 	},
 	"COMBIN": {
 		"a": "(liczba; liczba_wybrana)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(liczba; istotność)",
-		"d": "Zaokrągla liczbę w górę do najbliższej wielokrotności podanej istotności"
+		"d": "Zaokrągla liczbę w górę do najbliższej wielokrotności podanej istotności",
+		"ad": "- wartość, która ma być zaokrąglona!- parametr określający wielokrotność zaokrąglenia"
 	},
 	"EVEN": {
 		"a": "(liczba)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(liczba; [istotność])",
-		"d": "Zaokrągla liczbę w dół do najbliższej wartości całkowitej lub wielokrotności podanej istotności"
+		"d": "Zaokrągla liczbę w dół do najbliższej wartości całkowitej lub wielokrotności podanej istotności",
+		"ad": "- wartość, która ma być zaokrąglona!- parametr określający wielokrotność zaokrąglenia"
 	},
 	"FLOOR.MATH": {
 		"a": "(liczba; [istotność]; [tryb])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(liczba; [istotność])",
-		"d": "Zaokrągla liczbę w górę do najbliższej wartości całkowitej lub wielokrotności podanej istotności. Zaokrąglenie następuje w górę niezależnie od znaku liczby. Jeśli liczba lub istotność wynosi zero, jest zwracana wartość zero."
+		"d": "Zaokrągla liczbę w górę do najbliższej wartości całkowitej lub wielokrotności podanej istotności. Zaokrąglenie następuje w górę niezależnie od znaku liczby. Jeśli liczba lub istotność wynosi zero, jest zwracana wartość zero.",
+		"ad": "- wartość, która ma być zaokrąglona!- parametr określający wielokrotność zaokrąglenia"
 	},
 	"LCM": {
 		"a": "(liczba1; [liczba2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(url_arkusza; ciąg_zakresu)",
-		"d": "Importuje zakres komórek z określonego arkusza kalkulacyjnego."
+		"d": "Importuje zakres komórek z określonego arkusza kalkulacyjnego.",
+		"ad": "— adres URL arkusza kalkulacyjnego, z którego będą importowane dane!— zakres do zaimportowania"
 	}
 }

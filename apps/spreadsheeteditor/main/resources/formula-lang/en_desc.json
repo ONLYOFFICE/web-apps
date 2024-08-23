@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "( start-date; end-date; unit )",
-		"d": "Returns the difference between two date values (start date and end date), based on the interval (unit) specified"
+		"d": "Returns the difference between two date values (start date and end date), based on the interval (unit) specified",
+		"ad": "is a date that represents the first, or starting date of a given period!is a date that represents the last, or ending, date of the period!is the type of information that you want returned"
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
 		"d": "Converts a date in the form of text to a number that represents the date in the date-time code",
-		"ad": "is text that represents a date in a Microsoft Excel date format, between 1/1/1900 or 1/1/1904 (depending on the workbook's date system) and 12/31/9999"
+		"ad": "is text that represents a date in a Spreadsheet Editor date format, between 1/1/1900 or 1/1/1904 (depending on the workbook's date system) and 12/31/9999"
 	},
 	"DAY": {
 		"a": "(serial_number)",
 		"d": "Returns the day of the month, a number from 1 to 31.",
-		"ad": "is a number in the date-time code used by Microsoft Excel"
+		"ad": "is a number in the date-time code used by Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(end_date; start_date)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(serial_number)",
 		"d": "Returns the hour as a number from 0 (12:00 A.M.) to 23 (11:00 P.M.).",
-		"ad": "is a number in the date-time code used by Microsoft Excel, or text in time format, such as 16:48:00 or 4:48:00 PM"
+		"ad": "is a number in the date-time code used by Spreadsheet Editor, or text in time format, such as 16:48:00 or 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
 		"d": "Returns the ISO week number in the year for a given date",
-		"ad": "is the date-time code used by Microsoft Excel for date and time calculation"
+		"ad": "is the date-time code used by Spreadsheet Editor for date and time calculation"
 	},
 	"MINUTE": {
 		"a": "(serial_number)",
 		"d": "Returns the minute, a number from 0 to 59.",
-		"ad": "is a number in the date-time code used by Microsoft Excel or text in time format, such as 16:48:00 or 4:48:00 PM"
+		"ad": "is a number in the date-time code used by Spreadsheet Editor or text in time format, such as 16:48:00 or 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(serial_number)",
 		"d": "Returns the month, a number from 1 (January) to 12 (December).",
-		"ad": "is a number in the date-time code used by Microsoft Excel"
+		"ad": "is a number in the date-time code used by Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(start_date; end_date; [holidays])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(serial_number)",
 		"d": "Returns the second, a number from 0 to 59.",
-		"ad": "is a number in the date-time code used by Microsoft Excel or text in time format, such as 16:48:23 or 4:48:47 PM"
+		"ad": "is a number in the date-time code used by Spreadsheet Editor or text in time format, such as 16:48:23 or 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(hour; minute; second)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(time_text)",
 		"d": "Converts a text time to a serial number for a time, a number from 0 (12:00:00 AM) to 0.999988426 (11:59:59 PM). Format the number with a time format after entering the formula",
-		"ad": "is a text string that gives a time in any one of the Microsoft Excel time formats (date information in the string is ignored)"
+		"ad": "is a text string that gives a time in any one of the Spreadsheet Editor time formats (date information in the string is ignored)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(serial_number; [return_type])",
 		"d": "Returns the week number in the year",
-		"ad": "is the date-time code used by Microsoft Excel for date and time calculation!is a number (1 or 2) that determines the type of the return value"
+		"ad": "is the date-time code used by Spreadsheet Editor for date and time calculation!is a number (1 or 2) that determines the type of the return value"
 	},
 	"WORKDAY": {
 		"a": "(start_date; days; [holidays])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(serial_number)",
 		"d": "Returns the year of a date, an integer in the range 1900-9999.",
-		"ad": "is a number in the date-time code used by Microsoft Excel"
+		"ad": "is a number in the date-time code used by Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(start_date; end_date; [basis])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Finds the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Finds the specified substring (string-1) within a string (string-2) and is intended for languages the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is the text you want to find. Use double quotes (empty text) to match the first character in string-2; wildcard characters not allowed!is the text containing the text you want to find!specifies the character at which to start the search. The first character in string-2 is character number 1. If omitted, start-pos = 1"
 	},
 	"FIXED": {
 		"a": "(number; [decimals]; [no_commas])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "( string; [number-chars] )",
-		"d": "Extracts the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Extracts the substring from the specified string starting from the left character and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is the text string containing the characters you want to extract!specifies how many characters you want LEFTB to extract; 1 if omitted"
 	},
 	"LEN": {
 		"a": "(text)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "( string )",
-		"d": "Analyses the specified string and returns the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Analyses the specified string and returns the number of characters it contains and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is the text whose length you want to find. Spaces count as characters"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "( string; start-pos; number-chars )",
-		"d": "Extracts the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Extracts the characters from the specified string starting from any position and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is the text string from which you want to extract the characters!is the position of the first character you want to extract. The first character in String is 1!specifies how many characters to return from String"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimal_separator]; [group_separator])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "( string-1; start-pos; number-chars; string-2 )",
-		"d": "Replaces a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Replaces a set of characters, based on the number of characters and the start position you specify, with a new set of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is text in which you want to replace some characters!is the position of the character in String-1 that you want to replace with String-2!is the number of characters in String-1 that you want to replace!is the text that will replace characters in String-1"
 	},
 	"REPT": {
 		"a": "(text; number_times)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "( string; [number-chars] )",
-		"d": "Extracts a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Extracts a substring from a string starting from the right-most character, based on the specified number of characters and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is the text string that contains the characters you want to extract!specifies how many characters you want to extract, 1 if omitted"
 	},
 	"SEARCH": {
 		"a": "(find_text; within_text; [start_num])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "( string-1; string-2; [start-pos] )",
-		"d": "Returns the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc."
+		"d": "Returns the location of the specified substring in a string and is intended for languages that use the double-byte character set (DBCS) like Japanese, Chinese, Korean etc.",
+		"ad": "is the text you want to find. You can use the ? and * wildcard characters; use ~? and ~* to find the ? and * characters!is the text in which you want to search for String-1!is the character number in String-2, counting from the left, at which you want to start searching. If omitted, 1 is used"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; old_text; new_text; [instance_num])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [aggregation])",
-		"d": "Returns the forecasted value for a specific future target date using exponential smoothing method."
+		"d": "Returns the forecasted value for a specific future target date using exponential smoothing method.",
+		"ad": "is the data point for which Spreadsheet Editor predicts a value. It should carry on the pattern of values in the timeline.!is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is an optional numeric value that indicates the length of the seasonal pattern. The default value of 1 indicates seasonality is detected automatically.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Spreadsheet Editor averages the values."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(target_date; values; timeline; [confidence_level]; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Returns a confidence interval for the forecast value at the specified target date.",
-		"ad": "is the data point for which Microsoft Excel predicts a value. It should carry on the pattern of values in the timeline.!is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is a number between 0 and 1 that shows the confidence level for the calculated confidence interval. The default value is .95.!is an optional numeric value that indicates the length of the seasonal pattern. The default value of 1 indicates seasonality is detected automatically.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Microsoft Excel "
+		"ad": "is the data point for which Spreadsheet Editor predicts a value. It should carry on the pattern of values in the timeline.!is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is a number between 0 and 1 that shows the confidence level for the calculated confidence interval. The default value is .95.!is an optional numeric value that indicates the length of the seasonal pattern. The default value of 1 indicates seasonality is detected automatically.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Spreadsheet Editor averages the values."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
 		"d": "Returns the length of the repetitive pattern an application detects for the specified time series.",
-		"ad": "is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Microsoft Excel averages the values."
+		"ad": "is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Spreadsheet Editor averages the values."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Returns the requested statistic for the forecast.",
-		"ad": "is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is a number between 1 and 8, indicating which statistic Microsoft Excel will return for the calculated forecast.!is an optional numeric value that indicates the length of the seasonal pattern. The default value of 1 indicates seasonality is detected automatically.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Microsoft Excel averages the values."
+		"ad": "is the array or range of numeric data you're predicting.!is the independent array or range of numeric data. The dates in the timeline must have a consistent step between them and can't be zero.!is a number between 1 and 8, indicating which statistic Spreadsheet Editor will return for the calculated forecast.!is an optional numeric value that indicates the length of the seasonal pattern. The default value of 1 indicates seasonality is detected automatically.!is an optional value for handling missing values. The default value of 1 replaces missing values by interpolation, and 0 replaces them with zeros.!is an optional numeric value for aggregating multiple values with the same time stamp. If blank, Spreadsheet Editor averages the values."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; known_y's; known_x's)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
-		"d": "Returns the prorated linear depreciation of an asset for each accounting period."
+		"d": "Returns the prorated linear depreciation of an asset for each accounting period.",
+		"ad": "is the cost of the asset!is the date the asset is purchased!is the date of the end of the first period!is the salvage value at the end of life of the asset.!is the period!is the rate of depreciation!year_basis : 0 for year of 360 days, 1 for actual, 3 for year of 365 days."
 	},
 	"AMORLINC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "( text )",
-		"d": "For Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters"
+		"d": "For Double-byte character set (DBCS) languages, the function changes full-width (double-byte) characters to half-width (single-byte) characters",
+		"ad": "is the text you want to change. If text does not contain any full-width letters, text is not changed."
 	},
 	"ASIN": {
 		"a": "(number)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "( x; [significance] )",
-		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance"
+		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance",
+		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"COMBIN": {
 		"a": "(number; number_chosen)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "( x; significance )",
-		"d": "Rounds the number up to the nearest multiple of significance"
+		"d": "Rounds the number up to the nearest multiple of significance",
+		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"EVEN": {
 		"a": "(number)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "( x; [significance] )",
-		"d": "Returns a number that is rounded down to the nearest integer or to the nearest multiple of significance"
+		"d": "Returns a number that is rounded down to the nearest integer or to the nearest multiple of significance",
+		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"FLOOR.MATH": {
 		"a": "(number; [significance]; [mode])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "( number; [significance] )",
-		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned."
+		"d": "Returns a number that is rounded up to the nearest integer or to the nearest multiple of significance regardless of the sign of the number. However, if the number or the significance is zero, zero is returned.",
+		"ad": "is the value you want to round!is the multiple to which you want to round"
 	},
 	"LCM": {
 		"a": "(number1; [number2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(spreadsheet_url, range_string)",
-		"d": "Imports a range of cells from a specified spreadsheet."
+		"d": "Imports a range of cells from a specified spreadsheet.",
+		"ad": "is the URL of the spreadsheet from where data will be imported!is the range to import"
 	}
 }

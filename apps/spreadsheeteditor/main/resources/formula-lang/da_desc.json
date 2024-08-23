@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(startdato; slutdato; enhed)",
-		"d": "Beregner antallet af dage, måneder eller år mellem to datoer"
+		"d": "Beregner antallet af dage, måneder eller år mellem to datoer",
+		"ad": "En dato, der repræsenterer den første dato eller startdatoen for en given periode!En dato, der repræsenterer den sidste dato, eller slutdatoen, i perioden!Den type oplysninger, der skal returneres"
 	},
 	"DATEVALUE": {
 		"a": "(datotekst)",
 		"d": "Konverterer en dato i form af tekst til et tal, der repræsenterer datoen i dato/klokkeslætskoden",
-		"ad": "er tekst, der repræsenterer en dato i et Microsoft Excel-datoformat mellem 1/1/1900 eller 1/1/1904 (afhængigt af projektmappens datosystem) og 12/31/9999"
+		"ad": "er tekst, der repræsenterer en dato i et Spreadsheet Editor-datoformat mellem 1/1/1900 eller 1/1/1904 (afhængigt af projektmappens datosystem) og 12/31/9999"
 	},
 	"DAY": {
 		"a": "(serienr)",
 		"d": "Returnerer dagen i måneden, et tal mellem 1 og 31.",
-		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Microsoft Excel"
+		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(slutdato; startdato)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(serienr)",
 		"d": "Returnerer timen som et tal mellem 0 (24:00) og 23 (23:00).",
-		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Microsoft Excel, eller tekst i klokkeslætsformat, f.eks. 16:48:00 eller 04:48:00 PM"
+		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Spreadsheet Editor, eller tekst i klokkeslætsformat, f.eks. 16:48:00 eller 04:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(dato)",
 		"d": "Returnerer tallet for ISO-ugenummeret i året for en given dato",
-		"ad": "er den dato/klokkeslætskode, der bruges til beregning af dato og klokkeslæt i Microsoft Excel"
+		"ad": "er den dato/klokkeslætskode, der bruges til beregning af dato og klokkeslæt i Spreadsheet Editor"
 	},
 	"MINUTE": {
 		"a": "(serienr)",
 		"d": "Returnerer minuttet, et tal mellem 0 og 59.",
-		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Microsoft Excel, eller tekst i klokkeslætsformat, f.eks. 16:48:00 eller 04:48:00 PM"
+		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Spreadsheet Editor, eller tekst i klokkeslætsformat, f.eks. 16:48:00 eller 04:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(serienr)",
 		"d": "Returnerer måneden, et tal mellem 1 (januar) og 12 (december).",
-		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Microsoft Excel"
+		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(startdato; slutdato; [feriedage])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(serienr)",
 		"d": "Returnerer sekundet, et tal mellem 0 og 59.",
-		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Microsoft Excel, eller tekst i klokkeslætsformat, f.eks. 16:48:23 eller 04:48:47 PM"
+		"ad": "er et tal i den dato- og klokkeslætskode, der anvendes af Spreadsheet Editor, eller tekst i klokkeslætsformat, f.eks. 16:48:23 eller 04:48:47 PM"
 	},
 	"TIME": {
 		"a": "(time; minut; sekund)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(tid)",
 		"d": "Konverterer et klokkeslæt i form af tekst til et serienummer for et klokkeslæt, et tal mellem 0 (12:00:00 AM) og 0,999988426 (11:59:59 PM). Formatér tallet med et klokkeslætsformat efter angivelse af formlen",
-		"ad": "er en tekststreng, der indeholder et klokkeslæt i et af de klokkeslætsformater, der findes i Microsoft Excel (datooplysninger i strengen ignoreres)"
+		"ad": "er en tekststreng, der indeholder et klokkeslæt i et af de klokkeslætsformater, der findes i Spreadsheet Editor (datooplysninger i strengen ignoreres)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(serienr; [returtype])",
 		"d": "Konverterer ugenummeret i året",
-		"ad": "er den dato-og klokkeslætskode, der bruges af Microsoft Excel til dato- og tidsberegninger!er et tal (1 eller 2), som bestemmer returværdiens type"
+		"ad": "er den dato-og klokkeslætskode, der bruges af Spreadsheet Editor til dato- og tidsberegninger!er et tal (1 eller 2), som bestemmer returværdiens type"
 	},
 	"WORKDAY": {
 		"a": "(startdato; dage; [feriedage])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(serienr)",
 		"d": "Returnerer året i en dato, et heltal mellem 1900 og 9999.",
-		"ad": "er et tal i den dato- og klokkeslætskode, der bruges af Microsoft Excel"
+		"ad": "er et tal i den dato- og klokkeslætskode, der bruges af Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(startdato; slutdato; [datotype])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(find_tekst; i_tekst; [start_ved])",
-		"d": "Finder én tekststreng inden i en anden tekststreng og returnerer nummeret på den første strengs startposition fra det første tegn i den anden tekststreng, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Finder én tekststreng inden i en anden tekststreng og returnerer nummeret på den første strengs startposition fra det første tegn i den anden tekststreng, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekst, der skal findes. Brug dobbelte anførselstegn (tom tekst) for at opfylde kriteriet for det første tegn i I_tekst; jokertegn er ikke tilladt!er den tekst, der indeholder den tekst, der skal findes!angiver det tegn, som søgningen starter med. Første tegn i I_teksten er tegn nummer 1. Hvis det udelades, Start_ved = 1"
 	},
 	"FIXED": {
 		"a": "(tal; [decimaler]; [ingen_punktummer])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(tekst; [antal_tegn])",
-		"d": "Returnerer det eller de første tegn i en tekststreng baseret på det antal byte, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Returnerer det eller de første tegn i en tekststreng baseret på det antal byte, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekststreng, der indeholder de tegn, du vil uddrage!angiver, hvor mange tegn LEFTB skal uddrage. Sættes til 1, hvis feltet ikke udfyldes"
 	},
 	"LEN": {
 		"a": "(tekst)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(tekst)",
-		"d": "Returnerer det antal byte, der bruges til at repræsentere tegnene i en tekststreng, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Returnerer det antal byte, der bruges til at repræsentere tegnene i en tekststreng, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekst, som du vil finde længden på. Mellemrum tæller som tegn"
 	},
 	"LOWER": {
 		"a": "(tekst)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(tekst; start_ved; antal_tegn)",
-		"d": "Returnerer et bestemt antal tegn fra en tekststreng fra og med den startposition, du angiver, og på basis af det antal byte, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Returnerer et bestemt antal tegn fra en tekststreng fra og med den startposition, du angiver, og på basis af det antal byte, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekststreng, du vil uddrage tegnene fra!angiver positionen for det første tegn, der skal uddrages. Det første tegn i Tekst er 1!angiver, hvor mange tegn der skal returneres fra Tekst"
 	},
 	"NUMBERVALUE": {
 		"a": "(tekst; [decimaltegn]; [gruppeseparator])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(gammel_tekst; start_ved; antal_tegn; ny_tekst)",
-		"d": "Erstatter en del af en tekststreng med en anden tekststreng baseret på det antal byte, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Erstatter en del af en tekststreng med en anden tekststreng baseret på det antal byte, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekst, hvor der skal udskiftes et antal tegn!er positionen for det tegn i gammel_tekst, der skal erstattes med ny_tekst!er det antal tegn i gammel_tekst, der skal erstattes!er den tekst, der skal erstatte tegn i gammel_tekst"
 	},
 	"REPT": {
 		"a": "(tekst; antal_gange)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(tekst; [antal_tegn])",
-		"d": "Returnerer det eller de sidste tegn i en tekststreng baseret på det antal bytes, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Returnerer det eller de sidste tegn i en tekststreng baseret på det antal bytes, du angiver, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekststreng, der indeholder de tegn, der skal uddrages!angiver, hvor mange tegn der skal uddrages. Sættes til 1, hvis feltet ikke udfyldes"
 	},
 	"SEARCH": {
 		"a": "(find_tekst; i_tekst; [start_ved])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(find_tekst; i_tekst; [start_ved])",
-		"d": "Finder én tekststreng inden i en anden tekststreng og returnerer nummeret på den første strengs startposition fra det første tegn i den anden tekststreng, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk"
+		"d": "Finder én tekststreng inden i en anden tekststreng og returnerer nummeret på den første strengs startposition fra det første tegn i den anden tekststreng, er beregnet til brug sammen med sprog, der anvender dobbelt-byte tegnsæt (DBCS) - japansk, kinesisk og koreansk",
+		"ad": "er den tekst, der skal findes. Du kan bruge jokertegnene ? og  *. Brug ~? og ~* til at finde tegnene ? og *!er den tekst, der skal søges i efter find_tekst!er placeringen af det tegn i i_tekst (talt fra venstre), hvor søgningen skal begynde. Sættes til1, hvis det udelades"
 	},
 	"SUBSTITUTE": {
 		"a": "(tekst; gammel_tekst; ny_tekst; [forekomst])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(mål_dato; værdier; tidslinje; [sæsonudsving]; [data_completion]; [sammenlægning])",
-		"d": "Returnerer prognoseværdien for en bestemt fremtidig dato vha. en eksponentiel udjævningsmetode."
+        "d": "Returnerer prognoseværdien for en bestemt fremtidig dato vha. en eksponentiel udjævningsmetode.",
+		"ad": "er det datapunkt, som Spreadsheet Editor forudsiger en værdi for. Det skal overføre værdimønsteret til tidslinjen.!er den matrix eller det område af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller området af numeriske data. Datoer på tidslinjen skal have et ensartet trin mellem dem og kan ikke være nul.!er en valgfri numerisk værdi, der angiver længden af det sæsonmæssige mønster. Standardværdien på 1 angiver, at sæsonudsving registreres automatisk.!er en valgfri værdi til håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Spreadsheet Editor gennemsnittet af værdierne."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(mål_dato; værdier; tidslinje; [tillids_niveau]; [sæsonudsving]; [data_fuldførelse]; [sammenlægning])",
 		"d": "Returnerer et tillidsinterval for prognoseværdien på den angivne måldato.",
-		"ad": "er det datapunkt, som Microsoft Excel forudsiger en værdi for. Det skal overføre værdimønsteret til tidslinjen.!er den matrix eller det område af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller området af numeriske data. Datoer på tidslinjen skal have et ensartet trin mellem dem og kan ikke være nul.!er et tal mellem 0 og 1, der viser tillidsniveauet for det beregnede tillidsinterval. Standardværdien er 0,95.!er en valgfri numerisk værdi, der angiver længden af det sæsonmæssige mønster. Standardværdien på 1 angiver, at sæsonudsving registreres automatisk.!er en valgfri værdi til håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Micros"
+		"ad": "er det datapunkt, som Spreadsheet Editor forudsiger en værdi for. Det skal overføre værdimønsteret til tidslinjen.!er den matrix eller det område af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller området af numeriske data. Datoer på tidslinjen skal have et ensartet trin mellem dem og kan ikke være nul.!er et tal mellem 0 og 1, der viser tillidsniveauet for det beregnede tillidsinterval. Standardværdien er 0,95.!er en valgfri numerisk værdi, der angiver længden af det sæsonmæssige mønster. Standardværdien på 1 angiver, at sæsonudsving registreres automatisk.!er en valgfri værdi til håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Spreadsheet Editor gennemsnittet af værdierne."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(værdier; tidslinje; [data_completion]; [sammenlægning])",
 		"d": "Returnerer længden på det gentagne mønster, som en applikation registrerer for den angivne tidsserie.",
-		"ad": "er den matrix eller det celleområde af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller celleområdet af numeriske data. Datoer på tidslinjen skal have et ensartet trin mellem dem og må ikke være nul.!er en valgfri værdi for håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Microsoft Excel gennemsnittet af værdierne."
+		"ad": "er den matrix eller det celleområde af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller celleområdet af numeriske data. Datoer på tidslinjen skal have et ensartet trin mellem dem og må ikke være nul.!er en valgfri værdi for håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Spreadsheet Editor gennemsnittet af værdierne."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(værdier; tidslinje; statistik_type; [sæsonudsving]; [data_completion]; [sammenlægning])",
 		"d": "Returnerer den ønskede statistik for prognosen.",
-		"ad": "er den matrix eller det celleområde af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller celleområdet af numeriske data. Datoerne på tidslinjen skal have et ensartet trin mellem dem og må ikke være nul.!er et tal mellem 1 og 8, der angiver, hvilken statistik Microsoft Excel returnerer for den beregnede prognose.!er en valgfri numerisk værdi, der angiver længden af det sæsonmæssige mønster. Standardværdien på 1 angiver, at sæsonudsving registreres automatisk.!er en valgfri værdi til håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Microsoft Excel gennemsnittet af værdierne."
+		"ad": "er den matrix eller det celleområde af numeriske data, du er ved at forudsige.!er den uafhængige matrix eller celleområdet af numeriske data. Datoerne på tidslinjen skal have et ensartet trin mellem dem og må ikke være nul.!er et tal mellem 1 og 8, der angiver, hvilken statistik Spreadsheet Editor returnerer for den beregnede prognose.!er en valgfri numerisk værdi, der angiver længden af det sæsonmæssige mønster. Standardværdien på 1 angiver, at sæsonudsving registreres automatisk.!er en valgfri værdi til håndtering af manglende værdier. Standardværdien 1 erstatter manglende værdier ved interpolering, og 0 erstatter dem med nuller.!er en valgfri numerisk værdi til sammenlægning af flere værdier med samme tidsstempel. Hvis feltet er tomt, beregner Spreadsheet Editor gennemsnittet af værdierne."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; kendte_y'er; kendte_x'er)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(købspris; købsdato; første_periode; restværdi; periode; sats; [datotype])",
-		"d": "Returnerer den forholdsmæssige lineære afskrivning af et aktiv for hver regnskabsperiode"
+		"d": "Returnerer den forholdsmæssige lineære afskrivning af et aktiv for hver regnskabsperiode",
+		"ad": "er aktivets købspris!er aktivets købsdato!er slutdatoen for første regnskabsperiode!er aktivets restværdi i slutningen af dets levetid!er perioden!er den sats, som aktivet afskrives med!årsbasis: 0 for et år på 360 dage, 1 for faktisk, 3 for et år på 365 dage."
 	},
 	"AMORLINC": {
 		"a": "(købspris; købsdato; første_periode; restværdi; periode; sats; [datotype])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(tekst)",
-		"d": "For dobbeltbytetegnsætsprog ændrer funktionen tegn i fuld bredde (dobbeltbyte) til tegn i halv bredde (enkeltbyte)"
+		"d": "For dobbeltbytetegnsætsprog ændrer funktionen tegn i fuld bredde (dobbeltbyte) til tegn i halv bredde (enkeltbyte)",
+		"ad": "tekst, du ønsker at ændre"
 	},
 	"ASIN": {
 		"a": "(tal)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(tal; [betydning])",
-		"d": "Returnerer et tal, der rundes op til nærmeste heltal eller til nærmeste multiplum af signifikans"
+		"d": "Returnerer et tal, der rundes op til nærmeste heltal eller til nærmeste multiplum af signifikans",
+		"ad": "er den værdi, der skal afrundes!er det multiplum, der skal afrundes til"
 	},
 	"COMBIN": {
 		"a": "(tal; tal_valgt)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(tal; betydning)",
-		"d": "Runder et tal op til nærmeste multiplum af betydning"
+		"d": "Runder et tal op til nærmeste multiplum af betydning",
+		"ad": "er den værdi, der skal afrundes!er det multiplum, der skal afrundes til"
 	},
 	"EVEN": {
 		"a": "(tal)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(tal; [betydning])",
-		"d": "Returnerer et tal, der rundes ned til nærmeste heltal eller til nærmeste multiplum af signifikans"
+		"d": "Returnerer et tal, der rundes ned til nærmeste heltal eller til nærmeste multiplum af signifikans",
+		"ad": "er den værdi, der skal afrundes!er det multiplum, der skal afrundes til"
 	},
 	"FLOOR.MATH": {
 		"a": "(tal; [betydning]; [tilstand])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(tal; [betydning])",
-		"d": "Returnerer et tal, der rundes op til nærmeste heltal eller til nærmeste multiplum af signifikans. Uanset tallets fortegn, rundes tallet op. Men hvis tallet eller signifikansen er nul, returneres nul."
+		"d": "Returnerer et tal, der rundes op til nærmeste heltal eller til nærmeste multiplum af signifikans. Uanset tallets fortegn, rundes tallet op. Men hvis tallet eller signifikansen er nul, returneres nul.",
+		"ad": "er den værdi, der skal afrundes!er det multiplum, der skal afrundes til"
 	},
 	"LCM": {
 		"a": "(tal1; [tal2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(regneark_webadresse, område_streng)",
-		"d": "Importerer et celleområde fra et angivet regneark."
+		"d": "Importerer et celleområde fra et angivet regneark.",
+		"ad": "webadressen til regnearket, hvorfra data importeres!område, der skal importeres"
 	}
 }

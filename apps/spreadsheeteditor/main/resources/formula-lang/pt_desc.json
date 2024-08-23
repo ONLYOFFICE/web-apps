@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(data_inicial; data_final; unidade)",
-		"d": "Calcula o número de dias, meses ou anos entre duas datas"
+		"d": "Calcula o número de dias, meses ou anos entre duas datas",
+		"ad": "Uma data que representa a primeira ou a data de início de um determinado período!Uma data que representa a última data ou a data final do período de tempo!O tipo de informação que pretende que sejam devolvidas"
 	},
 	"DATEVALUE": {
 		"a": "(texto_data)",
 		"d": "Converte uma data em forma de texto para um número que representa a data no código de data e hora",
-		"ad": "é o texto que representa uma data num formato de datas do Microsoft Excel, entre 1/1/1900 ou 1/1/1904 (dependendo do sistema de data do livro) e 12/31/9999"
+		"ad": "é o texto que representa uma data num formato de datas do Spreadsheet Editor, entre 1/1/1900 ou 1/1/1904 (dependendo do sistema de data do livro) e 12/31/9999"
 	},
 	"DAY": {
 		"a": "(núm_série)",
 		"d": "Devolve o dia do mês, um número entre 1 e 31",
-		"ad": "é um número no código de data e hora utilizado pelo Microsoft Excel"
+		"ad": "é um número no código de data e hora utilizado pelo Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(data_de_fim; data_de_início)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(núm_série)",
 		"d": "Devolve a hora como um número de 0 (00:00) a 23 (23:00).",
-		"ad": "é um número no código de data e hora utilizado pelo Microsoft Excel ou texto em formato de hora, tal como 16:48:00 ou 4:48:00 PM"
+		"ad": "é um número no código de data e hora utilizado pelo Spreadsheet Editor ou texto em formato de hora, tal como 16:48:00 ou 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(data)",
 		"d": "Devolve o número de semana ISO do ano de uma determinada data",
-		"ad": "é o código data-hora utilizado pelo Microsoft Excel para calcular a data e hora"
+		"ad": "é o código data-hora utilizado pelo Spreadsheet Editor para calcular a data e hora"
 	},
 	"MINUTE": {
 		"a": "(núm_série)",
 		"d": "Devolve os minutos, um número de 0 a 59.",
-		"ad": "é um número no código de data e hora utilizado pelo Microsoft Excel ou texto em formato de hora, tal como 16:48:00 ou 4:48:00 PM"
+		"ad": "é um número no código de data e hora utilizado pelo Spreadsheet Editor ou texto em formato de hora, tal como 16:48:00 ou 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(núm_série)",
 		"d": "Devolve o mês, um número de 1 (janeiro) a 12 (dezembro).",
-		"ad": "é um número no código de data e hora utilizado pelo Microsoft Excel"
+		"ad": "é um número no código de data e hora utilizado pelo Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(data_inicial; data_final; [feriados])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(núm_série)",
 		"d": "Devolve os segundos, um número de 0 a 59.",
-		"ad": "é um número no código de data e hora utilizado pelo Microsoft Excel ou texto em formato de hora, tal como 16:48:23 ou 4:48:47 PM"
+		"ad": "é um número no código de data e hora utilizado pelo Spreadsheet Editor ou texto em formato de hora, tal como 16:48:23 ou 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(horas; minutos; segundos)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(texto_hora)",
 		"d": "Converte uma hora de texto num número de série para uma hora, um número de 0 (00:00:00) a 0,999988426 (23:59:59). Formate o número com um formato de hora depois de introduzir a fórmula",
-		"ad": "é uma cadeia de texto que dá as horas em qualquer dos formatos de hora do Microsoft Excel (as informações de data na cadeia é ignorada)"
+		"ad": "é uma cadeia de texto que dá as horas em qualquer dos formatos de hora do Spreadsheet Editor (as informações de data na cadeia é ignorada)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(núm_série; [tipo_retorno])",
 		"d": "Devolve o número da semana no ano",
-		"ad": "é o código de data e hora utilizado pelo Microsoft Excel para cálculo de data e hora!é um número (1 ou 2) que determina o tipo do valor devolvido"
+		"ad": "é o código de data e hora utilizado pelo Spreadsheet Editor para cálculo de data e hora!é um número (1 ou 2) que determina o tipo do valor devolvido"
 	},
 	"WORKDAY": {
 		"a": "(data_inicial; dias; [feriados])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(núm_série)",
 		"d": "Devolve o ano de uma data, um número inteiro do intervalo 1900-9999.",
-		"ad": "é um número no código de data e hora utilizado pelo Microsoft Excel"
+		"ad": "é um número no código de data e hora utilizado pelo Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(data_inicial; data_final; [base])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(texto_a_localizar; no_texto; [núm_inicial])",
-		"d": "Localiza uma cadeia de texto dentro de uma segunda cadeia de texto e devolve o número da posição inicial da primeira cadeia de texto a partir do primeiro caráter da segunda cadeia de texto, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Localiza uma cadeia de texto dentro de uma segunda cadeia de texto e devolve o número da posição inicial da primeira cadeia de texto a partir do primeiro caráter da segunda cadeia de texto, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é o texto que deseja localizar. Utilize aspas (sem texto) para fazer a comparação com o primeiro caráter de No_texto; não são permitidos carateres universais!é o texto que contém o que deseja localizar!especifica o caráter a partir do qual será iniciada a pesquisa. O primeiro caráter em No_texto é o número 1. Se for omisso, Núm_inicial = 1"
 	},
 	"FIXED": {
 		"a": "(núm; [decimais]; [sem_sep_milhar])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(texto; [núm_caract])",
-		"d": "Devolve o primeiro caráter ou carateres numa cadeia de texto, com base no número de bytes que especificar, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Devolve o primeiro caráter ou carateres numa cadeia de texto, com base no número de bytes que especificar, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é a cadeia de texto que contém os carateres que deseja extrair!especifica quantos carateres LEFTB deve extrair; 1, se omisso"
 	},
 	"LEN": {
 		"a": "(texto)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(texto)",
-		"d": "Devolve o número de bytes utilizado para representar os carateres numa cadeia de texto, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Devolve o número de bytes utilizado para representar os carateres numa cadeia de texto, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é o texto cujo comprimento deseja determinar. Os espaços contam como carateres"
 	},
 	"LOWER": {
 		"a": "(texto)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(texto; núm_inicial; núm_caract)",
-		"d": "Devolve um número específico de carateres de uma cadeia de texto, começando na posição que especificar, com base no número de bytes especificado, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Devolve um número específico de carateres de uma cadeia de texto, começando na posição que especificar, com base no número de bytes especificado, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é a cadeia de texto que contém os carateres que deseja extrair!é a posição do primeiro caráter que deseja extrair. O primeiro caráter em Texto é 1!especifica quantos carateres devem ser devolvidos de Texto"
 	},
 	"NUMBERVALUE": {
 		"a": "(texto; [separador_decimal]; [separador_grupo])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(texto_antigo; núm_inicial; núm_caract; texto_novo)",
-		"d": "Substitui parte de uma cadeia de texto, com base no número de bytes que especificar, por uma cadeia de texto diferente, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Substitui parte de uma cadeia de texto, com base no número de bytes que especificar, por uma cadeia de texto diferente, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é o texto em que deseja substituir alguns carateres!é a posição do caráter em Texto_antigo que deseja substituir por Texto_novo!é o número de carateres em Texto_antigo que deseja substituir!é o texto que substituirá carateres em Texto_antigo"
 	},
 	"REPT": {
 		"a": "(texto; núm_vezes)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(texto; [núm_caract])",
-		"d": "Devolve o último caráter ou carateres numa cadeia de texto, baseado no número de bytes especificados, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Devolve o último caráter ou carateres numa cadeia de texto, baseado no número de bytes especificados, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é a cadeia de texto que contém os carateres que deseja extrair!especifica o número de carateres que deseja extrair, utilizando 1 se for omisso"
 	},
 	"SEARCH": {
 		"a": "(texto_a_localizar; no_texto; [núm_inicial])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(texto_a_localizar; no_texto; [núm_inicial])",
-		"d": "Localiza uma cadeia de texto dentro de uma segunda cadeia de texto e devolve o número da posição de início da primeira cadeia de texto do primeiro caráter da segunda cadeia de texto, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano"
+		"d": "Localiza uma cadeia de texto dentro de uma segunda cadeia de texto e devolve o número da posição de início da primeira cadeia de texto do primeiro caráter da segunda cadeia de texto, destina-se a ser utilizada com idiomas que utilizem o conjunto de carateres de byte duplo (DBCS, double-byte character set) - japonês, chinês e coreano",
+		"ad": "é o texto que deseja localizar. Pode utilizar os carateres universais ? e *; utilize ~? e ~* para localizar os carateres ? e *!é o texto em que deseja procurar o Texto_proc!é o número do caráter em No_texto, a contar da esquerda, onde deseja iniciar a pesquisa. Se omisso, será utilizado 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(texto; texto_antigo; texto_novo; [núm_ocorrência])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(data_alvo; valores; linha_cronológica; [sazonalidade]; [conclusão_dos_dados]; [agregação])",
-		"d": "Devolve o valor previsto de uma data alvo futura específica utilizando o método de nivelamento exponencial."
+		"d": "Devolve o valor previsto de uma data alvo futura específica utilizando o método de nivelamento exponencial.",
+		"ad": "é o ponto de dados para o qual Spreadsheet Editor prevê um valor. Deve continuar o padrão de valores na linha temporal.!é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha de tempo devem ter um passo consistente entre elas e não podem ser zero.!é um valor numérico opcional que indica o comprimento do padrão sazonal. O valor por defeito de 1 indica que a sazonalidade é detectada automaticamente.!é um valor opcional para lidar com valores em falta. O valor por defeito de 1 substitui os valores em falta por interpolação, e 0 substitui-os por zeros.!é um valor numérico opcional para agregar vários valores com o mesmo carimbo de tempo. Se estiver em branco, o Spreadsheet Editor calcula a média dos valores."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(data_alvo; valores; linha_cronológica; [nível_de_confiança]; [sazonalidade]; [conclusão_dos_dados]; [agregação])",
 		"d": "Devolve um intervalo de confiança para o valor de previsão na data alvo especificada.",
-		"ad": "é o ponto de dados para o qual Microsoft Excel prevê um valor. Deve continuar o padrão de valores na linha temporal.!é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha de tempo devem ter um passo consistente entre elas e não podem ser zero.!é um número entre 0 e 1 que mostra o nível de confiança para o intervalo de confiança calculado. O valor por defeito é .95.!é um valor numérico opcional que indica o comprimento do padrão sazonal. O valor por defeito de 1 indica que a sazonalidade é detectada automaticamente.!é um valor opcional para lidar com valores em falta. O valor por defeito de 1 substitui os valores em falta por interpolação, e 0 substitui-os por zeros.!é um valor numérico opcional para agregar vários valores com o mesmo carimbo de tempo. Se "
+		"ad": "é o ponto de dados para o qual Spreadsheet Editor prevê um valor. Deve continuar o padrão de valores na linha temporal.!é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha de tempo devem ter um passo consistente entre elas e não podem ser zero.!é um número entre 0 e 1 que mostra o nível de confiança para o intervalo de confiança calculado. O valor por defeito é .95.!é um valor numérico opcional que indica o comprimento do padrão sazonal. O valor por defeito de 1 indica que a sazonalidade é detectada automaticamente.!é um valor opcional para lidar com valores em falta. O valor por defeito de 1 substitui os valores em falta por interpolação, e 0 substitui-os por zeros.!é um valor numérico opcional para agregar vários valores com o mesmo carimbo de tempo. Se estiver em branco, o Spreadsheet Editor calcula a média dos valores."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(valores; linha_cronológica; [conclusão_dos_dados]; [agregação])",
 		"d": "Devolve o comprimento do padrão repetitivo que um aplicativo detecta para a série de tempo especificada.",
-		"ad": "é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha temporal devem ter um passo consistente entre elas e não podem ser zero.!é um valor opcional para lidar com valores em falta. O valor por defeito de 1 substitui os valores em falta por interpolação, e 0 substitui-os por zeros.!é um valor numérico opcional para agregar vários valores com o mesmo carimbo de tempo. Se estiver em branco, Microsoft Excel calcula a média dos valores."
+		"ad": "é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha temporal devem ter um passo consistente entre elas e não podem ser zero.!é um valor opcional para lidar com valores em falta. O valor por defeito de 1 substitui os valores em falta por interpolação, e 0 substitui-os por zeros.!é um valor numérico opcional para agregar vários valores com o mesmo carimbo de tempo. Se estiver em branco, Spreadsheet Editor calcula a média dos valores."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(valores; linha_cronológica; tipo_estatístico; [sazonabilidade]; [conclusão_dos_dados]; [agregação])",
 		"d": "Devolve a estatística solicitada para a previsão.",
-		"ad": "é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha cronológica têm de ter um passo consistente entre elas e não podem ser zero.!é um valor entre 1 e 8 que indica que estatística Microsoft Excel irá devolver para a previsão calculada. !é um valor numérico opcional que indica o comprimento do padrão sazonal. O valor predefinido de 1 indica que a sazonalidade é detetada automaticamente.!é um valor opcional para processar valores em falta. O valor predefinido de 1 substitui os valores em falta por interpolação e o 0 substitui os valores por zeros.!é um valor numérico opcional para agregar múltiplos valores com o mesmo carimbo de data/hora. Se estiver em branco, o Microsoft Excel calcula a média dos valores."
+		"ad": "é a matriz ou intervalo de dados numéricos que está a prever.!é a matriz ou intervalo independente de dados numéricos. As datas na linha cronológica têm de ter um passo consistente entre elas e não podem ser zero.!é um valor entre 1 e 8 que indica que estatística Spreadsheet Editor irá devolver para a previsão calculada. !é um valor numérico opcional que indica o comprimento do padrão sazonal. O valor predefinido de 1 indica que a sazonalidade é detetada automaticamente.!é um valor opcional para processar valores em falta. O valor predefinido de 1 substitui os valores em falta por interpolação e o 0 substitui os valores por zeros.!é um valor numérico opcional para agregar múltiplos valores com o mesmo carimbo de data/hora. Se estiver em branco, o Spreadsheet Editor calcula a média dos valores."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; val_conhecidos_y; val_conhecidos_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(custo; data_aquisição; prim_período; recuperação; período; taxa; [base])",
-		"d": "Devolve a depreciação linear pro rata de um bem para cada período contabilístico"
+		"d": "Devolve a depreciação linear pro rata de um bem para cada período contabilístico",
+		"ad": "é o custo do bem!é a data em que o bem foi comprado!é a data do final do primeiro período!é o valor de recuperação no final da vida do bem!é o período!é a taxa de depreciação!base_ano: 0 para anos de 360 dias, 1 para o atual, 3 para anos de 365 dias."
 	},
 	"AMORLINC": {
 		"a": "(custo; data_aquisição; prim_período; recuperação; período; taxa; [base])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(texto)",
-		"d": "Em tipos de linguagem de conjuntos de carateres de bytes duplos (DBCS), a função altera os carateres de largura total (bytes duplos) para carateres de largura média (byte único)"
+		"d": "Em tipos de linguagem de conjuntos de carateres de bytes duplos (DBCS), a função altera os carateres de largura total (bytes duplos) para carateres de largura média (byte único)",
+		"ad": "é o texto que pretende alterar"
 	},
 	"ASIN": {
 		"a": "(núm)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(número; [significância])",
-		"d": "Devolve um número arredondado para o número inteiro mais próximo ou para o múltiplo de significância mais próximo"
+		"d": "Devolve um número arredondado para o número inteiro mais próximo ou para o múltiplo de significância mais próximo",
+		"ad": "é o valor que deseja arredondar!é o múltiplo para o qual deseja fazer o arredondamento"
 	},
 	"COMBIN": {
 		"a": "(núm; núm_escolhido)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(núm; significância)",
-		"d": "Arredonda um número por excesso para o múltiplo significativo mais próximo"
+		"d": "Arredonda um número por excesso para o múltiplo significativo mais próximo",
+		"ad": "é o valor que deseja arredondar!é o múltiplo para o qual deseja fazer o arredondamento"
 	},
 	"EVEN": {
 		"a": "(núm)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(número; [significância])",
-		"d": "Devolve um número arredondado por defeito para o número inteiro mais próximo ou para o múltiplo de significância mais próximo"
+		"d": "Devolve um número arredondado por defeito para o número inteiro mais próximo ou para o múltiplo de significância mais próximo",
+		"ad": "é o valor que deseja arredondar!é o múltiplo para o qual deseja fazer o arredondamento"
 	},
 	"FLOOR.MATH": {
 		"a": "(número; [significância]; [modo])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(número; [significância])",
-		"d": "Devolve um número arredondado para o número inteiro mais próximo ou para o múltiplo de significância mais próximo. Independentemente do sinal do número, o número é arredondado. Contudo, se o número ou a significância for zero, é devolvido zero."
+		"d": "Devolve um número arredondado para o número inteiro mais próximo ou para o múltiplo de significância mais próximo. Independentemente do sinal do número, o número é arredondado. Contudo, se o número ou a significância for zero, é devolvido zero.",
+		"ad": "é o valor que deseja arredondar!é o múltiplo para o qual deseja fazer o arredondamento"
 	},
 	"LCM": {
 		"a": "(núm1; [núm2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(url_folha_de_cálculo, string_intervalo)",
-		"d": "Importa um intervalo de células a partir de uma folha de cálculo especificada."
+		"d": "Importa um intervalo de células a partir de uma folha de cálculo especificada.",
+		"ad": "o URL da folha de cálculo a partir da qual os dados serão importados!o intervalo a importar"
 	}
 }

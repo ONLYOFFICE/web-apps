@@ -11,12 +11,12 @@
 	"DATEVALUE": {
 		"a": "(date_text)",
 		"d": "Converteix una data en forma de text en una xifra que representa la data en el codi de data i hora",
-		"ad": "és text que representa una data en un format de data de l'Microsoft Excel, entre 1/1/1900 o 1/1/1904 (en funció del sistema de dates del llibre de treball) i 31/12/9999"
+		"ad": "és text que representa una data en un format de data de l'Spreadsheet Editor, entre 1/1/1900 o 1/1/1904 (en funció del sistema de dates del llibre de treball) i 31/12/9999"
 	},
 	"DAY": {
 		"a": "(serial_number)",
 		"d": "Retorna el dia del mes, un valor de l'1 al 31.",
-		"ad": "és una xifra en el codi de data i hora que utilitza l'Microsoft Excel"
+		"ad": "és una xifra en el codi de data i hora que utilitza l'Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(data_fi; data_inici)",
@@ -41,22 +41,22 @@
 	"HOUR": {
 		"a": "(serial_number)",
 		"d": "Retorna l'hora com una xifra del 0 (12:00 a. m.) al 23 (11:00 p. m.).",
-		"ad": "és una xifra en el codi de data i hora que utilitza l'Microsoft Excel o un text en format d'hora, com ara 16:48:00 o 4:48:00 p. m."
+		"ad": "és una xifra en el codi de data i hora que utilitza l'Spreadsheet Editor o un text en format d'hora, com ara 16:48:00 o 4:48:00 p. m."
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
 		"d": "Torna el número de setmana ISO de l'any d'una data determinada",
-		"ad": "és el codi data-hora utilitzat per l'Microsoft Excel per al càlcul de data i hora"
+		"ad": "és el codi data-hora utilitzat per l'Spreadsheet Editor per al càlcul de data i hora"
 	},
 	"MINUTE": {
 		"a": "(serial_number)",
 		"d": "Retorna els minuts, una xifra del 0 al 59.",
-		"ad": "és una xifra en el codi de data i hora que utilitza l'Microsoft Excel o un text en format d'hora, com ara 16:48:00 o 4:48:00 PM"
+		"ad": "és una xifra en el codi de data i hora que utilitza l'Spreadsheet Editor o un text en format d'hora, com ara 16:48:00 o 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(serial_number)",
 		"d": "Retorna el mes, una xifra de l'1 (gener) al 12 (desembre).",
-		"ad": "és una xifra en el codi de data i hora que utilitza l'Microsoft Excel"
+		"ad": "és una xifra en el codi de data i hora que utilitza l'Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(data_inicial; data_final; [festius])",
@@ -76,7 +76,7 @@
 	"SECOND": {
 		"a": "(serial_number)",
 		"d": "Retorna els segons, una xifra del 0 al 59.",
-		"ad": "és una xifra en el codi de data i hora que utilitza l'Microsoft Excel o un text en format d'hora, com ara 16:48:23 o 4:48:47 PM"
+		"ad": "és una xifra en el codi de data i hora que utilitza l'Spreadsheet Editor o un text en format d'hora, com ara 16:48:23 o 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(hora; minut; segon)",
@@ -86,7 +86,7 @@
 	"TIMEVALUE": {
 		"a": "(time_text)",
 		"d": "Converteix una hora de text en un número de sèrie per a una hora, una xifra de 0 (12:00:00) a 0,999988426 (11:59:59). Aplica un format d'hora a la xifra després d'introduir la fórmula",
-		"ad": "és una cadena de text que indica l'hora en qualsevol dels formats d'hora de l'Microsoft Excel (s'ignora la informació de data de la cadena)"
+		"ad": "és una cadena de text que indica l'hora en qualsevol dels formats d'hora de l'Spreadsheet Editor (s'ignora la informació de data de la cadena)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +101,7 @@
 	"WEEKNUM": {
 		"a": "(serial_number; [return_type])",
 		"d": "Retorna el número de setmana de l'any",
-		"ad": "és el codi de data i hora utilitzat per l'Microsoft Excel per al càlcul de la data i l'hora!és un nombre (1 o 2) que determina el tipus de valor retornat"
+		"ad": "és el codi de data i hora utilitzat per l'Spreadsheet Editor per al càlcul de la data i l'hora!és un nombre (1 o 2) que determina el tipus de valor retornat"
 	},
 	"WORKDAY": {
 		"a": "(data_inicial; dies; [festius])",
@@ -116,7 +116,7 @@
 	"YEAR": {
 		"a": "(serial_number)",
 		"d": "Retorna l'any d'una data, un enter de l'interval de 1.900 a 9.999.",
-		"ad": "és una xifra en el codi de data i hora que utilitza l'Microsoft Excel"
+		"ad": "és una xifra en el codi de data i hora que utilitza l'Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(data_inicial; data_final; [base])",
@@ -495,7 +495,8 @@
 	},
 	"FINDB": {
 		"a": "(text_cercat; dins_text; [núm_inicial])",
-		"d": "Cerca la subcadena especificada (cadena-1) dins d'una cadena (cadena-2) i està destinada a llenguatges amb el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Cerca la subcadena especificada (cadena-1) dins d'una cadena (cadena-2) i està destinada a llenguatges amb el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és el text que voleu trobar. Utilitzeu cometes dobles (sense text) perquè coincideixi amb el primer caràcter de Dins_text; els caràcters comodí no són permesos!és el text que conté el text que voleu trobar!especifica el caràcter on voleu començar la cerca. El primer caràcter de Dins_text és el caràcter 1. Si s'omet, Núm_inicial = 1"
 	},
 	"FIXED": {
 		"a": "(número; [decimals]; [sense_comes])",
@@ -509,7 +510,8 @@
 	},
 	"LEFTB": {
 		"a": "(text; [nombre_caràcters])",
-		"d": "Extreu la subcadena de la cadena especificada començant pel caràcter de l'esquerra i està destinada a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Extreu la subcadena de la cadena especificada començant pel caràcter de l'esquerra i està destinada a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és la cadena de text que conté els caràcters que es volen extreure!especifica quants caràcters voleu que extregui LEFTB. Si s'omet, s'assumeix 1"
 	},
 	"LEN": {
 		"a": "(text)",
@@ -518,7 +520,8 @@
 	},
 	"LENB": {
 		"a": "(text)",
-		"d": "Analitza la cadena especificada i retorna el nombre de caràcters que conté i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Analitza la cadena especificada i retorna el nombre de caràcters que conté i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és el text la longitud del qual es vol trobar. Els espais compten com a caràcters"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -532,7 +535,8 @@
 	},
 	"MIDB": {
 		"a": "(text; posició_inicial; nombre_caràcters)",
-		"d": "Extreu els caràcters de la cadena especificada començant des de qualsevol posició i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Extreu els caràcters de la cadena especificada començant des de qualsevol posició i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és la cadena de text de la qual es volen extreure els caràcters!és la posició del primer caràcter que es vol extreure. El primer caràcter de Text és 1!especifica quants caràcters s'han de retornar de Text"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [separador_decimal]; [separador_grup])",
@@ -551,7 +555,8 @@
 	},
 	"REPLACEB": {
 		"a": "(text_original; núm_inicial; nombre_caràcters; text_nou)",
-		"d": "Situa un conjunt de caràcters, basat en el nombre de caràcters i la posició inicial que especifiqueu, amb un nou conjunt de caràcters i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Situa un conjunt de caràcters, basat en el nombre de caràcters i la posició inicial que especifiqueu, amb un nou conjunt de caràcters i està pensat per a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és text en què voleu substituir alguns caràcters!és la posició del caràcter a text_original que voleu substituir per text_nou!és el nombre de caràcters de text_original que voleu substituir!és el text que substituirà els caràcters del text_original"
 	},
 	"REPT": {
 		"a": "(text; número_de_vegades)",
@@ -565,7 +570,8 @@
 	},
 	"RIGHTB": {
 		"a": "(text; [nombre_caràcters])",
-		"d": "Extreu una subcadena d'una cadena que comença des del caràcter de més a la dreta, basant-se en el nombre especificat de caràcters i està destinat a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Extreu una subcadena d'una cadena que comença des del caràcter de més a la dreta, basant-se en el nombre especificat de caràcters i està destinat a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és la cadena de text que conté els caràcters que es volen extreure!especifica quants caràcters voleu extreure. Si s'omet, s'assumeix 1"
 	},
 	"SEARCH": {
 		"a": "(text_cercat; dins_text; [núm_inicial])",
@@ -574,7 +580,8 @@
 	},
 	"SEARCHB": {
 		"a": "(text_cercat; dins_text; [núm_inicial])",
-		"d": "Retorna la ubicació de la subcadena especificada en una cadena i està destinada a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc."
+		"d": "Retorna la ubicació de la subcadena especificada en una cadena i està destinada a llenguatges que utilitzen el joc de caràcters de doble byte (DBCS) com el japonès, el xinès, el coreà, etc.",
+		"ad": "és el text que es vol trobar. Podeu emprar els caràcters de comodí ? i *; utilitzeu ~? i ~* per trobar els caràcters ? i *!és el text on voleu cercar el Text_cercat!és el número del caràcter de Dins_text, comptant des de l'esquerra, on voleu començar a cercar. Si s'omet, s'utilitza 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; text_original; text_nou; [núm_ocurrència])",
@@ -863,22 +870,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(target_date; values; timeline; [seasonality]; [data_completion]; [agreggation])",
-		"d": "Retorna el valor previst per a una determinada data de destinació futura mitjançant el mètode de suavització exponencial ."
+		"d": "Retorna el valor previst per a una determinada data de destinació futura mitjançant el mètode de suavització exponencial .",
+		"ad": "És el punt de dades per al qual l'Spreadsheet Editor prediu un valor. Ha de continuar el patró de valors en la cronologia.!És la matriu o l'interval de dades numèriques que voleu predir.!És la matriu o l'interval de dades numèriques independent. Les dates de la cronologia han de tenir un pas coherent entre si i no poden ser zero.!és un valor numèric opcional que indica la durada del patró estacional. El valor predeterminat 1 indica que l’estacionalitat es detecta automàticament.!és un valor opcional per controlar valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació, i 0 els substitueix per zeros.!.és un valor numèric opcional per agregar diversos valors amb la mateixa marca horària. Si es deixa en blanc, l'Spreadsheet Editor fa una mitjana dels valors."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(target_date; values; timeline; [confidence_level]; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Retorna un interval de confiança per al valor de pronòstic en la data de destinació especificada.",
-		"ad": "És el punt de dades per al qual l'Microsoft Excel prediu un valor. Ha de continuar el patró de valors en la cronologia.!És la matriu o l'interval de dades numèriques que voleu predir.!És la matriu o l'interval de dades numèriques independent. Les dates de la cronologia han de tenir un pas coherent entre si i no poden ser zero. \t\t\t\t\t\t\t\t!És un nombre entre 0 i 1, que indica el nivell de confiança per a l'interval de confiança calculat. El valor predeterminat és .95.!és un valor numèric opcional que indica la durada del patró estacional. El valor predeterminat 1 indica que l’estacionalitat es detecta automàticament.!és un valor opcional per controlar valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació, i 0 els substitueix per zeros.!.és un valor numèric opcional per agre"
+		"ad": "És el punt de dades per al qual l'Spreadsheet Editor prediu un valor. Ha de continuar el patró de valors en la cronologia.!És la matriu o l'interval de dades numèriques que voleu predir.!És la matriu o l'interval de dades numèriques independent. Les dates de la cronologia han de tenir un pas coherent entre si i no poden ser zero.!És un nombre entre 0 i 1, que indica el nivell de confiança per a l'interval de confiança calculat. El valor predeterminat és .95.!és un valor numèric opcional que indica la durada del patró estacional. El valor predeterminat 1 indica que l’estacionalitat es detecta automàticament.!és un valor opcional per controlar valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació, i 0 els substitueix per zeros.!.és un valor numèric opcional per agregar diversos valors amb la mateixa marca horària. Si es deixa en blanc, l'Spreadsheet Editor fa una mitjana dels valors."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
 		"d": "Retorna la durada del patró repetitiu que una aplicació detecta per a la sèrie de temps especificada.",
-		"ad": "És la matriu o l'interval de dades numèriques que voleu predir.!És la matriu o l'interval de dades numèriques independent. Les dates de la cronologia han de tenir un pas coherent entre si i no poden ser zero.!És un valor opcional per controlar els valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació i 0 els substitueix per zeros.!És un valor numèric opcional per agregar diversos valors amb la mateixa marca horària. Si es deixa en blanc, l'Microsoft Excel fa una mitjana dels valors."
+		"ad": "És la matriu o l'interval de dades numèriques que voleu predir.!És la matriu o l'interval de dades numèriques independent. Les dates de la cronologia han de tenir un pas coherent entre si i no poden ser zero.!És un valor opcional per controlar els valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació i 0 els substitueix per zeros.!És un valor numèric opcional per agregar diversos valors amb la mateixa marca horària. Si es deixa en blanc, l'Spreadsheet Editor fa una mitjana dels valors."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Retorna l’estadística sol·licitada per a la predicció.",
-		"ad": "És la matriu o l'interval de les dades numèriques que es prediuen.!És la matriu o l'interval independent de les dades numèriques. Les dates de la cronologia han de ser correlatives i no poden ser zero.!És un número entre l'1 i el 8 que indica quina estadística retornarà l'Microsoft Excel per a la predicció calculada.!És un valor numèric opcional que indica la durada del patró estacional. El valor per defecte 1 indica que l'estacionalitat es detecta automàticament.!És un valor opcional per controlar valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació i 0 els substitueix per zeros.!És un valor numèric opcional per agregar diversos valors amb la mateixa marca horària. Si es deixa en blanc, l'Microsoft Excel fa una mitjana dels valors."
+		"ad": "És la matriu o l'interval de les dades numèriques que es prediuen.!És la matriu o l'interval independent de les dades numèriques. Les dates de la cronologia han de ser correlatives i no poden ser zero.!És un número entre l'1 i el 8 que indica quina estadística retornarà l'Spreadsheet Editor per a la predicció calculada.!És un valor numèric opcional que indica la durada del patró estacional. El valor per defecte 1 indica que l'estacionalitat es detecta automàticament.!És un valor opcional per controlar valors que no hi són. El valor predeterminat 1 substitueix els valors que no hi són mitjançant la interpolació i 0 els substitueix per zeros.!És un valor numèric opcional per agregar diversos valors amb la mateixa marca horària. Si es deixa en blanc, l'Spreadsheet Editor fa una mitjana dels valors."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(xs; conegut_ys; conegut_xs)",
@@ -1377,7 +1385,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
-		"d": "Retorna l'amortització lineal prorratejada d'un actiu per a cada període comptable."
+		"d": "Retorna l'amortització lineal prorratejada d'un actiu per a cada període comptable.",
+		"ad": "és el cost de l'actiu!és la data de compra de l'actiu!és la data del final del primer període!és el valor residual al final de la vida de l'actiu.!és el període!és la taxa d'amortització!base_any: 0 per a un any de 360 dies, 1 per a real, 3 per a un any de 365 dies."
 	},
 	"AMORLINC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
@@ -1720,7 +1729,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(nombre; [significat])",
-		"d": "Retorna un nombre que s'arrodoneix fins a l'enter més proper o al múltiple més proper de significat"
+		"d": "Retorna un nombre que s'arrodoneix fins a l'enter més proper o al múltiple més proper de significat",
+		"ad": "és el valor que es vol arrodonir!és el múltiple al qual es vol arrodonir"
 	},
 	"COMBIN": {
 		"a": "(nombre; nombre_triat)",
@@ -1774,7 +1784,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(número; significat)",
-		"d": "Arrodoneix el nombre fins al múltiple més proper d'importància"
+		"d": "Arrodoneix el nombre fins al múltiple més proper d'importància",
+		"ad": "és el valor que es vol arrodonir!és el múltiple al qual es vol arrodonir"
 	},
 	"EVEN": {
 		"a": "(número)",
@@ -1803,7 +1814,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(nombre; [significat] )",
-		"d": "Retorna un nombre que s'arrodoneix cap avall a l'enter més proper o al múltiple més proper de significat"
+		"d": "Retorna un nombre que s'arrodoneix cap avall a l'enter més proper o al múltiple més proper de significat",
+		"ad": "és el valor que es vol arrodonir!és el múltiple al qual es vol arrodonir"
 	},
 	"FLOOR.MATH": {
 		"a": "(nombre; [xifra_significativa]; [moda])",
@@ -1822,7 +1834,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(nombre; [significat])",
-		"d": "Retorna un nombre que s'arrodoneix fins a l'enter més proper o al múltiple més proper d'importància independentment del signe del nombre. No obstant això, si el nombre o el significat és zero, es retorna zero."
+		"d": "Retorna un nombre que s'arrodoneix fins a l'enter més proper o al múltiple més proper d'importància independentment del signe del nombre. No obstant això, si el nombre o el significat és zero, es retorna zero.",
+		"ad": "és el valor que es vol arrodonir!és el múltiple al qual es vol arrodonir"
 	},
 	"LCM": {
 		"a": "(nombre1; [nombre2]; ...)",

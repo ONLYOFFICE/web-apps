@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(start-date; end-date; unit)",
-		"d": "Menghitung jumlah hari, bulan, atau tahun di antara dua tanggal"
+		"d": "Menghitung jumlah hari, bulan, atau tahun di antara dua tanggal",
+		"ad": "Tanggal yang menunjukkan tanggal pertama, atau tanggal mulai periode tertentu!Tanggal yang menunjukkan tanggal terakhir, atau tanggal berakhirnya periode!Tipe informasi yang ingin Anda kembalikan"
 	},
 	"DATEVALUE": {
 		"a": "(date_text)",
 		"d": "Mengonversi tanggal dalam bentuk teks ke angka yang mewakili tanggal dalam kode tanggal-waktu",
-		"ad": "adalah teks yang mewakili tanggal dalam format tanggal Microsoft Excel, di antara 1/1/1900 atau 1/1/1904 (tergantung sistem tanggal buku kerja) dan 12/31/9999"
+		"ad": "adalah teks yang mewakili tanggal dalam format tanggal Spreadsheet Editor, di antara 1/1/1900 atau 1/1/1904 (tergantung sistem tanggal buku kerja) dan 12/31/9999"
 	},
 	"DAY": {
 		"a": "(serial_number)",
 		"d": "Mengembalikan hari dari bulan, angka dari 1 sampai 31.",
-		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Microsoft Excel"
+		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(end_date; start_date)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(serial_number)",
 		"d": "Mengembalikan jam sebagai angka dari 0 (12:00 A.M.) sampai 23 (11:00 P.M.).",
-		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Microsoft Excel, atau teks dalam format waktu, seperti 16:48:00 atau 4:48:00 PM"
+		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Spreadsheet Editor, atau teks dalam format waktu, seperti 16:48:00 atau 4:48:00 PM"
 	},
 	"ISOWEEKNUM": {
 		"a": "(date)",
 		"d": "Mengembalikan jumlah minggu ISO dalam setahun untuk tanggal tertentu",
-		"ad": "adalah kode tanggal-waktu yang digunakan Microsoft Excel untuk penghitungan tanggal dan waktu"
+		"ad": "adalah kode tanggal-waktu yang digunakan Spreadsheet Editor untuk penghitungan tanggal dan waktu"
 	},
 	"MINUTE": {
 		"a": "(serial_number)",
 		"d": "Mengembalikan menit, angka dari 0 sampai 59.",
-		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Microsoft Excel atau teks dalam format waktu, seperti 16:48:00 atau 4:48:00 PM"
+		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Spreadsheet Editor atau teks dalam format waktu, seperti 16:48:00 atau 4:48:00 PM"
 	},
 	"MONTH": {
 		"a": "(serial_number)",
 		"d": "Mengembalikan bulan, angka dari 1 (Januari) sampai 12 (Desember).",
-		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Microsoft Excel"
+		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(start_date; end_date; [holidays])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(serial_number)",
 		"d": "Mengembalikan detik, angka dari 0 sampai 59.",
-		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Microsoft Excel atau teks dalam format waktu, seperti 16:48:23 atau 4:48:47 PM"
+		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Spreadsheet Editor atau teks dalam format waktu, seperti 16:48:23 atau 4:48:47 PM"
 	},
 	"TIME": {
 		"a": "(hour; minute; second)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(time_text)",
 		"d": "Mengonversi waktu teks ke nomor seri untuk waktuu, angka dari 0 (12:00:00 AM) sampai 0.999988426 (11:59:59 PM). Format nomor dengan format waktu setelah memasukkan rumus",
-		"ad": "adalah string teks yang menampilkan waktu dalam apa pun format waktu Microsoft Excel (informasi tanggal dalam string diabaikan)"
+		"ad": "adalah string teks yang menampilkan waktu dalam apa pun format waktu Spreadsheet Editor (informasi tanggal dalam string diabaikan)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(serial_number; [return_type])",
 		"d": "Mengembalikan jumlah minggu dalam setahun",
-		"ad": "adalah kode tanggal-waktu yang digunakan oleh Microsoft Excel untuk penghitungan tanggal dan waktu!adalah angka (1 atau 2) yang menentukan tipe nilai pengembalian"
+		"ad": "adalah kode tanggal-waktu yang digunakan oleh Spreadsheet Editor untuk penghitungan tanggal dan waktu!adalah angka (1 atau 2) yang menentukan tipe nilai pengembalian"
 	},
 	"WORKDAY": {
 		"a": "(start_date; days; [holidays])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(serial_number)",
 		"d": "Mengembalikan tahun dari tanggal, bilangan bulat dalam rentang 1900 - 9999.",
-		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Microsoft Excel"
+		"ad": "adalah angka dalam kode tanggal-waktu yang digunakan oleh Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(start_date; end_date; [basis])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(find_text; within_text; [start_num])",
-		"d": "Menemukan satu string teks ketika string teks kedua, dan mengembalikan nomor posisi mulai string teks pertama dari karakter pertama string teks kedua, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Menemukan satu string teks ketika string teks kedua, dan mengembalikan nomor posisi mulai string teks pertama dari karakter pertama string teks kedua, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah teks yang ingin Anda temukan. Gunakan tanda kutip ganda (teks kosong) untuk mencocokkan karakter pertama pada Within_text; karakter bebas tidak diizinkan!adalah teks yang mengandung teks yang ingin Anda temukan!menentukan karakter yang mana untuk memulai pencarian. Karakter pertama pada Dalam_teks adalah karakter angka 1. Jika dihilangkan, nomor_Mulai = 1"
 	},
 	"FIXED": {
 		"a": "(number; [decimals]; [no_commas])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(text; [num_chars])",
-		"d": "Mengembalikan karakter pertama atau beberapa karakter dalam string teks, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Mengembalikan karakter pertama atau beberapa karakter dalam string teks, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah string teks yang mengandung karakter yang ingin Anda ekstrak!menentukan berapa banyak karakter yang Anda ingin LEFTB ekstrak; 1 jika dihilangkan"
 	},
 	"LEN": {
 		"a": "(text)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(text)",
-		"d": "Mengembalikan jumlah byte yang digunakan untuk menunjukkan karakter dalam string teks, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Mengembalikan jumlah byte yang digunakan untuk menunjukkan karakter dalam string teks, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah teks yang panjangnya ingin Anda ketahui. Spasi dihitung sebagai karakter"
 	},
 	"LOWER": {
 		"a": "(text)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(text; start_num; num_chars)",
-		"d": "Mengembalikan jumlah karakter tertentu dari sebuah string teks, dimulai dari posisi yang Anda tentukan, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Mengembalikan jumlah karakter tertentu dari sebuah string teks, dimulai dari posisi yang Anda tentukan, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah string teks yang dari sini Anda ingin mengekstrak karakternya!adalah posisi dari karakter pertama yang ingin Anda ekstrak. Karakter pertama dalam Teks adalah 1!tentukan berapa banyak karakter untuk dikembalikan dari Teks"
 	},
 	"NUMBERVALUE": {
 		"a": "(text; [decimal_separator]; [group_separator])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(old_text; start_num; num_chars; new_text)",
-		"d": "Menggantikan bagian dari string teks, berdasarkan jumlah byte yang Anda tentukan, dengan string teks berbeda, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Menggantikan bagian dari string teks, berdasarkan jumlah byte yang Anda tentukan, dengan string teks berbeda, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah teks yang Anda ingin ganti beberapa karakternya!adalah posisi karakter dalam teks_Lama yang ingin Anda ganti dengan teks_Baru!adalah jumlah karakter dalam teks_Lama yang ingin Anda ganti!adalah teks yang akan mengganti karakter dalam teks_Lama"
 	},
 	"REPT": {
 		"a": "(text; number_times)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(text; [num_chars])",
-		"d": "Menampilkan karakter terakhir atau karakter dalam string teks, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Menampilkan karakter terakhir atau karakter dalam string teks, berdasarkan jumlah byte yang Anda tentukan, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah string teks yang mengandung karakter yang ingin Anda ekstrak!menentukan berapa banyak karakter yang ingin Anda ekstrak; 1 jika dihilangkan"
 	},
 	"SEARCH": {
 		"a": "(find_text; within_text; [start_num])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(find_text; within_text; [start_num])",
-		"d": "Menemukan satu string teks dalam string teks kedua, dan mengembalikan nomor posisi awal string teks pertama dari karakter pertama string teks kedua, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea"
+		"d": "Menemukan satu string teks dalam string teks kedua, dan mengembalikan nomor posisi awal string teks pertama dari karakter pertama string teks kedua, ditujukan untuk penggunaan dengan bahasa yang menggunakan kumpulan karakter byte ganda (DBCS) - Jepang, Tionghoa, dan Korea",
+		"ad": "adalah teks yang ingin Anda temukan. Anda dapat menggunakan karakter bebas ? dan  *; gunakan ~? dan ~* untuk menemukan ? dan karakter *!adalah teks yang ingin Anda cari Temukan_teks!adalah angka karakter dalam Within_text, dihitung dari kiri, saat Anda ingin memulai pencarian. Jika dihilangkan, 1 digunakan"
 	},
 	"SUBSTITUTE": {
 		"a": "(text; old_text; new_text; [instance_num])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(tanggal_target; nilai; garis_waktu; [musiman]; [penyelesaian_data]; [agregat])",
-		"d": "Mengembalikan nilai prakiraan untuk tanggal target tertentu di masa depan menggunakan metode pemulusan eksponensial."
+		"d": "Mengembalikan nilai prakiraan untuk tanggal target tertentu di masa depan menggunakan metode pemulusan eksponensial.",
+		"ad": "adalah poin data yang diprediksi nilainya oleh Spreadsheet Editor. Ini harus meneruskan pola nilai dalam garis waktu.!adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah nilai numerik opsional yang menunjukkan panjang pola musiman. Nilai default 1 menunjukkan musiman terdeteksi secara otomatis.!adalah nilai opsional untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai yang hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan beberapa nilai dengan stempel waktu yang sama. Jika kosong, Spreadsheet Editor merata-ratakan nilai."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(target_date; values; timeline; [confidence_level]; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Mengembalikan interval kepercayaan untuk nilai prakiraan pada tanggal target yang ditentukan.",
-		"ad": "adalah poin data yang diprediksi nilainya oleh Microsoft Excel. Ini harus meneruskan pola nilai dalam garis waktu.!adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah angka antara 0 dan 1, menunjukkan tingkat keyakinan untuk interval kepercayaan yang dihitung. Nilai default adalah ,95.!adalah nilai numerik opsional yang menunjukkan panjang pola musiman. Nilai default 1 menunjukkan musiman terdeteksi secara otomatis.!adalah nilai opsional untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai yang hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan beberapa nilai dengan stempel"
+		"ad": "adalah poin data yang diprediksi nilainya oleh Spreadsheet Editor. Ini harus meneruskan pola nilai dalam garis waktu.!adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah angka antara 0 dan 1, menunjukkan tingkat keyakinan untuk interval kepercayaan yang dihitung. Nilai default adalah ,95.!adalah nilai numerik opsional yang menunjukkan panjang pola musiman. Nilai default 1 menunjukkan musiman terdeteksi secara otomatis.!adalah nilai opsional untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai yang hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan beberapa nilai dengan stempel waktu yang sama. Jika kosong, Spreadsheet Editor merata-ratakan nilai."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(values; timeline; [data_completion]; [aggregation])",
 		"d": "Mengembalikan panjang pola berulang yang dideteksi oleh aplikasi untuk rangkaian waktu tertentu.",
-		"ad": "adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah nilai optimal untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan banyak nilai dengan stempel waktu yang sama. Jika kosong, Microsoft Excel merata-ratakan nilainya."
+		"ad": "adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah nilai optimal untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan banyak nilai dengan stempel waktu yang sama. Jika kosong, Spreadsheet Editor merata-ratakan nilainya."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(values; timeline; statistic_type; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Mengembalikan statistik diminta untuk prakiraan.",
-		"ad": "adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah angka antara 1 dan 8, mengindikasikan statistik Microsoft Excel mana yang akan dihasilkan untuk prakiraan yang dihitung.!adalah nilai numerik opsional yang mengindikasikan panjang pola musiman. Nilai default 1 mengindikasikan musiman terdeteksi secara otomatis.!adalah nilai opsional untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan banyak nilai dengan stempel waktu yang sama. Jika kosong, Microsoft Excel merata-ratakan nilai."
+		"ad": "adalah array atau rentang data numerik yang sedang Anda prediksi.!adalah array independen atau rentang data numerik. Tanggal dalam garis waktu harus memiliki langkah yang konsisten di antara tanggal tersebut dan tidak boleh nol.!adalah angka antara 1 dan 8, mengindikasikan statistik Spreadsheet Editor mana yang akan dihasilkan untuk prakiraan yang dihitung.!adalah nilai numerik opsional yang mengindikasikan panjang pola musiman. Nilai default 1 mengindikasikan musiman terdeteksi secara otomatis.!adalah nilai opsional untuk mengatasi nilai yang hilang. Nilai default 1 menggantikan nilai hilang dengan interpolasi, dan 0 menggantikannya dengan nol.!adalah nilai numerik opsional untuk menggabungkan banyak nilai dengan stempel waktu yang sama. Jika kosong, Spreadsheet Editor merata-ratakan nilai."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; known_y's; known_x's)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
-		"d": "Menampilkan depresiasi linear prorata dari aset untuk tiap periode akuntansi."
+		"d": "Menampilkan depresiasi linear prorata dari aset untuk tiap periode akuntansi.",
+		"ad": "adalah biaya aset!adalah tanggal pembelian aset!adalah tanggal dari akhir periode!adalah nilai sisa pada akhir periode aset.!adalah periode!adalah tingkat depresiasi!basis_tahun : 0 untuk tahun dengan 360 hari, 1 untuk sesungguhnya, 3 untuk tahun dengan 365 hari."
 	},
 	"AMORLINC": {
 		"a": "(cost; date_purchased; first_period; salvage; period; rate; [basis])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(text)",
-		"d": "Untuk bahasa Perangkat karakter bit ganda (DBCS, Double-byte character set), fungsi tersebut mengubah karakter lebar penuh (bit ganda) menjadi lebar setengah (bit tunggal)"
+		"d": "Untuk bahasa Perangkat karakter bit ganda (DBCS, Double-byte character set), fungsi tersebut mengubah karakter lebar penuh (bit ganda) menjadi lebar setengah (bit tunggal)",
+		"ad": "Teks atau referensi ke suatu sel yang berisi teks yang ingin Anda ubah."
 	},
 	"ASIN": {
 		"a": "(number)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(number; [significance])",
-		"d": "Mengembalikan angka yang dibulatkan ke atas ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat"
+		"d": "Mengembalikan angka yang dibulatkan ke atas ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat",
+		"ad": "adalah nilai yang ingin Anda bulatkan!adalah multipel yang ingin Anda bulatkan"
 	},
 	"COMBIN": {
 		"a": "(number; number_chosen)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(number; significance)",
-		"d": "Membulatkan angka ke atas, ke bilangan bulat terdekat atau ke multipel terdekat dari signifikansi"
+		"d": "Membulatkan angka ke atas, ke bilangan bulat terdekat atau ke multipel terdekat dari signifikansi",
+		"ad": "adalah nilai yang ingin Anda bulatkan!adalah multipel yang ingin Anda bulatkan"
 	},
 	"EVEN": {
 		"a": "(number)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(number; [significance])",
-		"d": "Mengembalikan angka yang dibulatkan ke bawah ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat"
+		"d": "Mengembalikan angka yang dibulatkan ke bawah ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat",
+		"ad": "adalah nilai yang ingin Anda bulatkan!adalah multipel yang ingin Anda bulatkan"
 	},
 	"FLOOR.MATH": {
 		"a": "(number; [significance]; [mode])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(number; [significance])",
-		"d": "Mengembalikan angka yang dibulatkan ke atas ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat. Tanpa memperhatikan lambang angkanya, bilangan itu dibulatkan ke atas. Akan tetapi, jika angka signifikansinya nol, maka hasilnya nol."
+		"d": "Mengembalikan angka yang dibulatkan ke atas ke bilangan bulat terdekat atau ke kelipatan signifikansi terdekat. Tanpa memperhatikan lambang angkanya, bilangan itu dibulatkan ke atas. Akan tetapi, jika angka signifikansinya nol, maka hasilnya nol.",
+		"ad": "adalah nilai yang ingin Anda bulatkan!adalah multipel yang ingin Anda bulatkan"
 	},
 	"LCM": {
 		"a": "(number1; [number2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(url_spreadsheet; string_rentang)",
-		"d": "Mengimpor rentang sel dari spreadsheet tertentu."
+		"d": "Mengimpor rentang sel dari spreadsheet tertentu.",
+		"ad": "URL spreadsheet tempat asal data yang akan diimpor!String yang menentukan rentang yang akan diimpor"
 	}
 }

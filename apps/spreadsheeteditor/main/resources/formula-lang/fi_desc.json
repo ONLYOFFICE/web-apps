@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(aloituspäivä; lopetuspäivä; yksikkö)",
-		"d": "Laskee kahden päivämäärän välillä olevien päivien, kuukausien tai vuosien määrän"
+		"d": "Laskee kahden päivämäärän välillä olevien päivien, kuukausien tai vuosien määrän",
+		"ad": "Päivämäärä, joka vastaa tietyn kauden ensimmäistä tai alkamispäivää!Päivämäärä, joka kuvaa ajanjakson viimeistä päivämäärää eli lopetuspäivää!Palautettavien tietojen tyyppi"
 	},
 	"DATEVALUE": {
 		"a": "(päivämäärä_teksti)",
 		"d": "Muuntaa päivämäärän tekstistä järjestysnumeroksi, joka vastaa päivämäärää päivämäärä-aika-koodauksessa",
-		"ad": "on teksti, joka vastaa Microsoft Excelin päivämäärämuotoa. Arvot voivat olla 1.1.1900–31.12.9999 tai 1.1.1904–31.12.9999 laskentataulukon päivämääräjärjestelmästä riippuen"
+		"ad": "on teksti, joka vastaa Spreadsheet Editorin päivämäärämuotoa. Arvot voivat olla 1.1.1900–31.12.9999 tai 1.1.1904–31.12.9999 laskentataulukon päivämääräjärjestelmästä riippuen"
 	},
 	"DAY": {
 		"a": "(järjestysnro)",
 		"d": "Palauttaa kuukauden päivän, luvun väliltä 1–31.",
-		"ad": "on luku Microsoft Excelin käyttämässä päivämäärä- ja kellonaikamuodossa"
+		"ad": "on luku Spreadsheet Editorin käyttämässä päivämäärä- ja kellonaikamuodossa"
 	},
 	"DAYS": {
 		"a": "(lopetuspäivä; aloituspäivä)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(järjestysnro)",
 		"d": "Palauttaa tunnin kokonaislukumuodossa. Arvo on välillä 0 (0:00)–23 (23:00).",
-		"ad": "on luku Microsoft Excelin käyttämässä päivämäärä- ja kellonaikamuodossa tai teksti aikamuodossa, esimerkiksi 16:48:00"
+		"ad": "on luku Spreadsheet Editorin käyttämässä päivämäärä- ja kellonaikamuodossa tai teksti aikamuodossa, esimerkiksi 16:48:00"
 	},
 	"ISOWEEKNUM": {
 		"a": "(päivämäärä)",
 		"d": "Palauttaa annetun päivämäärän mukaisen vuoden ISO-standardin mukaisen viikon numeron",
-		"ad": "on ajan ja päivämäärän koodi, jota Microsoft Excel käyttää päivämäärien ja aikojen laskennassa"
+		"ad": "on ajan ja päivämäärän koodi, jota Spreadsheet Editor käyttää päivämäärien ja aikojen laskennassa"
 	},
 	"MINUTE": {
 		"a": "(järjestysnro)",
 		"d": "Palauttaa minuutin lukuna väliltä 0–59.",
-		"ad": "on luku Microsoft Excelin käyttämässä päivämäärä- ja kellonaikamuodossa tai teksti aikamuodossa, esimerkiksi 16:48:00"
+		"ad": "on luku Spreadsheet Editorin käyttämässä päivämäärä- ja kellonaikamuodossa tai teksti aikamuodossa, esimerkiksi 16:48:00"
 	},
 	"MONTH": {
 		"a": "(järjestysnro)",
 		"d": "Palauttaa kuukauden järjestysnumeron 1 (tammikuu)–12 (joulukuu).",
-		"ad": "on luku Microsoft Excelin käyttämässä päivämäärä- ja kellonaikamuodossa"
+		"ad": "on luku Spreadsheet Editorin käyttämässä päivämäärä- ja kellonaikamuodossa"
 	},
 	"NETWORKDAYS": {
 		"a": "(aloituspäivä; lopetuspäivä; [loma])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(järjestysnro)",
 		"d": "Palauttaa sekunnin lukuna väliltä 0–59.",
-		"ad": "on luku Microsoft Excelin käyttämässä päivämäärä- ja kellonaikamuodossa tai teksti aikamuodossa, esimerkiksi 16:48:23"
+		"ad": "on luku Spreadsheet Editorin käyttämässä päivämäärä- ja kellonaikamuodossa tai teksti aikamuodossa, esimerkiksi 16:48:23"
 	},
 	"TIME": {
 		"a": "(tunnit; minuutit; sekunnit)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(aika_teksti)",
 		"d": "Muuntaa tekstimuotoisen ajan aikaa ilmaisevaksi järjestysnumeroksi. Numero 0 (0:00:00) muunnetaan muotoon 0,999988426 (23:59:59). Muotoile numero aikamuotoon kaavan kirjoittamisen jälkeen",
-		"ad": "on teksti, joka määrittää ajan jossakin Microsoft Excelin tunnistamista ajan esitysmuodoista (tekstissä olevia päivämäärätietoja ei huomioida)"
+		"ad": "on teksti, joka määrittää ajan jossakin Spreadsheet Editorin tunnistamista ajan esitysmuodoista (tekstissä olevia päivämäärätietoja ei huomioida)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(järjestysnro; [palauta_tyyppi])",
 		"d": "Palauttaa viikon numeron.",
-		"ad": "on päivämäärä- ja kellonaikakoodi, jota Microsoft Excel käyttää päivämäärän ja kellonajan laskemisessa!on luku (1 tai 2), joka määrittää palautettavan arvon tyypin"
+		"ad": "on päivämäärä- ja kellonaikakoodi, jota Spreadsheet Editor käyttää päivämäärän ja kellonajan laskemisessa!on luku (1 tai 2), joka määrittää palautettavan arvon tyypin"
 	},
 	"WORKDAY": {
 		"a": "(aloituspäivä; päivät; [loma])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(järjestysnro)",
 		"d": "Palauttaa vuoden kokonaislukuna välillä 1900–9999.",
-		"ad": "on luku Microsoft Excelin käyttämässä päivämäärä- ja kellonaikamuodossa"
+		"ad": "on luku Spreadsheet Editorin käyttämässä päivämäärä- ja kellonaikamuodossa"
 	},
 	"YEARFRAC": {
 		"a": "(aloituspäivä; lopetuspäivä; [peruste])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(etsittävä_teksti; tekstissä; [aloitusnro])",
-		"d": "Etsivät merkkijonon toisen merkkijonon sisältä ja palauttavat luvun, joka ilmaisee etsittävän merkkijonon ensimmäisen merkin sijainnin toisen merkkijonon sisällä, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea."
+		"d": "Etsivät merkkijonon toisen merkkijonon sisältä ja palauttavat luvun, joka ilmaisee etsittävän merkkijonon ensimmäisen merkin sijainnin toisen merkkijonon sisällä, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea.",
+		"ad": "on etsittävä teksti. Käytä lainausmerkkejä (tyhjä teksti) ensimmäisen merkin tunnistamiseen. Yleismerkkejä (?, *) ei voi käyttää!on teksti, josta haluat etsiä merkkijonon!määrittää sen merkin järjestysnumeron, josta haluat aloittaa etsinnän. Tekstin ensimmäisen merkin numero on 1. Jos tämä argumentti jätetään pois, etsintä aloitetaan ensimmäisestä merkistä"
 	},
 	"FIXED": {
 		"a": "(luku; [desimaalit]; [ei_erotinta])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(teksti; [merkit_luku])",
-		"d": "Palauttaa merkkijonon ensimmäisen merkin tai ensimmäiset merkit määritetyn tavumäärän perusteella, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea"
+		"d": "Palauttaa merkkijonon ensimmäisen merkin tai ensimmäiset merkit määritetyn tavumäärän perusteella, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea",
+		"ad": "on tekstimerkkijono, joka sisältää poimittavat merkit!määrittää, montako merkkiä haluat LEFTB-funktion poimivan. Funktio poimii vain yhden merkin, jos tätä arvoa ei määritetä"
 	},
 	"LEN": {
 		"a": "(teksti)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(teksti)",
-		"d": "Palauttaa tekstimerkkijonossa olevien tavujen määrän, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea"
+		"d": "Palauttaa tekstimerkkijonossa olevien tavujen määrän, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea",
+		"ad": "on teksti, jonka pituuden haluat selvittää. Välilyönnit lasketaan merkeiksi"
 	},
 	"LOWER": {
 		"a": "(teksti)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(teksti; aloitusnro; merkit_luku)",
-		"d": "Poimii merkkijonosta määrittämääsi tavumäärään perustuvan määrän merkkejä alkaen määrittämästäsi paikasta, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea"
+		"d": "Poimii merkkijonosta määrittämääsi tavumäärään perustuvan määrän merkkejä alkaen määrittämästäsi paikasta, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea",
+		"ad": "on tekstimerkkijono, joka sisältää poimittavat merkit!on ensimmäisen tekstistä poimittavan merkin sijainti. Tekstin ensimmäinen merkki on 1!määrittää, montako merkkiä funktio poimii tekstistä"
 	},
 	"NUMBERVALUE": {
 		"a": "(teksti; [desimaalierotin]; [ryhmäerotin])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(vanha_teksti; aloitusnro; merkit_luku; uusi_teksti)",
-		"d": "Korvaa tekstimerkkijonon osan toisella tekstimerkkijonolla määritettyjen merkkien tavujen määrän perusteella, with a new set of characters, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea"
+		"d": "Korvaa tekstimerkkijonon osan toisella tekstimerkkijonolla määritettyjen merkkien tavujen määrän perusteella, with a new set of characters, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea",
+		"ad": "on teksti, josta haluat korvata tietyn määrän merkkejä!on tekstin vanha_teksti merkin järjestysnumero, josta merkkien korvaus tekstin uusi_teksti merkeillä alkaa!on niiden vanha_teksti merkkien määrä, jotka haluat korvata tekstillä uusi_teksti!on teksti, joka korvaa tekstin vanha_teksti"
 	},
 	"REPT": {
 		"a": "(teksti; kerrat_luku)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(teksti; [merkit_luku])",
-		"d": "Palauttaa merkkijonon viimeisen merkin tai viimeiset merkit annetun merkkien tavumäärän perusteella, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea"
+		"d": "Palauttaa merkkijonon viimeisen merkin tai viimeiset merkit annetun merkkien tavumäärän perusteella, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea",
+		"ad": "on tekstimerkkijono, joka sisältää poimittavat merkit!määrittää poimittavien merkkien määrän. Jos arvoa ei määritetä, ohjelma käyttää arvoa 1"
 	},
 	"SEARCH": {
 		"a": "(etsittävä_teksti; tekstissä; [aloitusnro])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(etsittävä_teksti; tekstissä; [aloitusnro])",
-		"d": "Paikantavat yhden merkkijonon toisen merkkijonon sisältä ja ne palauttavat luvun, joka vastaa ensimmäisen merkkijonon aloituskohtaa toisen merkkijojon ensimmäisestä kirjaimesta laskettuna, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea"
+		"d": "Paikantavat yhden merkkijonon toisen merkkijonon sisältä ja ne palauttavat luvun, joka vastaa ensimmäisen merkkijonon aloituskohtaa toisen merkkijojon ensimmäisestä kirjaimesta laskettuna, käytetään, kun kirjoituskielen merkistön merkeissä on kaksi tavua (DBCS) - japani, kiina ja korea",
+		"ad": "on etsittävä teksti. Voit käyttää yleismerkkejä ? ja *. Jos haluat etsiä merkkejä ? tai *, käytä ~? tai ~* merkkejä!on teksti, josta haluat etsiä etsittävä_teksti argumentin arvoa!on sen argumentin tekstissä määrittämän merkin järjestysnumero (vasemmalta oikealle), josta haluat aloittaa etsinnän. Jos arvoa ei määritetä, ohjelma käyttää arvoa 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(teksti; vanha_teksti; uusi_teksti; [esiintymä_nro])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(määräpäivä; arvot; aikajana; [kausivaihtelu]; [tietojen_viimeistely]; [koonti])",
-		"d": "Palauttaa tietyn tulevan määräpäivän ennustearvon eksponentiaalisella tasoitusmenetelmällä."
+		"d": "Palauttaa tietyn tulevan määräpäivän ennustearvon eksponentiaalisella tasoitusmenetelmällä.",
+		"ad": "on arvopiste, jolle Spreadsheet Editor ennustaa arvon. Arvon tulee noudattaa aikajanan arvomallia.!on matriisi tai tietojoukko, jota ennuste koskee.!on riippumaton matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on valinnainen numeerinen arvo., joka ilmoittaa kausivaihtelumallin pituuden. Oletusarvo 1 tarkoittaa, että kausivaihtelu on havaittu automaattisesti.!on valinnainen arvo, jota käytetään puuttuvien arvojen käsittelyssä. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, arvo 0 korvaa ne nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamiseen. Jos tyhjä, Spreadsheet Editor laskee arvojen keskiarvot."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(määräpäivä; arvot; aikajana; [luottamusväli]; [kausivaihtelu]; [tietojen_viimeistely]; [koonti])",
 		"d": "Palauttaa tietyn tulevan määräpäivän ennustearvon luottamusvälin.",
-		"ad": "on arvopiste, jolle Microsoft Excel ennustaa arvon. Arvon tulee noudattaa aikajanan arvomallia.!on matriisi tai tietojoukko, jota ennuste koskee.!on riippumaton matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on numeerinen arvo välillä 0-1, joka ilmaisee laskennallisen luottamusvälin luottamustason. Oletusarvo on 95 prosenttia.!on valinnainen numeerinen arvo., joka ilmoittaa kausivaihtelumallin pituuden. Oletusarvo 1 tarkoittaa, että kausivaihtelu on havaittu automaattisesti.!on valinnainen arvo, jota käytetään puuttuvien arvojen käsittelyssä. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, arvo 0 korvaa ne nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamiseen. Jos tyhjä, Microsoft Excel laskee arvojen keskiarvot."
+		"ad": "on arvopiste, jolle Spreadsheet Editor ennustaa arvon. Arvon tulee noudattaa aikajanan arvomallia.!on matriisi tai tietojoukko, jota ennuste koskee.!on riippumaton matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on numeerinen arvo välillä 0-1, joka ilmaisee laskennallisen luottamusvälin luottamustason. Oletusarvo on 95 prosenttia.!on valinnainen numeerinen arvo., joka ilmoittaa kausivaihtelumallin pituuden. Oletusarvo 1 tarkoittaa, että kausivaihtelu on havaittu automaattisesti.!on valinnainen arvo, jota käytetään puuttuvien arvojen käsittelyssä. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, arvo 0 korvaa ne nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamiseen. Jos tyhjä, Spreadsheet Editor laskee arvojen keskiarvot."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(arvot; aikajana; [tietojen_viimeistely]; [koonti])",
 		"d": "Palauttaa toistuvan mallin pituuden, jonka sovellus tunnistaa annetussa aikasarjassa.",
-		"ad": "on matriisi tai tietojoukko, jota ennuste koskee.!on riippumaton matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on valinnainen arvo, jota käytetään puuttuvien arvojen käsittelyssä. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, ja 0 korvaa arvot nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamisessa. Jos tyhjä, Microsoft Excel laskee arvojen keskiarvon."
+		"ad": "on matriisi tai tietojoukko, jota ennuste koskee.!on riippumaton matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on valinnainen arvo, jota käytetään puuttuvien arvojen käsittelyssä. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, ja 0 korvaa arvot nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamisessa. Jos tyhjä, Spreadsheet Editor laskee arvojen keskiarvon."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(arvot; aikajana; tilastotyyppi; [kausivaihtelu]; [tietojen_viimeistely]; [koonti])",
 		"d": "Palauttaa ennusteen pyydetyn tilastotiedon.",
-		"ad": "on matriisi tai tietojoukko, jota ennuste koskee.!on riippuva matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on numero välillä 1-8, joka ilmaisee minkä tilastotiedon Microsoft Excel palauttaa lasketulle ennusteelle. !on valinnainen numeerinen arvo, joka ilmaisee kausivaihtelumallin pituuden. Oletusarvo 1 ilmaisee, että kausivaihtelu on havaittu automaattisesti.!on valinnainen arvo puuttuvien arvojen käsittelyyn. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, ja 0 korvaa arvot nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamisessa. Jos tyhjä, Microsoft Excel laskee arvojen keskiarvon."
+		"ad": "on matriisi tai tietojoukko, jota ennuste koskee.!on riippuva matriisi tai tietojoukko. Aikajanan päivämäärien tulee olla tasavälein. Arvo ei saa olla nolla.!on numero välillä 1-8, joka ilmaisee minkä tilastotiedon Spreadsheet Editor palauttaa lasketulle ennusteelle. !on valinnainen numeerinen arvo, joka ilmaisee kausivaihtelumallin pituuden. Oletusarvo 1 ilmaisee, että kausivaihtelu on havaittu automaattisesti.!on valinnainen arvo puuttuvien arvojen käsittelyyn. Oletusarvo 1 korvaa puuttuvat arvot interpoloimalla, ja 0 korvaa arvot nollilla.!on valinnainen numeerinen arvo, jota käytetään saman aikaleiman arvojen kokoamisessa. Jos tyhjä, Spreadsheet Editor laskee arvojen keskiarvon."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; tunnettu_y; tunnettu_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(kustannus; ostopäivämäärä; ensimmäinen_kausi; loppuarvo; kausi; korko; [peruste])",
-		"d": "Palauttaa kunkin tilikauden valmiskorkoisen suoran poiston."
+		"d": "Palauttaa kunkin tilikauden valmiskorkoisen suoran poiston.",
+		"ad": "on sijoituksen kustannus!on sijoituksen hankintapäivämäärä!on ensimmäisen kauden viimeisen päivän päivämäärä!on sijoituksen käyttöajan loppuarvo.!on kausi!on poiston korko!vuosiperuste: 0, kun vuodessa on 360 päivää, 1 todellista kohden, 3, kun vuodessa on 365 päivää."
 	},
 	"AMORLINC": {
 		"a": "(kustannus; ostopäivämäärä; ensimmäinen_kausi; loppuarvo; kausi; korko; [peruste])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(teksti)",
-		"d": "Funktio muuttaa DBCS (Double-byte character set) -merkit SBCS (Single-byte character set) -merkistön merkeiksi DBCS-merkistöä edellyttäviä kieliä käytettäessä"
+		"d": "Funktio muuttaa DBCS (Double-byte character set) -merkit SBCS (Single-byte character set) -merkistön merkeiksi DBCS-merkistöä edellyttäviä kieliä käytettäessä",
+		"ad": "Muutettava teksti tai viittaus muutettavan tekstin sisältävään soluun."
 	},
 	"ASIN": {
 		"a": "(luku)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(luku; [tarkkuus])",
-		"d": "Palauttaa luvun pyöristettynä lähimpään kokonaislukuun tai tarkkuuden kerrannaiseen"
+		"d": "Palauttaa luvun pyöristettynä lähimpään kokonaislukuun tai tarkkuuden kerrannaiseen",
+		"ad": "on pyöristettävä luku!on kerrannainen, johon haluat pyöristää luvun"
 	},
 	"COMBIN": {
 		"a": "(luku; valittu_luku)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(luku; tarkkuus)",
-		"d": "Pyöristää luvun ylöspäin lähimpään tarkkuuden kerrannaiseen"
+		"d": "Pyöristää luvun ylöspäin lähimpään tarkkuuden kerrannaiseen",
+		"ad": "on pyöristettävä luku!on kerrannainen, johon haluat pyöristää luvun"
 	},
 	"EVEN": {
 		"a": "(luku)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(luku; [tarkkuus])",
-		"d": "Palauttaa luvun pyöristettynä alaspäin lähimpään kokonaislukuun tai tarkkuuden kerrannaiseen"
+		"d": "Palauttaa luvun pyöristettynä alaspäin lähimpään kokonaislukuun tai tarkkuuden kerrannaiseen",
+		"ad": "on pyöristettävä luku!on kerrannainen, johon haluat pyöristää luvun"
 	},
 	"FLOOR.MATH": {
 		"a": "(luku; [tarkkuus]; [tila])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(luku; [tarkkuus])",
-		"d": "Palauttaa luvun pyöristettynä lähimpään kokonaislukuun tai tarkkuuden kerrannaiseen. Luvun etumerkistä huolimatta arvo pyöristetään aina ylöspäin. Jos luku tai tarkkuus on pariton kokonaisluku, sitä ei pyöristetä."
+		"d": "Palauttaa luvun pyöristettynä lähimpään kokonaislukuun tai tarkkuuden kerrannaiseen. Luvun etumerkistä huolimatta arvo pyöristetään aina ylöspäin. Jos luku tai tarkkuus on pariton kokonaisluku, sitä ei pyöristetä.",
+		"ad": "on pyöristettävä luku!on kerrannainen, johon haluat pyöristää luvun"
 	},
 	"LCM": {
 		"a": "(luku1; [luku2]; ...)",
@@ -2390,6 +2405,7 @@
 	},
 	"IMPORTRANGE": {
 		"a": "(laskentataulukon_url, alueen_merkkijono)",
-		"d": "Tuo tiedot määritetyn laskentataulukon soluväliltä."
+		"d": "Tuo tiedot määritetyn laskentataulukon soluväliltä.",
+		"ad": "Sen laskentataulukon URL-osoite, josta tiedot tuodaan!Merkkijono muodossa, joka määrittää tuotavan alueen"
 	}
 }

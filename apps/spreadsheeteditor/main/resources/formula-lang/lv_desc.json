@@ -6,17 +6,18 @@
 	},
 	"DATEDIF": {
 		"a": "(sākuma_datums; beigu_datums; mērvienība)",
-		"d": "Aprēķina dienu, mēnešu vai gadu skaitu starp diviem datumiem"
+		"d": "Aprēķina dienu, mēnešu vai gadu skaitu starp diviem datumiem",
+		"ad": "Datums, kas apzīmē dotā perioda pirmo jeb sākuma datumu!Datums, kas apzīmē perioda pēdējo jeb beigu datumu!Informācijas veids, kas ir jāatgriež"
 	},
 	"DATEVALUE": {
 		"a": "(datums_teksts)",
 		"d": "Pārveido datumu teksta formātā par skaitli, kas apzīmē datumu datuma/laika kodā",
-		"ad": "ir teksts, kas apzīmē datumu programmas Microsoft Excel datumu formātā - no 01.01.1900. (atkarībā no darbgrāmatas datumu sistēmas) līdz 31.12.9999."
+		"ad": "ir teksts, kas apzīmē datumu programmas Spreadsheet Editor datumu formātā - no 01.01.1900. (atkarībā no darbgrāmatas datumu sistēmas) līdz 31.12.9999."
 	},
 	"DAY": {
 		"a": "(seriālais_skaitlis)",
 		"d": "Atgriež mēneša dienu - skaitli no 1 līdz 31.",
-		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Microsoft Excel"
+		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Spreadsheet Editor"
 	},
 	"DAYS": {
 		"a": "(beigu_datums; sākuma_datums)",
@@ -41,22 +42,22 @@
 	"HOUR": {
 		"a": "(seriālais_skaitlis)",
 		"d": "Atgriež stundu kā skaitli no 0 (12:00 A.M.) līdz 23 (11:00 P.M.).",
-		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Microsoft Excel, vai teksts laika formātā, piemēram, 16:48:00"
+		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Spreadsheet Editor, vai teksts laika formātā, piemēram, 16:48:00"
 	},
 	"ISOWEEKNUM": {
 		"a": "(datums)",
 		"d": "Atgriež gada ISO nedēļas numuru noteiktam datumam",
-		"ad": "ir datuma/laika kods, ko Microsoft Excel izmanto datuma un laika aprēķināšanai"
+		"ad": "ir datuma/laika kods, ko Spreadsheet Editor izmanto datuma un laika aprēķināšanai"
 	},
 	"MINUTE": {
 		"a": "(seriālais_skaitlis)",
 		"d": "Atgriež minūti kā skaitli no 0 līdz 59.",
-		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Microsoft Excel, vai teksts laika formātā, piemēram, 16:48:00"
+		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Spreadsheet Editor, vai teksts laika formātā, piemēram, 16:48:00"
 	},
 	"MONTH": {
 		"a": "(seriālais_skaitlis)",
 		"d": "Atgriež mēnesi - skaitli no 1 (janvāris) līdz 12 (decembris).",
-		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Microsoft Excel"
+		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Spreadsheet Editor"
 	},
 	"NETWORKDAYS": {
 		"a": "(sākuma_datums; beigu_datums; [brīvdienas])",
@@ -76,7 +77,7 @@
 	"SECOND": {
 		"a": "(seriālais_skaitlis)",
 		"d": "Atgriež sekundi kā skaitli no 0 līdz 59.",
-		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Microsoft Excel, vai teksts laika formātā, piemēram, 16:48:23"
+		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Spreadsheet Editor, vai teksts laika formātā, piemēram, 16:48:23"
 	},
 	"TIME": {
 		"a": "(stunda; minūte; sekunde)",
@@ -86,7 +87,7 @@
 	"TIMEVALUE": {
 		"a": "(laiks)",
 		"d": "Konvertē teksta laiku seriālā skaitlī, kas apzīmē laiku, - skaitlī no 0 (00:00:00) līdz 0.999988426 (23:59:59). Formatējiet skaitli laika formātā pēc formulas ievadīšanas",
-		"ad": "ir teksta virkne, kas piedāvā laiku jebkurā no Microsoft Excel laika formātiem (datuma informācija tekstā tiek ignorēta)"
+		"ad": "ir teksta virkne, kas piedāvā laiku jebkurā no Spreadsheet Editor laika formātiem (datuma informācija tekstā tiek ignorēta)"
 	},
 	"TODAY": {
 		"a": "()",
@@ -101,7 +102,7 @@
 	"WEEKNUM": {
 		"a": "(sērijas_numurs; [atgriešanas_tips])",
 		"d": "Atgriež gada nedēļas numuru",
-		"ad": "ir datuma laika kods, ko lieto Microsoft Excel datuma un laika aprēķinam!ir skaitlis (1 vai 2), kas nosaka atgriešanas vērtības tipu"
+		"ad": "ir datuma laika kods, ko lieto Spreadsheet Editor datuma un laika aprēķinam!ir skaitlis (1 vai 2), kas nosaka atgriešanas vērtības tipu"
 	},
 	"WORKDAY": {
 		"a": "(sākuma_datums; dienas; [brīvdienas])",
@@ -116,7 +117,7 @@
 	"YEAR": {
 		"a": "(seriālais_skaitlis)",
 		"d": "Atgriež gadu - veselu skaitli robežās no 1900 līdz 9999.",
-		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Microsoft Excel"
+		"ad": "ir skaitlis datuma/laika kodā, ko lieto programma Spreadsheet Editor"
 	},
 	"YEARFRAC": {
 		"a": "(sākuma_datums; beigu_datums; [pamats])",
@@ -495,7 +496,8 @@
 	},
 	"FINDB": {
 		"a": "(atrast_tekstu; tekstā; [sākuma_num])",
-		"d": "Atgriež vienu teksta virkni otrā teksta virknē un atgriež pirmās teksta virknes sākuma pozīcijas numuru no otrās teksta virknes pirmās rakstzīmes, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Atgriež vienu teksta virkni otrā teksta virknē un atgriež pirmās teksta virknes sākuma pozīcijas numuru no otrās teksta virknes pirmās rakstzīmes, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": "ir atrodamais teksts. Izmantojiet dubultpēdiņas (tukšu tekstu), lai pieskaņotu pirmo rakstzīmi tekstā Tekstā; aizstājējzīmes nav atļautas!ir teksts, kurā atrodas atrodamais teksts!norāda rakstzīmi, no kuras sākt meklēšanu. Pirmā rakstzīme tekstā Atrast_tekstu ir 1. rakstzīme. Ja izlaista, sākuma_num = 1"
 	},
 	"FIXED": {
 		"a": "(skaitlis; [decimāldaļas]; [bez_komatiem])",
@@ -509,7 +511,8 @@
 	},
 	"LEFTB": {
 		"a": "(teksts; [skaitļu_rakstz])",
-		"d": "Atgriež pirmo rakstzīmi vai rakstzīmes teksta virknē, pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Atgriež pirmo rakstzīmi vai rakstzīmes teksta virknē, pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": " ir teksta virkne, kurā ietilpst izgūstamās rakstzīmes!norāda, cik rakstzīmes funkcijai LEFTB ir jāizgūst; 1, ja izlaists"
 	},
 	"LEN": {
 		"a": "(teksts)",
@@ -518,7 +521,8 @@
 	},
 	"LENB": {
 		"a": "(teksts)",
-		"d": "Atgriež baitu skaitu, kas tiek izmantoti rakstzīmju attēlošanai teksta virknē, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Atgriež baitu skaitu, kas tiek izmantoti rakstzīmju attēlošanai teksta virknē, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": "ir teksts, kura garums ir jānoskaidro. Atstarpes tiek skaitītas kā rakstzīmes"
 	},
 	"LOWER": {
 		"a": "(teksts)",
@@ -532,7 +536,8 @@
 	},
 	"MIDB": {
 		"a": "(teksts; sākuma_num; rakstzīmju_skaits)",
-		"d": "Atgriež noteiktas rakstzīmes no teksta virknes, sākot no norādītās vietas un pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Atgriež noteiktas rakstzīmes no teksta virknes, sākot no norādītās vietas un pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": "ir teksta virkne, no kuras jāizgūst rakstzīmes!ir pirmās izgūstamās rakstzīmes pozīcija. Pirmā rakstzīme Tekstā ir 1!norāda, cik rakstzīmes no Teksta ir jāatgriež"
 	},
 	"NUMBERVALUE": {
 		"a": "(teksts; [decimālzīme]; [grupu_atdalītājs])",
@@ -551,7 +556,8 @@
 	},
 	"REPLACEB": {
 		"a": "(vecais_teksts; sākuma_num; rakstzīmju_skaits; jaunais_teksts)",
-		"d": "Aizstāj teksta virknes daļu ar citu teksta virkni, pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Aizstāj teksta virknes daļu ar citu teksta virkni, pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": "ir teksts, kurā jāaizstāj dažas rakstzīmes!ir rakstzīmes pozīcija Vecajā_tekstā, kas jāaizstāj ar Jauno_tekstu!ir aizstājamo rakstzīmju skaits Vecajā_tekstā!ir teksts, kas aizstās rakstzīmes Vecajā_tekstā"
 	},
 	"REPT": {
 		"a": "(teksts; skaitlis_reizes)",
@@ -565,7 +571,8 @@
 	},
 	"RIGHTB": {
 		"a": "(teksts; [skaitļu_rakstz])",
-		"d": "Atgriež pēdējo rakstzīmi vai rakstzīmes teksta virknē, pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Atgriež pēdējo rakstzīmi vai rakstzīmes teksta virknē, pamatojoties uz norādīto baitu skaitu, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": "ir teksta virkne, kurā ietilpst izgūstamās rakstzīmes!norāda, cik rakstzīmes ir jāizgūst, 1, ja izlaists"
 	},
 	"SEARCH": {
 		"a": "(atrast_tekstu; tekstā; [sākuma_num])",
@@ -574,7 +581,8 @@
 	},
 	"SEARCHB": {
 		"a": "(atrast_tekstu; tekstā; [sākuma_num])",
-		"d": "Atrod vienu teksta virkni otrā teksta virknē un atgriež pirmās teksta virknes sākuma atrašanās vietas numuru, skaitot no otrās teksta virknes pirmās rakstzīmes, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu"
+		"d": "Atrod vienu teksta virkni otrā teksta virknē un atgriež pirmās teksta virknes sākuma atrašanās vietas numuru, skaitot no otrās teksta virknes pirmās rakstzīmes, ir paredzēta valodām, kuras izmanto dubultbaita rakstzīmju kopu (DBCS) - japāņu, ķīniešu un korejiešu",
+		"ad": "ir meklējamais teksts. Var izmantot aizstājējzīmes ? un *; izmantojiet ~? un ~*, lai atrastu rakstzīmes ? un *!ir teksts, kurā jāmeklē Atrast_tekstu!ir tās rakstzīmes numurs Tekstā, skaitot virzienā no kreisās puses, no kuras sākt meklēšanu. Ja izlaists, tiek lietots 1"
 	},
 	"SUBSTITUTE": {
 		"a": "(teksts; vecais_teksts; jaunais_teksts; [gadījuma_numurs])",
@@ -863,22 +871,23 @@
 	},
 	"FORECAST.ETS": {
 		"a": "(mērķa_datums; vērtības; laika_grafiks; [sezonalitāte]; [datu_pabeigšana]; [apkopojums])",
-		"d": "Atgriež prognozēto vērtību konkrētam nākotnes mērķa datumam, izmantojot eksponenciālo līdzināšanas metodi."
+		"d": "Atgriež prognozēto vērtību konkrētam nākotnes mērķa datumam, izmantojot eksponenciālo līdzināšanas metodi.",
+		"ad": "ir datu punkts, kuram Spreadsheet Editor prognozē vērtību. Tam ir jāturpina vērtību raksts laika grafikā.!ir skaitlisko vērtību masīvs vai diapazons, ko prognozējat.!ir neatkarīgais skaitlisko datu masīvs vai diapazons. Datumiem laika grafikā ir jābūt konsekventam solim starp tiem, un tas nevar būt nulle.!ir neobligāta skaitliska vērtība, kas norāda sezonālā modeļa garumu. Noklusējuma vērtība 1 norāda, ka sezonalitāte tiek konstatēta automātiski.!ir neobligāta vērtība trūkstošo vērtību apstrādei. Noklusējuma vērtība 1 aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 aizstāj tās ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Spreadsheet Editor nosaka vidējās vērtības."
 	},
 	"FORECAST.ETS.CONFINT": {
 		"a": "(target_date; values; timeline; [confidence_level]; [seasonality]; [data_completion]; [aggregation])",
 		"d": "Atgriež ticamības intervālu prognozētajai vērtībai norādītajā mērķa datumā.",
-		"ad": "ir datu punkts, kuram Microsoft Excel prognozē vērtību. Tam ir jāturpina vērtību raksts laika grafikā.!ir skaitlisko vērtību masīvs vai diapazons, ko prognozējat.!ir neatkarīgais skaitlisko datu masīvs vai diapazons. Datumiem laika grafikā ir jābūt konsekventam solim starp tiem, un tas nevar būt nulle.!ir skaitlis starp 0 un 1, kas norāda ticamības līmeni aprēķinātajam ticamības intervālam. Noklusējuma vērtība ir .95.!ir neobligāta skaitliska vērtība, kas norāda sezonālā modeļa garumu. Noklusējuma vērtība 1 norāda, ka sezonalitāte tiek konstatēta automātiski.!ir neobligāta vērtība trūkstošo vērtību apstrādei. Noklusējuma vērtība 1 aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 aizstāj tās ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Microsoft Excel"
+		"ad": "ir datu punkts, kuram Spreadsheet Editor prognozē vērtību. Tam ir jāturpina vērtību raksts laika grafikā.!ir skaitlisko vērtību masīvs vai diapazons, ko prognozējat.!ir neatkarīgais skaitlisko datu masīvs vai diapazons. Datumiem laika grafikā ir jābūt konsekventam solim starp tiem, un tas nevar būt nulle.!ir skaitlis starp 0 un 1, kas norāda ticamības līmeni aprēķinātajam ticamības intervālam. Noklusējuma vērtība ir .95.!ir neobligāta skaitliska vērtība, kas norāda sezonālā modeļa garumu. Noklusējuma vērtība 1 norāda, ka sezonalitāte tiek konstatēta automātiski.!ir neobligāta vērtība trūkstošo vērtību apstrādei. Noklusējuma vērtība 1 aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 aizstāj tās ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Spreadsheet Editor nosaka vidējās vērtības."
 	},
 	"FORECAST.ETS.SEASONALITY": {
 		"a": "(vērtības; laika_grafiks; [datu_pabeigšana]; [apkopojums])",
 		"d": "Atgriež tā atkārtotās modeļa garumu, ko programma noteica norādītajai laika sērijai.",
-		"ad": "ir skaitlisku datu masīvs vai diapazons, ko prognozējat.!ir neatkarīgs skaitlisku datu masīvs vai diapazons. Datumiem laika grafikā jābūt konsekventam solim starp tiem, un tas nevar būt nulle.!ir neobligāta vērtība trūkstošo vērtību apstrādei. 0 aizstāj trūkstošās vērtības ar nullēm. Noklusējuma vērtība (1) aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 tās aizstāj ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Microsoft Excel nosaka vidējās vērtības."
+		"ad": "ir skaitlisku datu masīvs vai diapazons, ko prognozējat.!ir neatkarīgs skaitlisku datu masīvs vai diapazons. Datumiem laika grafikā jābūt konsekventam solim starp tiem, un tas nevar būt nulle.!ir neobligāta vērtība trūkstošo vērtību apstrādei. 0 aizstāj trūkstošās vērtības ar nullēm. Noklusējuma vērtība (1) aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 tās aizstāj ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Spreadsheet Editor nosaka vidējās vērtības."
 	},
 	"FORECAST.ETS.STAT": {
 		"a": "(vērtības; laika_grafiks; statistikas_tips; [sezonalitāte]; [datu_pabeigšana]; [apkopojums])",
 		"d": "Atgriež pieprasīto prognozes statistiku.",
-		"ad": "ir skaitlisku datu masīvs vai diapazons, ko prognozējat.!ir neatkarīgs skaitlisku datu masīvs vai diapazons. Starp datumiem laika grafikā jābūt konsekventam solim, un tas nevar būt nulle.!ir skaitlis no 1 līdz 8, kas norāda uz to, kuru statistiku Microsoft Excel atgriezīs aprēķinātajai prognozei. !ir neobligāta skaitliska vērtība, kas norāda sezonālā modeļa garumu. Noklusējuma vērtība (1) norāda uz to, ka sezonalitāte tiek konstatēta automātiski.!ir neobligāta vērtība trūkstošo vērtību apstrādei. 0 aizstāj trūkstošās vērtības ar nullēm. Noklusējuma vērtība (1) aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 tās aizstāj ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Microsoft Excel nosaka vidējās vērtības."
+		"ad": "ir skaitlisku datu masīvs vai diapazons, ko prognozējat.!ir neatkarīgs skaitlisku datu masīvs vai diapazons. Starp datumiem laika grafikā jābūt konsekventam solim, un tas nevar būt nulle.!ir skaitlis no 1 līdz 8, kas norāda uz to, kuru statistiku Spreadsheet Editor atgriezīs aprēķinātajai prognozei. !ir neobligāta skaitliska vērtība, kas norāda sezonālā modeļa garumu. Noklusējuma vērtība (1) norāda uz to, ka sezonalitāte tiek konstatēta automātiski.!ir neobligāta vērtība trūkstošo vērtību apstrādei. 0 aizstāj trūkstošās vērtības ar nullēm. Noklusējuma vērtība (1) aizstāj trūkstošās vērtības, izmantojot interpolāciju, bet 0 tās aizstāj ar nullēm.!ir neobligāta skaitliska vērtība vairāku vērtību apkopošanai ar vienu un to pašu laikspiedolu. Ja tā ir tukša, programma Spreadsheet Editor nosaka vidējās vērtības."
 	},
 	"FORECAST.LINEAR": {
 		"a": "(x; zināmie_y; zināmie_x)",
@@ -1377,7 +1386,8 @@
 	},
 	"AMORDEGRC": {
 		"a": "(cena; datums_iegādāts; pirmais_periods; likvidācija; periods; likme; [pamats])",
-		"d": "Atgriež katra grāmatošanas perioda proporcionāli sadalītu lineāru aktīvu amortizāciju."
+		"d": "Atgriež katra grāmatošanas perioda proporcionāli sadalītu lineāru aktīvu amortizāciju.",
+		"ad": "ir aktīvu cena!ir aktīvu iegādes datums!ir pirmā perioda beigu datums!ir aktīva likvidācijas vērtība tā kalpošanas beigās.!ir periods!ir amortizācijas likme!gada_pamats: 0 gadam ar 360 dienām, 1 faktiskais, 3 gadam ar 365 dienām."
 	},
 	"AMORLINC": {
 		"a": "(cena; datums_iegādāts; pirmais_periods; likvidācija; periods; likme; [pamats])",
@@ -1676,7 +1686,8 @@
 	},
 	"ASC": {
 		"a": "(teksts)",
-		"d": "Dubultbaitu rakstzīmju kopu (DBCS) valodām funkcija nomaina pilna platuma (dubultbaitu) rakstzīmes ar pusplatuma (vienbaita) rakstzīmēm"
+		"d": "Dubultbaitu rakstzīmju kopu (DBCS) valodām funkcija nomaina pilna platuma (dubultbaitu) rakstzīmes ar pusplatuma (vienbaita) rakstzīmēm",
+		"ad": "ir teksts, kas jāmaina"
 	},
 	"ASIN": {
 		"a": "(skaitlis)",
@@ -1720,7 +1731,8 @@
 	},
 	"CEILING.PRECISE": {
 		"a": "(skaitlis; [būtiskums])",
-		"d": "Atgriež skaitli, kas noapaļots līdz tuvākajam veselajam skaitlim vai tuvākajam būtiskajam skaitlim, kas dalās bez atlikuma"
+		"d": "Atgriež skaitli, kas noapaļots līdz tuvākajam veselajam skaitlim vai tuvākajam būtiskajam skaitlim, kas dalās bez atlikuma",
+		"ad": "ir noapaļojamā vērtība!ir skaitlis, kas dalās bez atlikuma, līdz kuram jānoapaļo"
 	},
 	"COMBIN": {
 		"a": "(skaitlis; izvēlētais_skaitlis)",
@@ -1774,7 +1786,8 @@
 	},
 	"ECMA.CEILING": {
 		"a": "(skaitlis; būtiskums)",
-		"d": "Noapaļo skaitli uz augšu līdz tuvākajam būtiskjama skaitlim, kas dalās bez atlikuma"
+		"d": "Noapaļo skaitli uz augšu līdz tuvākajam būtiskjama skaitlim, kas dalās bez atlikuma",
+		"ad": "ir noapaļojamā vērtība!ir skaitlis, kas dalās bez atlikuma, līdz kuram jānoapaļo"
 	},
 	"EVEN": {
 		"a": "(skaitlis)",
@@ -1803,7 +1816,8 @@
 	},
 	"FLOOR.PRECISE": {
 		"a": "(skaitlis; [būtiskums])",
-		"d": "Atgriež skaitli, kas noapaļots uz leju līdz tuvākajam veselajam skaitlim vai tuvākajam būtiskajam skaitlim, kas dalās bez atlikuma"
+		"d": "Atgriež skaitli, kas noapaļots uz leju līdz tuvākajam veselajam skaitlim vai tuvākajam būtiskajam skaitlim, kas dalās bez atlikuma",
+		"ad": "ir noapaļojamā vērtība!ir skaitlis, kas dalās bez atlikuma, līdz kuram jānoapaļo"
 	},
 	"FLOOR.MATH": {
 		"a": "(skaitlis; [būtiskums]; [režīms])",
@@ -1822,7 +1836,8 @@
 	},
 	"ISO.CEILING": {
 		"a": "(skaitlis; [būtiskums])",
-		"d": "Atgriež skaitli, kas noapaļots līdz tuvākajam veselajam skaitlim vai tuvākajam būtiskajam skaitlim, kas dalās bez atlikuma. Neatkarīgi no skaitļa zīmes, tas tiek noapaļots uz augšu. Taču ja skaitlis vai būtiskais skaitlis ir nulle, tiek atgriezta nulle."
+		"d": "Atgriež skaitli, kas noapaļots līdz tuvākajam veselajam skaitlim vai tuvākajam būtiskajam skaitlim, kas dalās bez atlikuma. Neatkarīgi no skaitļa zīmes, tas tiek noapaļots uz augšu. Taču ja skaitlis vai būtiskais skaitlis ir nulle, tiek atgriezta nulle.",
+		"ad": "ir noapaļojamā vērtība!ir skaitlis, kas dalās bez atlikuma, līdz kuram jānoapaļo"
 	},
 	"LCM": {
 		"a": "(skaitlis1; [skaitlis2]; ...)",
