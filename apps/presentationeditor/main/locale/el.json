@@ -2896,5 +2896,11 @@
   "PE.Views.ViewTab.tipGuides": "Εμφάνιση οδηγών",
   "PE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Views.FileMenuPanels.Settings.txtTabBack": "Use toolbar color as tabs background",
+  "PE.Views.Transitions.textRandom": "Random",
+  "PE.Views.ViewTab.textLine": "Line",
+  "PE.Views.ViewTab.textTab": "Tab",
+  "PE.Views.ViewTab.textTabStyle": "Tab style"
 }
