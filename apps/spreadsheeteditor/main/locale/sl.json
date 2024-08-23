@@ -4456,5 +4456,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook",
+  "Common.UI.InputField.txtEmpty": "This field is required",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
 }

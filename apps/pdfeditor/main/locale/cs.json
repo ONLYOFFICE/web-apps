@@ -210,7 +210,7 @@
   "Common.Views.Header.textEditDescNoCoedit": "Přidat nebo upravit text, obrazce, obrázky atd.",
   "Common.Views.Header.textHideLines": "Skrýt pravítka",
   "Common.Views.Header.textHideStatusBar": "Skrýt stavový řádek",
-  "Common.Views.Header.textPrint": "Tisk",
+  "Common.Views.Header.textPrint": "Print",
   "Common.Views.Header.textReadOnly": "Pouze pro čtení",
   "Common.Views.Header.textRemoveFavorite": "Odebrat z oblíbených",
   "Common.Views.Header.textShare": "Sdílet",
@@ -220,7 +220,7 @@
   "Common.Views.Header.textZoom": "Přiblížení",
   "Common.Views.Header.tipAccessRights": "Spravovat přístupová práva k dokumentům",
   "Common.Views.Header.tipComment": "Komentovat",
-  "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Přizpůsobit panel rychlého přístupu",
+  "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
   "Common.Views.Header.tipDownload": "Stáhnout soubor",
   "Common.Views.Header.tipEdit": "Upravení",
   "Common.Views.Header.tipGoEdit": "Upravit stávající soubor",
@@ -1980,8 +1980,6 @@
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "Common.Views.Chat.textEnterMessage": "Enter your message here",
   "Common.Views.Comments.textComment": "Comment",
-  "Common.Views.Header.textPrint": "Print",
-  "Common.Views.Header.tipCustomizeQuickAccessToolbar": "Customize Quick Access Toolbar",
   "Common.Views.Header.ariaQuickAccessToolbar": "Quick access toolbar",
   "Common.Views.ReviewPopover.textComment": "Comment",
   "Common.Views.SearchPanel.textSearchResultsTable": "Search results",
@@ -2000,5 +1998,6 @@
   "PDFE.Views.RightMenu.ariaRightMenu": "Right menu",
   "PDFE.Views.ViewTab.textTabStyle": "Tab style",
   "PDFE.Views.ViewTab.textTab": "Tab",
-  "PDFE.Views.ViewTab.textLine": "Line"
+  "PDFE.Views.ViewTab.textLine": "Line",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
 }

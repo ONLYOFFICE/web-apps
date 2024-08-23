@@ -23,6 +23,7 @@ require([
     'common/main/lib/view/ShapeShadowDialog',
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/ListSettingsDialog',
 
     'presentationeditor/main/app/view/FileMenuPanels',
     'presentationeditor/main/app/view/DocumentHolderExt',
