@@ -49,9 +49,11 @@ Common.UI.LayoutManager = new(function() {
         _licensed,
         _api,
         _lastInternalTabIdx = 10,
-        _arrControls = [],
+        _toolbar,
+        _arrControls = [], // all toolbar controls that plugin can add menu items to
         _actionsStack = [],
-        _processActions = 0; // 0 - processing stopped, 1 - in process, 2 - need to process again
+        _processActions = 0, // 0 - processing stopped, 1 - in process, 2 - need to process again
+        _arrPlugins = []; // all plugins that add controls to toolbar or menu items to toolbar buttons
     var _init = function(config, licensed, api) {
         _config = config;
         _licensed = licensed;
@@ -191,6 +193,8 @@ Common.UI.LayoutManager = new(function() {
     var _addCustomControls = function (toolbar, data, callback) {
         if (!data) return;
 
+        _toolbar = toolbar;
+
         var btns = [];
         data.forEach(function(plugin) {
             /*
@@ -235,6 +239,13 @@ Common.UI.LayoutManager = new(function() {
                 if (tab) {
                     var added = [],
                         removed = _findRemovedControls(toolbar, tab.id, plugin.guid, tab.items);
+
+                    if (!_arrPlugins[plugin.guid])
+                        _arrPlugins[plugin.guid] = {actions: [], tabs: []};
+
+                    if (_.indexOf(_arrPlugins[plugin.guid].tabs, tab)<0)
+                        _arrPlugins[plugin.guid].tabs.push(tab.id);
+
                     tab.items && tab.items.forEach(function(item, index) {
                         var btn = _findCustomControl(toolbar, tab.id, plugin.guid, item.id),
                             _set = Common.enumLock;
@@ -310,6 +321,16 @@ Common.UI.LayoutManager = new(function() {
         return btns;
     };
 
+    var _clearCustomControls = function(guid) {
+        if (!_toolbar) return;
+        if (_arrPlugins[guid] && _arrPlugins[guid].tabs) {
+            _arrPlugins[guid].tabs.forEach(function(tab) {
+                _toolbar.addCustomControls({action: tab}, undefined, _findRemovedControls(_toolbar, tab, guid));
+            });
+            _arrPlugins[guid].tabs = [];
+        }
+    };
+
     // add custom items to button menu
 
     var _addCustomMenuItems = function (action, data, callback) {
@@ -322,16 +343,29 @@ Common.UI.LayoutManager = new(function() {
         }
 
         btns.forEach(function(btn) {
+            var _action = action;
             if (typeof btn.menu === 'object')
-                _updateCustomMenuItems(btn.menu, data, callback);
+                _updateCustomMenuItems(_action, btn.menu, data, callback);
             else if (btn.menu) {
                 let btnData = data,
                     btnCallback = callback;
                 btn.on('menu:created', function() {
-                    _updateCustomMenuItems(btn.menu, btnData, btnCallback);
+                    _updateCustomMenuItems(_action, btn.menu, btnData, btnCallback);
                 });
             }
         });
+    };
+
+    var _clearCustomMenuItems = function(guid) {
+        if (_arrPlugins[guid] && _arrPlugins[guid].actions) {
+            _arrPlugins[guid].actions.forEach(function(action) {
+                var btns = _findButtonByAction(action);
+                btns && btns.forEach(function(btn) {
+                    (typeof btn.menu === 'object') && _removeCustomMenuItems(btn.menu, guid);
+                });
+            });
+            _arrPlugins[guid].actions = [];
+        }
     };
 
     var _tryToProcessActions = function() { //
@@ -411,7 +445,7 @@ Common.UI.LayoutManager = new(function() {
         return toMenu;
     };
 
-    var _updateCustomMenuItems = function (menu, data, callback) {
+    var _updateCustomMenuItems = function (action, menu, data, callback) {
         if (!menu) return;
         if (!data || data.length<1) {
             _removeCustomMenuItems(menu);
@@ -456,6 +490,11 @@ Common.UI.LayoutManager = new(function() {
                     ]
                 }
             */
+            if (!_arrPlugins[plugin.guid])
+                _arrPlugins[plugin.guid] = {actions: [], tabs: []};
+
+            if (_.indexOf(_arrPlugins[plugin.guid].actions, action)<0)
+                _arrPlugins[plugin.guid].actions.push(action);
 
             _removeCustomMenuItems(menu, plugin.guid, plugin.items);
 
@@ -538,7 +577,9 @@ Common.UI.LayoutManager = new(function() {
         addControls: _addControls,
         getControls: _getControls,
         addCustomControls: _addCustomControls, // add controls to toolbar
-        addCustomMenuItems: _addCustomMenuItems // add menu items to toolbar buttons
+        clearCustomControls: _clearCustomControls, // remove controls added by plugin from toolbar
+        addCustomMenuItems: _addCustomMenuItems, // add menu items to toolbar buttons
+        clearCustomMenuItems: _clearCustomMenuItems // remove menu items added by plugin from toolbar buttons
     }
 })();
 

@@ -757,6 +757,9 @@ define([
             !this.turnOffBackgroundPlugin(guid) && this.viewPlugins.closedPluginMode(guid, isIframePlugin);
 
             this.runAutoStartPlugins();
+
+            Common.UI.LayoutManager.clearCustomMenuItems(guid); // remove custom menu items in toolbar
+            Common.UI.LayoutManager.clearCustomControls(guid); // remove custom toolbar buttons
         },
 
         onPluginResize: function(size, minSize, maxSize, callback ) {
