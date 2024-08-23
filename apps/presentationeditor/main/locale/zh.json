@@ -896,6 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "您搜索的数据无法找到。请调整您的搜索选项。",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "替换已完成。 {0}处跳过。",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "已完成搜索。已替换的次数：{0}。",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "未命名",
   "PE.Controllers.Main.applyChangesTextText": "数据加载中…",
   "PE.Controllers.Main.applyChangesTitleText": "数据加载中",
@@ -1340,7 +1341,6 @@
   "PE.Controllers.Toolbar.helpMasterSlideHeader": "幻灯片版式",
   "PE.Controllers.Toolbar.textAccent": "重音符",
   "PE.Controllers.Toolbar.textBracket": "括号",
-  "PE.Controllers.Toolbar.textEmptyImgUrl": "您需要指定图像URL。",
   "PE.Controllers.Toolbar.textFontSizeErr": "输入的值不正确<br>请输入一个介于1和300之间的数值",
   "PE.Controllers.Toolbar.textFraction": "分数",
   "PE.Controllers.Toolbar.textFunction": "函数",
@@ -2901,6 +2901,5 @@
   "PE.Views.ViewTab.tipGuides": "显示辅助线",
   "PE.Views.ViewTab.tipInterfaceTheme": "界面主题",
   "PE.Views.ViewTab.tipNormal": "正常",
-  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
+  "PE.Views.ViewTab.tipSlideMaster": "幻灯片版式"
 }
