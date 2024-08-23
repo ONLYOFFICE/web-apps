@@ -2900,5 +2900,7 @@
   "PE.Views.RightMenu.ariaRightMenu": "Right menu",
   "PE.Views.ViewTab.textTabStyle": "Tab style",
   "PE.Views.ViewTab.textTab": "Tab",
-  "PE.Views.ViewTab.textLine": "Line"
+  "PE.Views.ViewTab.textLine": "Line",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Views.Transitions.textRandom": "Random"
 }

@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
   "PDFE.Views.ViewTab.textTabStyle": "Tab style",
   "PDFE.Views.ViewTab.textTab": "Tab",
-  "PDFE.Views.ViewTab.textLine": "Line"
+  "PDFE.Views.ViewTab.textLine": "Line",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
 }
