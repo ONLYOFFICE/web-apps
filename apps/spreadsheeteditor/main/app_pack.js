@@ -22,6 +22,8 @@ require([
     'common/main/lib/view/CustomizeQuickAccessDialog',
     'common/main/lib/view/TextInputDialog',
     'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/SignDialog',
+    'common/main/lib/view/SignSettingsDialog',
 
     'spreadsheeteditor/main/app/view/FileMenuPanels',
     'spreadsheeteditor/main/app/view/DocumentHolderExt',
