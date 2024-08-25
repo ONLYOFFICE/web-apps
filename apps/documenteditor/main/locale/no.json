@@ -3623,5 +3623,11 @@
   "DE.Controllers.Toolbar.textFieldExample": "Example of writing code: TIME \\@ \"dddd, MMMM d, yyyy\"",
   "DE.Controllers.Toolbar.textFieldLabel": "Field codes",
   "DE.Controllers.Toolbar.textFieldTitle": "Field",
-  "DE.Views.CaptionDialog.textLabelError": "Label must not be empty."
+  "DE.Views.CaptionDialog.textLabelError": "Label must not be empty.",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

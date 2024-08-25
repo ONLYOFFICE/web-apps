@@ -3621,5 +3621,11 @@
   "DE.Views.Toolbar.tipInsField": "Insert field",
   "DE.Views.ViewTab.textLine": "Line",
   "DE.Views.ViewTab.textTab": "Tab",
-  "DE.Views.ViewTab.textTabStyle": "Tab style"
+  "DE.Views.ViewTab.textTabStyle": "Tab style",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }
