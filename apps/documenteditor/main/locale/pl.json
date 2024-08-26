@@ -3616,5 +3616,11 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

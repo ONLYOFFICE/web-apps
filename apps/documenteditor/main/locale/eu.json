@@ -3616,5 +3616,11 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

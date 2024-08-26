@@ -3616,5 +3616,11 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Sublinhado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome do tipo de letra",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamanho do tipo de letra",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

@@ -3616,5 +3616,11 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "투명한",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "밑줄",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "글꼴이름",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

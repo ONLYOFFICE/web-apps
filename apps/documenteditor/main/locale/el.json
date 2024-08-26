@@ -3616,5 +3616,11 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }
