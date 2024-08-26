@@ -877,7 +877,7 @@ define([
                 src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                     'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                 src.text(me.getUserName(UserId));
-                $('#id_main_view').append(src);
+                me.documentHolder.cmpEl.append(src);
                 me.fastcoauthtips.push(src);
                 src.fadeIn(150);
             }
