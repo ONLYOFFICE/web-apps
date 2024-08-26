@@ -159,9 +159,11 @@ define([
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
 
                 Common.Gateway.on('setrevisedfile', _.bind(this.setRevisedFile, this));
-                Common.NotificationCenter.on('storage:document-load', _.bind(this.openDocumentFromStorage, this));
-                Common.NotificationCenter.on('storage:document-insert', _.bind(this.insertDocumentFromStorage, this));
-                Common.Gateway.on('setrequesteddocument', _.bind(this.setRequestedDocument, this));
+                if (this.appConfig.canFeatureComparison) {
+                    Common.NotificationCenter.on('storage:document-load', _.bind(this.openDocumentFromStorage, this));
+                    Common.NotificationCenter.on('storage:document-insert', _.bind(this.insertDocumentFromStorage, this));
+                    Common.Gateway.on('setrequesteddocument', _.bind(this.setRequestedDocument, this));
+                }
             }
         },
 
