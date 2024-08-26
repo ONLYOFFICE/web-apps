@@ -836,15 +836,15 @@ define([
                         id: 'id-toolbar-btn-text-from-file',
                         cls: 'btn-toolbar x-huge icon-top',
                         iconCls: 'toolbar__icon btn-text-from-file',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inEquation, _set.richDelLock, _set.plainDelLock, _set.inHeader,  _set.inFootnote,  _set.inControl,
-                            _set.cantPageBreak, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock,
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         caption: me.capBtnInsTextFromFile,
                         menu: true,
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
                     });
-                    this.toolbarControls.push(this.btnTextFromFile);
+                    this.paragraphControls.push(this.btnTextFromFile);
 
                     this.mnuPageNumberPosPicker = {
                         conf: {disabled: false},
