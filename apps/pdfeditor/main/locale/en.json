@@ -1221,6 +1221,7 @@
   "PDFE.Views.DocumentHolder.unicodeText": "Unicode",
   "PDFE.Views.DocumentHolder.vertAlignText": "Vertical alignment",
   "PDFE.Views.DocumentHolder.guestText": "Guest",
+  "PDFE.Views.DocumentHolder.txtEmpty": "(Empty)",
   "PDFE.Views.FileMenu.ariaFileMenu": "File menu",
   "PDFE.Views.FileMenu.btnBackCaption": "Open File Location",
   "PDFE.Views.FileMenu.btnCloseEditor": "Close File",
