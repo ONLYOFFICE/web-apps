@@ -262,6 +262,20 @@ div {
            return url;
         }
 
+        var getWopiFolder = function (fileInfo, queryParams) {
+            if (fileInfo.BreadcrumbFolderName) {
+                return fileInfo.BreadcrumbFolderName;
+            }
+            //connector Nextcloud Office 8.4.5 (SupportsUpdate=undefined, UserCanWrite=true, UserCanNotWriteRelative=false)
+            if (queryParams.title) {
+                let titleParts = queryParams.title.split('/');
+                if (titleParts.length > 1 && titleParts[titleParts.length - 2]) {
+                    return titleParts[titleParts.length - 2];
+                }
+            }
+            return undefined;
+        }
+
         var connectEditor = function () {
 
             fileInfo = <%- JSON.stringify(fileInfo) %>;
@@ -289,7 +303,8 @@ div {
 			fileType = fileInfo.FileExtension ? fileInfo.FileExtension.substr(1) : fileType;
 			fileType = fileType.toLowerCase();
 			let customizationClose = !!(fileInfo.ClosePostMessage || fileInfo.CloseUrl);
-			let customizationSaveAs = fileInfo.SupportsUpdate && !fileInfo.UserCanNotWriteRelative;
+			//connector Nextcloud Office 8.4.5 (SupportsUpdate=undefined, UserCanWrite=true, UserCanNotWriteRelative=false)
+			let customizationSaveAs = (fileInfo.SupportsUpdate || fileInfo.UserCanWrite) && !fileInfo.UserCanNotWriteRelative;
 			let customizationFormSubmit = queryParams.formsubmit === "1";
 			let permissionsEdit = !fileInfo.ReadOnly && fileInfo.UserCanWrite && !customizationFormSubmit;
 			let permissionsFillForm = permissionsEdit || customizationFormSubmit;
@@ -317,7 +332,7 @@ div {
 					"fileType": fileType,
 					"key": key,
                     "info": {
-                        "folder": fileInfo.BreadcrumbFolderName
+                        "folder": getWopiFolder(fileInfo, queryParams)
                     },
 					"permissions": {
                         "edit": permissionsEdit,
