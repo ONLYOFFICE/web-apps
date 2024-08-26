@@ -2415,6 +2415,7 @@ define([
                             { caption: me.mniTextFromStorage, value: 'storage' }
                         ]
                     }));
+                    me.btnTextFromFile.menu.items[2].setVisible(me.appConfig.canRequestSelectDocument || me.appConfig.canRequestCompareFile || me.appConfig.fileChoiceUrl && me.appConfig.fileChoiceUrl.indexOf("{documentType}")>-1);
                     me.btnTextFromFile.menu.items[1].setDisabled(config.disableNetworkFunctionality);
                     me.btnTextFromFile.menu.items[2].setDisabled(config.disableNetworkFunctionality);
                     me.btnTextFromFile.updateHint(me.tipTextFromFile);
