@@ -222,6 +222,7 @@ require([
                     'common/main/lib/view/TextInputDialog',
                     'common/main/lib/view/DocumentHolderExt',
                     'common/main/lib/util/define',
+                    'common/main/lib/view/PdfSignDialog',
 
                     'documenteditor/main/app/view/FileMenuPanels',
                     'documenteditor/main/app/view/DocumentHolderExt',

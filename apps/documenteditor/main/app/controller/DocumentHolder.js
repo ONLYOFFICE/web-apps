@@ -1703,7 +1703,8 @@ define([
         },
 
         onShowContentControlsActions: function(obj, x, y) {
-            var type = obj.type;
+            var type = obj.type,
+                me = this;
             switch (type) {
                 case Asc.c_oAscContentControlSpecificType.DateTime:
                     this.onShowDateActions(obj, x, y);
@@ -1714,8 +1715,33 @@ define([
                         if (lock == Asc.c_oAscSdtLockType.SdtContentLocked || lock==Asc.c_oAscSdtLockType.ContentLocked)
                             return;
                     }
-                    this.api.asc_addImage(obj);
-                    var me = this;
+                    if (obj.pr && obj.pr.is_Signature()) {
+                        if (_.isUndefined(me.fontStore)) {
+                            me.fontStore = new Common.Collections.Fonts();
+                            var fonts = me.getApplication().getController('Toolbar').getView('Toolbar').cmbFontName.store.toJSON();
+                            var arr = [];
+                            _.each(fonts, function(font, index){
+                                if (!font.cloneid) {
+                                    arr.push(_.clone(font));
+                                }
+                            });
+                            me.fontStore.add(arr);
+                        }
+                        (new Common.Views.PdfSignDialog({
+                            props: obj,
+                            api: me.api,
+                            disableNetworkFunctionality: me.mode.disableNetworkFunctionality,
+                            storage: me.mode.canRequestInsertImage || me.mode.fileChoiceUrl && me.mode.fileChoiceUrl.indexOf("{documentType}")>-1,
+                            fontStore: me.fontStore,
+                            handler: function(result, value) {
+                                if (result == 'ok') {
+                                    me.api.asc_SetSignatureProps(value);
+                                }
+                                Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                            }
+                        })).show();
+                    } else
+                        this.api.asc_addImage(obj);
                     setTimeout(function(){
                         me.api.asc_UncheckContentControlButtons();
                     }, 500);
