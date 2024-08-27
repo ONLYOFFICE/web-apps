@@ -360,12 +360,8 @@ define([
 
         saveAsInWopi: function(menu, format, ext) {
             var me = this,
-                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption(),
-                fileInfo = this.getApplication().getController('Main').document.info,
-                folder = fileInfo ? fileInfo.folder || '' : '';
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            folder && (folder.charAt(folder.length-1) !== '/') && (folder = folder + '/');
-
             if (typeof ext === 'string') {
                 var idx = defFileName.lastIndexOf('.');
                 if (idx>0)
@@ -373,7 +369,7 @@ define([
             }
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
-                value: folder + (defFileName || ''),
+                value: defFileName || '',
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.clickSaveAsFormat(menu, format, ext, value);
@@ -930,7 +926,7 @@ define([
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
         warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
-        textSelectPath: 'Enter a path for saving file copy'
+        textSelectPath: 'Enter a new name for saving the file copy'
 
     }, PDFE.Controllers.LeftMenu || {}));
 });
