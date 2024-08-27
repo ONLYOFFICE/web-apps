@@ -1194,7 +1194,7 @@
 
     function extendAppPath(config,  path) {
         if ( !config.isLocalFile ) {
-            const ver = '/{{PRODUCT_VERSION}}-{{SERVER_POSTFIX}}';
+            const ver = '/{{PRODUCT_VERSION}}-{{HASH_POSTFIX}}';
             const pos = path.indexOf('/web-apps/app');
             if ( pos > 0 && ver.lastIndexOf('{{') < 0 )
                 return [path.slice(0, pos), ver, path.slice(pos)].join('');
