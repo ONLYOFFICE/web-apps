@@ -60,7 +60,7 @@ define([
             };
 
             this._isPreviewVisible = false;
-            this.isPaperZoom = false;
+            this.isZoomedToPage = true;
 
             this.addListeners({
                 'PrintWithPreview': {
@@ -89,6 +89,7 @@ define([
                 this.comboSheetsChange(this.printSettings, combo, record);
                 if (this._isPreviewVisible) {
                     this.notUpdateSheetSettings = true;
+                    this.updatePrintRenderContainerSize(record.value);
                     this.api.asc_drawPrintPreview(undefined, record.value);
                 }
             }, this));
@@ -106,6 +107,7 @@ define([
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
             this.printSettings.btnZoomToPage.on('click', _.bind(this.onClickZoomToPageButton, this));
+            this.printSettings.btnZoomToPage.updateHint(this.txtZoomToPage);
             this.printSettings.txtNumberPage.on({
                 'keypress:after':  _.bind(this.onKeypressPageNumber, this),
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
@@ -119,6 +121,7 @@ define([
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
                     this.notUpdateSheetSettings = true;
+                    this.updatePrintRenderContainerSize();
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
@@ -544,9 +547,7 @@ define([
         },
 
         registerControlEvents: function(panel) {
-            panel.cmbPaperSize.on('selected', _.bind(this.updatePrintRenderContainerSize, this));
             panel.cmbPaperSize.on('selected', _.bind(this.propertyChange, this, panel));
-            panel.cmbPaperOrientation.on('selected', _.bind(this.updatePrintRenderContainerSize, this));
             panel.cmbPaperOrientation.on('selected', _.bind(this.propertyChange, this, panel));
             panel.cmbLayout.on('selected', _.bind(this.propertyChange, this, panel, 'scale'));
             panel.cmbPaperMargins.on('selected', _.bind(this.propertyChange, this, panel, 'margins'));
@@ -809,29 +810,33 @@ define([
                 index--;
                 index = Math.max(index, 0);
             }
-            this.api.asc_drawPrintPreview(index);
 
+            this.updatePrintRenderContainerSize(index);
+            this.api.asc_drawPrintPreview(index);
             this.updateNavigationButtons(index, this._navigationPreview.pageCount);
         },
 
         onClickZoomToPageButton: function(button) {
-            this.isPaperZoom = button.pressed;
-            this.updatePrintRenderContainerSize();
+            this.isZoomedToPage = button.pressed;
             this.updatePreview();
         },
 
-        updatePrintRenderContainerSize: function() {
+        updatePrintRenderContainerSize: function(index) {
             var $preview = $('#print-preview');
 
-            if (this.isPaperZoom) {
-                var paperSize = this.printSettings.cmbPaperSize.getValue();
-                var width = AscCommon.mm2pix(parseFloat(/^\d{3}\.?\d*/.exec(paperSize)));
-                var height = AscCommon.mm2pix(parseFloat(/\d{3}\.?\d*$/.exec(paperSize)));
-                var isLandscape = this.printSettings.cmbPaperOrientation.getValue() === 1;
+            if (!this.isZoomedToPage) {
+                // portrait -> landscape = crash - this.api.asc_getPageOptions = undefined
+                var sheetIndex = index === undefined ? this.api.asc_getActiveWorksheetIndex() : index,
+                    props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
+                    pageSetup = props.asc_getPageSetup(),
+                    orientation = pageSetup.asc_getOrientation();
+
+                var width = AscCommon.mm2pix(pageSetup.asc_getWidth());
+                var height = AscCommon.mm2pix(pageSetup.asc_getHeight());
 
                 $preview.css({
-                    width: 'max(100%, {}px)'.replace('{}', isLandscape ? height : width),
-                    height: 'max(100%, {}px)'.replace('{}', isLandscape ? width : height)
+                    width: 'max(100%, {}px)'.replace('{}', orientation===1 ? height : width),
+                    height: 'max(100%, {}px)'.replace('{}', orientation===1 ? width : height)
                 });
                 this.printSettings.printScroller.update({ suppressScrollX: false, suppressScrollY: false });
             } else {
@@ -839,7 +844,7 @@ define([
                 this.printSettings.printScroller.update({ suppressScrollX: true, suppressScrollY: true });
             }
 
-            $('#print-preview-wrapper').css('display', this.isPaperZoom ? 'flex' : '');
+            $('#print-preview-wrapper').css('display', this.isZoomedToPage ? '' : 'flex');
 
             this.printSettings.printScroller.scrollTop(0);
         },
@@ -868,8 +873,10 @@ define([
 
                 box.focus(); // for IE
 
-                this.api.asc_drawPrintPreview(page-1);
-                this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
+                var newPage = page - 1;
+                this.updatePrintRenderContainerSize(newPage);
+                this.api.asc_drawPrintPreview(newPage);
+                this.updateNavigationButtons(newPage, this._navigationPreview.pageCount);
 
                 return false;
             }
@@ -929,6 +936,7 @@ define([
                 }
 
                 this.notUpdateSheetSettings = !needUpdate;
+                this.updatePrintRenderContainerSize(newPage);
                 this.api.asc_drawPrintPreview(newPage);
 
                 this.updateNavigationButtons(newPage, pageCount);
@@ -999,6 +1007,7 @@ define([
         textFrozenRows: 'Frozen rows',
         textFrozenCols: 'Frozen columns',
         textFirstRow: 'First row',
-        textFirstCol: 'First column'
+        textFirstCol: 'First column',
+        txtZoomToPage: 'Zoom to page',
     }, SSE.Controllers.Print || {}));
 });

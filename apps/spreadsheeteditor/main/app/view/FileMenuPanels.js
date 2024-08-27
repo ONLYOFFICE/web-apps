@@ -2976,11 +2976,12 @@ define([
 
             this.btnZoomToPage = new Common.UI.Button({
                 parentEl: $markup.findById('#print-zoom-to-page'),
-                cls: 'btn-zoom-to-page',
+                cls: 'btn-zoom-to-page btn-toolbar',
                 iconCls: 'toolbar__icon btn-ic-zoomtopage',
                 dataHint: '2',
                 dataHintDirection: 'top',
-                enableToggle: true
+                enableToggle: true,
+                pressed: true
             });
 
             this.countOfPages = $markup.findById('#print-count-page');

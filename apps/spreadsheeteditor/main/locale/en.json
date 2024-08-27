@@ -1459,6 +1459,7 @@
   "SSE.Controllers.Print.textRepeat": "Repeat...",
   "SSE.Controllers.Print.textSelectRange": "Select range",
   "SSE.Controllers.Print.txtCustom": "Custom",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
   "SSE.Controllers.Search.textInvalidRange": "ERROR! Invalid cells range",
   "SSE.Controllers.Search.textNoTextFound": "The data you have been searching for could not be found. Please adjust your search options.",
   "SSE.Controllers.Search.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
