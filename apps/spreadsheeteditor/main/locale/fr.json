@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Entrez un mot de passe pour déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur",
+  "SSE.Views.ViewTab.textFill": "Fill"
 }

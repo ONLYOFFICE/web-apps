@@ -505,7 +505,7 @@ define([
                                 menu: new Common.UI.Menu({
                                     menuAlign: 'tl-tr',
                                     items: [
-                                        {value: 'tab', caption: me.textTab, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'fill', caption: me.textFill, checkable: true, toggleGroup: 'tabstyle'},
                                         {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
@@ -666,7 +666,7 @@ define([
             tipViewNormal: 'See your document in Normal view',
             tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
             textTabStyle: 'Tab style',
-            textTab: 'Tab',
+            textFill: 'Fill',
             textLine: 'Line'
         }
     }()), SSE.Views.ViewTab || {}));

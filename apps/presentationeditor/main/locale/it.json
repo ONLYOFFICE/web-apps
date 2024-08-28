@@ -2901,5 +2901,6 @@
   "PE.Views.ViewTab.tipGuides": "Mostra guide",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema dell'interfaccia",
   "PE.Views.ViewTab.tipNormal": "Normale",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill"
 }

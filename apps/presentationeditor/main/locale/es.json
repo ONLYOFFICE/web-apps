@@ -2901,5 +2901,6 @@
   "PE.Views.ViewTab.tipGuides": "Mostrar guías",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas"
+  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas",
+  "PE.Views.ViewTab.textFill": "Fill"
 }

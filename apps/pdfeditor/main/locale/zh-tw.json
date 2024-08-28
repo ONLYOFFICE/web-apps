@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
+  "PDFE.Views.ViewTab.textFill": "Fill"
 }

@@ -190,7 +190,7 @@ define([
                                 menu: new Common.UI.Menu({
                                     menuAlign: 'tl-tr',
                                     items: [
-                                        {value: 'tab', caption: me.view.textTab, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'fill', caption: me.view.textFill, checkable: true, toggleGroup: 'tabstyle'},
                                         {value: 'line', caption: me.view.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })

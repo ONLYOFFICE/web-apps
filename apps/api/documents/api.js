@@ -206,9 +206,9 @@
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                         roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
                         tabStyle: {
-                            mode: 'tab'/'line' // init value, 'tab' by default,
+                            mode: 'fill'/'line' // init value, 'fill' by default,
                             change: true/false // show/hide feature
-                        } / 'tab'/'line' // if string - use as init value
+                        } / 'fill'/'line' // if string - use as init value
                         tabBackground: {
                             mode: 'header'/'toolbar' // init value, 'header' by default
                             change: true/false // show/hide feature

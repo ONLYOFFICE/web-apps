@@ -492,7 +492,7 @@ define([
                                 menu: new Common.UI.Menu({
                                     menuAlign: 'tl-tr',
                                     items: [
-                                        {value: 'tab', caption: me.textTab, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'fill', caption: me.textFill, checkable: true, toggleGroup: 'tabstyle'},
                                         {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
@@ -606,7 +606,7 @@ define([
             tipNormal: 'Normal',
             tipSlideMaster: 'Slide master',
             textTabStyle: 'Tab style',
-            textTab: 'Tab',
+            textFill: 'Fill',
             textLine: 'Line'
         }
     }()), PE.Views.ViewTab || {}));

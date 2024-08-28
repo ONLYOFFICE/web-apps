@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi-transparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Souligné",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nom de la police",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Taille de police",
+  "DE.Views.ViewTab.textFill": "Fill"
 }

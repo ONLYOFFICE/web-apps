@@ -57,7 +57,7 @@ define([
             } else if (value === undefined && _customization && (typeof _customization === 'object') && _customization.toolbarNoTabs) {
                 value = 'line';
             }
-            Common.Utils.InternalSettings.set("settings-tab-style", value || 'tab');
+            Common.Utils.InternalSettings.set("settings-tab-style", value || 'fill');
 
             value = Common.UI.FeaturesManager.getInitValue('tabBackground', true);
             if (_canChangeBackground && Common.localStorage.itemExists("settings-tab-background")) { // get from local storage
