@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Votre recherche n'a donné aucun résultat.S'il vous plaît, modifiez vos critères de recherche.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Le remplacement est fait. {0} occurrences ont été ignorées.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "La recherche est effectuée. Occurrences ont été remplacées:{0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Sans titre",
   "PE.Controllers.Main.applyChangesTextText": "Chargement des données...",
   "PE.Controllers.Main.applyChangesTitleText": "Chargement des données",

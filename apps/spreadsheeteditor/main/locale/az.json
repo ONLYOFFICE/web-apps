@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Araşdırma aparılır. Hadisələr dəyişdirildi: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Axtarış",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Vərəq",
   "SSE.Controllers.LeftMenu.textValues": "Dəyərlər",
   "SSE.Controllers.LeftMenu.textWarning": "Xəbərdarlıq",

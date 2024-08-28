@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Jūsu meklētos datus nevarēja atrast. Pielāgojiet meklēšanas opcijas.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Ir veikta aizvietošana. Tika izlaisti {0} gadījumi.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Ir veikta meklēšana. Aizstātie gadījumi: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Bez nosaukuma",
   "PE.Controllers.Main.applyChangesTextText": "Ielādē datus...",
   "PE.Controllers.Main.applyChangesTitleText": "Ielādē datus",

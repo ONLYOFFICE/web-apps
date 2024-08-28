@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Podatkov, katere iščete, ni bilo mogoče najti. Prosim nastavite svoje možnosti iskanja.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Untitled",
   "PE.Controllers.Main.applyChangesTextText": "Nalaganje podatkov...",
   "PE.Controllers.Main.applyChangesTitleText": "Nalaganje podatkov",

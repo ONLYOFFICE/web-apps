@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Pretraga je učinjena. Pojave zamenjene: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Sačuvaj",
   "SSE.Controllers.LeftMenu.textSearch": "Pretraga",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "List",
   "SSE.Controllers.LeftMenu.textValues": "Vrednosti",
   "SSE.Controllers.LeftMenu.textWarning": "Upozorenje ",

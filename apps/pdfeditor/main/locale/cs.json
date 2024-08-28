@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Varování",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Žádání o editační práva...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Data, která jste hledali, nebyla nalezena. Upravte parametry vyhledávání.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokument bude uložen v novém formátu. Umožní vám využít všechny funkce editoru, ale může ovlivnit rozvržení dokumentu.<br>Pokud chcete, aby soubory byly kompatibilní se staršími verzemi MS Word, použijte volbu „Kompatibilita“ v pokročilých nastaveních.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Bez názvu",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",

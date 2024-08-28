@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Dataen du har søgt, kunne ikke findes. Venligst ændre dine søgerkriterier.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Erstatningen er blevet oprettet. {0} gentagelser blev sprunget over.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Søgningen er blevet gennemført. Forekomster erstattet: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokumentet bliver gemt i nyt format. Det vil tillade dig at bruge alle redigeringsfunktioner, men det kan påvirke dokumentlayoutet.<br>Brug \"kompatibilitet\" indstillingen fra avancerede indstillinger hvis du ønsker at gøre filer kompatible med ældre MS Word versioner.",
   "DE.Controllers.LeftMenu.txtUntitled": "Unavngivet",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Hvis du fortsætter med at gemme i dette format, vil alle funktioner på nær teksten blive tabt.<br> Er du sikker på at du vil fortsætte?",

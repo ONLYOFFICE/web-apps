@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Dáta, ktoré hľadáte sa nedajú nájsť. Prosím, upravte svoje možnosti vyhľadávania.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Nahradenie bolo uskutočnené. {0} výskytov bolo preskočených.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Vyhľadávanie bolo uskutočnené. Nahradené udalosti: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokument bude uložený v novom formáte. Umožní Vám využiť všetky funkcie editora, ale môže ovplyvniť rozloženie dokumentu.<br>Pokiaľ chcete, aby súbory boli kompatibilné so staršími verziami MS Word, použite voľbu \"Kompatibilita\" v pokročilých nastaveniach.",
   "DE.Controllers.LeftMenu.txtUntitled": "Bez názvu",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",

@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Ostrzeżenie",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Żądanie praw do edycji...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Nie znaleziono danych, których szukasz. Proszę dostosuj opcje wyszukiwania.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokument zostanie zapisany w nowym formacie. Umożliwi to korzystanie ze wszystkich funkcji edytora, ale może wpłynąć na układ dokumentu.<br>Użyj opcji \"Zgodność\" w ustawieniach zaawansowanych, jeśli chcesz, aby pliki były kompatybilne ze starszymi wersjami MS Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Bez nazwy",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Jeśli będziesz kontynuować zapisywanie w tym formacie, wszystkie funkcje z wyjątkiem tekstu zostaną utracone.<br>Czy na pewno chcesz kontynuować?",

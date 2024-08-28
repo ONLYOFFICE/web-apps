@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "找不到您正在搜尋的資料。請調整您的搜尋選項。",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "替換已完成。有 {0} 個項目被跳過。",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "已完成搜尋。已替換的次數：{0}。",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "文件將儲存為新格式。這將允許使用所有編輯器功能，但可能會影響文件的版面配置。<br>如果您想使文件與較舊的 MS Word 版本兼容，請使用進階設定的相容性選項。",
   "DE.Controllers.LeftMenu.txtUntitled": "未命名",
   "DE.Controllers.LeftMenu.warnDownloadAs": "如果您繼續以此格式儲存，除了文字外的所有功能都將遺失。您確定要繼續嗎？",

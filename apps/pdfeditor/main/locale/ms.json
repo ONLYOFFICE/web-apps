@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Amaran",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Meminta hak pengeditan",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Data yang andaa sedang cari tidak dijumpai. Sila laras pilihan carian.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokumen akan disimpan kepada format baharu. Ia akan membenarkan penggunaan semua ciri, tetapi mungkin menjejaskan talaletak dokumen.<br>Guna pilihan ‘Compatibility’ pada seting lanjutan jika anda mahu menjadikan fail serasi dengan versi MS Word yang lama.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Tanpa Tajuk",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",

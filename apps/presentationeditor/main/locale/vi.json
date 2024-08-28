@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Không thể tìm thấy dữ liệu bạn đang tìm kiếm. Vui lòng điều chỉnh các tùy chọn tìm kiếm của bạn.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Đã thực hiện thay thế. {0} lần xuất hiện đã bị bỏ qua.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Đã thực hiện tìm kiếm. Số lần thay thế: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Untitled",
   "PE.Controllers.Main.applyChangesTextText": "Đang tải dữ liệu...",
   "PE.Controllers.Main.applyChangesTitleText": "Đang tải Dữ liệu",

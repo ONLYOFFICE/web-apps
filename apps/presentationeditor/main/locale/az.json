@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Axtardığınız verilən tapılmadı. Axtarış seçimlərinizi tənzimləyin.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Əvəz edilir. {0} hal nəzərə alınmadı.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Araşdırma aparılır. Hadisələr dəyişdirildi: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Başlıqsız",
   "PE.Controllers.Main.applyChangesTextText": "Məlumat yüklənir...",
   "PE.Controllers.Main.applyChangesTitleText": "Məlumat Yüklənir",

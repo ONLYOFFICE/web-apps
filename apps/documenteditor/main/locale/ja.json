@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "検索データが見つかりませんでした。検索オプションを変更してください。",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "置換が行われました。スキップされた発生回数は{0}です。",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "ドキュメントは新しい形式で保存されます。 すべてのエディタ機能を使用できますが、ドキュメントのレイアウトに影響する可能性があります。<br>ファイルを古いバージョンのMS Wordと互換性を持たせる場合は、詳細設定の[互換性]オプションをご使用ください。",
   "DE.Controllers.LeftMenu.txtUntitled": "無題",
   "DE.Controllers.LeftMenu.warnDownloadAs": "この形式で保存を続けると、テキスト以外のすべての機能が失われます。<br>本当に続行してもよろしいですか？",

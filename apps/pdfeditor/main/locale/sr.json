@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Upozorenje ",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Zahtevanje prava uređivanja...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Podaci koje ste pretraživali ne mogu biti pronađeni. Molimo podesite svoje opcije pretraživanja. ",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokument će biti sačuvan u novom formatu. Dozvoliće da koristi sve funkcionalnosti uređivača, ali može da utiče na raspored dokumenta. Koristite 'Kompatibilnost' opciju od naprednih podešavanja ako želite da fajlove učinite kompatibilnim sa starijim verzijama MS Word-a.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Bez naslova",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",

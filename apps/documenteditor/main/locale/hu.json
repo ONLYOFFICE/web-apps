@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "A keresett adatok nem találhatók. Kérjük, állítson a keresési beállításokon.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "A dokumentumot az új formátumba menti. Ez lehetővé teszi az összes szerkesztő funkció használatát, de befolyásolhatja a dokumentum elrendezését.<br>Ha a fájlokat kompatibilissá szeretné tenni a régebbi MS Word verziókkal, akkor használja a speciális beállítások 'Kompatibilitás' opcióját.",
   "DE.Controllers.LeftMenu.txtUntitled": "Névtelen",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",

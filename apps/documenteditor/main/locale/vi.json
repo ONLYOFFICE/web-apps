@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Không thể tìm thấy dữ liệu bạn đang tìm kiếm. Vui lòng điều chỉnh các tùy chọn tìm kiếm của bạn.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Đã thực hiện thay thế. {0} lần xuất hiện đã bị bỏ qua.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Đã thực hiện tìm kiếm. Số lần thay thế: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Tài liệu sẽ được lưu sang định dạng mới. Nó sẽ cho phép sử dụng tất cả các tính năng của trình chỉnh sửa nhưng có thể ảnh hưởng đến bố cục tài liệu.<br>Hãy sử dụng tùy chọn 'Tương thích' của cài đặt nâng cao nếu bạn muốn làm cho các tệp tương thích với các phiên bản MS Word cũ hơn.",
   "DE.Controllers.LeftMenu.txtUntitled": "Untitled",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Nếu bạn tiếp tục lưu ở định dạng này tất cả các tính năng trừ văn bản sẽ bị mất.<br>Bạn có chắc là muốn tiếp tục?",

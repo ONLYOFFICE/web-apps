@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Data, která jste hledali, nebyla nalezena. Upravte parametry vyhledávání.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Nahrazení bylo provedeno. {0} výskytů bylo přeskočeno.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Bez názvu",
   "PE.Controllers.Main.applyChangesTextText": "Načítání dat…",
   "PE.Controllers.Main.applyChangesTitleText": "Načítání dat",

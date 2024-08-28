@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Advertiment",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "S'estan sol·licitant drets d'edició ...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "No s'han trobat les dades que heu cercat. Ajusteu les opcions de cerca.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "El document es desarà amb el format nou. Podreu utilitzar totes les funcions de l'editor, però podria afectar la disposició del document. <br>Useu l'opció 'Compatibilitat' de la configuració avançada si voleu que els fitxers siguin compatibles amb versions anteriors de MS Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Sense títol",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text.<br>Voleu continuar?",

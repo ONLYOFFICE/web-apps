@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Не вдалося знайти дані, які ви шукали. Будь ласка, налаштуйте параметри пошуку.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Заміна була зроблена. {0} угоди були пропущені.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Пошук виконано. Замінено збігів: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Документ буде збережено у новому форматі, що дозволить використовувати усі можливості редактора, проте це може вплинути на макет документу.<br>Використовуйте параметр \"Сумісність\" у додаткових налаштуваннях, якщо бажаєте забезпечити сумісність зі старими версіями Microsoft Word.",
   "DE.Controllers.LeftMenu.txtUntitled": "Без назви",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Якщо ви продовжите збереження в цьому форматі, всі функції, окрім тексту, буде втрачено. <br> Ви впевнені, що хочете продовжити?",

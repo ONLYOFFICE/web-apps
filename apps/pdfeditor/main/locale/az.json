@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Xəbərdarlıq",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Dəyişiklik hüquqları tələbi...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Axtardığınız verilən tapılmadı. Axtarış seçimlərinizi tənzimləyin.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Fayl yeni formatda saxlanacaq. Redaktorların bütün xüsusiyyətləri sizin üçün əlçatan olacaq, lakin bu, sənədin tərtibatına təsir edə bilər.<br> Faylınızı MS Word-ün köhnə versiyaları ilə uyğunlaşdırmaq üçün təkmil parametrlərdə \"Uyğunluq\" seçimini aktivləşdirin.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Başlıqsız",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizə əminsiniz?",

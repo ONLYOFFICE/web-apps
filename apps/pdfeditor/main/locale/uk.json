@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Застереження",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Запит на права редагування ...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Не вдалося знайти дані, які ви шукали. Будь ласка, налаштуйте параметри пошуку.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Документ буде збережено у новому форматі, що дозволить використовувати усі можливості редактора, проте це може вплинути на макет документу.<br>Використовуйте параметр \"Сумісність\" у додаткових налаштуваннях, якщо бажаєте забезпечити сумісність зі старими версіями Microsoft Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Без назви",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Якщо ви продовжите збереження в цьому форматі, всі функції, окрім тексту, буде втрачено.<br>Ви впевнені, що хочете продовжити?",

@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Varoitus",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Pyydetään muokkausoikeuksia...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Etsimääsi tietoa ei löytynyt. Ole hyvä ja muokkaa hakuvaihtoehtoja.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the 'Compatibility' option of the advanced settings if you want to make the files compatible with older MS Word versions.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Ei otsikkoa",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Jos jatkat tässä muodossa talletusta, niin kaikki ominaisuudet, paitsi teksti, menetetään.<br>Oletko varma että haluat jatkaa?",

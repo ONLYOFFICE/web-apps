@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "検索完了しました。更新件数は、{0} です。",
   "SSE.Controllers.LeftMenu.textSave": "保存",
   "SSE.Controllers.LeftMenu.textSearch": "検索",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "シート",
   "SSE.Controllers.LeftMenu.textValues": "値",
   "SSE.Controllers.LeftMenu.textWarning": "警告",

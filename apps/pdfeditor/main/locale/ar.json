@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "تحذير",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "طلب حقوق التحرير...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "لا يمكن العثور على البيانات التي كنت تبحث عنها. الرجاء ضبط خيارات البحث الخاصة بك.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "سيتم حفظ المستند بالتنسيق الجديد. سيسمح باستخدام جميع ميزات المحرر، ولكنه قد يؤثر على تخطيط المستند.<br>استخدم خيار \"التوافق\" في الإعدادات المتقدمة إذا كنت تريد جعل الملفات متوافقة مع إصدارات MS Word الأقدم.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "بدون عنوان",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",

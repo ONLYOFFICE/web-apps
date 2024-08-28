@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Данните, които търсят, не могат да да намерят. Моля, използвайте опциите за търсене.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Замяната е направена. {0} събитията бяха пропуснати.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Търсенето е направено. Заместени случаи: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Неозаглавен",
   "PE.Controllers.Main.applyChangesTextText": "Данните се се зарежда ...",
   "PE.Controllers.Main.applyChangesTitleText": "Зареждане на данни",

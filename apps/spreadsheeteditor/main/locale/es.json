@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Se ha realizado la búsqueda. Se han sustituido {0} coincidencias.",
   "SSE.Controllers.LeftMenu.textSave": "Guardar",
   "SSE.Controllers.LeftMenu.textSearch": "Buscar",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Hoja",
   "SSE.Controllers.LeftMenu.textValues": "Valores",
   "SSE.Controllers.LeftMenu.textWarning": "Aviso",

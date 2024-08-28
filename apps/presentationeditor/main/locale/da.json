@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Dataen du har søgt, kunne ikke findes. Venligst ændre dine søgerkriterier.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Erstatningen er blevet oprettet. {0} gentagelser blev sprunget over.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Søgningen er blevet gennemført. Forekomster erstattet: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Unavngivet",
   "PE.Controllers.Main.applyChangesTextText": "Indlæser data...",
   "PE.Controllers.Main.applyChangesTitleText": "Indlæser data",
