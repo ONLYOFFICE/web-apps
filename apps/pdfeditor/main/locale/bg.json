@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Побиране в страницата",
   "PDFE.Views.ViewTab.tipFitToWidth": "Поставя се в ширина",
   "PDFE.Views.ViewTab.tipHeadings": "Заглавия",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема на интерфейса",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

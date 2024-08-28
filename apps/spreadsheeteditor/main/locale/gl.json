@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza un contrasinal para quitarlle a protección á folla",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotexer folla",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza un contrasinal para quitarlle a protección ao libro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotexer libro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotexer libro",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

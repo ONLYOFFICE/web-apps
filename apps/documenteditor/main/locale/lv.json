@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

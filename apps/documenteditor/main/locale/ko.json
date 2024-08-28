@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "투명한",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "밑줄",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "글꼴이름",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "글꼴 크기",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

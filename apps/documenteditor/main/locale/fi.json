@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Läpikuultava",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Alleviivaus",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fontti",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonttikoko",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

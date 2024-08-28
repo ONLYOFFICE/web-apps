@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Կիսաթափանցիկ",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Ընդգծված",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Տառատեսակի անուն",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Տառատեսակի չափ",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

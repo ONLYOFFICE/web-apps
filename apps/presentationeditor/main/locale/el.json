@@ -2901,5 +2901,6 @@
   "PE.Views.ViewTab.tipGuides": "Εμφάνιση οδηγών",
   "PE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

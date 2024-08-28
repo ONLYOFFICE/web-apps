@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Паўпразрысты",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Падкрэслены",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Назва шрыфту",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Памер шрыфту",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

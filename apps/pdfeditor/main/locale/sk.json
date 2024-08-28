@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prispôsobiť na stranu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

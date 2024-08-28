@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

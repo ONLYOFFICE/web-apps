@@ -3616,5 +3616,6 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Półprzezroczysty",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podkreślenie",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nazwa czcionki",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Rozmiar czcionki",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }
