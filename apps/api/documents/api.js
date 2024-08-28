@@ -542,6 +542,8 @@
         var target = document.getElementById(placeholderId),
             iframe;
 
+        getShardkey(_config);
+
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
             if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
@@ -958,6 +960,17 @@
             unbindEvents: _unbindEvents
         }
     };
+
+    function getShardkey(config) {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.match(/(.*)api\/documents\/api.js/i)) {
+                var shardkey = /[\?\&]shardkey=([^&]+)&?/.exec(scripts[i].src);
+                shardkey && shardkey.length && (config.editorConfig.shardkey = shardkey[1]);
+                break;
+            }
+        }
+    }
 
     function getBasePath() {
         var scripts = document.getElementsByTagName('script'),

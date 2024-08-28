@@ -139,6 +139,7 @@ PE.ApplicationController = new(function(){
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
             docInfo.put_Wopi(config.wopi);
+            config.shardkey && docInfo.put_Shardkey(config.shardkey);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
