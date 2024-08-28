@@ -1999,5 +1999,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Dopasuj do szerokości",
   "PDFE.Views.ViewTab.tipHeadings": "Nagłówki",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Motyw interfejsu",
-  "PDFE.Views.ViewTab.textFill": "Fill"
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

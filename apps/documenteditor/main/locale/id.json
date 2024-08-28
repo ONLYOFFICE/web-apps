@@ -3617,5 +3617,8 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
-  "DE.Views.ViewTab.textFill": "Fill"
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

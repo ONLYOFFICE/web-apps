@@ -367,6 +367,10 @@ define([], function () {
                         '<div><div id="fms-cmb-theme"></div>',
                         '<div id="fms-chb-dark-mode"></div></div></td>',
                 '</tr>',
+                '<tr class="tab-style">',
+                    '<td><label><%= scope.strTabStyle %></label></td>',
+                    '<td><div id="fms-cmb-tab-style"></div></td>',
+                '</tr>',
                 '<tr class="edit-pdf">',
                     '<td><label><%= scope.strUnit %></label></td>',
                     '<td><span id="fms-cmb-unit"></span></td>',
@@ -638,6 +642,22 @@ define([], function () {
                 })).on('click', _.bind(me.applySettings, me));
             });
 
+            this.cmbTabStyle = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-tab-style'),
+                style       : 'width: 160px;',
+                menuStyle   : 'min-width:100%;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 'fill', displayValue: this.textFill},
+                    {value: 'line', displayValue: this.textLine}
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.chRTL = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-rtl-ui'),
                 labelText: this.strRTLSupport,
@@ -710,6 +730,7 @@ define([], function () {
                 this.cmbUnit.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbFontRender.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -735,6 +756,7 @@ define([], function () {
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
@@ -813,6 +835,9 @@ define([], function () {
             this.chDarkMode.setDisabled(!Common.UI.Themes.isDarkTheme());
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
+            value = Common.Utils.InternalSettings.get("settings-tab-style");
+            item = this.cmbTabStyle.store.findWhere({value: value});
+            this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
         },
 
         applySettings: function() {
@@ -853,7 +878,9 @@ define([], function () {
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-
+            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+                Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
             Common.localStorage.save();
 
             if (this.menu) {
@@ -959,7 +986,10 @@ define([], function () {
         txtPt: 'Point',
         txtUseAnnotateBar: 'Use the mini toolbar when selecting text',
         txtCustomizeQuickAccess: 'Customize quick access',
-        txtTabBack: 'Use toolbar color as tabs background'
+        txtTabBack: 'Use toolbar color as tabs background',
+        strTabStyle: 'Tab style',
+        textFill: 'Fill',
+        textLine: 'Line'
 
     }, PDFE.Views.FileMenuPanels.Settings || {}));
 

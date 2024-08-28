@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Снять защиту листа",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

@@ -2902,5 +2902,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipNormal": "標準",
   "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
-  "PE.Views.ViewTab.textFill": "Fill"
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

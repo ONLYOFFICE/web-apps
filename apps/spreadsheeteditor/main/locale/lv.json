@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

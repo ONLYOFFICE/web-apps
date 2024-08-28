@@ -3617,5 +3617,8 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliniat",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Denumire font",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensiune font",
-  "DE.Views.ViewTab.textFill": "Fill"
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

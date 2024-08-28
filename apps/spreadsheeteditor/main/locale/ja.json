@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "シートを保護を解除する",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ブックを保護解除するようにパスワードを入力してください",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "ブックを保護を解除する",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

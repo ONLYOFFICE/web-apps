@@ -1999,5 +1999,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Sovita leveyden mukaan",
   "PDFE.Views.ViewTab.tipHeadings": "Headings",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Käyttöliittymän teema",
-  "PDFE.Views.ViewTab.textFill": "Fill"
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

@@ -1999,5 +1999,8 @@
   "PDFE.Views.ViewTab.tipFitToWidth": "Prilagodi Širinu ",
   "PDFE.Views.ViewTab.tipHeadings": "Naslovi",
   "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
-  "PDFE.Views.ViewTab.textFill": "Fill"
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

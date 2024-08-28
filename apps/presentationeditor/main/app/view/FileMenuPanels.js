@@ -343,6 +343,10 @@ define([], function () {
                     '<td><label><%= scope.strTheme %></label></td>',
                     '<td><span id="fms-cmb-theme"></span></td>',
                 '</tr>',
+                '<tr class="tab-style">',
+                    '<td><label><%= scope.strTabStyle %></label></td>',
+                    '<td><div id="fms-cmb-tab-style"></div></td>',
+                '</tr>',
                 '<tr class="edit">',
                     '<td><label><%= scope.strUnit %></label></td>',
                     '<td><span id="fms-cmb-unit"></span></td>',
@@ -618,6 +622,22 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            this.cmbTabStyle = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-tab-style'),
+                style       : 'width: 160px;',
+                menuStyle   : 'min-width:100%;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 'fill', displayValue: this.textFill},
+                    {value: 'line', displayValue: this.textLine}
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.chRTL = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-rtl-ui'),
                 labelText: this.strRTLSupport,
@@ -696,6 +716,7 @@ define([], function () {
                 this.cmbFontRender.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbMacros.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -720,6 +741,7 @@ define([], function () {
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
@@ -798,6 +820,9 @@ define([], function () {
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
             this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
+            value = Common.Utils.InternalSettings.get("settings-tab-style");
+            item = this.cmbTabStyle.store.findWhere({value: value});
+            this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
         },
 
         applySettings: function() {
@@ -841,7 +866,9 @@ define([], function () {
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-
+            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+                Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
             Common.localStorage.save();
 
             if (this.menu) {
@@ -953,7 +980,10 @@ define([], function () {
         txtLastUsed: 'Last used',
         txtScreenReader: 'Turn on screen reader support',
         txtCustomizeQuickAccess: 'Customize quick access',
-        txtTabBack: 'Use toolbar color as tabs background'
+        txtTabBack: 'Use toolbar color as tabs background',
+        strTabStyle: 'Tab style',
+        textFill: 'Fill',
+        textLine: 'Line'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.CreateNew = Common.UI.BaseView.extend(_.extend({

@@ -3617,5 +3617,8 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
-  "DE.Views.ViewTab.textFill": "Fill"
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

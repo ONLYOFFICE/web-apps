@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

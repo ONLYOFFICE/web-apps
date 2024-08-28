@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

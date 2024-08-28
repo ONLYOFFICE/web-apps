@@ -2902,5 +2902,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfeței",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
-  "PE.Views.ViewTab.textFill": "Fill"
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

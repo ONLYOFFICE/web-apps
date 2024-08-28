@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger hoja",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduzca una contraseña para quitarle la protección al libro",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger libro",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

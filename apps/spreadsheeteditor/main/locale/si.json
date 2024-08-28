@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

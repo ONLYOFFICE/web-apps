@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Lås upp kalkylbladet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ange ett lösenord för att låsa upp arbetsbokens skydd",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Lås upp arbetsboken",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

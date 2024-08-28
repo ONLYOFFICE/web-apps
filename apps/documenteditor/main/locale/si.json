@@ -3617,5 +3617,8 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "යටිඉර",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "රුවකුරේ නම",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "රුවකුරේ තරම",
-  "DE.Views.ViewTab.textFill": "Fill"
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Buka Proteksi Sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan password untuk membuka proteksi workbook",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Buka Proteksi Workbook",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

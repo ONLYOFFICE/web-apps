@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Չպաշտպանել թերթիկը",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Մուտքագրեք գաղտնաբառ՝ աշխատանքային գրքույկը պաշտպանելու համար",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Չպաշտպանել աշխատանքային գրքույկը",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

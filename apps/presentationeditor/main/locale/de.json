@@ -2902,5 +2902,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Thema der Benutzeroberfläche",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSlideMaster": "Folienmaster",
-  "PE.Views.ViewTab.textFill": "Fill"
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

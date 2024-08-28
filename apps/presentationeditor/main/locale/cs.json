@@ -2902,5 +2902,8 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Vzhled uživatelského rozhraní",
   "PE.Views.ViewTab.tipNormal": "Normální",
   "PE.Views.ViewTab.tipSlideMaster": "Hlavní snímek",
-  "PE.Views.ViewTab.textFill": "Fill"
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

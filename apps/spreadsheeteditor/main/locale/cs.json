@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušit zabezpečení listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pro přístup k sešitu",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušit zabezpečení sešitu",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }

@@ -4459,5 +4459,8 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "撤消工作表保护",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
-  "SSE.Views.ViewTab.textFill": "Fill"
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.Settings.textLine": "Line"
 }
