@@ -378,9 +378,6 @@
         _config.frameEditorId = placeholderId;
         _config.parentOrigin = window.location.origin;
 
-        var shardkey = /[\?\&]shardkey=([^&]+)&?/.exec(window.location.search);
-        shardkey && shardkey.length && (_config.editorConfig.shardkey = shardkey[1]);
-
         var onMouseUp = function (evt) {
             _processMouse(evt);
         };
@@ -544,6 +541,8 @@
 
         var target = document.getElementById(placeholderId),
             iframe;
+
+        getShardkey(_config);
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
@@ -961,6 +960,17 @@
             unbindEvents: _unbindEvents
         }
     };
+
+    function getShardkey(config) {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.match(/(.*)api\/documents\/api.js/i)) {
+                var shardkey = /[\?\&]shardkey=([^&]+)&?/.exec(scripts[i].src);
+                shardkey && shardkey.length && (config.editorConfig.shardkey = shardkey[1]);
+                break;
+            }
+        }
+    }
 
     function getBasePath() {
         var scripts = document.getElementsByTagName('script'),
