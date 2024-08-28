@@ -89,7 +89,7 @@ define([
                 this.comboSheetsChange(this.printSettings, combo, record);
                 if (this._isPreviewVisible) {
                     this.notUpdateSheetSettings = true;
-                    this.updatePrintRenderContainerSize(record.value);
+                    this.updatePrintRenderContainerSize();
                     this.api.asc_drawPrintPreview(undefined, record.value);
                 }
             }, this));
@@ -177,11 +177,11 @@ define([
 
             panel.cmbSheet.store.reset(items);
         },
-        
+
         updateSettings: function(panel) {
             this.resetSheets(panel);
             var item = panel.cmbSheet.store.findWhere({value: panel.cmbSheet.getValue()}) ||
-                       panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
+                panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
                 panel.updateActiveSheet && panel.updateActiveSheet(item.get('displayValue'));
@@ -219,7 +219,7 @@ define([
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
                 panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                                                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
             this.fitWidth = opt.asc_getFitToWidth();
             this.fitHeight = opt.asc_getFitToHeight();
@@ -811,9 +811,9 @@ define([
                 index = Math.max(index, 0);
             }
 
-            this.updatePrintRenderContainerSize(index);
             this.api.asc_drawPrintPreview(index);
             this.updateNavigationButtons(index, this._navigationPreview.pageCount);
+            this.updatePrintRenderContainerSize(true);
         },
 
         onClickZoomToPageButton: function(button) {
@@ -821,18 +821,14 @@ define([
             this.updatePreview();
         },
 
-        updatePrintRenderContainerSize: function(index) {
+        updatePrintRenderContainerSize: function(rerender) {
             var $preview = $('#print-preview');
 
             if (!this.isZoomedToPage) {
-                // portrait -> landscape = crash - this.api.asc_getPageOptions = undefined
-                var sheetIndex = index === undefined ? this.api.asc_getActiveWorksheetIndex() : index,
-                    props = this._changedProps[sheetIndex] || this.api.asc_getPageOptions(sheetIndex),
-                    pageSetup = props.asc_getPageSetup(),
-                    orientation = pageSetup.asc_getOrientation();
-
-                var width = AscCommon.mm2pix(pageSetup.asc_getWidth());
-                var height = AscCommon.mm2pix(pageSetup.asc_getHeight());
+                var pageSetup = this._changedProps[this.printSettings.cmbSheet.getValue()].asc_getPageSetup(),
+                    orientation = pageSetup.asc_getOrientation(),
+                    width = AscCommon.mm2pix(pageSetup.asc_getWidth()),
+                    height = AscCommon.mm2pix(pageSetup.asc_getHeight());
 
                 $preview.css({
                     width: 'max(100%, {}px)'.replace('{}', orientation===1 ? height : width),
@@ -847,6 +843,10 @@ define([
             $('#print-preview-wrapper').css('display', this.isZoomedToPage ? '' : 'flex');
 
             this.printSettings.printScroller.scrollTop(0);
+
+            if (rerender) {
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+            }
         },
 
         onPreviewWheel: function (e) {
@@ -874,9 +874,9 @@ define([
                 box.focus(); // for IE
 
                 var newPage = page - 1;
-                this.updatePrintRenderContainerSize(newPage);
                 this.api.asc_drawPrintPreview(newPage);
                 this.updateNavigationButtons(newPage, this._navigationPreview.pageCount);
+                this.updatePrintRenderContainerSize(true);
 
                 return false;
             }
@@ -936,7 +936,7 @@ define([
                 }
 
                 this.notUpdateSheetSettings = !needUpdate;
-                this.updatePrintRenderContainerSize(newPage);
+                this.updatePrintRenderContainerSize();
                 this.api.asc_drawPrintPreview(newPage);
 
                 this.updateNavigationButtons(newPage, pageCount);
