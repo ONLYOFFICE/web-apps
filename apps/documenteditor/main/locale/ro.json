@@ -3617,6 +3617,7 @@
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliniat",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Denumire font",
   "DE.Views.WatermarkSettingsDialog.tipFontSize": "Dimensiune font",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
   "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
   "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
   "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",

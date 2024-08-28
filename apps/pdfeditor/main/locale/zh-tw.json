@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "警告",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "正在請求編輯權限...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "找不到您一直在搜索的數據。請調整您的搜索選項。",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "該文檔將儲存為新格式。它將允許使用所有編輯器功能，但可能會影響文檔佈局。<br>如果要使文件與舊版MS Word兼容，請使用高級設置的“兼容性”選項。",
   "PDFE.Controllers.LeftMenu.txtUntitled": "無標題",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "如果繼續以這種格式保存，則除文本外的所有功能都將丟失。<br>確定要繼續嗎？",
@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "調整至頁面",
   "PDFE.Views.ViewTab.tipFitToWidth": "調整至寬度",
   "PDFE.Views.ViewTab.tipHeadings": "頁首",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "介面主題",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

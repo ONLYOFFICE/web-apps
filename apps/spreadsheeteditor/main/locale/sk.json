@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Vyhľadávanie bolo uskutočnené. Nahradené udalosti: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Hľadať",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "List",
   "SSE.Controllers.LeftMenu.textValues": "Hodnoty",
   "SSE.Controllers.LeftMenu.textWarning": "Upozornenie",
@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zadajte heslo pre deaktiváciu zabezpečenia listu",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Zrušte ochranu listu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Vložte heslo pre vstup k zošitu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Zrušte ochranu zošita",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

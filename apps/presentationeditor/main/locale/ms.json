@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Data yang andaa sedang cari tidak dijumpai. Sila laras pilihan carian.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Gantian telah dilakukan. {0} kejadian telah dilangkau.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Carian telah dilakukan. Kejadian digantikan: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Tanpa Tajuk",
   "PE.Controllers.Main.applyChangesTextText": "Data dimuatkan…",
   "PE.Controllers.Main.applyChangesTitleText": "Data Dimuatkan",
@@ -2901,5 +2901,6 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema antara muka",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

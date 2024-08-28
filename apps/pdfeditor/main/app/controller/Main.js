@@ -1120,7 +1120,11 @@ define([
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
-
+                this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
+                    if (data.command == 'wopi:saveAsComplete') {
+                        me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
+                    }
+                });
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 if (!!me.appOptions.sharingSettingsUrl && me.appOptions.sharingSettingsUrl.length || me.appOptions.canRequestSharingSettings) {

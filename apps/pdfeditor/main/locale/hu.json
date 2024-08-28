@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Figyelmeztetés",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Szerkesztési jogok kérése...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "A keresett adatok nem találhatók. Kérjük, állítson a keresési beállításokon.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "A dokumentumot az új formátumba menti. Ez lehetővé teszi az összes szerkesztő funkció használatát, de befolyásolhatja a dokumentum elrendezését.<br>Ha a fájlokat kompatibilissá szeretné tenni a régebbi MS Word verziókkal, akkor használja a speciális beállítások 'Kompatibilitás' opcióját.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Névtelen",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Ha ebbe a formátumba ment, a nyers szövegen kívül minden elveszik.<br>Biztos benne, hogy folytatni akarja?",
@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Oldalhoz igazít",
   "PDFE.Views.ViewTab.tipFitToWidth": "Szélességhez igazít",
   "PDFE.Views.ViewTab.tipHeadings": "Címsorok",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Felhasználói felület témája",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

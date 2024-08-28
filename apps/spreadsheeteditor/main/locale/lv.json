@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Ir veikta meklēšana. Aizstātie gadījumi: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Saglabāt",
   "SSE.Controllers.LeftMenu.textSearch": "Meklēt",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Lapa",
   "SSE.Controllers.LeftMenu.textValues": "Vērtības",
   "SSE.Controllers.LeftMenu.textWarning": "Brīdinājums",
@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Ievadiet paroli, lai noņemtu lapas aizsardzību",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Noņemt aizsargāto lapu",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Ievadiet paroli, lai noņemtu darbgrāmatas aizsardzību",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Noņemt darbgrāmatas aizsardzību",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

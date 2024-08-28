@@ -2904,6 +2904,9 @@ define([
                     case 'generalToFrameData':
                         this.api.asc_getInformationBetweenFrameAndGeneralEditor(data.data);
                         break;
+                    case 'wopi:saveAsComplete':
+                        this.onExternalMessage({msg: this.txtSaveCopyAsComplete});
+                        break;
                     }
                 }
             },

@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Advertencia",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Solicitando permisos de edición...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "No se puede encontrar los datos que usted busca. Por favor, ajuste los parámetros de búsqueda.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "El documento se guardará en el nuevo formato. Permitirá utilizar todas las características del editor, pero podría afectar al diseño del documento.<br>Utilice la opción 'Compatibilidad' de la configuración avanzada si quiere hacer que los archivos sean compatibles con versiones anteriores de MS Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Sin título",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Si sigue guardando en este formato, todas las características a excepción del texto se perderán.<br>¿Está seguro de que quiere continuar?",
@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajustar a la página",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajustar al ancho",
   "PDFE.Views.ViewTab.tipHeadings": "Encabezados",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

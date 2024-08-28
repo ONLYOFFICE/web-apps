@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Упозорење",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Захтевање права уређивања...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Подаци које сте претраживали не могу бити пронађени. Молимо подесите своје опције претраживања.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Документ ће бити сачуван у новом формату. Дозволиће да користи све функционалности уређивача, али може да утиче на распоред документа.<br>Користите 'Компатибилност' опцију од напредних подешавања ако желите да фајлове учините компатибилним са старијим верзијама MS Word-а.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Без наслова",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?",
@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Прилагоди страници",
   "PDFE.Views.ViewTab.tipFitToWidth": "Прилагоди ширини",
   "PDFE.Views.ViewTab.tipHeadings": "Наслови",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

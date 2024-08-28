@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "A pesquisa foi realizada. Ocorrências substituídas: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Pesquisar",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Folha",
   "SSE.Controllers.LeftMenu.textValues": "Valores",
   "SSE.Controllers.LeftMenu.textWarning": "Aviso",
@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Introduza uma palavra-passe para desbloquear a folha",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduza uma palavra-passe para desbloquear o livro",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger Livro",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

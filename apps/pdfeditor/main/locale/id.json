@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Peringatan",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Meminta hak editing...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Data yang Anda cari tidak ditemukan. Silakan atur opsi pencarian Anda.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokumen akan disimpan ke format baru. Semua fitur editor akan diizinkan digunakan, tapi, mungkin akan mempengaruhi tampilan dokumen.<br>Gunakan opsi 'Kompatibilitas' di pengaturan tingkat lanjut jika Anda ingin membuat file kompatibel dengan versi MS Word lama.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Tanpa Judul",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
@@ -1998,5 +1998,6 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Sesuaikan Halaman",
   "PDFE.Views.ViewTab.tipFitToWidth": "Sesuaikan Lebar",
   "PDFE.Views.ViewTab.tipHeadings": "Tajuk",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

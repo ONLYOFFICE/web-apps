@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "검색 한 데이터를 찾을 수 없습니다. 검색 옵션을 조정하십시오.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "대체가 이루어졌습니다. {0} 건은 건너 뛰었습니다.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "검색이 완료되었습니다. {0} 횟수가 대체되었습니다. ",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "제목없음",
   "PE.Controllers.Main.applyChangesTextText": "데이터로드 중 ...",
   "PE.Controllers.Main.applyChangesTitleText": "데이터로드 중",
@@ -2901,5 +2901,6 @@
   "PE.Views.ViewTab.tipGuides": "가이드 표시",
   "PE.Views.ViewTab.tipInterfaceTheme": "인터페이스 테마",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

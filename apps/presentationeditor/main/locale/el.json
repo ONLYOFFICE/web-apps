@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Τα δεδομένα που αναζητάτε δεν βρέθηκαν. Παρακαλούμε προσαρμόστε τις επιλογές αναζήτησης.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Άτιτλο",
   "PE.Controllers.Main.applyChangesTextText": "Γίνεται φόρτωση δεδομένων...",
   "PE.Controllers.Main.applyChangesTitleText": "Γίνεται φόρτωση δεδομένων",
@@ -2901,5 +2901,6 @@
   "PE.Views.ViewTab.tipGuides": "Εμφάνιση οδηγών",
   "PE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
   "PE.Views.ViewTab.tipNormal": "Κανονικό",
-  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών"
+  "PE.Views.ViewTab.tipSlideMaster": "Υπόδειγμα διαφανειών",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

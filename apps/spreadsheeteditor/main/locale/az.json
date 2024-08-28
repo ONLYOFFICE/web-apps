@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Araşdırma aparılır. Hadisələr dəyişdirildi: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Axtarış",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Vərəq",
   "SSE.Controllers.LeftMenu.textValues": "Dəyərlər",
   "SSE.Controllers.LeftMenu.textWarning": "Xəbərdarlıq",
@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Vərəqin mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Претрага је учињена. Појаве замењене: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Сачувај",
   "SSE.Controllers.LeftMenu.textSearch": "Претрага",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Лист",
   "SSE.Controllers.LeftMenu.textValues": "Вредности",
   "SSE.Controllers.LeftMenu.textWarning": "Упозорење",
@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Унесите лозинку да незаштитите лист",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

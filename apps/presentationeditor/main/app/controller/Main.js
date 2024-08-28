@@ -1087,7 +1087,11 @@ define([
                 Common.Gateway.on('refreshhistory',         _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
-
+                this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
+                    if (data.command == 'wopi:saveAsComplete') {
+                        me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
+                    }
+                });
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
                 Common.Gateway.documentReady();
 
