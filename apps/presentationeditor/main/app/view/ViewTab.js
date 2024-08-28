@@ -501,9 +501,10 @@ define([
                                 item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                             });
                             mni.menu.on('item:click', _.bind(function (menu, item) {
-                                me.fireEvent('tabstyle:change', [item.value]);
+                                Common.UI.TabStyler.setStyle(item.value);
                             }, me));
                             btn.menu.addItem(mni);
+                            me.menuTabStyle = mni.menu;
                         }
                         function _fill_themes() {
                             let btn = this.btnInterfaceTheme;

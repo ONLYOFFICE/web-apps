@@ -851,8 +851,7 @@ define([], function () {
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("pdfe-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                Common.localStorage.setItem("pdfe-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
-                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
 
             Common.localStorage.save();

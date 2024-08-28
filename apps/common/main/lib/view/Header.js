@@ -818,6 +818,9 @@ define([
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
                 Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
+                Common.NotificationCenter.on('tabstyle:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('tabbackground:changed', this.changeLogo.bind(this));
+
             },
 
             render: function (el, role) {

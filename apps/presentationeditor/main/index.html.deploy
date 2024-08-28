@@ -334,7 +334,7 @@
         }
 
         if ( !tabBackground || /-ls$/.test(tabBackground)) {// try get tab background from localstorage
-            tabBackground = checkLocalStorage && localStorage.getItem("pe-settings-tab-background") !== null ? localStorage.getItem("pe-settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
+            tabBackground = checkLocalStorage && localStorage.getItem("settings-tab-background") !== null ? localStorage.getItem("settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
         }
 
         if (compact || view) {

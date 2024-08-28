@@ -166,6 +166,7 @@ require([
             'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Scaling',
             'common/main/lib/controller/Themes',
+            'common/main/lib/controller/TabStyler',
             'common/main/lib/controller/Desktop',
             'spreadsheeteditor/main/app/controller/Viewport',
             'spreadsheeteditor/main/app/controller/DocumentHolder',
