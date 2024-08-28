@@ -1039,6 +1039,7 @@
                 if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
+        path = extendAppPath(config, path);
         path += appMap[appType];
 
         const path_type = config.type === "mobile" ? "mobile" :
@@ -1189,6 +1190,16 @@
             }
         }
         return dest;
+    }
+
+    function extendAppPath(config,  path) {
+        if ( !config.isLocalFile ) {
+            const ver = '/{{PRODUCT_VERSION}}-{{HASH_POSTFIX}}';
+            const pos = path.indexOf('/web-apps/app');
+            if ( pos > 0 && ver.lastIndexOf('{{') < 0 )
+                return [path.slice(0, pos), ver, path.slice(pos)].join('');
+        }
+        return path;
     }
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);
