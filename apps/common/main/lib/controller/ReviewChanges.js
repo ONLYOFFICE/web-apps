@@ -813,13 +813,14 @@ define([
         },
 
         insertDocumentFromStorage: function(data) {
-            if (data && data.url && (data.c==='compare' || data.c==='combine')) {
+            if (data && data.url && (data.c==='compare' || data.c==='combine' || data.c==='insert-text')) {
                 if (!this._state.compareSettings) {
                     this._state.compareSettings = new AscCommonWord.ComparisonOptions();
                     this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
                 }
                 (data.c==='compare') && this.api.asc_CompareDocumentUrl(data.url, this._state.compareSettings, data.token);
                 (data.c==='combine') && this.api.asc_MergeDocumentUrl(data.url, this._state.compareSettings, data.token);
+                (data.c==='insert-text') && this.api.asc_insertTextFromUrl(data.url, data.token);
             }
         },
 
