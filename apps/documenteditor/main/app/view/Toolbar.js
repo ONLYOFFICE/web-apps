@@ -832,6 +832,20 @@ define([
                     });
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnTextFromFile = new Common.UI.Button({
+                        id: 'id-toolbar-btn-text-from-file',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-text-from-file',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock,
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnInsTextFromFile,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnTextFromFile);
+
                     this.mnuPageNumberPosPicker = {
                         conf: {disabled: false},
                         isDisabled: function () {
@@ -2004,6 +2018,7 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
+                _injectComponent('#slot-btn-text-from-file', this.btnTextFromFile);
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-print', this.btnPrint);
@@ -2392,6 +2407,18 @@ define([
                     }));
 
                     me.btnWatermark.updateHint(me.tipWatermark);
+
+                    me.btnTextFromFile.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniTextFromLocalFile, value: 'file' },
+                            { caption: me.mniTextFromURL, value: 'url' },
+                            { caption: me.mniTextFromStorage, value: 'storage' }
+                        ]
+                    }));
+                    me.btnTextFromFile.menu.items[2].setVisible(config.canRequestSelectDocument || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    me.btnTextFromFile.menu.items[1].setDisabled(config.disableNetworkFunctionality);
+                    me.btnTextFromFile.menu.items[2].setDisabled(config.disableNetworkFunctionality);
+                    me.btnTextFromFile.updateHint(me.tipTextFromFile);
 
                     if (!config.canFeatureContentControl && me.btnContentControls.cmpEl) {
                         me.btnContentControls.cmpEl.parents('.group').hide().prev('.separator').hide();
