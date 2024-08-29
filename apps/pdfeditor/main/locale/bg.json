@@ -2002,5 +2002,6 @@
   "PDFE.Views.ViewTab.textFill": "Fill",
   "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
-  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line"
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
 }

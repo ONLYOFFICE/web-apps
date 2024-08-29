@@ -1341,6 +1341,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
   "PDFE.Views.FileMenuPanels.ViewSaveAs.textDownloadAs": "Download as",
   "PDFE.Views.FileMenuPanels.ViewSaveCopy.textSaveCopyAs": "Save Copy as",
   "PDFE.Views.HyperlinkSettingsDialog.strDisplay": "Display",

@@ -3620,5 +3620,6 @@
   "DE.Views.ViewTab.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
-  "DE.Views.FileMenuPanels.Settings.textLine": "Line"
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
 }
