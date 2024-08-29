@@ -925,7 +925,7 @@ define([], function () {
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
-            $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChangeHiddenByDefault('tabBackground', true) ? 'show' : 'hide']();
             $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if (mode.compactHeader) {
                 $('tr.quick-access', this.el).hide();
@@ -1081,7 +1081,7 @@ define([], function () {
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("de-settings-quick-print-button", this.chQuickPrint.isChecked());
 
-            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChangeHiddenByDefault('tabBackground', true)) {
                 Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
 

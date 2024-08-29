@@ -322,6 +322,10 @@ Common.UI.FeaturesManager = new(function() {
         return !((_licensed || force) && _config && typeof _config[name] === 'object' && _config[name] && _config[name].change===false);
     };
 
+    var _canChangeHiddenByDefault = function(name, force) {
+        return !!((_licensed || force) && _config && typeof _config[name] === 'object' && _config[name] && _config[name].change===true);
+    };
+
     var _getInitValue2 = function(name, defValue, force) {
         if ((_licensed || force) && _config && _config[name] !== undefined ) {
             if (typeof _config[name] === 'object' && _config[name]) { // object and not null
@@ -353,6 +357,7 @@ Common.UI.FeaturesManager = new(function() {
     return {
         init: _init,
         canChange: _canChange,
+        canChangeHiddenByDefault: _canChangeHiddenByDefault,
         getInitValue: _getInitValue,
         isFeatureEnabled: _isFeatureEnabled
     }

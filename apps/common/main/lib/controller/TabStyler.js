@@ -49,7 +49,7 @@ define([
         var _init = function (customization) {
             _customization = customization;
             _canChangeStyle = Common.UI.FeaturesManager.canChange('tabStyle', true);
-            _canChangeBackground = !Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true);
+            _canChangeBackground = !Common.Utils.isIE && Common.UI.FeaturesManager.canChangeHiddenByDefault('tabBackground', true);
 
             var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
             if ( _canChangeStyle && Common.localStorage.itemExists("settings-tab-style")) { // get from local storage
