@@ -1,7 +1,7 @@
 +function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         const serviceWorkerName = 'document_editor_service_worker.js';
-        const serviceWorkerPath = '../../../../sdkjs/common/serviceworker/' + serviceWorkerName;
+        const serviceWorkerPath = '../../../../' + serviceWorkerName;
         let reg;
         navigator.serviceWorker.register(serviceWorkerPath)
             .then(function (registration) {
