@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "අවවාදයයි",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "සංස්කරණ අවසරය ඉල්ලමින්...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "ඔබ සොයන දත්ත සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබගේ සෙවුම් විකල්ප සීරුමාරු කරන්න.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "ලේඛනය නව ආකෘතියට සුරැකෙනු ඇත. එය සියළුම සංස්කරක විශේෂාංග භාවිතා කිරීමට ඉඩ සලසනු ඇත, නමුත් ලේඛනයෙහි පිරිසැලසුමට බලපෑ හැකිය.<br>ඔබට පරණ මයික්‍රොසොෆ්ට් වර්ඩ් අනුවාදවලට ගැළපෙන අයුරින් ගොනු සැකසීමට වුවමනා නම් වැඩිදුර සැකසුම්වල 'ගැළපුම' විකල්පය භාවිතා කරන්න.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "සිරැසිය නැත",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවහොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට වුවමනා බව විශ්වාසද?",
@@ -2003,5 +2003,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

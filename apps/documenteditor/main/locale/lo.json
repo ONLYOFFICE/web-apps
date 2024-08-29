@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "ຂໍ້ມູນທີ່ທ່ານ ກຳ ລັງຄົ້ນຫາບໍ່ສາມາດຊອກຫາໄດ້. ກະລຸນາປັບຕົວເລືອກການຊອກຫາຂອງທ່ານ.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "ການທົດແທນໄດ້ຖືກປະຕິບັດແລ້ວ. {0} ຖືກຂ້າມເຫດການທີ່ເກີດຂື້ນໄດ້",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "ການຄົ້ນຫາໄດ້ສຳເລັດແລ້ວ. ສິ່ງທີ່ເກີດຂື້ນໄດ້ປ່ຽນແທນແລ້ວ: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "ເອກະສານຈະຖືກບັນທຶກເປັນຮູບແບບ ໃໝ່. ມັນຈະອະນຸຍາດໃຫ້ ນຳ ໃຊ້ທຸກລັກສະນະຂອງບັນນາທິການ, ແຕ່ອາດຈະສົ່ງຜົນກະທົບຕໍ່ການຈັດວາງເອກະສານ.<br>ໃຊ້ຕົວເລືອກ 'ຄວາມເຂົ້າກັນໄດ້' ຂອງການຕັ້ງຄ່າຂັ້ນສູງຖ້າທ່ານຕ້ອງການທີ່ຈະເຮັດໃຫ້ແຟ້ມຂໍ້ມູນເຂົ້າກັນໄດ້ກັບລຸ້ນ MS Word ເກົ່າ.",
   "DE.Controllers.LeftMenu.txtUntitled": "ບໍ່ມີຫົວຂໍ້",
   "DE.Controllers.LeftMenu.warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ. <br> ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

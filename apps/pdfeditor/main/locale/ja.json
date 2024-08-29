@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": " 警告",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "アクセス権の編集の要求中...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "検索データが見つかりませんでした。検索オプションを変更してください。",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "ドキュメントは新しい形式で保存されます。 すべてのエディタ機能を使用できますが、ドキュメントのレイアウトに影響する可能性があります。<br>ファイルを古いバージョンのMS Wordと互換性を持たせる場合は、詳細設定の[互換性]オプションをご使用ください。",
   "PDFE.Controllers.LeftMenu.txtUntitled": "タイトルなし",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "この形式で保存する続けば、テクスト除いて全てが失います。<br>続けてもよろしいですか？",
@@ -2003,5 +2003,7 @@
   "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

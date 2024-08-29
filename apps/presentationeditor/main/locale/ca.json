@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "No s'han trobat les dades que heu cercat. Ajusteu les opcions de cerca.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Sense títol",
   "PE.Controllers.Main.applyChangesTextText": "S'estant carregant les dades...",
   "PE.Controllers.Main.applyChangesTitleText": "S'estan carregant les dades",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

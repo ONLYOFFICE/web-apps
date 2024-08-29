@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "No s'han trobat les dades que heu cercat. Ajusteu les opcions de cerca.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "S'ha realitzat la substitució. S'han omès {0} ocurrències.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "El document es desarà amb el format nou. Podreu utilitzar totes les funcions de l'editor, però podria afectar la disposició del document. <br>Useu l'opció 'Compatibilitat' de la configuració avançada si voleu que els fitxers siguin compatibles amb versions anteriors de MS Word.",
   "DE.Controllers.LeftMenu.txtUntitled": "Sense títol",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text.<br>Voleu continuar?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

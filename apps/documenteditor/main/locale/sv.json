@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "De data som du har letat efter kunde inte hittas. Ändra dina sökalternativ.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Ersättningen har gjorts. {0} händelser hoppades över.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Sökningen har gjorts. Förekomster som ersatts: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokumentet sparas i det nya formatet. Det tillåter att använda alla redigeringsfunktioner, men kan påverka dokumentlayouten.<br>Använd alternativet 'Kompatibilitet' i de avancerade inställningarna om du vill göra filerna kompatibla med äldre MS Word-versioner.",
   "DE.Controllers.LeftMenu.txtUntitled": "Odöpt",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Om du fortsätter att spara i detta format kommer alla funktioner utom texten försvinna. <br> Är du säker på att du vill fortsätta?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

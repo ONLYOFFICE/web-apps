@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Data, která jste hledali, nebyla nalezena. Upravte parametry vyhledávání.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Nahrazení bylo provedeno. {0} výskytů bylo přeskočeno.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Hledání bylo dokončeno. Nahrazeno výskytů: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokument bude uložen v novém formátu. Umožní vám využít všechny funkce editoru, ale může ovlivnit rozvržení dokumentu.<br>Pokud chcete, aby soubory byly kompatibilní se staršími verzemi MS Word, použijte volbu „Kompatibilita“ v pokročilých nastaveních.",
   "DE.Controllers.LeftMenu.txtUntitled": "Bez názvu",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Pokud budete pokračovat v ukládání v tomto formátu, vše kromě textu bude ztraceno.<br>Opravdu chcete pokračovat?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

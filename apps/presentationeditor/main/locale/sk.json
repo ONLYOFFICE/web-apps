@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Dáta, ktoré hľadáte sa nedajú nájsť. Prosím, upravte svoje možnosti vyhľadávania.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Nahradenie bolo uskutočnené. {0} výskytov bolo preskočených.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Vyhľadávanie bolo uskutočnené. Nahradené udalosti: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Neoznačený",
   "PE.Controllers.Main.applyChangesTextText": "Načítavanie dát...",
   "PE.Controllers.Main.applyChangesTitleText": "Načítavanie dát",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

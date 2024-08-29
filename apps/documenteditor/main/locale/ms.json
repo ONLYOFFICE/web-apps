@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Data yang andaa sedang cari tidak dijumpai. Sila laras pilihan carian.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Gantian telah dilakukan. {0} kejadian telah dilangkau.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Carian telah dilakukan. Kejadian digantikan: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokumen akan disimpan kepada format baharu. Ia akan membenarkan penggunaan semua ciri, tetapi mungkin menjejaskan talaletak dokumen.<br>Guna pilihan ‘Compatibility’ pada seting lanjutan jika anda mahu menjadikan fail serasi dengan versi MS Word yang lama.",
   "DE.Controllers.LeftMenu.txtUntitled": "Tanpa Tajuk",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Jika anda terus menyimpan dalam format ini semua ciri kecuali teks akan hilang.<br>Adakah anda pasti mahu teruskan?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

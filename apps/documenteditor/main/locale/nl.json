@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "De gegevens waarnaar u zoekt, zijn niet gevonden. Pas uw zoekopties aan.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "De vervanging is uitgevoerd. {0} gevallen zijn overgeslagen.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "De zoekactie is uitgevoerd. Vervangen items: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Het document wordt opgeslagen in het nieuwe formaat. Het maakt het mogelijk om alle editor functies te gebruiken, maar kan de lay-out van het document beïnvloeden.<br>Gebruik de optie 'Compatibiliteit' van de geavanceerde instellingen als u de bestanden compatibel wilt maken met oudere MS Word-versies.",
   "DE.Controllers.LeftMenu.txtUntitled": "Naamloos",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Als u doorgaat met opslaan in deze indeling, gaan alle kenmerken verloren en blijft alleen de tekst behouden.<br>Wilt u doorgaan?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

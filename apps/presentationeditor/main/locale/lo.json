@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "ຂໍ້ມູນທີ່ທ່ານ ກຳ ລັງຄົ້ນຫາບໍ່ສາມາດຊອກຫາໄດ້. ກະລຸນາປັບຕົວເລືອກການຊອກຫາຂອງທ່ານ.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "ການທົດແທນໄດ້ຖືກປະຕິບັດແລ້ວ. {0} ຖືກຂ້າມເຫດການທີ່ເກີດຂື້ນໄດ້",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "ການຄົ້ນຫາໄດ້ສຳເລັດແລ້ວ. ສິ່ງທີ່ເກີດຂື້ນໄດ້ປ່ຽນແທນແລ້ວ: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "ບໍ່ມີຫົວຂໍ້",
   "PE.Controllers.Main.applyChangesTextText": "ກຳລັງດາວໂຫຼດຂໍ້ມູນ",
   "PE.Controllers.Main.applyChangesTitleText": "ດາວໂຫຼດຂໍ້ມູນ",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

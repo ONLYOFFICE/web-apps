@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Bilaketa burutu da. Ordezkatu diren agerraldiak: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Gorde",
   "SSE.Controllers.LeftMenu.textSearch": "Bilatu",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Orria",
   "SSE.Controllers.LeftMenu.textValues": "Balioak",
   "SSE.Controllers.LeftMenu.textWarning": "Abisua",
@@ -4463,5 +4463,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

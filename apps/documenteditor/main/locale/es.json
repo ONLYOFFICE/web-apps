@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "No se pueden encontrar los datos que usted busca. Por favor, ajuste los parámetros de búsqueda.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Se ha realizado el reemplazo. Se omitieron {0} coincidencias.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "La búsqueda se ha realizado. Coincidencias reemplazadas: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "El documento se guardará en el nuevo formato. Permitirá utilizar todas las características del editor, pero podría afectar al diseño del documento.<br>Utilice la opción 'Compatibilidad' de la configuración avanzada si quiere hacer que los archivos sean compatibles con versiones anteriores de MS Word.",
   "DE.Controllers.LeftMenu.txtUntitled": "Sin título",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Si sigue guardando en este formato todas las características a excepción del texto se perderán.<br> ¿Está seguro de que quiere continuar?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

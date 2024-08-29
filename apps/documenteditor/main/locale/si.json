@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "ඔබ සොයන දත්ත සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබගේ සෙවුම් විකල්ප සීරුමාරු කරන්න.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "ආදේශනය සිදු කර ඇත. සිදුවීම් {0}ක් මඟ හරින ලදී.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "සෙවුම සිදු කර ඇත. ප්‍රතිස්ථාපනය කළ සිදුවීම්: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "ලේඛනය නව ආකෘතියට සුරැකෙනු ඇත. එය සියළුම සංස්කරක විශේෂාංග භාවිතා කිරීමට ඉඩ සලසනු ඇත, නමුත් ලේඛනයෙහි පිරිසැලසුමට බලපෑ හැකිය.<br>ඔබට පරණ මයික්‍රොසොෆ්ට් වර්ඩ් අනුවාදවලට ගැළපෙන අයුරින් ගොනු සැකසීමට වුවමනා නම් වැඩිදුර සැකසුම්වල 'ගැළපුම' විකල්පය භාවිතා කරන්න.",
   "DE.Controllers.LeftMenu.txtUntitled": "සිරැසිය නැත",
   "DE.Controllers.LeftMenu.warnDownloadAs": "ඔබ දිගටම මෙම ආකෘතියෙන් සුරැකුවොත් පාඨය හැර අනෙකුත් සියළුම විශේෂාංග නැති වනු ඇත.<br>ඔබට කරගෙන යාමට අවශ්‍ය බව විශ්වාසද?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

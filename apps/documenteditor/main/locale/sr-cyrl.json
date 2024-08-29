@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Подаци које сте претраживали не могу бити пронађени. Молимо подесите своје опције претраживања.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Замена је учињена. {0} појаве су прескочене.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Претрага је учињена. Појаве замењене: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Документ ће бити сачуван у новом формату. Дозволиће да користи све функционалности уређивача, али може да утиче на распоред документа.<br>Користите 'Компатибилност' опцију од напредних подешавања ако желите да фајлове учините компатибилним са старијим верзијама MS Word-а.",
   "DE.Controllers.LeftMenu.txtUntitled": "Без наслова",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Ако наставите да чувате у овом формату све карактеристике осим текста ће бити изгубљене.<br>Да ли сте сигурни да желите да наставите?",
@@ -3621,5 +3621,13 @@
   "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "DE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+
 }

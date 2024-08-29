@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Ձեր փնտրած տվյալները չեն գտնվել:Խնդրում ենք կարգաբերել Ձեր որոնման ընտրանքները:",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Փոխարինումը կատարված է։{0} դեպք բաց է թողնվել:",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Որոնողական աշխատանքները կատարվել են։ Փոխարինված դեպքերը՝ {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Անանուն",
   "PE.Controllers.Main.applyChangesTextText": "Տվյալների բեռնում...",
   "PE.Controllers.Main.applyChangesTitleText": "Տվյալների բեռնում",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

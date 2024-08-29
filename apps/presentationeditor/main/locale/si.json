@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "ඔබ සොයන දත්ත සොයා ගැනීමට නොහැකි විය. කරුණාකර ඔබගේ සෙවුම් විකල්ප සීරුමාරු කරන්න.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "ආදේශනය සිදු කර ඇත. සිදුවීම් {0}ක් මඟ හරින ලදී.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "සෙවුම සිදු කර ඇත. ප්‍රතිස්ථාපනය කළ සිදුවීම්: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "සිරැසිය නැත",
   "PE.Controllers.Main.applyChangesTextText": "දත්ත පූරණය වෙමින්...",
   "PE.Controllers.Main.applyChangesTitleText": "දත්ත පූරණය වෙමින්",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

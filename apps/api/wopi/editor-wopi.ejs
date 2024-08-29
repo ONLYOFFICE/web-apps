@@ -223,6 +223,7 @@ div {
 
         var onRequestSaveAs = function (event) {
             //SaveAs work via PutRelativeFile server-server request
+            docEditor.serviceCommand('wopi:saveAsComplete');
         };
 
         var onRequestSharingSettings = function (event) {

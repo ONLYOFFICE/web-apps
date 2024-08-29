@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Etsimääsi tietoa ei löytynyt. Ole hyvä ja muokkaa hakuvaihtoehtoja.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "The replacement has been made. {0} occurrences were skipped.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "The search has been done. Occurrences replaced: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Ei otsikkoa",
   "PE.Controllers.Main.applyChangesTextText": "Ladataan tietoa...",
   "PE.Controllers.Main.applyChangesTitleText": "Ladataan tietoja",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }

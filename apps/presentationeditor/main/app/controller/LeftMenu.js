@@ -303,12 +303,8 @@ define([
 
         saveAsInWopi: function(menu, format, ext) {
             var me = this,
-                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption(),
-                fileInfo = this.getApplication().getController('Main').document.info,
-                folder = fileInfo ? fileInfo.folder || '' : '';
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            folder && (folder.charAt(folder.length-1) !== '/') && (folder = folder + '/');
-
             if (typeof ext === 'string') {
                 var idx = defFileName.lastIndexOf('.');
                 if (idx>0)
@@ -316,7 +312,7 @@ define([
             }
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
-                value: folder + (defFileName || ''),
+                value: defFileName || '',
                 handler: function(result, value) {
                     if (result == 'ok') {
                         me.clickSaveCopyAsFormat(menu, format, ext, value);
@@ -890,6 +886,6 @@ define([
         textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.',
         textLoadHistory         : 'Loading version history...',
         leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-        textSelectPath: 'Enter a path for saving file copy'
+        textSelectPath: 'Enter a new name for saving the file copy'
     }, PE.Controllers.LeftMenu || {}));
 });

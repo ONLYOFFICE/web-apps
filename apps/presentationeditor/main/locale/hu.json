@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "A keresett adatok nem találhatók. Kérjük, állítson a keresési beállításokon.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "A csere megtörtént. {0} események kihagyásra kerültek.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Névtelen",
   "PE.Controllers.Main.applyChangesTextText": "Adatok betöltése...",
   "PE.Controllers.Main.applyChangesTitleText": "Adatok betöltése",
@@ -2906,5 +2906,7 @@
   "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
-  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance"
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+
 }
