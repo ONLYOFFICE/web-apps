@@ -2656,6 +2656,7 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMaxChange": "Maximum change",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strMaxIterations": "Maximum iterations",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strPasteButton": "Show the paste options button when the content is pasted",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strReferenceStyle": "R1C1 reference style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettings": "Regional settings",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strRegSettingsEx": "Example: ",

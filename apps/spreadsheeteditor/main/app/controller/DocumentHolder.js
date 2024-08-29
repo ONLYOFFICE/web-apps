@@ -3480,15 +3480,24 @@ define([
                 }
 
                 var infocus = me.cellEditor.is(":focus");
+                var isFunctipShow = this.tooltips.func_arg.isHidden === false;
 
                 if (infocus) {
                     menu.menuAlignEl = me.cellEditor;
+                    menu.offset = [
+                        0,
+                        (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                    ];
                     me.focusInCellEditor = true;
                 } else {
                     menu.menuAlignEl = undefined;
+                    menu.offset = [0 ,0];
                     me.focusInCellEditor = false;
                     var coord  = me.api.asc_getActiveCellCoord(),
-                        showPoint = [coord.asc_getX() + (offset ? offset[0] : 0), (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0)];
+                        showPoint = [
+                            coord.asc_getX() + (offset ? offset[0] : 0),
+                            (coord.asc_getY() < 0 ? 0 : coord.asc_getY()) + coord.asc_getHeight() + (offset ? offset[1] : 0) + (isFunctipShow ? this.tooltips.func_arg.ref.getBSTip().$tip.height() + 2 : 0)
+                        ];
                     menuContainer.css({left: showPoint[0], top : showPoint[1]});
                 }
                 menu.alignPosition();
@@ -3522,6 +3531,8 @@ define([
         },
 
         onFormulaInfo: function(name) {
+            if(!Common.Utils.InternalSettings.get("sse-settings-function-tooltip")) return;
+
             var functip = this.tooltips.func_arg;
 
             if (name) {
@@ -3575,7 +3586,7 @@ define([
                             this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
                         ],
                         coord  = this.api.asc_getActiveCellCoord();
-                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
+                    showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] + coord.asc_getHeight() + 4];
                 }
                 var tipwidth = functip.ref.getBSTip().$tip.width();
                 if (showPoint[0] + tipwidth > this.tooltips.coauth.bodyWidth )

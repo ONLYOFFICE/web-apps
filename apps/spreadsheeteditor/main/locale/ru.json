@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введите пароль для отключения защиты листа",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Снять защиту листа",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введите пароль для отключения защиты книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Снять защиту книги",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
 }
