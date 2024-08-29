@@ -505,7 +505,7 @@ define([
                                 menu: new Common.UI.Menu({
                                     menuAlign: 'tl-tr',
                                     items: [
-                                        {value: 'tab', caption: me.textTab, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'fill', caption: me.textFill, checkable: true, toggleGroup: 'tabstyle'},
                                         {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
@@ -514,9 +514,10 @@ define([
                                 item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                             });
                             mni.menu.on('item:click', _.bind(function (menu, item) {
-                                me.fireEvent('tabstyle:change', [item.value]);
+                                Common.UI.TabStyler.setStyle(item.value);
                             }, me));
                             btn.menu.addItem(mni);
+                            me.menuTabStyle = mni.menu;
                         }
                         function _fill_themes() {
                             let btn = this.btnInterfaceTheme;
@@ -533,7 +534,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
-                            Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
+                            // Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
@@ -665,7 +666,7 @@ define([
             tipViewNormal: 'See your document in Normal view',
             tipViewPageBreak: 'See where the page breaks will appear when your document is printed',
             textTabStyle: 'Tab style',
-            textTab: 'Tab',
+            textFill: 'Fill',
             textLine: 'Line'
         }
     }()), SSE.Views.ViewTab || {}));

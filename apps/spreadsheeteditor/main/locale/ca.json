@@ -4459,5 +4459,10 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
   "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

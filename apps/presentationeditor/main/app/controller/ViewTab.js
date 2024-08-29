@@ -66,6 +66,7 @@ define([
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('settings:unitschanged', _.bind(this.unitsChanged, this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
 
         setApi: function (api) {
@@ -418,6 +419,14 @@ define([
             Common.UI.TooltipManager.closeTip('slideMaster');
             this.changeViewMode(mode);
         },
+
+        onTabStyleChange: function () {
+            if (this.view && this.view.menuTabStyle) {
+                _.each(this.view.menuTabStyle.items, function(item){
+                    item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                });
+            }
+        }
 
     }, PE.Controllers.ViewTab || {}));
 });

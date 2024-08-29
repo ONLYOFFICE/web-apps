@@ -60,6 +60,7 @@ define([
             Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
 
         setApi: function (api) {
@@ -196,7 +197,7 @@ define([
                                 menu: new Common.UI.Menu({
                                     menuAlign: 'tl-tr',
                                     items: [
-                                        {value: 'tab', caption: me.view.textTab, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'fill', caption: me.view.textFill, checkable: true, toggleGroup: 'tabstyle'},
                                         {value: 'line', caption: me.view.textLine, checkable: true, toggleGroup: 'tabstyle'}
                                     ]
                                 })
@@ -205,9 +206,10 @@ define([
                                 item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
                             });
                             mni.menu.on('item:click', _.bind(function (menu, item) {
-                                me.view.fireEvent('tabstyle:change', [item.value]);
+                                Common.UI.TabStyler.setStyle(item.value);
                             }, me));
                             btn.menu.addItem(mni);
+                            me.view.menuTabStyle = mni.menu;
                         }
                         function _fill_themes() {
                             let btn = this.view.btnInterfaceTheme;
@@ -224,7 +226,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
-                            Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
+                            // Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
@@ -346,6 +348,14 @@ define([
                     menu_item.setChecked(true, true);
                 }
                 Common.Utils.lockControls(Common.enumLock.inLightTheme, !Common.UI.Themes.isDarkTheme(), {array: [this.view.btnDarkDocument]});
+            }
+        },
+
+        onTabStyleChange: function () {
+            if (this.view && this.view.menuTabStyle) {
+                _.each(this.view.menuTabStyle.items, function(item){
+                    item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                });
             }
         },
 
