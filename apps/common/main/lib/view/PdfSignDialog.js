@@ -74,7 +74,7 @@ define([], function () { 'use strict';
                             '<div id="pdf-sign-img-upload" style="width: 100%; height: 100%; display: flex; flex-direction:column; align-items: center;">',
                                 '<table style="height: 100%; width: 60%;text-align: center;">',
                                     '<tr>',
-                                        '<td><label class="link font-weight-bold">' + this.txtUploadImg + '</label><div><label class="light" style="margin-top:10px;">' + this.txtUploadDesc + '</div></label></div>',
+                                        '<td><div id="id-dlg-pdf-select-image"></div><div><label class="light" style="margin-top:10px;">' + this.txtUploadDesc + '</div></label></div>',
                                     '</tr>',
                                 '</table>',
                             '</div>',
@@ -127,6 +127,28 @@ define([], function () { 'use strict';
                 allowDepress: false
             });
             this.btnType.on('click', _.bind(this.onImgModeClick, this, 2));
+
+            this.btnSelectImage = new Common.UI.Button({
+                parentEl: $window.find('#id-dlg-pdf-select-image'),
+                cls: 'btn-text-menu-default',
+                caption: this.textSelect,
+                style: 'width: 142px;',
+                menu: new Common.UI.Menu({
+                    style: 'min-width: 142px;',
+                    maxHeight: 200,
+                    additionalAlign: this.menuAddAlign,
+                    items: [
+                        {caption: this.textFromFile, value: 0},
+                        {caption: this.textFromUrl, value: 1},
+                        {caption: this.textFromStorage, value: 2}
+                    ]
+                }),
+                takeFocusOnClose: true
+            });
+            this.btnSelectImage.menu.on('item:click', _.bind(this.onImageSelect, this));
+            this.btnSelectImage.menu.items[2].setVisible(this.storage);
+            this.btnSelectImage.menu.items[1].setDisabled(this.options.disableNetworkFunctionality);
+            this.btnSelectImage.menu.items[2].setDisabled(this.options.disableNetworkFunctionality);
 
             this.chRemBack = new Common.UI.CheckBox({
                 el: $window.find('#pdf-sign-ch-back'),
@@ -189,7 +211,7 @@ define([], function () { 'use strict';
             this.imgTypePnl = $window.find('.img-type');
             this.uploadEmptyPnl = $window.find('#pdf-sign-img-upload');
             this.uploadPreviewPnl = $window.find('#pdf-sign-img-upload-preview');
-            this.uploadEmptyPnl.find('label.link').on('click', _.bind(this.onUploadImage, this));
+
 
             this.btnOk = _.find(this.getFooterButtons(), function (item) {
                 return (item.$el && item.$el.find('.primary').addBack().filter('.primary').length>0);
@@ -200,7 +222,7 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.btnUpload, this.btnDraw, this.btnType, this.chRemBack, this.cmbLineSize, this.btnLineColor, this.cmbFonts, this.btnClear].concat(this.getFooterButtons());
+            return [this.btnUpload, this.btnDraw, this.btnType, this.btnSelectImage, this.chRemBack, this.cmbLineSize, this.btnLineColor, this.cmbFonts, this.btnClear].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -251,12 +273,8 @@ define([], function () { 'use strict';
             this.btnOk.setDisabled(!mode && !this.isImageLoaded);
             var me = this;
             _.delay(function(){
-                mode===1 ? me.cmbLineSize.focus() : mode===2 ? me.cmbFonts.focus() : me.chRemBack.focus();
+                mode===1 ? me.cmbLineSize.focus() : mode===2 ? me.cmbFonts.focus() : me.btnSelectImage.focus();
             },50);
-        },
-
-        onUploadImage: function() {
-
         },
 
         onImageSelect: function(menu, item) {
@@ -346,10 +364,13 @@ define([], function () { 'use strict';
         txtType: 'Type',
         textLooksAs: 'Signature looks as',
         textClear: 'Clear',
-        txtUploadImg: 'Upload your image',
+        textSelect: 'Select Image',
         txtUploadDesc: 'You can upload images in JPEG, JPG, GIF and PNG formats with a max size of 30 Mb',
         textBefore: 'Before signing this document, verify that the content you are signing is correct',
-        txtRemBack: 'Remove white background'
+        txtRemBack: 'Remove white background',
+        textFromUrl: 'From URL',
+        textFromFile: 'From File',
+        textFromStorage: 'From Storage'
 
     }, Common.Views.PdfSignDialog || {}))
 });
