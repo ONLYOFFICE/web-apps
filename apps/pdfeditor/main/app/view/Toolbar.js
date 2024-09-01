@@ -885,18 +885,20 @@ define([
                     });
                     this.btnsHighlight = [this.btnHighlight];
 
-                    this.btnEditMode = new Common.UI.Button({
-                        cls: 'btn-toolbar x-huge icon-top',
-                        iconCls: 'toolbar__icon btn-edit-text',
-                        style: 'min-width: 45px;',
-                        lock: [_set.lostConnect, _set.disableOnStart],
-                        caption: this.textEditMode,
-                        enableToggle: true,
-                        dataHint: '1',
-                        dataHintDirection: 'bottom',
-                        dataHintOffset: 'small'
-                    });
-                    this.toolbarControls.push(this.btnEditMode);
+                    if (config.isPDFAnnotate && config.canPDFEdit || config.isPDFEdit) {
+                        this.btnEditMode = new Common.UI.Button({
+                            cls: 'btn-toolbar x-huge icon-top',
+                            iconCls: 'toolbar__icon btn-edit-text',
+                            style: 'min-width: 45px;',
+                            lock: [_set.lostConnect, _set.disableOnStart],
+                            caption: this.textEditMode,
+                            enableToggle: true,
+                            dataHint: '1',
+                            dataHintDirection: 'bottom',
+                            dataHintOffset: 'small'
+                        });
+                        this.toolbarControls.push(this.btnEditMode);
+                    }
 
                     config.isPDFEdit && this.applyLayoutPDFEdit(config);
                 } else if ( config.isRestrictedEdit ) {
@@ -1284,7 +1286,7 @@ define([
                 _injectComponent('#slot-btn-underline', this.btnUnderline);
                 _injectComponent('#slot-btn-highlight', this.btnHighlight);
                 _injectComponent('#slot-btn-text-comment', this.btnTextComment);
-                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
+                this.btnEditMode ? _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode) : $host.findById('#slot-btn-tb-edit-mode').parents('.group').hide().next('.separator').hide();
             },
 
             rendererComponentsCommon: function($host) {
@@ -1478,7 +1480,7 @@ define([
                 this.btnHighlight.updateHint(this.textHighlight);
                 // this.btnTextComment.updateHint([this.tipInsertTextComment, this.tipInsertText]);
                 this.btnTextComment.updateHint(this.tipInsertTextComment);
-                this.btnEditMode.updateHint(this.tipEditMode);
+                this.btnEditMode && this.btnEditMode.updateHint(this.tipEditMode);
             },
 
             createDelayedElementsPDFEdit: function() {
@@ -1683,6 +1685,8 @@ define([
 
             /** coauthoring begin **/
             onCollaborativeChanges: function () {
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+
                 if (this._state.hasCollaborativeChanges) return;
                 if (!this.btnCollabChanges.rendered || this._state.previewmode) {
                     this.needShowSynchTip = true;
@@ -1741,6 +1745,8 @@ define([
             },
 
             onApiUsersChanged: function (users) {
+                if (!(this.mode.isPDFAnnotate || this.mode.isPDFEdit)) return;
+
                 var editusers = [];
                 _.each(users, function (item) {
                     if (!item.asc_getView())

@@ -223,7 +223,7 @@ define([
             toolbar.btnAddComment.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
             });
-            toolbar.btnEditMode.on('click', function (btn, e) {
+            toolbar.btnEditMode && toolbar.btnEditMode.on('click', function (btn, e) {
                 Common.NotificationCenter.trigger('pdf:mode-apply', btn.pressed ? 'edit' : 'comment');
             });
             Common.NotificationCenter.on('pdf:mode-changed', _.bind(this.changePDFMode, this));
@@ -712,10 +712,10 @@ define([
                     }
                 });
             } else if (this.api) {
-                // var isModified = this.api.asc_isDocumentCanSave();
-                // var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                // if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
-                //     return;
+                var isModified = this.api.asc_isDocumentCanSave();
+                var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
+                if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
+                    return;
 
                 this.api.asc_Save();
                 toolbar.btnSave && toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && toolbar.mode.canSaveToFile && !toolbar.mode.canSaveDocumentToBinary);
@@ -1290,6 +1290,7 @@ define([
                     me.toolbar.setVisible('ins', true);
                 }
             }
+            me.toolbar.setVisible('comment', config.isPDFAnnotate || config.isPDFEdit);
         },
 
         applyMode: function() {
