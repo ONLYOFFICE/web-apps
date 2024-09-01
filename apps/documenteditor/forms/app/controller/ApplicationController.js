@@ -564,6 +564,7 @@ define([
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
                 docInfo.put_Wopi(this.editorConfig.wopi);
+                this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);

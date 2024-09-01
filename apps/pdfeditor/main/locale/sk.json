@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Upozornenie",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Žiadanie o práva na úpravu ...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Dáta, ktoré hľadáte sa nedajú nájsť. Prosím, upravte svoje možnosti vyhľadávania.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokument bude uložený v novom formáte. Umožní Vám využiť všetky funkcie editora, ale môže ovplyvniť rozloženie dokumentu.<br>Pokiaľ chcete, aby súbory boli kompatibilné so staršími verziami MS Word, použite voľbu \"Kompatibilita\" v pokročilých nastaveniach.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Bez názvu",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Ak budete pokračovať v ukladaní v tomto formáte, všetky funkcie okrem textu sa stratia.<br>Ste si istý, že chcete pokračovať?",
@@ -1998,5 +1998,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Prispôsobiť na stranu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Prispôsobiť na šírku",
   "PDFE.Views.ViewTab.tipHeadings": "Nadpisy",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Vzhľad prostredia",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

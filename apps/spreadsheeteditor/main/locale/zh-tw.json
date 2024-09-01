@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "已完成搜尋。已替換的次數：{0}。",
   "SSE.Controllers.LeftMenu.textSave": "儲存",
   "SSE.Controllers.LeftMenu.textSearch": "搜尋",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "工作表",
   "SSE.Controllers.LeftMenu.textValues": "值",
   "SSE.Controllers.LeftMenu.textWarning": "警告",
@@ -4459,5 +4459,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "解除工作表保護",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "輸入密碼以解除工作簿的保護",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "解除工作簿保護",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

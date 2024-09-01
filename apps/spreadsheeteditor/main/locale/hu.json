@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "A keresés megtörtént. Helyettesített események: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Keres",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Munkalap",
   "SSE.Controllers.LeftMenu.textValues": "Értékek",
   "SSE.Controllers.LeftMenu.textWarning": "Figyelmeztetés",
@@ -4459,5 +4459,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Munkalap védelmének megszüntetése",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Írjon be egy jelszót a munkafüzet védelmének megszüntetéséhez",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Munkafüzet védelmének megszüntetése",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

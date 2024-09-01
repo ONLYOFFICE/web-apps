@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "S'ha fet la cerca. S'han substituït les coincidències: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Desar",
   "SSE.Controllers.LeftMenu.textSearch": "Cerca",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Full",
   "SSE.Controllers.LeftMenu.textValues": "Valors",
   "SSE.Controllers.LeftMenu.textWarning": "Advertiment",
@@ -4459,5 +4459,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desprotegeix el full",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introdueix una contrasenya per desprotegir el llibre",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desprotegeix el llibre de treball",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "සෙවුම සිදු කර ඇත. ප්‍රතිස්ථාපනය කළ සිදුවීම්: {0}",
   "SSE.Controllers.LeftMenu.textSave": "සුරකින්න",
   "SSE.Controllers.LeftMenu.textSearch": "සොයන්න",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "පත්‍රය",
   "SSE.Controllers.LeftMenu.textValues": "අගයන්",
   "SSE.Controllers.LeftMenu.textWarning": "අවවාදයයි",
@@ -4459,5 +4459,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "කොළය අනාරක්‍ෂණය",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "වැඩපොත අනාරක්‍ෂණයට මුරපදයක් ඇතුල් කරන්න",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "වැඩපොත අනාරක්‍ෂණය",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

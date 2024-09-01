@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Pretraga je učinjena. Pojave zamenjene: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Sačuvaj",
   "SSE.Controllers.LeftMenu.textSearch": "Pretraga",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "List",
   "SSE.Controllers.LeftMenu.textValues": "Vrednosti",
   "SSE.Controllers.LeftMenu.textWarning": "Upozorenje ",
@@ -4459,5 +4459,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Nezaštiti list",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Unesite lozinku da nezaštitite radnu knjigu",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Nezaštiti radnu knjigu",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

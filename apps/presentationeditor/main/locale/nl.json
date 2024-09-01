@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "De gegevens waarnaar u zoekt, zijn niet gevonden. Pas uw zoekopties aan.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "De vervanging is uitgevoerd. {0} gevallen zijn overgeslagen.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "De zoekactie is uitgevoerd. Vervangen items: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Naamloos",
   "PE.Controllers.Main.applyChangesTextText": "Gegevens worden geladen...",
   "PE.Controllers.Main.applyChangesTitleText": "Gegevens worden geladen",
@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

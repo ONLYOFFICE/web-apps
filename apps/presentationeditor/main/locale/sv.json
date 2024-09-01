@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "De data som du har letat efter kunde inte hittas. Ändra dina sökalternativ.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Ersättningen har gjorts. {0} händelser hoppades över.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Sökningen har gjorts. Förekomster som ersatts: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Odöpt",
   "PE.Controllers.Main.applyChangesTextText": "Laddar data...",
   "PE.Controllers.Main.applyChangesTitleText": "Laddar data",
@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Podaci koje ste pretraživali ne mogu biti pronađeni. Molimo podesite svoje opcije pretraživanja. ",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Zamena je učinjena. {0} pojave su preskočene.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Pretraga je učinjena. Pojave zamenjene: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokument će biti sačuvan u novom formatu. Dozvoliće da koristi sve funkcionalnosti uređivača, ali može da utiče na raspored dokumenta. Koristite 'Kompatibilnost' opciju od naprednih podešavanja ako želite da fajlove učinite kompatibilnim sa starijim verzijama MS Word-a.",
   "DE.Controllers.LeftMenu.txtUntitled": "Bez naslova",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Ako nastavite da čuvate u ovom formatu sve karakteristike osim teksta će biti izgubljene.<br>Da li ste sigurni da želite da nastavite?",
@@ -3616,5 +3616,17 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Poluprovidno",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Podvuci",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Naziv fonta ",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Veličina fonta",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

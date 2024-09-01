@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Varning",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Begär rätt att editera...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "De data som du har letat efter kunde inte hittas. Ändra dina sökalternativ.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokumentet sparas i det nya formatet. Det tillåter att använda alla redigeringsfunktioner, men kan påverka dokumentlayouten.<br>Använd alternativet 'Kompatibilitet' i de avancerade inställningarna om du vill göra filerna kompatibla med äldre MS Word-versioner.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Odöpt",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Om du fortsätter att spara i det här formatet kommer alla funktioner utom texten att gå förlorade.<br>Är du säker på att du vill fortsätta?",
@@ -1998,5 +1998,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Anpassa till sida",
   "PDFE.Views.ViewTab.tipFitToWidth": "Anpassa till bredd",
   "PDFE.Views.ViewTab.tipHeadings": "Rubriker",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Gränssnittstema",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

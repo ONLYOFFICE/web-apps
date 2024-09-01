@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Jūsu meklētos datus nevarēja atrast. Pielāgojiet meklēšanas opcijas.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Ir veikta aizvietošana. Tika izlaisti {0} gadījumi.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Ir veikta meklēšana. Aizstātie gadījumi: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokuments tiks saglabāts jaunajā formātā. Tas ļaus izmantot visas redaktora funkcijas, taču var ietekmēt dokumenta izkārtojumu.<br>Izmantojiet papildu iestatījumu opciju Saderība, ja vēlaties padarīt failus saderīgus ar vecākām MS Word versijām.",
   "DE.Controllers.LeftMenu.txtUntitled": "Bez nosaukuma",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
@@ -3616,5 +3616,17 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Daļēji caurspīdīgs",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Pasvītrot",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Fonta nosaukums",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Fonta izmērs",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

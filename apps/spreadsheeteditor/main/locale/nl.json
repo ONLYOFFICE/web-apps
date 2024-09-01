@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "De zoekactie is uitgevoerd. Vervangen items: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Zoeken",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Blad",
   "SSE.Controllers.LeftMenu.textValues": "Waarden",
   "SSE.Controllers.LeftMenu.textWarning": "Waarschuwing",
@@ -4459,5 +4459,11 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

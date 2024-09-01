@@ -91,7 +91,7 @@ div {
         <div id="iframeEditor">
         </div>
     </div>
-    <script type="text/javascript" src="../../../web-apps/apps/api/documents/api.js"></script>
+    <script type="text/javascript" src="../../../web-apps/apps/api/documents/api.js<%- apiQuery %>"></script>
     <script type="text/javascript" language="javascript">
 
         var docEditor;
@@ -223,6 +223,7 @@ div {
 
         var onRequestSaveAs = function (event) {
             //SaveAs work via PutRelativeFile server-server request
+            docEditor.serviceCommand('wopi:saveAsComplete');
         };
 
         var onRequestSharingSettings = function (event) {

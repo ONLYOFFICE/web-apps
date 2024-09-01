@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Non se puideron atopar os datos que estabas buscando. Axuste as opcións de busca.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "A substitución foi realizada. {0} ocorrencias foron ignoradas.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "A busca foi realizada. Ocorrencias substituídas: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "O documento gardarase no novo formato. Permitirá usar todas as funcións do editor, pero pode afectar ao deseño do documento. <br> Use a opción \"Compatibilidade\" da configuración avanzada se quere facer os ficheiros compatibles con versións antigas de MS Word.",
   "DE.Controllers.LeftMenu.txtUntitled": "Sen título",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Se segue gardando neste formato, todas as características a excepción do texto perderanse.<br>Te na certeza de que desexa continuar?",
@@ -3616,5 +3616,17 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparente",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Subliñado",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nome da fonte",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Tamaño da fonte",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

@@ -400,7 +400,7 @@ define([
             textLeftMenu: 'Left panel',
             textRightMenu: 'Right panel',
             textTabStyle: 'Tab style',
-            textTab: 'Tab',
+            textFill: 'Fill',
             textLine: 'Line'
         }
     }()), DE.Views.ViewTab || {}));

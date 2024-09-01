@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Զգուշացում",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Հայցել խմբագրման իրավունքներ...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Ձեր փնտրած տվյալները չեն գտնվել:Խնդրում ենք կարգաբերել Ձեր որոնման ընտրանքները:",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Փաստաթուղթը կպահպանվի նոր ձևաչափով։ Դա թույլ կտա գործածել խմբագրիչի բոլոր հատկությունները, բայց կարող է ազդել փաստաթղթի դասավորվածքի վրա։<br/>Գործածեք լրացուցիչ կարգավորումների «Համատեղելիություն» ընտրանքը, եթե ուզում եք նիշքերը համատեղելի դարձնել MS Word-ի հին տարբերակների հետ։",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Անանուն",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Եթե շարունակեք պահպանումն այս ձևաչափով, բոլոր հատկությունները՝ տեքստից բացի, կկորչեն։<br>Վստա՞հ եք, որ ցանկանում եք շարունակել:",
@@ -1998,5 +1998,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Հարմարեցնել էջին",
   "PDFE.Views.ViewTab.tipFitToWidth": "Հարմարեցնել լայնությանը",
   "PDFE.Views.ViewTab.tipHeadings": "Գլխագրեր",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Ինտերֆեյսի թեմա",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

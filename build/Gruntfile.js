@@ -272,7 +272,7 @@ module.exports = function(grunt) {
                       src: ['<%= pkg.api.copy.script.dest %>' +  '/**/*.js'],
                       overwrite: true,
                       replacements: [{
-                          from: /\{\{PRODUCT_VERSION\}\}/,
+                          from: /\{\{PRODUCT_VERSION\}\}/g,
                           to: packageFile.version
                       },{
                           from: /\{\{APP_CUSTOMER_NAME\}\}/g,

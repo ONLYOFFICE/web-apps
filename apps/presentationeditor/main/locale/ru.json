@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "Показать направляющие",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфейса",
   "PE.Views.ViewTab.tipNormal": "Обычный",
-  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов"
+  "PE.Views.ViewTab.tipSlideMaster": "Образец слайдов",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

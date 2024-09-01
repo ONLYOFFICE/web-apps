@@ -113,17 +113,13 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
-                },
-                'ViewTab': {
-                    'tabstyle:change': function (style) {
-                        me.onTabStyleChange(style);
-                        me.header.changeLogo();
-                    }
                 }
             });
 
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
         },
 
         setApi: function(api) {
@@ -290,10 +286,6 @@ define([
             // Common.Utils.InternalSettings.set("sse-settings-quick-print-button", value);
             // if (this.header && this.header.btnPrintQuick)
             //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
-            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                this.onTabBackgroundChange();
-                this.header.changeLogo();
-            }
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {
@@ -351,9 +343,7 @@ define([
         },
 
         onTabStyleChange: function (style) {
-            style && Common.localStorage.setItem("sse-settings-tab-style", style);
             style = style || Common.Utils.InternalSettings.get("settings-tab-style");
-            Common.Utils.InternalSettings.set("settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
         },
 

@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Abisua",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Editatzeko eskubidea eskatzen...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Bilatu duzun datua ezin izan da aurkitu. Doitu bilaketaren ezarpenak.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokumentua formatu berri batean gordeko da. Editorearen ezaugarri guztiak erabiltzeko aukera emango dizu, baina dokumentuaren diseinuan eragina izan dezake.<br>Erabili ezarpen aurreratuetako 'Bateragarritasuna' aukera fitxategiak MS Word-en bertsio zaharrekin bateragarriak izatea nahi baduzu.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Izengabea",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br>Ziur zaude aurrera jarraitu nahi duzula?",
@@ -1998,5 +1998,11 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Doitu orrira",
   "PDFE.Views.ViewTab.tipFitToWidth": "Doitu zabalerara",
   "PDFE.Views.ViewTab.tipHeadings": "Izenburuak",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfazearen gaia",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

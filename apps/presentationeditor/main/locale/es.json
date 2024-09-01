@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "No se pueden encontrar los datos que usted busca. Por favor, ajuste los parámetros de búsqueda.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Se ha realizado el reemplazo. Se omitieron {0} coincidencias.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Se ha realizado la búsqueda. Se han sustituido {0} coincidencias.",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Sin título",
   "PE.Controllers.Main.applyChangesTextText": "Cargando datos...",
   "PE.Controllers.Main.applyChangesTitleText": "Cargando datos",
@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "Mostrar guías",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfaz",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas"
+  "PE.Views.ViewTab.tipSlideMaster": "Patrón de diapositivas",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

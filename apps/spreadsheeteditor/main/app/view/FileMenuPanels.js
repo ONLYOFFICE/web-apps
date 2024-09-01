@@ -296,6 +296,21 @@ define([], function () {
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
+                '</tr>',
+                '<tr class="themes">',
+                    '<td><label><%= scope.strTheme %></label></td>',
+                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',
+                '<tr class="tab-style">',
+                    '<td><label><%= scope.strTabStyle %></label></td>',
+                    '<td><div id="fms-cmb-tab-style"></div></td>',
+                '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
                 '<tr >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -309,9 +324,6 @@ define([], function () {
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr class="tab-background">',
-                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
-                '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -323,10 +335,6 @@ define([], function () {
                 '</tr>',*/
                 '<tr class="edit quick-access">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
-                '</tr>',
-                '<tr class="themes">',
-                    '<td><label><%= scope.strTheme %></label></td>',
-                    '<td><span id="fms-cmb-theme"></span></td>',
                 '</tr>',
                 '<tr>',
                     '<td><label><%= scope.strUnit %></label></td>',
@@ -769,6 +777,22 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            this.cmbTabStyle = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-tab-style'),
+                style       : 'width: 160px;',
+                menuStyle   : 'min-width:100%;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 'fill', displayValue: this.textFill},
+                    {value: 'line', displayValue: this.textLine}
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el:  $markup.findById('#fms-cmb-dictionary-language'),
                 cls: 'input-group-nr',
@@ -931,6 +955,7 @@ define([], function () {
                 this.cmbFuncLocale.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbRegSettings.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbDictionaryLanguage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -953,6 +978,7 @@ define([], function () {
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
@@ -1074,8 +1100,11 @@ define([], function () {
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
             this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
-            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
+            value = Common.Utils.InternalSettings.get("settings-tab-style");
+            item = this.cmbTabStyle.store.findWhere({value: value});
+            this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
 
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                     defaultShortName = "en-US",
                     allLangs = arrLang[0],
@@ -1188,10 +1217,11 @@ define([], function () {
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                Common.localStorage.setItem("sse-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
-                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-
+            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+                Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
             Common.localStorage.save();
             if (this.menu) {
                 this.menu.fireEvent('settings:apply', [this.menu]);
@@ -1429,7 +1459,11 @@ define([], function () {
         strEnableIterative: 'Enable iterative calculation',
         txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.',
         txtCustomizeQuickAccess: 'Customize quick access',
-        txtTabBack: 'Use toolbar color as tabs background'
+        txtTabBack: 'Use toolbar color as tabs background',
+        strTabStyle: 'Tab style',
+        textFill: 'Fill',
+        textLine: 'Line',
+        txtAppearance: 'Appearance'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 

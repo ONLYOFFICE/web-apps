@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Axtardığınız verilən tapılmadı. Axtarış seçimlərinizi tənzimləyin.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Əvəz edilir. {0} hal nəzərə alınmadı.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Araşdırma aparılır. Hadisələr dəyişdirildi: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Fayl yeni formatda saxlanacaq. Redaktorların bütün xüsusiyyətləri sizin üçün əlçatan olacaq, lakin bu, sənədin tərtibatına təsir edə bilər.<br> Faylınızı MS Word-ün köhnə versiyaları ilə uyğunlaşdırmaq üçün təkmil parametrlərdə \"Uyğunluq\" seçimini aktivləşdirin.",
   "DE.Controllers.LeftMenu.txtUntitled": "Başlıqsız",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Bu formatda yadda saxlamağa davam etsəniz, mətndən başqa bütün funksiyalar itiriləcək.<br>Davam etmək istədiyinizə əminsiniz?",
@@ -3616,5 +3616,17 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Yarım şəffaf",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Altından xətt çəkilmiş",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Şrift Adı",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Şrift Ölçüsü",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
 }

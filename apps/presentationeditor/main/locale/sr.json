@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Podaci koje ste pretraživali ne mogu biti pronađeni. Molimo podesite svoje opcije pretraživanja. ",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Zamena je učinjena. {0} pojave su preskočene.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Pretraga je učinjena. Pojave zamenjene: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Bez naslova",
   "PE.Controllers.Main.applyChangesTextText": "Učitavanje podataka...",
   "PE.Controllers.Main.applyChangesTitleText": "Učitavanje Podataka ",
@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "Prikaži vodiče",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfejsa",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

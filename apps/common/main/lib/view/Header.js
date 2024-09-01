@@ -51,7 +51,7 @@ define([
         var storeUsers, appConfig;
         var $userList, $panelUsers, $btnUsers, $btnUserName, $labelDocName;
         var _readonlyRights = false;
-        var _tabStyle = 'tab', _logoImage = '';
+        var _tabStyle = 'fill', _logoImage = '';
         var isPDFEditor = !!window.PDFE,
             isDocEditor = !!window.DE,
             isSSEEditor = !!window.SSE;
@@ -818,6 +818,9 @@ define([
                 });
                 Common.NotificationCenter.on('uitheme:changed', this.changeLogo.bind(this));
                 Common.NotificationCenter.on('mentions:setusers', this.avatarsUpdate.bind(this));
+                Common.NotificationCenter.on('tabstyle:changed', this.changeLogo.bind(this));
+                Common.NotificationCenter.on('tabbackground:changed', this.changeLogo.bind(this));
+
             },
 
             render: function (el, role) {
@@ -1091,7 +1094,7 @@ define([
                 branding = branding || {};
                 var image = branding.logo ? branding.logo.image || branding.logo.imageDark || branding.logo.imageLight : null,
                     isDark = true;
-                tabStyle = tabStyle || Common.Utils.InternalSettings.get("settings-tab-style") || 'tab';
+                tabStyle = tabStyle || Common.Utils.InternalSettings.get("settings-tab-style") || 'fill';
                 tabBackground = tabBackground || Common.Utils.InternalSettings.get("settings-tab-background") || 'header';
                 if (!Common.Utils.isIE) {
                     var header_color = Common.UI.Themes.currentThemeColor(isDocEditor && config.isPDFForm || isPDFEditor ? '--toolbar-header-pdf' :

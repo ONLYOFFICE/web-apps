@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "لا يمكن العثور على البيانات التي كنت تبحث عنها. الرجاء ضبط خيارات البحث الخاصة بك.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "تم إجراء الاستبدال. تم تخطي {0} حدث.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "انتهى البحث. الحالات المستبدلة: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "بدون عنوان",
   "PE.Controllers.Main.applyChangesTextText": "جار تحميل البيانات...",
   "PE.Controllers.Main.applyChangesTitleText": "يتم تحميل البيانات",
@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "عرض الخطوط الدلالية",
   "PE.Views.ViewTab.tipInterfaceTheme": "سمة الواجهة",
   "PE.Views.ViewTab.tipNormal": "عادي",
-  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية"
+  "PE.Views.ViewTab.tipSlideMaster": "الشريحة الرئيسية",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Не вдалося знайти дані, які ви шукали. Будь ласка, налаштуйте параметри пошуку.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Заміна виконана. Пропущено {0} випадків.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Пошук виконано. Змін зроблено: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Без ім'я",
   "PE.Controllers.Main.applyChangesTextText": "Завантаження дати...",
   "PE.Controllers.Main.applyChangesTitleText": "Дата завантаження",
@@ -2901,5 +2901,11 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Interface theme",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
 }

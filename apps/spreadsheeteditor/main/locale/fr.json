@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "La recherche est effectuée. Nb d'occurrences remplacées:{0}",
   "SSE.Controllers.LeftMenu.textSave": "Enregistrer",
   "SSE.Controllers.LeftMenu.textSearch": "Rechercher",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Feuille",
   "SSE.Controllers.LeftMenu.textValues": "Valeurs",
   "SSE.Controllers.LeftMenu.textWarning": "Avertissement",
@@ -4458,6 +4458,5 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Entrez un mot de passe pour déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur",
-  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur"
 }
