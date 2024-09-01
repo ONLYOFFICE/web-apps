@@ -398,7 +398,7 @@ define([
                 this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
                 this.api.asc_registerCallback('asc_onEntriesListMenu', _.bind(this.onEntriesListMenu, this, false)); // Alt + Down
                 this.api.asc_registerCallback('asc_onValidationListMenu', _.bind(this.onEntriesListMenu, this, true));
-                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onFormulaCompleteMenu, this));
+                this.api.asc_registerCallback('asc_onFormulaCompleteMenu', _.bind(this.onApiFormulaCompleteMenu, this));
                 this.api.asc_registerCallback('asc_onShowSpecialPasteOptions', _.bind(this.onShowSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onHideSpecialPasteOptions', _.bind(this.onHideSpecialPasteOptions, this));
                 this.api.asc_registerCallback('asc_onToggleAutoCorrectOptions', _.bind(this.onToggleAutoCorrectOptions, this));
@@ -3335,6 +3335,13 @@ define([
                 this.api.asc_insertInCell(item.value, Asc.c_oAscPopUpSelectorType.TotalRowFunc);
             }
             Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
+        },
+
+        onApiFormulaCompleteMenu: function(funcarr, offset) {
+            const me = this;
+            setTimeout(function() {
+                me.onFormulaCompleteMenu(funcarr, offset);
+            }, 0);
         },
 
         onFormulaCompleteMenu: function(funcarr, offset) {
