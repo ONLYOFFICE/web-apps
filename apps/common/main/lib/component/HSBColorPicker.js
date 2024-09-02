@@ -136,8 +136,8 @@ define([
             var onSBAreaMouseMove = function(event, element, eOpts){
                 if (arrowSatBrightness.length>0 && areaSatBrightness.length>0) {
                     var pos = [
-                        Math.max(0, Math.min(100, (parseInt((event.pageX*Common.Utils.zoom() - areaSatBrightness.offset().left) / areaSatBrightness.width() * 100)))),
-                        Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - areaSatBrightness.offset().top) / areaSatBrightness.height() * 100))))
+                        Math.max(0, Math.min(100, (parseInt((event.pageX*Common.Utils.zoom() - Common.Utils.getOffset(areaSatBrightness).left) / areaSatBrightness.width() * 100)))),
+                        Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(areaSatBrightness).top) / areaSatBrightness.height() * 100))))
                     ];
 
                     arrowSatBrightness.css('left', pos[0] + '%');
@@ -156,7 +156,7 @@ define([
 
             var onHueAreaMouseMove = function(event, element, eOpts){
                 if (arrowHue&& areaHue) {
-                    var pos = Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - areaHue.offset().top) / areaHue.height() * 100))));
+                    var pos = Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(areaHue).top) / areaHue.height() * 100))));
                     arrowHue.css('top', pos + '%');
 
                     hueVal = parseInt(360 * pos / 100.0);

@@ -206,7 +206,53 @@ var utils = new(function() {
         checkSizeIE = function() {
             me.innerWidth = window.innerWidth;
             me.innerHeight = window.innerHeight;
+        },
+        isOffsetUsedZoom = function() {
+            if (isChrome && 128 <= chromeVersion)
+                return (me.zoom === 1) ? false : true;
+            return false;
+        },
+        getBoundingClientRect = function(element) {
+            let rect = element.getBoundingClientRect();
+            if (!isOffsetUsedZoom())
+                return rect;
+
+            let koef = me.zoom;
+            let newRect = {}
+            if (rect.x!==undefined) newRect.x = rect.x * koef;
+            if (rect.y!==undefined) newRect.y = rect.y * koef;
+            if (rect.width!==undefined) newRect.width = rect.width * koef;
+            if (rect.height!==undefined) newRect.height = rect.height * koef;
+
+            if (rect.left!==undefined) newRect.left = rect.left * koef;
+            if (rect.top!==undefined) newRect.top = rect.top * koef;
+            if (rect.right!==undefined) newRect.right = rect.right * koef;
+            if (rect.bottom!==undefined) newRect.bottom = rect.bottom * koef;
+            return newRect;
+        },
+        getOffsetLeft = function(element) {
+            if (!isOffsetUsedZoom())
+                return element.offsetLeft;
+            return element.offsetLeft * me.zoom;
+        },
+        getOffsetTop = function(element) {
+            if (!isOffsetUsedZoom())
+                return element.offsetTop;
+            return element.offsetTop * me.zoom;
+        },
+        getOffset = function($element) {
+            let pos = $element.offset();
+            if (!isOffsetUsedZoom())
+                return pos;
+            return {left: pos.left * me.zoom, top: pos.top * me.zoom};
+        },
+        getPosition = function($element) {
+            let pos = $element.position();
+            if (!isOffsetUsedZoom())
+                return pos;
+            return {left: pos.left * me.zoom, top: pos.top * me.zoom};
         };
+
         me.zoom = 1;
         me.applicationPixelRatio = 1;
         me.innerWidth = window.innerWidth;
@@ -289,7 +335,12 @@ var utils = new(function() {
         innerWidth: function() {return me.innerWidth;},
         innerHeight: function() {return me.innerHeight;},
         croppedGeometry: function() {return {left:0, top: Common.Utils.InternalSettings.get('window-inactive-area-top'),
-                                        width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}}
+                                        width: me.innerWidth, height: me.innerHeight - Common.Utils.InternalSettings.get('window-inactive-area-top')}},
+        getBoundingClientRect: getBoundingClientRect,
+        getOffsetLeft: getOffsetLeft,
+        getOffsetTop: getOffsetTop,
+        getOffset: getOffset,
+        getPosition: getPosition
     }
 })();
 

@@ -2638,7 +2638,7 @@ define([
             menu.items[3].setDisabled(isAllDefailtNotModifaed);
             menu.items[4].setDisabled(isAllCustomDeleted);
 
-            var parentOffset = this.toolbar.$el.offset(),
+            var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
             if ($('#header-container').is(":visible")) {
                 top -= $('#header-container').height()

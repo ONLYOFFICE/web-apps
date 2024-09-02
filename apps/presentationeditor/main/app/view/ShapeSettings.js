@@ -1712,7 +1712,7 @@ define([
                                 items: [],
                                 restoreHeightAndTop: true,
                                 additionalAlign: function(menuRoot, left, top) {
-                                    menuRoot.css({left: left, top: Math.max($(me.el).parent().offset().top, Common.Utils.innerHeight() - 10 - me.shapeRestoreHeight) - parseInt(menuRoot.css('margin-top'))});
+                                    menuRoot.css({left: left, top: Math.max(Common.Utils.getOffset($(me.el).parent()).top, Common.Utils.innerHeight() - 10 - me.shapeRestoreHeight) - parseInt(menuRoot.css('margin-top'))});
                                 }
                             })}
                     ]
