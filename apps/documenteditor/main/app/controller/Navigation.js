@@ -239,7 +239,7 @@ define([
                 menu.hide();
             }
 
-            var parentOffset = this.panelNavigation.$el.offset(),
+            var parentOffset = Common.Utils.getOffset(this.panelNavigation.$el),
                 top = e.clientY*Common.Utils.zoom();
             showPoint = [e.clientX*Common.Utils.zoom() + 5, top - parentOffset.top + 5];
 

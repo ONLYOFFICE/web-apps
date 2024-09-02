@@ -339,7 +339,7 @@ define([
                             menu.menuAlignEl = cmp.cmpEl;
                             menu.menuAlign = 'tl-tl';
                             var menuWidth = columnCount * (itemMargin + itemWidth) + 17, // for scroller
-                                buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                                buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
                             if (menuWidth>Common.Utils.innerWidth())
                                 menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-17)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + 17;
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;

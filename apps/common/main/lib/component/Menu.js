@@ -639,7 +639,7 @@ define([
                 var menuRoot = this.menuRoot,
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
-                    offset      = menuParent.offset(),
+                    offset      = Common.Utils.getOffset(menuParent),
                     docW        = Common.Utils.innerWidth() - 10,
                     docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                     menuW       = menuRoot.outerWidth(),
@@ -1154,7 +1154,7 @@ define([
             var menuRoot = this.menuRoot,
                 menuParent  = this.menuAlignEl || menuRoot.parent(),
                 m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
-                offset      = menuParent.offset(),
+                offset      = Common.Utils.getOffset(menuParent),
                 docW        = Common.Utils.innerWidth(),
                 docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW       = menuRoot.outerWidth(),

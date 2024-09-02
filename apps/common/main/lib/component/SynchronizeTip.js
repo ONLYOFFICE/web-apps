@@ -132,7 +132,7 @@ define([
 
             applyPlacement: function () {
                 var target = this.target && this.target.length>0 ? this.target : $(document.body);
-                var showxy = target.offset();
+                var showxy = Common.Utils.getOffset(target);
                 if (this.placement=='target' && !this.position) {
                     this.cmpEl.css({top : showxy.top + 5 + 'px', left: showxy.left + 5 + 'px'});
                     return;

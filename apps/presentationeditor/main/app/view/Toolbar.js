@@ -1172,7 +1172,7 @@ define([
 
                                 menu.menuAlign = 'tl-tl';
                                 var menuWidth = columnCount * (itemMargin + itemWidth),
-                                    buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                                    buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
                                 // if (menuWidth>buttonOffsetLeft)
                                 //     menuWidth = Math.max(Math.floor(buttonOffsetLeft/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth);
                                 if (menuWidth>Common.Utils.innerWidth())

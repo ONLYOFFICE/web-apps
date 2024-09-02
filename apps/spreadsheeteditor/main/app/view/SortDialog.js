@@ -322,7 +322,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 cmbEl = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0'),
                 widthHeaderEl = this.sortList.headerEl.width(),
                 paddingHeaderEl = parseFloat(this.sortList.headerEl.css(isRTL ? 'padding-right' : 'padding-left')),
-                pos = cmbEl.position();
+                pos = Common.Utils.getPosition(cmbEl);
 
             if(isRTL) {
                 pos && (firstLabelWidth = widthHeaderEl + paddingHeaderEl - (Math.floor(pos.left) + cmbEl.width()));
@@ -333,7 +333,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             
             cmbEl = this.sortList.cmpEl.find('#sort-dialog-btn-color-0');
             (!cmbEl[0]) && (cmbEl = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0'));
-            pos = cmbEl.position();
+            pos = Common.Utils.getPosition(cmbEl);
 
             if(isRTL) {
                 pos && (secondLabelWidth = (widthHeaderEl + paddingHeaderEl - (Math.floor(pos.left) + cmbEl.width())) - firstLabelWidth);
