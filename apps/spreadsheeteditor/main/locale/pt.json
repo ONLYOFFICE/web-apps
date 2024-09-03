@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Desproteger a folha",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Digite uma senha para desproteger a pasta de trabalho",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Desproteger pasta de trabalho",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

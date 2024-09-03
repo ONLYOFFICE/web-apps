@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Vərəqin qorumasını ləğv et",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "İş kitabının mühafizəsini ləğv etmək üçün parol daxil edin",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "İş kitabının qorumasını ləğv et",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

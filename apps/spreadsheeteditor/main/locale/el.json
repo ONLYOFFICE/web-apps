@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Άρση προστασίας φύλλου",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Εισάγετε συνθηματικό για άρση προστασίας βιβλίου εργασίας",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Άρση προστασίας βιβλίου εργασίας",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

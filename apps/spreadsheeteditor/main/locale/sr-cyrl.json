@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Незаштити лист",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Унесите лозинку да незаштитите радну књигу",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Незаштити радну књигу",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

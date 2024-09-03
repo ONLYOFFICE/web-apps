@@ -1075,6 +1075,10 @@ define([
                     Common.Utils.InternalSettings.set("sse-settings-paste-button", parseInt(value));
                     me.api.asc_setVisiblePasteButton(!!parseInt(value));
 
+                    value = Common.localStorage.getItem("sse-settings-function-tooltip");
+                    if (value===null) value = '1';
+                    Common.Utils.InternalSettings.set("sse-settings-function-tooltip", parseInt(value));
+
                     me.loadAutoCorrectSettings();
 
                     if (me.needToUpdateVersion) {

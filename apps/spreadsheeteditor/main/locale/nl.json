@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Beveiliging van blad opheffen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Voer een wachtwoord in om de beveiliging voor het werkboek op te heffen",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Beveiliging van werkboek opheffen",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

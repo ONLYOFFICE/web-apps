@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Helaian Nyahlindung",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Buku Kerja Nyahlindung",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",

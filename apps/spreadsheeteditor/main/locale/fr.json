@@ -4459,6 +4459,7 @@
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Déprotéger la feuille de calcul",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Entrez un mot de passe pour déprotéger le classeur",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Déprotéger le classeur",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
   "SSE.Views.ViewTab.textFill": "Fill",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
