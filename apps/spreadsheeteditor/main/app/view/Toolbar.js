@@ -1442,7 +1442,7 @@ define([
                             var menuPickerEl = $(menu.menuRoot.find('.menu-picker-container').get(0)),
                                 paddings = 15 + parseFloat(groupContainerEl.css('padding-left')) + parseFloat(groupContainerEl.css('padding-right')) + parseFloat(menuPickerEl.css('margin-left')) + parseFloat(menuPickerEl.css('margin-right')),
                                 menuWidth = Math.ceil(+ columnCount * (itemWidth + itemMargin) + paddings),
-                                buttonOffsetLeft = cmp.openButton.$el.offset().left;
+                                buttonOffsetLeft = Common.Utils.getOffset(cmp.openButton.$el).left;
                             if (menuWidth>Common.Utils.innerWidth())
                                 menuWidth = Math.max(Math.floor((Common.Utils.innerWidth()-paddings)/(itemMargin + itemWidth)), 2) * (itemMargin + itemWidth) + paddings;
                             var offset = cmp.cmpEl.width() - cmp.openButton.$el.width() - Math.min(menuWidth, buttonOffsetLeft) - 1;

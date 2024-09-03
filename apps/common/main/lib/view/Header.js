@@ -232,12 +232,12 @@ define([
             if ( $labelDocName && config) {
                 var $parent = $labelDocName.parent();
                 if (!config.twoLevelHeader) {
-                    var _left_width = $parent.position().left,
+                    var _left_width = Common.Utils.getPosition($parent).left,
                         _right_width = $parent.next().outerWidth();
                     $parent.css('padding-left', _left_width < _right_width ? Math.max(2, _right_width - _left_width) : 2);
                     $parent.css('padding-right', _left_width < _right_width ? 2 : Math.max(2, _left_width - _right_width));
                 } else if (!config.compactHeader) {
-                    var _left_width = $parent.position().left,
+                    var _left_width = Common.Utils.getPosition($parent).left,
                         _right_width = $parent.next().outerWidth(),
                         outerWidth = $labelDocName.outerWidth(),
                         cssWidth = $labelDocName[0].style.width;
