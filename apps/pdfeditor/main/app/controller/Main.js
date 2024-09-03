@@ -789,7 +789,7 @@ define([
                 if (this.api && this.appOptions.isEdit && !toolbarView._state.previewmode) {
                     var cansave = this.api.asc_isDocumentCanSave(),
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
-                        isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
+                        isSyncButton = (toolbarView.btnCollabChanges && toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
                         toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
@@ -2094,7 +2094,7 @@ define([
             onDocumentCanSaveChanged: function (isCanSave) {
                 var toolbarView = this.getApplication().getController('Toolbar').getView();
 
-                if (toolbarView && this.api && !toolbarView._state.previewmode) {
+                if (toolbarView && this.api && toolbarView.btnCollabChanges && !toolbarView._state.previewmode) {
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;

@@ -1729,7 +1729,7 @@ define([
             },
 
             synchronizeChanges: function () {
-                if ( !this._state.previewmode && this.btnCollabChanges.rendered ) {
+                if ( !this._state.previewmode && this.btnCollabChanges && this.btnCollabChanges.rendered ) {
                     var me = this;
 
                     if ( me.btnCollabChanges.cmpEl.hasClass('notify') ) {
@@ -1756,7 +1756,7 @@ define([
                 var me = this;
                 var length = _.size(editusers);
                 var cls = (length > 1) ? 'btn-save-coauth' : 'btn-save';
-                if ( cls !== me.btnSaveCls && me.btnCollabChanges.rendered ) {
+                if ( cls !== me.btnSaveCls && me.btnCollabChanges && me.btnCollabChanges.rendered ) {
                     me.btnSaveTip = ((length > 1) ? me.tipSaveCoauth : me.tipSave ) + Common.Utils.String.platformKey('Ctrl+S');
                     me.btnCollabChanges.updateHint(me.btnSaveTip);
                     me.btnCollabChanges.changeIcon({next: cls, curr: me.btnSaveCls});
