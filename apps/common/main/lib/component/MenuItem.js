@@ -204,7 +204,7 @@ define([
                         el.tooltip({
                             title       : me.options.hint,
                             placement   : me.options.hintAnchor||function(tip, element) {
-                                var pos = this.getPosition(),
+                                var pos = Common.Utils.getBoundingClientRect(element),
                                     actualWidth = tip.offsetWidth,
                                     actualHeight = tip.offsetHeight,
                                     innerWidth = Common.Utils.innerWidth(),

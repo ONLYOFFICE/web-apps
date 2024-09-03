@@ -1693,8 +1693,8 @@ define([
                     eyedropperTip   = me.tooltips.eyedropper,
                     placeholderTip   = me.tooltips.placeholder,
                     pos             = [
-                        me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                        me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                        Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                        Common.Utils.getOffset(me.documentHolder.cmpEl).top  - $(window).scrollTop()
                     ];
 
                 //close all tooltips
@@ -2251,7 +2251,7 @@ define([
 
                     Common.UI.Menu.Manager.hideAll();
                     me.dlgFilter.setSettings(config);
-                    var offset = me.documentHolder.cmpEl.offset(),
+                    var offset = Common.Utils.getOffset(me.documentHolder.cmpEl),
                         rect = config.asc_getCellCoord(),
                         x = rect.asc_getX() + rect.asc_getWidth() +offset.left,
                         y = rect.asc_getY() + rect.asc_getHeight() + offset.top;
@@ -2383,8 +2383,8 @@ define([
             var me = this;
             if (me.documentHolder) {
                 me.tooltips.coauth.XY = [
-                    me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    me.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(me.documentHolder.cmpEl).top  - $(window).scrollTop()
                 ];
                 me.tooltips.coauth.apiHeight = me.documentHolder.cmpEl.height();
                 me.tooltips.coauth.apiWidth = me.documentHolder.cmpEl.width();
@@ -3167,7 +3167,7 @@ define([
 
                 var me                  = this,
                     documentHolderView  = me.documentHolder,
-                    showPoint           = [event.pageX*Common.Utils.zoom() - documentHolderView.cmpEl.offset().left, event.pageY*Common.Utils.zoom() - documentHolderView.cmpEl.offset().top],
+                    showPoint           = [event.pageX*Common.Utils.zoom() - Common.Utils.getOffset(documentHolderView.cmpEl).left, event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(documentHolderView.cmpEl).top],
                     menuContainer       = documentHolderView.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
 
                 if (!menu.rendered) {
@@ -3447,7 +3447,7 @@ define([
                                     li_focused = menuContainer.find('a.focus').closest('li'),
                                     innerHeight = innerEl.innerHeight(),
                                     padding = (innerHeight - innerEl.height())/2,
-                                    pos = li_focused.position().top,
+                                    pos = Common.Utils.getPosition(li_focused).top,
                                     itemHeight = li_focused.outerHeight(),
                                     newpos;
                                 if (pos<0)
@@ -3567,12 +3567,12 @@ define([
                 var infocus = this.cellEditor.is(":focus"),
                     showPoint;
                 if (infocus || this.focusInCellEditor) {
-                    var offset = this.cellEditor.offset();
+                    var offset = Common.Utils.getOffset(this.cellEditor);
                     showPoint = [offset.left, offset.top + this.cellEditor.height() + 3];
                 } else {
                     var pos = [
-                            this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                            this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                            Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                            Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                         ],
                         coord  = this.api.asc_getActiveCellCoord();
                     showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - functip.ref.getBSTip().$tip.height() - 5];
@@ -3597,8 +3597,8 @@ define([
 
         changeInputMessagePosition: function (inputTip) {
             var pos = [
-                    this.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    this.documentHolder.cmpEl.offset().top  - $(window).scrollTop()
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(this.documentHolder.cmpEl).top  - $(window).scrollTop()
                 ],
                 coord  = this.api.asc_getActiveCellCoord(),
                 showPoint = [coord.asc_getX() + pos[0] - 3, coord.asc_getY() + pos[1] - inputTip.ref.getBSTip().$tip.height() - 5];
