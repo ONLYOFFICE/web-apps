@@ -2591,7 +2591,9 @@ define([], function () {
                     '</div>',
                 '</div>',
                 '<div id="print-preview-box" class="no-padding">',
-                    '<div id="print-preview"></div>',
+                    '<div id="print-preview-wrapper">',
+                        '<div id="print-preview"></div>',
+                    '</div>',
                     '<div id="print-navigation">',
                         '<% if (!isRTL) { %>',
                         '<div id="print-prev-page"></div>',
@@ -2606,6 +2608,7 @@ define([], function () {
                             '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
+                        '<div id="print-zoom-to-page"></div>',
                     '</div>',
                 '</div>',
                 '<div id="print-preview-empty" class="hidden">',
@@ -3018,6 +3021,16 @@ define([], function () {
                 dataHintDirection: 'top'
             });
 
+            this.btnZoomToPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-zoom-to-page'),
+                cls: 'btn-zoom-to-page btn-toolbar',
+                iconCls: 'toolbar__icon btn-ic-zoomtopage',
+                dataHint: '2',
+                dataHintDirection: 'top',
+                enableToggle: true,
+                pressed: true
+            });
+
             this.countOfPages = $markup.findById('#print-count-page');
 
             this.txtNumberPage = new Common.UI.InputField({
@@ -3057,6 +3070,16 @@ define([], function () {
                 });
             }
 
+            if (_.isUndefined(this.printScroller)) {
+                this.printScroller = new Common.UI.Scroller({
+                    el: $('#print-preview-wrapper'),
+                    alwaysVisibleX: true,
+                    alwaysVisibleY: true,
+                    suppressScrollX: true,
+                    suppressScrollY: true
+                });
+            }
+
             Common.NotificationCenter.on({
                 'window:resize': function() {
                     me.isVisible() && me.updateScroller();
@@ -3089,6 +3112,10 @@ define([], function () {
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
+
+            if (this.printScroller) {
+                this.printScroller.update();
             }
         },
 

@@ -59,6 +59,7 @@ define([
             };
 
             this._isPreviewVisible = false;
+            this.isZoomedToPage = true;
 
             this.addListeners({
                 'PrintWithPreview': {
@@ -93,6 +94,7 @@ define([
                 this.comboSheetsChange(this.printSettings, combo, record);
                 if (this._isPreviewVisible) {
                     this.notUpdateSheetSettings = true;
+                    this.updatePrintRenderContainerSize();
                     this.api.asc_drawPrintPreview(undefined, record.value);
                 }
             }, this));
@@ -109,6 +111,8 @@ define([
             }
             this.printSettings.btnPrevPage.on('click', _.bind(this.onChangePreviewPage, this, false));
             this.printSettings.btnNextPage.on('click', _.bind(this.onChangePreviewPage, this, true));
+            this.printSettings.btnZoomToPage.on('click', _.bind(this.onClickZoomToPageButton, this));
+            this.printSettings.btnZoomToPage.updateHint(this.txtZoomToPage);
             this.printSettings.txtNumberPage.on({
                 'keypress:after':  _.bind(this.onKeypressPageNumber, this),
                 'keyup:after': _.bind(this.onKeyupPageNumber, this)
@@ -122,6 +126,7 @@ define([
             Common.NotificationCenter.on('window:resize', _.bind(function () {
                 if (this._isPreviewVisible) {
                     this.notUpdateSheetSettings = true;
+                    this.updatePrintRenderContainerSize();
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 }
             }, this));
@@ -177,11 +182,11 @@ define([
 
             panel.cmbSheet.store.reset(items);
         },
-        
+
         updateSettings: function(panel) {
             this.resetSheets(panel);
             var item = panel.cmbSheet.store.findWhere({value: panel.cmbSheet.getValue()}) ||
-                       panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
+                panel.cmbSheet.store.findWhere({value: this.api.asc_getActiveWorksheetIndex()});
             if (item) {
                 panel.cmbSheet.setValue(item.get('value'));
                 panel.updateActiveSheet && panel.updateActiveSheet(item.get('displayValue'));
@@ -219,7 +224,7 @@ define([
                 panel.cmbPaperSize.setValue(item.get('value'));
             else
                 panel.cmbPaperSize.setValue(this.txtCustom + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(w).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ' x ' +
-                                                         parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
+                    parseFloat(Common.Utils.Metric.fnRecalcFromMM(h).toFixed(2)) + Common.Utils.Metric.getCurrentMetricName() + ')');
 
             this.fitWidth = opt.asc_getFitToWidth();
             this.fitHeight = opt.asc_getFitToHeight();
@@ -812,9 +817,43 @@ define([
                 index--;
                 index = Math.max(index, 0);
             }
-            this.api.asc_drawPrintPreview(index);
 
+            this.api.asc_drawPrintPreview(index);
             this.updateNavigationButtons(index, this._navigationPreview.pageCount);
+            this.updatePrintRenderContainerSize(true);
+        },
+
+        onClickZoomToPageButton: function(button) {
+            this.isZoomedToPage = button.pressed;
+            this.updatePreview();
+        },
+
+        updatePrintRenderContainerSize: function(rerender) {
+            var $preview = $('#print-preview');
+
+            if (!this.isZoomedToPage) {
+                var pageSetup = this._changedProps[this.printSettings.cmbSheet.getValue()].asc_getPageSetup(),
+                    orientation = pageSetup.asc_getOrientation(),
+                    width = AscCommon.mm2pix(pageSetup.asc_getWidth()),
+                    height = AscCommon.mm2pix(pageSetup.asc_getHeight());
+
+                $preview.css({
+                    width: 'max(100%, {}px)'.replace('{}', orientation===1 ? height : width),
+                    height: 'max(100%, {}px)'.replace('{}', orientation===1 ? width : height)
+                });
+                this.printSettings.printScroller.update({ suppressScrollX: false, suppressScrollY: false });
+            } else {
+                $preview.css({ width: '', height: '' })
+                this.printSettings.printScroller.update({ suppressScrollX: true, suppressScrollY: true });
+            }
+
+            $('#print-preview-wrapper').css('display', this.isZoomedToPage ? '' : 'flex');
+
+            this.printSettings.printScroller.scrollTop(0);
+
+            if (rerender) {
+                this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+            }
         },
 
         onPreviewWheel: function (e) {
@@ -841,8 +880,10 @@ define([
 
                 box.focus(); // for IE
 
-                this.api.asc_drawPrintPreview(page-1);
-                this.updateNavigationButtons(page-1, this._navigationPreview.pageCount);
+                var newPage = page - 1;
+                this.api.asc_drawPrintPreview(newPage);
+                this.updateNavigationButtons(newPage, this._navigationPreview.pageCount);
+                this.updatePrintRenderContainerSize(true);
 
                 return false;
             }
@@ -902,6 +943,7 @@ define([
                 }
 
                 this.notUpdateSheetSettings = !needUpdate;
+                this.updatePrintRenderContainerSize();
                 this.api.asc_drawPrintPreview(newPage);
 
                 this.updateNavigationButtons(newPage, pageCount);
@@ -972,6 +1014,7 @@ define([
         textFrozenRows: 'Frozen rows',
         textFrozenCols: 'Frozen columns',
         textFirstRow: 'First row',
-        textFirstCol: 'First column'
+        textFirstCol: 'First column',
+        txtZoomToPage: 'Zoom to page',
     }, SSE.Controllers.Print || {}));
 });
