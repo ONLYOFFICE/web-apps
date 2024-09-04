@@ -199,10 +199,10 @@ define([
                 this.timerId = 0;
             }
 
-            if (opts.data.error) {
+            if (!opts.data || opts.data.error) {
                  var config = {
                     title: this.notcriticalErrorTitle,
-                    msg: opts.data.error,
+                    msg: opts.data && opts.data.error ? opts.data.error : this.txtErrorLoadHistory,
                     iconCls: 'warn',
                     buttons: ['ok']
                 };
@@ -335,9 +335,7 @@ define([
                 this.onSelectRevision(null, null, rec);
             }
             console.log('Received changes that are incompatible with the file version');
-        },
-
-        notcriticalErrorTitle: 'Warning'
+        }
 
     }, Common.Controllers.History || {}));
 });
