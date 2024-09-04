@@ -100,7 +100,7 @@ define([
                 calculateBounds: function () {
                     var me = this,
                         length = me.bar.tabs.length,
-                        barBounds = me.bar.$bar.get(0).getBoundingClientRect();
+                        barBounds = Common.Utils.getBoundingClientRect(me.bar.$bar.get(0));
                     me.leftBorder = barBounds.left;
                     me.rightBorder = barBounds.right;
 
@@ -110,7 +110,7 @@ define([
                         me.bar.scrollX  = this.scrollLeft;
 
                         for (var i = 0; i < length; ++i) {
-                            this.bounds.push(me.bar.tabs[i].$el.get(0).getBoundingClientRect());
+                            this.bounds.push(Common.Utils.getBoundingClientRect(me.bar.tabs[i].$el.get(0)));
                         }
 
                         me.lastTabRight = me.bounds[length - 1].right;
@@ -576,7 +576,7 @@ define([
         },
 
         hasInvisible: function() {
-            var _left_bound_ = this.$bar.offset().left,
+            var _left_bound_ = Common.Utils.getOffset(this.$bar).left,
                 _right_bound_ = _left_bound_ + this.$bar.width();
 
             for (var i = this.tabs.length; i-- > 0; ) {
@@ -589,13 +589,13 @@ define([
         },
 
         isTabVisible: function(index) {
-            var leftbound = arguments[1] || this.$bar.offset().left,
+            var leftbound = arguments[1] || Common.Utils.getOffset(this.$bar).left,
                 rightbound = arguments[2] || (leftbound + this.$bar.width()),
                 left, right, tab, rect;
 
             if (index < this.tabs.length && index >= 0) {
                 tab = this.tabs[index].$el;
-                rect = tab.get(0).getBoundingClientRect();
+                rect = Common.Utils.getBoundingClientRect(tab.get(0));
                 left = rect.left;
                 right = rect.right;
 
