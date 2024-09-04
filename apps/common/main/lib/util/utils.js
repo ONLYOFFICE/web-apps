@@ -1167,6 +1167,7 @@ define([], function () {
     }
 
     Common.Utils.cancelFullscreen = function () {
+        if (!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement )) return;
         if (document.cancelFullScreen) {
             document.cancelFullScreen();
         } else if (document.webkitCancelFullScreen) {
