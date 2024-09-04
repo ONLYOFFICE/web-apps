@@ -3628,5 +3628,6 @@
   "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
   "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
   "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
-  "DE.Views.Toolbar.tipTextFromFile": "Text from file"
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

@@ -2907,5 +2907,7 @@
   "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
   "PE.Views.FileMenuPanels.Settings.textLine": "Line",
   "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
-  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved"
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

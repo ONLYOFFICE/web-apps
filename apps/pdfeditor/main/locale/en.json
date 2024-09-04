@@ -2,6 +2,8 @@
   "Common.Controllers.Chat.notcriticalErrorTitle": "Warning",
   "Common.Controllers.Desktop.hintBtnHome": "Show Main window",
   "Common.Controllers.Desktop.itemCreateFromTemplate": "Create from template",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
   "Common.Controllers.Plugins.textPluginsSuccessfullyInstalled": "Plugins are successfully installed. You can access all background plugins here.",
   "Common.Controllers.Plugins.textPluginSuccessfullyInstalled": "<b>{0}</b> is successfully installed. You can access all background plugins here.",
   "Common.Controllers.Plugins.textRunInstalledPlugins": "Run installed plugins",

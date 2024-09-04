@@ -4466,5 +4466,6 @@
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
   "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
   "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
-  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page"
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }
