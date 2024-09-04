@@ -1989,6 +1989,10 @@ define([
                         config.msg = this.errorPivotOverlap;
                         break;
 
+                    case Asc.c_oAscError.ID.PivotFieldNameExists:
+                        config.msg = this.errorPivotFieldNameExists;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;

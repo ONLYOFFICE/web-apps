@@ -367,7 +367,8 @@
     "textOk": "Ok",
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
-    "uploadDocSizeMessage": "Maximum document size limit exceeded."
+    "uploadDocSizeMessage": "Maximum document size limit exceeded.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "Heslo",

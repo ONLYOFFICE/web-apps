@@ -182,6 +182,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorPivotOverlap');
                 break;
 
+            case Asc.c_oAscError.ID.PivotFieldNameExists:
+                config.msg = t('Error.errorPivotFieldNameExists');
+                break;
+
             case Asc.c_oAscError.ID.ForceSaveButton:
             case Asc.c_oAscError.ID.ForceSaveTimeout:
                 config.msg = t('Error.errorForceSave');

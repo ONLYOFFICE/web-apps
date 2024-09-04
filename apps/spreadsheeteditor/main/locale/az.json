@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.hintProtectRange": "Protect range",
   "SSE.Views.WBProtection.txtProtectRange": "Protect Range",
   "Common.UI.InputField.txtEmpty": "This field is required",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists."
 }

@@ -367,7 +367,8 @@
     "uploadImageSizeMessage": "අනුරුව ඉතා විශාලයි. උපරිම ප්‍රමාණය මෙ.බ. 25 කි.",
     "errorCircularReference": "There are one or more circular references where a formula refers to its own cell either directly or indirectly.<br>Try removing or changing these references, or moving the formulas to different cells.",
     "errorDependentsNoFormulas": "The Trace Dependents command found no formulas that refer to the active cell.",
-    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references."
+    "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "මුරපදය",
