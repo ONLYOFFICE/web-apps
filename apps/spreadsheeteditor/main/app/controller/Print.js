@@ -96,6 +96,7 @@ define([
                     this.notUpdateSheetSettings = true;
                     this.updatePrintRenderContainerSize();
                     this.api.asc_drawPrintPreview(undefined, record.value);
+                    this.printSettings.printScroller && this.printSettings.printScroller.update();
                 }
             }, this));
             this.printSettings.btnsSave.forEach(function (btn) {
@@ -128,6 +129,7 @@ define([
                     this.notUpdateSheetSettings = true;
                     this.updatePrintRenderContainerSize();
                     this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+                    this.printSettings.printScroller && this.printSettings.printScroller.update();
                 }
             }, this));
             Common.NotificationCenter.on('margins:update', _.bind(this.onUpdateLastCustomMargins, this));
@@ -853,6 +855,7 @@ define([
 
             if (rerender) {
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
+                this.printSettings.printScroller && this.printSettings.printScroller.update();
             }
         },
 
@@ -945,7 +948,7 @@ define([
                 this.notUpdateSheetSettings = !needUpdate;
                 this.updatePrintRenderContainerSize();
                 this.api.asc_drawPrintPreview(newPage);
-
+                this.printSettings.printScroller && this.printSettings.printScroller.update();
                 this.updateNavigationButtons(newPage, pageCount);
             }
         },
@@ -1002,6 +1005,7 @@ define([
                 this.notUpdateSheetSettings = true;
                 this.api.asc_drawPrintPreview(this._navigationPreview.currentPage);
                 this.updateNavigationButtons(this._navigationPreview.currentPage, this._navigationPreview.pageCount);
+                this.printSettings.printScroller && this.printSettings.printScroller.update();
             }
         },
 
