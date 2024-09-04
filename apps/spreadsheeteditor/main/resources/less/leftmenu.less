@@ -962,7 +962,7 @@
                 #print-next-page {
                     display: inline-block;
                 }
-                .btn-prev-page, .btn-next-page, .btn-zoom-to-page {
+                .btn-prev-page, .btn-next-page {
                     background-color: transparent;
                     padding: 0;
                     height: 20px;
@@ -1004,14 +1004,6 @@
                         margin-left: unset;
                     }
                 }
-                .btn-zoom-to-page {
-                    &.active {
-                        color: #fff;
-                        color: var(--text-normal-pressed);
-                        background-color: #7d858c;
-                        background-color: var(--highlight-button-pressed);
-                    }
-                }
                 .page-number {
                     display: flex;
                     align-items: center;
@@ -1034,13 +1026,6 @@
                 #print-preview {
                     height: calc(100% - 10px);
                     flex-shrink: 0;
-
-                    .rtl & {
-                        canvas {
-                            margin-right: 32px;
-                            margin-left: 32px;
-                        }
-                    }
                 }
             }
 
