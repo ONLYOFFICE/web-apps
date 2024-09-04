@@ -87,7 +87,7 @@
                     <div id="tableadv-checkbox-prefwidth"></div>
                 </td>
                 <td class="padding-large">
-                    <label class="input-label"><%= scope.textPrefWidth %></label>
+                    <label class="input-label margin-right-10"><%= scope.textPrefWidth %></label>
                     <div id="tableadv-number-prefwidth" class="margin-right-10"></div>
                 </td>
                 <td class="padding-large">
