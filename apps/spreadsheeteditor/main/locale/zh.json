@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "输入密码以取消工作簿保护",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "撤消工作簿保护",
   "Common.UI.InputField.txtEmpty": "This field is required",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists."
 }

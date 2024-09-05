@@ -4458,5 +4458,6 @@
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Introduceți parola pentru dezactivarea protejării a registrului de calcul",
   "SSE.Views.WBProtection.txtWBUnlockTitle": "Dezactivarea protejării registrului de calcul",
   "Common.UI.InputField.txtEmpty": "This field is required",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists."
 }

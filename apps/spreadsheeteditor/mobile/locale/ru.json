@@ -367,7 +367,8 @@
     "uploadDocSizeMessage": "Превышен максимальный размер документа.",
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
-    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB."
+    "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
+    "errorPivotFieldNameExists": "Pivot table field name already exists."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",
