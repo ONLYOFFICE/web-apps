@@ -262,6 +262,7 @@ define([
                     this.listenTo(view, 'click',   this.onClickItem);
                     this.listenTo(view, 'dblclick',this.onDblClickItem);
                     this.listenTo(view, 'select',  this.onSelectItem);
+                    this.listenTo(view, 'tipchange', this.onChangeTip);
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);
@@ -312,6 +313,22 @@ define([
                     } else {
                         innerEl.scrollTop(newpos);
                     }
+                }
+            },
+
+            onChangeTip: function(item) {
+                var el = item.$el || $(item.el),
+                    tip = el.data('bs.tooltip'),
+                    record = item.model;
+                if (tip)
+                    tip.updateTitle(record.get('tip') || '');
+                else if (record.get('tip')) {
+                    el.attr('data-toggle', 'tooltip');
+                    el.tooltip({
+                        title       : record.get('tip'),
+                        placement   : 'cursor',
+                        zIndex : this.tipZIndex
+                    });
                 }
             }
         }
