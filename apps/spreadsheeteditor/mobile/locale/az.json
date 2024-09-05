@@ -368,7 +368,8 @@
     "textFormulaFilledAllRowsWithEmpty": "Formula filled first {0} rows. Filling other empty rows may take a few minutes.",
     "textFormulaFilledFirstRowsOtherHaveData": "Formula filled only first {0} rows have data by memory save reason. There are other {1} rows have data in this sheet. You can fill them manually.",
     "textFormulaFilledFirstRowsOtherIsEmpty": "Formula filled only first {0} rows by memory save reason. Other rows in this sheet don't have data.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "advDRMPassword": "Parol",

@@ -368,7 +368,8 @@
     "uploadImageExtMessage": "未知图像格式。",
     "uploadImageFileCountMessage": "没有上传图片",
     "uploadImageSizeMessage": "图像太大。最大大小为25 MB。",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "advDRMPassword": "密码",

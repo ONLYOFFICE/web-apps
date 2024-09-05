@@ -368,7 +368,8 @@
     "errorLabledColumnsPivot": "To create a pivot table report, you must use data that is organized as a list with labeled columns.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorProtectedRange": "This range is not allowed for editing.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "advDRMPassword": "Contrasinal",

@@ -1055,6 +1055,7 @@
   "SSE.Controllers.Main.errorPivotGroup": "Cannot group that selection.",
   "SSE.Controllers.Main.errorPivotOverlap": "A pivot table report cannot overlap a table.",
   "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists.",
+  "SSE.Controllers.Main.errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
   "SSE.Controllers.Main.errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
   "SSE.Controllers.Main.errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
   "SSE.Controllers.Main.errorPrintMaxPagesCount": "Unfortunately, it is not possible to print more than 1500 pages at once in the current program version.<br>This restriction will be removed in the upcoming releases.",

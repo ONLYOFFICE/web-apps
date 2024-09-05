@@ -368,7 +368,8 @@
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
     "uploadImageFileCountMessage": "No images uploaded.",
     "uploadImageSizeMessage": "The image is too big. The maximum size is 25 MB.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "notcriticalErrorTitle": "Увага",

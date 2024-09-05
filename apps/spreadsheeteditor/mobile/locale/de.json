@@ -368,7 +368,8 @@
     "uploadImageExtMessage": "Unbekanntes Bildformat.",
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
     "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",

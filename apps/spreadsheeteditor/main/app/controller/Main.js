@@ -1993,6 +1993,10 @@ define([
                         config.msg = this.errorPivotFieldNameExists;
                         break;
 
+                    case Asc.c_oAscError.ID.FormulaInPivotFieldName:
+                        config.msg = this.errorFormulaInPivotFieldName;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;

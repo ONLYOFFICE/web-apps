@@ -368,7 +368,8 @@
     "uploadDocExtMessage": "Unknown document format.",
     "uploadDocFileCountMessage": "No documents uploaded.",
     "uploadDocSizeMessage": "Maximum document size limit exceeded.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "advDRMPassword": "Wachtwoord",

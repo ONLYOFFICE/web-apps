@@ -4459,5 +4459,6 @@
   "SSE.Views.ViewTab.textLine": "Line",
   "Common.UI.InputField.txtEmpty": "This field is required",
   "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
-  "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists."
+  "SSE.Controllers.Main.errorPivotFieldNameExists": "Pivot table field name already exists.",
+  "SSE.Controllers.Main.errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
 }

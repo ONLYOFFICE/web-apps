@@ -327,6 +327,7 @@
     "errorPivotGroup": "Cannot group that selection.",
     "errorPivotOverlap": "A pivot table report cannot overlap a table.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
     "errorPivotWithoutUnderlying": "The Pivot Table report was saved without the underlying data.<br>Use the 'Refresh' button to update the report.",
     "errorPrecedentsNoValidRef": "The Trace Precedents command requires that the active cell contain a formula which includes a valid references.",
     "errorPrintMaxPagesCount": "Unfortunately, it’s not possible to print more than 1500 pages at once in the current version of the program.<br>This restriction will be eliminated in upcoming releases.",

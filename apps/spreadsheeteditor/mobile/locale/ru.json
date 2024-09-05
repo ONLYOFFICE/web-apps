@@ -368,7 +368,8 @@
     "uploadImageExtMessage": "Неизвестный формат рисунка.",
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
     "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
-    "errorPivotFieldNameExists": "Pivot table field name already exists."
+    "errorPivotFieldNameExists": "Pivot table field name already exists.",
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",
