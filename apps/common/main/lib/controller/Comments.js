@@ -1211,7 +1211,7 @@ define([
             var users = this.userCollection,
                 hasGroup = false,
                 updateCommentData = function(comment, user, isNotReply) {
-                    var color = (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(comment.get('userid')),
+                    var color = (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(comment.get('userid') || comment.get('username')),
                         needrender = false;
                     if (color !== comment.get('usercolor')) {
                         needrender = true;

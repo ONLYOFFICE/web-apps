@@ -1094,7 +1094,7 @@ define([
             var users = this.userCollection;
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
-                model.set('usercolor', (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(model.get('userid')));
+                model.set('usercolor', (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(model.get('userid') || model.get('username')));
                 user && user.get('avatar') && model.set('avatar', user.get('avatar'));
             });
         },
