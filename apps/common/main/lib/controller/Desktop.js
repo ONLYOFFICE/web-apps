@@ -283,7 +283,7 @@ define([
             if ( e.keyCode == 78 /* N */ ) {
                 if (config.canCreateNew && !e.shiftKey &&
                         ((Common.Utils.isWindows && e.ctrlKey && !e.metaKey) ||
-                            (Common.Utils.isMac && e.metaKey && e.ctrlKey)))
+                            (Common.Utils.isMac && e.metaKey && !e.ctrlKey)))
                 {
                     this.process('create:new');
                 }
