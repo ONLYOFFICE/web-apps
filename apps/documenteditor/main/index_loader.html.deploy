@@ -329,6 +329,7 @@
     <inline src="resources/img/form-points.svg" />
     <div id="viewport"></div>
     <div class="inlined-svg"></div>
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app" src="../../../vendor/requirejs/require.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../../../apps/documenteditor/main/resources/css/app.css" media="print" onload="this.media='all'">

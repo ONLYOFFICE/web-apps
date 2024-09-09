@@ -326,6 +326,7 @@
     <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <div id="viewport"></div>
     <div class="inlined-svg"></div>
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
     <script>
         function startApp() {

@@ -241,6 +241,7 @@
 
     <div id="editor_sdk" style="position: absolute;width: 100%;height: 100%;"></div>
 
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script data-main="app.reporter" src="../../../vendor/requirejs/require.js"></script>
 
 </body>

@@ -274,6 +274,7 @@
       <script type="text/javascript" src="../../../../sdkjs/word/sdk-all-min.js"></script>
 
       <!--application-->
+      <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
       <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
       <script>
           function startApp() {
