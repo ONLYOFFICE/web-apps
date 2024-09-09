@@ -7,8 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="../../../apps/spreadsheeteditor/embed/resources/css/app-all.css" rel="stylesheet">
-
     <!-- splash -->
 
     <style type="text/css">
@@ -277,6 +275,7 @@
 
       <!--application-->
       <script type="text/javascript" src="../../../apps/spreadsheeteditor/embed/app-all.js"></script>
+      <link href="../../../apps/spreadsheeteditor/embed/resources/css/app-all.css" rel="stylesheet" media="print" onload="this.media='all'">
       <script type="text/javascript">
           var isBrowserSupported = function() {
               return  ($.browser.msie     && parseFloat($.browser.version) > 9)     ||
