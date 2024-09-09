@@ -72,7 +72,6 @@ const config = {
         }
       }
     },
-    runtimeChunk: 'single',
     minimizer: [
       new TerserPlugin({
         terserOptions: {
