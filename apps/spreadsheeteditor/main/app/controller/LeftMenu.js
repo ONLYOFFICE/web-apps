@@ -427,16 +427,17 @@ define([
             var me = this,
                 defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
             !defFileName && (defFileName = me.txtUntitled);
-            if (typeof ext === 'string') {
-                var idx = defFileName.lastIndexOf('.');
-                if (idx>0)
-                    defFileName = defFileName.substring(0, idx) + ext;
-            }
+            var idx = defFileName.lastIndexOf('.');
+            if (idx>0)
+                defFileName = defFileName.substring(0, idx);
             (new Common.Views.TextInputDialog({
                 label: me.textSelectPath,
                 value: defFileName || '',
+                inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
                 handler: function(result, value) {
                     if (result == 'ok') {
+                        if (typeof ext === 'string')
+                            value = value + ext;
                         me.clickSaveCopyAsFormat(menu, format, ext, value);
                     }
                 }

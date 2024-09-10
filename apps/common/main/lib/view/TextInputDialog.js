@@ -68,6 +68,8 @@ define([], function () { 'use strict';
                 allowBlank: true
             }, options.inputConfig || {});
 
+            this.inputFixedConfig = options.inputFixedConfig;
+
             _options.tpl = _.template(this.template)(_options);
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
@@ -76,13 +78,27 @@ define([], function () { 'use strict';
             Common.UI.Window.prototype.render.call(this);
 
             var me = this;
-            me.inputLabel = new Common.UI.InputField({
+            me.inputLabel = !this.inputFixedConfig ? new Common.UI.InputField({
                 el          : $('#id-dlg-label-custom-input'),
                 allowBlank  : me.inputConfig.allowBlank,
                 blankError  : me.inputConfig.blankError,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
                 validation  : me.inputConfig.validation
+            }) : new Common.UI.InputFieldFixed({
+                el          : $('#id-dlg-label-custom-input'),
+                allowBlank  : me.inputConfig.allowBlank,
+                blankError  : me.inputConfig.blankError,
+                style       : 'width: 100%;',
+                validateOnBlur: false,
+                validation  : me.inputConfig.validation,
+                cls         : 'text-align-left',
+                fixedValue  : me.inputFixedConfig.fixedValue,
+                fixedCls    : 'light',
+                fixedWidth  : me.inputFixedConfig.fixedWidth
+            });
+            me.inputLabel.cmpEl.on('focus', 'input.fixed-text', function() {
+                setTimeout(function(){me.inputLabel._input && me.inputLabel._input.focus();}, 1);
             });
             me.inputLabel.setValue(me.options.value || '');
             var $window = this.getChild();
@@ -90,7 +106,7 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.inputLabel].concat(this.getFooterButtons());
+            return [{cmp: this.inputLabel, selector: 'input:not(.fixed-text)'}].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {

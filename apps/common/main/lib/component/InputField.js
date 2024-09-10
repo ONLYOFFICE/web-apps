@@ -751,6 +751,8 @@ define([
                 style       : '',
                 value       : '',
                 fixedValue  : '',
+                fixedWidth  : '',
+                fixedCls    : '',
                 type        : 'text',
                 name        : '',
                 validation  : null,
@@ -786,12 +788,20 @@ define([
 
             initialize : function(options) {
                 this.fixedValue = options.fixedValue;
+                this.fixedWidth = options.fixedWidth || 'calc(50% + 4px)';
+                this.fixedCls = options.fixedCls || '';
 
                 Common.UI.InputField.prototype.initialize.call(this, options);
             },
 
             render : function(parentEl) {
                 Common.UI.InputField.prototype.render.call(this, parentEl);
+
+                this._input.css({
+                    'padding-left': Common.UI.isRTL() ? this.fixedWidth : 0,
+                    'padding-right': Common.UI.isRTL() ? 0: this.fixedWidth,
+                });
+                this.cmpEl.find('input.fixed-text').css({'width': this.fixedWidth}).addClass(this.fixedCls);
 
                 if (this.fixedValue)
                     this.setFixedValue(this.fixedValue);
