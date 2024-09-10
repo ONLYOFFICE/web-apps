@@ -265,9 +265,9 @@ define([
             var me = this;
             config = config || appConfig;
             if (!me.btnPDFMode || !config) return;
-            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate && config.canCoEditing ? 'comment' : 'view'),
+            var type = config.isPDFEdit ? 'edit' : (config.isPDFAnnotate ? 'comment' : 'view'),
                 isEdit = config.isPDFEdit,
-                isComment = !isEdit && config.isPDFAnnotate && config.canCoEditing;
+                isComment = !isEdit && config.isPDFAnnotate;
             me.btnPDFMode.setIconCls('toolbar__icon icon--inverse ' + (isEdit ? 'btn-edit' : (isComment ? 'btn-menu-comments' : 'btn-sheet-view')));
             me.btnPDFMode.setCaption(isEdit ? me.textEdit : (isComment ? me.textComment : me.textView));
             me.btnPDFMode.updateHint(isEdit ? me.tipEdit : (isComment ? me.tipComment : me.tipView));
@@ -593,34 +593,35 @@ define([
             if (me.btnPDFMode) {
                 var arr = [],
                     type = me.btnPDFMode.options.value;
-                appConfig.canPDFEdit && arr.push({
-                    caption: me.textEdit,
-                    iconCls : 'menu__icon btn-edit',
-                    template: menuTemplate,
-                    description: appConfig.canCoEditing ? me.textEditDesc : me.textEditDescNoCoedit,
-                    value: 'edit',
-                    checkable: true,
-                    toggleGroup: 'docmode'
-                });
-                arr.push({
-                    caption: appConfig.canCoEditing ? me.textComment : me.textView,
-                    iconCls : 'menu__icon ' + (appConfig.canCoEditing ? 'btn-menu-comments' : 'btn-sheet-view'),
-                    template: menuTemplate,
-                    description: appConfig.canCoEditing ? me.textCommentDesc : me.textViewDescNoCoedit,
-                    value: appConfig.canCoEditing ? 'comment' : 'view',
-                    disabled: !appConfig.canPDFAnnotate,
-                    checkable: true,
-                    toggleGroup: 'docmode'
-                });
-                appConfig.canCoEditing && arr.push({
-                    caption: me.textView,
-                    iconCls : 'menu__icon btn-sheet-view',
-                    template: menuTemplate,
-                    description: me.textViewDesc,
-                    value: 'view',
-                    checkable: true,
-                    toggleGroup: 'docmode'
-                });
+                // arr.push({
+                //     caption: me.textView,
+                //     iconCls : 'menu__icon btn-sheet-view',
+                //     template: menuTemplate,
+                //     description: me.textViewDesc,
+                //     value: 'view',
+                //     checkable: true,
+                //     toggleGroup: 'docmode'
+                // });
+                if (appConfig.canPDFEdit) {
+                    arr.push({
+                        caption: me.textComment,
+                        iconCls : 'menu__icon btn-menu-comments',
+                        template: menuTemplate,
+                        description: me.textAnnotateDesc,
+                        value: 'comment',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                    arr.push({
+                        caption: me.textEdit,
+                        iconCls : 'menu__icon btn-edit',
+                        template: menuTemplate,
+                        description: me.textEditDescNoCoedit,
+                        value: 'edit',
+                        checkable: true,
+                        toggleGroup: 'docmode'
+                    });
+                }
                 me.btnPDFMode.setMenu(new Common.UI.Menu({
                     cls: 'ppm-toolbar select-checked-items',
                     style: 'width: 220px;',
@@ -943,13 +944,14 @@ define([
                         $html.find('#slot-btn-share').hide();
                     }
 
-                    if (isPDFEditor && config.isEdit && config.canSwitchMode) {
+                    if (isPDFEditor && config.isEdit && config.canSwitchMode) { // hide in pdf editor
                         me.btnPDFMode = new Common.UI.Button({
                             cls: 'btn-header btn-header-pdf-mode',
-                            iconCls: 'toolbar__icon icon--inverse btn-sheet-view',
-                            caption: me.textView,
+                            iconCls: 'toolbar__icon icon--inverse btn-menu-comments',
+                            caption: me.textComment,
                             menu: true,
-                            value: 'view',
+                            value: 'comment',
+                            lock: [Common.enumLock.lostConnect, Common.enumLock.fileMenuOpened, Common.enumLock.changeModeLock],
                             dataHint: '0',
                             dataHintDirection: 'bottom',
                             dataHintOffset: 'big'
@@ -1326,7 +1328,7 @@ define([
                     switch ( alias ) {
                     case 'undo': _lockButton(me.btnUndo); break;
                     case 'redo': _lockButton(me.btnRedo); break;
-                    case 'mode': _lockButton(me.btnDocMode); break;
+                    case 'mode': _lockButton(me.btnDocMode ? me.btnDocMode : me.btnPDFMode); break;
                     default: break;
                     }
                 }
@@ -1392,7 +1394,8 @@ define([
             helpDocModeHeader: 'Switch between modes',
             helpQuickAccess: 'Hide or show the functional buttons of your choice.',
             helpQuickAccessHeader: 'Customize Quick Access',
-            ariaQuickAccessToolbar: 'Quick access toolbar'
+            ariaQuickAccessToolbar: 'Quick access toolbar',
+            textAnnotateDesc: 'Fill forms or annotate'
         }
     }(), Common.Views.Header || {}))
 });

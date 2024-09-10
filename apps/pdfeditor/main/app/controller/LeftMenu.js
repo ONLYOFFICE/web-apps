@@ -427,9 +427,9 @@ define([
             var value;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && !this.mode.isOffline;
+                canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit);
             /** coauthoring begin **/
-            if (this.mode.isEdit && this.mode.canCoAuthoring && canPDFSave ) {
+            if (this.mode.isEdit && this.mode.canCoAuthoring && canPDFSave && !this.mode.isOffline) {
                 if (this.mode.canChangeCoAuthoring) {
                     // fast_coauth = Common.localStorage.getBool("pdfe-settings-coauthmode", true);
                     fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode");
@@ -445,6 +445,10 @@ define([
                 default: value = (fast_coauth) ? Asc.c_oAscCollaborativeMarksShowType.None : Asc.c_oAscCollaborativeMarksShowType.LastChanges;
                 }
                 this.api.SetCollaborativeMarksShowType(value);
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                fast_coauth = Common.localStorage.getBool("pdfe-settings-view-coauthmode", false);
+                Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", fast_coauth);
+                this.api.asc_SetFastCollaborative(fast_coauth);
             }
 
             value = Common.Utils.InternalSettings.get("pdfe-settings-livecomment");
