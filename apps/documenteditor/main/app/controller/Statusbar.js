@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  Statusbar controller
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 
@@ -134,7 +133,7 @@ define([
                 if (config.canUseSelectHandTools) {
                     me.statusbar.btnSelectTool.on('click', _.bind(me.onSelectTool, me, 'select'));
                     me.statusbar.btnHandTool.on('click', _.bind(me.onSelectTool, me, 'hand'));
-                    me.statusbar.btnHandTool.toggle(true, true);
+                    me.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(me.onChangeViewerTargetType, me));
                     me.api.asc_setViewerTargetType('hand');
                 }
 
@@ -245,12 +244,14 @@ define([
         *   api events
         * */
 
-         _onZoomChange: function(percent, type) {
+        _onZoomChange: function (percent, type) {
             this.statusbar.btnZoomToPage.toggle(type == 2, true);
             this.statusbar.btnZoomToWidth.toggle(type == 1, true);
             $('.statusbar #label-zoom').text(Common.Utils.String.format(this.zoomText, percent));
-            if(!this._isDocReady) return;
-            Common.localStorage.setItem('de-last-zoom', percent);
+            if (!this._isDocReady) return;
+            var value = type == 2 ? -1 : (type == 1 ? -2 : percent);
+            Common.localStorage.setItem('de-last-zoom', value);
+            Common.Utils.InternalSettings.set('de-last-zoom', value);
         },
 
         _onTextLanguage: function(langId) {
@@ -304,7 +305,7 @@ define([
             var tip = new Common.UI.SynchronizeTip({
                 target  : me.btnTurnReview.$el,
                 text    : text,
-                placement: 'top-left',
+                placement: Common.UI.isRTL() ? 'top-right' : 'top-left',
                 showLink: !!storage
             });
             tip.on({
@@ -354,6 +355,13 @@ define([
         onSelectTool: function (type, btn, e) {
             if (this.api) {
                 this.api.asc_setViewerTargetType(type);
+            }
+        },
+
+        onChangeViewerTargetType: function(isHandMode) {
+            if (this.statusbar && this.statusbar.btnHandTool) {
+                this.statusbar.btnHandTool.toggle(isHandMode, true);
+                this.statusbar.btnSelectTool.toggle(!isHandMode, true);
             }
         },
 

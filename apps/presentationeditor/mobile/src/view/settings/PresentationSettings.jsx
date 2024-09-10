@@ -37,14 +37,6 @@ const PagePresentationColorSchemes = props => {
     const [stateScheme, setScheme] = useState(curScheme);
     const storePresentationSettings = props.storePresentationSettings;
     const allSchemes = storePresentationSettings.allSchemes;
-    const SchemeNames = [ t('View.Settings.txtScheme22'),
-        t('View.Settings.txtScheme1'), t('View.Settings.txtScheme2'), t('View.Settings.txtScheme3'), t('View.Settings.txtScheme4'), 
-        t('View.Settings.txtScheme5'), t('View.Settings.txtScheme6'), t('View.Settings.txtScheme7'), t('View.Settings.txtScheme8'),
-        t('View.Settings.txtScheme9'), t('View.Settings.txtScheme10'), t('View.Settings.txtScheme11'), t('View.Settings.txtScheme12'),
-        t('View.Settings.txtScheme13'), t('View.Settings.txtScheme14'), t('View.Settings.txtScheme15'), t('View.Settings.txtScheme16'),
-        t('View.Settings.txtScheme17'), t('View.Settings.txtScheme18'), t('View.Settings.txtScheme19'), t('View.Settings.txtScheme20'),
-        t('View.Settings.txtScheme21')
-    ];
 
     return (
         <Page>
@@ -52,9 +44,8 @@ const PagePresentationColorSchemes = props => {
             <List>
                 {
                     allSchemes ? allSchemes.map((scheme, index) => {
-                        const name = scheme.get_name();
                         return (
-                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={(index < 22) ? (SchemeNames[index] || name) : name} checked={stateScheme === index}
+                            <ListItem radio={true} className="color-schemes-menu no-fastclick" key={index} title={scheme.get_name()} checked={stateScheme === index}
                                 onChange={() => {
                                     setScheme(index);
                                     setTimeout(() => props.onColorSchemeChange(index), 10);

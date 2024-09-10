@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 07.12.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 07.12.2021
  *
  */
 
@@ -61,11 +60,13 @@ define([
                 zoom_type: undefined,
                 zoom_percent: undefined,
                 unitsChanged: true,
-                lock_viewProps: false
+                lock_viewProps: false,
+                slideMasterMode: false
             };
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
             Common.NotificationCenter.on('settings:unitschanged', _.bind(this.unitsChanged, this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
 
         setApi: function (api) {
@@ -77,6 +78,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect', _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onLockViewProps', _.bind(this.onLockViewProps, this, true));
                 this.api.asc_registerCallback('asc_onUnLockViewProps', _.bind(this.onLockViewProps, this, false));
+                this.api.asc_registerCallback('asc_onChangeViewMode', _.bind(this.onApiChangeViewMode, this));
             }
             return this;
         },
@@ -91,6 +93,8 @@ define([
             });
             this.addListeners({
                 'ViewTab': {
+                    'mode:normal': _.bind(this.onChangeViewMode, this, 'normal'),
+                    'mode:master': _.bind(this.onChangeViewMode, this, 'master'),
                     'zoom:selected': _.bind(this.onSelectedZoomValue, this),
                     'zoom:changedbefore': _.bind(this.onZoomChanged, this),
                     'zoom:changedafter': _.bind(this.onZoomChanged, this),
@@ -112,6 +116,9 @@ define([
                 'Toolbar': {
                     'view:compact': _.bind(function (toolbar, state) {
                         this.view.chToolbar.setValue(!state, true);
+                    }, this),
+                    'close:slide-master': _.bind(function () {
+                        this.onChangeViewMode('normal');
                     }, this)
                 },
                 'Statusbar': {
@@ -134,6 +141,11 @@ define([
                 'LeftMenu': {
                     'view:hide': _.bind(function (leftmenu, state) {
                         this.view.chLeftMenu.setValue(!state, true);
+                    }, this)
+                },
+                'RightMenu': {
+                    'view:hide': _.bind(function (leftmenu, state) {
+                        this.view.chRightMenu.setValue(!state, true);
                     }, this)
                 }
             });
@@ -385,6 +397,35 @@ define([
 
         unitsChanged: function(m) {
             this._state.unitsChanged = true;
+        },
+
+        changeViewMode: function (mode) {
+            var isMaster = mode === 'master';
+            this.view.btnSlideMaster.toggle(isMaster, true);
+            this.view.btnNormal.toggle(!isMaster, true);
+            if (this._state.slideMasterMode !== isMaster) {
+                this._state.slideMasterMode = isMaster;
+                this.view.fireEvent('viewmode:change', [isMaster ? 'master' : 'normal']);
+                this.api.asc_changePresentationViewMode(isMaster ? Asc.c_oAscPresentationViewMode.masterSlide : Asc.c_oAscPresentationViewMode.normal);
+            } // Asc.c_oAscPresentationViewMode.sorter;
+        },
+
+        onApiChangeViewMode: function (mode) {
+            var isMaster = mode === Asc.c_oAscPresentationViewMode.masterSlide;
+            this.changeViewMode(isMaster ? 'master' : 'normal');
+        },
+
+        onChangeViewMode: function (mode) {
+            Common.UI.TooltipManager.closeTip('slideMaster');
+            this.changeViewMode(mode);
+        },
+
+        onTabStyleChange: function () {
+            if (this.view && this.view.menuTabStyle) {
+                _.each(this.view.menuTabStyle.items, function(item){
+                    item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                });
+            }
         }
 
     }, PE.Controllers.ViewTab || {}));

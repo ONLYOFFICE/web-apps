@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  Protection.js
  *
- *  Created by Julia Radzhabova on 14.11.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 14.11.2017
  *
  */
 
@@ -53,7 +52,7 @@ define([
 
     Common.Views.Protection = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="protection-panel" class="panel" data-tab="protect">' +
+            '<section id="protection-panel" class="panel" data-tab="protect" role="tabpanel" aria-labelledby="protect">' +
             '<div class="group">' +
                 '<span id="slot-btn-add-password" class="btn-slot text x-huge"></span>' +
                 '<span id="slot-btn-change-password" class="btn-slot text x-huge"></span>' +

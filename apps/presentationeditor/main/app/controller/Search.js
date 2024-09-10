@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 25.02.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 25.02.2022
  *
  */
 
@@ -325,6 +324,7 @@ define([
                             innerHtml += Common.Utils.String.htmlEncode(item[1][i]);
                     }
                     el.innerHTML = innerHtml.trim();
+                    el.setAttribute('role', 'listitem');
                     me.view.$resultsContainer.append(el);
                     if (isSelected) {
                         $(el).addClass('selected');

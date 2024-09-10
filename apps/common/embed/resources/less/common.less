@@ -1,25 +1,25 @@
 // Core variables and mixins
-@import "../../../../../vendor/bootstrap/less/variables.less";
+@import "../../../../common/main/resources/mods/less/variables.less";
 
-@icon-font-path: "../../../../../vendor/bootstrap/dist/fonts/";
+//@icon-font-path: "../../../../../vendor/bootstrap/dist/fonts/";
 
-@import "../../../../../vendor/bootstrap/less/mixins.less";
+@import "../../../../common/main/resources/mods/less/mixins.less";
 
 // Reset
-@import "../../../../../vendor/bootstrap/less/normalize.less";
-@import "../../../../../vendor/bootstrap/less/print.less";
+@import "../../../../common/main/resources/mods/less/normalize.less";
+@import "../../../../common/main/resources/mods/less/print.less";
 
 // Core CSS
-@import "../../../../../vendor/bootstrap/less/scaffolding.less";
-@import "../../../../../vendor/bootstrap/less/type.less";
+@import "../../../../common/main/resources/mods/less/scaffolding.less";
+@import "../../../../common/main/resources/mods/less/type.less";
 //@import "code.less";
 //@import "grid.less";
 //@import "tables.less";
-@import "../../../../../vendor/bootstrap/less/forms.less";
-@import "../../../../../vendor/bootstrap/less/buttons.less";
+@import "../../../../common/main/resources/mods/less/forms.less";
+@import "../../../../common/main/resources/mods/less/buttons.less";
 
 // Components
-@import "../../../../../vendor/bootstrap/less/component-animations.less";
+@import "../../../../common/main/resources/mods/less/component-animations.less";
 //@import "../../../../../vendor/bootstrap/less/glyphicons.less";
 //@import "dropdowns.less";
 //@import "button-groups.less";
@@ -29,28 +29,28 @@
 //@import "breadcrumbs.less";
 //@import "pagination.less";
 //@import "pager.less";
-@import "../../../../../vendor/bootstrap/less/labels.less";
+//@import "../../../../common/main/resources/mods/less/labels.less";
 //@import "badges.less";
 //@import "jumbotron.less";
 //@import "thumbnails.less";
-@import "../../../../../vendor/bootstrap/less/alerts.less";
+//@import "../../../../common/main/resources/mods/less/alerts.less";
 //@import "progress-bars.less";
 //@import "media.less";
 //@import "list-group.less";
 //@import "panels.less";
 //@import "wells.less";
-@import "../../../../../vendor/bootstrap/less/close.less";
+@import "../../../../common/main/resources/mods/less/close.less";
 
 // Components w/ JavaScript
-@import "../../../../../vendor/bootstrap/less/modals.less";
-@import "../../../../../vendor/bootstrap/less/tooltip.less";
+@import "../../../../common/main/resources/mods/less/modals.less";
+@import "../../../../common/main/resources/mods/less/tooltip.less";
 //@import "../../../../../vendor/bootstrap/less/popovers.less";
-@import "../../../../../vendor/bootstrap/less/dropdowns.less";
+@import "../../../../common/main/resources/mods/less/dropdowns.less";
 //@import "carousel.less";
 
 // Utility classes
-@import "../../../../../vendor/bootstrap/less/utilities.less";
-@import "../../../../../vendor/bootstrap/less/responsive-utilities.less";
+@import "../../../../common/main/resources/mods/less/utilities.less";
+@import "../../../../common/main/resources/mods/less/responsive-utilities.less";
 
 
 @import "loadmask.less";
@@ -503,7 +503,7 @@
 @icon-height: 20px;
 .svg-icon {
     background: data-uri('../../../../common/embed/resources/img/icon-menu-sprite.svg') no-repeat;
-    background-size: @icon-width*29 @icon-height*2;
+    background-size: @icon-width*31 @icon-height*2;
 
     &.download {
         background-position: -@icon-width 0;
@@ -568,6 +568,12 @@
     }
     &.search-arrow-down {
         background-position: -@icon-width*28 0;
+    }
+    &.search-arrow-left {
+        background-position: -@icon-width*29 0;
+    }
+    &.search-arrow-right {
+        background-position: -@icon-width*30 0;
     }
 }
 

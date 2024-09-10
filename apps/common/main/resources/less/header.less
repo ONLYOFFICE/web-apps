@@ -96,7 +96,7 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
-        padding: 4px 2px;
+        padding: 0px 2px;
         overflow: hidden;
         flex-shrink: 0;
     }
@@ -111,19 +111,29 @@
         color: @text-toolbar-header;
         background-color: transparent;
         border: 0 none;
-        padding: 1px 5px;
+        border-radius: 1px;
+        padding: 1px 8px;
         cursor: default;
         line-height: 24px;
 
-        &:hover:not(:disabled),&:focus {
-            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
-            border-radius: 1px;
+        &:hover:not(:disabled):not(:focus){
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
+            cursor: text;
+        }
+        &:focus{
+            background-color: @highlight-header-button-pressed-ie;
+            background-color: @highlight-header-button-pressed;
             cursor: text;
         }
         .rtl & {
             direction: rtl;
         }
+    }
+
+    #box-doc-name, #box-right-btn-group {
+        padding-bottom: @scaled-one-px-value-ie;
+        padding-bottom: @scaled-one-px-value;
     }
 
     #rib-save-status {
@@ -161,6 +171,10 @@
 
             background-image: ~"url('@{common-image-const-path}/header/header-logo_s.svg')";
             background-repeat: no-repeat;
+        }
+
+        &.logo-light i { // logo from light theme
+            background-image: ~"url('@{common-image-const-path}/header/dark-logo_s.svg')";
         }
 
         &.link img {
@@ -219,6 +233,7 @@
             .icon.toolbar__icon {
                 &.icon--inverse {
                     background-position-x: @button-header-active-icon-offset-x-ie;
+                    background-position-x: @button-header-active-icon-offset-x;
                     opacity: @header-component-active-icon-opacity;
                 }
             }
@@ -227,6 +242,19 @@
         &:hover:not(:disabled) {
             .icon {
                 opacity: @header-component-hover-icon-opacity;
+            }
+        }
+
+        .caret {
+            border-color: @icon-toolbar-header-ie;
+            border-color: @icon-toolbar-header;
+        }
+
+        &:active:not(.disabled),
+        &.active:not(.disabled){
+            .caret {
+                border-color: @icon-toolbar-header-ie;
+                border-color: @icon-toolbar-header;
             }
         }
     }
@@ -249,14 +277,15 @@
         opacity: @component-disabled-opacity;
     }
 
-    &:hover {
+    &:hover,
+    .highlight-tip & {
         &:not(.disabled) {
             background-color: @highlight-header-button-hover-ie;
             background-color: @highlight-header-button-hover;
         }
     }
 
-    &:active {
+    &:active, &.active {
         &:not(.disabled) {
             background-color: @highlight-header-button-pressed-ie;
             background-color: @highlight-header-button-pressed;
@@ -349,7 +378,7 @@
     width: auto;
 
     .caption {
-        margin: 2px 0 0 2px;
+        margin: 2px 4px 0 2px;
         color: @text-toolbar-header-ie;
         color: @text-toolbar-header;
     }
@@ -527,7 +556,7 @@
     color: @text-toolbar-header-ie;
     color: @text-toolbar-header;
     position: relative;
-    z-index: 1;
+    z-index: @zindex-navbar + 3;
 
     .btn-slot {
         display: inline-block;
@@ -561,7 +590,7 @@
         display: flex;
         justify-content: center;
         overflow: hidden;
-        padding: 4px 2px;
+        padding: 0px 2px;
     }
 
     #title-doc-name {
@@ -571,15 +600,21 @@
         text-align: center;
         .font-size-medium();
         line-height: 24px;
-        padding: 1px 5px;
+        padding: 1px 8px;
         background-color: transparent;
         border: 0 none;
         cursor: default;
         .user-select(text);
 
-        &:hover:not(:disabled),&:focus{
-            box-shadow: 0 0 0 @scaled-one-px-value-ie @highlight-header-button-hover-ie;
-            box-shadow: 0 0 0 @scaled-one-px-value @highlight-header-button-hover;
+        &:hover:not(:disabled):not(:focus){
+            background-color: @highlight-header-button-hover-ie;
+            background-color: @highlight-header-button-hover;
+            border-radius: 1px;
+            cursor: text;
+        }
+        &:focus{
+            background-color: @highlight-header-button-pressed-ie;
+            background-color: @highlight-header-button-pressed;
             border-radius: 1px;
             cursor: text;
         }

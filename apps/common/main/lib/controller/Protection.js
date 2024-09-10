@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  Protection.js
  *
- *  Created by Julia Radzhabova on 14.11.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 14.11.2017
  *
  */
 
@@ -44,10 +43,7 @@ Common.Controllers = Common.Controllers || {};
 
 define([
     'core',
-    'common/main/lib/view/Protection',
-    'common/main/lib/view/PasswordDialog',
-    'common/main/lib/view/SignDialog',
-    'common/main/lib/view/SignSettingsDialog'
+    'common/main/lib/view/Protection'
 ], function () {
     'use strict';
 

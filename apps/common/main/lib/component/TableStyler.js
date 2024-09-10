@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  TableStyler.js
  *
- *  Created by Alexander Yuzhin on 2/28/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/28/14
  *
  */
 
@@ -41,7 +40,6 @@ if (Common === undefined)
     var Common = {};
 
 define([
-    'common/main/lib/component/BaseView'
 ], function () {
     'use strict';
     Common.UI.CellBorder = function (options){
@@ -867,8 +865,9 @@ define([
 
         fillWithLines: function (){
             var tdPadding = this.maxBorderSize + 4,
+                hFillLine = (2 * this.scale + 0.5) >> 0,
                 tdWidth, tdHeight, tdX, tdY, xLeft,x1, w, y1, h;
-            this.context.setLineDash([(2 * this.scale + 0.5) >> 0, (2 * this.scale + 0.5) >> 0]);
+            this.context.setLineDash([hFillLine, hFillLine]);
             this.context.strokeStyle = "#c0c0c0";
 
             if(!this.spacingMode) {
@@ -884,6 +883,7 @@ define([
                         y1 = (tdY + tdPadding) * this.scale;
                         w = ((tdWidth - 2 * tdPadding) * this.scale + 0.5) >> 0;
                         h = (tdHeight - 2 * tdPadding) * this.scale;
+                        h = ((h/ (2 * hFillLine))>>0)*2* hFillLine + hFillLine;
                         this.context.lineWidth = w;
                         this.context.beginPath();
                         this.context.moveTo(x1 + w / 2, y1 >> 0);
@@ -909,6 +909,7 @@ define([
 
                         w = (tdWidth - (((col > 0) | 0) + ((col < this.columns-1) |0)) * cellPadding/2 -2*tdPadding + 0.5)>>0
                         h = tdHeight - (((row > 0) | 0) + ((row < this.rows-1) |0)) * cellPadding/2 -2*tdPadding;
+                        h = ((h/ (2 * hFillLine))>>0)*2* hFillLine + hFillLine;
                         x1 = ((sizeCorner + col * tdWidth + (col > 0 | 0) * cellPadding/2 + tdPadding) >> 0);
                         y1 = sizeCorner + row * tdHeight + (row > 0 | 0) * cellPadding/2 + tdPadding;
                         this.context.beginPath();

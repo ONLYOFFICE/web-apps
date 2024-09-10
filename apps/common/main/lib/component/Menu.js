@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  A menu object. This is the container to which you may add {@link Common.UI.MenuItem menu items}.
  *
- *  Created by Alexander Yuzhin on 1/28/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/28/14
  *
  */
 
@@ -640,7 +639,7 @@ define([
                 var menuRoot = this.menuRoot,
                     menuParent  = this.menuAlignEl || menuRoot.parent(),
                     m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
-                    offset      = menuParent.offset(),
+                    offset      = Common.Utils.getOffset(menuParent),
                     docW        = Common.Utils.innerWidth() - 10,
                     docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                     menuW       = menuRoot.outerWidth(),
@@ -685,12 +684,12 @@ define([
                     menuRoot.css('max-height', 'none');
                     menuH = menuRoot.outerHeight();
                     if (top + menuH > docH + cg.top) {
-                        top = docH - menuH;
+                        top = docH - menuH + cg.top;
                     }
                     if (top < cg.top)
                         top = cg.top;
                     if (top + menuH > docH + cg.top) {
-                        menuRoot.css('max-height', (docH - top) + 'px');
+                        menuRoot.css('max-height', (docH - top + cg.top) + 'px');
                         (!this.scroller) && (this.scroller = new Common.UI.Scroller({
                             el: this.$el.find('> .dropdown-menu '),
                             minScrollbarLength: 30,
@@ -724,7 +723,7 @@ define([
                             m = fixedAlign.match(/^([a-z]+)-([a-z]+)/);
                             top  = offset.top  - posMenu[m[1]][1] + posParent[m[2]][1] + this.offset[1] + (fixedOffset || 0);
                         } else
-                            top = docH - menuH;
+                            top = docH - menuH + cg.top;
                     }
 
 
@@ -1155,7 +1154,7 @@ define([
             var menuRoot = this.menuRoot,
                 menuParent  = this.menuAlignEl || menuRoot.parent(),
                 m           = this.menuAlign.match(/^([a-z]+)-([a-z]+)/),
-                offset      = menuParent.offset(),
+                offset      = Common.Utils.getOffset(menuParent),
                 docW        = Common.Utils.innerWidth(),
                 docH        = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW       = menuRoot.outerWidth(),

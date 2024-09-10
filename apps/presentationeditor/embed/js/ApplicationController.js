@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -138,6 +138,8 @@ PE.ApplicationController = new(function(){
             docInfo.put_EncryptedInfo(config.encryptionKeys);
             docInfo.put_Lang(config.lang);
             docInfo.put_Mode(config.mode);
+            docInfo.put_Wopi(config.wopi);
+            config.shardkey && docInfo.put_Shardkey(config.shardkey);
 
             var enable = !config.customization || (config.customization.macros!==false);
             docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -662,6 +664,10 @@ PE.ApplicationController = new(function(){
                 message = me.errorTokenExpire;
                 break;
 
+            case Asc.c_oAscError.ID.VKeyEncrypt:
+                message= me.errorToken;
+                break;
+
             case Asc.c_oAscError.ID.ConvertationOpenFormat:
                 if (errData === 'pdf')
                     message = me.errorInconsistentExtPdf.replace('%1', docConfig.fileType || '');
@@ -683,8 +689,9 @@ PE.ApplicationController = new(function(){
                 break;
 
             default:
-                message = me.errorDefaultMessage.replace('%1', id);
-                break;
+                // message = me.errorDefaultMessage.replace('%1', id);
+                // break;
+                return;
         }
 
         if (level == Asc.c_oAscError.Level.Critical) {
@@ -871,5 +878,6 @@ PE.ApplicationController = new(function(){
         warnLicenseBefore: 'License not active. Please contact your administrator.',
         warnLicenseExp: 'Your license has expired. Please update your license and refresh the page.',
         errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
+        errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.'
     }
 })();

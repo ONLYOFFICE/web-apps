@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,18 +33,13 @@
 /**
  *  WBProtection.js
  *
- *  Created by Julia Radzhabova on 21.06.2021
- *  Copyright (c) 2021Ascensio System SIA. All rights reserved.
+ *  Created on 21.06.2021
  *
  */
 define([
     'core',
     'common/main/lib/view/Protection',
-    'spreadsheeteditor/main/app/view/WBProtection',
-    'spreadsheeteditor/main/app/view/ProtectDialog',
-    'spreadsheeteditor/main/app/view/ProtectRangesDlg',
-    'spreadsheeteditor/main/app/view/ProtectedRangesManagerDlg',
-    'spreadsheeteditor/main/app/view/ProtectedRangesEditDlg'
+    'spreadsheeteditor/main/app/view/WBProtection'
 ], function () {
     'use strict';
 
@@ -274,6 +269,8 @@ define([
         },
 
         onProtectRangeClick: function() {
+            Common.UI.TooltipManager.closeTip('protectRange');
+
             var me = this,
                 win = new SSE.Views.ProtectedRangesManagerDlg({
                     api: me.api,

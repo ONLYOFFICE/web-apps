@@ -125,7 +125,7 @@
         height: 30px;
     }
     &.has-open-menu {
-        z-index: @zindex-navbar + 1;
+        z-index: @zindex-navbar + 3;
     }
     .btn-toolbar {
         display: flex;
@@ -150,4 +150,11 @@
 
 #slot-field-fontsize {
     width: 40px;
+}
+
+.menu-insert-placeholder {
+    min-width: auto;
+    &.dropdown-menu li > a {
+        line-height: 22px;
+    }
 }

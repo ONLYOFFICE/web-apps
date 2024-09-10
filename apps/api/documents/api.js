@@ -58,7 +58,8 @@
                          remove: ["Group1", ""] // current user can remove comments made by users from Group1 and users without a group.
                     },
                     userInfoGroups: ["Group1", ""], // show tooltips/cursors/info in header only for users in userInfoGroups groups. [""] - means users without group, [] - don't show any users, null/undefined/"" - show all users
-                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons
+                    protect: <can protect document> // default = true. show/hide protect tab or protect buttons,
+                    chat: <true>
                 }
             },
             editorConfig: {
@@ -109,6 +110,7 @@
                     logo: {
                         image: url,
                         imageDark: url, // logo for dark theme
+                        imageLight: url, // logo for light header
                         imageEmbedded: url, // deprecated, use image instead
                         url: http://...,
                         visible: true // hide logo if visible=false
@@ -181,6 +183,7 @@
                         header: {
                             users: false/true // users list button
                             save: false/true // save button
+                            editMode: false/true // change mode button
                         },
                         leftMenu: {
                             navigation: false/true,
@@ -201,12 +204,21 @@
                             mode: false/true // init value in de/pe
                             change: false/true // hide/show feature in de/pe/sse
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
+                        roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
+                        tabStyle: {
+                            mode: 'fill'/'line' // init value, 'fill' by default,
+                            change: true/false // show/hide feature
+                        } / 'fill'/'line' // if string - use as init value
+                        tabBackground: {
+                            mode: 'header'/'toolbar' // init value, 'header' by default
+                            change: true/false // show/hide feature
+                        } / 'header'/'toolbar' // if string - use as init value
                     },
                     font: {
                         name: "Arial",
                         size: "11px";
                     },
-                    chat: true,
+                    chat: true, // deprecated 7.1, use permissions.chat
                     comments: true,
                     zoom: 100,
                     compactToolbar: false,
@@ -221,7 +233,7 @@
                     showReviewChanges: false, // must be deprecated. use customization.review.showReviewChanges instead
                     help: true,
                     compactHeader: false,
-                    toolbarNoTabs: false,
+                    toolbarNoTabs: false, // must be deprecated. use features.tabStyle.mode='line' && features.tabBackground='toolbar' instead
                     toolbarHideFileName: false,
                     reviewDisplay: 'original', // must be deprecated. use customization.review.reviewDisplay instead
                     spellcheck: true, // must be deprecated. use customization.features.spellcheck instead
@@ -236,7 +248,10 @@
                     hideNotes: false // hide or show notes panel on first loading (presentation editor)
                     uiTheme: 'theme-dark' // set interface theme: id or default-dark/default-light
                     integrationMode: "embed" // turn off scroll to frame
-                    mobileForceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
+                    mobile: {
+                        forceView: true/false (default: true) // turn on/off the 'reader' mode on launch. for mobile document editor only
+                        standardView: true/false (default: false) // open editor in 'Standard view' instead of 'Mobile view'
+                    }
                 },
                  coEditing: {
                      mode: 'fast', // <coauthoring mode>, 'fast' or 'strict'. if 'fast' and 'customization.autosave'=false -> set 'customization.autosave'=true. 'fast' - default for editor
@@ -289,6 +304,7 @@
                 'onRequestReferenceSource': <try to change source for external link>, // used for external links in sse. must call setReferenceSource method,
                 'onSaveDocument': 'save document from binary',
                 'onRequestStartFilling': <try to start filling forms> // used in pdf-form edit mode. must call startFilling method
+                'onSubmit': <filled form is submitted> // send when filled form is submitted successfully
             }
         }
 
@@ -509,19 +525,24 @@
 
         (function() {
             var result = /[\?\&]placement=(\w+)&?/.exec(window.location.search);
-            if (!!result && result.length) {
-                if (result[1] == 'desktop') {
-                    _config.editorConfig.targetApp = result[1];
-                    // _config.editorConfig.canBackToFolder = false;
-                    if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
-                    _config.editorConfig.customization.about = false;
-                    _config.editorConfig.customization.compactHeader = false;
-                }
+            if (!!result && result.length && result[1] == 'desktop' ) {
+                console.warn('some errors occurred in the desktop app while document opening. please, contact with support team');
+            }
+
+            if (!!window.AscDesktopEditor)
+            {
+                _config.editorConfig.targetApp = 'desktop';
+                // _config.editorConfig.canBackToFolder = false;
+                if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
+                _config.editorConfig.customization.about = false;
+                _config.editorConfig.customization.compactHeader = false;
             }
         })();
 
         var target = document.getElementById(placeholderId),
             iframe;
+
+        getShardkey(_config);
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
@@ -940,6 +961,17 @@
         }
     };
 
+    function getShardkey(config) {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.match(/(.*)api\/documents\/api.js/i)) {
+                var shardkey = /[\?\&]shardkey=([^&]+)&?/.exec(scripts[i].src);
+                shardkey && shardkey.length && (config.editorConfig.shardkey = shardkey[1]);
+                break;
+            }
+        }
+    }
+
     function getBasePath() {
         var scripts = document.getElementsByTagName('script'),
             match;
@@ -995,7 +1027,7 @@
             isForm = false;
         if (config.document) {
             if (typeof config.document.fileType === 'string')
-                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp))$/
+                type = /^(?:(pdf)|(djvu|xps|oxps)|(xls|xlsx|ods|csv|xlst|xlsy|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb)|(pps|ppsx|ppt|pptx|odp|pptt|ppty|gslides|pot|potm|potx|ppsm|pptm|fodp|otp)|(oform|docxf))$/
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
@@ -1010,6 +1042,8 @@
                 appType = fillForms && isForm===undefined ? 'common' : 'word';
             else if (config.type !== 'mobile')
                 appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
+        } else if (type && typeof type[5] === 'string') { // oform|docxf
+            appType = 'word';
         } else {
             if (typeof config.documentType === 'string')
                 appType = config.documentType.toLowerCase();
@@ -1018,6 +1052,7 @@
                 if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
+        path = extendAppPath(config, path);
         path += appMap[appType];
 
         const path_type = config.type === "mobile" ? "mobile" :
@@ -1059,9 +1094,11 @@
                     } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.imageDark)) {
                         (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded) && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
-                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark)) {
+                        config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
+                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark || config.editorConfig.customization.logo.imageLight)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
+                        config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
                     }
                 }
             }
@@ -1076,20 +1113,30 @@
         if (config.frameEditorId)
             params += "&frameEditorId=" + config.frameEditorId;
 
-        var type = config.document ? /^(?:(pdf))$/.exec(config.document.fileType) : null;
-        if (!(type && typeof type[1] === 'string') && (config.editorConfig && config.editorConfig.mode == 'view' ||
+        var type = config.document ? /^(?:(pdf)|(oform|docxf))$/.exec(config.document.fileType) : null,
+            isPdf = type && typeof type[1] === 'string',
+            oldForm = type && typeof type[2] === 'string';
+
+        if (!(isPdf || oldForm) && (config.editorConfig && config.editorConfig.mode == 'view' ||
             config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
             params += "&mode=view";
-        if (type && typeof type[1] === 'string' && config.document && config.document.permissions && config.document.permissions.edit === false)
+        if ((isPdf || oldForm) && (config.document && config.document.permissions && config.document.permissions.edit === false || config.editorConfig && config.editorConfig.mode == 'view'))
             params += "&mode=fillforms";
 
         if (config.document) {
-            config.document.isForm = (type && typeof type[1] === 'string') ? config.document.isForm : false;
+            config.document.isForm = isPdf ? config.document.isForm : !!oldForm;
             (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
         }
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
             params += "&compact=true";
+
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabBackground) {
+            if (typeof config.editorConfig.customization.features.tabBackground === 'object') {
+                params += "&tabBackground=" + (config.editorConfig.customization.features.tabBackground.mode || "header") + (config.editorConfig.customization.features.tabBackground.change!==false ? "-ls" : "");
+            } else
+                params += "&tabBackground=" + config.editorConfig.customization.features.tabBackground + "-ls";
+        }
 
         if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
             params += "&toolbar=false";
@@ -1156,6 +1203,18 @@
             }
         }
         return dest;
+    }
+
+    function extendAppPath(config,  path) {
+        if ( !config.isLocalFile ) {
+            const ver = '/{{PRODUCT_VERSION}}-{{HASH_POSTFIX}}';
+            if ( ver.lastIndexOf('{{') < 0 && path.indexOf(ver) < 0 ) {
+                const pos = path.indexOf('/web-apps/app');
+                if ( pos > 0 )
+                    return [path.slice(0, pos), ver, path.slice(pos)].join('');
+            }
+        }
+        return path;
     }
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);

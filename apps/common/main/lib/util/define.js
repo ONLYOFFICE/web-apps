@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -549,62 +549,6 @@ define(function(){ 'use strict';
         }
     })(), Common.define.chartData || {});
 
-    Common.define.conditionalData = _.extend( new(function() {
-        return {
-            textDate: 'Date',
-            textYesterday: 'Yesterday',
-            textToday: 'Today',
-            textTomorrow: 'Tomorrow',
-            textLast7days: 'In the last 7 days',
-            textLastWeek: 'Last week',
-            textThisWeek: 'This week',
-            textNextWeek: 'Next week',
-            textLastMonth: 'Last month',
-            textThisMonth: 'This month',
-            textNextMonth: 'Next month',
-            textText: 'Text',
-            textContains: 'Contains',
-            textNotContains: 'Does not contain',
-            textBegins: 'Begins with',
-            textEnds: 'Ends with',
-            textAverage: 'Average',
-            textAbove: 'Above',
-            textBelow: 'Below',
-            textEqAbove: 'Equal to or above',
-            textEqBelow: 'Equal to or below',
-            text1Above: '1 std dev above',
-            text1Below: '1 std dev below',
-            text2Above: '2 std dev above',
-            text2Below: '2 std dev below',
-            text3Above: '3 std dev above',
-            text3Below: '3 std dev below',
-            textGreater: 'Greater than',
-            textGreaterEq: 'Greater than or equal to',
-            textLess: 'Less than',
-            textLessEq: 'Less than or equal to',
-            textEqual: 'Equal to',
-            textNotEqual: 'Not equal to',
-            textBetween: 'Between',
-            textNotBetween: 'Not between',
-            textTop: 'Top',
-            textBottom: 'Bottom',
-            textBlank: 'Blank',
-            textError: 'Error',
-            textBlanks: 'Contains blanks',
-            textNotBlanks: 'Does not contain blanks',
-            textErrors: 'Contains errors',
-            textNotErrors: 'Does not contain errors',
-            textDuplicate: 'Duplicate',
-            textUnique: 'Unique',
-            textDataBar: 'Data bar',
-            textIconSets: 'Icon sets',
-            textFormula: 'Formula',
-            exampleText: 'AaBbCcYyZz',
-            noFormatText: 'No format set',
-            textValue: 'Value is'
-        }
-    })(), Common.define.conditionalData || {});
-
     Common.define.smartArt = _.extend( new(function() {
         return {
             textList: 'List',
@@ -1074,10 +1018,4 @@ define(function(){ 'use strict';
             },
         }
     })(), Common.define.smartArt || {});
-
-    Common.define.blockOperations = {
-        ApplyEditRights: -255,
-        LoadingDocument: -256,
-        UpdateChart: -257
-    }
 });

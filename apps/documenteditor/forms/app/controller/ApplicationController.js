@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -41,13 +41,10 @@ define([
     'common/main/lib/component/Calendar',
     'common/main/lib/util/LocalStorage',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SaveAsDlg',
     'common/main/lib/view/OpenDialog',
     'common/forms/lib/view/modals',
-    'documenteditor/forms/app/view/ApplicationView'
+    'documenteditor/forms/app/view/ApplicationView',
+    'common/main/lib/controller/LaunchController'
 ], function (Viewport) {
     'use strict';
 
@@ -59,7 +56,8 @@ define([
         mouseMoveData = null,
         isTooltipHiding = false,
         bodyWidth = 0,
-        ttOffset = [0, -10];
+        ttOffset = [0, -10],
+        _logoImage = '';
 
     DE.Controllers.ApplicationController = Backbone.Controller.extend(_.assign({
         views: [
@@ -102,6 +100,7 @@ define([
             });
 
             Common.UI.Themes.init(this.api);
+            Common.Controllers.LaunchController.init(this.api);
 
             $(window).on('resize', this.onDocumentResize.bind(this));
 
@@ -432,6 +431,7 @@ define([
             if (this._state.isDocModified !== isModified) {
                 this._isDocReady && Common.Gateway.setDocumentModified(this.api.isDocumentModified());
             }
+            this.appOptions.canFillForms && this.api.isDocumentModified() && this.requiredTooltip && this.requiredTooltip.hide();
 
             this.updateWindowTitle();
         },
@@ -563,6 +563,8 @@ define([
                 docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                 docInfo.put_Lang(this.editorConfig.lang);
                 docInfo.put_Mode(this.editorConfig.mode);
+                docInfo.put_Wopi(this.editorConfig.wopi);
+                this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                 var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                 docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -666,6 +668,31 @@ define([
                     me.api.asc_ClearAllSpecialForms();
                 });
                 me.view.btnSubmit.on('click', function(){
+                    if (!me.api.asc_IsAllRequiredFormsFilled()) {
+                        me.api.asc_MoveToFillingForm(true, true, true);
+                        if (!me.requiredTooltip) {
+                            me.requiredTooltip = new Common.UI.SynchronizeTip({
+                                extCls: 'colored',
+                                placement: 'bottom-left',
+                                target: me.view.btnSubmit.$el,
+                                text: me.textRequired,
+                                showLink: false,
+                                closable: true
+                            });
+                            me.requiredTooltip.on('closeclick', function () {
+                                me.requiredTooltip.hide();
+                            });
+                        }
+                        !me.requiredTooltip.isVisible() && me.requiredTooltip.show();
+
+                        // Common.UI.warning({
+                        //     msg: me.textRequired,
+                        //     callback: function() {
+                        //         me.api.asc_MoveToFillingForm(true, true, true);
+                        //     }
+                        // });
+                        return;
+                    }
                     me.api.asc_SendForm();
                 });
                 me.view.btnDownload.on('click', function(){
@@ -674,7 +701,9 @@ define([
                             me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF));
                         else {
                             me.isFromBtnDownload = me.appOptions.canRequestSaveAs || !!me.appOptions.saveAsUrl;
-                            me.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload));
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromBtnDownload);
+                            options.asc_setIsSaveAs(me.isFromBtnDownload);
+                            me.api.asc_DownloadAs(options);
                         }
                     }
                 });
@@ -811,9 +840,10 @@ define([
                     return;
                 }
 
-                if (value.logo.image || value.logo.imageDark) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    logo.html('<img src="' + image + '" style="max-width:100px; max-height:20px;"/>');
+                if (value.logo.image || value.logo.imageDark || value.logo.imageLight) {
+                    _logoImage = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    logo.html('<img src="' + _logoImage + '" style="max-width:100px; max-height:20px;"/>');
                     logo.css({'background-image': 'none', width: 'auto', height: 'auto'});
                 }
 
@@ -840,9 +870,11 @@ define([
                     break;
                 case Asc.c_oAscAsyncAction['Submit']:
                     _submitFail = false;
+                    text = this.savingText;
                     this.submitedTooltip && this.submitedTooltip.hide();
                     this.view.btnSubmit.setDisabled(true);
                     this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                    this.disableFillingForms(true);
                     break;
                 case LoadingDocument:
                     text = this.textLoadingDocument + '           ';
@@ -876,8 +908,9 @@ define([
                  this.view.btnSubmit.setDisabled(!_submitFail);
                  this.view.btnSubmit.cmpEl.css("pointer-events", "auto");
                 if (!_submitFail) {
+                    Common.Gateway.submitForm();
                     this.view.btnSubmit.setCaption(this.textFilled);
-                    this.view.btnSubmit.cmpEl.addClass('gray');
+                    this.view.btnSubmit.cmpEl.removeClass('yellow').removeClass('back-color').addClass('gray');
                     if (!this.submitedTooltip) {
                         this.submitedTooltip = new Common.UI.SynchronizeTip({
                             text: this.textSubmitOk,
@@ -894,7 +927,8 @@ define([
                     this.submitedTooltip.show();
                     this.api.asc_setRestriction(Asc.c_oAscRestrictionType.View);
                     this.onApiServerDisconnect(true);
-                }
+                } else
+                    this.disableFillingForms(false);
             }
              if ( type == Asc.c_oAscAsyncActionType.BlockInteraction &&
                  !((id == Asc.c_oAscAsyncAction['LoadDocumentFonts'] || id == Asc.c_oAscAsyncAction['LoadFonts'] || id == Asc.c_oAscAsyncAction['ApplyChanges'] || id == Asc.c_oAscAsyncAction['DownloadAs']) && Common.Utils.ModalWindow.isVisible()) ) {
@@ -1086,8 +1120,10 @@ define([
         },
 
         onFillRequiredFields: function(isFilled) {
-            this.view.btnSubmit.setDisabled(!isFilled);
-            this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            // this.view.btnSubmit.setDisabled(!isFilled);
+            // this.view.btnSubmit.cmpEl.css("pointer-events", isFilled ? "auto" : "none");
+            this.view.btnSubmit.cmpEl.removeClass(isFilled ? 'back-color' : 'yellow').addClass(isFilled ? 'yellow' : 'back-color');
+            isFilled && this.requiredTooltip && this.requiredTooltip.hide();
         },
 
         onProcessMouse: function(data) {
@@ -1115,8 +1151,11 @@ define([
             var type = /^(?:(djvu|xps|oxps))$/.exec(this.document.fileType);
             if (type && typeof type[1] === 'string')
                 this.api.asc_DownloadOrigin(true);
-            else
-                this.api.asc_DownloadAs(new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true));
+            else {
+                var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.DOCX, true);
+                options.asc_setIsSaveAs(true);
+                this.api.asc_DownloadAs(options);
+            }
         },
 
         onHyperlinkClick: function(url) {
@@ -1593,9 +1632,13 @@ define([
 
             if (this.appOptions.canBranding) {
                 var value = this.appOptions.customization;
-                if ( value && value.logo && (value.logo.image || value.logo.imageDark) && (value.logo.image !== value.logo.imageDark)) {
-                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image) : (value.logo.image || value.logo.imageDark);
-                    $('#header-logo img').attr('src', image);
+                if ( value && value.logo && (value.logo.image || value.logo.imageDark || value.logo.imageLight)) {
+                    var image = Common.UI.Themes.isDarkTheme() ? (value.logo.imageDark || value.logo.image || value.logo.imageLight) :
+                                                                 (value.logo.imageLight || value.logo.image || value.logo.imageDark);
+                    if (_logoImage !== image) {
+                        _logoImage = image;
+                        $('#header-logo img').attr('src', image);
+                    }
                 }
             }
         },
@@ -1778,43 +1821,13 @@ define([
 
             // TODO: add asc_hasRequiredFields to sdk
 
-            if (this.appOptions.canSubmitForms && !this.api.asc_IsAllRequiredFormsFilled()) {
-                this.view.btnSubmit.setDisabled(true);
-                this.view.btnSubmit.cmpEl.css("pointer-events", "none");
-                var sgroup = $('#id-submit-group');
-                if (!Common.localStorage.getItem("de-embed-hide-submittip")) {
-                    var requiredTooltip = new Common.UI.SynchronizeTip({
-                        extCls: 'colored',
-                        placement: 'bottom-left',
-                        target: this.view.btnSubmit.$el,
-                        text: this.textRequired,
-                        showLink: false,
-                        closable: false,
-                        showButton: true,
-                        textButton: this.textGotIt
-                    });
-                    var onclose = function () {
-                        requiredTooltip.hide();
-                        me.api.asc_MoveToFillingForm(true, true, true);
-                        sgroup.attr('data-toggle', 'tooltip');
-                        sgroup.tooltip({
-                            title       : me.textRequired,
-                            placement   : 'bottom'
-                        });
-                    };
-                    requiredTooltip.on('buttonclick', function () {
-                        onclose();
-                        Common.localStorage.setItem("de-embed-hide-submittip", 1);
-                    });
-                    requiredTooltip.on('closeclick', onclose);
-                    requiredTooltip.show();
-                } else {
-                    sgroup.attr('data-toggle', 'tooltip');
-                    sgroup.tooltip({
-                        title       : me.textRequired,
-                        placement   : 'bottom'
-                    });
-                }
+            if (this.appOptions.canSubmitForms) {
+                if (this.api.asc_IsAllRequiredFormsFilled())
+                    this.view.btnSubmit.cmpEl.removeClass('back-color').addClass('yellow');
+                // else {
+                    // this.view.btnSubmit.setDisabled(true);
+                    // this.view.btnSubmit.cmpEl.css("pointer-events", "none");
+                // }
             }
 
             var documentMoveTimer;
@@ -1970,6 +1983,14 @@ define([
             }
         },
 
+        disableFillingForms: function(state) {
+            this._isDisabled = state;
+            this.view && this.view.btnClear && this.view.btnClear.setDisabled(state);
+            this.view && this.view.btnUndo && this.view.btnUndo.setDisabled(state || !this.api.asc_getCanUndo());
+            this.view && this.view.btnRedo && this.view.btnRedo.setDisabled(state || !this.api.asc_getCanRedo());
+            this.api.asc_setRestriction(state || !this.appOptions.canFillForms ? Asc.c_oAscRestrictionType.View : Asc.c_oAscRestrictionType.OnlyForms);
+        },
+
         onApiServerDisconnect: function(enableDownload) {
             this._state.isDisconnected = true;
             this._isDisabled = true;
@@ -2085,7 +2106,8 @@ define([
         titleLicenseNotActive: 'License not active',
         warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
         textSubmitOk: 'Your PDF form has been saved in the Complete section. You can fill out this form again and send another result.',
-        textFilled: 'Filled'
+        textFilled: 'Filled',
+        savingText: 'Saving'
 
     }, DE.Controllers.ApplicationController));
 

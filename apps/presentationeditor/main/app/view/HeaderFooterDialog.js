@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,15 +33,12 @@
 /**
  *  HeaderFooterDialog.js
  *
- *  Created by Julia Radzhabova on 09.07.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 09.07.2019
  *
  */
-define(['text!presentationeditor/main/app/template/HeaderFooterDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/view/AdvancedSettingsWindow'
+define([
+    'text!presentationeditor/main/app/template/HeaderFooterDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function (template) { 'use strict';
 
     PE.Views.HeaderFooterDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

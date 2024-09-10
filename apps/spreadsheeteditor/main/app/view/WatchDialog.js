@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,14 +33,13 @@
  *
  *  WatchDialog.js
  *
- *  Created by Julia.Radzhabova on 24.06.22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 24.06.22
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/WatchDialog.template',
+define([
+    'text!spreadsheeteditor/main/app/template/WatchDialog.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView'
 ], function (contentTemplate) {
     'use strict';
 

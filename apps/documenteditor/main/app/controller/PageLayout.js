@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -38,7 +38,7 @@
  *
  * Extra controller for toolbar
  *
- * Created by Maxim.Kadushkin on 3/31/2017.
+ * Created on 3/31/2017.
  */
 
 define([
@@ -56,39 +56,52 @@ define([
             onLaunch: function (view) {
                 this.toolbar = view;
                 this.editMode = true;
-                this._state = {};
+                this._state = {
+                    LeftIndent: null,
+                    RightIndent: null,
+                    LineSpacingBefore: null,
+                    LineSpacingAfter: null
+                };
                 return this;
             },
 
             onAppReady: function (config) {
-                var me = this;
+                var me = this,
+                    toolbar = me.toolbar;
 
-                me.toolbar.btnImgAlign.menu.on('item:click', me.onClickMenuAlign.bind(me));
-                me.toolbar.btnImgAlign.menu.on('show:before', me.onBeforeShapeAlign.bind(me));
-                me.toolbar.btnImgWrapping.menu.on('item:click', me.onClickMenuWrapping.bind(me));
-                me.toolbar.btnImgGroup.menu.on('item:click', me.onClickMenuGroup.bind(me));
-                me.toolbar.btnImgForward.menu.on('item:click', me.onClickMenuForward.bind(me));
-                me.toolbar.btnImgBackward.menu.on('item:click', me.onClickMenuForward.bind(me));
+                toolbar.btnImgAlign.menu.on('item:click', me.onClickMenuAlign.bind(me));
+                toolbar.btnImgAlign.menu.on('show:before', me.onBeforeShapeAlign.bind(me));
+                toolbar.btnImgWrapping.menu.on('item:click', me.onClickMenuWrapping.bind(me));
+                toolbar.btnImgGroup.menu.on('item:click', me.onClickMenuGroup.bind(me));
+                toolbar.btnImgForward.menu.on('item:click', me.onClickMenuForward.bind(me));
+                toolbar.btnImgBackward.menu.on('item:click', me.onClickMenuForward.bind(me));
 
-                me.toolbar.btnImgForward.on('click', me.onClickMenuForward.bind(me, 'forward'));
-                me.toolbar.btnImgBackward.on('click', me.onClickMenuForward.bind(me, 'backward'));
+                toolbar.btnImgForward.on('click', me.onClickMenuForward.bind(me, 'forward'));
+                toolbar.btnImgBackward.on('click', me.onClickMenuForward.bind(me, 'backward'));
 
-                me.toolbar.btnsPageBreak.forEach( function(btn) {
+                toolbar.btnsPageBreak.forEach( function(btn) {
                     var _menu_section_break = btn.menu.items[2].menu;
                     _menu_section_break.on('item:click', function (menu, item, e) {
-                        me.toolbar.fireEvent('insert:break', [item.value]);
+                        toolbar.fireEvent('insert:break', [item.value]);
                     });
 
                     btn.menu.on('item:click', function (menu, item, e) {
                         if ( !(item.value == 'section') )
-                            me.toolbar.fireEvent('insert:break', [item.value]);
+                            toolbar.fireEvent('insert:break', [item.value]);
                     });
 
                     btn.on('click', function(e) {
-                        me.toolbar.fireEvent('insert:break', ['page']);
+                        toolbar.fireEvent('insert:break', ['page']);
                     });
                 });
-
+                toolbar.numSpacingBefore.on('change', me.onNumSpacingBeforeChange.bind(me));
+                toolbar.numSpacingAfter.on('change', me.onNumSpacingAfterChange.bind(me));
+                toolbar.numSpacingBefore.on('inputleave', function(){ toolbar.fireEvent('editcomplete', toolbar);});
+                toolbar.numSpacingAfter.on('inputleave', function(){ toolbar.fireEvent('editcomplete', toolbar);});
+                toolbar.numIndentsLeft.on('change', me.onNumIndentsLeftChange.bind(me));
+                toolbar.numIndentsRight.on('change', me.onNumIndentsRightChange.bind(me));
+                toolbar.numIndentsLeft.on('inputleave', function(){ toolbar.fireEvent('editcomplete', toolbar);});
+                toolbar.numIndentsRight.on('inputleave', function(){ toolbar.fireEvent('editcomplete', toolbar);});
             },
 
             setApi: function (api) {
@@ -128,7 +141,9 @@ define([
                     canGroupUngroup = false,
                     wrapping,
                     content_locked = false,
-                    no_object = true;
+                    no_object = true,
+                    in_para = false,
+                    paraProps;
 
                 for (var i in objects) {
                     type = objects[i].get_ObjectType();
@@ -161,7 +176,9 @@ define([
                         }
 
                         _imgOriginalProps = props;
-                        break;
+                    } else if (type === Asc.c_oAscTypeSelectElement.Paragraph) {
+                        in_para = true;
+                        paraProps = objects[i].get_ObjectValue()
                     }
                 }
                 me.toolbar.lockToolbar(Common.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnImgAlign, me.toolbar.btnImgGroup, me.toolbar.btnImgWrapping, me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
@@ -172,6 +189,9 @@ define([
                 me.toolbar.lockToolbar(Common.enumLock.cantGroup, !canGroupUngroup, {array: [me.toolbar.btnImgGroup]});
                 me.toolbar.lockToolbar(Common.enumLock.cantWrap, disable.wrapping, {array: [me.toolbar.btnImgWrapping]});
                 me.toolbar.lockToolbar(Common.enumLock.cantArrange, disable.arrange, {array: [me.toolbar.btnImgForward, me.toolbar.btnImgBackward]});
+                me.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [me.toolbar.numIndentsLeft, me.toolbar.numIndentsRight, me.toolbar.lblIndentsLeft, me.toolbar.lblIndentsRight,
+                                                                                               me.toolbar.numSpacingAfter, me.toolbar.numSpacingBefore, me.toolbar.lblSpacingAfter, me.toolbar.lblSpacingBefore ]});
+                me.ChangeSettingsPara(paraProps);
             },
 
             onApiCoAuthoringDisconnect: function() {
@@ -253,6 +273,84 @@ define([
 
                 this.api.ImgApply(props);
                 this.toolbar.fireEvent('editcomplete', this.toolbar);
+            },
+
+            onNumSpacingBeforeChange: function(field, newValue, oldValue, eOpts){
+                if (this.api)  {
+                    var num = field.getNumberValue();
+                    this._state.LineSpacingBefore = (num<0) ? -1 : Common.Utils.Metric.fnRecalcToMM(num);
+                    this.api.put_LineSpacingBeforeAfter(0, this._state.LineSpacingBefore);
+                }
+            },
+
+            onNumSpacingAfterChange: function(field, newValue, oldValue, eOpts){
+                if (this.api){
+                    var num = field.getNumberValue();
+                    this._state.LineSpacingAfter = (num<0) ? -1 : Common.Utils.Metric.fnRecalcToMM(num);
+                    this.api.put_LineSpacingBeforeAfter(1, this._state.LineSpacingAfter);
+                }
+            },
+
+            onNumIndentsLeftChange: function(field, newValue, oldValue, eOpts){
+                var left = Common.Utils.Metric.fnRecalcToMM(field.getNumberValue());
+                if (this._state.FirstLine<0) {
+                    left = left-this._state.FirstLine;
+                }
+                var props = new Asc.asc_CParagraphProperty();
+                props.put_Ind(new Asc.asc_CParagraphInd());
+                props.get_Ind().put_Left(left);
+                if (this.api)
+                    this.api.paraApply(props);
+            },
+
+            onNumIndentsRightChange: function(field, newValue, oldValue, eOpts){
+                var props = new Asc.asc_CParagraphProperty();
+                props.put_Ind(new Asc.asc_CParagraphInd());
+                props.get_Ind().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
+                if (this.api)
+                    this.api.paraApply(props);
+            },
+
+            ChangeSettingsPara: function(prop) {
+                var left = 0,
+                    right = 0,
+                    before = 0,
+                    after = 0;
+                if (prop) {
+                    var indents = prop.get_Ind(),
+                        first = (indents !== null) ? indents.get_FirstLine() : null;
+                    left = (indents !== null) ? indents.get_Left() : null;
+                    if (first<0 && left !== null)
+                        left = left + first;
+
+                    right = (indents !== null) ? indents.get_Right() : null;
+
+                    before = prop.get_Spacing().get_Before();
+                    after = prop.get_Spacing().get_After();
+                }
+                if ( Math.abs(this._state.LeftIndent-left)>0.001 ||
+                    (this._state.LeftIndent===null || left===null)&&(this._state.LeftIndent!==left)) {
+                    this.toolbar.numIndentsLeft.setValue(left!==null ? Common.Utils.Metric.fnRecalcFromMM(left) : '', true);
+                    this._state.LeftIndent=left;
+                }
+                if ( Math.abs(this._state.RightIndent-right)>0.001 ||
+                    (this._state.RightIndent===null || right===null)&&(this._state.RightIndent!==right)) {
+                    this.toolbar.numIndentsRight.setValue(right!==null ? Common.Utils.Metric.fnRecalcFromMM(right) : '', true);
+                    this._state.RightIndent=right;
+                }
+                if ( Math.abs(this._state.LineSpacingBefore-before)>0.001 ||
+                    (this._state.LineSpacingBefore===null || before===null)&&(this._state.LineSpacingBefore!==before)) {
+
+                    this.toolbar.numSpacingBefore.setValue((before !== null) ? ((before<0) ? before : Common.Utils.Metric.fnRecalcFromMM(before) ) : '', true);
+                    this._state.LineSpacingBefore=before;
+                }
+
+                if ( Math.abs(this._state.LineSpacingAfter-after)>0.001 ||
+                    (this._state.LineSpacingAfter===null || after===null)&&(this._state.LineSpacingAfter!==after)) {
+
+                    this.toolbar.numSpacingAfter.setValue((after !== null) ? ((after<0) ? after : Common.Utils.Metric.fnRecalcFromMM(after) ) : '', true);
+                    this._state.LineSpacingAfter=after;
+                }
             }
         }
     })());

@@ -39,7 +39,7 @@
 <a name="globalvars" href="#globalvars">Global Functions</a>
 <span class="sectionMark">&sect; 2</span>
 </h2>
-<p>jQuery registers itself as the global variables "$" and "jQuery", even when it detects AMD/RequireJS. The AMD approach advises against the use of global functions, but the decision to turn off these jQuery globals hinges on whether you have non-AMD code that depends on them. jQuery has a <a href="http://api.jquery.com/jQuery.noConflict/">noConflict function</a> that supports releasing control of the global variables and this can be automated in your require.config, as we will see <a href="#noconflictmap">later</a>.</p>
+<p>jQuery registers itself as the global variables "$" and "jQuery", even when it detects AMD/RequireJS. The AMD approach advises against the use of global functions, but the decision to turn off these jQuery globals hinges on whether you have non-AMD code that depends on them. jQuery has a <a href="http://api.jquery.com/jQuery.noConflict/">noConflict function</a> that supports releasing control of the global variables and this can be automated in your requirejs.config, as we will see <a href="#noconflictmap">later</a>.</p>
 </div>
 
 <div class="section">
@@ -48,11 +48,11 @@
 <span class="sectionMark">&sect; 3</span>
 </h2>
 
-<p>jQuery defines <a href="api.html#modulename">named AMD module</a> 'jquery' (all lower case) when it detects AMD/RequireJS. To reduce confusion, we recommend using 'jquery' as the module name in your require.config.
+<p>jQuery defines <a href="api.html#modulename">named AMD module</a> 'jquery' (all lower case) when it detects AMD/RequireJS. To reduce confusion, we recommend using 'jquery' as the module name in your requirejs.config.
 
 <p>Example:</p>
 
-<pre><code>require.config({
+<pre><code>requirejs.config({
     baseUrl: 'js/lib',
     paths: {
         // the left side is the module ID,
@@ -76,6 +76,16 @@
     <code>baseUrl + moduleID + '.js'</code>. The examples below show how to
     set baseUrl to be the directory for third-party, library code, and use
     one extra paths config for your app code.</p>
+
+<p>So to reiterate, you will likely get an error if you refer to jQuery with another module name, like <code>'lib/jquery'</code>. <strong>This example will not work</strong>:</p>
+
+<pre><code>
+    // THIS WILL NOT WORK
+    define(['lib/jquery'], function ($) {...});
+</code></pre>
+
+<p>It will not work, since jQuery registers itself with the name of 'jquery' and not 'lib/jquery'. In general, explicitly naming modules in the define() call are discouraged, but <a href="https://github.com/requirejs/requirejs/wiki/Updating-existing-libraries#anon">jQuery has some special constraints</a>.</p>
+
 </div>
 
 <div class="section">
@@ -86,7 +96,7 @@
 
 <p>This example shows how to use the <a href="api.html#config-shim">shim config</a> to specify dependencies for jQuery plugins that do not call <a href="api.html#define">define()</a>. This example is useful if you have an existing jQuery project you want to convert and do not want to modify the sources of the jQuery plugins to call define().</p>
 
-<h4><a class="download" href="http://github.com/requirejs/example-jquery-shim">Example using jQuery with shim config</a></h4>
+<h4><a class="download" href="https://github.com/requirejs/example-jquery-shim">Example using jQuery with shim config</a></h4>
 
 </div>
 
@@ -96,23 +106,23 @@
 <span class="sectionMark">&sect; 5</span>
 </h2>
 
-<p>This is an example on how to load an optimize your code while loading jQuery from a <a href="http://en.wikipedia.org/wiki/Content_delivery_network">Content Delivery Network</a> (CDN). This example requires all your jQuery plugins to call <a href="api.html#define">define()</a> to properly express their dependencies. <a href="api.html#config-shim">Shim config</a> does not work after optimization builds with CDN resources.</p>
+<p>This example shows how to load and optimize your code while loading jQuery from a <a href="http://en.wikipedia.org/wiki/Content_delivery_network">Content Delivery Network</a> (CDN). This example requires all your jQuery plugins to call <a href="api.html#define">define()</a> to properly express their dependencies. <a href="api.html#config-shim">Shim config</a> does not work after optimization builds with CDN resources.</p>
 
-<h4><a class="download" href="http://github.com/requirejs/example-jquery-cdn">Example using jQuery from a CDN</a></h4>
+<h4><a class="download" href="https://github.com/requirejs/example-jquery-cdn">Example using jQuery from a CDN</a></h4>
 
 </div>
 
 <div class="section">
 <h2>
-<a name="noconflictmap" href="#cdnconfig">Mapping Modules to use noConflict</a>
+<a name="noconflictmap" href="#noconflictmap">Mapping Modules to use noConflict</a>
 <span class="sectionMark">&sect; 6</span>
 </h2>
 
-<p>If <strong>all of your modules</strong> (including any third party jQuery plugins or library code that depend on jQuery) are AMD compatible and you want to avoid having $ or jQuery in the global namespace when they call <code>require(['jquery'])</code>, you can use the <a href="api.html#config-map">map config</a> to map the use of jQuery to a module that calls noConflict and returns that value of jQuery for the 'jquery' module ID.</p>
+<p>If <strong>all of your modules</strong> (including any third party jQuery plugins or library code that depend on jQuery) are AMD compatible and you want to avoid having $ or jQuery in the global namespace when they call <code>requirejs(['jquery'])</code>, you can use the <a href="api.html#config-map">map config</a> to map the use of jQuery to a module that calls noConflict and returns that value of jQuery for the 'jquery' module ID.</p>
 
 <p>You can use this example with the CDN example above -- the shim example will not work since shimmed libraries need a global jQuery.</p>
 
-<pre><code>require.config({
+<pre><code>requirejs.config({
     // Add this map config in addition to any baseUrl or
     // paths config you may already have in the project.
     map: {
@@ -138,15 +148,15 @@ define(['jquery'], function (jq) {
 <p>This means that any module which uses jQuery will need to use the AMD return value rather than depending on the global $:</p>
 
 <pre><code>
-require(['jquery'], function( $ ) {
+requirejs(['jquery'], function( $ ) {
     console.log( $ ) // OK
 });
 
-require(['jquery'], function( jq ) {
+requirejs(['jquery'], function( jq ) {
     console.log( jq ) // OK
 });
 
-require(['jquery'], function( ) {
+requirejs(['jquery'], function( ) {
     console.log( $ ) // UNDEFINED!
 });
 </code></pre>
@@ -159,6 +169,6 @@ require(['jquery'], function( ) {
 <span class="sectionMark">&sect; 7</span>
 </h2>
 <p>
-Previously, we've been pointing to an example using a special require-jquery file, which consisted of require.js and jQuery concatenated. This is no longer the recommended way to use jQuery with require.js, but if you're looking for the (no longer maintained) example, <a href="https://github.com/jrburke/require-jquery">you can find require-jquery here</a>.
+Previously, we've been pointing to an example using a special require-jquery file, which consisted of require.js and jQuery concatenated. This is no longer the recommended way to use jQuery with require.js, but if you're looking for the (no longer maintained) example, <a href="https://github.com/requirejs/require-jquery">you can find require-jquery here</a>.
 </p>
 </div>

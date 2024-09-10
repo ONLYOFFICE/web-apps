@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -29,13 +29,6 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-/**
- *  StatusBar View
- *
- *  Created by Maxim Kadushkin
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
- *
- */
 
 define([
     'text!documenteditor/main/app/template/StatusBar.template',
@@ -45,7 +38,8 @@ define([
     'tip',
     'common/main/lib/component/Menu',
     'common/main/lib/component/Window',
-    'documenteditor/main/app/model/Pages'
+    'documenteditor/main/app/model/Pages',
+    'common/main/lib/component/InputField',
  ],
     function(template, $, _, Backbone){
         'use strict';

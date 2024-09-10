@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -94,14 +94,13 @@
                 }
 
                 if ( objtheme.colors ) {
+                    ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                        .forEach(function (i) {
+                            !!objtheme.colors[i] && document.documentElement.style.setProperty('--' + i, objtheme.colors[i]);
+                        });
+
                     let colors = [];
                     for (let c in objtheme.colors) {
-                        // TODO: new PE brand color, clear for ver 7.7
-                        if ( c == 'toolbar-header-presentation' &&
-                                objtheme.colors[c] == '#aa5252' )
-                            objtheme.colors[c] = '#BE664F';
-                        //
-
                         colors.push('--' + c + ':' + objtheme.colors[c]);
                     }
 

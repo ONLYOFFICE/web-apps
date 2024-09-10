@@ -44,7 +44,7 @@ Common.Controllers = Common.Controllers || {};
 
 define([
     'core',
-    'common/main/lib/view/ExternalLinksDlg'
+    // 'common/main/lib/view/ExternalLinksDlg'
 ], function () { 'use strict';
     Common.Controllers.ExternalLinks = Backbone.Controller.extend(_.extend({
         models: [],
@@ -142,7 +142,8 @@ define([
                         case Asc.c_oAscExternalReferenceType.referenceData:
                             data = {
                                 referenceData: item.asc_getData(),
-                                path: item.asc_getPath()
+                                path: item.asc_getPath(),
+                                link: item.asc_getLink()
                             };
                             break;
                     }

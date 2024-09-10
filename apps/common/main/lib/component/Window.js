@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *    Window.js
  *
- *    Created by Maxim Kadushkin on 24 January 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 24 January 2014
  *
  */
 
@@ -159,10 +158,11 @@ define([
                 minheight: 0,
                 enableKeyEvents: true,
                 automove: true,
-                transparentMask: false
+                transparentMask: false,
+                role: 'dialog'
         };
 
-        var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;">' +
+        var template = '<div class="asc-window<%= modal?" modal":"" %><%= cls?" "+cls:"" %>" id="<%= id %>" style="width:<%= width %>px;" role="<%= role %>" aria-modal="<%= modal %>">' +
                             '<% if (header==true) { %>' +
                                 '<div class="header">' +
                                     '<div class="tools">' +
@@ -493,7 +493,8 @@ define([
                 onprimary: onKeyDown,
                 getFocusedComponents: getFocusedComponents,
                 getDefaultFocusableComponent: getDefaultFocusableComponent,
-                tpl: _.template(template)(options)
+                tpl: _.template(template)(options),
+                role: 'alertdialog'
             });
 
             var win = new Common.UI.Window(options),

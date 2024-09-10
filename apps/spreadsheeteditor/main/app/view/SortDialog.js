@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,16 +33,13 @@
  *
  *  SortDialog.js
  *
- *  Created by Julia.Radzhabova on 05.10.19
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 05.10.19
  *
  */
 
-define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
+define([
+    'text!spreadsheeteditor/main/app/template/SortDialog.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView',
-    'spreadsheeteditor/main/app/view/SortOptionsDialog'
 ], function (contentTemplate) {
     'use strict';
 
@@ -323,7 +320,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
                 cmbEl = this.sortList.cmpEl.find('#sort-dialog-cmb-sort-0'),
                 widthHeaderEl = this.sortList.headerEl.width(),
                 paddingHeaderEl = parseFloat(this.sortList.headerEl.css(isRTL ? 'padding-right' : 'padding-left')),
-                pos = cmbEl.position();
+                pos = Common.Utils.getPosition(cmbEl);
 
             if(isRTL) {
                 pos && (firstLabelWidth = widthHeaderEl + paddingHeaderEl - (Math.floor(pos.left) + cmbEl.width()));
@@ -334,7 +331,7 @@ define([  'text!spreadsheeteditor/main/app/template/SortDialog.template',
             
             cmbEl = this.sortList.cmpEl.find('#sort-dialog-btn-color-0');
             (!cmbEl[0]) && (cmbEl = this.sortList.cmpEl.find('#sort-dialog-cmb-order-0'));
-            pos = cmbEl.position();
+            pos = Common.Utils.getPosition(cmbEl);
 
             if(isRTL) {
                 pos && (secondLabelWidth = (widthHeaderEl + paddingHeaderEl - (Math.floor(pos.left) + cmbEl.width())) - firstLabelWidth);

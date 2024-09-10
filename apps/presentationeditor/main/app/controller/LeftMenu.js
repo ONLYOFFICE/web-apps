@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,15 +34,13 @@
  *
  *    Controller
  *
- *    Created by Maxim Kadushkin on 10 April 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 10 April 2014
  *
  */
 
 define([
     'core',
     'common/main/lib/util/Shortcuts',
-    'common/main/lib/view/SaveAsDlg',
     'presentationeditor/main/app/view/LeftMenu',
     'presentationeditor/main/app/view/FileMenu'
 ], function () {
@@ -91,7 +89,12 @@ define([
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
                     'item:click': _.bind(this.clickMenuFileItem, this),
                     'saveas:format': _.bind(this.clickSaveAsFormat, this),
-                    'savecopy:format': _.bind(this.clickSaveCopyAsFormat, this),
+                    'savecopy:format': _.bind(function(menu, format, ext) {
+                        if (this.mode && this.mode.wopi && ext!==undefined) { // save copy as in wopi
+                            this.saveAsInWopi(menu, format, ext);
+                        } else
+                            this.clickSaveCopyAsFormat(menu, format, ext);
+                    }, this),
                     'settings:apply': _.bind(this.applySettings, this),
                     'create:new': _.bind(this.onCreateNew, this),
                     'recent:open': _.bind(this.onOpenRecent, this)
@@ -109,7 +112,8 @@ define([
                     'search:show': _.bind(this.onShowHideSearch, this)
                 },
                 'ViewTab': {
-                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
+                    'leftmenu:hide': _.bind(this.onLeftMenuHide, this),
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
@@ -157,7 +161,7 @@ define([
                     var collection = this.getApplication().getCollection('Common.Collections.Comments');
                     for (var i = 0; i < collection.length; ++i) {
                         var comment = collection.at(i);
-                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id) {
+                        if (!comment.get('hide') && comment.get('userid') !== this.mode.user.id && comment.get('userid') !== '') {
                             this.leftMenu.markCoauthOptions('comments', true);
                             break;
                         }
@@ -213,11 +217,6 @@ define([
         },
 
         enablePlugins: function() {
-            if (this.mode.canPlugins) {
-                // this.leftMenu.btnPlugins.show();
-                this.leftMenu.setOptionsPanel('plugins', this.getApplication().getController('Common.Controllers.Plugins').getView('Common.Views.Plugins'));
-            } else
-                this.leftMenu.btnPlugins.hide();
             (this.mode.trialMode || this.mode.isBeta) && this.leftMenu.setDeveloperMode(this.mode.trialMode, this.mode.isBeta, this.mode.buildVersion);
         },
 
@@ -253,6 +252,7 @@ define([
                 break;
                 case 'history':
                     if (!this.leftMenu.panelHistory.isVisible()) {
+                        Common.NotificationCenter.trigger('animpane:close');
                         if (this.api.isDocumentModified()) {
                             var me = this;
                             this.api.asc_stopSaving();
@@ -291,13 +291,34 @@ define([
             menu.hide();
         },
 
-        clickSaveCopyAsFormat: function(menu, format, ext) {
+        clickSaveCopyAsFormat: function(menu, format, ext, wopiPath) {
             this.isFromFileDownloadAs = ext;
             var options = new Asc.asc_CDownloadOptions(format, true);
             options.asc_setIsSaveAs(true);
+            wopiPath && options.asc_setWopiSaveAsPath(wopiPath);
             this.api.asc_DownloadAs(options);
 
             menu.hide();
+        },
+
+        saveAsInWopi: function(menu, format, ext) {
+            var me = this,
+                defFileName = this.getApplication().getController('Viewport').getView('Common.Views.Header').getDocumentCaption();
+            !defFileName && (defFileName = me.txtUntitled);
+            if (typeof ext === 'string') {
+                var idx = defFileName.lastIndexOf('.');
+                if (idx>0)
+                    defFileName = defFileName.substring(0, idx) + ext;
+            }
+            (new Common.Views.TextInputDialog({
+                label: me.textSelectPath,
+                value: defFileName || '',
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        me.clickSaveCopyAsFormat(menu, format, ext, value);
+                    }
+                }
+            })).show();
         },
 
         onDownloadUrl: function(url, fileType) {
@@ -397,6 +418,23 @@ define([
             value = Common.localStorage.getBool("app-settings-screen-reader");
             Common.Utils.InternalSettings.set("app-settings-screen-reader", value);
             this.api.setSpeechEnabled(value);
+
+            /* update zoom */
+            var newZoomValue = Common.localStorage.getItem("pe-settings-zoom");
+            var oldZoomValue = Common.Utils.InternalSettings.get("pe-settings-zoom");
+            var lastZoomValue = Common.Utils.InternalSettings.get("pe-last-zoom");
+
+            if (oldZoomValue === null || oldZoomValue == lastZoomValue || oldZoomValue == -3) {
+                if (newZoomValue == -1) {
+                    this.api.zoomFitToPage();
+                } else if (newZoomValue == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (newZoomValue > 0) {
+                    this.api.zoom(newZoomValue);
+                }
+            }
+
+            Common.Utils.InternalSettings.set("pe-settings-zoom", newZoomValue);
 
             menu.hide();
         },
@@ -830,6 +868,15 @@ define([
                 this.clickMenuFileItem(null, 'print');
         },
 
+        onChangeViewMode: function (mode) {
+            if (mode === 'master') {
+                if (this.leftMenu.btnComments && this.leftMenu.btnComments.pressed) {
+                    this.leftMenu.close();
+                }
+            }
+            this.leftMenu.btnComments.setDisabled(mode === 'master');
+        },
+
         textNoTextFound         : 'Text not found',
         newDocumentTitle        : 'Unnamed document',
         requestEditRightsText   : 'Requesting editing rights...',
@@ -838,6 +885,7 @@ define([
         textReplaceSuccess      : 'Search has been done. {0} occurrences have been replaced',
         textReplaceSkipped      : 'The replacement has been made. {0} occurrences were skipped.',
         textLoadHistory         : 'Loading version history...',
-        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.'
+        leavePageText: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
+        textSelectPath: 'Enter a new name for saving the file copy'
     }, PE.Controllers.LeftMenu || {}));
 });

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,16 +33,13 @@
  *
  *  SaveFormDlg.js
  *
- *  Created by Julia.Radzhabova on 12.04.22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 12.04.22
  *
  */
 
-define([  'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView',
-    'documenteditor/main/app/view/RoleEditDlg',
-    'documenteditor/main/app/view/RoleDeleteDlg'
-], function (contentTemplate) {
+define([
+    'common/main/lib/view/AdvancedSettingsWindow',
+], function () {
     'use strict';
 
     DE.Views = DE.Views || {};

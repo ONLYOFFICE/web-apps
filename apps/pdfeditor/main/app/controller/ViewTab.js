@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 06.12.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 06.12.2021
  *
  */
 
@@ -61,6 +60,7 @@ define([
             Common.NotificationCenter.on('contenttheme:dark', this.onContentThemeChangedToDark.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
             Common.NotificationCenter.on('document:ready', _.bind(this.onDocumentReady, this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
 
         setApi: function (api) {
@@ -74,11 +74,11 @@ define([
         },
 
         setConfig: function(config) {
-            var mode = config.mode;
+            this.mode = config.mode;
             this.toolbar = config.toolbar;
             this.view = this.createView('ViewTab', {
                 toolbar: this.toolbar.toolbar,
-                mode: mode,
+                mode: this.mode,
                 compactToolbar: this.toolbar.toolbar.isCompactView
             });
             this.addListeners({
@@ -148,6 +148,15 @@ define([
                         emptyGroup.shift().append(me.view.chLeftMenu.$el[0]);
                     }
 
+                    if (!config.canPDFEdit || config.canBrandingExt && config.customization && config.customization.rightMenu === false || !Common.UI.LayoutManager.isElementVisible('rightMenu')) {
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        me.view.chRightMenu.$el.remove();
+                    } else if (emptyGroup.length>0) {
+                        emptyGroup.push(me.view.chRightMenu.$el.closest('.elset'));
+                        emptyGroup.shift().append(me.view.chRightMenu.$el[0]);
+                    }
+                    config.canPDFEdit && me.applyEditorMode(config);
+
                     if (emptyGroup.length>1) { // remove empty group
                         emptyGroup[emptyGroup.length-1].closest('.group').remove();
                     }
@@ -169,8 +178,34 @@ define([
                     }
 
                     if (Common.UI.Themes.available()) {
+                        function _add_tab_styles() {
+                            let btn = me.view.btnInterfaceTheme;
+                            if ( typeof(btn.menu) === 'object' )
+                                btn.menu.addItem({caption: '--'});
+                            else
+                                btn.setMenu(new Common.UI.Menu());
+                            let mni = new Common.UI.MenuItem({
+                                value: -1,
+                                caption: me.view.textTabStyle,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    items: [
+                                        {value: 'fill', caption: me.view.textFill, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'line', caption: me.view.textLine, checkable: true, toggleGroup: 'tabstyle'}
+                                    ]
+                                })
+                            });
+                            _.each(mni.menu.items, function(item){
+                                item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                            });
+                            mni.menu.on('item:click', _.bind(function (menu, item) {
+                                Common.UI.TabStyler.setStyle(item.value);
+                            }, me));
+                            btn.menu.addItem(mni);
+                            me.view.menuTabStyle = mni.menu;
+                        }
                         function _fill_themes() {
-                            var btn = this.view.btnInterfaceTheme;
+                            let btn = this.view.btnInterfaceTheme;
                             if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
                             else btn.setMenu(new Common.UI.Menu());
 
@@ -184,6 +219,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
+                            // Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
@@ -273,8 +309,15 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this.view);
         },
 
-        onChangeDarkMode: function () {
-            Common.UI.Themes.toggleContentTheme();
+        onChangeDarkMode: function (isdarkmode) {
+            if (!this._darkModeTimer) {
+                var me = this;
+                me._darkModeTimer = setTimeout(function() {
+                    me._darkModeTimer = undefined;
+                }, 500);
+                Common.UI.Themes.setContentTheme(isdarkmode?'dark':'light');
+            } else
+                this.onContentThemeChangedToDark(Common.UI.Themes.isContentThemeDark());
         },
 
         onContentThemeChangedToDark: function (isdark) {
@@ -293,8 +336,20 @@ define([
             }
         },
 
+        onTabStyleChange: function () {
+            if (this.view && this.view.menuTabStyle) {
+                _.each(this.view.menuTabStyle.items, function(item){
+                    item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                });
+            }
+        },
+
         onComboBlur: function() {
             Common.NotificationCenter.trigger('edit:complete', this.view);
+        },
+
+        applyEditorMode: function(config) {
+            this.view && this.view.chRightMenu && this.view.chRightMenu.setVisible((config || this.mode)['isPDFEdit']);
         }
 
     }, PDFE.Controllers.ViewTab || {}));

@@ -40,15 +40,13 @@
         display: inline-block;
         width: 10px;
         height: 196px;
-        margin: 0 8px 0 10px;
+        margin: 0 16px;
     }
 
     .cnt-sat {
         width: 12px;
         height: 100%;
         position: relative;
-        border: @scaled-one-px-value-ie solid @border-regular-control-ie;
-        border: @scaled-one-px-value solid @border-regular-control;
         background: linear-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
     }
 
@@ -76,23 +74,9 @@
         width: 20px;
         height: 12px;
         margin-top: -6px;
-        margin-left: -5px;
-        margin-left: calc(-4px - @scaled-one-px-value);
+        margin-left: -4px;
         position: absolute;
-        background-position: 0px 0px;
-        .pixel-ratio__2_5 & {
-            .inline-svg-code( @code ) {
-                @svg-code: escape(~'<?xml version="1.0" ?>@{code}');
-                @inline-svg-code: ~'data:image/svg+xml,@{svg-code}';
-                @inline-svg-url: ~"url('@{inline-svg-code}')";
-            }
-            background-position: center;
-            background-size: auto;
-            .inline-svg-code(~'<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" stroke-width="0.5" width="20" height="12" fill="black" stroke="white" >
-            <path d="M 0 1 L 1 0 L 7 6 L 1 12 L 0 11 z M 20 1 L 19 0 L 13 6 L 19 12 L 20 11 z"/></svg>');
-            background-image: @inline-svg-url;
-            .margin-left(-4px);
-        }
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAyMCAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xLjU4NiAxMUgxVjFoLjU4Nmw1IDV6bTE2LjgyOCAwSDE5VjFoLS41ODZsLTUgNXoiIGZpbGw9IiMwMDAiLz4KICAgIDxwYXRoIGQ9Im0yIDAgNiA2LTYgNkgxYTEgMSAwIDAgMS0xLTFWMWExIDEgMCAwIDEgMS0xek0xIDExaC41ODZsNS01LTUtNUgxek0xOCAwbC02IDYgNiA2aDFhMSAxIDAgMCAwIDEtMVYxYTEgMSAwIDAgMC0xLTF6bTEgMTFoLS41ODZsLTUtNSA1LTVIMTl6IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=");
 
         .rtl & {
             margin-left: 0;

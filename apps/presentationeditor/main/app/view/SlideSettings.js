@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  SlideSettings.js
  *
- *  Created by Julia Radzhabova on 4/14/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/14/14
  *
  */
 
@@ -47,8 +46,7 @@ define([
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
     'common/main/lib/component/ComboDataView',
-    'common/main/lib/component/MultiSliderGradient',
-    'common/main/lib/view/ImageFromUrlDialog'
+    'common/main/lib/component/MultiSliderGradient'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -80,7 +78,13 @@ define([
                 background: false,
                 header: false
             };
-            this._stateDisabled = {};
+            this._stateDisabled = {
+                inMaster: false
+            };
+            this._slideMaster = {
+                inMasterMode: false,
+                inMaster: false // not layout
+            };
 
             this._state = {
                 Transparency: null,
@@ -133,7 +137,8 @@ define([
                 disabled: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strFill
             });
             this.cmbFillSrc.setValue(Asc.c_oAscFill.FILL_TYPE_SOLID);
             this.cmbFillSrc.on('selected', _.bind(this.onFillSrcSelect, this));
@@ -147,7 +152,8 @@ define([
                 eyeDropper: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strColor
             });
             this.FillItems.push(this.btnBackColor);
 
@@ -162,7 +168,8 @@ define([
                 disabled: true,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strTransparency
             });
             this.numTransparency.on('change', _.bind(this.onNumTransparencyChange, this));
             this.numTransparency.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
@@ -313,7 +320,17 @@ define([
                     }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_BLIP:
-                    this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP;
+                    if (this._state.FillType !== Asc.c_oAscFill.FILL_TYPE_BLIP && !this._noApply && this._texturearray && this._texturearray.length>0) {
+                        this._state.FillType = Asc.c_oAscFill.FILL_TYPE_BLIP
+                        var props = new Asc.CAscSlideProps();
+                        var fill = new Asc.asc_CShapeFill();
+                        fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
+                        fill.put_fill( new Asc.asc_CFillBlip());
+                        fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
+                        fill.get_fill().put_texture_id(this._texturearray[0].type);
+                        props.put_background(fill);
+                        this.api.SetSlideProps(props);
+                    }
                     break;
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
@@ -753,13 +770,15 @@ define([
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
+                fillOnChangeVisibility: true,
                 itemTemplate: _.template([
                     '<div class="style" id="<%= id %>">',
                         '<img src="data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" class="combo-pattern-item" ',
                         'width="' + itemWidth + '" height="' + itemHeight + '" ',
                         'style="background-position: -<%= offsetx %>px -<%= offsety %>px;"/>',
                     '</div>'
-                ].join(''))
+                ].join('')),
+                ariaLabel: this.strPattern
             });
             this.cmbPattern.render($('#slide-combo-pattern'));
             this.cmbPattern.openButton.menu.cmpEl.css({
@@ -823,7 +842,8 @@ define([
                 data: this._arrGradType,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textStyle
             });
             this.cmbGradType.setValue(this._arrGradType[0].value);
             this.cmbGradType.on('selected', _.bind(this.onGradTypeSelect, this));
@@ -860,7 +880,8 @@ define([
                 }),
                 dataHint    : '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textDirection
             });
             this.btnDirection.on('render:after', function(btn) {
                 me.mnuDirectionPicker = new Common.UI.DataView({
@@ -940,7 +961,8 @@ define([
                 disabled: this._locked.background,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition
             });
             this.FillItems.push(this.spnGradPosition);
             this.spnGradPosition.on('change', _.bind(this.onPositionChange, this));
@@ -982,7 +1004,8 @@ define([
                 disabled: this._locked.background,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textAngle
             });
             this.FillItems.push(this.numGradientAngle);
             this.numGradientAngle.on('change', _.bind(this.onGradientAngleChange, this));
@@ -1036,6 +1059,7 @@ define([
                     me._texturearray.push({
                         imageUrl: item.get_image(),
                         name   : me.textureNames[item.get_id()],
+                        tip   : me.textureNames[item.get_id()],
                         type    : item.get_id(),
 //                        allowSelected : false,
                         selected: false
@@ -1055,7 +1079,8 @@ define([
                             '<span class="caret"></span>',
                         '</button>',
                         '</div>'
-                    ].join(''))
+                    ].join('')),
+                    ariaLabel: this.textTexture
                 });
                 this.textureMenu = new Common.UI.Menu({
                     items: [
@@ -1071,6 +1096,7 @@ define([
                         restoreHeight: 174,
                         parentMenu: menu,
                         showLast: false,
+                        delayRenderTips: true,
                         store: new Common.UI.DataViewStore(me._texturearray || []),
                         itemTemplate: _.template('<div class="item-texture"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
                     });
@@ -1148,7 +1174,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strForeground
                 });
                 this.FillItems.push(this.btnFGColor);
                 this.colorsFG = this.btnFGColor.getPicker();
@@ -1162,7 +1189,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strBackground
                 });
                 this.FillItems.push(this.btnBGColor);
                 this.colorsBG = this.btnBGColor.getPicker();
@@ -1176,7 +1204,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.strColor
                 });
                 this.FillItems.push(this.btnGradColor);
                 this.colorsGrad = this.btnGradColor.getPicker();
@@ -1390,19 +1419,7 @@ define([
                     (type1!='object' && this._state.SlideColor.indexOf(this.SlideColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.SlideColor.Color);
-                    if ( typeof(this.SlideColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.SlideColor.Color.effectValue ) {
-                                this.colorsBack.select(this.SlideColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.SlideColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.SlideColor.Color, this.colorsBack);
                     this._state.SlideColor = this.SlideColor.Color;
                 }
 
@@ -1415,19 +1432,7 @@ define([
                     (type1!='object' && this._state.FGColor.indexOf(this.FGColor.Color)<0 )) {
 
                     this.btnFGColor.setColor(this.FGColor.Color);
-                    if ( typeof(this.FGColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.FGColor.Color.effectValue ) {
-                                this.colorsFG.select(this.FGColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsFG.clearSelection();
-                    } else
-                        this.colorsFG.select(this.FGColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.FGColor.Color, this.colorsFG);
                     this._state.FGColor = this.FGColor.Color;
                 }
 
@@ -1439,19 +1444,7 @@ define([
                     (type1!='object' && this._state.BGColor.indexOf(this.BGColor.Color)<0 )) {
 
                     this.btnBGColor.setColor(this.BGColor.Color);
-                    if ( typeof(this.BGColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BGColor.Color.effectValue ) {
-                                this.colorsBG.select(this.BGColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBG.clearSelection();
-                    } else
-                        this.colorsBG.select(this.BGColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.BGColor.Color, this.colorsBG);
                     this._state.BGColor = this.BGColor.Color;
                 }
 
@@ -1464,19 +1457,7 @@ define([
                     (type1!='object' && this._state.GradColor.indexOf(color)<0 )) {
 
                     this.btnGradColor.setColor(color);
-                    if ( typeof(color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue ) {
-                                this.colorsGrad.select(color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsGrad.clearSelection();
-                    } else
-                        this.colorsGrad.select(color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(color, this.colorsGrad);
                     this._state.GradColor = color;
                 }
 
@@ -1493,10 +1474,15 @@ define([
             }
         },
 
-        setLocked: function (background, header) {
+        setSlideMasterMode: function (isMaster) {
+            this._slideMaster.inMasterMode = isMaster;
+        },
+
+        setLocked: function (background, header, inMaster) {
             this._locked = {
                 background: background, header: header
             };
+            this._slideMaster.inMaster = inMaster;
         },
 
         SetSlideDisabled: function(background, header, props) {
@@ -1504,10 +1490,10 @@ define([
                 background: background, header: header
             };
             if (this._initSettings) return;
-            
+
             if(props) {
-                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background);
-                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll());
+                this.btnBackgroundReset.setDisabled(!!props.get_LockResetBackground() || background || this._slideMaster.inMaster);
+                this.btnApplyAllSlides.setDisabled(!!props.get_LockApplyBackgroundToAll() || this._slideMaster.inMasterMode);
             }
 
             if (background !== this._stateDisabled.background) {
@@ -1525,6 +1511,11 @@ define([
                 this.chSlideNum.setDisabled(header);
                 this.chDateTime.setDisabled(header);
                 this._stateDisabled.header = header;
+            }
+
+            if (this._slideMaster.inMaster !== this._stateDisabled.inMaster) {
+                this.chBackgroundGraphics.setDisabled(!!this._stateDisabled.background || this._slideMaster.inMaster);
+                this._stateDisabled.inMaster = this._slideMaster.inMaster;
             }
         },
 
@@ -1609,53 +1600,7 @@ define([
 
         onEyedropperEnd: function () {
             this.fireEvent('eyedropper', false);
-        },
+        }
 
-        strColor                : 'Color',
-        strFill                 : 'Background',
-        textColor               : 'Color Fill',
-        textImageTexture        : 'Picture or Texture',
-        textTexture             : 'From Texture',
-        textFromUrl             : 'From URL',
-        textFromFile            : 'From File',
-        textStretch             : 'Stretch',
-        textTile                : 'Tile',
-        txtCanvas               : 'Canvas',
-        txtCarton               : 'Carton',
-        txtDarkFabric           : 'Dark Fabric',
-        txtGrain                : 'Grain',
-        txtGranite              : 'Granite',
-        txtGreyPaper            : 'Grey Paper',
-        txtKnit                 : 'Knit',
-        txtLeather              : 'Leather',
-        txtBrownPaper           : 'Brown Paper',
-        txtPapyrus              : 'Papyrus',
-        txtWood                 : 'Wood',
-        textAdvanced            : 'Show advanced settings',
-        textNoFill              : 'No Fill',
-        textSelectTexture       : 'Select',
-        textGradientFill: 'Gradient Fill',
-        textPatternFill: 'Pattern',
-        strBackground: 'Background color',
-        strForeground: 'Foreground color',
-        strPattern: 'Pattern',
-        textEmptyPattern: 'No Pattern',
-        textLinear: 'Linear',
-        textRadial: 'Radial',
-        textDirection: 'Direction',
-        textStyle: 'Style',
-        textGradient: 'Gradient Points',
-        strBackgroundReset: 'Reset Background',
-        strApplyAllSlides: 'Apply to All Slides',
-        strBackgroundGraphics: 'Show Background graphics',
-        strSlideNum: 'Show Slide Number',
-        strDateTime: 'Show Date and Time',
-        textFromStorage: 'From Storage',
-        textSelectImage: 'Select Picture',
-        textPosition: 'Position',
-        tipAddGradientPoint: 'Add gradient point',
-        tipRemoveGradientPoint: 'Remove gradient point',
-        textAngle: 'Angle',
-        strTransparency: 'Opacity'
     }, PE.Views.SlideSettings || {}));
 });

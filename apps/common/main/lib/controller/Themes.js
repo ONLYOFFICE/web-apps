@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -31,7 +31,7 @@
  */
 
 /**
- * Created by Maxim.Kadushkin on 2/5/2021.
+ * Created on 2/5/2021.
  */
 
 define([
@@ -73,6 +73,11 @@ define([
                 type: 'dark',
                 source: 'static',
             },
+            'theme-gray': {
+                text: locale.txtThemeGray || 'Gray',
+                type: 'light',
+                source: 'static',
+            },
         }
 
 
@@ -94,7 +99,6 @@ define([
             "background-toolbar",
             "background-toolbar-additional",
             "background-primary-dialog-button",
-            "background-tab-underline",
             "background-notification-popover",
             "background-notification-badge",
             "background-scrim",
@@ -109,10 +113,17 @@ define([
             "highlight-primary-dialog-button-hover",
             "highlight-header-button-hover",
             "highlight-header-button-pressed",
-            "highlight-toolbar-tab-underline",
             "highlight-text-select",
             "highlight-accent-button-hover",
             "highlight-accent-button-pressed",
+            "highlight-toolbar-tab-underline-document",
+            "highlight-toolbar-tab-underline-spreadsheet",
+            "highlight-toolbar-tab-underline-presentation",
+            "highlight-toolbar-tab-underline-pdf",
+            "highlight-header-tab-underline-document",
+            "highlight-header-tab-underline-spreadsheet",
+            "highlight-header-tab-underline-presentation",
+            "highlight-header-tab-underline-pdf",
 
             "border-toolbar",
             "border-divider",
@@ -161,12 +172,12 @@ define([
             "canvas-high-contrast-disabled",
 
             "canvas-cell-border",
-            "canvas-cell-title",
+            "canvas-cell-title-background",
+            "canvas-cell-title-background-hover",
+            "canvas-cell-title-background-selected",
             "canvas-cell-title-border",
             "canvas-cell-title-border-hover",
             "canvas-cell-title-border-selected",
-            "canvas-cell-title-hover",
-            "canvas-cell-title-selected",
 
             "canvas-dark-cell-title",
             "canvas-dark-cell-title-hover",
@@ -197,7 +208,32 @@ define([
 
             "canvas-freeze-line-1px",
             "canvas-freeze-line-2px",
-            "canvas-select-all-icon"
+            "canvas-select-all-icon",
+
+            "canvas-anim-pane-background",
+            "canvas-anim-pane-item-fill-selected",
+            "canvas-anim-pane-item-fill-hovered",
+            "canvas-anim-pane-button-fill",
+            "canvas-anim-pane-button-fill-hovered",
+            "canvas-anim-pane-button-fill-disabled",
+            "canvas-anim-pane-play-button-fill",
+            "canvas-anim-pane-play-button-outline",
+            "canvas-anim-pane-effect-bar-entrance-fill",
+            "canvas-anim-pane-effect-bar-entrance-outline",
+            "canvas-anim-pane-effect-bar-emphasis-fill",
+            "canvas-anim-pane-effect-bar-emphasis-outline",
+            "canvas-anim-pane-effect-bar-exit-fill",
+            "canvas-anim-pane-effect-bar-exit-outline",
+            "canvas-anim-pane-effect-bar-path-fill",
+            "canvas-anim-pane-effect-bar-path-outline",
+            "canvas-anim-pane-timeline-ruler-outline",
+            "canvas-anim-pane-timeline-ruler-tick",
+
+            "canvas-anim-pane-timeline-scroller-fill",
+            "canvas-anim-pane-timeline-scroller-outline",
+            "canvas-anim-pane-timeline-scroller-opacity",
+            "canvas-anim-pane-timeline-scroller-opacity-hovered",
+            "canvas-anim-pane-timeline-scroller-opacity-active",
         ];
 
         var get_current_theme_colors = function (c) {
@@ -217,7 +253,14 @@ define([
             if ( !!colors && !!id ) {
                 var _css_array = [':root .', id, '{'];
                 for (var c in colors) {
-                    _css_array.push('--', c, ':', colors[c], ';');
+                    if (c==='highlight-toolbar-tab-underline') {
+                        _css_array.push('--', c + '-document', ':', colors[c], ';');
+                        _css_array.push('--', c + '-spreadsheet', ':', colors[c], ';');
+                        _css_array.push('--', c + '-presentation', ':', colors[c], ';');
+                        _css_array.push('--', c + '-pdf', ':', colors[c], ';');
+                        console.log("Obsolete: The 'highlight-toolbar-tab-underline' color for interface themes is deprecated. Please use 'highlight-toolbar-tab-underline-document', 'highlight-toolbar-tab-underline-presentation', etc. instead.");
+                    } else
+                        _css_array.push('--', c, ':', colors[c], ';');
                 }
 
                 _css_array.push('}');
@@ -374,7 +417,7 @@ define([
             this.api.asc_setSkin(colors_obj);
 
             if ( !(Common.Utils.isIE10 || Common.Utils.isIE11) ) {
-                if ( themes_map[id].source != 'static' ) {
+                // if ( themes_map[id].source != 'static' ) { // TODO: check writing styles
                     const theme_obj = {
                         id: id,
                         type: themes_map[id].type,
@@ -383,7 +426,7 @@ define([
                     };
 
                     Common.localStorage.setItem('ui-theme', JSON.stringify(theme_obj));
-                }
+                // }
             }
         }
 
@@ -400,6 +443,12 @@ define([
 
         return {
             init: function (api) {
+                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                    .forEach(function (i) {
+                        document.documentElement.style.removeProperty('--' + i);
+                    });
+
+
                 Common.Gateway.on('opendocument', on_document_open.bind(this));
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme-id' && !Common.Controllers.Desktop.isActive() ) {
@@ -408,7 +457,7 @@ define([
                         }
                     } else
                     if ( e.key == 'content-theme' ) {
-                        this.setContentTheme(e.originalEvent.newValue, true);
+                        this.setContentTheme(e.originalEvent.newValue, true, false);
                     }
                 }.bind(this))
 
@@ -479,14 +528,15 @@ define([
                 return window.uitheme.iscontentdark;
             },
 
-            setContentTheme: function (mode, force) {
+            setContentTheme: function (mode, force, keep) {
                 var set_dark = mode == 'dark';
                 if ( set_dark != window.uitheme.iscontentdark || force ) {
+                    window.uitheme.iscontentdark = set_dark;
+
                     if ( this.isDarkTheme() )
                         this.api.asc_setContentDarkMode(set_dark);
 
-                    window.uitheme.iscontentdark = mode;
-                    if ( Common.localStorage.getItem('content-theme') != mode )
+                    if ( !(keep === false) && Common.localStorage.getItem('content-theme') != mode )
                         Common.localStorage.setItem('content-theme', mode);
 
                     Common.NotificationCenter.trigger('contenttheme:dark', set_dark);

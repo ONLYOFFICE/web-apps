@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  Slider.js
  *
- *  Created by Julia Radzhabova on 2/18/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/18/14
  *
  */
 
@@ -143,7 +142,7 @@ define([
                 e.stopPropagation();
 
                 var pos = Math.max(0, Math.min(100, (Math.round((
-                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top) : (e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) - me._dragstart
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
                 ) / me.width * 100))));
                 me.setThumbPosition(pos);
 
@@ -166,7 +165,7 @@ define([
                 e.stopPropagation();
 
                 var pos = Math.max(0, Math.min(100, (Math.round((
-                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top) : (e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) - me._dragstart
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) - me._dragstart
                 ) / me.width * 100))));
                 me.setThumbPosition(pos);
 
@@ -179,7 +178,7 @@ define([
 
             var onMouseDown = function (e) {
                 if ( me.disabled ) return;
-                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.thumb.offset().top) : (e.pageX*Common.Utils.zoom() - me.thumb.offset().left) - 6;
+                me._dragstart = me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.thumb).left) - 6;
 
                 me.thumb.addClass('active');
                 $(document).on('mouseup',   onMouseUp);
@@ -193,7 +192,7 @@ define([
                 if ( me.disabled ) return;
 
                 var pos = Math.max(0, Math.min(100, (Math.round((
-                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top) : (e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left)
+                    me.direction === 'vertical' ? (e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top) : (e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left)
                 ) / me.width * 100))));
                 me.setThumbPosition(pos);
 
@@ -350,7 +349,7 @@ define([
                 var n = me.minValue;
 
                 var getX = function (position) {
-                    return (0.01 * me.width * position + me.cmpEl.offset().left + me._dragstart)/Common.Utils.zoom();
+                    return (0.01 * me.width * position + Common.Utils.getOffset(me.cmpEl).left + me._dragstart)/Common.Utils.zoom();
                 };
 
                 me.centers = [];
@@ -382,7 +381,7 @@ define([
                     lastValue = me.thumbs[index].value,
                     minValue = (index-1<0) ? 0 : me.thumbs[index-1].position,
                     maxValue = (index+1<me.thumbs.length) ? me.thumbs[index+1].position : 100,
-                    position = Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100),
+                    position = Math.round((e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left - me._dragstart) / me.width * 100),
                     need_sort = position < minValue || position > maxValue,
                     pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
@@ -421,7 +420,7 @@ define([
                     lastValue = me.thumbs[index].value,
                     minValue = (index-1<0) ? 0 : me.thumbs[index-1].position,
                     maxValue = (index+1<me.thumbs.length) ? me.thumbs[index+1].position : 100,
-                    position = Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left - me._dragstart) / me.width * 100),
+                    position = Math.round((e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left - me._dragstart) / me.width * 100),
                     need_sort = position < minValue || position > maxValue,
                     pos = Math.max(0, Math.min(100, position)),
                     value = pos/me.delta + me.minValue;
@@ -432,7 +431,7 @@ define([
                 if (need_sort)
                     me.sortThumbs();
 
-                var positionY = e.pageY*Common.Utils.zoom() - me.cmpEl.offset().top;
+                var positionY = e.pageY*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).top;
                 me.isRemoveThumb = positionY > me.cmpEl.height() || positionY < 0;
                 me.setRemoveThumb(index, me.isRemoveThumb);
 
@@ -446,7 +445,7 @@ define([
                 var index = e.data.index,
                     thumb = me.thumbs[index].thumb;
 
-                me._dragstart = e.pageX*Common.Utils.zoom() - thumb.offset().left - 6.5;
+                me._dragstart = e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(thumb).left - 6.5;
                 setCenters(index);
                 me.setActiveThumb(index);
 
@@ -462,7 +461,7 @@ define([
             var onTrackMouseUp = function (e) {
                 if ( me.disabled || !_.isUndefined(me._dragstart) || me.thumbs.length > 9) return;
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) / me.width * 100)))),
                     nearIndex = findThumb(pos),
                     thumbColor = me.thumbs[nearIndex].colorValue,
                     thumbValue = me.thumbs[nearIndex].value,
@@ -480,7 +479,7 @@ define([
             /*var onTrackMouseDown = function (e) {
                 if ( me.disabled ) return;
 
-                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - me.cmpEl.offset().left) / me.width * 100)))),
+                var pos = Math.max(0, Math.min(100, (Math.round((e.pageX*Common.Utils.zoom() - Common.Utils.getOffset(me.cmpEl).left) / me.width * 100)))),
                     index = findThumb(pos),
                     lastValue = me.thumbs[index].value,
                     value = pos/me.delta + me.minValue;

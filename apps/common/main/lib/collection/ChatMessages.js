@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *    Collection
  *
- *    Created by Maxim Kadushkin on 01 March 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 01 March 2014
  *
  */
 

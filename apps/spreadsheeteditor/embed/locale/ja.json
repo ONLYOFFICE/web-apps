@@ -25,6 +25,7 @@
   "SSE.ApplicationController.errorInconsistentExtPptx": "ファイルを開くときにエラーが発生しました。<br>ファイルの内容はプレゼンテーション (pptx など) に対応していますが、ファイルの拡張子が一致していません: %1",
   "SSE.ApplicationController.errorInconsistentExtXlsx": "ファイルを開くときにエラーが発生しました。<br>ファイルの内容はスプレッドシート (xlsx など) に対応していますが、ファイルの拡張子が一致していません: %1",
   "SSE.ApplicationController.errorLoadingFont": "フォントがダウンロードされませんでした。<br>文書サーバのアドミニストレータを連絡してください。",
+  "SSE.ApplicationController.errorToken": "ドキュメント・セキュリティ・トークンが正しく形成されていません。<br>ドキュメントサーバーの管理者にご連絡ください。",
   "SSE.ApplicationController.errorTokenExpire": "ドキュメントセキュリティトークンの有効期限が切れています。<br>ドキュメントサーバーの管理者に連絡してください。",
   "SSE.ApplicationController.errorUpdateVersionOnDisconnect": "インターネット接続が復旧し、ファイルのバージョンが更新されています。<br>作業を継続する前に、ファイルをダウンロードするか内容をコピーして変更が失われていないことを確認してから、このページを再読み込みしてください。",
   "SSE.ApplicationController.errorUserDrop": "今、ファイルにアクセスすることはできません。",

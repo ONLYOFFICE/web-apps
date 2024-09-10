@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  Main controller
  *
- *  Created by Julia Radzhabova on 05/03/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 05/03/23
  *
  */
 
@@ -44,16 +43,18 @@ define([
     'irregularstack',
     'common/main/lib/component/Window',
     'common/main/lib/component/LoadMask',
+    'common/main/lib/component/RadioBox',
     'common/main/lib/component/Tooltip',
     'common/main/lib/controller/Fonts',
-    'common/main/lib/view/OpenDialog',
-    'common/main/lib/view/UserNameDialog',
     'common/main/lib/util/LocalStorage',
-    'pdfeditor/main/app/collection/ShapeGroups',
     'common/main/lib/controller/FocusManager',
+    'common/main/lib/controller/LaunchController',
     'common/main/lib/controller/HintManager',
     'common/main/lib/controller/LayoutManager',
-    'common/main/lib/controller/ExternalUsers'
+    'common/main/lib/controller/ExternalUsers',
+    'common/main/lib/view/OpenDialog',
+    'common/main/lib/collection/TextArt',
+    'common/main/lib/view/UserNameDialog',
 ], function () {
     'use strict';
 
@@ -82,7 +83,7 @@ define([
 
             models: [],
             collections: [
-                'ShapeGroups'
+                'Common.Collections.TextArt',
             ],
             views: [],
 
@@ -137,6 +138,7 @@ define([
                 Common.UI.FocusManager.init();
                 Common.UI.HintManager.init(this.api);
                 Common.UI.Themes.init(this.api);
+                Common.Controllers.LaunchController.init(this.api);
 
                 if (this.api){
                     this.api.SetDrawingFreeze(true);
@@ -192,7 +194,7 @@ define([
                     Common.NotificationCenter.on('showmessage',                     _.bind(this.onExternalMessage, this));
                     Common.NotificationCenter.on('showerror',                       _.bind(this.onError, this));
                     Common.NotificationCenter.on('editing:disable',                 _.bind(this.onEditingDisable, this));
-                    Common.NotificationCenter.on('pdf:mode',                        _.bind(this.onPdfModeChange, this));
+                    Common.NotificationCenter.on('pdf:mode-apply',                  _.bind(this.onPdfModeApply, this));
 
                     this.isShowOpenDialog = false;
                     
@@ -387,6 +389,7 @@ define([
                 this.appOptions.canRequestCreateNew = this.editorConfig.canRequestCreateNew;
                 this.appOptions.lang            = this.editorConfig.lang;
                 this.appOptions.location        = (typeof (this.editorConfig.location) == 'string') ? this.editorConfig.location.toLowerCase() : '';
+                this.appOptions.region          = (typeof (this.editorConfig.region) == 'string') ? this.editorConfig.region.toLowerCase() : this.editorConfig.region;
                 this.appOptions.sharingSettingsUrl = this.editorConfig.sharingSettingsUrl;
                 this.appOptions.fileChoiceUrl   = this.editorConfig.fileChoiceUrl;
                 this.appOptions.saveAsUrl       = this.editorConfig.saveAsUrl;
@@ -399,7 +402,7 @@ define([
                 this.appOptions.canRequestInsertImage = this.editorConfig.canRequestInsertImage;
                 this.appOptions.canRequestSharingSettings = this.editorConfig.canRequestSharingSettings;
                 this.appOptions.compatibleFeatures = true;
-                this.appOptions.uiRtl = !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
+                this.appOptions.uiRtl = Common.Locale.isCurrentLanguageRtl() && !(Common.Controllers.Desktop.isActive() && Common.Controllers.Desktop.uiRtlSupported()) && !Common.Utils.isIE;
                 this.appOptions.mentionShare = !((typeof (this.appOptions.customization) == 'object') && (this.appOptions.customization.mentionShare==false));
                 this.appOptions.canSaveDocumentToBinary = this.editorConfig.canSaveDocumentToBinary;
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && Common.NotificationCenter.on('user:rename', _.bind(this.showRenameUserDialog, this));
@@ -428,8 +431,7 @@ define([
                 if (this.editorConfig.lang)
                     this.api.asc_setLocale(this.editorConfig.lang);
 
-                if (this.appOptions.location == 'us' || this.appOptions.location == 'ca')
-                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                this.loadDefaultMetricSettings();
 
                 this.appOptions.wopi = this.editorConfig.wopi;
                 appHeader.setWopi(this.appOptions.wopi);
@@ -470,6 +472,8 @@ define([
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -611,6 +615,7 @@ define([
                     viewMode: disable,
                     allowSignature: false,
                     statusBar: true,
+                    rightMenu: {clear: !temp, disable: true},
                     leftMenu: {disable: true, previewMode: true},
                     fileMenu: {protect: true},
                     navigation: {disable: !temp, previewMode: true},
@@ -632,6 +637,11 @@ define([
                 !disable && this.stackDisableActions.pop({type: type});
                 var prev_options = !disable && (this.stackDisableActions.length()>0) ? this.stackDisableActions.get(this.stackDisableActions.length()-1) : null;
 
+                if (options.rightMenu && app.getController('RightMenu')) {
+                    options.rightMenu.clear && app.getController('RightMenu').getView('RightMenu').clearSelection();
+                    options.rightMenu.disable && app.getController('RightMenu').SetDisabled(disable, options.allowSignature);
+                }
+
                 if (options.statusBar) {
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
                 }
@@ -642,6 +652,7 @@ define([
                     app.getController('Toolbar').DisableToolbar(disable, options.viewMode, options.reviewMode, options.fillFormMode);
                 }
                 if (options.documentHolder) {
+                    options.documentHolder.clear && app.getController('DocumentHolder').clearSelection();
                     options.documentHolder.disable && app.getController('DocumentHolder').SetDisabled(disable, options.allowProtect, options.fillFormMode);
                 }
                 if (options.leftMenu) {
@@ -743,19 +754,36 @@ define([
 
                 if (this.appOptions.isEdit && toolbarView) {
                     if (toolbarView.btnStrikeout.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout')) {
-                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-highlight') {
                             this.api.SetMarkerFormat(toolbarView.btnStrikeout.options.type, false);
-                        toolbarView.btnStrikeout.toggle(false, false);
+                            toolbarController.updateSelectTools();
+                        }
+                        toolbarView.btnsStrikeout.forEach(function(button) {
+                            button.toggle(false, true);
+                        });
                     }
                     if (toolbarView.btnUnderline.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline')) {
-                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight')
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-strikeout' && arguments[1].id !== 'id-toolbar-btn-highlight') {
                             this.api.SetMarkerFormat(toolbarView.btnUnderline.options.type, false);
-                        toolbarView.btnUnderline.toggle(false, false);
+                            toolbarController.updateSelectTools();
+                        }
+                        toolbarView.btnsUnderline.forEach(function(button) {
+                            button.toggle(false, true);
+                        });
                     }
                     if (toolbarView.btnHighlight.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-highlight')) {
-                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout')
+                        if (!_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-underline' && arguments[1].id !== 'id-toolbar-btn-strikeout') {
                             this.api.SetMarkerFormat(toolbarView.btnHighlight.options.type, false);
-                        toolbarView.btnHighlight.toggle(false, false);
+                            toolbarController.updateSelectTools();
+                        }
+                        toolbarView.btnsHighlight.forEach(function(button) {
+                            button.toggle(false, true);
+                        });
+                    }
+
+                    if (toolbarView.btnTextHighlightColor && toolbarView.btnTextHighlightColor.pressed && ( !_.isObject(arguments[1]) || arguments[1].id !== 'id-toolbar-btn-text-highlight')) {
+                        this.api.SetMarkerFormat(null, false);
+                        toolbarView.btnTextHighlightColor.toggle(false, false);
                     }
                 }
 
@@ -764,7 +792,7 @@ define([
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isSyncButton = (toolbarView.btnCollabChanges.rendered) ? toolbarView.btnCollabChanges.cmpEl.hasClass('notify') : false,
                         isDisabled = !cansave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
 
                 Common.UI.HintManager.clearHints(true);
@@ -951,6 +979,12 @@ define([
                 var me = this,
                     value;
 
+                value = Common.localStorage.getItem("pdfe-settings-zoom");
+                Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);
+                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
+                value = Common.localStorage.getItem("pdfe-last-zoom");
+                var lastZoom = (value!==null) ? parseInt(value):0;
+
                 me._isDocReady = true;
                 Common.NotificationCenter.trigger('app:ready', this.appOptions);
 
@@ -961,12 +995,22 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
                 Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
 
-                value = Common.localStorage.getItem("pdfe-settings-zoom");
-                Common.Utils.InternalSettings.set("pdfe-settings-zoom", value);
-                var zf = (value!==null) ? parseInt(value) : (this.appOptions.customization && this.appOptions.customization.zoom ? parseInt(this.appOptions.customization.zoom) : 100);
-                value = Common.localStorage.getItem("pdfe-last-zoom");
-                var lastZoom = (value!==null) ? parseInt(value):0;
-                (zf == -1) ? this.api.zoomFitToPage() : ((zf == -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : (zf == -3 && lastZoom > 0) ? lastZoom : 100));
+                if (zf == -1) {
+                    this.api.zoomFitToPage();
+                } else if (zf == -2) {
+                    this.api.zoomFitToWidth();
+                } else if (zf == -3) {
+                    if (lastZoom > 0) {
+                        this.api.zoom(lastZoom);
+                    } else if (lastZoom == -1) {
+                        this.api.zoomFitToPage();
+                    } else if (lastZoom == -2) {
+                        this.api.zoomFitToWidth();
+                    }
+                } else {
+                    this.api.zoom(zf > 0 ? zf : 100);
+                }
+
 
                 value = Common.localStorage.getBool("pdfe-settings-compatible", false);
                 Common.Utils.InternalSettings.set("pdfe-settings-compatible", value);
@@ -997,9 +1041,11 @@ define([
 
                 value = Common.localStorage.getBool("pdfe-settings-show-alt-hints", Common.Utils.isMac ? false : true);
                 Common.Utils.InternalSettings.set("pdfe-settings-show-alt-hints", value);
+                value = Common.localStorage.getBool("pdfe-settings-annot-bar", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-annot-bar", value);
 
                 /** coauthoring begin **/
-                me.onPdfModeApply();
+                me.onPdfModeCoAuthApply();
                 /** coauthoring end **/
 
                 var application                 = me.getApplication();
@@ -1044,10 +1090,11 @@ define([
 
                     var timer_sl = setTimeout(function(){
                         toolbarController.createDelayedElements();
-
                         toolbarController.activateControls();
+                        documentHolderController.applyEditorMode();
                         if (me.needToUpdateVersion)
                             toolbarController.onApiCoAuthoringDisconnect();
+                        toolbarController.onApiFocusObject([]);
                         me.api.UpdateInterfaceState();
 
                         Common.NotificationCenter.trigger('document:ready', 'main');
@@ -1074,7 +1121,11 @@ define([
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
-
+                this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
+                    if (data.command == 'wopi:saveAsComplete') {
+                        me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
+                    }
+                });
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
                 if (!!me.appOptions.sharingSettingsUrl && me.appOptions.sharingSettingsUrl.length || me.appOptions.canRequestSharingSettings) {
@@ -1110,7 +1161,7 @@ define([
                 if (this.appOptions.isForm)
                     return this.applyLicenseForm();
 
-                if (this.appOptions.canSwitchMode && (this.appOptions.canPDFAnnotate || this.appOptions.canPDFEdit) &&
+                if ((this.appOptions.canPDFAnnotate || this.appOptions.canPDFEdit) &&
                     !this.appOptions.isDesktopApp && !this.appOptions.canBrandingExt &&
                     this.editorConfig && this.editorConfig.customization && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo ||
                     this.editorConfig.customization.font && (this.editorConfig.customization.font.size || this.editorConfig.customization.font.name))) {
@@ -1209,23 +1260,23 @@ define([
                 this.appOptions.canAnalytics   = params.asc_getIsAnalyticsEnable();
                 this.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                 this.appOptions.isLightVersion = params.asc_getIsLight();
-                /** coauthoring begin **/
                 this.appOptions.canCoAuthoring = !this.appOptions.isLightVersion;
-                /** coauthoring end **/
                 this.appOptions.isOffline      = this.api.asc_isOffline();
                 this.appOptions.canCreateNew   = this.appOptions.canCreateNew && !this.appOptions.isOffline && !this.isForm;
                 this.appOptions.isCrypted      = this.api.asc_isCrypto();
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
-                this.appOptions.canSwitchMode = !this.appOptions.isXpsViewer && !this.appOptions.isForm && false; // switch between View/pdf comments/pdf edit
-                this.appOptions.canEdit        = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
-                this.appOptions.isEdit         = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
-                this.appOptions.canPDFEdit     = false;//(this.permissions.edit !== false) && this.appOptions.canLicense;
+
+                var pdfEdit = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
+                this.appOptions.canSwitchMode = pdfEdit; // switch between View/pdf comments/pdf edit
+                this.appOptions.canEdit = this.appOptions.isEdit = pdfEdit;
+
+                this.appOptions.canCoEditing = false; // TODO: !(this.appOptions.isDesktopApp && this.appOptions.isOffline), switch between pdf comment/ pdf edit when false
+                this.appOptions.canPDFAnnotate = pdfEdit && this.appOptions.canLicense;// && (this.permissions.comment!== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
+                this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate; // TODO: this.appOptions.isDesktopApp && this.appOptions.isOffline !! online files always open in view mode
+                this.appOptions.canPDFEdit     = pdfEdit && this.appOptions.canLicense;//(this.permissions.edit !== false) || this.appOptions.isDesktopApp && this.appOptions.isOffline;
                 this.appOptions.isPDFEdit      = false; // this.appOptions.canPDFEdit && this.editorConfig.mode !== 'view'; !! always open in view mode
-                this.appOptions.canPDFAnnotate = (this.appOptions.canSwitchMode || !this.appOptions.isXpsViewer && !this.appOptions.isForm && this.appOptions.isDesktopApp && this.appOptions.isOffline) && this.appOptions.canLicense && (this.permissions.comment!== false);
-                this.appOptions.canPDFAnnotate = this.appOptions.canPDFAnnotate && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
-                this.appOptions.isPDFAnnotate  = this.appOptions.canPDFAnnotate && this.appOptions.isDesktopApp && this.appOptions.isOffline; // this.appOptions.canPDFAnnotate && !this.appOptions.isPDFEdit && this.editorConfig.mode !== 'view'; !! online files always open in view mode
-                this.appOptions.canComments    = !this.appOptions.isXpsViewer && !this.appOptions.isForm;
-                this.appOptions.canViewComments = this.appOptions.canComments;
+
+                this.appOptions.canComments = this.appOptions.canViewComments =  pdfEdit && !(this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                 this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !(this.permissions.chat===false || (this.permissions.chat===undefined) &&
                                                                                                                (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat!==undefined) {
@@ -1238,7 +1289,6 @@ define([
                 this.appOptions.buildVersion   = params.asc_getBuildVersion();
                 this.appOptions.canForcesave   = this.appOptions.isPDFEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
-                this.appOptions.saveAlwaysEnabled = !this.appOptions.isPDFAnnotate;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !this.permissions.editCommentAuthorOnly;
                 this.appOptions.canDeleteComments= this.appOptions.isOffline || !this.permissions.deleteCommentAuthorOnly;
                 if ((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.commentAuthorOnly===true) {
@@ -1258,6 +1308,8 @@ define([
                 this.appOptions.canFillForms   = this.appOptions.canLicense && this.appOptions.isForm && ((this.permissions.fillForms===undefined) ? (this.permissions.edit !== false) : this.permissions.fillForms) && (this.editorConfig.mode !== 'view');
                 this.appOptions.isAnonymousSupport = !!this.api.asc_isAnonymousSupport();
                 this.appOptions.isRestrictedEdit = !this.appOptions.isEdit && this.appOptions.canFillForms;
+                this.appOptions.canSaveToFile = this.appOptions.isEdit && this.appOptions.isDesktopApp && this.appOptions.isOffline || this.appOptions.isRestrictedEdit;
+                this.appOptions.showSaveButton = this.appOptions.isEdit;
 
                 this.appOptions.compactHeader = this.appOptions.customization && (typeof (this.appOptions.customization) == 'object') && !!this.appOptions.customization.compactHeader;
                 this.appOptions.twoLevelHeader = this.appOptions.isEdit || this.appOptions.isRestrictedEdit; // when compactHeader=true some buttons move to toolbar
@@ -1273,9 +1325,14 @@ define([
 
                 this.appOptions.fileKey = this.document.key;
 
+                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
+                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
+                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
+                Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
+
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
-                    appHeader.setBranding(this.editorConfig.customization);
+                    appHeader.setBranding(this.editorConfig.customization, this.appOptions);
 
                 this.appOptions.canFavorite = this.document.info && (this.document.info.favorite!==undefined && this.document.info.favorite!==null) && !this.appOptions.isOffline;
                 this.appOptions.canFavorite && appHeader.setFavorite(this.document.info.favorite);
@@ -1291,10 +1348,7 @@ define([
                 appHeader.setUserAvatar(this.appOptions.user.image);
 
                 this.appOptions.canRename && appHeader.setCanRename(true);
-                this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions, this.api);
-                Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
-                this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
                 Common.UI.ExternalUsers.init(this.appOptions.canRequestUsers, this.api);
                 this.appOptions.user.image ? Common.UI.ExternalUsers.setImage(this.appOptions.user.id, this.appOptions.user.image) : Common.UI.ExternalUsers.get('info', this.appOptions.user.id);
                 
@@ -1318,7 +1372,9 @@ define([
                 }
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.isRestrictedEdit);
-                this.appOptions.isRestrictedEdit && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyForms);
+                this.api.asc_setCanSendChanges(this.appOptions.canSaveToFile);
+                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
+
                 this.api.asc_LoadDocument();
             },
 
@@ -1361,10 +1417,37 @@ define([
                 Common.Utils.InternalSettings.set("pdfe-settings-autosave", autosave);
             },
 
-            onPdfModeChange: function(mode, callback) {
+            loadDefaultMetricSettings: function() {
+                var region = '';
+                if (this.appOptions.location) {
+                    console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+                    region = this.appOptions.location;
+                } else if (this.appOptions.region) {
+                    var val = this.appOptions.region;
+                    val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+                    if (val && typeof val === 'string') {
+                        var arr = val.split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                } else {
+                    var arr = (this.appOptions.lang || 'en').split(/[\-_]/);
+                    (arr.length>1) && (region = arr[arr.length-1]);
+                    if (!region) {
+                        arr = (navigator.language || '').split(/[\-_]/);
+                        (arr.length>1) && (region = arr[arr.length-1]);
+                    }
+                }
+
+                if (/^(ca|us)$/i.test(region))
+                    Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+            },
+
+            onPdfModeApply: function(mode) {
+                Common.UI.TooltipManager.closeTip('editPdf');
+
                 if (!this.appOptions.canSwitchMode) return;
 
-                if (mode==='comment' || mode==='edit') {
+                if ((mode==='comment' || mode==='edit') && false) { // TODO: fix when use co-edit
                     if (!this.appOptions.isAnonymousSupport && !!this.appOptions.user.anonymous) {
                         Common.UI.warning({
                             title: this.notcriticalErrorTitle,
@@ -1413,17 +1496,27 @@ define([
                 } else if (mode==='view') {
                     this.appOptions.isPDFEdit = this.appOptions.isPDFAnnotate = false;
                 }
-                callback && callback();
-                this.onPdfModeApply();
+                this.onPdfModeCoAuthApply();
+                this.api.asc_setRestriction(this.appOptions.isRestrictedEdit ? Asc.c_oAscRestrictionType.OnlyForms : this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
+                Common.NotificationCenter.trigger('pdf:mode-changed', this.appOptions);
+                var app = this.getApplication(),
+                    toolbar = app.getController('Toolbar');
+                toolbar.applyMode();
+                app.getController('Viewport').applyEditorMode();
+                app.getController('ViewTab').applyEditorMode();
+                app.getController('DocumentHolder').applyEditorMode();
+                app.getController('LeftMenu').leftMenu.getMenu('file').applyMode();
+                toolbar.toolbar.clearActiveData();
+                toolbar.toolbar.processPanelVisible(null, true);
             },
 
-            onPdfModeApply: function() {
+            onPdfModeCoAuthApply: function() {
                 if (!this.api) return;
 
-                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : this.appOptions.isForm;
+                this._state.fastCoauth = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile ? Common.Utils.InternalSettings.get("pdfe-settings-coauthmode") : this.appOptions.isForm;
                 this.api.asc_SetFastCollaborative(this._state.fastCoauth);
-                this.api.asc_setAutoSaveGap(this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : (this.appOptions.isForm ? 1 : 0));
-                if (this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) {
+                this.api.asc_setAutoSaveGap((this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile ? Common.Utils.InternalSettings.get("pdfe-settings-autosave") : (this.appOptions.isForm ? 1 : 0));
+                if ((this.appOptions.isPDFAnnotate || this.appOptions.isPDFEdit) && this.appOptions.canSaveToFile) {
                     var value = Common.Utils.InternalSettings.get((this._state.fastCoauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
                     switch(value) {
                         case 'all': value = Asc.c_oAscCollaborativeMarksShowType.All; break;
@@ -1442,7 +1535,7 @@ define([
                 window.editor_elements_prepared = true;
 
                 var app             = this.getApplication(),
-                    viewport        = app.getController('Viewport').getView('Viewport'),
+                    viewport        = app.getController('Viewport'),
                     statusbarView   = app.getController('Statusbar').getView('Statusbar'),
                     documentHolder  = app.getController('DocumentHolder'),
                     toolbarController   = app.getController('Toolbar'),
@@ -1456,8 +1549,10 @@ define([
 
                 viewport.applyCommonMode();
 
-                var printController = app.getController('Print');
-                printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                if (this.appOptions.canPreviewPrint) {
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api).setMode(this.appOptions);
+                }
 
                 this.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(this.onDownloadUrl, this));
                 this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onAuthParticipantsChanged, this));
@@ -1470,37 +1565,25 @@ define([
                 (value===undefined) && (value = Common.Utils.Metric.getDefaultMetric());
                 Common.Utils.Metric.setCurrentMetric(value);
                 Common.Utils.InternalSettings.set("pdfe-settings-unit", value);
+
+                this.contComments.setMode(this.appOptions);
+                this.contComments.setConfig({config: this.editorConfig}, this.api);
+
+                toolbarController.setApi(this.api);
             },
 
             applyModeEditorElements: function() {
-                /** coauthoring begin **/
-                this.contComments.setMode(this.appOptions);
-                this.contComments.setConfig({config: this.editorConfig}, this.api);
-                /** coauthoring end **/
 
                 var me = this,
                     application         = this.getApplication();
                     // reviewController    = application.getController('Common.Controllers.ReviewChanges');
                 // reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
-                var toolbarController   = application.getController('Toolbar');
-                toolbarController   && toolbarController.setApi(me.api);
-
                 if (this.appOptions.isEdit) {
-                    // var fontsControllers    = application.getController('Common.Controllers.Fonts');
-                    // fontsControllers    && fontsControllers.setApi(me.api);
-
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
                         application.getController('Common.Controllers.Protection').setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api);
 
-                    var viewport = this.getApplication().getController('Viewport').getView('Viewport');
-                    viewport.applyEditorMode();
-
-                    var toolbarView = (toolbarController) ? toolbarController.getView() : null;
-                    if (toolbarView) {
-                        toolbarView.setApi(me.api);
-                        toolbarView.on('editcomplete', _.bind(me.onEditComplete, me));
-                    }
+                    application.getController('Viewport').applyEditorMode();
 
                     var value = Common.Utils.InternalSettings.get("pdfe-settings-unit");
                     me.api.asc_SetDocumentUnits((value==Common.Utils.Metric.c_MetricUnits.inch) ? Asc.c_oAscDocumentUnits.Inch : ((value==Common.Utils.Metric.c_MetricUnits.pt) ? Asc.c_oAscDocumentUnits.Point : Asc.c_oAscDocumentUnits.Millimeter));
@@ -1588,6 +1671,18 @@ define([
                         config.msg = this.uploadImageFileCountMessage;
                         break;
 
+                    case Asc.c_oAscError.ID.SplitCellMaxRows:
+                        config.msg = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
+                        break;
+
+                    case Asc.c_oAscError.ID.SplitCellMaxCols:
+                        config.msg = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
+                        break;
+
+                    case Asc.c_oAscError.ID.SplitCellRowsDivider:
+                        config.msg = this.splitDividerErrorText.replace('%1', errData.get_Value());
+                        break;
+
                     case Asc.c_oAscError.ID.UplDocumentSize:
                         config.msg = this.uploadDocSizeMessage;
                         break;
@@ -1618,6 +1713,18 @@ define([
 
                     case Asc.c_oAscError.ID.ConvertationPassword:
                         config.msg = this.errorFilePassProtect;
+                        break;
+
+                    case Asc.c_oAscError.ID.StockChartError:
+                        config.msg = this.errorStockChart;
+                        break;
+
+                    case Asc.c_oAscError.ID.DataRangeError:
+                        config.msg = this.errorDataRange;
+                        break;
+
+                    case Asc.c_oAscError.ID.Database:
+                        config.msg = this.errorDatabaseConnection;
                         break;
 
                     case Asc.c_oAscError.ID.UserDrop:
@@ -1676,6 +1783,10 @@ define([
                     case Asc.c_oAscError.ID.UpdateVersion:
                         config.msg = this.errorUpdateVersionOnDisconnect;
                         config.maxwidth = 600;
+                        break;
+
+                    case Asc.c_oAscError.ID.ComboSeriesError:
+                        config.msg = this.errorComboSeries;
                         break;
 
                     case Asc.c_oAscError.ID.DirectUrl:
@@ -1943,7 +2054,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isModified && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
 
                 /** coauthoring begin **/
@@ -1960,7 +2071,7 @@ define([
                     var isSyncButton = toolbarView.btnCollabChanges.cmpEl.hasClass('notify'),
                         forcesave = this.appOptions.forcesave || this.appOptions.canSaveDocumentToBinary,
                         isDisabled = !isCanSave && !isSyncButton && !forcesave || this._state.isDisconnected || this._state.fastCoauth && this._state.usersCount>1 && !forcesave || !this.appOptions.isPDFEdit && !this.appOptions.isPDFAnnotate;
-                        toolbarView.btnSave.setDisabled(isDisabled && !this.appOptions.saveAlwaysEnabled);
+                        toolbarView.btnSave.setDisabled(isDisabled && this.appOptions.canSaveToFile);
                 }
             },
 
@@ -2452,6 +2563,26 @@ define([
                 }
             },
 
+            fillTextArt: function(shapes, force){
+                var arr = [],
+                    artStore = this.getCollection('Common.Collections.TextArt');
+
+                if (!shapes && artStore.length>0 || force) {// shapes == undefined when update textart collection (from asc_onSendThemeColors)
+                    shapes = this.api.asc_getTextArtPreviews();
+                }
+                if (_.isEmpty(shapes)) return;
+
+                _.each(shapes, function(shape, index){
+                    arr.push({
+                        imageUrl : shape,
+                        data     : index,
+                        allowSelected : true,
+                        selected: false
+                    });
+                });
+                artStore.reset(arr);
+            },
+
             onSaveDocumentBinary: function(data) {
                 Common.Gateway.saveDocument(data);
             },
@@ -2460,143 +2591,7 @@ define([
                 data && this.api.asc_openDocumentFromBytes(new Uint8Array(data));
             },
 
-            leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
-            criticalErrorTitle: 'Error',
-            notcriticalErrorTitle: 'Warning',
-            errorDefaultMessage: 'Error code: %1',
-            criticalErrorExtText: 'Press "OK" to back to document list.',
-            openTitleText: 'Opening Document',
-            openTextText: 'Opening document...',
-            loadFontsTitleText: 'Loading Data',
-            loadFontsTextText: 'Loading data...',
-            loadImagesTitleText: 'Loading Images',
-            loadImagesTextText: 'Loading images...',
-            loadFontTitleText: 'Loading Data',
-            loadFontTextText: 'Loading data...',
-            loadImageTitleText: 'Loading Image',
-            loadImageTextText: 'Loading image...',
-            downloadTitleText: 'Downloading Document',
-            downloadTextText: 'Downloading document...',
-            printTitleText: 'Printing Document',
-            printTextText: 'Printing document...',
-            uploadImageTitleText: 'Uploading Image',
-            uploadImageTextText: 'Uploading image...',
-            uploadImageSizeMessage: 'Maximum image size limit exceeded.',
-            uploadImageExtMessage: 'Unknown image format.',
-            uploadImageFileCountMessage: 'No images uploaded.',
-            reloadButtonText: 'Reload Page',
-            unknownErrorText: 'Unknown error.',
-            convertationTimeoutText: 'Convertation timeout exceeded.',
-            downloadErrorText: 'Download failed.',
-            unsupportedBrowserErrorText: 'Your browser is not supported.',
-            requestEditFailedTitleText: 'Access denied',
-            requestEditFailedMessageText: 'Someone is editing this document right now. Please try again later.',
-            txtNeedSynchronize: 'You have an updates',
-            textLoadingDocument: 'Loading document',
-            warnBrowserZoom: 'Your browser\'s current zoom setting is not fully supported. Please reset to the default zoom by pressing Ctrl+0.',
-            warnBrowserIE9: 'The application has low capabilities on IE9. Use IE10 or higher',
-            applyChangesTitleText: 'Loading Data',
-            applyChangesTextText: 'Loading data...',
-            errorKeyEncrypt: 'Unknown key descriptor',
-            errorKeyExpire: 'Key descriptor expired',
-            errorUsersExceed: 'Count of users was exceed',
-            errorCoAuthoringDisconnect: 'Server connection lost. You can\'t edit anymore.',
-            errorFilePassProtect: 'The file is password protected and cannot be opened.',
-            txtEditingMode: 'Set editing mode...',
-            textAnonymous: 'Anonymous',
-            loadingDocumentTitleText: 'Loading document',
-            loadingDocumentTextText: 'Loading document...',
-            warnProcessRightsChange: 'You have been denied the right to edit the file.',
-            errorProcessSaveResult: 'Saving is failed.',
-            textCloseTip: 'Click to close the tip.',
-            titleUpdateVersion: 'Version changed',
-            errorUpdateVersion: 'The file version has been changed. The page will be reloaded.',
-            errorUserDrop: 'The file cannot be accessed right now.',
-            errorConnectToServer: 'The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the \'OK\' button, you will be prompted to download the document.',
-            textTryUndoRedo: 'The Undo/Redo functions are disabled for the Fast co-editing mode.<br>Click the \'Strict mode\' button to switch to the Strict co-editing mode to edit the file without other users interference and send your changes only after you save them. You can switch between the co-editing modes using the editor Advanced settings.',
-            textStrict: 'Strict mode',
-            textBuyNow: 'Visit website',
-            textNoLicenseTitle: 'License limit reached',
-            textContactUs: 'Contact sales',
-            errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download or print until the connection is restored and page is reloaded.',
-            warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
-            titleLicenseExp: 'License expired',
-            openErrorText: 'An error has occurred while opening the file',
-            saveErrorText: 'An error has occurred while saving the file',
-            errorToken: 'The document security token is not correctly formed.<br>Please contact your Document Server administrator.',
-            errorTokenExpire: 'The document security token has expired.<br>Please contact your Document Server administrator.',
-            errorSessionAbsolute: 'The document editing session has expired. Please reload the page.',
-            errorSessionIdle: 'The document has not been edited for quite a long time. Please reload the page.',
-            errorSessionToken: 'The connection to the server has been interrupted. Please reload the page.',
-            errorAccessDeny: 'You are trying to perform an action you do not have rights for.<br>Please contact your Document Server administrator.',
-            titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
-            textChangesSaved: 'All changes saved',
-            errorBadImageUrl: 'Image url is incorrect',
-            saveTextText: 'Saving document...',
-            saveTitleText: 'Saving Document',
-            errorForceSave: "An error occurred while saving the file. Please use the 'Download as' option to save the file to your computer hard drive or try again later.",
-            warnNoLicense: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact %1 sales team for personal upgrade terms.",
-            warnNoLicenseUsers: "You've reached the user limit for %1 editors. Contact %1 sales team for personal upgrade terms.",
-            warnLicenseExceeded: "You've reached the limit for simultaneous connections to %1 editors. This document will be opened for viewing only.<br>Contact your administrator to learn more.",
-            warnLicenseUsersExceeded: "You've reached the user limit for %1 editors. Contact your administrator to learn more.",
-            errorDataEncrypted: 'Encrypted changes have been received, they cannot be deciphered.',
-            textClose: 'Close',
-            textPaidFeature: 'Paid feature',
-            scriptLoadError: 'The connection is too slow, some of the components could not be loaded. Please reload the page.',
-            errorEditingSaveas: 'An error occurred during the work with the document.<br>Use the \'Save as...\' option to save the file backup copy to your computer hard drive.',
-            errorEditingDownloadas: 'An error occurred during the work with the document.<br>Use the \'Download as...\' option to save the file backup copy to your computer hard drive.',
-            textCustomLoader: 'Please note that according to the terms of the license you are not entitled to change the loader.<br>Please contact our Sales Department to get a quote.',
-            waitText: 'Please, wait...',
-            errorFileSizeExceed: 'The file size exceeds the limitation set for your server.<br>Please contact your Document Server administrator for details.',
-            uploadDocSizeMessage: 'Maximum document size limit exceeded.',
-            uploadDocExtMessage: 'Unknown document format.',
-            uploadDocFileCountMessage: 'No documents uploaded.',
-            errorUpdateVersionOnDisconnect: 'Internet connection has been restored, and the file version has been changed.<br>Before you can continue working, you need to download the file or copy its content to make sure nothing is lost, and then reload this page.',
-            errorDirectUrl: 'Please verify the link to the document.<br>This link must be a direct link to the file for downloading.',
-            warnLicenseLimitedRenewed: 'License needs to be renewed.<br>You have a limited access to document editing functionality.<br>Please contact your administrator to get full access',
-            warnLicenseLimitedNoAccess: 'License expired.<br>You have no access to document editing functionality.<br>Please contact your administrator.',
-            saveErrorTextDesktop: 'This file cannot be saved or created.<br>Possible reasons are: <br>1. The file is read-only. <br>2. The file is being edited by other users. <br>3. The disk is full or corrupted.',
-            errorSetPassword: 'Password could not be set.',
-            textRenameLabel: 'Enter a name to be used for collaboration',
-            textRenameError: 'User name must not be empty.',
-            textLongName: 'Enter a name that is less than 128 characters.',
-            textGuest: 'Guest',
-            txtClickToLoad: 'Click to load image',
-            leavePageTextOnClose: 'All unsaved changes in this document will be lost.<br> Click \'Cancel\' then \'Save\' to save them. Click \'OK\' to discard all the unsaved changes.',
-            textTryUndoRedoWarn: 'The Undo/Redo functions are disabled for the Fast co-editing mode.',
-            textDisconnect: 'Connection is lost',
-            textReconnect: 'Connection is restored',
-            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.',
-            errorLoadingFont: 'Fonts are not loaded.<br>Please contact your Document Server administrator.',
-            errorPasswordIsNotCorrect: 'The password you supplied is not correct.<br>Verify that the CAPS LOCK key is off and be sure to use the correct capitalization.',
-            confirmMaxChangesSize: 'The size of actions exceeds the limitation set for your server.<br>Press "Undo" to cancel your last action or press "Continue" to keep action locally (you need to download the file or copy its content to make sure nothing is lost).',
-            textUndo: 'Undo',
-            textContinue: 'Continue',
-            errorInconsistentExtDocx: 'An error has occurred while opening the file.<br>The file content corresponds to text documents (e.g. docx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtXlsx: 'An error has occurred while opening the file.<br>The file content corresponds to spreadsheets (e.g. xlsx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtPptx: 'An error has occurred while opening the file.<br>The file content corresponds to presentations (e.g. pptx), but the file has the inconsistent extension: %1.',
-            errorInconsistentExtPdf: 'An error has occurred while opening the file.<br>The file content corresponds to one of the following formats: pdf/djvu/xps/oxps, but the file has the inconsistent extension: %1.',
-            errorInconsistentExt: 'An error has occurred while opening the file.<br>The file content does not match the file extension.',
-            errorCannotPasteImg: 'We can\'t paste this image from the Clipboard, but you can save it to your device and \ninsert it from there, or you can copy the image without text and paste it into the document.',
-            textTryQuickPrint: 'You have selected Quick print: the entire document will be printed on the last selected or default printer.<br>Do you want to continue?',
-            textAnyone: 'Anyone',
-            textText: 'Text',
-            warnLicenseBefore: 'License not active.<br>Please contact your administrator.',
-            titleLicenseNotActive: 'License not active',
-            warnLicenseAnonymous: 'Access denied for anonymous users. This document will be opened for viewing only.',
-            txtSecurityWarningLink: 'This document is trying to connect to {0}.<br>If you trust this site, press "OK" while holding down the ctrl key.',
-            txtSecurityWarningOpenFile: 'This document is trying to open file dialog, press "OK" to open.',
-            txtInvalidGreaterLess: 'Ivalid value for field "{0}": must be greater than or equal to {1} and less then or equal to {2}.',
-            txtInvalidGreater: 'Ivalid value for field "{0}": must be greater than or equal to {1}.',
-            txtInvalidLess: 'Ivalid value for field "{0}": must be less than or equal to {1}.',
-            txtInvalidPdfFormat: 'The value entered does not match the format of the field "{0}".',
-            txtValidPdfFormat: 'Field value should match format "{0}".',
-            txtChoose: 'Choose an item',
-            txtEnterDate: 'Enter a date',
-            errorEmailClient: 'No email client could be found',
-            errorTextFormWrongFormat: 'The value entered does not match the format of the field.',
-            txtArt: 'Your text here',
+            errorLang: 'The interface language is not loaded.<br>Please contact your Document Server administrator.'
         }
     })(), PDFE.Controllers.Main || {}))
 });

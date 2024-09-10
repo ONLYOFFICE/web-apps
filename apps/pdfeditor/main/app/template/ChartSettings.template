@@ -1,0 +1,128 @@
+<table cols="3">
+    <tr>
+        <td colspan=3>
+            <label class="header"><%= scope.textSize %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" width="88px">
+            <label class="input-label"><%= scope.textWidth %></label>
+            <div id="chart-spin-width"></div>
+        </td>
+        <td class="padding-small" width="28px" style="vertical-align: bottom;">
+            <div id="chart-button-ratio"></div>
+        </td>
+        <td class="padding-small" width="88px">
+            <label class="input-label"><%= scope.textHeight %></label>
+            <div id="chart-spin-height"></div>
+        </td>
+    </tr>
+</table>
+<table cols="1">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="header"><%= scope.textChartType %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="chart-button-type" style=""></div>
+        </td>
+    </tr>
+    <tr class="not-combined">
+        <td class="padding-small">
+            <div id="chart-combo-style" style=""></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <button type="button" class="btn btn-text-default auto" id="chart-button-edit-data" style="min-width:115px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textEditData %></button>
+        </td>
+    </tr>
+</table>
+<table cols="1" id="chart-panel-3d-rotate">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="header"><%= scope.text3dRotation %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="fixed" style="margin-top: 3px;width: 88px;"><%= scope.textX %></label>
+            <div id="chart-btn-x-right" style="display: inline-block;" class="float-right margin-left-4"></div>
+            <div id="chart-btn-x-left" style="display: inline-block;" class="float-right margin-left-4"></div>
+            <div id="chart-spin-x" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="fixed" style="margin-top: 3px;width: 88px;"><%= scope.textY %></label>
+            <div id="chart-btn-y-down" style="display: inline-block;" class="float-right margin-left-4"></div>
+            <div id="chart-btn-y-up" style="display: inline-block;" class="float-right margin-left-4"></div>
+            <div id="chart-spin-y" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="fixed" style="margin-top: 3px;width: 88px;"><%= scope.textPerspective %></label>
+            <div id="chart-btn-widen" style="display: inline-block;" class="float-right margin-left-4"></div>
+            <div id="chart-btn-narrow" style="display: inline-block;" class="float-right margin-left-4"></div>
+            <div id="chart-spin-persp" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="chart-checkbox-right-angle"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <div id="chart-checkbox-autoscale"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="fixed" style="margin-top: 3px;width: 122px;"><%= scope.text3dDepth %></label>
+            <div id="chart-spin-3d-depth" style="display: inline-block;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="fixed" style="margin-top: 3px;width: 122px;"><%= scope.text3dHeight %></label>
+            <div id="chart-spin-3d-height" style="display: inline-block;;" class="float-right"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small">
+            <label class="link canfocused" id="chart-def-rotate-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textDefault %></label>
+        </td>
+    </tr>
+</table>
+<table cols="1">
+    <tr>
+        <td class="padding-small">
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <label class="link canfocused" id="chart-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

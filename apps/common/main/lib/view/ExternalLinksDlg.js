@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,14 +33,12 @@
  *
  *  ExternalLinksDlg.js
  *
- *  Created by Julia.Radzhabova on 26.07.22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 26.07.22
  *
  */
 
 define([
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ListView'
 ], function () {
     'use strict';
 

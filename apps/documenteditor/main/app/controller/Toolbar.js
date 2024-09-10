@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,34 +34,15 @@
  *
  *  Toolbar Controller
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 
 define([
     'core',
     'common/main/lib/component/Window',
-    'common/main/lib/view/CopyWarningDialog',
-    'common/main/lib/view/ImageFromUrlDialog',
-    'common/main/lib/view/InsertTableDialog',
-    'common/main/lib/view/SelectFileDlg',
-    'common/main/lib/view/SymbolTableDialog',
-    'common/main/lib/util/define',
     'documenteditor/main/app/view/Toolbar',
-    'documenteditor/main/app/view/DropcapSettingsAdvanced',
-    'documenteditor/main/app/view/StyleTitleDialog',
-    'documenteditor/main/app/view/PageMarginsDialog',
-    'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/controller/PageLayout',
-    'documenteditor/main/app/view/CustomColumnsDialog',
-    'documenteditor/main/app/view/ControlSettingsDialog',
-    'documenteditor/main/app/view/WatermarkSettingsDialog',
-    'documenteditor/main/app/view/ListSettingsDialog',
-    'documenteditor/main/app/view/DateTimeDialog',
-    'documenteditor/main/app/view/LineNumbersDialog',
-    'documenteditor/main/app/view/TextToTableDialog',
-    'documenteditor/main/app/view/HyphenationDialog'
 ], function () {
     'use strict';
 
@@ -129,6 +110,8 @@ define([
                     'insert:smartart'   : this.onInsertSmartArt,
                     'smartart:mouseenter': this.mouseenterSmartArt,
                     'smartart:mouseleave': this.mouseleaveSmartArt,
+                    'tab:active': this.onActiveTab,
+                    'tab:collapse': this.onTabCollapse
                 },
                 'FileMenu': {
                     'menu:hide': this.onFileMenu.bind(this, 'hide'),
@@ -144,7 +127,7 @@ define([
                         _main.onPrintQuick();
                     },
                     'save': function (opts) {
-                        this.api.asc_Save();
+                        this.tryToSave();
                     },
                     'undo': this.onUndo,
                     'redo': this.onRedo,
@@ -191,7 +174,8 @@ define([
                     'toolbar:setcompact': this.onChangeCompactView.bind(this)
                 },
                 'DocumentHolder': {
-                    'list:settings': this.onMarkerSettingsClick.bind(this)
+                    'list:settings': this.onMarkerSettingsClick.bind(this),
+                    'field:edit': this.onInsFieldClick.bind(this, 'edit')
                 },
                 'Common.Views.ReviewChanges': {
                     'collaboration:mailmerge':  _.bind(this.onSelectRecepientsClick, this)
@@ -276,12 +260,15 @@ define([
         setMode: function(mode) {
             this.mode = mode;
             this.toolbar.applyLayout(mode);
+            !this.mode.isPDFForm && Common.UI.TooltipManager.addTips({
+                'pageColor' : {name: 'de-help-tip-page-color', placement: 'bottom-left', text: this.helpPageColor, header: this.helpPageColorHeader, target: '#slot-btn-pagecolor', automove: true}
+            });
         },
 
         attachRestrictedEditFormsUIEvents: function(toolbar) {
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
-            toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -292,7 +279,10 @@ define([
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
-
+            toolbar.btnEditMode.on('click', function (btn, e) {
+                Common.Gateway.requestEditRights();
+            });
+            Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
         },
@@ -304,7 +294,7 @@ define([
 
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
-            toolbar.btnSave.on('click',                                 _.bind(this.onSave, this));
+            toolbar.btnSave.on('click',                                 _.bind(this.tryToSave, this));
             toolbar.btnUndo.on('click',                                 _.bind(this.onUndo, this));
             toolbar.btnUndo.on('disabled',                              _.bind(this.onBtnChangeState, this, 'undo:disabled'));
             toolbar.btnRedo.on('click',                                 _.bind(this.onRedo, this));
@@ -375,11 +365,13 @@ define([
             toolbar.mnuHighlightColorPicker.on('select',                _.bind(this.onSelectHighlightColor, this));
             toolbar.mnuHighlightTransparent.on('click',                 _.bind(this.onHighlightTransparentClick, this));
             toolbar.mnuLineSpace.on('item:toggle',                      _.bind(this.onLineSpaceToggle, this));
+            toolbar.mnuLineSpace.on('item:click',                       _.bind(this.onLineSpaceClick, this));
+            toolbar.mnuLineSpace.on('show:after',                       _.bind(this.onLineSpaceShow, this));
             toolbar.mnuNonPrinting.on('item:toggle',                    _.bind(this.onMenuNonPrintingToggle, this));
             toolbar.btnShowHidenChars.on('toggle',                      _.bind(this.onNonPrintingToggle, this));
             toolbar.mnuTablePicker.on('select',                         _.bind(this.onTablePickerSelect, this));
             toolbar.mnuInsertTable.on('item:click',                     _.bind(this.onInsertTableClick, this));
-            toolbar.mnuInsertTable.on('show:after',                _.bind(this.onInsertTableShow, this));
+            toolbar.mnuInsertTable.on('show:after',                     _.bind(this.onInsertTableShow, this));
             toolbar.mnuInsertImage.on('item:click',                     _.bind(this.onInsertImageClick, this));
             toolbar.btnInsertText.on('click',                           _.bind(this.onBtnInsertTextClick, this));
             toolbar.btnInsertText.menu.on('item:click',                 _.bind(this.onMenuInsertTextClick, this));
@@ -399,6 +391,7 @@ define([
             toolbar.mnuPageNumberPosPicker.on('item:click',             _.bind(this.onInsertPageNumberClick, this));
             toolbar.btnEditHeader.menu.on('item:click',                 _.bind(this.onEditHeaderFooterClick, this));
             toolbar.btnInsDateTime.on('click',                          _.bind(this.onInsDateTimeClick, this));
+            toolbar.btnInsField.on('click',                             _.bind(this.onInsFieldClick, this, 'add'));
             toolbar.mnuPageNumCurrentPos.on('click',                    _.bind(this.onPageNumCurrentPosClick, this));
             toolbar.mnuInsertPageCount.on('click',                      _.bind(this.onInsertPageCountClick, this));
             toolbar.btnBlankPage.on('click',                            _.bind(this.onBtnBlankPageClick, this));
@@ -422,7 +415,11 @@ define([
             $('#id-toolbar-menu-new-control-color').on('click',         _.bind(this.onNewControlsColor, this));
             toolbar.listStylesAdditionalMenuItem.on('click', this.onMenuSaveStyle.bind(this));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
-
+            toolbar.btnPageColor.menu.on('show:after',                  _.bind(this.onPageColorShowAfter, this));
+            toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
+            toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
+            toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
+            Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());            
@@ -490,7 +487,7 @@ define([
                     this.api.asc_registerCallback('asc_onCanUndo', _.bind(this.onApiCanRevert, this, 'undo'));
                     this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                     this.api.asc_registerCallback('asc_onCanCopyCut', _.bind(this.onApiCanCopyCut, this));
-
+                    this.api.asc_registerCallback('asc_onChangeViewerTargetType', _.bind(this.onChangeViewerTargetType, this));
                 }
             }
             this.api.asc_registerCallback('onPluginToolbarMenu', _.bind(this.onPluginToolbarMenu, this));
@@ -501,6 +498,7 @@ define([
         onChangeCompactView: function(view, compact) {
             this.toolbar.setFolded(compact);
             this.toolbar.fireEvent('view:compact', [this, compact]);
+            compact && this.onTabCollapse();
 
             Common.localStorage.setBool('de-compact-toolbar', compact);
             Common.NotificationCenter.trigger('layout:changed', 'toolbar');
@@ -831,9 +829,9 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.plainEditLock, plain_edit_lock,    {array: this.toolbar.paragraphControls.concat([toolbar.btnClearStyle])});
 
             this.toolbar.lockToolbar(Common.enumLock.richDelLock, rich_del_lock,        {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
-                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol, toolbar.btnInsField ])});
             this.toolbar.lockToolbar(Common.enumLock.plainDelLock, plain_del_lock,      {array: toolbar.btnsPageBreak.concat(this.btnsComment).concat([toolbar.btnInsertTable, toolbar.btnInsertImage, toolbar.btnInsertChart, toolbar.btnInsertTextArt,
-                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol ])});
+                                                                                    toolbar.btnInsDateTime, toolbar.btnBlankPage, toolbar.btnInsertEquation, toolbar.btnInsertSymbol, toolbar.btnInsField ])});
 
             this.toolbar.lockToolbar(Common.enumLock.inChart,       in_chart,           {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnInsertEquation])});
             this.toolbar.lockToolbar(Common.enumLock.inSmartart,    in_smart_art,       {array: toolbar.textOnlyControls.concat([toolbar.btnClearStyle, toolbar.btnContentControls])});
@@ -903,7 +901,7 @@ define([
             this.toolbar.lockToolbar(Common.enumLock.chartLock, in_chart && image_locked, {array: [toolbar.btnInsertChart]});
 
             this.toolbar.lockToolbar(Common.enumLock.cantAddEquation, !can_add_image&&!in_equation, {array: [toolbar.btnInsertEquation]});
-            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime]});
+            this.toolbar.lockToolbar(Common.enumLock.noParagraphSelected, !in_para, {array: [toolbar.btnInsertSymbol, toolbar.btnInsDateTime, toolbar.btnLineSpace, toolbar.btnInsField]});
             this.toolbar.lockToolbar(Common.enumLock.inImage, in_image, {array: [toolbar.btnColumns]});
             this.toolbar.lockToolbar(Common.enumLock.inImagePara, in_image && in_para, {array: [toolbar.btnLineNumbers]});
 
@@ -973,14 +971,16 @@ define([
 
         onApiLockDocumentProps: function() {
             if (this._state.lock_doc!==true) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, true, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins,
+                                                                                      this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation, this.toolbar.btnPageColor]});
                 if (this._state.activated) this._state.lock_doc = true;
             }
         },
 
         onApiUnLockDocumentProps: function() {
             if (this._state.lock_doc!==false) {
-                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins, this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation]});
+                this.toolbar.lockToolbar(Common.enumLock.docPropsLock, false, {array: [this.toolbar.btnPageOrient, this.toolbar.btnPageSize, this.toolbar.btnPageMargins,
+                                                                                       this.toolbar.btnColumns, this.toolbar.btnLineNumbers, this.toolbar.btnHyphenation, this.toolbar.btnPageColor]});
                 if (this._state.activated) this._state.lock_doc = false;
             }
         },
@@ -1101,18 +1101,44 @@ define([
             this.onPrint(e);
         },
 
-        onSave: function(e) {
-            var toolbar = this.toolbar;
-            if (this.api) {
+        tryToSave: function(e) {
+            var toolbar = this.toolbar,
+                mode = toolbar.mode,
+                me = this;
+            if (!mode.canSaveToFile) {
+                var canDownload = mode.canDownload && (!mode.isDesktopApp || !mode.isOffline),
+                    saveSopy = (mode.canDownload && (!mode.isDesktopApp || !mode.isOffline)) && (mode.canRequestSaveAs || mode.saveAsUrl),
+                    saveAs = mode.canDownload && mode.isDesktopApp && mode.isOffline,
+                    buttons = (saveSopy || saveAs ? [{value: 'copy', caption: this.txtSaveCopy}] : []).concat(canDownload ? [{value: 'download', caption: this.txtDownload}] : []),
+                    primary = saveSopy || saveAs ? 'copy' : (canDownload ? 'download' : 'ok');
+
+                Common.UI.info({
+                    maxwidth: 500,
+                    buttons: !mode.canDownload ? ['ok'] : buttons.concat(['cancel']),
+                    primary: !mode.canDownload ? 'ok' : primary,
+                    msg: mode.canDownload ? this.txtNeedDownload : this.errorAccessDeny,
+                    callback: function(btn) {
+                        if (saveAs && btn==='copy')
+                            me.api.asc_DownloadAs();
+                        else if (btn==='copy' || btn==='download') {
+                            me.isFromFormSaveAs = (btn==='copy');
+                            var options = new Asc.asc_CDownloadOptions(Asc.c_oAscFileType.PDF, me.isFromFormSaveAs);
+                            options.asc_setIsSaveAs(me.isFromFormSaveAs);
+                            me.api.asc_DownloadAs(options);
+                        }
+                        Common.NotificationCenter.trigger('edit:complete', toolbar);
+                    }
+                });
+            } else if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = toolbar.btnCollabChanges && toolbar.btnCollabChanges.cmpEl.hasClass('notify');
-                if (!isModified && !isSyncButton && !toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary)
+                if (!isModified && !isSyncButton && !mode.forcesave && !mode.canSaveDocumentToBinary)
                     return;
 
                 this.api.asc_Save();
             }
 
-            toolbar.btnSave.setDisabled(!toolbar.mode.forcesave && !toolbar.mode.canSaveDocumentToBinary);
+            toolbar.btnSave.setDisabled(!mode.forcesave && !mode.canSaveDocumentToBinary && mode.canSaveToFile || !mode.showSaveButton);
 
             Common.NotificationCenter.trigger('edit:complete', toolbar);
 
@@ -1446,6 +1472,25 @@ define([
             this.showSelectedBulletOnOpen(type, picker);
         },
 
+        onPageColorShowAfter: function(menu, e) {
+            if (!(e && e.target===e.currentTarget))
+                return;
+
+            Common.UI.TooltipManager.closeTip('pageColor');
+
+            var picker = this.toolbar.mnuPageColorPicker,
+                color = this.api.asc_getPageColor();
+
+            this.toolbar.mnuPageNoFill.setChecked(!color, true);
+            if (color) {
+                color = color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME ? {
+                    color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()),
+                    effectValue: color.get_value()
+                } : Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
+            }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(color, picker);
+        },
+
         onApiUpdateListPatterns: function(data) {
             if (!data) return;
             this._listPatterns = [data.singleBullet, data.singleNumbering, data.multiLevel];
@@ -1543,6 +1588,31 @@ define([
             this.toolbar.saveListPresetToStorage(picker);
         },
 
+        onTextFromFileClick: function(menu, item, e) {
+            var me = this, type = item.value;
+            if (type === "file") {
+                this.api.asc_insertTextFromFile();
+            } else if (type === "url") {
+                (new Common.Views.ImageFromUrlDialog({
+                    label: me.fileUrl,
+                    handler: function(result, value) {
+                        if (result === 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.api.asc_insertTextFromUrl(checkUrl);
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.view);
+                        }
+                    }
+                })).show();
+            } else if (type === 'storage') {
+                Common.NotificationCenter.trigger('storage:document-load', 'insert-text');
+            }
+        },
+
         onMarkerSettingsClick: function(type) {
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
@@ -1622,6 +1692,30 @@ define([
 
                 Common.component.Analytics.trackEvent('ToolBar', 'Line Spacing');
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onLineSpaceClick: function(menu, item) {
+            if (item.value==='options') {
+                this.getApplication().getController('RightMenu').onRightMenuOpen(Common.Utils.documentSettingsType.Paragraph);
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            } else if (item.value==='before') {
+                item.options.action === 'add' ? this.api.asc_addSpaceBeforeParagraph() : this.api.asc_removeSpaceBeforeParagraph();
+            } else if (item.value==='after') {
+                item.options.action === 'add' ? this.api.asc_addSpaceAfterParagraph() : this.api.asc_removeSpaceAfterParagraph();
+            }
+        },
+
+        onLineSpaceShow: function(menu) {
+            if (this.api) {
+                var toolbar = this.toolbar,
+                    before = this.api.asc_haveSpaceBeforeParagraph(),
+                    after = this.api.asc_haveSpaceAfterParagraph();
+                toolbar.mnuLineSpaceBefore.setCaption(before ? toolbar.textRemSpaceBefore : toolbar.textAddSpaceBefore);
+                toolbar.mnuLineSpaceBefore.options.action = before ? 'remove' : 'add';
+                toolbar.mnuLineSpaceAfter.setCaption(after ? toolbar.textRemSpaceAfter : toolbar.textAddSpaceAfter);
+                toolbar.mnuLineSpaceAfter.options.action = after ? 'remove' : 'add';
+
             }
         },
 
@@ -1755,10 +1849,6 @@ define([
                                     me.api.AddImageUrl([checkUrl]);
 
                                     Common.component.Analytics.trackEvent('ToolBar', 'Image');
-                                } else {
-                                    Common.UI.warning({
-                                        msg: this.textEmptyImgUrl
-                                    });
                                 }
                             }
 
@@ -2540,7 +2630,7 @@ define([
             menu.items[3].setDisabled(isAllDefailtNotModifaed);
             menu.items[4].setDisabled(isAllCustomDeleted);
 
-            var parentOffset = this.toolbar.$el.offset(),
+            var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
             if ($('#header-container').is(":visible")) {
                 top -= $('#header-container').height()
@@ -2726,6 +2816,20 @@ define([
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 
+        onSelectPageColor: function(btn, color) {
+            if (this.api)
+                this.api.asc_putPageColor(Common.Utils.ThemeColor.getRgbColor(color));
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
+        },
+
+        onPageNoFillClick: function(item) {
+            if (this.api && item.checked)
+                this.api.asc_putPageColor(null);
+
+            Common.component.Analytics.trackEvent('ToolBar', 'Page Color');
+        },
+
         eyedropperStart: function () {
             if (this.toolbar.btnCopyStyle.pressed) {
                 this.toolbar.btnCopyStyle.toggle(false, true);
@@ -2788,20 +2892,7 @@ define([
             if ( (type1 !== type2) || (type1=='object' &&
                 (clr.effectValue!==this._state.clrback.effectValue || this._state.clrback.color.indexOf(clr.color)<0)) ||
                 (type1!='object' && this._state.clrback.indexOf(clr)<0 )) {
-
-                if ( typeof(clr) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue ) {
-                            picker.select(clr,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) picker.clearSelection();
-                } else
-                    picker.select(clr,true);
-
+                Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                 this._state.clrback = clr;
             }
             this._state.clrshd_asccolor = shd;
@@ -2831,19 +2922,7 @@ define([
                     (type1!='object' && this._state.clrtext.indexOf(clr)<0 )) {
 
                     this.toolbar.btnFontColor.setAutoColor(false);
-                    if ( typeof(clr) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == clr.effectValue ) {
-                                picker.select(clr,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) picker.clearSelection();
-                    } else {
-                        picker.select(clr,true);
-                    }
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(clr, picker);
                     this._state.clrtext = clr;
                 }
             }
@@ -3179,6 +3258,8 @@ define([
                 this.onParagraphColor(this._state.clrshd_asccolor);
             }
             this._state.clrshd_asccolor = undefined;
+
+            updateColors(this.toolbar.mnuPageColorPicker, 1);
         },
 
         _onInitEditorStyles: function(styles) {
@@ -3337,7 +3418,7 @@ define([
                 this.api && this.api.asc_StartMailMerge();
             } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
-                    title: me.dataUrl,
+                    label: me.dataUrl,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {
@@ -3501,6 +3582,9 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
+                if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
+                    me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
+
                 if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
                     me.toolbar.btnPrint.$el.parents('.group').hide().next().hide();
@@ -3554,7 +3638,7 @@ define([
 
             this.btnsComment = [];
             if ( config.canCoAuthoring && config.canComments ) {
-                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-add-comment', this.toolbar.capBtnComment,
+                this.btnsComment = Common.Utils.injectButtons(this.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', this.toolbar.capBtnComment,
                             [  Common.enumLock.paragraphLock, Common.enumLock.headerLock, Common.enumLock.richEditLock, Common.enumLock.plainEditLock, Common.enumLock.richDelLock, Common.enumLock.plainDelLock,
                                     Common.enumLock.cantAddQuotedComment, Common.enumLock.imageLock, Common.enumLock.inSpecificForm, Common.enumLock.inImage, Common.enumLock.lostConnect, Common.enumLock.disableOnStart,
                                     Common.enumLock.previewReviewMode, Common.enumLock.viewFormMode, Common.enumLock.docLockView, Common.enumLock.docLockForms, Common.enumLock.viewMode ],
@@ -3594,12 +3678,11 @@ define([
                         .onAppReady(config);
                 } else if (config.isRestrictedEdit && config.canFillForms && config.isPDFForm) {
                     if (me.toolbar.btnHandTool) {
-                        me.toolbar.btnHandTool.toggle(true, true);
                         me.api.asc_setViewerTargetType('hand');
                     }
                 }
 
-                config.isOForm && config.canDownloadForms && Common.UI.warning({
+                config.isOForm && config.canDownload && Common.UI.warning({
                     msg  : config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textConvertFormSave : me.textConvertFormDownload,
                     buttons: [{value: 'ok', caption: config.canRequestSaveAs || !!config.saveAsUrl || config.isOffline ? me.textSavePdf : me.textDownloadPdf}, 'cancel'],
                     callback: function(btn){
@@ -3678,6 +3761,25 @@ define([
                     if (result == 'ok') {
                         if (me.api) {
                             me.api.asc_addDateTime(value);
+                        }
+                    }
+                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                }
+            })).show();
+        },
+
+        onInsFieldClick: function(type) {
+            var me = this;
+            (new Common.Views.TextInputDialog({
+                width: 450,
+                title: me.textFieldTitle,
+                label: me.textFieldLabel,
+                description: me.textFieldExample,
+                value: type==='edit' ? me.api.asc_GetComplexFieldInstruction() : '',
+                handler: function(result, value) {
+                    if (result == 'ok') {
+                        if (me.api) {
+                            type==='edit' ? me.api.asc_EditComplexFieldInstruction(value) : me.api.asc_AddComplexFieldWithInstruction(value);
                         }
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -3770,369 +3872,25 @@ define([
             }
         },
 
+        onChangeViewerTargetType: function(isHandMode) {
+            if (this.toolbar && this.toolbar.btnHandTool) {
+                this.toolbar.btnHandTool.toggle(isHandMode, true);
+                this.toolbar.btnSelectTool.toggle(!isHandMode, true);
+            }
+        },
+
         onPluginToolbarMenu: function(data) {
             this.toolbar && Array.prototype.push.apply(this.toolbar.lockControls, Common.UI.LayoutManager.addCustomItems(this.toolbar, data));
         },
 
-        textEmptyImgUrl                            : 'You need to specify image URL.',
-        textWarning                                : 'Warning',
-        textFontSizeErr                            : 'The entered value is incorrect.<br>Please enter a numeric value between 1 and 300',
-        textSymbols                                : 'Symbols',
-        textFraction                               : 'Fraction',
-        textScript                                 : 'Script',
-        textRadical                                : 'Radical',
-        textIntegral                               : 'Integral',
-        textLargeOperator                          : 'Large Operator',
-        textBracket                                : 'Bracket',
-        textFunction                               : 'Function',
-        textAccent                                 : 'Accent',
-        textLimitAndLog                            : 'Limit And Log',
-        textOperator                               : 'Operator',
-        textMatrix                                 : 'Matrix',
+        onActiveTab: function(tab) {
+            (tab === 'layout') ? Common.UI.TooltipManager.showTip('pageColor') : Common.UI.TooltipManager.closeTip('pageColor');
+            (tab !== 'home') && Common.UI.TooltipManager.closeTip('docMode');
+        },
 
-        txtSymbol_pm                               : 'Plus Minus',
-        txtSymbol_infinity                         : 'Infinity',
-        txtSymbol_equals                           : 'Equal',
-        txtSymbol_neq                              : 'Not Equal To',
-        txtSymbol_about                            : 'Approximately',
-        txtSymbol_times                            : 'Multiplication Sign',
-        txtSymbol_div                              : 'Division Sign',
-        txtSymbol_factorial                        : 'Factorial',
-        txtSymbol_propto                           : 'Proportional To',
-        txtSymbol_less                             : 'Less Than',
-        txtSymbol_ll                               : 'Much Less Than',
-        txtSymbol_greater                          : 'Greater Than',
-        txtSymbol_gg                               : 'Much Greater Than',
-        txtSymbol_leq                              : 'Less Than or Equal To',
-        txtSymbol_geq                              : 'Greater Than or Equal To',
-        txtSymbol_mp                               : 'Minus Plus',
-        txtSymbol_cong                             : 'Approximately Equal To',
-        txtSymbol_approx                           : 'Almost Equal To',
-        txtSymbol_equiv                            : 'Identical To',
-        txtSymbol_forall                           : 'For All',
-        txtSymbol_additional                       : 'Complement',
-        txtSymbol_partial                          : 'Partial Differential',
-        txtSymbol_sqrt                             : 'Radical Sign',
-        txtSymbol_cbrt                             : 'Cube Root',
-        txtSymbol_qdrt                             : 'Fourth Root',
-        txtSymbol_cup                              : 'Union',
-        txtSymbol_cap                              : 'Intersection',
-        txtSymbol_emptyset                         : 'Empty Set',
-        txtSymbol_percent                          : 'Percentage',
-        txtSymbol_degree                           : 'Degrees',
-        txtSymbol_fahrenheit                       : 'Degrees Fahrenheit',
-        txtSymbol_celsius                          : 'Degrees Celsius',
-        txtSymbol_inc                              : 'Increment',
-        txtSymbol_nabla                            : 'Nabla',
-        txtSymbol_exists                           : 'There Exist',
-        txtSymbol_notexists                        : 'There Does Not Exist',
-        txtSymbol_in                               : 'Element Of',
-        txtSymbol_ni                               : 'Contains as Member',
-        txtSymbol_leftarrow                        : 'Left Arrow',
-        txtSymbol_uparrow                          : 'Up Arrow',
-        txtSymbol_rightarrow                       : 'Right Arrow',
-        txtSymbol_downarrow                        : 'Down Arrow',
-        txtSymbol_leftrightarrow                   : 'Left-Right Arrow',
-        txtSymbol_therefore                        : 'Therefore',
-        txtSymbol_plus                             : 'Plus',
-        txtSymbol_minus                            : 'Minus',
-        txtSymbol_not                              : 'Not Sign',
-        txtSymbol_ast                              : 'Asterisk Operator',
-        txtSymbol_bullet                           : 'Bulet Operator',
-        txtSymbol_vdots                            : 'Vertical Ellipsis',
-        txtSymbol_cdots                            : 'Midline Horizontal Ellipsis',
-        txtSymbol_rddots                           : 'Up Right Diagonal Ellipsis',
-        txtSymbol_ddots                            : 'Down Right Diagonal Ellipsis',
-        txtSymbol_aleph                            : 'Alef',
-        txtSymbol_beth                             : 'Bet',
-        txtSymbol_qed                              : 'End of Proof',
-        txtSymbol_alpha                            : 'Alpha',
-        txtSymbol_beta                             : 'Beta',
-        txtSymbol_gamma                            : 'Gamma',
-        txtSymbol_delta                            : 'Delta',
-        txtSymbol_varepsilon                       : 'Epsilon Variant',
-        txtSymbol_epsilon                          : 'Epsilon',
-        txtSymbol_zeta                             : 'Zeta',
-        txtSymbol_eta                              : 'Eta',
-        txtSymbol_theta                            : 'Theta',
-        txtSymbol_vartheta                         : 'Theta Variant',
-        txtSymbol_iota                             : 'Iota',
-        txtSymbol_kappa                            : 'Kappa',
-        txtSymbol_lambda                           : 'Lambda',
-        txtSymbol_mu                               : 'Mu',
-        txtSymbol_nu                               : 'Nu',
-        txtSymbol_xsi                              : 'Xi',
-        txtSymbol_o                                : 'Omicron',
-        txtSymbol_pi                               : 'Pi',
-        txtSymbol_varpi                            : 'Pi Variant',
-        txtSymbol_rho                              : 'Rho',
-        txtSymbol_varrho                           : 'Rho Variant',
-        txtSymbol_sigma                            : 'Sigma',
-        txtSymbol_varsigma                         : 'Sigma Variant',
-        txtSymbol_tau                              : 'Tau',
-        txtSymbol_upsilon                          : 'Upsilon',
-        txtSymbol_varphi                           : 'Phi Variant',
-        txtSymbol_phi                              : 'Phi',
-        txtSymbol_chi                              : 'Chi',
-        txtSymbol_psi                              : 'Psi',
-        txtSymbol_omega                            : 'Omega',
-
-        txtFractionVertical                        : 'Stacked Fraction',
-        txtFractionDiagonal                        : 'Skewed Fraction',
-        txtFractionHorizontal                      : 'Linear Fraction',
-        txtFractionSmall                           : 'Small Fraction',
-        txtFractionDifferential_1                  : 'Differential',
-        txtFractionDifferential_2                  : 'Differential',
-        txtFractionDifferential_3                  : 'Differential',
-        txtFractionDifferential_4                  : 'Differential',
-        txtFractionPi_2                            : 'Pi Over 2',
-
-        txtScriptSup                               : 'Superscript',
-        txtScriptSub                               : 'Subscript',
-        txtScriptSubSup                            : 'Subscript-Superscript',
-        txtScriptSubSupLeft                        : 'Left Subscript-Superscript',
-        txtScriptCustom_1                          : 'Script',
-        txtScriptCustom_2                          : 'Script',
-        txtScriptCustom_3                          : 'Script',
-        txtScriptCustom_4                          : 'Script',
-
-        txtRadicalSqrt                             : 'Square Root',
-        txtRadicalRoot_n                           : 'Radical With Degree',
-        txtRadicalRoot_2                           : 'Square Root With Degree',
-        txtRadicalRoot_3                           : 'Cubic Root',
-        txtRadicalCustom_1                         : 'Radical',
-        txtRadicalCustom_2                         : 'Radical',
-
-        txtIntegral                                : 'Integral',
-        txtIntegralSubSup                          : 'Integral',
-        txtIntegralCenterSubSup                    : 'Integral',
-        txtIntegralDouble                          : 'Double Integral',
-        txtIntegralDoubleSubSup                    : 'Double Integral',
-        txtIntegralDoubleCenterSubSup              : 'Double Integral',
-        txtIntegralTriple                          : 'Triple Integral',
-        txtIntegralTripleSubSup                    : 'Triple Integral',
-        txtIntegralTripleCenterSubSup              : 'Triple Integral',
-        txtIntegralOriented                        : 'Contour Integral',
-        txtIntegralOrientedSubSup                  : 'Contour Integral',
-        txtIntegralOrientedCenterSubSup            : 'Contour Integral',
-        txtIntegralOrientedDouble                  : 'Surface Integral',
-        txtIntegralOrientedDoubleSubSup            : 'Surface Integral',
-        txtIntegralOrientedDoubleCenterSubSup      : 'Surface Integral',
-        txtIntegralOrientedTriple                  : 'Volume Integral',
-        txtIntegralOrientedTripleSubSup            : 'Volume Integral',
-        txtIntegralOrientedTripleCenterSubSup      : 'Volume Integral',
-        txtIntegral_dx                             : 'Differential x',
-        txtIntegral_dy                             : 'Differential y',
-        txtIntegral_dtheta                         : 'Differential theta',
-
-        txtLargeOperator_Sum                       : 'Summation',
-        txtLargeOperator_Sum_CenterSubSup          : 'Summation',
-        txtLargeOperator_Sum_SubSup                : 'Summation',
-        txtLargeOperator_Sum_CenterSub             : 'Summation',
-        txtLargeOperator_Sum_Sub                   : 'Summation',
-        txtLargeOperator_Prod                      : 'Product',
-        txtLargeOperator_Prod_CenterSubSup         : 'Product',
-        txtLargeOperator_Prod_SubSup               : 'Product',
-        txtLargeOperator_Prod_CenterSub            : 'Product',
-        txtLargeOperator_Prod_Sub                  : 'Product',
-        txtLargeOperator_CoProd                    : 'Co-Product',
-        txtLargeOperator_CoProd_CenterSubSup       : 'Co-Product',
-        txtLargeOperator_CoProd_SubSup             : 'Co-Product',
-        txtLargeOperator_CoProd_CenterSub          : 'Co-Product',
-        txtLargeOperator_CoProd_Sub                : 'Co-Product',
-        txtLargeOperator_Union                     : 'Union',
-        txtLargeOperator_Union_CenterSubSup        : 'Union',
-        txtLargeOperator_Union_SubSup              : 'Union',
-        txtLargeOperator_Union_CenterSub           : 'Union',
-        txtLargeOperator_Union_Sub                 : 'Union',
-        txtLargeOperator_Intersection              : 'Intersection',
-        txtLargeOperator_Intersection_CenterSubSup : 'Intersection',
-        txtLargeOperator_Intersection_SubSup       : 'Intersection',
-        txtLargeOperator_Intersection_CenterSub    : 'Intersection',
-        txtLargeOperator_Intersection_Sub          : 'Intersection',
-        txtLargeOperator_Disjunction               : 'Vee',
-        txtLargeOperator_Disjunction_CenterSubSup  : 'Vee',
-        txtLargeOperator_Disjunction_SubSup        : 'Vee',
-        txtLargeOperator_Disjunction_CenterSub     : 'Vee',
-        txtLargeOperator_Disjunction_Sub           : 'Vee',
-        txtLargeOperator_Conjunction               : 'Wedge',
-        txtLargeOperator_Conjunction_CenterSubSup  : 'Wedge',
-        txtLargeOperator_Conjunction_SubSup        : 'Wedge',
-        txtLargeOperator_Conjunction_CenterSub     : 'Wedge',
-        txtLargeOperator_Conjunction_Sub           : 'Wedge',
-        txtLargeOperator_Custom_1                  : 'Summation',
-        txtLargeOperator_Custom_2                  : 'Summation',
-        txtLargeOperator_Custom_3                  : 'Summation',
-        txtLargeOperator_Custom_4                  : 'Product',
-        txtLargeOperator_Custom_5                  : 'Union',
-
-        txtBracket_Round                           : 'Brackets',
-        txtBracket_Square                          : 'Brackets',
-        txtBracket_Curve                           : 'Brackets',
-        txtBracket_Angle                           : 'Brackets',
-        txtBracket_LowLim                          : 'Brackets',
-        txtBracket_UppLim                          : 'Brackets',
-        txtBracket_Line                            : 'Brackets',
-        txtBracket_LineDouble                      : 'Brackets',
-        txtBracket_Square_OpenOpen                 : 'Brackets',
-        txtBracket_Square_CloseClose               : 'Brackets',
-        txtBracket_Square_CloseOpen                : 'Brackets',
-        txtBracket_SquareDouble                    : 'Brackets',
-
-        txtBracket_Round_Delimiter_2               : 'Brackets with Separators',
-        txtBracket_Curve_Delimiter_2               : 'Brackets with Separators',
-        txtBracket_Angle_Delimiter_2               : 'Brackets with Separators',
-        txtBracket_Angle_Delimiter_3               : 'Brackets with Separators',
-        txtBracket_Round_OpenNone                  : 'Single Bracket',
-        txtBracket_Round_NoneOpen                  : 'Single Bracket',
-        txtBracket_Square_OpenNone                 : 'Single Bracket',
-        txtBracket_Square_NoneOpen                 : 'Single Bracket',
-        txtBracket_Curve_OpenNone                  : 'Single Bracket',
-        txtBracket_Curve_NoneOpen                  : 'Single Bracket',
-        txtBracket_Angle_OpenNone                  : 'Single Bracket',
-        txtBracket_Angle_NoneOpen                  : 'Single Bracket',
-        txtBracket_LowLim_OpenNone                 : 'Single Bracket',
-        txtBracket_LowLim_NoneNone                 : 'Single Bracket',
-        txtBracket_UppLim_OpenNone                 : 'Single Bracket',
-        txtBracket_UppLim_NoneOpen                 : 'Single Bracket',
-        txtBracket_Line_OpenNone                   : 'Single Bracket',
-        txtBracket_Line_NoneOpen                   : 'Single Bracket',
-        txtBracket_LineDouble_OpenNone             : 'Single Bracket',
-        txtBracket_LineDouble_NoneOpen             : 'Single Bracket',
-        txtBracket_SquareDouble_OpenNone           : 'Single Bracket',
-        txtBracket_SquareDouble_NoneOpen           : 'Single Bracket',
-        txtBracket_Custom_1                        : 'Case (Two Conditions)',
-        txtBracket_Custom_2                        : 'Cases (Three Conditions)',
-        txtBracket_Custom_3                        : 'Stack Object',
-        txtBracket_Custom_4                        : 'Stack Object',
-        txtBracket_Custom_5                        : 'Cases Example',
-        txtBracket_Custom_6                        : 'Binomial Coefficient',
-        txtBracket_Custom_7                        : 'Binomial Coefficient',
-
-        txtFunction_Sin                            : 'Sine Function',
-        txtFunction_Cos                            : 'Cosine Function',
-        txtFunction_Tan                            : 'Tangent Function',
-        txtFunction_Csc                            : 'Cosecant Function',
-        txtFunction_Sec                            : 'Secant Function',
-        txtFunction_Cot                            : 'Cotangent Function',
-        txtFunction_1_Sin                          : 'Inverse Sine Function',
-        txtFunction_1_Cos                          : 'Inverse Cosine Function',
-        txtFunction_1_Tan                          : 'Inverse Tangent Function',
-        txtFunction_1_Csc                          : 'Inverse Cosecant Function',
-        txtFunction_1_Sec                          : 'Inverse Secant Function',
-        txtFunction_1_Cot                          : 'Inverse Cotangent Function',
-        txtFunction_Sinh                           : 'Hyperbolic Sine Function',
-        txtFunction_Cosh                           : 'Hyperbolic Cosine Function',
-        txtFunction_Tanh                           : 'Hyperbolic Tangent Function',
-        txtFunction_Csch                           : 'Hyperbolic Cosecant Function',
-        txtFunction_Sech                           : 'Hyperbolic Secant Function',
-        txtFunction_Coth                           : 'Hyperbolic Cotangent Function',
-        txtFunction_1_Sinh                         : 'Hyperbolic Inverse Sine Function',
-        txtFunction_1_Cosh                         : 'Hyperbolic Inverse Cosine Function',
-        txtFunction_1_Tanh                         : 'Hyperbolic Inverse Tangent Function',
-        txtFunction_1_Csch                         : 'Hyperbolic Inverse Cosecant Function',
-        txtFunction_1_Sech                         : 'Hyperbolic Inverse Secant Function',
-        txtFunction_1_Coth                         : 'Hyperbolic Inverse Cotangent Function',
-        txtFunction_Custom_1                       : 'Sine theta',
-        txtFunction_Custom_2                       : 'Cos 2x',
-        txtFunction_Custom_3                       : 'Tangent formula',
-
-        txtAccent_Dot                              : 'Dot',
-        txtAccent_DDot                             : 'Double Dot',
-        txtAccent_DDDot                            : 'Triple Dot',
-        txtAccent_Hat                              : 'Hat',
-        txtAccent_Check                            : 'Check',
-        txtAccent_Accent                           : 'Acute',
-        txtAccent_Grave                            : 'Grave',
-        txtAccent_Smile                            : 'Breve',
-        txtAccent_Tilde                            : 'Tilde',
-        txtAccent_Bar                              : 'Bar',
-        txtAccent_DoubleBar                        : 'Double Overbar',
-        txtAccent_CurveBracketTop                  : 'Overbrace',
-        txtAccent_CurveBracketBot                  : 'Underbrace',
-        txtAccent_GroupTop                         : 'Grouping Character Above',
-        txtAccent_GroupBot                         : 'Grouping Character Below',
-        txtAccent_ArrowL                           : 'Leftwards Arrow Above',
-        txtAccent_ArrowR                           : 'Rightwards Arrow Above',
-        txtAccent_ArrowD                           : 'Right-Left Arrow Above',
-        txtAccent_HarpoonL                         : 'Leftwards Harpoon Above',
-        txtAccent_HarpoonR                         : 'Rightwards Harpoon Above',
-        txtAccent_BorderBox                        : 'Boxed Formula (With Placeholder)',
-        txtAccent_BorderBoxCustom                  : 'Boxed Formula (Example)',
-        txtAccent_BarTop                           : 'Overbar',
-        txtAccent_BarBot                           : 'Underbar',
-        txtAccent_Custom_1                         : 'Vector A',
-        txtAccent_Custom_2                         : 'ABC With Overbar',
-        txtAccent_Custom_3                         : 'x XOR y With Overbar',
-
-        txtLimitLog_LogBase                        : 'Logarithm',
-        txtLimitLog_Log                            : 'Logarithm',
-        txtLimitLog_Lim                            : 'Limit',
-        txtLimitLog_Min                            : 'Minimum',
-        txtLimitLog_Max                            : 'Maximum',
-        txtLimitLog_Ln                             : 'Natural Logarithm',
-        txtLimitLog_Custom_1                       : 'Limit Example',
-        txtLimitLog_Custom_2                       : 'Maximum Example',
-
-        txtOperator_ColonEquals                    : 'Colon Equal',
-        txtOperator_EqualsEquals                   : 'Equal Equal',
-        txtOperator_PlusEquals                     : 'Plus Equal',
-        txtOperator_MinusEquals                    : 'Minus Equal',
-        txtOperator_Definition                     : 'Equal to By Definition',
-        txtOperator_UnitOfMeasure                  : 'Measured By',
-        txtOperator_DeltaEquals                    : 'Delta Equal To',
-        txtOperator_ArrowL_Top                     : 'Leftwards Arrow Above',
-        txtOperator_ArrowR_Top                     : 'Rightwards Arrow Above',
-        txtOperator_ArrowL_Bot                     : 'Leftwards Arrow Below',
-        txtOperator_ArrowR_Bot                     : 'Rightwards Arrow Below',
-        txtOperator_DoubleArrowL_Top               : 'Leftwards Arrow Above',
-        txtOperator_DoubleArrowR_Top               : 'Rightwards Arrow Above',
-        txtOperator_DoubleArrowL_Bot               : 'Leftwards Arrow Below',
-        txtOperator_DoubleArrowR_Bot               : 'Rightwards Arrow Below',
-        txtOperator_ArrowD_Top                     : 'Right-Left Arrow Above',
-        txtOperator_ArrowD_Bot                     : 'Right-Left Arrow Above',
-        txtOperator_DoubleArrowD_Top               : 'Right-Left Arrow Below',
-        txtOperator_DoubleArrowD_Bot               : 'Right-Left Arrow Below',
-        txtOperator_Custom_1                       : 'Yileds',
-        txtOperator_Custom_2                       : 'Delta Yields',
-
-        txtMatrix_1_2                              : '1x2 Empty Matrix',
-        txtMatrix_2_1                              : '2x1 Empty Matrix',
-        txtMatrix_1_3                              : '1x3 Empty Matrix',
-        txtMatrix_3_1                              : '3x1 Empty Matrix',
-        txtMatrix_2_2                              : '2x2 Empty Matrix',
-        txtMatrix_2_3                              : '2x3 Empty Matrix',
-        txtMatrix_3_2                              : '3x2 Empty Matrix',
-        txtMatrix_3_3                              : '3x3 Empty Matrix',
-        txtMatrix_Dots_Center                      : 'Midline Dots',
-        txtMatrix_Dots_Baseline                    : 'Baseline Dots',
-        txtMatrix_Dots_Vertical                    : 'Vertical Dots',
-        txtMatrix_Dots_Diagonal                    : 'Diagonal Dots',
-        txtMatrix_Identity_2                       : '2x2 Identity Matrix',
-        txtMatrix_Identity_2_NoZeros               : '3x3 Identity Matrix',
-        txtMatrix_Identity_3                       : '3x3 Identity Matrix',
-        txtMatrix_Identity_3_NoZeros               : '3x3 Identity Matrix',
-        txtMatrix_2_2_RoundBracket                 : 'Empty Matrix with Brackets',
-        txtMatrix_2_2_SquareBracket                : 'Empty Matrix with Brackets',
-        txtMatrix_2_2_LineBracket                  : 'Empty Matrix with Brackets',
-        txtMatrix_2_2_DLineBracket                 : 'Empty Matrix with Brackets',
-        txtMatrix_Flat_Round                       : 'Sparse Matrix',
-        txtMatrix_Flat_Square                      : 'Sparse Matrix',
-        confirmAddFontName: 'The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?',
-        notcriticalErrorTitle: 'Warning',
-        txtMarginsW: 'Left and right margins are too high for a given page wight',
-        txtMarginsH: 'Top and bottom margins are too high for a given page height',
-        textInsert: 'Insert',
-        textTabForms: 'Forms',
-        textGroup: 'Group',
-        textEmptyMMergeUrl: 'You need to specify URL.',
-        textRecentlyUsed: 'Recently Used',
-        dataUrl: 'Paste a data URL',
-        textConvertFormSave: 'Save file as a fillable PDF form to be able to fill it out.',
-        textConvertFormDownload: 'Download file as a fillable PDF form to be able to fill it out.',
-        txtUntitled: 'Untitled',
-        textSavePdf: 'Save as pdf',
-        textDownloadPdf: 'Download pdf'
+        onTabCollapse: function(tab) {
+            Common.UI.TooltipManager.closeTip('pageColor');
+        }
 
     }, DE.Controllers.Toolbar || {}));
 });

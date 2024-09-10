@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *    Collection
  *
- *    Created by Maxim Kadushkin on 27 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 27 February 2014
  *
  */
 
@@ -68,25 +67,19 @@ define([
         },
 
         getEditingOriginalCount: function() {
-            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) {return item.get('idOriginal');}).size().value();
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view')}).groupBy(function(item) { return item.get('idOriginal'); }).size().value();
         },
 
         getVisibleEditingOriginalCount: function() {
-            return this.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) {return item.get('idOriginal');}).size().value();
+            return this.chain().filter(function(item){return item.get('online') && !item.get('view') && !item.get('hidden')}).groupBy(function(item) { return item.get('idOriginal'); }).size().value();
         },
 
         findUser: function(id) {
-            return this.find(
-                function(model){
-                    return model.get('id') == id;
-                });
+            return this.findWhere({id: id});
         },
 
         findOriginalUser: function(id) {
-            return this.find(
-                function(model){
-                    return model.get('idOriginal') == id;
-                });
+            return this.findWhere({idOriginal: id});
         },
 
         findOriginalUsers: function(id) {
@@ -98,10 +91,7 @@ define([
         model: Common.Models.User,
 
         findUser: function(id) {
-            return this.find(
-                function(model){
-                    return model.get('id') == id;
-                });
+            return this.findWhere({id: id});
         }
     });
 });

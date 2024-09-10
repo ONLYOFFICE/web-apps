@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  TableSettings.js
  *
- *  Created by Julia Radzhabova on 4/11/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/11/14
  *
  */
 
@@ -48,8 +47,6 @@ define([
     'common/main/lib/component/ColorButton',
     'common/main/lib/component/ComboBorderSize',
     'common/main/lib/component/ComboDataView',
-    'common/main/lib/view/InsertTableDialog',
-    'presentationeditor/main/app/view/TableSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -330,7 +327,8 @@ define([
                 style: "width: 93px;",
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textBorders
             });
             this.BorderSize = this.cmbBorderSize.store.at(2).get('value');
             this.cmbBorderSize.setValue(this.BorderSize);
@@ -390,7 +388,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textCellSize + ' ' + this.textHeight
             });
             this.numHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var _props = new Asc.CTableProp();
@@ -411,7 +410,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textCellSize + ' ' + this.textWidth
             });
             this.numWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var _props = new Asc.CTableProp();
@@ -548,19 +548,7 @@ define([
                     (type1!='object' && this._state.BackColor.indexOf(this.CellColor.Color)<0 )) {
 
                     this.btnBackColor.setColor(this.CellColor.Color);
-                    if ( typeof(this.CellColor.Color) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.CellColor.Color.effectValue ) {
-                                this.colorsBack.select(this.CellColor.Color,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.colorsBack.clearSelection();
-                    } else
-                        this.colorsBack.select(this.CellColor.Color,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.CellColor.Color, this.colorsBack);
                     this._state.BackColor = this.CellColor.Color;
                 }
             }
@@ -651,7 +639,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.textBorders + ' ' + this.textBorderColor
                 });
                 this.lockedControls.push(this.btnBorderColor);
                 this.borderColor = this.btnBorderColor.getPicker();
@@ -664,7 +653,8 @@ define([
                     eyeDropper: true,
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.textBorders + ' ' + this.textBackColor
                 });
                 this.lockedControls.push(this.btnBackColor);
                 this.colorsBack = this.btnBackColor.getPicker();
@@ -810,7 +800,8 @@ define([
                     }),
                     dataHint: '1',
                     dataHintDirection: 'bottom',
-                    dataHintOffset: 'big'
+                    dataHintOffset: 'big',
+                    ariaLabel: this.textTemplate
                 });
                 this.btnTableTemplate.on('render:after', function(btn) {
                     self.mnuTableTemplatePicker = new Common.UI.DataView({
@@ -888,66 +879,7 @@ define([
 
         onEyedropperEnd: function () {
             this.fireEvent('eyedropper', false);
-        },
-
-        textBorders:        'Border\'s Style',
-        textBorderColor:    'Color',
-        textBackColor:      'Background color',
-        textEdit:           'Rows & Columns',
-        selectRowText           : 'Select Row',
-        selectColumnText        : 'Select Column',
-        selectCellText          : 'Select Cell',
-        selectTableText         : 'Select Table',
-        insertRowAboveText      : 'Insert Row Above',
-        insertRowBelowText      : 'Insert Row Below',
-        insertColumnLeftText    : 'Insert Column Left',
-        insertColumnRightText   : 'Insert Column Right',
-        deleteRowText           : 'Delete Row',
-        deleteColumnText        : 'Delete Column',
-        deleteTableText         : 'Delete Table',
-        mergeCellsText          : 'Merge Cells',
-        splitCellsText          : 'Split Cell...',
-        splitCellTitleText      : 'Split Cell',
-        textSelectBorders       : 'Select borders that you want to change',
-        textAdvanced            : 'Show advanced settings',
-        txtNoBorders            : 'No borders',
-        textTemplate            : 'Select From Template',
-        textRows                : 'Rows',
-        textColumns             : 'Columns',
-        textHeader              : 'Header',
-        textTotal               : 'Total',
-        textBanded              : 'Banded',
-        textFirst               : 'First',
-        textLast                : 'Last',
-        textEmptyTemplate       : 'No templates',
-        tipTop:             'Set Outer Top Border Only',
-        tipLeft:            'Set Outer Left Border Only',
-        tipBottom:          'Set Outer Bottom Border Only',
-        tipRight:           'Set Outer Right Border Only',
-        tipAll:             'Set Outer Border and All Inner Lines',
-        tipNone:            'Set No Borders',
-        tipInner:           'Set Inner Lines Only',
-        tipInnerVert:       'Set Vertical Inner Lines Only',
-        tipInnerHor:        'Set Horizontal Inner Lines Only',
-        tipOuter:           'Set Outer Border Only',
-        textCellSize: 'Cell Size',
-        textHeight: 'Height',
-        textWidth: 'Width',
-        textDistributeRows: 'Distribute rows',
-        textDistributeCols: 'Distribute columns',
-        txtTable_NoStyle: 'No Style',
-        txtTable_NoGrid: 'No Grid',
-        txtTable_TableGrid: 'Table Grid',
-        txtTable_ThemedStyle: 'Themed Style',
-        txtTable_LightStyle: 'Light Style',
-        txtTable_MediumStyle: 'Medium Style',
-        txtTable_DarkStyle: 'Dark Style',
-        txtTable_Accent: 'Accent',
-        txtGroupTable_Custom: 'Custom',
-        txtGroupTable_Optimal: 'Best Match for Document',
-        txtGroupTable_Light: 'Light',
-        txtGroupTable_Medium: 'Medium',
-        txtGroupTable_Dark: 'Dark',
+        }
 
 }, PE.Views.TableSettings || {}));
 });

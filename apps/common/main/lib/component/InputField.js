@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  InputField.js
  *
- *  Created by Alexander Yuzhin on 4/10/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/10/14
  *
  */
 
@@ -111,7 +110,7 @@ define([
                 this.editable       = me.options.editable;
                 this.disabled       = me.options.disabled;
                 this.spellcheck     = me.options.spellcheck;
-                this.blankError     = me.options.blankError || 'This field is required';
+                this.blankError     = me.options.blankError || me.txtEmpty;
                 this.validateOnChange = me.options.validateOnChange;
                 this.validateOnBlur = me.options.validateOnBlur;
                 this.maxLength      = me.options.maxLength;
@@ -177,6 +176,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                         Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;
@@ -396,7 +399,9 @@ define([
 
             showWarning: function(errors) {
                 this.showError(errors, true);
-            }
+            },
+
+            txtEmpty: 'This field is required'
         }
     })());
 
@@ -506,6 +511,10 @@ define([
                             Common.NotificationCenter.off({'modal:close': onModalClose});
                         };
                     Common.NotificationCenter.on({'modal:close': onModalClose});
+
+                    var ariaLabel = this.options.ariaLabel ? this.options.ariaLabel : this.placeHolder;
+                    if (ariaLabel)
+                        this._input.attr('aria-label', ariaLabel);
                 }
 
                 me.rendered = true;

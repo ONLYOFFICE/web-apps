@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  Links.js
  *
- *  Created by Julia Radzhabova on 22.12.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 22.12.2017
  *
  */
 
@@ -173,7 +172,7 @@ define([
                 this.btnsNotes = Common.Utils.injectButtons($host.find('.btn-slot.slot-notes'), '', 'toolbar__icon btn-notes', me.capBtnInsFootnote,
                     [_set.paragraphLock, _set.inEquation, _set.inImage, _set.inHeader, _set.controlPlain, _set.richEditLock, _set.plainEditLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                     true, true, undefined, '1', 'bottom', 'small');
-                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-inserthyperlink', me.capBtnInsLink,
+                this.btnsHyperlink = Common.Utils.injectButtons($host.find('.btn-slot.slot-inshyperlink'), '', 'toolbar__icon btn-big-inserthyperlink', me.capBtnInsLink,
                     [_set.paragraphLock, _set.headerLock, _set.hyperlinkLock, _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                     undefined, undefined, undefined, '1', 'bottom', 'small');
                 Array.prototype.push.apply(this.paragraphControls, this.btnsContents.concat(this.btnsNotes, this.btnsHyperlink));
@@ -465,46 +464,8 @@ define([
                         button.setDisabled(state);
                     }
                 }, this);
-            },
+            }
 
-            capBtnInsContents: 'Table of Contents',
-            tipContents: 'Insert table of contents',
-            textContentsSettings: 'Settings',
-            textContentsRemove: 'Remove table of contents',
-            capBtnContentsUpdate: 'Refresh',
-            tipContentsUpdate: 'Refresh table of contents',
-            textUpdateAll: 'Refresh entire table',
-            textUpdatePages: 'Refresh page numbers only',
-            tipNotes: 'Footnotes',
-            mniInsFootnote: 'Insert Footnote',
-            mniDelFootnote: 'Delete All Notes',
-            mniNoteSettings: 'Notes Settings',
-            textGotoFootnote: 'Go to Footnotes',
-            capBtnInsFootnote: 'Footnotes',
-            confirmDeleteFootnotes: 'Do you want to delete all footnotes?',
-            capBtnInsLink: 'Hyperlink',
-            tipInsertHyperlink: 'Add Hyperlink',
-            capBtnBookmarks: 'Bookmark',
-            tipBookmarks: 'Create a bookmark',
-            capBtnCaption: 'Caption',
-            tipCaption: 'Insert caption',
-            mniConvertNote: 'Convert All Notes',
-            textGotoEndnote: 'Go to Endnotes',
-            mniInsEndnote: 'Insert Endnote',
-            textConvertToEndnotes: 'Convert All Footnotes to Endnotes',
-            textConvertToFootnotes: 'Convert All Endnotes to Footnotes',
-            textSwapNotes: 'Swap Footnotes and Endnotes',
-            capBtnCrossRef: 'Cross-reference',
-            tipCrossRef: 'Insert cross-reference',
-            capBtnTOF: 'Table of Figures',
-            tipTableFiguresUpdate: 'Refresh table of figures',
-            tipTableFigures: 'Insert table of figures',
-            confirmReplaceTOF: 'Do you want to replace the selected table of figures?',
-            titleUpdateTOF: 'Refresh Table of Figures',
-            capBtnAddText: 'Add Text',
-            tipAddText: 'Include heading in the Table of Contents',
-            txtDontShowTof: 'Do Not Show in Table of Contents',
-            txtLevel: 'Level'
         }
     }()), DE.Views.Links || {}));
 });

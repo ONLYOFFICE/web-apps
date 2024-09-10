@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,16 +32,11 @@
 /**
  *  DateTimeDialog.js
  *
- *  Created by Julia Radzhabova on 26.06.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 26.06.2019
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView'
-], function () {
+define([], function () {
     'use strict';
 
     PE.Views.DateTimeDialog = Common.UI.Window.extend(_.extend({

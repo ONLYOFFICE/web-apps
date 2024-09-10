@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Page, Navbar, NavTitle, NavRight, Link, Icon, Tabs, Tab, f7 } from 'framework7-react';
+import { observer, inject } from "mobx-react";
 import { useTranslation } from 'react-i18next';
 import { AddChartController } from "../../controller/add/AddChart";
 import { AddFunctionController } from "../../controller/add/AddFunction";
@@ -43,15 +44,23 @@ const AddLayoutContent = ({ tabs }) => {
     )
 };
 
-const AddingPage = () => {
+const AddingPage = inject("storeApplicationSettings")(observer(props => {
     const { t } = useTranslation();
     const _t = t('View.Add', {returnObjects: true});
     const mainContext = useContext(MainContext);
     const addingContext = useContext(AddingContext);
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const directionMode = storeApplicationSettings.directionMode;
     // const wsLock = mainContext.wsLock;
     const wsProps = mainContext.wsProps;
     const showPanels = addingContext.showPanels;
     const tabs = [];
+
+    useEffect(() => {
+        if(directionMode === 'rtl') {
+            tabs.reverse();
+        }
+    }, [directionMode])
     
     if(!wsProps.Objects) {
         if(!showPanels) {
@@ -125,6 +134,6 @@ const AddingPage = () => {
             <AddLayoutContent tabs={tabs} />
         </Page>
     )
-};
+}));
 
 export default AddingPage;

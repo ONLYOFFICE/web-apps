@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,14 +32,11 @@
 /**
  *  RenameDialog.js
  *
- *  Created by Julia Radzhabova on 9/23/16
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 9/23/16
  *
  */
 
-define([
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.RenameDialog = Common.UI.Window.extend(_.extend({
         options: {

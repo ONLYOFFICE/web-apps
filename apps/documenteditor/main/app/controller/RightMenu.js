@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  RightMenu.js
  *
- *  Created by Julia Radzhabova on 1/17/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/17/14
  *
  */
 
@@ -219,6 +218,7 @@ define([
                     this._settings[settingsType].panel.isSmartArtInternal = isSmartArtInternal;
                     can_add_table = value.get_CanAddTable();
                     control_lock = control_lock || value.get_Locked();
+                    content_locked = !value.can_EditBlockContentControl();
                 }
                 this._settings[settingsType].props = value;
                 this._settings[settingsType].hidden = 0;
@@ -560,9 +560,25 @@ define([
                 !status && Common.NotificationCenter.trigger('forms:close-help', 'key');
                 !status && Common.NotificationCenter.trigger('forms:close-help', 'group-key');
                 !status && Common.NotificationCenter.trigger('forms:close-help', 'settings');
+
+                !view && this.rightmenu.fireEvent('view:hide', [this, !status]);
             }
             Common.NotificationCenter.trigger('layout:changed', 'main');
             Common.NotificationCenter.trigger('edit:complete', this.rightmenu);
+        },
+
+        onRightMenuOpen: function(type) {
+            if (this._settings[type]===undefined || this._settings[type].hidden || this._settings[type].btn.isDisabled() || this._settings[type].panelId===this.rightmenu.GetActivePane()) return;
+
+            this.tryToShowRightMenu();
+            this.rightmenu.SetActivePane(type, true);
+            this._settings[type].panel.ChangeSettings.call(this._settings[type].panel, this._settings[type].props);
+            this.rightmenu.updateScroller();
+        },
+
+        tryToShowRightMenu: function() {
+            if (this.rightmenu && this.rightmenu.mode && (!this.rightmenu.mode.canBrandingExt || !this.rightmenu.mode.customization || this.rightmenu.mode.customization.rightMenu !== false) && Common.UI.LayoutManager.isElementVisible('rightMenu'))
+                this.onRightMenuHide(null, true);
         },
 
         addNewPlugin: function (button, $button, $panel) {

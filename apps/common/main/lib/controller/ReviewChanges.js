@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  ReviewChanges.js
  *
- *  Created by Julia.Radzhabova on 05.08.15
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 05.08.15
  *
  */
 
@@ -46,9 +45,7 @@ define([
     'common/main/lib/model/ReviewChange',
     'common/main/lib/collection/ReviewChanges',
     'common/main/lib/view/ReviewChanges',
-    'common/main/lib/view/ReviewPopover',
-    'common/main/lib/view/LanguageDialog',
-    'common/main/lib/view/OptionsDialog'
+    'common/main/lib/view/ReviewPopover'
 ], function () {
     'use strict';
 
@@ -95,6 +92,9 @@ define([
                     'reviewchange:reject':      _.bind(this.onRejectClick, this),
                     'reviewchange:delete':      _.bind(this.onDeleteClick, this),
                     'reviewchange:goto':        _.bind(this.onGotoClick, this)
+                },
+                'ViewTab': {
+                    'viewmode:change': _.bind(this.onChangeViewMode, this)
                 }
             });
         },
@@ -571,6 +571,7 @@ define([
 
             var lang = (this.appConfig ? this.appConfig.lang || 'en' : 'en').replace('_', '-').toLowerCase();
             try {
+                if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                 return date.toLocaleString(lang, {dateStyle: 'short', timeStyle: 'short'});
             } catch (e) {
                 lang = 'en';
@@ -700,7 +701,7 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     (new Common.Views.ImageFromUrlDialog({
-                        title: me.textUrl,
+                        label: me.textUrl,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
@@ -749,7 +750,7 @@ define([
                     Common.NotificationCenter.trigger('edit:complete', this.view);
                 } else if (item === 'url') {
                     (new Common.Views.ImageFromUrlDialog({
-                        title: me.textUrl,
+                        label: me.textUrl,
                         handler: function(result, value) {
                             if (result == 'ok') {
                                 if (me.api) {
@@ -812,13 +813,14 @@ define([
         },
 
         insertDocumentFromStorage: function(data) {
-            if (data && data.url && (data.c==='compare' || data.c==='combine')) {
+            if (data && data.url && (data.c==='compare' || data.c==='combine' || data.c==='insert-text')) {
                 if (!this._state.compareSettings) {
                     this._state.compareSettings = new AscCommonWord.ComparisonOptions();
                     this._state.compareSettings.putWords(!Common.localStorage.getBool("de-compare-char"));
                 }
                 (data.c==='compare') && this.api.asc_CompareDocumentUrl(data.url, this._state.compareSettings, data.token);
                 (data.c==='combine') && this.api.asc_MergeDocumentUrl(data.url, this._state.compareSettings, data.token);
+                (data.c==='insert-text') && this.api.asc_insertTextFromUrl(data.url, data.token);
             }
         },
 
@@ -969,7 +971,7 @@ define([
                             docProtection   : me._state.docProtection
                         }));
                         var sdk = $('#editor_sdk'),
-                            offset = sdk.offset();
+                            offset = Common.Utils.getOffset(sdk);
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 } else if (config.canViewReview) {
@@ -1092,7 +1094,7 @@ define([
             var users = this.userCollection;
             this.popoverChanges && this.popoverChanges.each(function (model) {
                 var user = users.findOriginalUser(model.get('userid'));
-                model.set('usercolor', (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(model.get('userid')));
+                model.set('usercolor', (user) ? user.get('color') : Common.UI.ExternalUsers.getColor(model.get('userid') || model.get('username')));
                 user && user.get('avatar') && model.set('avatar', user.get('avatar'));
             });
         },
@@ -1170,6 +1172,10 @@ define([
         DisableMailMerge: function() {
             this._state.mmdisable = true;
             this.view && this.view.btnMailRecepients && Common.Utils.lockControls(Common.enumLock.mmergeLock, true, {array: [this.view.btnMailRecepients]});
+        },
+
+        onChangeViewMode: function (mode) {
+            this.lockToolbar(Common.enumLock.slideMasterMode, mode==='master');
         },
 
         textInserted: '<b>Inserted:</b>',

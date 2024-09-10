@@ -41,7 +41,8 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     const storeVersionHistory = props.storeVersionHistory;
     const isVersionHistoryMode = storeVersionHistory.isVersionHistoryMode;
     const storeDocumentInfo = props.storeDocumentInfo;
-    const docExt = storeDocumentInfo.dataDoc ? storeDocumentInfo.dataDoc.fileType : '';
+    const dataDoc = storeDocumentInfo.dataDoc;
+    const docExt = dataDoc?.fileType || '';
     const isAvailableExt = docExt && docExt !== 'djvu' && docExt !== 'pdf' && docExt !== 'xps';
     const storeToolbarSettings = props.storeToolbarSettings;
     const isDisconnected = props.users.isDisconnected;
@@ -78,11 +79,40 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
         }
     }
 
+    const touchMoveHandler = (e) => {
+        if (e.touches.length > 1 && !e.target.closest('#editor_sdk')) {
+            e.preventDefault();
+        }
+    }
+
+    const gesturePreventHandler = e => {
+        e.preventDefault();
+    }
+
     useEffect(() => {
-        if($$('.skl-container').length) {
+        if ($$('.skl-container').length) {
             $$('.skl-container').remove();
         }
+
+        document.addEventListener('touchmove', touchMoveHandler);
+
+        if (Device.ios) {
+            document.addEventListener('gesturestart', gesturePreventHandler);
+            document.addEventListener('gesturechange', gesturePreventHandler);
+            document.addEventListener('gestureend', gesturePreventHandler);
+        }
+       
+        return () => {
+            document.removeEventListener('touchmove', touchMoveHandler);
+
+            if (Device.ios) {
+                document.removeEventListener('gesturestart', gesturePreventHandler);
+                document.removeEventListener('gesturechange', gesturePreventHandler);
+                document.removeEventListener('gestureend', gesturePreventHandler);
+            }
+        }
     }, []);
+
 
     const handleClickToOpenOptions = (opts, showOpts) => {
         f7.popover.close('.document-menu.modal-in', false);
@@ -228,12 +258,13 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
     };
 
     return (
-        <Themes>
+        <Themes fileType={docExt}>
             <MainContext.Provider value={{
                 openOptions: handleClickToOpenOptions,
                 closeOptions: handleOptionsViewClosed,
                 showPanels: state.addShowOptions,
-                isBranding
+                isBranding,
+                isViewer,
             }}>
                 <Page name="home" className={`editor${!isHideLogo ? ' page-with-logo' : ''}`}>
                     <Navbar id='editor-navbar' className={`main-navbar${!isHideLogo ? ' navbar-with-logo' : ''}`}>
@@ -248,14 +279,16 @@ const MainPage = inject('storeDocumentInfo', 'users', 'storeAppOptions', 'storeV
                                 }
                             </div>
                         }
-                        <Subnavbar>
-                            <ToolbarController 
-                                openOptions={handleClickToOpenOptions} 
-                                closeOptions={handleOptionsViewClosed}
-                                isOpenModal={state.isOpenModal}
-                            />
-                            <Search useSuspense={false}/>
-                        </Subnavbar>
+                        {dataDoc &&
+                            <Subnavbar>
+                                <ToolbarController 
+                                    openOptions={handleClickToOpenOptions} 
+                                    closeOptions={handleOptionsViewClosed}
+                                    isOpenModal={state.isOpenModal}
+                                />
+                                <Search useSuspense={false}/>
+                            </Subnavbar>
+                        }
                     </Navbar>
                     <View id="editor_sdk"></View>
                     {isShowPlaceholder ?

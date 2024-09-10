@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  Label.js
  *
- *  Created by Julia Radzhabova on 1/20/22
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 1/20/22
  *
  */
 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,19 +33,15 @@
 /**
  *  SymbolTableDialog.js
  *
- *  Created by Julia Radzhabova on 07.11.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 07.11.2019
  *
  */
 if (Common === undefined)
     var Common = {};
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/util/character',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
 
+define([
+    'common/main/lib/util/character'
+], function () { 'use strict';
     var oRangeNames = {};
     oRangeNames[1] =  'Basic Latin';
     oRangeNames[2] =  'Latin 1 Supplement';

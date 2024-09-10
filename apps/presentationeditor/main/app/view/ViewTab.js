@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 07.12.2021
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 07.12.2021
  *
  */
 
@@ -46,7 +45,12 @@ define([
 
     PE.Views.ViewTab = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section class="panel" data-tab="view">' +
+            '<section class="panel" data-tab="view" role="tabpanel" aria-labelledby="view">' +
+                '<div class="group small">' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-normal"></span>' +
+                    '<span class="btn-slot text x-huge" id="slot-btn-slide-master"></span>' +
+                '</div>' +
+                '<div class="separator long slide-master-separator"></div>' +
                 '<div class="group small">' +
                     '<div class="elset" style="display: flex;">' +
                         '<span class="btn-slot" id="slot-field-zoom" style="flex-grow: 1;"></span>' +
@@ -103,6 +107,12 @@ define([
 
             setEvents: function () {
                 var me = this;
+                me.btnNormal.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:normal', [state]);
+                }, me));
+                me.btnSlideMaster.on('toggle', _.bind(function(btn, state) {
+                    me.fireEvent('mode:master', [state]);
+                }, me));
                 me.btnFitToSlide && me.btnFitToSlide.on('click', function () {
                     me.fireEvent('zoom:toslide', [me.btnFitToSlide]);
                 });
@@ -183,6 +193,34 @@ define([
                 this.lockedControls = [];
 
                 var me = this;
+
+                this.btnNormal = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-normal',
+                    caption: this.textNormal,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: true,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnNormal);
+
+                this.btnSlideMaster = new Common.UI.Button({
+                    cls: 'btn-toolbar x-huge icon-top',
+                    iconCls: 'toolbar__icon btn-slide-master',
+                    caption: this.textSlideMaster,
+                    lock: [_set.disableOnStart],
+                    enableToggle: true,
+                    allowDepress: true,
+                    pressed: false,
+                    dataHint: '1',
+                    dataHintDirection: 'bottom',
+                    dataHintOffset: 'small'
+                });
+                this.lockedControls.push(this.btnSlideMaster);
 
                 this.cmbZoom = new Common.UI.ComboBox({
                     cls: 'input-group-nr',
@@ -349,6 +387,8 @@ define([
                 this.$el = $(_.template(template)( {} ));
                 var $host = this.$el;
 
+                this.btnNormal.render($host.find('#slot-btn-normal'));
+                this.btnSlideMaster.render($host.find('#slot-btn-slide-master'));
                 this.cmbZoom.render($host.find('#slot-field-zoom'));
                 $host.find('#slot-lbl-zoom').text(this.textZoom);
                 this.btnFitToSlide.render($host.find('#slot-btn-fts'));
@@ -370,6 +410,8 @@ define([
                 (new Promise(function (accept, reject) {
                     accept();
                 })).then(function () {
+                    me.btnNormal.updateHint(me.tipNormal);
+                    me.btnSlideMaster.updateHint(me.tipSlideMaster);
                     me.btnFitToSlide.updateHint(me.tipFitToSlide);
                     me.btnFitToWidth.updateHint(me.tipFitToWidth);
                     me.btnInterfaceTheme.updateHint(me.tipInterfaceTheme);
@@ -432,14 +474,40 @@ define([
 
                     if (!config.isEdit) {
                         me.chRulers.hide();
-                    }
-                    if (!config.isEdit) {
                         me.btnGuides.$el.closest('.group').remove();
+                        me.btnSlideMaster.$el.closest('.group').remove();
+                        me.$el.find('.slide-master-separator').remove();
                     }
 
                     if (Common.UI.Themes.available()) {
+                        function _add_tab_styles() {
+                            let btn = me.btnInterfaceTheme;
+                            if ( typeof(btn.menu) === 'object' )
+                                btn.menu.addItem({caption: '--'});
+                            else
+                                btn.setMenu(new Common.UI.Menu());
+                            let mni = new Common.UI.MenuItem({
+                                value: -1,
+                                caption: me.textTabStyle,
+                                menu: new Common.UI.Menu({
+                                    menuAlign: 'tl-tr',
+                                    items: [
+                                        {value: 'fill', caption: me.textFill, checkable: true, toggleGroup: 'tabstyle'},
+                                        {value: 'line', caption: me.textLine, checkable: true, toggleGroup: 'tabstyle'}
+                                    ]
+                                })
+                            });
+                            _.each(mni.menu.items, function(item){
+                                item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                            });
+                            mni.menu.on('item:click', _.bind(function (menu, item) {
+                                Common.UI.TabStyler.setStyle(item.value);
+                            }, me));
+                            btn.menu.addItem(mni);
+                            me.menuTabStyle = mni.menu;
+                        }
                         function _fill_themes() {
-                            var btn = this.btnInterfaceTheme;
+                            let btn = this.btnInterfaceTheme;
                             if ( typeof(btn.menu) == 'object' ) btn.menu.removeAll();
                             else btn.setMenu(new Common.UI.Menu());
 
@@ -453,6 +521,7 @@ define([
                                     toggleGroup: 'interface-theme'
                                 });
                             }
+                            // Common.UI.FeaturesManager.canChange('tabStyle', true) && _add_tab_styles();
                         }
 
                         Common.NotificationCenter.on('uitheme:countchanged', _fill_themes.bind(me));
@@ -531,8 +600,14 @@ define([
             textCm: 'cm',
             textCustom: 'Custom',
             textLeftMenu: 'Left panel',
-            textRightMenu: 'Right panel'
-
+            textRightMenu: 'Right panel',
+            textNormal: 'Normal',
+            textSlideMaster: 'Slide Master',
+            tipNormal: 'Normal',
+            tipSlideMaster: 'Slide master',
+            textTabStyle: 'Tab style',
+            textFill: 'Fill',
+            textLine: 'Line'
         }
     }()), PE.Views.ViewTab || {}));
 });

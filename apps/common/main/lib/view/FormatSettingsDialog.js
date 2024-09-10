@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,16 +33,12 @@
 /**
  *  FormatSettingsDialog.js
  *
- *  Created by Julia Radzhabova on 13.01.2017
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 13.01.2017
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     Common.Views.FormatSettingsDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

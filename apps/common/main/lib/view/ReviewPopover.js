@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  View
  *
- *  Created by Julia Radzhabova on 06.06.2018
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 06.06.2018
  *
  */
 
@@ -263,6 +262,7 @@ define([
                                 textEdit: me.textEdit,
                                 textReply: me.textReply,
                                 textClose: me.textClose,
+                                textComment: me.textComment,
                                 maxCommLength: Asc.c_oAscMaxCellOrCommentLength,
                                 textMentionComment: me.canRequestSendNotify ? (me.mentionShare ? me.textMention : me.textMentionNotify) : me.textEnterComment
                             })
@@ -765,7 +765,7 @@ define([
                 sdkBoundsTopPos = 0;
 
             if (commentsView && arrowView && editorView && editorView.get(0)) {
-                editorBounds = editorView.get(0).getBoundingClientRect();
+                editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                 if (editorBounds) {
                     sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
 
@@ -887,11 +887,11 @@ define([
 
                 commentsView.css({height: '100%'});
 
-                contentBounds = commentsView.get(0).getBoundingClientRect();
+                contentBounds = Common.Utils.getBoundingClientRect(commentsView.get(0));
                 if (contentBounds) {
                     editorView = $('#editor_sdk');
                     if (editorView && editorView.get(0)) {
-                        editorBounds = editorView.get(0).getBoundingClientRect();
+                        editorBounds = Common.Utils.getBoundingClientRect(editorView.get(0));
                         if (editorBounds) {
                             sdkBoundsHeight = editorBounds.height - this.sdkBounds.padding * 2;
                             sdkBoundsTopPos = sdkBoundsTop;
@@ -1177,12 +1177,12 @@ define([
         autoScrollToEditButtons: function () {
             var button = $('#id-comments-change-popover'),  // TODO: add to cache
                 btnBounds = null,
-                contentBounds = this.$window[0].getBoundingClientRect(),
+                contentBounds = Common.Utils.getBoundingClientRect(this.$window[0]),
                 moveY = 0,
                 padding = 7;
 
             if (button.length) {
-                btnBounds = button.get(0).getBoundingClientRect();
+                btnBounds = Common.Utils.getBoundingClientRect(button.get(0));
                 if (btnBounds && contentBounds) {
                     moveY = contentBounds.bottom - (btnBounds.bottom + padding);
                     if (moveY < 0) {
@@ -1317,6 +1317,7 @@ define([
         txtAccept: 'Accept',
         txtReject: 'Reject',
         txtEditTip: 'Edit',
-        txtDeleteTip: 'Delete'
+        txtDeleteTip: 'Delete',
+        textComment: 'Comment'
     }, Common.Views.ReviewPopover || {}))
 });

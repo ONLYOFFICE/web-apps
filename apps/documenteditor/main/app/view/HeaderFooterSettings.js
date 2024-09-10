@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  HeaderFooterSettings.js
  *
- *  Created by Julia Radzhabova on 02/03/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 02/03/14
  *
  */
 
@@ -45,9 +44,13 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/MetricSpinner',
     'common/main/lib/component/CheckBox',
-    'common/main/lib/component/RadioBox'
+    'common/main/lib/component/RadioBox',
+    'common/main/lib/component/ComboBox',
+    'documenteditor/main/app/view/ListTypesAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
+
+    var nMaxRecent = 5;
 
     DE.Views.HeaderFooterSettings = Backbone.View.extend(_.extend({
         el: '#id-header-settings',
@@ -77,6 +80,7 @@ define([
             };
             this.spinners = [];
             this.lockedControls = [];
+            this.recentNumTypes = [];
             this._locked = false;
 
             this.render();
@@ -91,6 +95,11 @@ define([
 
         setApi: function(api) {
             this.api = api;
+            return this;
+        },
+
+        setMode: function(mode) {
+            this.mode = mode;
             return this;
         },
 
@@ -144,6 +153,12 @@ define([
                         this.numFrom.setValue(value, true);
                     }
                     this._state.Numbering=value;
+                }
+
+                value = prop.get_NumFormat();
+                if ( this._state.NumFormat!==value || this.cmbFormat.getValue()===-2) {
+                    this.fillFormatCombo(value);
+                    this._state.NumFormat = value;
                 }
             }
         },
@@ -256,7 +271,8 @@ define([
                 minValue: 0,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textPosition + ' ' + this.textHeaderFromTop
             });
             this.spinners.push(this.numPosition);
             this.lockedControls.push(this.numPosition);
@@ -333,11 +349,45 @@ define([
                 allowDecimal: false,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.textFrom
             });
             this.lockedControls.push(this.numFrom);
             this.numFrom.on('change', _.bind(this.onNumFromChange, this));
             this.numFrom.on('inputleave', function(){ me.fireEvent('editcomplete', me);});
+
+            this._arrNumbers = [
+                { displayValue: '1, 2, 3,...',      value: Asc.c_oAscNumberingFormat.Decimal },
+                { displayValue: '- 1 -, - 2 -, - 3 -,...',      value: Asc.c_oAscNumberingFormat.NumberInDash },
+                { displayValue: 'a, b, c,...',      value: Asc.c_oAscNumberingFormat.LowerLetter },
+                { displayValue: 'A, B, C,...',      value: Asc.c_oAscNumberingFormat.UpperLetter },
+                { displayValue: 'i, ii, iii,...',   value: Asc.c_oAscNumberingFormat.LowerRoman },
+                { displayValue: 'I, II, III,...',   value: Asc.c_oAscNumberingFormat.UpperRoman }
+            ];
+            if (Common.Locale.getDefaultLanguage() === 'ru') {
+                this._arrNumbers = this._arrNumbers.concat([
+                    { displayValue: 'а, б, в,...',      value: Asc.c_oAscNumberingFormat.RussianLower },
+                    { displayValue: 'А, Б, В,...',      value: Asc.c_oAscNumberingFormat.RussianUpper }
+                ]);
+            }
+            this.loadRecent();
+
+            this.cmbFormat = new Common.UI.ComboBox({
+                el          : $('#headerfooter-combo-format'),
+                cls: 'input-group-nr',
+                menuStyle: 'min-width: 100%;max-height: 220px;',
+                menuAlignEl: $(this.el).parent(),
+                restoreMenuHeightAndTop: 110,
+                style       : "width: 150px;",
+                editable    : false,
+                data        : [],
+                dataHint: '1',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+            this.fillFormatCombo();
+            this.lockedControls.push(this.cmbFormat);
+            this.cmbFormat.on('selected', _.bind(this.onFormatSelect, this));
         },
         
         createDelayedElements: function() {
@@ -362,6 +412,92 @@ define([
             }
         },
 
+        fillFormatCombo: function(format) {
+            if (format !== Asc.c_oAscNumberingFormat.None && format !== undefined && format !== null)
+                this.checkRecentNum(format);
+
+            var store = [].concat(this._arrNumbers),
+                me = this;
+            this.recentNumTypes.forEach(function(item) {
+                if (item!==null && item!==undefined) {
+                    item = parseInt(item);
+                    store.push({ displayValue: AscCommon.IntToNumberFormat(1, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(2, item, me.mode.lang) + ', ' + AscCommon.IntToNumberFormat(3, item, me.mode.lang) + ',...', value: item });
+                }
+            });
+            store.push({ displayValue: this.txtMoreTypes, value: -2 });
+            this.cmbFormat.setData(store);
+            this.cmbFormat.setValue(format !== Asc.c_oAscNumberingFormat.None && format !== undefined && format !== null ? format : '');
+        },
+
+        onFormatSelect: function (combo, record) {
+            if (record.value === -2) {
+                this.addNewListType();
+            } else {
+                this.api && this.api.asc_SetSectionPageNumFormat(record.value);
+                this.fireEvent('editcomplete', this);
+            }
+        },
+
+        loadRecent: function(){
+            var sRecents = Common.localStorage.getItem('de-recent-header-formats');
+            if(sRecents !== ''){
+                sRecents = JSON.parse(sRecents);
+            }
+            if(_.isArray(sRecents)){
+                this.recentNumTypes = sRecents;
+            }
+        },
+
+        saveRecentNum: function(){
+            var sJSON = JSON.stringify(this.recentNumTypes);
+            Common.localStorage.setItem('de-recent-header-formats', sJSON);
+        },
+
+        checkRecentNum: function(format){
+            if (format===null || format===undefined) return;
+
+            for(var i = 0; i < this._arrNumbers.length; ++i){
+                if(this._arrNumbers[i].value === format){
+                    return;
+                }
+            }
+            if(this.recentNumTypes.length === 0){
+                this.recentNumTypes.push(format);
+                this.saveRecentNum();
+                return;
+            }
+            for (var i = 0; i < this.recentNumTypes.length; ++i){
+                if(this.recentNumTypes[i] === format){
+                    this.recentNumTypes.splice(i, 1);
+                    break;
+                }
+            }
+            this.recentNumTypes.splice(0, 0, format);
+            if(this.recentNumTypes.length > nMaxRecent){
+                this.recentNumTypes.splice(nMaxRecent, this.recentNumTypes.length - nMaxRecent);
+            }
+            this.saveRecentNum();
+        },
+
+        addNewListType: function() {
+            var me = this,
+                btn,
+                win = new DE.Views.ListTypesAdvanced({
+                    modal: true,
+                    lang: me.mode.lang,
+                    handler: function(result, value) {
+                        btn = result;
+                        if (result == 'ok') {
+                            me.api && me.api.asc_SetSectionPageNumFormat(value);
+                        }
+                        me.fireEvent('editcomplete', me);
+                    }
+                }).on('close', function(obj){
+                    (btn!=='ok') && me.cmbFormat.setValue(me._state.NumFormat);
+                });
+            win.show();
+        },
+
         textHeaderFromTop:      'Header from Top',
         textHeaderFromBottom:   'Header from Bottom',
         textPosition:           'Position',
@@ -381,6 +517,8 @@ define([
         textBottomPage: 'Bottom of Page',
         textPageNumbering: 'Page Numbering',
         textPrev: 'Continue from previous section',
-        textFrom: 'Start at'
+        textFrom: 'Start at',
+        textNumFormat: 'Number format',
+        txtMoreTypes: 'More types'
     }, DE.Views.HeaderFooterSettings || {}));
 });

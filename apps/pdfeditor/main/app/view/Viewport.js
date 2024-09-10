@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  Viewport view
  *
- *  Created by Julia Radzhabova on 05/03/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 05/03/23
  *
  */
 
@@ -60,7 +59,7 @@ define([
 
         // Set innerHTML and get the references to the DOM elements
         initialize: function() {
-            //
+            this._initEditing = true;
         },
 
         // Render layout
@@ -115,13 +114,16 @@ define([
                 }}, { // sdk
                 el: items[1],
                 stretch: true
+            }, {
+                el: $(items[2]).hide(),
+                rely: true
             }
             ];
 
             if ( Common.UI.isRTL() ) {
                 iarray[0].resize.min = -600;
                 iarray[0].resize.max = -300;
-                [iarray[0], iarray[1]] = [iarray[1], iarray[0]];
+                [iarray[0], iarray[2]] = [iarray[2], iarray[0]];
             }
 
             this.hlayout = new Common.UI.HBoxLayout({
@@ -130,18 +132,6 @@ define([
             });
 
             return this;
-        },
-
-        applyEditorMode: function() {
-        },
-
-        applyCommonMode: function() {
-            if ( Common.localStorage.getBool('pdfe-hidden-status') )
-                PDFE.getController('Statusbar').getView('Statusbar').setVisible(false);
-
-            var value = Common.UI.LayoutManager.getInitValue('leftMenu');
-            value = (value!==undefined) ? !value : false;
-            Common.localStorage.getBool("pdfe-hidden-leftmenu", value) && PDFE.getController('LeftMenu').getView('LeftMenu').hide();
         },
 
         setMode: function(mode) {

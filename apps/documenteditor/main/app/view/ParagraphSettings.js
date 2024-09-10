@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  ParagraphSettings.js
  *
- *  Created by Julia Radzhabova on 1/23/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/23/14
  *
  */
 
@@ -47,7 +46,6 @@ define([
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ThemeColorPalette',
     'common/main/lib/component/ColorButton',
-    'documenteditor/main/app/view/ParagraphSettingsAdvanced'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -120,7 +118,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strLineHeight
             });
             this.cmbLineRule.setValue('');
             this.lockedControls.push(this.cmbLineRule);
@@ -136,7 +135,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strLineHeight
             });
             this.lockedControls.push(this.numLineHeight);
 
@@ -153,7 +153,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strParagraphSpacing + ' ' + this.strSpacingBefore
             });
             this.spinners.push(this.numSpacingBefore);
             this.lockedControls.push(this.numSpacingBefore);
@@ -171,7 +172,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strParagraphSpacing + ' ' + this.strSpacingAfter
             });
             this.spinners.push(this.numSpacingAfter);
             this.lockedControls.push(this.numSpacingAfter);
@@ -210,7 +212,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsLeftText
             });
             this.spinners.push(this.numIndentsLeft);
             this.lockedControls.push(this.numIndentsLeft);
@@ -227,7 +230,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsRightText
             });
             this.spinners.push(this.numIndentsRight);
             this.lockedControls.push(this.numIndentsRight);
@@ -242,7 +246,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsSpecial
             });
             this.cmbSpecial.setValue('');
             this.lockedControls.push(this.cmbSpecial);
@@ -259,7 +264,8 @@ define([
                 disabled: this._locked,
                 dataHint: '1',
                 dataHintDirection: 'bottom',
-                dataHintOffset: 'big'
+                dataHintOffset: 'big',
+                ariaLabel: this.strIndent + ' ' + this.strIndentsSpecial
             });
             this.spinners.push(this.numSpecialBy);
             this.lockedControls.push(this.numSpecialBy);
@@ -562,19 +568,7 @@ define([
                     (type1!='object' && this._state.BackColor.indexOf(this.BackColor)<0 )) {
 
                     this.btnColor.setColor(this.BackColor);
-                    if ( typeof(this.BackColor) == 'object' ) {
-                        var isselected = false;
-                        for (var i=0; i<10; i++) {
-                            if ( Common.Utils.ThemeColor.ThemeValues[i] == this.BackColor.effectValue ) {
-                                this.mnuColorPicker.select(this.BackColor,true);
-                                isselected = true;
-                                break;
-                            }
-                        }
-                        if (!isselected) this.mnuColorPicker.clearSelection();
-                    } else
-                        this.mnuColorPicker.select(this.BackColor,true);
-
+                    Common.Utils.ThemeColor.selectPickerColorByEffect(this.BackColor, this.mnuColorPicker);
                     this._state.BackColor = this.BackColor;
                 }
             }
@@ -631,25 +625,26 @@ define([
                         elType = selectedElements[i].get_ObjectType();
                         elValue = selectedElements[i].get_ObjectValue();
                         if (Asc.c_oAscTypeSelectElement.Paragraph == elType) {
-                            (new DE.Views.ParagraphSettingsAdvanced(
-                            {
-                                tableStylerRows: 2,
-                                tableStylerColumns: 1,
-                                paragraphProps: elValue,
-                                borderProps: me.borderAdvancedProps,
-                                isChart: me.isChart,
-                                isSmartArtInternal: me.isSmartArtInternal,
-                                api: me.api,
-                                handler: function(result, value) {
-                                    if (result == 'ok') {
-                                        if (me.api) {
-                                            me.borderAdvancedProps = value.borderProps;
-                                            me.api.paraApply(value.paragraphProps);
+                            if ( Common.Utils.checkComponentLoaded(DE.Views.ParagraphSettingsAdvanced) )
+                                (new DE.Views.ParagraphSettingsAdvanced({
+                                    tableStylerRows: 2,
+                                    tableStylerColumns: 1,
+                                    paragraphProps: elValue,
+                                    borderProps: me.borderAdvancedProps,
+                                    isChart: me.isChart,
+                                    isSmartArtInternal: me.isSmartArtInternal,
+                                    api: me.api,
+                                    handler: function(result, value) {
+                                        if (result == 'ok') {
+                                            if (me.api) {
+                                                me.borderAdvancedProps = value.borderProps;
+                                                me.api.paraApply(value.paragraphProps);
+                                            }
                                         }
+                                        me.fireEvent('editcomplete', me);
                                     }
-                                    me.fireEvent('editcomplete', me);
-                                }
-                            })).show();
+                                })).show();
+
                             break;
                         }
                     }

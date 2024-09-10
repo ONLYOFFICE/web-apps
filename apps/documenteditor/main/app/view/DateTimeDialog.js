@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,16 +32,11 @@
 /**
  *  DateTimeDialog.js
  *
- *  Created by Julia Radzhabova on 26.06.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 26.06.2019
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ListView'
-], function () {
+define([], function () {
     'use strict';
 
     DE.Views.DateTimeDialog = Common.UI.Window.extend(_.extend({
@@ -100,12 +95,21 @@ define([
                 this.updateFormats(record.value);
             }, this));
 
+            var value = Common.Utils.InternalSettings.get("de-date-auto-update");
+            if (value==null || value==undefined) {
+                value = Common.localStorage.getBool("de-date-auto-update");
+                Common.Utils.InternalSettings.set("de-date-auto-update", value);
+            }
+
             this.chUpdate = new Common.UI.CheckBox({
                 el: $('#datetime-dlg-update'),
-                labelText: this.textUpdate
+                labelText: this.textUpdate,
+                value: !!value
             });
             this.chUpdate.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 this.onSelectFormat(this.listFormats, null, this.listFormats.getSelectedRec());
+                Common.localStorage.setBool("de-date-auto-update", newValue==='checked');
+                Common.Utils.InternalSettings.set("de-date-auto-update", newValue==='checked');
             }, this));
 
             this.listFormats = new Common.UI.ListView({
@@ -113,7 +117,8 @@ define([
                 store: new Common.UI.DataViewStore(),
                 tabindex: 1,
                 scrollAlwaysVisible: true,
-                cls: 'dbl-clickable'
+                cls: 'dbl-clickable',
+                itemTemplate: _.template('<div id="<%= id %>" class="list-item"><span dir="ltr"><%= value %></span></div>')
             });
 
             this.listFormats.on('item:select', _.bind(this.onSelectFormat, this));
@@ -206,9 +211,10 @@ define([
                 arr.push(rec);
             }
             store.reset(arr);
-            var format = this.defaultFormats[lang];
-            format ? this.listFormats.selectRecord(store.findWhere({format: format})) : this.listFormats.selectByIndex(0);
-            var rec = this.listFormats.getSelectedRec();
+            var format = this.defaultFormats[lang],
+                rec = format ? store.findWhere({format: format}) : null;
+            !rec && (rec = store.at(0));
+            this.listFormats.selectRecord(rec);
             this.listFormats.scrollToRecord(rec);
             this.onSelectFormat(this.listFormats, null, rec);
         },

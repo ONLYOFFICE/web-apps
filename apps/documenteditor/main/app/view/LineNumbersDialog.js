@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,16 +32,11 @@
 /**
  *  LineNumbersDialog.js
  *
- *  Created by Julia Svinareva on 18/09/19
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 18/09/19
  *
  */
 
-define([
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/MetricSpinner'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     DE.Views.LineNumbersDialog = Common.UI.Window.extend(_.extend({
         options: {

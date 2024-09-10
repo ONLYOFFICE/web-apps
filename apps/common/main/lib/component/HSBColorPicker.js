@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,11 +32,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/BaseView',
-    'common/main/lib/util/utils'
-
-], function () {
+define([], function () {
     'use strict';
 
     Common.UI.HSBColorPicker = Common.UI.BaseView.extend({
@@ -47,19 +43,19 @@ define([
                     '<% if (this.showCurrentColor) { %>'+
                         '<div class="top-panel">'+
                             '<span class="color-value">'+
-                                '<span class="transparent-color img-colorpicker"></span>'+
+                                '<span class="transparent-color"></span>'+
                             '</span>'+
                             '<div class="color-text"></div>'+
                         '</div>'+
                     '<% } %>'+
                     '<div>'+
-                        '<div class="cnt-hb img-colorpicker">'+
+                        '<div class="cnt-hb">'+
                             '<div class="cnt-hb-arrow"></div>'+
                         '</div>'+
                         '<% if (this.changeSaturation) { %>'+
                             '<div class="cnt-root">'+
-                                '<div class="cnt-sat img-colorpicker">'+
-                                    '<div class="cnt-sat-arrow img-colorpicker"></div>'+
+                                '<div class="cnt-sat">'+
+                                    '<div class="cnt-sat-arrow"></div>'+
                                 '</div>'+
                             '</div>'+
                         '<% } %>'+
@@ -136,8 +132,8 @@ define([
             var onSBAreaMouseMove = function(event, element, eOpts){
                 if (arrowSatBrightness.length>0 && areaSatBrightness.length>0) {
                     var pos = [
-                        Math.max(0, Math.min(100, (parseInt((event.pageX*Common.Utils.zoom() - areaSatBrightness.offset().left) / areaSatBrightness.width() * 100)))),
-                        Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - areaSatBrightness.offset().top) / areaSatBrightness.height() * 100))))
+                        Math.max(0, Math.min(100, (parseInt((event.pageX*Common.Utils.zoom() - Common.Utils.getOffset(areaSatBrightness).left) / areaSatBrightness.width() * 100)))),
+                        Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(areaSatBrightness).top) / areaSatBrightness.height() * 100))))
                     ];
 
                     arrowSatBrightness.css('left', pos[0] + '%');
@@ -156,7 +152,7 @@ define([
 
             var onHueAreaMouseMove = function(event, element, eOpts){
                 if (arrowHue&& areaHue) {
-                    var pos = Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - areaHue.offset().top) / areaHue.height() * 100))));
+                    var pos = Math.max(0, Math.min(100, (parseInt((event.pageY*Common.Utils.zoom() - Common.Utils.getOffset(areaHue).top) / areaHue.height() * 100))));
                     arrowHue.css('top', pos + '%');
 
                     hueVal = parseInt(360 * pos / 100.0);

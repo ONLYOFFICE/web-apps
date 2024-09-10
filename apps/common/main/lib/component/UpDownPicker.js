@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  UpDownPicker.js
  *
- *  Created by Julia Radzhabova on 3/29/23
- *  Copyright (c) 2023 Ascensio System SIA. All rights reserved.
+ *  Created on 3/29/23
  *
  */
 

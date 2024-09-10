@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  DocumentHolder controller
  *
- *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/15/14
  *
  */
 
@@ -127,6 +126,7 @@ define([
             me.mouseMoveData = null;
             me.isTooltipHiding = false;
             me.lastMathTrackBounds = [];
+            me.showMathTrackOnLoad = false;
 
             me.screenTip = {
                 toolTip: new Common.UI.Tooltip({
@@ -199,6 +199,7 @@ define([
                 }
             });
             Common.NotificationCenter.on('protect:doclock', _.bind(me.onChangeProtectDocument, me));
+            Common.NotificationCenter.on('script:loaded', _.bind(me.createPostLoadElements, me));
         },
 
         setApi: function(o) {
@@ -261,36 +262,14 @@ define([
             this.documentHolder.setMode(m);
         },
 
-        createDelayedElements: function(view, type) {
-            var me = this,
-                view = me.documentHolder;
+        createPostLoadElements: function() {
+            var me = this;
 
-            if (type==='view') {
-                view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuViewPaste.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuViewCut.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
-                view.menuViewAddComment.on('click', _.bind(me.addComment, me));
-                view.menuSignatureViewSign.on('click', _.bind(me.onSignatureClick, me));
-                view.menuSignatureDetails.on('click', _.bind(me.onSignatureClick, me));
-                view.menuSignatureViewSetup.on('click', _.bind(me.onSignatureClick, me));
-                view.menuSignatureRemove.on('click', _.bind(me.onSignatureClick, me));
-                view.menuViewPrint.on('click', _.bind(me.onPrintSelection, me));
-                return;
-            } else if (type==='pdf') {
-                view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
-                return;
-            } else if (type==='forms') {
-                view.menuPDFFormsUndo.on('click', _.bind(me.onUndo, me));
-                view.menuPDFFormsRedo.on('click', _.bind(me.onRedo, me));
-                view.menuPDFFormsClear.on('click', _.bind(me.onClear, me));
-                view.menuPDFFormsCut.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuPDFFormsCopy.on('click', _.bind(me.onCutCopyPaste, me));
-                view.menuPDFFormsPaste.on('click', _.bind(me.onCutCopyPaste, me));
+            me.mode.isEdit ? me.documentHolder.createDelayedElements() : me.documentHolder.createDelayedElementsViewer();
+
+            if (!me.mode.isEdit) {
                 return;
             }
-
-            // type == 'edit'
 
             var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
             if (diagramEditor) {
@@ -354,6 +333,41 @@ define([
                 }, this));
             }
 
+            me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+        },
+
+        createDelayedElements: function(view, type) {
+            var me = this, view = me.documentHolder;
+
+            if (type==='view') {
+                view.menuViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewPaste.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuViewUndo.on('click', _.bind(me.onUndo, me));
+                view.menuViewAddComment.on('click', _.bind(me.addComment, me));
+                view.menuSignatureViewSign.on('click', _.bind(me.onSignatureClick, me));
+                view.menuSignatureDetails.on('click', _.bind(me.onSignatureClick, me));
+                view.menuSignatureViewSetup.on('click', _.bind(me.onSignatureClick, me));
+                view.menuSignatureRemove.on('click', _.bind(me.onSignatureClick, me));
+                view.menuViewPrint.on('click', _.bind(me.onPrintSelection, me));
+                return;
+            } else if (type==='pdf') {
+                view.menuPDFViewCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                return;
+            } else if (type==='forms') {
+                view.menuPDFFormsUndo.on('click', _.bind(me.onUndo, me));
+                view.menuPDFFormsRedo.on('click', _.bind(me.onRedo, me));
+                view.menuPDFFormsClear.on('click', _.bind(me.onClear, me));
+                view.menuPDFFormsCut.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsCopy.on('click', _.bind(me.onCutCopyPaste, me));
+                view.menuPDFFormsPaste.on('click', _.bind(me.onCutCopyPaste, me));
+                return;
+            }
+        
+
+            // type == 'edit'
+
+            view.menuEditObject.on('click', _.bind(me.onEditObject, me));
             view.menuInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuEquationInsertCaption.on('click', _.bind(me.onInsertCaption, me));
             view.menuTableInsertCaption.on('click', _.bind(me.onInsertCaption, me));
@@ -440,6 +454,8 @@ define([
             view.menuTableDirection.menu.on('item:click', _.bind(me.tableDirection, me));
             view.menuTableRefreshField.on('click', _.bind(me.onRefreshField, me));
             view.menuParaRefreshField.on('click', _.bind(me.onRefreshField, me));
+            view.menuTableEditField.on('click', _.bind(me.onEditField, me));
+            view.menuParaEditField.on('click', _.bind(me.onEditField, me));
             view.menuParagraphBreakBefore.on('click', _.bind(me.onParagraphBreakBefore, me));
             view.menuParagraphKeepLines.on('click', _.bind(me.onParagraphKeepLines, me));
             view.menuParagraphVAlign.menu.on('item:click', _.bind(me.paragraphVAlign, me));
@@ -781,8 +797,8 @@ define([
         onDocumentHolderResize: function(e){
             var me = this;
             me._XY = [
-                me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                me.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
             ];
             me._Height = me.documentHolder.cmpEl.height();
             me._Width = me.documentHolder.cmpEl.width();
@@ -908,19 +924,23 @@ define([
                 var type = this.api.asc_getUrlType(url);
                 if (type===AscCommon.c_oAscUrlType.Http || type===AscCommon.c_oAscUrlType.Email)
                     window.open(url);
-                else
-                    Common.UI.warning({
-                        msg: this.documentHolder.txtWarnUrl,
-                        buttons: ['yes', 'no'],
-                        primary: 'yes',
-                        callback: function(btn) {
-                            try {
-                                (btn == 'yes') && window.open(url);
-                            } catch (err) {
-                                err && console.log(err.stack);
+                else {
+                    var me = this;
+                    setTimeout(function() {
+                        Common.UI.warning({
+                            msg: me.documentHolder.txtWarnUrl,
+                            buttons: ['yes', 'no'],
+                            primary: 'yes',
+                            callback: function(btn) {
+                                try {
+                                    (btn == 'yes') && window.open(url);
+                                } catch (err) {
+                                    err && console.log(err.stack);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }, 1);
+                }
             }
         },
 
@@ -1069,8 +1089,8 @@ define([
                 screenTip = me.screenTip;
             if (me._XY === undefined) {
                 me._XY = [
-                    cmpEl.offset().left - $(window).scrollLeft(),
-                    cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = cmpEl.height();
                 me._Width = cmpEl.width();
@@ -1399,7 +1419,22 @@ define([
             });
         },
 
+        onEditObject: function() {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
+            if (this.api) {
+                var oleobj = this.api.asc_canEditTableOleObject();
+                if (oleobj) {
+                    this.api.asc_editOleTableInFrameEditor();
+                } else {
+                    this.api.asc_startEditCurrentOleObject();
+                }
+            }
+        },
+
         onDoubleClickOnChart: function(chart) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var diagramEditor = this.getApplication().getController('Common.Controllers.ExternalDiagramEditor').getView('Common.Views.ExternalDiagramEditor');
@@ -1412,6 +1447,8 @@ define([
         },
 
         onDoubleClickOnTableOleObject: function(frameBinary) {
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
+
             var docProtection = this.documentHolder._docProtection;
             if (this.mode.isEdit && !(this._isDisabled || docProtection.isReadOnly || docProtection.isFormsOnly || docProtection.isCommentsOnly)) {
                 var oleEditor = this.getApplication().getController('Common.Controllers.ExternalOleEditor').getView('Common.Views.ExternalOleEditor');
@@ -1562,7 +1599,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1742,58 +1779,8 @@ define([
             }
         },
 
-        equationCallback: function(eqProps) {
-            if (eqProps) {
-                var eqObj;
-                switch (eqProps.type) {
-                    case Asc.c_oAscMathInterfaceType.Accent:
-                        eqObj = new CMathMenuAccent();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.BorderBox:
-                        eqObj = new CMathMenuBorderBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Box:
-                        eqObj = new CMathMenuBox();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Bar:
-                        eqObj = new CMathMenuBar();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Script:
-                        eqObj = new CMathMenuScript();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Fraction:
-                        eqObj = new CMathMenuFraction();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Limit:
-                        eqObj = new CMathMenuLimit();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Matrix:
-                        eqObj = new CMathMenuMatrix();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.EqArray:
-                        eqObj = new CMathMenuEqArray();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.LargeOperator:
-                        eqObj = new CMathMenuNary();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Delimiter:
-                        eqObj = new CMathMenuDelimiter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.GroupChar:
-                        eqObj = new CMathMenuGroupCharacter();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Radical:
-                        eqObj = new CMathMenuRadical();
-                        break;
-                    case Asc.c_oAscMathInterfaceType.Common:
-                        eqObj = new CMathMenuBase();
-                        break;
-                }
-                if (eqObj) {
-                    eqObj[eqProps.callback](eqProps.value);
-                    this.api.asc_SetMathProps(eqObj);
-                }
-            }
+        equationCallback: function(eqObj) {
+            eqObj && this.api.asc_SetMathProps(eqObj);
             this.editComplete();
         },
 
@@ -1801,8 +1788,8 @@ define([
             var me = this,
                 cmpEl = me.documentHolder.cmpEl;
             me._XY = [
-                cmpEl.offset().left - $(window).scrollLeft(),
-                cmpEl.offset().top  - $(window).scrollTop()
+                Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(cmpEl).top  - $(window).scrollTop()
             ];
             me._Height = cmpEl.height();
             me._Width = cmpEl.width();
@@ -1855,6 +1842,7 @@ define([
         },
 
         editChartClick: function(){
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
             this.api.asc_editChartInFrameEditor();
         },
 
@@ -2472,6 +2460,10 @@ define([
             this.editComplete();
         },
 
+        onEditField: function(item, e){
+            this.documentHolder.fireEvent('field:edit', ['edit']);
+        },
+
         onParagraphBreakBefore: function(item, e){
             this.api && this.api.put_PageBreak(item.checked);
         },
@@ -2537,6 +2529,11 @@ define([
             if (this.mode && !this.mode.isEdit) return;
 
             this.lastMathTrackBounds = bounds;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = true;
+                return;
+            }
+
             if (bounds[3] < 0 || Common.Utils.InternalSettings.get('de-equation-toolbar-hide')) {
                 this.onHideMathTrack();
                 return;
@@ -2655,8 +2652,8 @@ define([
 
             if (me._XY === undefined) {
                 me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = documentHolder.cmpEl.height();
                 me._Width = documentHolder.cmpEl.width();
@@ -2686,6 +2683,10 @@ define([
 
         onHideMathTrack: function() {
             if (!this.documentHolder || !this.documentHolder.cmpEl) return;
+            if (!Common.Controllers.LaunchController.isScriptLoaded()) {
+                this.showMathTrackOnLoad = false;
+                return;
+            }
             var eqContainer = this.documentHolder.cmpEl.find('#equation-container');
             if (eqContainer.is(':visible')) {
                 eqContainer.hide();

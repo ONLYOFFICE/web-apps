@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *    LanguageInfo.js
  *
- *    Created by Maxim Kadushkin on 31 January 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 31 January 2014
  *
  */
 
@@ -84,8 +83,8 @@ Common.util.LanguageInfo = new(function() {
         0x046D : ["ba-RU", "Башҡорт (Россия)", "Bashkir (Russia)"],
         0x002D : ["eu", "Euskara"],
         0x042D : ["eu-ES", "Euskara (Euskara)", "Basque (Basque)"],
-        0x0023 : ["be", "Беларускі"],
-        0x0423 : ["be-BY", "Беларускі (Беларусь)", "Belarusian (Belarus)"],
+        0x0023 : ["be", "Беларуская"],
+        0x0423 : ["be-BY", "Беларуская (Беларусь)", "Belarusian (Belarus)"],
         0x0045 : ["bn", "বাংলা"],
         0x0845 : ["bn-BD", "বাংলা (বাংলাদেশ)", "Bengali (Bangladesh)"],
         0x0445 : ["bn-IN", "বাংলা (ভারত)", "Bengali (India)"],

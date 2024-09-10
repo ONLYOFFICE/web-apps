@@ -1,4 +1,4 @@
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td width="50%">
             <label class="header"><%= scope.textRows %></label>
@@ -162,7 +162,7 @@
     </tr>
     <tr>
         <td align="center" colspan=2>
-            <label class="link" id="table-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+            <label class="link canfocused" id="table-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
         </td>
     </tr>
     <tr class="finish-cell"></tr>

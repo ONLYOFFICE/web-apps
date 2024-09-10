@@ -1,5 +1,6 @@
 {
   "common.view.modals.txtCopy": "Sao chép vào khay nhớ tạm",
+  "common.view.modals.txtEmbed": "Nhúng",
   "common.view.modals.txtHeight": "Chiều cao",
   "common.view.modals.txtWidth": "Chiều rộng",
   "DE.ApplicationController.convertationTimeoutText": "Đã quá thời gian chờ chuyển đổi.",
@@ -18,6 +19,7 @@
   "DE.ApplicationController.notcriticalErrorTitle": "Cảnh báo",
   "DE.ApplicationController.openErrorText": "Xảy ra lỗi khi mở tệp",
   "DE.ApplicationController.textAnonymous": "Ẩn danh",
+  "DE.ApplicationController.textDownloadPdf": "Tải về PDF",
   "DE.ApplicationController.textLoadingDocument": "Đang tải tài liệu",
   "DE.ApplicationController.textOf": "trên",
   "DE.ApplicationController.textSubmited": "<b>Đã gửi biểu mẫu thành công</b><br>Bấm để đóng hộp thoại",

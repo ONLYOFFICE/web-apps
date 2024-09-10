@@ -32,12 +32,17 @@
             background-color: @background-normal;
         }
 
+        .color-field-wrapper {
+            border-radius: 2px;
+            border: @scaled-one-px-value-ie solid @border-regular-control-ie;
+            border: @scaled-one-px-value solid @border-regular-control;
+            padding: 1px;
+        }
+
         .color-cnt {
             width: 63px;
             height: 20px;
             background-color: transparent;
-            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
-            border: @scaled-one-px-value solid @border-color-shading;
             &.top {
                 border-bottom: none;
             }
@@ -52,6 +57,9 @@
         }
 
         .color-transparent {
+            border: @scaled-one-px-value-ie solid @border-color-shading-ie;
+            border: @scaled-one-px-value solid @border-color-shading;
+
             &:before {
                 height: 64px;
                 transform: translate(29px, -22px) rotate(73deg);

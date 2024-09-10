@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,20 +30,10 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 30.07.19
  */
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/ComboDataView'
-], function (template) {
+define([], function () {
     'use strict';
 
     SSE.Views.Spellcheck = Common.UI.BaseView.extend(_.extend({
@@ -70,7 +60,7 @@ define([
                     '</div>',
                 '</div>',
                 '<div id="spellcheck-header">',
-                    '<label><%= scope.txtSpelling %></label>',
+                    '<label role="heading"><%= scope.txtSpelling %></label>',
                     '<div id="spellcheck-btn-close" class="float-right margin-left-4"></div>',
                 '</div>',
             '</div>'

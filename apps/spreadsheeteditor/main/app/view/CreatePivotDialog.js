@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,15 +33,11 @@
 /**
  *  CreatePivotDialog.js
  *
- *  Created by Julia Radzhabova on 04.10.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 04.10.2019
  *
  */
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     SSE.Views.CreatePivotDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

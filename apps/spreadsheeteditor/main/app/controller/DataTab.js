@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,21 +33,13 @@
 /**
  *  DataTab.js
  *
- *  Created by Julia Radzhabova on 30.05.2019
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 30.05.2019
  *
  */
 
 define([
     'core',
-    'spreadsheeteditor/main/app/view/DataTab',
-    'spreadsheeteditor/main/app/view/SortDialog',
-    'spreadsheeteditor/main/app/view/RemoveDuplicatesDialog',
-    'spreadsheeteditor/main/app/view/DataValidationDialog',
-    'spreadsheeteditor/main/app/view/ImportFromXmlDialog',
-    'spreadsheeteditor/main/app/view/GoalSeekDlg',
-    'spreadsheeteditor/main/app/view/GoalSeekStatusDlg',
-    'common/main/lib/view/OptionsDialog'
+    'spreadsheeteditor/main/app/view/DataTab'
 ], function () {
     'use strict';
 
@@ -235,7 +227,7 @@ define([
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             } else if (type === 'url') {
                 (new Common.Views.ImageFromUrlDialog({
-                    title: me.txtUrlTitle,
+                    label: me.txtUrlTitle,
                     handler: function(result, value) {
                         if (result == 'ok') {
                             if (me.api) {

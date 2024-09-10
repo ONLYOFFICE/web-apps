@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  View
  *
- *  Created by Julia.Radzhabova on 05.08.15
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 05.08.15
  *
  */
 
@@ -76,7 +75,7 @@ define([
 
     Common.Views.ReviewChanges = Common.UI.BaseView.extend(_.extend((function(){
         var template =
-            '<section id="review-changes-panel" class="panel" data-tab="review">' +
+            '<section id="review-changes-panel" class="panel" data-tab="review" role="tabpanel" aria-labelledby="review">' +
                 '<div class="group no-group-mask review">' +
                     '<span id="slot-btn-sharing" class="btn-slot text x-huge"></span>' +
                     '<span id="slot-btn-coauthmode" class="btn-slot text x-huge"></span>' +
@@ -486,7 +485,7 @@ define([
                         caption: this.txtCommentRemove,
                         split: true,
                         iconCls: 'toolbar__icon btn-rem-comment',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.slideMasterMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'
@@ -497,7 +496,7 @@ define([
                         caption: this.txtCommentResolve,
                         split: true,
                         iconCls: 'toolbar__icon btn-resolve-all',
-                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode],
+                        lock: [_set.previewReviewMode, _set.viewFormMode, _set.hideComments, _set['Objects'], _set.lostConnect, _set.docLockView, _set.docLockForms, _set.viewMode, _set.slideMasterMode],
                         dataHint: '1',
                         dataHintDirection: 'bottom',
                         dataHintOffset: 'small'

@@ -1,0 +1,82 @@
+<table cols="2">
+    <tr>
+        <td colspan=2>
+            <label class="header"><%= scope.textSize %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" width="50%">
+            <label id="image-label-width" class="input-label"><%= scope.textWidth %></label>
+        </td>
+        <td class="padding-small" width="50%">
+            <label id="image-label-height" class="input-label"><%= scope.textHeight %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="image-button-original-size" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textOriginalSize %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default" id="image-button-fit-slide" style="min-width:100px;width: auto;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textFitPage %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div id="image-button-crop" style="min-width:100px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2 class="padding-small">
+            <label class="header"><%= scope.textRotation %></label>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textRotate90 %></label>
+            <div>
+                <div id="image-button-270" class="margin-right-4"></div>
+                <div id="image-button-90"></div>
+            </div>
+        </td>
+        <td class="padding-small" width="50%">
+            <label class="input-label"><%= scope.textFlip %></label>
+            <div>
+                <div id="image-button-fliph" class="margin-right-4"></div>
+                <div id="image-button-flipv"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <div id="image-button-replace" style="width:100%;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <button type="button" class="btn btn-text-default hidden" id="image-button-edit-object" style="width:100%;"><%= scope.textEditObject %></button>
+        </td>
+    </tr>
+    <tr>
+        <td class="padding-small" colspan=2>
+            <div class="separator horizontal"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" colspan=2>
+            <label class="link canfocused" id="image-advanced-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.textAdvanced %></label>
+        </td>
+    </tr>
+    <tr class="finish-cell"></tr>
+</table>

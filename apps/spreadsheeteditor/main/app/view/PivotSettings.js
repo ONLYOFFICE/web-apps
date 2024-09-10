@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  PivotSettings.js
  *
- *  Created by Julia Radzhabova on 7/10/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 7/10/17
  *
  */
 
@@ -42,13 +41,8 @@ define([
     'text!spreadsheeteditor/main/app/template/PivotSettings.template',
     'jquery',
     'underscore',
-    'backbone',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/ListView',
-    'spreadsheeteditor/main/app/view/FieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/ValueFieldSettingsDialog',
-    'spreadsheeteditor/main/app/view/PivotSettingsAdvanced'
-], function (menuTemplate, $, _, Backbone, Sortable) {
+    'backbone'
+], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
     SSE.Views.PivotSettings = Backbone.View.extend(_.extend({
@@ -351,13 +345,12 @@ define([
                                 this.onMove(2, this.itemIndex, _.isNumber(this.indexMoveTo) ? (this.indexMoveTo !== 0 && this.itemIndex < this.indexMoveTo ? this.indexMoveTo - 1 : this.indexMoveTo) : this.valuesList.store.length - 1);
                                 break;
                         }
-                    } else {
-                        $(this.el).find('.item').removeClass('insert last');
                     }
                     this.itemIndex = undefined;
                     this.indexMoveTo = undefined;
                 }
             }
+            $(this.el).find('.item').removeClass('insert last');
         },
 
         openAdvancedSettings: function(e) {
@@ -603,7 +596,7 @@ define([
                 target = $(event.currentTarget).find('.list-item');
 
                 if (target.length) {
-                    bound = target.get(0).getBoundingClientRect();
+                    bound = Common.Utils.getBoundingClientRect(target.get(0));
                     var _clientX = event.clientX*Common.Utils.zoom(),
                         _clientY = event.clientY*Common.Utils.zoom();
                     if (bound.left < _clientX && _clientX < bound.right &&

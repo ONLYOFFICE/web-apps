@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,17 +32,15 @@
 /**
  *  ChartSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 1/18/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/18/17
  *
  */
 
-define([    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.template',
+define([
+    'text!presentationeditor/main/app/template/ChartSettingsAdvanced.template',
     'text!common/main/lib/template/ChartVertAxis.template',
     'text!common/main/lib/template/ChartHorAxis.template',
-    'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/view/FormatSettingsDialog',
-    'common/main/lib/component/InputField'
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate, vertTemplate, horTemplate) {
     'use strict';
 

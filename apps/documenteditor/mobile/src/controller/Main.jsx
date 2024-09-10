@@ -20,7 +20,7 @@ import EncodingController from "./Encoding";
 import DropdownListController from "./DropdownList";
 import { Device } from '../../../../common/mobile/utils/device';
 import { processArrayScripts } from '../../../../common/mobile/utils/processArrayScripts.js';
-
+import '../../../../common/main/lib/util/LanguageInfo.js'
 @inject(
     "users",
     "storeAppOptions",
@@ -105,8 +105,24 @@ class MainController extends Component {
             "X Axis": "X Axis XAS",
             "Y Axis": "Y Axis",
             "Your text here": "Your text here",
-            "Zero Divide": "Zero Divide"
-        }
+            "Zero Divide": "Zero Divide",
+            "Default Paragraph Font": "Default Paragraph Font",
+            "No List": "No list",
+            "Intense Emphasis": "Intense Emphasis",
+            "Intense Reference": "Intense Reference",
+            "Subtle Emphasis": "Subtle Emphasis",
+            "Emphasis": "Emphasis",
+            "Strong": "Strong",
+            "Subtle Reference": "Subtle Reference",
+            "Book Title":"Book Title",
+            "footnote reference": "Footnote reference",
+            "endnote reference": "Endnote reference"
+        };
+        let me = this;
+        ['Aspect', 'Blue Green', 'Blue II', 'Blue Warm', 'Blue', 'Grayscale', 'Green Yellow', 'Green', 'Marquee', 'Median', 'Office 2007 - 2010', 'Office 2013 - 2022', 'Office',
+        'Orange Red', 'Orange', 'Paper', 'Red Orange', 'Red Violet', 'Red', 'Slipstream', 'Violet II', 'Violet', 'Yellow Orange', 'Yellow'].forEach(function(item){
+            me.fallbackSdkTranslations[item] = item;
+        });
 
         this._state = {
             licenseType: false,
@@ -170,6 +186,9 @@ class MainController extends Component {
 
                 this.props.storeAppOptions.wopi = this.editorConfig.wopi;
                 Common.Notifications.trigger('configOptionsFill');
+
+                this.loadDefaultMetricSettings();
+
             };
 
             const loadDocument = data => {
@@ -202,6 +221,8 @@ class MainController extends Component {
                     docInfo.put_EncryptedInfo(this.editorConfig.encryptionKeys);
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
+                    docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     let type = /^(?:(pdf|djvu|xps|oxps))$/.exec(data.doc.fileType);
                     let coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for pdf|djvu|xps|oxps
@@ -220,9 +241,19 @@ class MainController extends Component {
                     }
                 }
 
-                let type = data.doc ? /^(?:(pdf))$/.exec(data.doc.fileType) : false;
-                if (type && typeof type[1] === 'string') {
-                    (this.permissions.fillForms===undefined) && (this.permissions.fillForms = (this.permissions.edit!==false));
+                const fileType = data?.doc.fileType;
+                const isFormType = /^(pdf|docxf|oform)$/.test(fileType);
+                const isPDF = fileType === 'pdf';
+
+                if(isFormType) {
+                    this.changeEditorBrandColorForPdf();
+                }
+
+                if(isPDF) {
+                    if(this.permissions.fillForms === undefined) {
+                        this.permissions.fillForms = this.permissions.edit !== false;
+                    }
+
                     this.permissions.edit = this.permissions.review = this.permissions.comment = false;
                 }
 
@@ -237,8 +268,6 @@ class MainController extends Component {
                 // Document Info
 
                 const storeDocumentInfo = this.props.storeDocumentInfo;
-                // this.document
-
                 storeDocumentInfo.setDataDoc(this.document);
                 storeDocumentInfo.setDocInfo(docInfo);
 
@@ -281,12 +310,17 @@ class MainController extends Component {
                 const config = storeAppOptions.config;
                 const customization = config.customization;
                 const isMobileForceView = customization?.mobileForceView !== undefined ? customization.mobileForceView : editorConfig?.mobileForceView !== undefined ? editorConfig.mobileForceView : true;
+                const isForceView = customization?.mobile?.forceView ?? true;
+
+                if(customization?.mobileForceView !== undefined && customization?.mobileForceView !== null) {
+                    console.warn("Obsolete: The mobileForceView parameter is deprecated. Please use the forceView parameter from customization.mobile block");
+                }
 
                 storeAppOptions.setPermissionOptions(this.document, licType, params, this.permissions, EditorUIController.isSupportEditFeature());
 
                 this.applyMode(storeAppOptions);
 
-                if(!isForm && isMobileForceView) {
+                if(!isForm && (isMobileForceView || isForceView)) {
                     this.api.asc_addRestriction(Asc.c_oAscRestrictionType.View);
                 } else if(!isForm && !isMobileForceView) {
                     storeAppOptions.changeViewerMode(false);
@@ -306,6 +340,8 @@ class MainController extends Component {
                 const appOptions = this.props.storeAppOptions;
                 const isOForm = appOptions.isOForm;
                 const appSettings = this.props.storeApplicationSettings;
+                const customization = appOptions.customization;
+                const isStandardView = customization?.mobile?.standardView ?? false;
 
                 f7.emit('resize');
 
@@ -319,10 +355,10 @@ class MainController extends Component {
                 appOptions.isRestrictedEdit && appOptions.canFillForms && this.api.asc_SetHighlightRequiredFields(true);
 
                 let value = LocalStorage.getItem("de-settings-zoom");
-                const zf = (value !== null) ? parseInt(value) : (appOptions.customization && appOptions.customization.zoom ? parseInt(appOptions.customization.zoom) : 100);
+                const zf = (value !== null) ? parseInt(value) : (customization && customization.zoom ? parseInt(customization.zoom) : 100);
                 (zf === -1) ? this.api.zoomFitToPage() : ((zf === -2) ? this.api.zoomFitToWidth() : this.api.zoom(zf>0 ? zf : 100));
 
-                value = LocalStorage.getBool("de-mobile-spellcheck", !(appOptions.customization && appOptions.customization.spellcheck === false));
+                value = LocalStorage.getBool("de-mobile-spellcheck", !(customization && customization.spellcheck === false));
                 appSettings.changeSpellCheck(value);
                 this.api.asc_setSpellCheck(value);
 
@@ -336,9 +372,10 @@ class MainController extends Component {
                 appSettings.changeShowTableEmptyLine(value);
                 this.api.put_ShowTableEmptyLine(value);
 
-                value = LocalStorage.getBool('mobile-view', true);
+               
+                value = LocalStorage.getBool('mobile-view');
 
-                if(value) {
+                if(value || !isStandardView) {
                     this.api.ChangeReaderMode();
                 } else {
                     appOptions.changeMobileView();
@@ -353,6 +390,7 @@ class MainController extends Component {
                 Common.Gateway.on('downloadas', this.onDownloadAs.bind(this));
                 Common.Gateway.on('requestclose', this.onRequestClose.bind(this));
                 Common.Gateway.on('setfavorite', this.onSetFavorite.bind(this));
+                Common.Gateway.on('insertimage', this.insertImage.bind(this));
 
                 Common.Gateway.sendInfo({
                     mode: appOptions.isEdit ? 'edit' : 'view'
@@ -460,6 +498,69 @@ class MainController extends Component {
             document.body.appendChild(script);
         } else {
             on_script_load();
+        }
+    }
+
+    insertImage (data) {
+        if (data && (data.url || data.images)) {
+            if (data.url) {
+                console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
+            }
+
+            let arr = [];
+
+            if (data.images && data.images.length > 0) {
+                for (let i = 0; i < data.images.length; i++) {
+                    if (data.images[i] && data.images[i].url) {
+                        arr.push(data.images[i].url);
+                    }
+                }
+            } else if (data.url) {
+                arr.push(data.url);
+            }
+               
+            data._urls = arr;
+        }
+
+        this.insertImageFromStorage(data);
+    }
+
+    loadDefaultMetricSettings() {
+        const appOptions = this.props.storeAppOptions;
+        let region = '';
+
+        if (appOptions.location) {
+            console.log("Obsolete: The 'location' parameter of the 'editorConfig' section is deprecated. Please use 'region' parameter in the 'editorConfig' section instead.");
+            region = appOptions.location;
+        } else if (appOptions.region) {
+            let val = appOptions.region;
+            val = Common.util.LanguageInfo.getLanguages().hasOwnProperty(val) ? Common.util.LanguageInfo.getLocalLanguageName(val)[0] : val;
+
+            if (val && typeof val === 'string') {
+                let arr = val.split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        } else {
+            let arr = (appOptions.lang || 'en').split(/[\-_]/);
+
+            if (arr.length > 1) region = arr[arr.length - 1]
+            if (!region) {
+                arr = (navigator.language || '').split(/[\-_]/);
+                if (arr.length > 1) region = arr[arr.length - 1]
+            }
+        }
+
+        if (/^(ca|us)$/i.test(region)) {
+            Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+        }
+    }
+
+    changeEditorBrandColorForPdf() {
+        const bodyElement = document.body;
+        bodyElement.classList.add('pdf-view');
+
+        if(Device.android) {
+            bodyElement.classList.add('pdf-view__android');
         }
     }
 
@@ -857,6 +958,12 @@ class MainController extends Component {
         });
 
         Common.Notifications.on('markfavorite', this.markFavorite.bind(this));
+    }
+
+    insertImageFromStorage(data) {
+        if (data && data._urls && (!data.c || data.c === 'add') && data._urls.length > 0) {
+            this.api.AddImageUrl(data._urls, undefined, data.token);
+        }
     }
 
     markFavorite(favorite) {

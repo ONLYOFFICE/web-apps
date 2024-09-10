@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *    View
  *
- *    Created by Maxim Kadushkin on 27 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 27 February 2014
  *
  */
 
@@ -120,7 +119,7 @@ define([
 
         render: function(el) {
             el = el || this.el;
-            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength, textChat: this.textChat }));
+            $(el).html(this.template({scope: this, maxMsgLength: Asc.c_oAscMaxCellOrCommentLength, textChat: this.textChat, textEnterMessage: this.textEnterMessage }));
 
             this.panelBox       = $('#chat-box', this.el);
             this.panelUsers     = $('#chat-users', this.el);
@@ -167,6 +166,10 @@ define([
             this.setupAutoSizingTextBox();
         },
 
+        getFocusElement: function () {
+            return this.txtMessage;
+        },
+
         _onKeyDown: function(event) {
             if (event.keyCode == Common.UI.Keys.RETURN) {
                 if ((event.ctrlKey || event.metaKey) && !event.altKey) {
@@ -177,7 +180,7 @@ define([
 
         _onResetUsers: function(c, opts) {
             if (this.panelUsers) {
-                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy(function(item) {return item.get('idOriginal');}).value(),
+                this.panelUsers.html(this.templateUserList({users: this.storeUsers.chain().filter(function(item){return item.get('online');}).groupBy(function(item) { return item.get('idOriginal'); }).value(),
                                                             usertpl: this.tplUser, scope: this}));
                 this.panelUsers.scroller.update({minScrollbarLength  : 25, alwaysVisibleY: true});
             }
@@ -456,7 +459,8 @@ define([
 
         textSend: "Send",
         textChat: "Chat",
-        textClosePanel: "Close chat"
+        textClosePanel: "Close chat",
+        textEnterMessage: "Enter your message here"
 
     }, Common.Views.Chat || {}))
 });

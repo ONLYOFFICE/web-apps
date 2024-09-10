@@ -148,6 +148,12 @@
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
     <![endif]-->
+      <script>
+          if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+              document.write('<script src="../../common/main/lib/util/fix-ie-compat.js"><\/script>');
+              document.write('<script src="../../../../sdkjs/vendor/string.js"><\/script>');
+          }
+      </script>
   </head>
 
   <body class="embed-body">
@@ -227,7 +233,8 @@
                lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
                hideLogo = params["headerlogo"]==='',
                logo = params["headerlogo"] ? encodeUrlParam(params["headerlogo"]) : null,
-               logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null;
+               logoDark = params["headerlogodark"] ? encodeUrlParam(params["headerlogodark"]) : null,
+               logoLight = params["headerlogolight"] ? encodeUrlParam(params["headerlogolight"]) : null;
 
            window.frameEditorId = params["frameEditorId"];
            window.parentOrigin = params["parentOrigin"];
@@ -242,12 +249,12 @@
                if (elem) {
                    if (hideLogo) {
                        elem.style.display = 'none';
-                   } else if (logo || logoDark) {
+                   } else if (logo || logoDark || logoLight) {
                        elem.style.backgroundImage= 'none';
                        elem.style.width = 'auto';
                        elem.style.height = 'auto';
                        var img = document.querySelector('.loading-logo img');
-                       img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo : logo || logoDark);
+                       img && img.setAttribute('src', /theme-dark/.test(document.body.className) ? logoDark || logo || logoLight : logoLight || logo || logoDark);
                        img.style.opacity = 1;
                    }
                }
@@ -263,7 +270,7 @@
           </ul>
       </div>
 
-      <div class="toolbar" id="toolbar">
+      <div class="toolbar style-off-tabs" id="toolbar">
           <div class="group left">
               <div class="margin-right-large"><a id="header-logo" class="brand-logo" href="http://www.onlyoffice.com/" target="_blank"></a></div>
               <span id="id-btn-undo" class="margin-right-small big-resolution"></span>

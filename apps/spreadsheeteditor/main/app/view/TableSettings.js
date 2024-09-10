@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  TableSettings.js
  *
- *  Created by Julia Radzhabova on 3/28/16
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 3/28/16
  *
  */
 
@@ -46,9 +45,6 @@ define([
     'common/main/lib/component/Button',
     'common/main/lib/component/CheckBox',
     'common/main/lib/component/ComboDataView',
-    'spreadsheeteditor/main/app/view/TableOptionsDialog',
-    'spreadsheeteditor/main/app/view/TableSettingsAdvanced',
-    'spreadsheeteditor/main/app/view/SlicerAddDialog'
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -531,6 +527,7 @@ define([
                     dataHint    : '1',
                     dataHintDirection: 'bottom',
                     dataHintOffset: 'big',
+                    ariaLabel: this.textTemplate
                 });
                 this.btnTableTemplate.on('render:after', function(btn) {
                     self.mnuTableTemplatePicker = new Common.UI.DataView({
@@ -749,54 +746,7 @@ define([
             this.chFirst.setDisabled(disable || this.wsProps['FormatCells']);
             this.chLast.setDisabled(disable || this.wsProps['FormatCells']);
             this.chColBanded.setDisabled(disable || this.wsProps['FormatCells']);
-        },
+        }
 
-        textEdit:           'Rows & Columns',
-        selectRowText           : 'Select Row',
-        selectColumnText        : 'Select Entire Column',
-        selectDataText          : 'Select Column Data',
-        selectTableText         : 'Select Table',
-        insertRowAboveText      : 'Insert Row Above',
-        insertRowBelowText      : 'Insert Row Below',
-        insertColumnLeftText    : 'Insert Column Left',
-        insertColumnRightText   : 'Insert Column Right',
-        deleteRowText           : 'Delete Row',
-        deleteColumnText        : 'Delete Column',
-        deleteTableText         : 'Delete Table',
-        textTemplate            : 'Select From Template',
-        textRows                : 'Rows',
-        textColumns             : 'Columns',
-        textHeader              : 'Header',
-        textTotal               : 'Total',
-        textBanded              : 'Banded',
-        textFirst               : 'First',
-        textLast                : 'Last',
-        textEmptyTemplate       : 'No templates',
-        textFilter              : 'Filter button',
-        textTableName           : 'Table Name',
-        textResize              : 'Resize table',
-        textSelectData          : 'Select Data',
-        textInvalidName         : 'ERROR! Invalid table name',
-        textExistName           : 'ERROR! Range with such a name already exists',
-        textIsLocked            : 'This element is being edited by another user.',
-        notcriticalErrorTitle   : 'Warning',
-        textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.',
-        textAdvanced:   'Show advanced settings',
-        textConvertRange: 'Convert to range',
-        textLongOperation: 'Long operation',
-        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
-        textRemDuplicates: 'Remove duplicates',
-        textSlicer: 'Insert slicer',
-        textPivot: 'Insert pivot table',
-        textActions: 'Table actions',
-        txtTable_TableStyleMedium: 'Table Style Medium',
-        txtTable_TableStyleDark: 'Table Style Dark',
-        txtTable_TableStyleLight: 'Table Style Light',
-        txtGroupTable_Custom: 'Custom',
-        txtGroupTable_Light: 'Light',
-        txtGroupTable_Medium: 'Medium',
-        txtGroupTable_Dark: 'Dark',
-        
-        
     }, SSE.Views.TableSettings || {}));
 });

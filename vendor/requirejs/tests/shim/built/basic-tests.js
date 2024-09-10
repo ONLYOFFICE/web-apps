@@ -1,4 +1,3 @@
-
 (function (root) {
     root.A = {
         name: 'a'
@@ -27,8 +26,8 @@ var B = {
     aValue: A.name,
     dValue: new D()
 };
-
-define("b", function(){});
+//ending comment;
+define("b", ["a","d"], function(){});
 
 var C = {
     name: 'c',
@@ -142,3 +141,4 @@ require({
 );
 
 define("basic-tests", function(){});
+

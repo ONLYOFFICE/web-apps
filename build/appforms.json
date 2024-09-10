@@ -100,6 +100,20 @@
                         }
                     }
                 }
+            },
+            "postload": {
+                "options": {
+                    "baseUrl": "../apps/",
+                    "optimize": "none",
+                    "name": "../apps/documenteditor/forms/app_pack.js",
+                    "out": "../deploy/web-apps/apps/documenteditor/forms/code.js",
+                    "inlineText": true,
+                    "findNestedDependencies": false,
+                    "optimizeAllPluginResources": false,
+                    "paths": {
+                        "text": "../vendor/requirejs-text/text"
+                    }
+                }
             }
         },
         "less": {

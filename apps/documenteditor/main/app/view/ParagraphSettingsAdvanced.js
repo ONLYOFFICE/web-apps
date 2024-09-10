@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,19 +32,14 @@
 /**
  *  ParagraphSettingsAdvanced.js
  *
- *  Created by Julia Radzhabova on 2/21/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 2/21/14
  *
  */
 
-define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
+define([
+    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.template',
+    'common/main/lib/component/TableStyler',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/ThemeColorPalette',
-    'common/main/lib/component/ColorButton',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/TableStyler'
 ], function (contentTemplate) {
     'use strict';
 
@@ -920,19 +915,7 @@ define([    'text!documenteditor/main/app/template/ParagraphSettingsAdvanced.tem
                     this.paragraphShade = 'transparent';
                 }
                 this.btnBackColor.setColor(this.paragraphShade);
-                if ( typeof(this.paragraphShade) == 'object' ) {
-                    var isselected = false;
-                    for (var i=0; i<10; i++) {
-                        if ( Common.Utils.ThemeColor.ThemeValues[i] == this.paragraphShade.effectValue ) {
-                            this.colorsBack.select(this.paragraphShade,true);
-                            isselected = true;
-                            break;
-                        }
-                    }
-                    if (!isselected) this.colorsBack.clearSelection();
-                } else
-                    this.colorsBack.select(this.paragraphShade,true);
-
+                Common.Utils.ThemeColor.selectPickerColorByEffect(this.paragraphShade, this.colorsBack);
                 this._UpdateBorders();
 
                 // Font

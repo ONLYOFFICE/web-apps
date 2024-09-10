@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,20 +32,15 @@
 /**
  *  ChartSettingsDlg.js
  *
- *  Created by Julia Radzhabova on 4/04/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/04/14
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template',
+define([
+    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template',
     'text!common/main/lib/template/ChartVertAxis.template',
     'text!common/main/lib/template/ChartHorAxis.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/InputField',
-    'spreadsheeteditor/main/app/view/CellRangeDialog',
-    'spreadsheeteditor/main/app/view/ChartDataRangeDialog',
-    'common/main/lib/view/FormatSettingsDialog'
 ], function (contentTemplate, vertTemplate, horTemplate) {
     'use strict';
 

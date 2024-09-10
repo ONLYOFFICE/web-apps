@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,9 +35,7 @@ if (Common === undefined)
 define([
     'text!common/main/lib/template/ExtendedColorDialog.template',
     'common/main/lib/component/HSBColorPicker',
-    'common/main/lib/component/MetricSpinner',
-    'common/main/lib/component/MaskedField',
-    'common/main/lib/component/Window'
+    'common/main/lib/component/MaskedField'
 ], function (dlgTemplate) {
     'use strict';
 
@@ -56,7 +54,7 @@ define([
                 header: false,
                 buttons: [{value: '1', caption: this.addButtonText}, {value: '0', caption: this.cancelButtonText}],
                 primary: '1',
-                width: 340
+                width: 356
             });
 
             this.hexRe = /\s*#?([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/;

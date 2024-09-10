@@ -1,4 +1,5 @@
-(function(){
+define(['underscore'],
+function(_){
     var resolveNamespace = function(className, root) {
         var parts = className.split('.'),
             current = root || window;
@@ -562,4 +563,4 @@
     else {
         throw ('Native Backbone.Application instance already defined.')
     }
-})();
+});

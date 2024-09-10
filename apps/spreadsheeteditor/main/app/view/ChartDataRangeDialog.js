@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  ChartDataRangeDialog.js
  *
- *  Created by Julia Radzhabova on 02.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 02.07.2020
  *
  */
 
@@ -41,10 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.ChartDataRangeDialog = Common.UI.Window.extend(_.extend({
         options: {

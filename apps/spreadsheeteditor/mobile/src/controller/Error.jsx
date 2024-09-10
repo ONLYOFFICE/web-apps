@@ -487,6 +487,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorPrecedentsNoValidRef');
                 break;
 
+            case Asc.c_oAscError.ID.CircularReference:
+                config.msg = t('Error.errorCircularReference');
+                break;
+
             default:
                 config.msg = _t.errorDefaultMessage.replace('%1', id);
                 break;

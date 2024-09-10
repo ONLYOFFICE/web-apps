@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,8 +34,7 @@
  *
  *  View
  *
- *  Created by Olga.Sharova on 15.07.21
- *  Copyright (c) 2021 Ascensio System SIA. All rights reserved.
+ *  Created on 15.07.21
  *
  */
 
@@ -122,6 +121,7 @@ define([
 
                 this._arrEffectName = [
                     {title: this.textNone, imageUrl: "btn-transition-none", value: Asc.c_oAscSlideTransitionTypes.None, id: Common.UI.getId()},
+                    {title: this.textMorph, imageUrl: "btn-transition-morph", value: Asc.c_oAscSlideTransitionTypes.Morph, id: Common.UI.getId()},
                     {title: this.textFade, imageUrl: "btn-transition-fade", value: Asc.c_oAscSlideTransitionTypes.Fade, id: Common.UI.getId()},
                     {title: this.textPush, imageUrl: "btn-transition-push", value: Asc.c_oAscSlideTransitionTypes.Push, id: Common.UI.getId()},
                     {title: this.textWipe, imageUrl: "btn-transition-wipe", value: Asc.c_oAscSlideTransitionTypes.Wipe, id: Common.UI.getId()},
@@ -130,7 +130,7 @@ define([
                     {title: this.textCover, imageUrl: "btn-transition-cover", value: Asc.c_oAscSlideTransitionTypes.Cover, id: Common.UI.getId()},
                     {title: this.textClock, imageUrl: "btn-transition-clock", value: Asc.c_oAscSlideTransitionTypes.Clock, id: Common.UI.getId()},
                     {title: this.textZoom, imageUrl: "btn-transition-zoom", value: Asc.c_oAscSlideTransitionTypes.Zoom, id: Common.UI.getId()},
-                    {title: this.textMorph, imageUrl: "btn-transition-morph", value: Asc.c_oAscSlideTransitionTypes.Morph, id: Common.UI.getId(),cls: 'last-item'}
+                    {title: this.textRandom, imageUrl: "btn-transition-random", value: Asc.c_oAscSlideTransitionTypes.Random, id: Common.UI.getId(), cls: 'last-item'}
                 ];
                 this._arrEffectName.forEach(function (item) {
                     item.tip = item.title;
@@ -425,54 +425,16 @@ define([
 
                 if (!this.listEffects.isDisabled()) {
                     this.numDelay.setDisabled(this.chDelay.getValue() !== 'checked');
-                    this.btnParameters.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
+                    this.btnParameters.setDisabled(
+                        effect === Asc.c_oAscSlideTransitionTypes.None || 
+                        effect === Asc.c_oAscSlideTransitionTypes.Random
+                    );
                     this.btnPreview.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.numDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                     this.lblDuration.setDisabled(effect === Asc.c_oAscSlideTransitionTypes.None);
                 }
                 return (selectedElement) ? selectedElement.value : -1;
-            },
-
-            txtSec: 's',
-            txtPreview: 'Preview',
-            txtParameters: 'Parameters',
-            txtApplyToAll: 'Apply to All Slides',
-            strDuration: 'Duration',
-            strDelay: 'Delay',
-            strStartOnClick: 'Start On Click',
-            textNone: 'None',
-            textFade: 'Fade',
-            textPush: 'Push',
-            textWipe: 'Wipe',
-            textSplit: 'Split',
-            textUnCover: 'UnCover',
-            textCover: 'Cover',
-            textClock: 'Clock',
-            textZoom: 'Zoom',
-            textMorph: 'Morph',
-            textSmoothly: 'Smoothly',
-            textBlack: 'Through Black',
-            textLeft: 'Left',
-            textTop: 'Top',
-            textRight: 'Right',
-            textBottom: 'Bottom',
-            textTopLeft: 'Top-Left',
-            textTopRight: 'Top-Right',
-            textBottomLeft: 'Bottom-Left',
-            textBottomRight: 'Bottom-Right',
-            textVerticalIn: 'Vertical In',
-            textVerticalOut: 'Vertical Out',
-            textHorizontalIn: 'Horizontal In',
-            textHorizontalOut: 'Horizontal Out',
-            textClockwise: 'Clockwise',
-            textCounterclockwise: 'Counterclockwise',
-            textWedge: 'Wedge',
-            textZoomIn: 'Zoom In',
-            textZoomOut: 'Zoom Out',
-            textZoomRotate: 'Zoom and Rotate',
-            textMorphObjects: 'Objects',
-            textMorphWord: 'Words',
-            textMorphLetters: 'Letters'
+            }
         }
     }()), PE.Views.Transitions || {}));
 

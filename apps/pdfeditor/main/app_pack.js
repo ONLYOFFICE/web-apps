@@ -1,0 +1,33 @@
+require([
+    'common/main/lib/util/define',
+    'common/main/lib/controller/ScreenReaderFocus',
+    'common/main/lib/component/ComboBoxDataView',
+    'common/main/lib/view/AdvancedSettingsWindow',
+    'common/main/lib/view/AutoCorrectDialog',
+    'common/main/lib/view/DocumentAccessDialog',
+    'common/main/lib/view/SaveAsDlg',
+    'common/main/lib/view/CopyWarningDialog',
+    'common/main/lib/view/SelectFileDlg',
+    'common/main/lib/view/SymbolTableDialog',
+    'common/main/lib/view/InsertTableDialog',
+    'common/main/lib/view/SearchDialog',
+    'common/main/lib/view/RenameDialog',
+    'common/main/lib/view/PluginDlg',
+    'common/main/lib/view/PluginPanel',
+    'common/main/lib/view/ShapeShadowDialog',
+    'common/main/lib/view/TextInputDialog',
+    'common/main/lib/view/DocumentHolderExt',
+    'common/main/lib/view/ListSettingsDialog',
+    'common/main/lib/view/CustomizeQuickAccessDialog',
+    'common/main/lib/view/PasswordDialog',
+
+    'pdfeditor/main/app/view/FileMenuPanels',
+    'pdfeditor/main/app/view/DocumentHolderExt',
+    'pdfeditor/main/app/view/ParagraphSettingsAdvanced',
+    'pdfeditor/main/app/view/ImageSettingsAdvanced',
+    'pdfeditor/main/app/view/HyperlinkSettingsDialog',
+    'pdfeditor/main/app/view/ShapeSettingsAdvanced',
+    'pdfeditor/main/app/view/TableSettingsAdvanced'
+], function () {
+    Common.NotificationCenter.trigger('script:loaded');
+});

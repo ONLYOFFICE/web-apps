@@ -57,18 +57,12 @@
         //--canvas-high-contrast-disabled: #000;
 
         --canvas-cell-border: fade(#000, 10%);
-        --canvas-cell-title-border: #d5d5d5;
+        --canvas-cell-title-border: #757575;
         --canvas-cell-title-border-hover: #858585;
-        --canvas-cell-title-border-selected: #afafaf;
-        //--canvas-cell-title-hover: #787878;
-        --canvas-cell-title-selected: #cfcfcf;
-
-        --canvas-dark-cell-title: #444;
-        //--canvas-dark-cell-title-hover: #000;
-        --canvas-dark-cell-title-selected: #111;
-        --canvas-dark-cell-title-border: #d5d5d5;
-        //--canvas-dark-cell-title-border-hover: #191919;
-        --canvas-dark-cell-title-border-selected: #afafaf;
+        --canvas-cell-title-border-selected: #999;
+        --canvas-cell-title-text: fade(#fff, 80%);
+        --canvas-cell-title-background: #555;
+        --canvas-cell-title-background-selected: #3d3d3d;
 
         //--canvas-scroll-thumb: #404040;
         //--canvas-scroll-thumb-hover: #999;
@@ -82,5 +76,13 @@
         //--canvas-scroll-thumb-target: #999;
         //--canvas-scroll-thumb-target-hover: #404040;
         //--canvas-scroll-thumb-target-pressed: #404040;
+    }
+
+    .theme-type-dark.pdf-view, .theme-dark.pdf-view {
+        --brand-word: var(--brand-form);
+
+        &__android {
+            --toolbar-background: var(--background-primary);
+        }
     }
 }

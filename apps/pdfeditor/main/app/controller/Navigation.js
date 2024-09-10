@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,7 +30,6 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 14.12.17
  */
 
@@ -113,7 +112,7 @@ define([
                 menu.hide();
             }
 
-            var parentOffset = this.panelNavigation.$el.offset(),
+            var parentOffset = Common.Utils.getOffset(this.panelNavigation.$el),
                 top = e.clientY*Common.Utils.zoom();
             showPoint = [e.clientX*Common.Utils.zoom() + 5, top - parentOffset.top + 5];
 

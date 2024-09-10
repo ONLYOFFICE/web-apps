@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -148,8 +148,9 @@ define([
             this.btnRedo.render($('#id-btn-redo'));
 
             this.btnSubmit = new Common.UI.Button({
-                cls: 'btn-text-default auto colored yellow margin-left-small margin-right-small',
-                caption: this.textSubmit
+                cls: 'btn-text-default auto colored back-color margin-left-small margin-right-small',
+                caption: this.textSubmit,
+                hint: this.tipSubmit
             });
             this.btnSubmit.render($('#id-submit-group'));
 
@@ -223,7 +224,8 @@ define([
         tipUndo: 'Undo',
         tipRedo: 'Redo',
         textClearField: 'Clear field',
-        textClose: 'Close file'
+        textClose: 'Close file',
+        tipSubmit: 'Submit form'
 
     }, DE.Views.ApplicationView || {}));
 });

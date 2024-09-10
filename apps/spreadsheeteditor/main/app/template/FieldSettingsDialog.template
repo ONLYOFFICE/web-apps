@@ -1,6 +1,6 @@
 <div id="id-pivot-field-settings-layout" class="settings-panel active">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small" style="white-space: nowrap;">
                     <label class="header margin-right-4" style="vertical-align: middle;"><%= scope.txtSourceName %></label>
@@ -73,7 +73,7 @@
 </div>
 <div id="id-pivot-field-settings-subtotals" class="settings-panel">
     <div class="inner-content">
-        <table cols="1" style="width: 100%;">
+        <table cols="1" style="width: 100%;" role="presentation">
             <tr>
                 <td class="padding-small">
                     <label class="header"><%= scope.txtSummarize %></label>

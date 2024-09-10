@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  ThemeColorPalette.js
  *
- *  Created by Julia Radzhabova on 1/28/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 1/28/14
  *
  */
 
@@ -103,6 +102,7 @@ define([
 
         colorRe: /(?:^|\s)color-(.{6})(?:\s|$)/,
         selectedCls: 'selected',
+        cls        : '',
 
         initialize : function(options) {
             Common.UI.BaseView.prototype.initialize.call(this, options);
@@ -128,6 +128,7 @@ define([
                 me.moveKeys = [Common.UI.Keys.UP, Common.UI.Keys.DOWN, Common.UI.Keys.LEFT, Common.UI.Keys.RIGHT];
 
             el.addClass('theme-colorpalette');
+            me.options.cls && el.addClass(me.options.cls);
             this.render();
 
             if (this.options.updateColorsArr)
@@ -673,13 +674,13 @@ define([
 
             var el = $(this.colorItems[0].el),
                 itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.colorItems.length; i++) {
-                var top = $(this.colorItems[i].el).offset().top - offsetTop;
-                leftIdx = Math.floor(($(this.colorItems[i].el).offset().left - offsetLeft)/itemW);
+                var top = Common.Utils.getOffset($(this.colorItems[i].el)).top - offsetTop;
+                leftIdx = Math.floor((Common.Utils.getOffset($(this.colorItems[i].el)).left - offsetLeft)/itemW);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);

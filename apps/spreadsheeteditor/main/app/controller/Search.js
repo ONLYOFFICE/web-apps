@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,8 +33,7 @@
 /**
  *  ViewTab.js
  *
- *  Created by Julia Svinareva on 22.02.2022
- *  Copyright (c) 2022 Ascensio System SIA. All rights reserved.
+ *  Created on 22.02.2022
  *
  */
 
@@ -282,7 +281,7 @@ define([
             options.asc_setLookIn(this._state.lookInFormulas ? Asc.c_oAscFindLookIn.Formulas : Asc.c_oAscFindLookIn.Value);
             options.asc_setNeedRecalc(isNeedRecalc);
             if (this._state.isContentChanged) {
-                options.asc_setLastSearchElem(this._state.lastSelectedItem);
+                options.asc_setLastSearchElem(this._state.lastSelectedItem ? this._state.lastSelectedItem : options.asc_getLastSearchElem(true));
                 this.view.disableReplaceButtons(false);
                 this._state.isContentChanged = false;
                 if (!this.view.$el.is(':visible')) {
@@ -454,12 +453,12 @@ define([
                 me.resultItems = [];
                 data.forEach(function (item, ind) {
                     var isSelected = ind === me._state.currentResult;
-                    var tr = '<div class="item" style="width: 100%;">' +
-                        '<div class="sheet">' + (item[1] ? Common.Utils.String.htmlEncode(item[1]) : '') + '</div>' +
-                        '<div class="name">' + (item[2] ? Common.Utils.String.htmlEncode(item[2]) : '') + '</div>' +
-                        '<div class="cell">' + (item[3] ? Common.Utils.String.htmlEncode(item[3]) : '') + '</div>' +
-                        '<div class="value">' + (item[4] ? Common.Utils.String.htmlEncode(item[4]) : '') + '</div>' +
-                        '<div class="formula">' + (item[5] ? Common.Utils.String.htmlEncode(item[5]) : '') + '</div>' +
+                    var tr = '<div role="row" class="item" style="width: 100%;">' +
+                        '<div role="cell" class="sheet">' + (item[1] ? Common.Utils.String.htmlEncode(item[1]) : '') + '</div>' +
+                        '<div role="cell" class="name">' + (item[2] ? Common.Utils.String.htmlEncode(item[2]) : '') + '</div>' +
+                        '<div role="cell" class="cell">' + (item[3] ? Common.Utils.String.htmlEncode(item[3]) : '') + '</div>' +
+                        '<div role="cell" class="value">' + (item[4] ? Common.Utils.String.htmlEncode(item[4]) : '') + '</div>' +
+                        '<div role="cell" class="formula">' + (item[5] ? Common.Utils.String.htmlEncode(item[5]) : '') + '</div>' +
                         '</div>';
                     var $item = $(tr).appendTo($innerResults);
                     if (isSelected) {

@@ -41,7 +41,9 @@ export class storeAppOptions {
             setEncryptionFile: action,
 
             isFavorite: observable,
-            setFavorite: action
+            setFavorite: action,
+
+            customization: observable,
         });
     }
 
@@ -100,6 +102,8 @@ export class storeAppOptions {
     }
 
     config = {};
+    customization;
+
     setConfigOptions (config, _t) {
         this.config = config;
         this.customization = config.customization;
@@ -121,6 +125,7 @@ export class storeAppOptions {
         this.createUrl = config.createUrl;
         this.lang = config.lang ?? 'en';
         this.location = (typeof (config.location) == 'string') ? config.location.toLowerCase() : '';
+        this.region = (typeof (config.region) == 'string') ? config.region.toLowerCase() : config.region;
         this.sharingSettingsUrl = config.sharingSettingsUrl;
         this.canRequestSharingSettings = config.canRequestSharingSettings;
         this.fileChoiceUrl = config.fileChoiceUrl;
@@ -217,7 +222,7 @@ export class storeAppOptions {
         this.canReader = (!type || typeof type[1] !== 'string');
 
         this.canBranding = params.asc_getCustomization();
-        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object');
+        this.canBrandingExt = params.asc_getCanBranding() && (typeof this.customization == 'object' || this.config.plugins);
 
         this.canFavorite = document.info && (document.info?.favorite !== undefined && document.info?.favorite !== null) && !this.isOffline;
         this.isFavorite = document.info?.favorite;

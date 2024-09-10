@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,7 +30,6 @@
  *
  */
 /**
- * User: Julia.Svinareva
  * Date: 11.02.2022
  */
 
@@ -38,7 +37,8 @@ define([
     'text!common/main/lib/template/SearchPanel.template',
     'common/main/lib/util/utils',
     'common/main/lib/component/BaseView',
-    'common/main/lib/component/Layout'
+    'common/main/lib/component/Layout',
+    'common/main/lib/component/InputField',
 ], function (template) {
     'use strict';
 
@@ -70,6 +70,7 @@ define([
                     allowBlank: true,
                     validateOnBlur: false,
                     style: 'width: 100%;',
+                    type: 'search',
                     dataHint: '1',
                     dataHintDirection: 'left',
                     dataHintOffset: 'small'
@@ -264,15 +265,15 @@ define([
                     this.cmbSearch.setValue(0);
                     this.cmbLookIn.setValue(0);
 
-                    var tableTemplate = '<div class="search-table">' +
-                        '<div class="header-items">' +
-                        '<div class="header-item">' + this.textSheet + '</div>' +
-                        '<div class="header-item">' + this.textName + '</div>' +
-                        '<div class="header-item">' + this.textCell + '</div>' +
-                        '<div class="header-item">' + this.textValue + '</div>' +
-                        '<div class="header-item">' + this.textFormula + '</div>' +
-                        '</div>' +
-                        '<div class="ps-container oo search-items"></div>' +
+                    var tableTemplate = '<div role="table" class="search-table" aria-label="' + this.textSearchResultsTable + '">' +
+                        '<div role="rowgroup"><div role="row" class="header-items">' +
+                        '<div role="columnheader" class="header-item">' + this.textSheet + '</div>' +
+                        '<div role="columnheader" class="header-item">' + this.textName + '</div>' +
+                        '<div role="columnheader" class="header-item">' + this.textCell + '</div>' +
+                        '<div role="columnheader" class="header-item">' + this.textValue + '</div>' +
+                        '<div role="columnheader" class="header-item">' + this.textFormula + '</div>' +
+                        '</div></div>' +
+                        '<div role="rowgroup" class="ps-container oo search-items"></div>' +
                         '</div>',
                         $resultTable = $(tableTemplate).appendTo(this.$resultsContainer);
                     this.$resultsContainer.scroller = new Common.UI.Scroller({
@@ -284,6 +285,8 @@ define([
                     });
                     this.$resultsTable = this.$resultsContainer.find('.search-table');
                 } else {
+                    this.$resultsContainer.attr('role', 'list');
+                    this.$resultsContainer.attr('aria-label', this.textSearchResultsTable);
                     this.$resultsContainer.scroller = new Common.UI.Scroller({
                         el: this.$resultsContainer,
                         includePadding: true,
@@ -321,6 +324,10 @@ define([
                 el.find('input').focus();
                 el.find('input').select();
             }, 10);
+        },
+
+        getFocusElement: function () {
+            return this.inputText.$el.find('input');
         },
 
         setSearchMode: function (mode) {
@@ -483,7 +490,8 @@ define([
         textContentChanged: 'Document changed.',
         textSearchAgain: '{0}Perform new search{1} for accurate results.',
         textItemsSuccessfullyReplaced: '{0} items successfully replaced.',
-        textPartOfItemsNotReplaced: '{0}/{1} items replaced. Remaining {2} items are locked by other users.'
+        textPartOfItemsNotReplaced: '{0}/{1} items replaced. Remaining {2} items are locked by other users.',
+        textSearchResultsTable: 'Search results'
 
     }, Common.Views.SearchPanel || {}));
 });

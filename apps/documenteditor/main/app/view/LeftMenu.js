@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *    LeftMenu.js
  *
- *    Created by Maxim Kadushkin on 13 February 2014
- *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *    Created on 13 February 2014
  *
  */
 
@@ -52,7 +51,6 @@ define([
     'common/main/lib/view/History',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
-    'common/main/lib/view/SearchDialog',
     'documenteditor/main/app/view/FileMenu',
     'documenteditor/main/app/view/Navigation'
 ], function (menuTemplate, $, _, Backbone) {
@@ -72,7 +70,7 @@ define([
         },
 
         render: function () {
-            var $markup = $(this.template({}));
+            var $markup = $(this.template({scope: this}));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -256,6 +254,16 @@ define([
             /** coauthoring end **/
         },
 
+        getFocusElement: function () {
+            var btn = false;
+            if (this.btnChat && this.btnChat.pressed) {
+                btn = this.panelChat.getFocusElement();
+            } else if (this.btnSearchBar && this.btnSearchBar.pressed) {
+                btn = this.panelSearch.getFocusElement();
+            }
+            return btn;
+        },
+
         setOptionsPanel: function(name, panel) {
             /** coauthoring begin **/
             if (name == 'chat') {
@@ -351,6 +359,7 @@ define([
         showMenu: function(menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
             if ( re[1] == 'file' ) {
+                if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
                 if ( !this.menuFile.isVisible() ) {
                     // this.btnFile.toggle(true);
                 }
@@ -510,6 +519,7 @@ define([
         tipNavigation: 'Navigation',
         tipOutline: 'Headings',
         txtLimit: 'Limit Access',
-        txtEditor: 'Document Editor'
+        txtEditor: 'Document Editor',
+        ariaLeftMenu: 'Left menu'
     }, DE.Views.LeftMenu || {}));
 });

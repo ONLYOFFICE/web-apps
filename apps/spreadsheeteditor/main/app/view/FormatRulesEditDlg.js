@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,15 +33,13 @@
  *
  *  FormatRulesEditDlg.js
  *
- *  Created by Julia.Radzhabova on 15.04.20
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 15.04.20
  *  
  */
 
-define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
+define([
+    'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
     'common/main/lib/view/AdvancedSettingsWindow',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/InputField'
 ], function (contentTemplate) {
     'use strict';
 
@@ -429,28 +427,16 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 menu        : new Common.UI.Menu({
                     items: [
                         {
-                            caption     : this.textOutBorders,
-                            iconCls     : 'menu__icon btn-border-out',
-                            icls        : 'btn-border-out',
-                            borderId    : 'outer'
-                        },
-                        {
-                            caption     : this.textAllBorders,
-                            iconCls     : 'menu__icon btn-border-all',
-                            icls        : 'btn-border-all',
-                            borderId    : 'all'
+                            caption     : this.textBottomBorders,
+                            iconCls     : 'menu__icon btn-border-bottom',
+                            icls        : 'btn-border-bottom',
+                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textTopBorders,
                             iconCls     : 'menu__icon btn-border-top',
                             icls        : 'btn-border-top',
                             borderId    : Asc.c_oAscBorderOptions.Top
-                        },
-                        {
-                            caption     : this.textBottomBorders,
-                            iconCls     : 'menu__icon btn-border-bottom',
-                            icls        : 'btn-border-bottom',
-                            borderId    : Asc.c_oAscBorderOptions.Bottom
                         },
                         {
                             caption     : this.textLeftBorders,
@@ -464,18 +450,37 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             icls        : 'btn-border-right',
                             borderId    : Asc.c_oAscBorderOptions.Right
                         },
+                        {caption: '--'},
                         {
                             caption     : this.textNoBorders,
                             iconCls     : 'menu__icon btn-border-no',
                             icls        : 'btn-border-no',
                             borderId    : 'none'
                         },
-                        {caption: '--'},
+                        {
+                            caption     : this.textAllBorders,
+                            iconCls     : 'menu__icon btn-border-all',
+                            icls        : 'btn-border-all',
+                            borderId    : 'all'
+                        },
+                        {
+                            caption     : this.textOutBorders,
+                            iconCls     : 'menu__icon btn-border-out',
+                            icls        : 'btn-border-out',
+                            borderId    : 'outer'
+                        },
                         {
                             caption     : this.textInsideBorders,
                             iconCls     : 'menu__icon btn-border-inside',
                             icls        : 'btn-border-inside',
                             borderId    : 'inner'
+                        },
+                        {caption: '--'},
+                        {
+                            caption     : this.textMiddleBorders,
+                            iconCls     : 'menu__icon btn-border-insidehor',
+                            icls        : 'btn-border-insidehor',
+                            borderId    : Asc.c_oAscBorderOptions.InnerH
                         },
                         {
                             caption     : this.textCenterBorders,
@@ -484,22 +489,16 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                             borderId    : Asc.c_oAscBorderOptions.InnerV
                         },
                         {
-                            caption     : this.textMiddleBorders,
-                            iconCls     : 'menu__icon btn-border-insidehor',
-                            icls        : 'btn-border-insidehor',
-                            borderId    : Asc.c_oAscBorderOptions.InnerH
+                            caption     : this.textDiagDownBorder,
+                            iconCls     : 'menu__icon btn-border-diagdown',
+                            icls        : 'btn-border-diagdown',
+                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {
                             caption     : this.textDiagUpBorder,
                             iconCls     : 'menu__icon btn-border-diagup',
                             icls        : 'btn-border-diagup',
                             borderId    : Asc.c_oAscBorderOptions.DiagU
-                        },
-                        {
-                            caption     : this.textDiagDownBorder,
-                            iconCls     : 'menu__icon btn-border-diagdown',
-                            icls        : 'btn-border-diagdown',
-                            borderId    : Asc.c_oAscBorderOptions.DiagD
                         },
                         {caption: '--'},
                         {
@@ -664,7 +663,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
             var combo = new Common.UI.ComboBoxDataView({
                 el: $('#format-rules-combo-icon-' + (i+1)),
                 additionalAlign: this.menuAddAlign,
-                additionalItems: [{ caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) }],
+                additionalItemsBefore: [{ caption: this.txtNoCellIcon, checkable: true, allowDepress: false, toggleGroup: 'no-cell-icons-' + (i+1) }],
                 cls: 'move-focus',
                 menuStyle: 'min-width: 105px;',
                 dataViewStyle: 'width: 217px; margin: 0 5px;',
@@ -1300,19 +1299,7 @@ define([ 'text!spreadsheeteditor/main/app/template/FormatRulesEditDlg.template',
                 color = picker.options.transparent ? 'transparent' : '000000';
             }
             control && control.setColor(color);
-            if (_.isObject(color)) {
-                var isselected = false;
-                for (var i = 0; i < 10; i++) {
-                    if (Common.Utils.ThemeColor.ThemeValues[i] == color.effectValue) {
-                        picker.select(color, true);
-                        isselected = true;
-                        break;
-                    }
-                }
-                if (!isselected) picker.clearSelection();
-            } else {
-                picker.select(color, true);
-            }
+            Common.Utils.ThemeColor.selectPickerColorByEffect(color, picker);
             picker && (picker.currentColor = color);
             control && (control.currentColor = color);
             return color;

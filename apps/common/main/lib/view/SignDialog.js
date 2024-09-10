@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  SignDialog.js
  *
- *  Created by Julia Radzhabova on 5/19/17
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 5/19/17
  *
  */
 
@@ -41,12 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/ComboBoxFonts'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     Common.Views.SignDialog = Common.UI.Window.extend(_.extend({
         options: {

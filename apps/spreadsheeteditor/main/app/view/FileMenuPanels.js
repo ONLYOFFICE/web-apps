@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -29,10 +29,7 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-define([
-    'common/main/lib/view/DocumentAccessDialog',
-    'common/main/lib/view/AutoCorrectDialog'
-], function () {
+define([], function () {
     'use strict';
 
     !SSE.Views.FileMenuPanels && (SSE.Views.FileMenuPanels = {});
@@ -263,6 +260,9 @@ define([
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
+                '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
@@ -271,7 +271,7 @@ define([
                     '<td class="subgroup-name" colspan="2"><label><%= scope.strCoAuthMode %></label></td>',
                 '</tr>',
                 '<tr class="coauth changes">',
-                    '<td colspan="2"><div style="display: flex;">',
+                    '<td colspan="2"><div style="display: flex;" role="radiogroup" aria-owns="fms-rb-coauth-mode-strict">',
                         '<div id="fms-rb-coauth-mode-fast"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.strFast %></label>',
                         '<label class="comment-text"><%= scope.txtFastTip %></label></span>',
@@ -296,6 +296,21 @@ define([
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
+                '</tr>',
+                '<tr class="themes">',
+                    '<td><label><%= scope.strTheme %></label></td>',
+                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',
+                '<tr class="tab-style">',
+                    '<td><label><%= scope.strTabStyle %></label></td>',
+                    '<td><div id="fms-cmb-tab-style"></div></td>',
+                '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
                 '<tr >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -312,15 +327,14 @@ define([
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
-                '<tr class="quick-print">',
+                /*'<tr class="quick-print">',
                     '<td colspan="2"><div style="display: flex;"><div id="fms-chb-quick-print"></div>',
                         '<span style ="display: flex; flex-direction: column;"><label><%= scope.txtQuickPrint %></label>',
                         '<label class="comment-text"><%= scope.txtQuickPrintTip %></label></span></div>',
                     '</td>',
-                '</tr>',
-                '<tr class="themes">',
-                    '<td><label><%= scope.strTheme %></label></td>',
-                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',*/
+                '<tr class="edit quick-access">',
+                    '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
                 '</tr>',
                 '<tr>',
                     '<td><label><%= scope.strUnit %></label></td>',
@@ -390,6 +404,17 @@ define([
                 '</tr>',
                 '<tr class="edit">',
                     '<td colspan="2"><span id="fms-chb-date-1904"></span></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td colspan="2"><span id="fms-chb-iterative-calc"></span></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strMaxIterations %></label></td>',
+                    '<td><div id="fms-max-iterations"></div></td>',
+                '</tr>',
+                '<tr class="edit">',
+                    '<td><label><%= scope.strMaxChange %></label></td>',
+                    '<td><div id="fms-max-change"></div></td>',
                 '</tr>',
                 '<tr class ="edit divider-group"></tr>',
                  '<tr class="fms-btn-apply">',
@@ -467,7 +492,8 @@ define([
                 name        : 'coauth-mode',
                 dataHint    : '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strFast + ' ' + this.txtFastTip
             }).on('change', function (field, newValue, eOpts) {
                 newValue && me.chAutosave.setValue(1);
             });
@@ -478,7 +504,8 @@ define([
                 name        : 'coauth-mode',
                 dataHint    : '2',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                ariaLabel: this.strStrict + ' ' + this.txtStrictTip
             });
             this.rbCoAuthModeStrict.$el.parent().on('click', function (){me.rbCoAuthModeStrict.setValue(true);});
             /** coauthoring end **/
@@ -495,7 +522,7 @@ define([
                 el          : $markup.findById('#fms-cmb-zoom'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%; max-height: 157px;',
                 data        : [
@@ -530,7 +557,7 @@ define([
                 el          : $markup.findById('#fms-cmb-font-render'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 cls         : 'input-group-nr',
                 menuStyle   : 'min-width:100%;',
                 itemsTemplate: itemsTemplate,
@@ -570,7 +597,7 @@ define([
                 el          : $markup.findById('#fms-cmb-unit'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -600,7 +627,7 @@ define([
                 style       : 'width: 200px;',
                 menuStyle   : 'min-width:100%; max-height: 185px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 cls         : 'input-group-nr',
                 data        : formula_arr,
                 dataHint    : '2',
@@ -614,7 +641,7 @@ define([
                 el          : $markup.findById('#fms-cmb-reg-settings'),
                 style       : 'width: 200px;',
                 menuStyle   : 'min-width:100%; max-height: 185px;',
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : Common.util.LanguageInfo.regionalData
@@ -688,7 +715,7 @@ define([
                 el          : $markup.findById('#fms-cmb-macros'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 data        : [
@@ -716,14 +743,43 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chTooltip = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-function-tooltip'),
+                labelText: this.strFunctionTooltip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.btnCustomizeQuickAccess = new Common.UI.Button({
+                el: $markup.findById('#fms-btn-customize-quick-access')
+            });
+            this.btnCustomizeQuickAccess.on('click', _.bind(this.customizeQuickAccess, this));
+
             this.cmbTheme = new Common.UI.ComboBox({
                 el          : $markup.findById('#fms-cmb-theme'),
                 style       : 'width: 160px;',
                 editable    : false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: true,
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 dataHint    : '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbTabStyle = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-tab-style'),
+                style       : 'width: 160px;',
+                menuStyle   : 'min-width:100%;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 'fill', displayValue: this.textFill},
+                    {value: 'line', displayValue: this.textLine}
+                ],
+                dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -733,7 +789,7 @@ define([
                 cls: 'input-group-nr',
                 style: 'width: 200px;',
                 editable: false,
-                menuCls     : 'menu-aligned',
+                restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -777,13 +833,21 @@ define([
                 dataHintOffset: 'small'
             });
 
+            this.chTabBack = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-tab-background'),
+                labelText: this.txtTabBack,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             $markup.find('.btn.primary').each(function(index, el){
                 (new Common.UI.Button({
                     el: $(el)
                 })).on('click', _.bind(me.applySettings, me));
             });
 
-            this.chQuickPrint = new Common.UI.CheckBox({
+            /*this.chQuickPrint = new Common.UI.CheckBox({
                 el: $markup.findById('#fms-chb-quick-print'),
                 labelText: '',
                 dataHint: '2',
@@ -792,6 +856,42 @@ define([
             });
             this.chQuickPrint.$el.parent().on('click', function (){
                 me.chQuickPrint.setValue(!me.chQuickPrint.isChecked());
+            });*/
+
+            this.chIterative = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-iterative-calc'),
+                labelText: this.strEnableIterative,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
+            this.inputMaxChange = new Common.UI.InputField({
+                el: $markup.findById('#fms-max-change'),
+                style: 'width: 60px;',
+                validateOnBlur: false,
+                maskExp:  /[0-9,\.]/,
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small',
+                validation: function(value) {
+                    return !_.isEmpty(value) && (!/^(\d*(\.|,)?\d+)$|^(\d+(\.|,)?\d*)$/.test(value) || isNaN(Common.Utils.String.parseFloat(value))) ? me.txtErrorNumber : true;
+                }
+            });
+
+            this.spnMaxIterations = new Common.UI.MetricSpinner({
+                el: $markup.findById('#fms-max-iterations'),
+                step: 1,
+                width: 60,
+                defaultUnit : '',
+                value: 100,
+                maxValue: 32767,
+                minValue: 1,
+                allowDecimal: false,
+                maskExp: /[0-9]/,
+                dataHint    : '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
             });
 
             this.pnlSettings = $markup.find('.flex-settings').addBack().filter('.flex-settings');
@@ -838,6 +938,15 @@ define([
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+                this.cmbZoom.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbUnit.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFontRender.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTheme.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbMacros.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbFuncLocale.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbRegSettings.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbDictionaryLanguage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -859,12 +968,16 @@ define([
             $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
-
+            $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
             $('tr.spellcheck', this.el)[Common.UI.FeaturesManager.canChange('spellcheck') && mode.isEdit ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
+            if (mode.compactHeader) {
+                $('tr.quick-access', this.el).hide();
+            }
         },
 
         setApi: function(api) {
@@ -956,8 +1069,16 @@ define([
             this.cmbMacros.setValue(item ? item.get('value') : 0);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
+            this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
-            this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
+            //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
+
+            value = this.api.asc_GetCalcSettings();
+            if (value) {
+                this.chIterative.setValue(!!value.asc_getIterativeCalc());
+                this.spnMaxIterations.setValue(value.asc_getMaxIterations());
+                this.inputMaxChange.setValue(value.asc_getMaxChange());
+            }
 
             var data = [];
             for (var t in Common.UI.Themes.map()) {
@@ -969,9 +1090,12 @@ define([
                 item = this.cmbTheme.store.findWhere({value: Common.UI.Themes.currentThemeId()});
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
+            this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
+            value = Common.Utils.InternalSettings.get("settings-tab-style");
+            item = this.cmbTabStyle.store.findWhere({value: value});
+            this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
 
             if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
-
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                     defaultShortName = "en-US",
                     allLangs = arrLang[0],
@@ -1012,12 +1136,26 @@ define([
             }
         },
 
+        isValid: function() {
+            if (this.mode.isEdit) {
+                if (this.inputMaxChange.checkValidate() !== true) {
+                    this.inputMaxChange.focus();
+                    return;
+                }
+            }
+            return true;
+        },
+
         applySettings: function() {
+            if (!this.isValid())
+                return;
+
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             Common.localStorage.setItem("sse-settings-show-alt-hints", this.chUseAltKey.isChecked() ? 1 : 0);
             Common.Utils.InternalSettings.set("sse-settings-show-alt-hints", Common.localStorage.getBool("sse-settings-show-alt-hints"));
+
             Common.localStorage.setItem("sse-settings-zoom", this.cmbZoom.getValue());
-            Common.Utils.InternalSettings.set("sse-settings-zoom", Common.localStorage.getItem("sse-settings-zoom"));
+
             Common.localStorage.setItem("app-settings-screen-reader", this.chScreenReader.isChecked() ? 1 : 0);
             /** coauthoring begin **/
             Common.localStorage.setItem("sse-settings-livecomment", this.chLiveComment.isChecked() ? 1 : 0);
@@ -1062,10 +1200,19 @@ define([
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
-            Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
-
+            //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
+            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
+                Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
+            }
+            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+                Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
             Common.localStorage.save();
             if (this.menu) {
                 this.menu.fireEvent('settings:apply', [this.menu]);
@@ -1095,8 +1242,17 @@ define([
                 }
             }
 
-            if (this.mode.isEdit)
+            if (this.mode.isEdit) {
                 this.api.asc_setDate1904(this.chDateSystem.isChecked());
+
+                value = this.api.asc_GetCalcSettings();
+                if (value) {
+                    value.asc_setIterativeCalc(this.chIterative.isChecked());
+                    value.asc_setMaxIterations(this.spnMaxIterations.getNumberValue());
+                    this.inputMaxChange.getValue() && value.asc_setMaxChange(Common.Utils.String.parseFloat(this.inputMaxChange.getValue()));
+                    this.api.asc_UpdateCalcSettings(value);
+                }
+            }
 
             if (isRtlChanged) {
                 var config = {
@@ -1124,7 +1280,7 @@ define([
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
         },
-        
+
         updateFuncExample: function(text) {
             $('#fms-lbl-func-locale').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + ' ' + text);
         },
@@ -1155,6 +1311,23 @@ define([
                     this.$el.show();
                 }
             }
+        },
+
+        customizeQuickAccess: function () {
+            if (this.dlgQuickAccess && this.dlgQuickAccess.isVisible()) return;
+            this.dlgQuickAccess = new Common.Views.CustomizeQuickAccessDialog({
+                showSave: this.mode.showSaveButton,
+                showPrint: this.mode.canPrint && this.mode.twoLevelHeader,
+                showQuickPrint: this.mode.canQuickPrint && this.mode.twoLevelHeader,
+                props: {
+                    save: Common.localStorage.getBool('sse-quick-access-save', true),
+                    print: Common.localStorage.getBool('sse-quick-access-print', true),
+                    quickPrint: Common.localStorage.getBool('sse-quick-access-quick-print', true),
+                    undo: Common.localStorage.getBool('sse-quick-access-undo', true),
+                    redo: Common.localStorage.getBool('sse-quick-access-redo', true)
+                }
+            });
+            this.dlgQuickAccess.show();
         },
 
         strZoom: 'Default Zoom Value',
@@ -1271,7 +1444,17 @@ define([
         txtRestartEditor: 'Please restart spreadsheet editor so that your workspace settings can take effect',
         txtHy: 'Armenian',
         txtLastUsed: 'Last used',
-        txtScreenReader: 'Turn on screen reader support'
+        txtScreenReader: 'Turn on screen reader support',
+        strMaxIterations: 'Maximum iterations',
+        strMaxChange: 'Maximum change',
+        strEnableIterative: 'Enable iterative calculation',
+        txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.',
+        txtCustomizeQuickAccess: 'Customize quick access',
+        txtTabBack: 'Use toolbar color as tabs background',
+        strTabStyle: 'Tab style',
+        textFill: 'Fill',
+        textLine: 'Line',
+        txtAppearance: 'Appearance'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1651,6 +1834,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -1684,6 +1868,7 @@ define([
                 if (value) {
                     var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
                     try {
+                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
                         this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
                     } catch (e) {
                         lang = 'en';
@@ -2032,7 +2217,7 @@ define([
                     me.findUrl(data.data);
                 }
             });
-            
+
             $('#id-help-frame').append(this.iFrame);
 
             return this;
@@ -2397,7 +2582,9 @@ define([
                     '</div>',
                 '</div>',
                 '<div id="print-preview-box" class="no-padding">',
-                    '<div id="print-preview"></div>',
+                    '<div id="print-preview-wrapper">',
+                        '<div id="print-preview"></div>',
+                    '</div>',
                     '<div id="print-navigation">',
                         '<% if (!isRTL) { %>',
                         '<div id="print-prev-page"></div>',
@@ -2412,6 +2599,7 @@ define([
                             '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
+                        '<div id="print-zoom-to-page"></div>',
                     '</div>',
                 '</div>',
                 '<div id="print-preview-empty" class="hidden">',
@@ -2590,10 +2778,10 @@ define([
                     {value:'110|220',        displayValue:['Envelope DL', '11', '22', 'cm'], caption: 'Envelope DL'},
                     {value:'279.4|431.8',    displayValue:['Tabloid', '27,94', '43,18', 'cm'], caption: 'Tabloid'},
                     {value:'297|420',        displayValue:['A3', '29,7', '42', 'cm'], caption: 'A3'},
-                    {value:'304.8|457.1',    displayValue:['Tabloid Oversize', '30,48', '45,71', 'cm'], caption: 'Tabloid Oversize'},
+                    {value:'296.9|457.2',    displayValue:['Tabloid Oversize', '29,69', '45,72', 'cm'], caption: 'Tabloid Oversize'},
                     {value:'196.8|273',      displayValue:['ROC 16K', '19,68', '27,3', 'cm'], caption: 'ROC 16K'},
-                    {value:'119.9|234.9',    displayValue:['Envelope Choukei 3', '11,99', '23,49', 'cm'], caption: 'Envelope Choukei 3'},
-                    {value:'330.2|482.5',    displayValue:['Super B/A3', '33,02', '48,25', 'cm'], caption: 'Super B/A3'}
+                    {value:'120|235',        displayValue:['Envelope Choukei 3', '12', '23,5', 'cm'], caption: 'Envelope Choukei 3'},
+                    {value:'305|487',        displayValue:['Super B/A3', '30,5', '48,7', 'cm'], caption: 'Super B/A3'}
                 ],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
@@ -2824,6 +3012,16 @@ define([
                 dataHintDirection: 'top'
             });
 
+            this.btnZoomToPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-zoom-to-page'),
+                cls: 'btn-zoom-to-page btn-toolbar',
+                iconCls: 'toolbar__icon btn-ic-zoomtopage',
+                dataHint: '2',
+                dataHintDirection: 'top',
+                enableToggle: true,
+                pressed: true
+            });
+
             this.countOfPages = $markup.findById('#print-count-page');
 
             this.txtNumberPage = new Common.UI.InputField({
@@ -2863,6 +3061,16 @@ define([
                 });
             }
 
+            if (_.isUndefined(this.printScroller)) {
+                this.printScroller = new Common.UI.Scroller({
+                    el: $('#print-preview-wrapper'),
+                    alwaysVisibleX: true,
+                    alwaysVisibleY: true,
+                    suppressScrollX: true,
+                    suppressScrollY: true
+                });
+            }
+
             Common.NotificationCenter.on({
                 'window:resize': function() {
                     me.isVisible() && me.updateScroller();
@@ -2895,6 +3103,10 @@ define([
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
+
+            if (this.printScroller) {
+                this.printScroller.update();
             }
         },
 

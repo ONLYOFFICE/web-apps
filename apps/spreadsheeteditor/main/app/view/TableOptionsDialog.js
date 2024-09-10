@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  TableOptionsDialog.js
  *
- *  Created by Alexander Yuzhin on 4/9/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/9/14
  *
  */
 
@@ -41,12 +40,7 @@
 if (Common === undefined)
     var Common = {};
 
-define([
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
-], function () { 'use strict';
+define([], function () { 'use strict';
 
     SSE.Views.TableOptionsDialog = Common.UI.Window.extend(_.extend({
         options: {

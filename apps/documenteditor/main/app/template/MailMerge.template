@@ -1,4 +1,4 @@
-<table cols="1">
+<table cols="1" role="presentation">
     <tr>
         <td class="padding-small">
             <button type="button" class="btn btn-text-default" id="mmerge-button-edit-data" style="width:100%;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textEditData %></button>
@@ -57,11 +57,11 @@
     <tr>
         <td class="padding-medium">
             <label style=""><%= scope.textMaxRecepients %></label>
-            <label class="link-solid" id="mmerge-readmore-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="small"><%= scope.textReadMore %></label>
+            <label class="link-solid canfocused" id="mmerge-readmore-link" data-hint="1" data-hint-direction="bottom" data-hint-offset="small"><%= scope.textReadMore %></label>
         </td>
     </tr>
     <tr>
-        <td class="padding-large">
+        <td class="padding-large" role="radiogroup">
             <div id="mmerge-radio-all"></div>
             <div id="mmerge-radio-current"></div>
             <div id="mmerge-radio-from-to"></div>
@@ -71,7 +71,7 @@
         </td>
     </tr>
 </table>
-<table cols="2">
+<table cols="2" role="presentation">
     <tr>
         <td width="50%">
             <button type="button" class="btn btn-text-default" id="mmerge-button-download" style="width:90px;" data-hint="1" data-hint-direction="bottom" data-hint-offset="big"><%= scope.textDownload %></button>

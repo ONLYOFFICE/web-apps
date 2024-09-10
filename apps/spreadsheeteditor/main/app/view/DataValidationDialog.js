@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,17 +33,12 @@
 /**
  *  DataValidationDialog.js
  *
- *  Created by Julia Radzhabova on 11.11.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 11.11.2020
  *
  */
 
-define([    'text!spreadsheeteditor/main/app/template/DataValidationDialog.template',
-    'common/main/lib/util/utils',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/ComboBox',
-    'common/main/lib/component/CheckBox',
-    'common/main/lib/component/TextareaField',
+define([
+    'text!spreadsheeteditor/main/app/template/DataValidationDialog.template',
     'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
 

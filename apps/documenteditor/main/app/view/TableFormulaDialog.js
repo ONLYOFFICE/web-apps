@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,14 +32,11 @@
 /**
  *  TableFormulaDialog.js
  *
- *  Created by Julia Radzhabova on 1/21/19
- *  Copyright (c) 2019 Ascensio System SIA. All rights reserved.
+ *  Created on 1/21/19
  *
  */
 
 define([
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Window'
 ], function () { 'use strict';
 
     DE.Views.TableFormulaDialog = Common.UI.Window.extend(_.extend({

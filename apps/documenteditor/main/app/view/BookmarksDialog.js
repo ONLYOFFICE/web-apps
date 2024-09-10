@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,18 +33,12 @@
 /**
  *  BookmarksDialog.js.js
  *
- *  Created by Julia Radzhabova on 15.02.2018
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Created on 15.02.2018
  *
  */
 
 define([
-    'common/main/lib/util/utils',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/InputField',
-    'common/main/lib/component/Button',
-    'common/main/lib/component/RadioBox',
-    'common/main/lib/view/AdvancedSettingsWindow'
+    'common/main/lib/view/AdvancedSettingsWindow',
 ], function () { 'use strict';
 
     DE.Views.BookmarksDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({

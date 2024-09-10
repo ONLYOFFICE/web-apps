@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,17 +30,13 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 17.05.16
- * Time: 15:38
  */
 
 define([
     'core',
     'common/main/lib/collection/Plugins',
     'common/main/lib/view/Plugins',
-    'common/main/lib/view/PluginDlg',
-    'common/main/lib/view/PluginPanel',
     'common/main/lib/component/Switcher'
 ], function () {
     'use strict';
@@ -70,7 +66,8 @@ define([
                             me.toolbar = toolbar;
                             toolbar.addTab(tab, me.$toolbarPanelPlugins, Common.UI.LayoutManager.lastTabIdx);     // TODO: clear plugins list in left panel
                         }
-                    }
+                    },
+                    'tab:active': this.onActiveTab
                 },
                 'Common.Views.Plugins': {
                     'plugin:select': function(guid, type, isRun, closePanel) {
@@ -116,12 +113,15 @@ define([
             this.autostart = [];
             this.customPluginsDlg = [];
 
+            this.newInstalledBackgroundPlugins = [];
+
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
             Common.NotificationCenter.on('uitheme:changed', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('window:resize', this.updatePluginsButtons.bind(this));
             Common.NotificationCenter.on('app:ready', this.onAppReady.bind(this));
             Common.NotificationCenter.on('doc:mode-changed', this.onChangeDocMode.bind(this));
+            Common.NotificationCenter.on('modal:close', this.onModalClose.bind(this));
         },
 
         loadConfig: function(data) {
@@ -144,6 +144,9 @@ define([
                     .catch(function(err) {
                         me.configPlugins.plugins = false;
                     });
+
+                if (this.configPlugins.config.options)
+                    this.api.setPluginsOptions(this.configPlugins.config.options);
             }
 
             if ( !Common.Controllers.Desktop.isActive() || !Common.Controllers.Desktop.isOffline() ) {
@@ -466,6 +469,9 @@ define([
                         menu.off('show:before', onShowBefore);
                     };
                     me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
+                    me.viewPlugins.backgroundBtn.on('click', function () {
+                        me.closeBackPluginsTip();
+                    });
                 }
 
                 me.toolbar && me.toolbar.isTabActive('plugins') && me.toolbar.processPanelVisible(null, true);
@@ -486,7 +492,7 @@ define([
             storePlugins.each(function(item){
                 me.viewPlugins.updatePluginIcons(item);
                 var guid = item.get('guid');
-                if (me.viewPlugins.pluginPanels[guid]) {
+                if (me.viewPlugins.pluginPanels[guid] && item.get('parsedIcons')) {
                     var menu = me.viewPlugins.pluginPanels[guid].menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
                     menu.push({
                         guid: guid,
@@ -496,13 +502,15 @@ define([
                 }
             });
             for (var key in this.viewPlugins.customPluginPanels) {
-                var panel = this.viewPlugins.customPluginPanels[key],
-                    menu = panel.menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
-                menu.push({
-                    guid: panel.frameId,
-                    baseUrl: panel.baseUrl,
-                    parsedIcons: this.viewPlugins.parseIcons(panel.icons)
-                });
+                var panel = this.viewPlugins.customPluginPanels[key];
+                if (panel.icons) {
+                    var menu = panel.menu === 'right' ? iconsInRightMenu : iconsInLeftMenu;
+                    menu.push({
+                        guid: panel.frameId,
+                        baseUrl: panel.baseUrl,
+                        parsedIcons: this.viewPlugins.parseIcons(panel.icons)
+                    });
+                }
             }
             if (iconsInLeftMenu.length > 0) {
                 me.viewPlugins.fireEvent('pluginsleft:updateicons', [iconsInLeftMenu]);
@@ -587,18 +595,26 @@ define([
 
         addPluginToSideMenu: function (plugin, langName, menu) {
             function createUniqueName (name) {
-                var n = name.toLowerCase().replace(/\s/g, '-'),
-                    panelId = 'left-panel-plugins-' + name;
-                var length = $('#' + panelId).length;
-                if (length > 0) {
-                    n = n + '-' + length;
+                var n = name.toLowerCase().replace(/[^a-z0-9\-_:\.]/g, '-'),
+                    panelName = n;
+                var index = 0;
+                while(true) {
+                    if ($('#' + 'panel-plugins-' + panelName).length < 1) break;
+                    index++;
+                    panelName = n + '-' + index;
                 }
-                return n;
+                return panelName;
             }
             var pluginGuid = plugin.get_Guid(),
                 model = this.viewPlugins.storePlugins.findWhere({guid: pluginGuid}),
                 name = createUniqueName(plugin.get_Name('en'));
             model.set({menu: menu});
+            var icon_url, icon_cls;
+            if (model.get('parsedIcons')) {
+                icon_url = model.get('baseUrl') + model.get('parsedIcons')['normal'];
+            } else {
+                icon_cls = 'icon toolbar__icon btn-plugin-panel-default';
+            }
             var $button = $('<div id="slot-btn-plugins' + name + '"></div>'),
                 button = new Common.UI.Button({
                 parentEl: $button,
@@ -606,7 +622,8 @@ define([
                 hint: langName,
                 enableToggle: true,
                 toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
-                iconImg: model.get('baseUrl') + model.get('parsedIcons')['normal'],
+                iconCls: icon_cls,
+                iconImg: icon_url,
                 onlyIcon: true,
                 value: pluginGuid,
                 type: 'plugin'
@@ -637,7 +654,7 @@ define([
                 if (variation.get_InsideMode()) {
                     var guid = plugin.get_Guid(),
                         langName = plugin.get_Name(lang),
-                        menu = this.isPDFEditor ? 'left' : variation.get_Menu();
+                        menu = this.isPDFEditor ? 'left' : (variation.get_Type() == Asc.PluginType.PanelRight ? 'right' : 'left');
                         !menu && (menu = 'left');
                         this.addPluginToSideMenu(plugin, langName, menu);
                     if (!this.viewPlugins.pluginPanels[guid].openInsideMode(langName, url, frameId, plugin.get_Guid()))
@@ -664,7 +681,7 @@ define([
                             guid: plugin.get_Guid(),
                             cls: isCustomWindow ? 'plain' : '',
                             header: !isCustomWindow,
-                            title: plugin.get_Name(lang),
+                            title: Common.Utils.String.htmlEncode(plugin.get_Name(lang)),
                             width: size[0], // inner width
                             height: size[1], // inner height
                             url: url,
@@ -767,9 +784,9 @@ define([
                 Common.NotificationCenter.trigger('frame:mousemove', { pageX: x*Common.Utils.zoom()+this._moveOffset.x, pageY: y*Common.Utils.zoom()+this._moveOffset.y });
         },
 
-        onPluginsInit: function(pluginsdata) {
+        onPluginsInit: function(pluginsdata, fromManager) {
             !(pluginsdata instanceof Array) && (pluginsdata = pluginsdata["pluginsData"]);
-            this.parsePlugins(pluginsdata, false, true)
+            this.parsePlugins(pluginsdata, false, true, fromManager);
         },
 
         onPluginShowButton: function(id, toRight) {
@@ -807,7 +824,8 @@ define([
             });
         },
 
-        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate) {
+        parsePlugins: function(pluginsdata, uiCustomize, forceUpdate, fromManager) {
+            this.closeBackPluginsTip();
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -839,7 +857,8 @@ define([
                         isBackgroundPlugin = false,
                         isSystem;
                     item.variations.forEach(function(itemVar, itemInd){
-                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
+                        var variationType = Asc.PluginType.getType(itemVar.type);
+                        isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === variationType);
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
                         if (itemVar.isViewer && (itemVar.isDisplayedInViewer!==false))
@@ -861,11 +880,14 @@ define([
                                 b.visible = (isEdit || b.isViewer !== false);
                             });
 
+                            var icons = (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2;
+                            if (!icons) icons = '';
+
                             model.set({
                                 description: description,
                                 index: variationsArr.length,
                                 url: itemVar.url,
-                                icons: (typeof itemVar.icons === 'string' && itemVar.icons.indexOf('%') !== -1 || !itemVar.icons2) ? itemVar.icons : itemVar.icons2,
+                                icons: icons,
                                 buttons: itemVar.buttons,
                                 visible: visible,
                                 help: itemVar.help
@@ -873,7 +895,7 @@ define([
 
                             variationsArr.push(model);
                             if (itemInd === 0) {
-                                isBackgroundPlugin = itemVar.type ? itemVar.type === Asc.PluginType.Background : false;
+                                isBackgroundPlugin = itemVar.type ? variationType === Asc.PluginType.Background : false;
                             }
                         }
                     });
@@ -903,6 +925,12 @@ define([
                             tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
+                        if (fromManager && !updatedItem && props.isBackgroundPlugin) {
+                            me.newInstalledBackgroundPlugins.push({
+                                name: name,
+                                guid: item.guid
+                            });
+                        }
                     }
                 });
 
@@ -1077,9 +1105,10 @@ define([
                 if (this.customPluginsDlg[frameId] || this.viewPlugins.customPluginPanels[frameId]) return;
 
                 var lang = this.appOptions && this.appOptions.lang ? this.appOptions.lang.split(/[\-_]/)[0] : 'en';
+                var variationType = Asc.PluginType.getType(variation.type);
                 var url = variation.url, // full url
-                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variation.type),
-                    isPanel = variation.type === 'panel';
+                    isSystem = (true === variation.isSystem) || (Asc.PluginType.System === variationType),
+                    isPanel = variationType === Asc.PluginType.Panel || variationType === Asc.PluginType.PanelRight;
                 var visible = (this.appOptions.isEdit || variation.isViewer && (variation.isDisplayedInViewer!==false)) && _.contains(variation.EditorsSupport, this.editor) && !isSystem;
                 if (visible && isPanel) {
                     this.onPluginPanelShow(frameId, variation, lang);
@@ -1191,18 +1220,33 @@ define([
 
         onPluginPanelShow: function (frameId, variation, lang) {
             var guid = variation.guid,
-                menu = this.isPDFEditor ? 'left' : variation.menu;
+                menu = this.isPDFEditor ? 'left' : (variation.type == 'panelRight' ? 'right' : 'left');
             !menu && (menu = 'left');
 
             var description = variation.description;
             if (typeof variation.descriptionLocale == 'object')
                 description = variation.descriptionLocale[lang] || variation.descriptionLocale['en'] || description || '';
 
-            var model = this.viewPlugins.storePlugins.findWhere({guid: guid}),
-                modes = model.get('variations'),
-                icons = variation.icons ? variation.icons : modes[model.get('currentVariation')].get('icons'),
-                parsedIcons = this.viewPlugins.parseIcons(icons),
-                icon_url = model.get('baseUrl') + parsedIcons['normal'];
+            var baseUrl = variation.baseUrl || "";
+            var model = this.viewPlugins.storePlugins.findWhere({guid: guid});
+            var icons = variation.icons;
+            var icon_url, icon_cls;
+
+            if (model) {
+                if ("" === baseUrl)
+                    baseUrl = model.get('baseUrl');
+                if (!icons) {
+                    var modes = model.get('variations');
+                    icons = modes[model.get('currentVariation')].get('icons');
+                }
+            }
+
+            if (!icons) {
+                icon_cls = 'icon toolbar__icon btn-plugin-panel-default';
+            } else {
+                var parsedIcons = this.viewPlugins.parseIcons(icons);
+                icon_url = baseUrl + parsedIcons['normal'];
+            }
 
             var $button = $('<div id="slot-btn-plugins-' + frameId + '"></div>'),
                 button = new Common.UI.Button({
@@ -1211,6 +1255,7 @@ define([
                     hint: description,
                     enableToggle: true,
                     toggleGroup: menu === 'right' ? 'tabpanelbtnsGroup' : 'leftMenuGroup',
+                    iconCls: icon_cls,
                     iconImg: icon_url,
                     onlyIcon: true,
                     value: frameId,
@@ -1222,14 +1267,62 @@ define([
                 el: '#panel-plugins-' + frameId,
                 menu: menu,
                 frameId: frameId,
-                baseUrl: model.get('baseUrl'),
+                baseUrl: baseUrl,
                 icons: icons
             });
             this.viewPlugins.customPluginPanels[frameId].on('render:after', _.bind(this.onAfterRender, this, this.viewPlugins.customPluginPanels[frameId], frameId));
 
             if (!this.viewPlugins.customPluginPanels[frameId].openInsideMode(description, variation.url, frameId, guid))
                 this.api.asc_pluginButtonClick(-1, guid, frameId);
-        }
+        },
+
+        onModalClose: function () {
+            var plugins = this.newInstalledBackgroundPlugins;
+            if (plugins && plugins.length > 0) {
+                var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
+                    Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
+                if (this.backgroundPluginsTip && this.backgroundPluginsTip.isVisible()) {
+                    this.backgroundPluginsTip.close();
+                }
+                this.backgroundPluginsTip = new Common.UI.SynchronizeTip({
+                    extCls: 'colored',
+                    placement: 'bottom',
+                    target: this.viewPlugins.backgroundBtn.$el,
+                    text: text,
+                    showLink: true,
+                    textLink: plugins.length > 1 ? this.textRunInstalledPlugins : this.textRunPlugin
+                });
+                this.backgroundPluginsTip.on('dontshowclick', function() {
+                    this.backgroundPluginsTip.close();
+                    this.backgroundPluginsTip = undefined;
+                    this.newInstalledBackgroundPlugins.forEach(_.bind(function (item) {
+                        this.api.asc_pluginRun(item.guid, 0, '');
+                    }, this));
+                    this.newInstalledBackgroundPlugins.length = 0;
+                }, this);
+                this.backgroundPluginsTip.on('closeclick', function () {
+                    this.closeBackPluginsTip();
+                }, this);
+                this.backgroundPluginsTip.show();
+            }
+        },
+
+        onActiveTab: function (tab) {
+            (tab !== 'plugins') && this.closeBackPluginsTip();
+        },
+
+        closeBackPluginsTip: function() {
+            if (this.backgroundPluginsTip) {
+                this.backgroundPluginsTip.close();
+                this.backgroundPluginsTip = undefined;
+                this.newInstalledBackgroundPlugins && (this.newInstalledBackgroundPlugins.length = 0);
+            }
+        },
+
+        textRunPlugin: 'Run plugin',
+        textRunInstalledPlugins: 'Run installed plugins',
+        textPluginSuccessfullyInstalled: '<b>{0}</b> is successfully installed. You can access all background plugins here.',
+        textPluginsSuccessfullyInstalled: 'Plugins are successfully installed. You can access all background plugins here.'
 
     }, Common.Controllers.Plugins || {}));
 });

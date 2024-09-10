@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,7 +32,7 @@
 /**
  * Controller wraps up interaction with desktop app
  *
- * Created by Maxim.Kadushkin on 2/16/2018.
+ * Created on 2/16/2018.
  */
 
 define([
@@ -121,6 +121,12 @@ define([
                             if ( !$.isEmptyObject(titlebuttons) ) {
                                 var header = webapp.getController('Viewport').getView('Common.Views.Header');
                                 if (header) {
+                                    if ( native.getViewportSettings ) {
+                                        const viewport = native.getViewportSettings();
+                                        if ( viewport.widgetType == 'window' && titlebuttons.home )
+                                            titlebuttons.home.btn.setVisible(true);
+                                    }
+
                                     for (var i in titlebuttons) {
                                         opts.title.buttons.push(_serializeHeaderButton(i, titlebuttons[i]));
                                     }
@@ -185,7 +191,7 @@ define([
                 } else
                 if (/althints:show/.test(cmd)) {
                     if ( /false|hide/.test(param) )
-                        Common.NotificationCenter.trigger('hints:clear');
+                        Common.NotificationCenter && Common.NotificationCenter.trigger('hints:clear');
                 } else
                 if (/file:print/.test(cmd)) {
                     webapp.getController('Main').onPrint();
@@ -225,7 +231,7 @@ define([
                 icon: config.icon || undefined,
                 hint: config.btn.options.hint,
                 disabled: config.btn.isDisabled(),
-                visible: config.visible,
+                visible: config.btn.isVisible(),
             };
         };
 
@@ -259,11 +265,11 @@ define([
 
             if ( !!titlebuttons ) {
                 info.hints = {};
-                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title'));
-                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title'));
+                !!titlebuttons['print'] && (info.hints['print'] = titlebuttons['print'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['quickprint'] && (info.hints['quickprint'] = titlebuttons['quickprint'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['undo'] && (info.hints['undo'] = titlebuttons['undo'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['redo'] && (info.hints['redo'] = titlebuttons['redo'].btn.btnEl.attr('data-hint-title-lang'));
+                !!titlebuttons['save'] && (info.hints['save'] = titlebuttons['save'].btn.btnEl.attr('data-hint-title-lang'));
             }
 
             native.execCommand('althints:show', JSON.stringify(info));
@@ -273,6 +279,14 @@ define([
             if ( Common.UI.HintManager && Common.UI.HintManager.isHintVisible() ) {
                 native.execCommand('althints:keydown', JSON.stringify({code:e.keyCode}));
                 console.log('hint keydown', e.keyCode);
+            } else
+            if ( e.keyCode == 78 /* N */ ) {
+                if (config.canCreateNew && !e.shiftKey &&
+                        ((Common.Utils.isWindows && e.ctrlKey && !e.metaKey) ||
+                            (Common.Utils.isMac && e.metaKey && !e.ctrlKey)))
+                {
+                    this.process('create:new');
+                }
             }
         }
 
@@ -408,10 +422,15 @@ define([
                 var header = webapp.getController('Viewport').getView('Common.Views.Header');
 
                 {
+                    let viewport;
+                    if ( native.getViewportSettings ) {
+                        viewport = native.getViewportSettings();
+                    }
+
                     header.btnHome = (new Common.UI.Button({
                         cls: 'btn-header',
                         iconCls: 'toolbar__icon icon--inverse btn-home',
-                        visible: false,
+                        visible: viewport && viewport.widgetType == 'window',
                         hint: Common.Locale.get('hintBtnHome', {name:"Common.Controllers.Desktop", default: 'Show Main window'}),
                         dataHint:'0',
                         dataHintDirection: 'right',
@@ -462,6 +481,9 @@ define([
 
                 if (!!header.btnRedo)
                     titlebuttons['redo'] = {btn: header.btnRedo};
+
+                if (!!header.btnQuickAccess)
+                    titlebuttons['quickaccess'] = {btn: header.btnQuickAccess};
 
                 for (var i in titlebuttons) {
                     titlebuttons[i].btn.options.signals = ['disabled'];
@@ -517,6 +539,10 @@ define([
 
         const _onOpenRecent = function (menu, url, record) {
             console.log('open recent');
+        }
+
+        const _onChangeQuickAccess = function (props) {
+            native.execCommand("quickaccess:changed", JSON.stringify(props));
         }
 
         const _extend_menu_file = function (args) {
@@ -576,6 +602,7 @@ define([
                             }
                         },
                         'hints:show': _onHintsShow.bind(this),
+                        'quickaccess:changed': _onChangeQuickAccess.bind(this),
                     });
 
                     webapp.addListeners({
@@ -590,7 +617,8 @@ define([
                                     menu.hide();
                                 } else
                                 if ( action == 'create:fromtemplate' ) {
-                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word'));
+                                    native.execCommand('create:new', 'template:' + (!!window.SSE ? 'cell' : !!window.PE ? 'slide' : !!window.PDFE ? 'form' :
+                                                            window.PDFE || config.isPDFForm ? 'form' : 'word'));
                                     menu.hide();
                                 }
                             },
@@ -621,7 +649,8 @@ define([
                     } else
                     if ( opts == 'create:new' ) {
                         if (config.createUrl == 'desktop://create.new') {
-                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' : 'word');
+                            native.execCommand("create:new", !!window.SSE ? 'cell' : !!window.PE ? 'slide' :
+                                                    window.PDFE || config.isPDFForm ? 'form' : 'word');
                             return true;
                         }
                     }
@@ -745,6 +774,7 @@ define([
         FILE_DOCUMENT_DOC_FLAT: FILE_DOCUMENT + 0x0010,
         FILE_DOCUMENT_OFORM: FILE_DOCUMENT + 0x0015,
         FILE_DOCUMENT_DOCXF: FILE_DOCUMENT + 0x0016,
+        FILE_DOCUMENT_OFORM_PDF: FILE_DOCUMENT + 0x0017,
         FILE_DOCUMENT_XML: FILE_DOCUMENT + 0x0030,
 
         FILE_PRESENTATION:      FILE_PRESENTATION,
@@ -794,6 +824,7 @@ define([
             case utils.defines.FileFormat.FILE_DOCUMENT_DOTX:       return 'dotx';
             case utils.defines.FileFormat.FILE_DOCUMENT_OTT:        return 'ott';
             case utils.defines.FileFormat.FILE_DOCUMENT_OFORM:      return 'oform';
+            case utils.defines.FileFormat.FILE_DOCUMENT_OFORM_PDF:  return 'pdf';
             case utils.defines.FileFormat.FILE_DOCUMENT_DOCXF:      return 'docxf';
             case utils.defines.FileFormat.FILE_DOCUMENT_ODT_FLAT:   return 'fodt';
             case utils.defines.FileFormat.FILE_DOCUMENT_DOTM:       return 'dotm';

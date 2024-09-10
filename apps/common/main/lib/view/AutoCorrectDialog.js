@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -33,22 +33,19 @@
 /**
  *  AutoCorrectDialog.js
  *
- *  Created by Julia Radzhabova on 03.07.2020
- *  Copyright (c) 2020 Ascensio System SIA. All rights reserved.
+ *  Created on 03.07.2020
  *
  */
 if (Common === undefined)
     var Common = {};
-define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
-    'common/main/lib/component/ListView',
-    'common/main/lib/component/Window',
-    'common/main/lib/component/CheckBox'
+define([
+    'text!common/main/lib/template/AutoCorrectDialog.template',
+    'common/main/lib/view/AdvancedSettingsWindow'
 ], function (contentTemplate) { 'use strict';
     var _mathStore = new Common.UI.DataViewStore();
     var _functionsStore = new Common.UI.DataViewStore();
     var _exciptionsStore = new Common.UI.DataViewStore();
     var _exciptionsLangs = [0x0409, 0x0419];
-
     Common.Views.AutoCorrectDialog = Common.Views.AdvancedSettingsWindow.extend(_.extend({
         options: {
             contentWidth: 375,
@@ -346,7 +343,7 @@ define([ 'text!common/main/lib/template/AutoCorrectDialog.template',
                     menuStyle   : 'min-width:100%;',
                     editable    : false,
                     takeFocusOnClose : true,
-                    menuCls     : 'menu-aligned',
+                    restoreMenuHeightAndTop: true,
                     cls         : 'input-group-nr',
                     dataHintDirection: 'bottom',
                     data        : _exciptionsLangs.map(function(lang){

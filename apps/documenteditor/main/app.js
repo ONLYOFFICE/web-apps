@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  app.js
  *
- *  Created by Alexander Yuzhin on 12/27/13
- *  Copyright (c) 2013 Ascensio System SIA. All rights reserved.
+ *  Created on 12/27/13
  *
  */
 
@@ -47,7 +46,6 @@ require.config({
         jquery          : '../vendor/jquery/jquery',
         underscore      : '../vendor/underscore/underscore',
         backbone        : '../vendor/backbone/backbone',
-        bootstrap       : '../vendor/bootstrap/dist/js/bootstrap',
         text            : '../vendor/requirejs-text/text',
         perfectscrollbar: 'common/main/lib/mods/perfect-scrollbar',
         jmousewheel     : '../vendor/perfect-scrollbar/src/jquery.mousewheel',
@@ -68,20 +66,12 @@ require.config({
     },
 
     shim: {
-        underscore: {
-            exports: '_'
-        },
         backbone: {
             deps: [
                 'underscore',
                 'jquery'
             ],
             exports: 'Backbone'
-        },
-        bootstrap: {
-            deps: [
-                'jquery'
-            ]
         },
         perfectscrollbar: {
             deps: [
@@ -124,15 +114,16 @@ require.config({
 require([
     'sdk',
     'backbone',
-    'bootstrap',
+    'underscore',
     'core',
     'analytics',
     'gateway',
     'locale'
-], function (Sdk, Backbone, Bootstrap, Core) {
+], function (Sdk, Backbone, _, Core) {
     if (Backbone.History && Backbone.History.started)
         return;
     Backbone.history.start();
+    window._ = _;
 
     /**
      * Application instance with DE namespace defined
@@ -176,9 +167,12 @@ require([
     Common.Locale.apply(
         function() {
             require([
+                'common/main/lib/mods/dropdown',
+                'common/main/lib/mods/tooltip',
                 'common/main/lib/util/LocalStorage',
                 'common/main/lib/controller/Scaling',
                 'common/main/lib/controller/Themes',
+                'common/main/lib/controller/TabStyler',
                 'common/main/lib/controller/Desktop',
                 'documenteditor/main/app/controller/Viewport',
                 'documenteditor/main/app/controller/DocumentHolder',
@@ -195,14 +189,6 @@ require([
                 'documenteditor/main/app/controller/Search',
                 'documenteditor/main/app/controller/DocProtection',
                 'documenteditor/main/app/controller/Print',
-                'documenteditor/main/app/view/FileMenuPanels',
-                'documenteditor/main/app/view/ParagraphSettings',
-                'documenteditor/main/app/view/HeaderFooterSettings',
-                'documenteditor/main/app/view/ImageSettings',
-                'documenteditor/main/app/view/TableSettings',
-                'documenteditor/main/app/view/ShapeSettings',
-                'documenteditor/main/app/view/TextArtSettings',
-                'documenteditor/main/app/view/SignatureSettings',
                 'common/main/lib/util/utils',
                 'common/main/lib/controller/Fonts',
                 'common/main/lib/controller/History'
@@ -212,7 +198,6 @@ require([
                 /** coauthoring end **/
                 ,'common/main/lib/controller/ExternalLinks'
                 ,'common/main/lib/controller/Plugins'
-                ,'documenteditor/main/app/view/ChartSettings'
                 ,'common/main/lib/controller/ExternalDiagramEditor'
                 ,'common/main/lib/controller/ExternalMergeEditor'
                 ,'common/main/lib/controller/ExternalOleEditor'
@@ -220,6 +205,9 @@ require([
                 ,'common/main/lib/controller/Protection'
                 ,'common/main/lib/controller/Draw'
             ], function() {
+                app.postLaunchScripts = [
+                    'documenteditor/main/code',
+                ];
                 app.start();
             });
         }

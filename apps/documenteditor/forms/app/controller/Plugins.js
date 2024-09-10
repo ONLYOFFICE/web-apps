@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -30,14 +30,12 @@
  *
  */
 /**
- * User: Julia.Radzhabova
  * Date: 22.02.2022
  */
 
 define([
     'core',
-    'common/main/lib/collection/Plugins',
-    'common/main/lib/view/PluginDlg'
+    'common/main/lib/collection/Plugins'
 ], function () {
     'use strict';
 
@@ -80,6 +78,8 @@ define([
                     {
                         me.configPlugins.plugins = false;
                     });
+                if (this.configPlugins.config.options)
+                    this.api.setPluginsOptions(this.configPlugins.config.options);
             } else
                 this.configPlugins.plugins = false;
 
@@ -281,7 +281,7 @@ define([
                     var variationsArr = [],
                         pluginVisible = false;
                     item.variations.forEach(function(itemVar){
-                        var isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === itemVar.type);
+                        var isSystem = (true === itemVar.isSystem) || (Asc.PluginType.System === Asc.PluginType.getType(itemVar.type));
                         var visible = (isEdit || itemVar.isViewer && (itemVar.isDisplayedInViewer!==false)) && _.contains(itemVar.EditorsSupport, editor) && !isSystem;
                         if ( visible ) pluginVisible = true;
 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright Ascensio System SIA 2010-2023
+ * (c) Copyright Ascensio System SIA 2010-2024
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -32,8 +32,7 @@
 /**
  *  RightMenu.js
  *
- *  Created by Julia Radzhabova on 4/10/14
- *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
+ *  Created on 4/10/14
  *
  */
 
@@ -57,7 +56,8 @@ define([
     'presentationeditor/main/app/view/SlideSettings',
     'presentationeditor/main/app/view/TextArtSettings',
     'presentationeditor/main/app/view/SignatureSettings',
-    'common/main/lib/component/Scroller'
+    'common/main/lib/component/Scroller',
+    'common/main/lib/component/ListView',
 ], function (menuTemplate, $, _, Backbone) {
     'use strict';
 
@@ -162,7 +162,7 @@ define([
             el.css('width', ((open) ? MENU_SCALE_PART : SCALE_MIN) + 'px');
             el.show();
 
-            el.html(this.template({}));
+            el.html(this.template({scope: this}));
 
             this.btnMoreContainer = $('#slot-right-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -244,6 +244,7 @@ define([
         },
 
         setMode: function(mode) {
+            this.mode = mode;
             this.imageSettings && this.imageSettings.setMode(mode);
             this.shapeSettings && this.shapeSettings.setMode(mode);
             this.slideSettings && this.slideSettings.setMode(mode);
@@ -341,6 +342,7 @@ define([
         txtTextArtSettings:         'Text Art Settings',
         txtSlideSettings:           'Slide Settings',
         txtChartSettings:           'Chart Settings',
-        txtSignatureSettings:       'Signature Settings'
+        txtSignatureSettings:       'Signature Settings',
+        ariaRightMenu:              'Right menu'
     }, PE.Views.RightMenu || {}));
 });
