@@ -369,7 +369,8 @@
     "uploadImageFileCountMessage": "Ни одного рисунка не загружено.",
     "uploadImageSizeMessage": "Слишком большой рисунок. Максимальный размер - 25 MB.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Пароль",

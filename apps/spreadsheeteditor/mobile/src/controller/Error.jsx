@@ -190,6 +190,10 @@ const ErrorController = inject('storeAppOptions','storeSpreadsheetInfo')(({store
                 config.msg = t('Error.errorFormulaInPivotFieldName');
                 break;
 
+            case Asc.c_oAscError.ID.PasteInPivot:
+                config.msg = t('Error.errorPasteInPivot');
+                break;
+
             case Asc.c_oAscError.ID.ForceSaveButton:
             case Asc.c_oAscError.ID.ForceSaveTimeout:
                 config.msg = t('Error.errorForceSave');

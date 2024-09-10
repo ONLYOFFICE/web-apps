@@ -369,7 +369,8 @@
     "uploadImageFileCountMessage": "Keine Bilder hochgeladen.",
     "uploadImageSizeMessage": "Die maximal zulässige Bildgröße von 25 MB ist überschritten.",
     "errorPivotFieldNameExists": "Pivot table field name already exists.",
-    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report."
+    "errorFormulaInPivotFieldName": "Cannot enter a formula for an item or field name in a pivot table report.",
+    "errorPasteInPivot": "We can't make this change for the selected cells because it will affect a pivot table.<br>Use the field list to change the report."
   },
   "LongActions": {
     "advDRMPassword": "Passwort",

@@ -1997,6 +1997,10 @@ define([
                         config.msg = this.errorFormulaInPivotFieldName;
                         break;
 
+                    case Asc.c_oAscError.ID.PasteInPivot:
+                        config.msg = this.errorPasteInPivot;
+                        break;
+
                     case Asc.c_oAscError.ID.ForceSaveButton:
                     case Asc.c_oAscError.ID.ForceSaveTimeout:
                         config.msg = this.errorForceSave;
