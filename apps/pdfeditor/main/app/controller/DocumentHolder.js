@@ -2698,7 +2698,7 @@ define([
                         value = this._getApiTextSize();
                         setTimeout(function(){
                             Common.UI.warning({
-                                msg: me.textFontSizeErr,
+                                msg: me.documentHolder.textFontSizeErr,
                                 callback: function() {
                                     _.defer(function(btn) {
                                         $('input', combo.cmpEl).focus();
@@ -2725,6 +2725,17 @@ define([
 
                 Common.NotificationCenter.trigger('edit:complete', this.documentHolder);
             }
+        },
+
+        _getApiTextSize: function () {
+            var out_value   = 12,
+                textPr      = this.api.get_TextProps();
+
+            if (textPr && textPr.get_TextPr) {
+                out_value = textPr.get_TextPr().get_FontSize();
+            }
+
+            return out_value;
         },
 
         onCountPages: function(count) {
