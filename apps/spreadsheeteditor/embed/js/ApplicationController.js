@@ -272,7 +272,7 @@ SSE.ApplicationController = new(function(){
         $prevButton.on('click', function() {
             $($box.children().get().reverse()).each(function () {
                 var $tab = $(this);
-                var left = $tab.position().left - buttonWidth;
+                var left = common.utils.getPosition($tab).left - buttonWidth;
 
                 if (left < 0) {
                     $container.scrollLeft($container.scrollLeft() + left - 26);
@@ -285,7 +285,7 @@ SSE.ApplicationController = new(function(){
             var rightBound = $container.width();
             $box.children().each(function () {
                 var $tab = $(this);
-                var right = $tab.position().left + $tab.outerWidth();
+                var right = common.utils.getPosition($tab).left + $tab.outerWidth();
 
                 if (right > rightBound) {
                     $container.scrollLeft($container.scrollLeft() + right - rightBound + ($container.width() > 400 ? 20 : 5));
@@ -520,7 +520,7 @@ SSE.ApplicationController = new(function(){
         appOptions.canBranding && setBranding(config.customization);
 
         var $parent = labelDocName.parent();
-        var _left_width = $parent.position().left,
+        var _left_width = common.utils.getPosition($parent).left,
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
@@ -741,7 +741,7 @@ SSE.ApplicationController = new(function(){
         if (data.type == 'mouseup') {
             var editor = document.getElementById('editor_sdk');
             if (editor) {
-                var rect = editor.getBoundingClientRect();
+                var rect = common.utils.getBoundingClientRect(editor);
                 var event = window.event || arguments.callee.caller.arguments[0];
                 api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
             }

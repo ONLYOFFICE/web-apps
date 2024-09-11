@@ -39,7 +39,63 @@
             check = function(regex){
                 return regex.test(userAgent);
             },
-            isMac = check(/macintosh|mac os x/);
+            version = function (is, regex) {
+                var m;
+                return (is && (m = regex.exec(userAgent))) ? parseFloat(m[1]) : 0;
+            },
+            isOpera = check(/opera/),
+            isIE = !isOpera && (check(/msie/) || check(/trident/) || check(/edge/)),
+            isChrome = !isIE && check(/\bchrome\b/),
+            chromeVersion = version(true, /\bchrome\/(\d+\.\d+)/),
+            isMac = check(/macintosh|mac os x/),
+            zoom = 1,
+            checkSize = function () {
+                var scale = {};
+                if (!!window.AscCommon && !!window.AscCommon.checkDeviceScale) {
+                    scale = window.AscCommon.checkDeviceScale();
+                    AscCommon.correctApplicationScale(scale);
+                    scale.correct && (zoom = scale.zoom);
+                }
+            },
+            isOffsetUsedZoom = function() {
+                if (isChrome && 128 <= chromeVersion)
+                    return (zoom === 1) ? false : true;
+                return false;
+            },
+            getBoundingClientRect = function(element) {
+                let rect = element.getBoundingClientRect();
+                if (!isOffsetUsedZoom())
+                    return rect;
+
+                let koef = zoom;
+                let newRect = {}
+                if (rect.x!==undefined) newRect.x = rect.x * koef;
+                if (rect.y!==undefined) newRect.y = rect.y * koef;
+                if (rect.width!==undefined) newRect.width = rect.width * koef;
+                if (rect.height!==undefined) newRect.height = rect.height * koef;
+
+                if (rect.left!==undefined) newRect.left = rect.left * koef;
+                if (rect.top!==undefined) newRect.top = rect.top * koef;
+                if (rect.right!==undefined) newRect.right = rect.right * koef;
+                if (rect.bottom!==undefined) newRect.bottom = rect.bottom * koef;
+                return newRect;
+            },
+            getOffset = function($element) {
+                let pos = $element.offset();
+                if (!isOffsetUsedZoom())
+                    return pos;
+                return {left: pos.left * zoom, top: pos.top * zoom};
+            },
+            getPosition = function($element) {
+                let pos = $element.position();
+                if (!isOffsetUsedZoom())
+                    return pos;
+                return {left: pos.left * zoom, top: pos.top * zoom};
+            };
+        if (!isIE) {
+            checkSize();
+            $(window).on('resize', checkSize);
+        }
         return {
             openLink: function(url) {
                 if (url) {
@@ -105,7 +161,9 @@
                     }
                 }
             },
-
+            getBoundingClientRect: getBoundingClientRect,
+            getOffset: getOffset,
+            getPosition: getPosition,
             isMac : isMac
         };
     })();
