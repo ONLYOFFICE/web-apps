@@ -1295,7 +1295,7 @@ define([], function () {
         if (window.isrtl === undefined) {
             if (window.nativeprocvars && window.nativeprocvars.rtl !== undefined)
                 window.isrtl = window.nativeprocvars.rtl;
-            else window.isrtl = !Common.Utils.isIE && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl());
+            else window.isrtl = !Common.Utils.isIE && Common.Locale.isCurrentLanguageRtl();
         }
 
         return window.isrtl;
