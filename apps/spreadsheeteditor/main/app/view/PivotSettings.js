@@ -244,7 +244,7 @@ define([
 
                 // scroll
                 var heightListView = item.$el.parent().height(),
-                    positionTopItem = item.$el.position().top,
+                    positionTopItem = Common.Utils.getPosition(item.$el).top,
                     heightItem = item.$el.outerHeight(),
                     scrollTop = item.$el.parent().scrollTop();
                 if (positionTopItem < heightItem && scrollTop > 0) {

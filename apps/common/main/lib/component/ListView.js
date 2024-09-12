@@ -296,7 +296,7 @@ define([
                     div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
                 if (div.length<=0) return;
 
-                var div_top = div.position().top,
+                var div_top = Common.Utils.getPosition(div).top,
                     div_height = div.outerHeight(),
                     div_first = this.dataViewItems[0].el,
                     div_first_top = div_first ? div_first.offsetTop : 0,

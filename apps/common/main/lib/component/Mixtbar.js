@@ -588,7 +588,7 @@ define([
             setMoreButton: function(tab, panel) {
                 var me = this;
                 if (!btnsMore[tab]) {
-                    var top = panel.position().top;
+                    var top = Common.Utils.getPosition(panel).top;
                     var box = $('<div class="more-box" style="top:'+ top +'px;">' +
                         '<div class="separator long" style="position: relative;display: table-cell;"></div>' +
                         '<div class="group" style=""><span class="btn-slot text x-huge slot-btn-more"></span></div>' +
