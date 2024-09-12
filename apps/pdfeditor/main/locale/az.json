@@ -2008,5 +2008,7 @@
   "Common.Controllers.History.notcriticalErrorTitle": "Warning",
   "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
   "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
-  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300"
+  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
+  "PDFE.Views.DocumentHolder.guestText": "Guest",
+  "PDFE.Views.DocumentHolder.txtEmpty": "(Empty)"
 }
