@@ -198,8 +198,11 @@ define([], function () { 'use strict';
             this.close();
         },
 
-        show: function (x, y) {
-            Common.UI.Window.prototype.show.call(this, x, y);
+        show: function () {
+            if (arguments.length>1 && typeof arguments[0] === 'object' && typeof arguments[1] === 'object') { // parent window and offset
+                Common.UI.Window.prototype.show.apply(this, [arguments[1].left + (arguments[0].outerWidth() - this.options.width)/2, arguments[1].top + (arguments[0].outerHeight() - 150)/2]);
+            } else
+                Common.UI.Window.prototype.show.apply(this, arguments);
             SSE.getController('RightMenu').SetDisabled(true);
         },
 

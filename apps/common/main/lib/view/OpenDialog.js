@@ -597,7 +597,7 @@ define([
 
                 var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : (me.dataDestValid),

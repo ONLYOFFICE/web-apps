@@ -255,7 +255,7 @@ define([
                 return;
             }
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rangeList.getSelectedRec(),
                 props;
             if (isEdit) {

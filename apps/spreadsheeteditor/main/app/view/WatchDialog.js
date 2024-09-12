@@ -225,9 +225,9 @@ define([
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : me.api.asc_getEscapeSheetName(me.api.asc_getWorksheetName(me.api.asc_getActiveWorksheetIndex())) + '!' + me.api.asc_getActiveRangeStr(Asc.referenceType.A),

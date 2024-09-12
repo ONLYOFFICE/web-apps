@@ -316,9 +316,9 @@ define([
                     },1);
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : input.getValue(),

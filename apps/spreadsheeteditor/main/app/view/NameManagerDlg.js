@@ -284,7 +284,7 @@ define([
                 return;
             }
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rangeList.getSelectedRec(),
                 idx = _.indexOf(this.rangeList.store.models, rec),
                 oldname = (isEdit && rec) ? new Asc.asc_CDefName(rec.get('name'), rec.get('range'), rec.get('scope'), rec.get('type'), undefined, undefined, undefined, true) : null;

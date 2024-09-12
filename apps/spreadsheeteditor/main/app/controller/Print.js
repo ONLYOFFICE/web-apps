@@ -780,7 +780,7 @@ define([
 
                     var xy = Common.Utils.getOffset(panel.$window);
                     panel.hide();
-                    win.show(xy.left, xy.top + 125);
+                    win.show(panel.$window, xy);
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? panel.dataRangeTop : panel.dataRangeLeft),
