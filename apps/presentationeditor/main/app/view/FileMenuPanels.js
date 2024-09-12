@@ -1090,78 +1090,86 @@ define([], function () {
             this.rendered = false;
 
             this.template = _.template([
-            '<div class="flex-settings">',
-                '<div class="header">' + this.txtPresentationInfo + '</div>',
                 '<table class="main">',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtPlacement + '</label></td>',
-                        '<td class="right"><label id="id-info-placement">-</label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtOwner + '</label></td>',
-                        '<td class="right"><label id="id-info-owner">-</label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtUploaded + '</label></td>',
-                        '<td class="right"><label id="id-info-uploaded">-</label></td>',
-                    '</tr>',
-                    '<tr class="divider general"></tr>',
-                    '<tr class="divider general"></tr>',
+                    '<tbody><td class="header">' + this.txtPresentationInfo + '</td></tbody>',
+                    '<tbody>',
+                        '<tr><td class="title"><label>' + this.txtCommon + '</label></td></tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtPlacement + '</label></td>',
+                            '<td class="right"><label id="id-info-placement">-</label></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtOwner + '</label></td>',
+                            '<td class="right"><label id="id-info-owner">-</label></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtUploaded + '</label></td>',
+                            '<td class="right"><label id="id-info-uploaded">-</label></td>',
+                        '</tr>',
+                        '<tr></tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
+                            '<td class="right"><label id="id-info-modify-date"></label></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                            '<td class="right"><label id="id-info-modify-by"></label></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtCreated + '</label></td>',
+                            '<td class="right"><label id="id-info-date"></label></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                            '<td class="right"><label id="id-info-appname"></label></td>',
+                        '</tr>',
+                    '</tbody>',
                     // '<tr>',
                     //     '<td class="left"><label>' + this.txtEditTime + '</label></td>',
                     //     '<td class="right"><label id="id-info-edittime"></label></td>',
                     // '</tr>',
+                    '<tbody class="properties-tab">',
+                        '<tr><td class="title"><label>' + this.txtProperties + '</label></td></tr>',
+                        '<tr class="author-info">',
+                            '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
+                            '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
+                                '<table>',
+                                    '<tr>',
+                                        '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
+                                    '</tr>',
+                                '</table>',
+                            '</div></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtTitle + '</label></td>',
+                            '<td class="right"><div id="id-info-title"></div></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtTags + '</label></td>',
+                            '<td class="right"><div id="id-info-tags"></div></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtSubject + '</label></td>',
+                            '<td class="right"><div id="id-info-subject"></div></td>',
+                        '</tr>',
+                        '<tr>',
+                            '<td class="left"><label>' + this.txtComment + '</label></td>',
+                            '<td class="right"><div id="id-info-comment"></div></td>',
+                        '</tr>',
+                    '</tbody>',
+                '</table>',
+            '<div id="fms-flex-add-property">',
+                '<table class="main">',
                     '<tr>',
-                        '<td class="left"><label>' + this.txtTitle + '</label></td>',
-                        '<td class="right"><div id="id-info-title"></div></td>',
+                        '<td class="left"></td>',
+                        '<td class="right">',
+                            '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><span>'+ this.txtAddProperty +'</span></button>',
+                        '</td>',
                     '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtTags + '</label></td>',
-                        '<td class="right"><div id="id-info-tags"></div></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtSubject + '</label></td>',
-                        '<td class="right"><div id="id-info-subject"></div></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtComment + '</label></td>',
-                        '<td class="right"><div id="id-info-comment"></div></td>',
-                    '</tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
-                        '<td class="right"><label id="id-info-modify-date"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
-                        '<td class="right"><label id="id-info-modify-by"></label></td>',
-                    '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
-                        '<td class="right"><label id="id-info-date"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
-                        '<td class="right"><label id="id-info-appname"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
-                        '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
-                            '<table>',
-                                '<tr>',
-                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
-                                '</tr>',
-                            '</table>',
-                        '</div></td>',
-                    '</tr>',
-                    '<tr style="height: 5px;"></tr>',
                 '</table>',
             '</div>',
             '<div id="fms-flex-apply">',
-                '<table class="main" style="margin: 10px 0;">',
+                '<table class="main">',
                     '<tr>',
                         '<td class="left"></td>',
                         '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
@@ -1290,8 +1298,12 @@ define([], function () {
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
-            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.findById('#fms-flex-apply');
+
+            this.btnAddProperty = new Common.UI.Button({
+                el: $markup.findById('#fminfo-btn-add-property')
+            });
+            this.btnAddProperty.on('click', _.bind(this.onAddPropertyClick, this));
 
             this.rendered = true;
 
@@ -1300,8 +1312,7 @@ define([], function () {
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.pnlInfo,
-                    suppressScrollX: true,
+                    el: this.$el,
                     alwaysVisibleY: true
                 });
             }
@@ -1330,7 +1341,6 @@ define([], function () {
         updateScroller: function(destroy) {
             if (this.scroller) {
                 this.scroller.update(destroy ? {} : undefined);
-                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
             }
         },
 
@@ -1379,6 +1389,12 @@ define([], function () {
                     }
                 }
                 this._ShowHideInfoItem(this.lblDate, !!value);
+            }
+
+            if (this.api) {
+                _.each(this.api.asc_getAllCustomProperties(), _.bind(function(prop, idx) {
+                    this.renderCustomProperty(prop.asc_getName(), prop.asc_getType(), prop.asc_getValue(), idx);
+                }, this));
             }
         },
 
@@ -1443,6 +1459,82 @@ define([], function () {
             this.SetDisabled();
         },
 
+        tplCustomProperty: function(name, type, value) {
+            if (type === AscCommon.c_oVariantTypes.vtBool) {
+                value = value ? this.txtYes : this.txtNo;
+            }
+
+            return '<tr data-name="' + name +'">' +
+                '<td class="left"><label>' + name + '</label></td>' +
+                '<td class="right"><div class="custom-property-wrapper">' +
+                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' +  value +'">' +
+                '<div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div>' +
+                '</div></td></tr>';
+        },
+
+        renderCustomProperty: function(name, type, value, idx) {
+            var me = this;
+
+            var currentCustomProperty = $('tr[data-name="' + name + '"]');
+            if (currentCustomProperty.length) {
+                currentCustomProperty.off('click');
+                currentCustomProperty.html($(this.tplCustomProperty(name, type, value)));
+            } else {
+                currentCustomProperty = $(this.tplCustomProperty(name, type, value));
+                $('tbody.properties-tab').append(currentCustomProperty);
+            }
+
+            currentCustomProperty.on('click', function (e) {
+                if (currentCustomProperty.find('div.disabled').length) {
+                    return;
+                }
+
+                var btn = currentCustomProperty.find(e.target);
+                if (btn.hasClass('close')) {
+                    me.api.asc_removeCustomProperty(idx);
+                    $('tr[data-name="' + name + '"]').remove();
+                } else if (btn.hasClass('form-control')) {
+                    (new Common.Views.DocumentPropertyDialog({
+                        title: me.txtDocumentPropertyUpdateTitle,
+                        defaultValue: {
+                            name: name,
+                            type: type,
+                            value: value
+                        },
+                        handler: function(result, name, type, value) {
+                            if (result === 'ok') {
+                                me.api.asc_modifyCustomProperty(idx, name, type, value);
+                                me.renderCustomProperty(name, type, value, idx);
+                            }
+                        }
+                    })).show();
+                }
+            })
+        },
+
+        setDisabledCustomProperties: function(disable) {
+            _.each($('tr[data-name]'), function(prop) {
+                $(prop).find('div.custom-property-wrapper')[disable ? 'addClass' : 'removeClass']('disabled');
+                $(prop).find('div.close')[disable ? 'hide' : 'show']();
+            })
+        },
+
+        onAddPropertyClick: function() {
+            var me = this;
+            (new Common.Views.DocumentPropertyDialog({
+                handler: function(result, name, type, value) {
+                    if (result === 'ok') {
+                        me.api.asc_addCustomProperty(name, type, value);
+                        var properties = me.api.asc_getAllCustomProperties();
+                        if (properties.length) {
+                            var prop = properties[properties.length - 1];
+                            me.renderCustomProperty(prop.asc_getName(), prop.asc_getType(), prop.asc_getValue(), properties.length - 1);
+                        }
+                    }
+                }
+            })).show();
+        },
+
         _ShowHideInfoItem: function(el, visible) {
             el.closest('tr')[visible?'show':'hide']();
             return visible;
@@ -1492,6 +1584,8 @@ define([], function () {
             this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
             this.tblAuthor.toggleClass('disabled', disable);
             this.btnApply.setDisabled(this._locked);
+            this.btnAddProperty.setDisabled(disable);
+            this.setDisabledCustomProperties(disable);
         },
 
         applySettings: function() {
@@ -1523,7 +1617,13 @@ define([], function () {
         txtAddText: 'Add Text',
         txtMinutes: 'min',
         okButtonText: 'Apply',
-        txtPresentationInfo: 'Info'
+        txtPresentationInfo: 'Presentation Info',
+        txtCommon: 'Common',
+        txtProperties: 'Properties',
+        txtDocumentPropertyUpdateTitle: "Document Property",
+        txtAddProperty: 'Add property',
+        txtYes: 'Yes',
+        txtNo: 'No'
     }, PE.Views.FileMenuPanels.DocumentInfo || {}));
 
     PE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({

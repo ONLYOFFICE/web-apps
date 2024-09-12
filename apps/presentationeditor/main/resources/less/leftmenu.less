@@ -513,17 +513,97 @@
         }
 
         #panel-info {
-            .header {
-                margin: 30px 0 20px 30px;
-                .font-size-very-huge();
+            padding: 30px;
 
-                .rtl & {
-                    margin: 30px 30px 20px 0;
+            .header {
+                .font-size-very-huge();
+                line-height: 26px;
+            }
+
+            table {
+                display: flex;
+                gap: 30px;
+                flex-direction: column;
+
+                tbody {
+                    display: flex;
+                    gap: 12px;
+                    flex-direction: column;
+
+                    &.properties-tab {
+                        gap: 10px;
+                    }
                 }
+
+                tr {
+                    display: flex;
+                    gap: 24px;
+                    align-items: center;
+                    td {
+                        font-size: 11px;
+                        line-height: 16px;
+
+                        &.title {
+                            label {
+                                font-size: 14px;
+                                font-weight: 700;
+                                line-height: 20px;
+                            }
+                        }
+
+                        &.left {
+                            width: 120px;
+                            height: 16px;
+                            flex-shrink: 0;
+                        }
+
+                        &.right {
+                            flex-grow: 1;
+                        }
+                    }
+
+                    &.divider {
+                        height: 10px;
+                    }
+                }
+
+                tr.author-info {
+                    align-items: flex-start;
+
+                    td {
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                    }
+                }
+
+                .author-info tbody tr:last-child {
+                    margin-bottom: 20px;
+                }
+
+                &.main {
+                    width: 100%;
+                }
+            }
+
+            #fminfo-btn-add-property {
+                margin: 10px 0;
+                background-color: transparent;
+                height: 24px;
+
+                span {
+                    text-decoration: underline dotted;
+                    text-underline-offset: 4px;
+                }
+            }
+
+            .custom-property-wrapper {
+                display: flex;
+                gap: 5px;
+                align-items: center;
             }
         }
 
-        #panel-info,
         #panel-rights {
             table {
                 tr {

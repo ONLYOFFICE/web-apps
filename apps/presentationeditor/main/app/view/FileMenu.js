@@ -42,7 +42,8 @@ define([
     'text!presentationeditor/main/app/template/FileMenu.template',
     'underscore',
     'common/main/lib/component/BaseView',
-    'common/main/lib/view/RecentFiles'
+    'common/main/lib/view/RecentFiles',
+    'common/main/lib/component/Calendar'
 ], function (tpl, _) {
     'use strict';
 

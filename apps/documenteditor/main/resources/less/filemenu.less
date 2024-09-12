@@ -274,8 +274,27 @@
     }
   }
 
-  #fms-flex-add-property {
+  #fminfo-btn-add-property {
     margin: 10px 0;
+    background-color: transparent;
+    height: 24px;
+
+    span {
+      text-decoration: underline dotted;
+      text-underline-offset: 4px;
+    }
+  }
+
+  #fms-flex-add-property, #fms-flex-apply {
+    #panel-info table tr td {
+      height: 0;
+    }
+  }
+
+  .custom-property-wrapper {
+    display: flex;
+    gap: 5px;
+    align-items: center;
   }
 }
 
@@ -912,33 +931,4 @@
       }
     }
   }
-}
-
-.document-info-content {
-  display: flex;
-  flex-direction: column;
-  margin: 0 20px;
-  gap: 10px;
-}
-
-#fminfo-btn-add-property > span {
-  text-decoration: underline dotted;
-  text-underline-offset: 4px;
-}
-
-#fms-flex-add-property, #fms-flex-apply {
-  #panel-info table tr td {
-    height: 0;
-  }
-}
-
-#fminfo-btn-add-property {
-  background-color: transparent;
-  height: 24px;
-}
-
-.custom-property-wrapper {
-  display: flex;
-  gap: 5px;
-  align-items: center;
 }

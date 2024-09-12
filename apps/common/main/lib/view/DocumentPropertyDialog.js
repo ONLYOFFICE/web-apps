@@ -46,7 +46,7 @@ define([], function () { 'use strict';
             }, options);
 
             this.template = [
-                '<div class="document-info-content">',
+                '<div style="display: flex; flex-direction: column; margin: 0 20px; gap: 10px;">',
                     '<div>',
                         '<label>' + this.txtPropertyTitleLabel + '</label>',
                         '<div id="id-dlg-title"></div>',

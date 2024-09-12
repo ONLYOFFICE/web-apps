@@ -218,6 +218,7 @@ require([
                 'common/main/lib/util/define',
                 'common/main/lib/view/SignDialog',
                 'common/main/lib/view/SignSettingsDialog',
+                'common/main/lib/view/DocumentPropertyDialog',
 
                 'spreadsheeteditor/main/app/view/FileMenuPanels',
                 'spreadsheeteditor/main/app/view/DocumentHolderExt',
