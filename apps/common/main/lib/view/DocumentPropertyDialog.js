@@ -185,11 +185,11 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.inputUrl].concat(this.getFooterButtons());
+            return [this.inputTitle].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
-            return this.inputUrl;
+            return this.inputTitle;
         },
 
         show: function() {

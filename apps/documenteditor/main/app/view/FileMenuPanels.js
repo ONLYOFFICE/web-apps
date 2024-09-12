@@ -1465,7 +1465,7 @@ define([], function () {
                             '<td class="left"></td>',
                             '<td class="right">',
                                 '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big">',
-                                    '<span>Add property</span>',
+                                    '<span>' + this.txtAddProperty + '</span>',
                                 '</button>',
                             '</td>',
                         '</tr>',
@@ -2019,6 +2019,10 @@ define([], function () {
             }
 
             currentCustomProperty.on('click', function (e) {
+                if (currentCustomProperty.find('div.disabled').length) {
+                    return;
+                }
+
                 var btn = currentCustomProperty.find(e.target);
                 if (btn.hasClass('close')) {
                     me.api.asc_removeCustomProperty(idx);
@@ -2039,6 +2043,13 @@ define([], function () {
                         }
                     })).show();
                 }
+            })
+        },
+
+        setDisabledCustomProperties: function(disable) {
+            _.each($('tr[data-name]'), function(prop) {
+                $(prop).find('div.custom-property-wrapper')[disable ? 'addClass' : 'removeClass']('disabled');
+                $(prop).find('div.close')[disable ? 'hide' : 'show']();
             })
         },
 
@@ -2080,6 +2091,8 @@ define([], function () {
             this.tblAuthor.find('.close').toggleClass('disabled', this._state._locked);
             this.tblAuthor.toggleClass('disabled', disable);
             this.btnApply.setDisabled(this._state._locked);
+            this.btnAddProperty.setDisabled(disable);
+            this.setDisabledCustomProperties(disable);
         },
 
         onAddPropertyClick: function() {
@@ -2089,8 +2102,10 @@ define([], function () {
                     if (result === 'ok') {
                         me.api.asc_addCustomProperty(title, type, value);
                         var properties = me.api.asc_getAllCustomProperties();
-                        var prop = properties[properties.length - 1];
-                        me.renderCustomProperty(prop.asc_getName(), prop.asc_getType(), prop.asc_getValue(), properties.length - 1);
+                        if (properties.length) {
+                            var prop = properties[properties.length - 1];
+                            me.renderCustomProperty(prop.asc_getName(), prop.asc_getType(), prop.asc_getValue(), properties.length - 1);
+                        }
                     }
                 }
             })).show();
