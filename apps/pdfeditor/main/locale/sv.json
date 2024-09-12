@@ -2010,5 +2010,6 @@
   "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
   "PDFE.Views.DocumentHolder.guestText": "Guest",
-  "PDFE.Views.DocumentHolder.txtEmpty": "(Empty)"
+  "PDFE.Views.DocumentHolder.txtEmpty": "(Empty)",
+  "Common.Views.Header.textAnnotateDesc": "Fill forms or annotate"
 }
