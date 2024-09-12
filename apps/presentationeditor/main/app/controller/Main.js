@@ -2632,7 +2632,7 @@ define([
                 Common.Utils.InternalSettings.set("pe-settings-letter-exception-sentence", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfSentences(value);
 
-                value = Common.localStorage.getItem("pe-settings-letter-exceptionl-cells", true);
+                value = Common.localStorage.getItem("pe-settings-letter-exception-cells");
                 value = value !== null ? parseInt(value) != 0 : Common.localStorage.getBool("pe-settings-autoformat-fl-cells", true);
                 Common.Utils.InternalSettings.set("pe-settings-letter-exception-cells", value);
                 me.api.asc_SetAutoCorrectFirstLetterOfCells && me.api.asc_SetAutoCorrectFirstLetterOfCells(value);
