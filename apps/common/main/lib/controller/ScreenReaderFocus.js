@@ -416,6 +416,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
 
     return {
         init: _init,
-        isFocusMode: _isFocusMode
+        isFocusMode: _isFocusMode,
+        exitFocusMode: _exitFocusMode
     }
 })();

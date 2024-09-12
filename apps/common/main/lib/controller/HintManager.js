@@ -569,6 +569,7 @@ Common.UI.HintManager = new(function() {
                             }
                         }
                         if (curr) {
+                            Common.UI.ScreenReaderFocusManager && Common.UI.ScreenReaderFocusManager.exitFocusMode();
                             var tag = curr.prop("tagName").toLowerCase();
                             if (window.SSE && curr.parent().prop('id') === 'statusbar_bottom') {
                                 _hideHints();
