@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Даныя не знойдзеныя. Калі ласка, змяніце параметры пошуку.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Заменена. Прапушчана ўваходжанняў: {0}.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Пошук завершаны. Заменена ўваходжанняў: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Без назвы",
   "PE.Controllers.Main.applyChangesTextText": "Загрузка даных…",
   "PE.Controllers.Main.applyChangesTitleText": "Загрузка даных",
@@ -2901,5 +2901,13 @@
   "PE.Views.ViewTab.tipGuides": "Паказваць накіравальныя",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

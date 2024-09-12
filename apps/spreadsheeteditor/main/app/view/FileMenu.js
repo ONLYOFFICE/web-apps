@@ -393,7 +393,7 @@ define([
 
             this.miDownload[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = window["AscDesktopEditor"] ? window["AscDesktopEditor"]["isBlockchainSupport"]() : false;
-            this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl || this.mode.wopi) && !isBCSupport ?'show':'hide']();
+            this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miExportToPDF[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
@@ -471,7 +471,7 @@ define([
                 !this.panels['saveas'] && (this.panels['saveas'] = (new SSE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render());
             }
 
-            if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl || this.mode.wopi)) {
+            if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
                 !this.panels['save-copy'] && (this.panels['save-copy'] = (new SSE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render());
             }
 

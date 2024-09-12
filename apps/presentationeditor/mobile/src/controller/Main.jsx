@@ -165,6 +165,7 @@ class MainController extends Component {
                     docInfo.put_Lang(this.editorConfig.lang);
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     let coEditMode = !(this.editorConfig.coEditing && typeof this.editorConfig.coEditing == 'object') ? 'fast' : // fast by default
                                     this.editorConfig.mode === 'view' && this.editorConfig.coEditing.change!==false ? 'fast' : // if can change mode in viewer - set fast for using live viewer

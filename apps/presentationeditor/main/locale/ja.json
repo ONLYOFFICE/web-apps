@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "検索データが見つかりませんでした。検索オプションを変更してください。",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "置換が行われました。スキップされた発生回数は{0}です。",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "検索が完了しました。{0}つが置換されました。",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "タイトルなし",
   "PE.Controllers.Main.applyChangesTextText": "データの読み込み中...",
   "PE.Controllers.Main.applyChangesTitleText": "データの読み込み中",
@@ -2901,5 +2901,13 @@
   "PE.Views.ViewTab.tipGuides": "ガイドを表示",
   "PE.Views.ViewTab.tipInterfaceTheme": "インターフェースのテーマ",
   "PE.Views.ViewTab.tipNormal": "標準",
-  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター"
+  "PE.Views.ViewTab.tipSlideMaster": "スライドマスター",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

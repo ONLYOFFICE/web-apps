@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Data yang Anda cari tidak ditemukan. Silakan atur opsi pencarian Anda.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Tanpa Judul",
   "PE.Controllers.Main.applyChangesTextText": "Memuat data...",
   "PE.Controllers.Main.applyChangesTitleText": "Memuat Data",
@@ -2901,5 +2901,13 @@
   "PE.Views.ViewTab.tipGuides": "Tampilkan Pemandu",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema antarmuka",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "لا يمكن العثور على البيانات التي كنت تبحث عنها. الرجاء ضبط خيارات البحث الخاصة بك.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "تم إجراء الاستبدال. تم تخطي {0} حدث.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "انتهى البحث. الحالات المستبدلة: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "سيتم حفظ المستند بالتنسيق الجديد. سيسمح باستخدام جميع ميزات المحرر، ولكنه قد يؤثر على تخطيط المستند.<br>استخدم خيار \"التوافق\" في الإعدادات المتقدمة إذا كنت تريد جعل الملفات متوافقة مع إصدارات MS Word الأقدم.",
   "DE.Controllers.LeftMenu.txtUntitled": "بدون عنوان",
   "DE.Controllers.LeftMenu.warnDownloadAs": "اذا تابعت الحفظ بهذا التنسيق ستفقد كل الميزات عدا النص.<br> هل حقا تريد المتابعة؟ ",
@@ -3616,5 +3616,18 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "شبه شفاف",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "تحته خط",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "اسم الخط",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "حجم الخط",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

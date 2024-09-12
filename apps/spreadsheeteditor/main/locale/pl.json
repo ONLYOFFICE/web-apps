@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Wyszukiwanie zakończone. Zastąpiono {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Przeglądaj",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Arkusz",
   "SSE.Controllers.LeftMenu.textValues": "Wartości",
   "SSE.Controllers.LeftMenu.textWarning": "Ostrzeżenie",
@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Wprowadź hasło, aby odblokować arkusz",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Usuń ochronę arkusza",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Wprowadź hasło, aby wyłączyć ochronę skoroszytu",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Usuń ochronę skoroszytu",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

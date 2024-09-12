@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "找不到您正在搜尋的資料。請調整您的搜尋選項。",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "替換已完成。有 {0} 個項目被跳過。",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "已完成搜尋。已替換的次數：{0}。",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "未命名",
   "PE.Controllers.Main.applyChangesTextText": "載入資料中...",
   "PE.Controllers.Main.applyChangesTitleText": "載入資料",
@@ -2901,5 +2901,13 @@
   "PE.Views.ViewTab.tipGuides": "顯示導覽線",
   "PE.Views.ViewTab.tipInterfaceTheme": "介面主題",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

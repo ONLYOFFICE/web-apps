@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Zum Entschützen der Tabellenkalkulation bitte Kennwort eingeben",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Liste entschützen",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Zum Entschützen der Arbeitsmappe bitte Kennwort eingeben",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Arbeitsmappe entschützen",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

@@ -440,7 +440,7 @@
             border: solid @text-normal-ie;
             border: solid @text-normal;
             border-width: 0 2px 2px 0;
-            transform: rotate(40deg);
+            transform: rotate(45deg);
             width: 7px;
             height: 12px;
             left: 6px;
@@ -451,7 +451,13 @@
             &:after {
                 border-color: @icon-success-ie;
                 border-color: @icon-success;
+                width: 5px;
+                height: 9px;
+                top: 3px;
             }
+            .box-shadow(0 0 0 1px @icon-success-ie);
+            .box-shadow(0 0 0 1px @icon-success);
+            border-radius: 18px;
         }
     }
 

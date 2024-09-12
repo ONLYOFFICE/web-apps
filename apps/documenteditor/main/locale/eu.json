@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Bilatu duzun datua ezin izan da aurkitu. Doitu bilaketaren ezarpenak.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Ordezkapena burutu da. {0} agerraldi saltatu dira.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Bilaketa burutu da. Ordezkatu diren agerraldiak: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokumentua formatu berri batean gordeko da. Editorearen ezaugarri guztiak erabiltzeko aukera emango dizu, baina dokumentuaren diseinuan eragina izan dezake.<br>Erabili ezarpen aurreratuetako 'Bateragarritasuna' aukera fitxategiak MS Word-en bertsio zaharrekin bateragarriak izatea nahi baduzu.",
   "DE.Controllers.LeftMenu.txtUntitled": "Izengabea",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Formatu honetan gordetzen baduzu, testua ez diren ezaugarri guztiak galduko dira.<br> Ziur zaude aurrera jarraitu nahi duzula?",
@@ -3616,5 +3616,18 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Erdigardena",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Azpimarra",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Letra-tipoaren izena",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Letra-tamaina",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

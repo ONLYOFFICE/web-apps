@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Brīdinājums",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Pieprasa rediģēšanas tiesības...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Jūsu meklētos datus nevarēja atrast. Pielāgojiet meklēšanas opcijas.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Dokuments tiks saglabāts jaunajā formātā. Tas ļaus izmantot visas redaktora funkcijas, taču var ietekmēt dokumenta izkārtojumu.<br>Izmantojiet papildu iestatījumu opciju Saderība, ja vēlaties padarīt failus saderīgus ar vecākām MS Word versijām.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Bez nosaukuma",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Ja jūs izvēlēsieties turpināt saglabāt šajā formātā visas diagrammas un attēli tiks zaudēti.<br>Vai tiešām vēlaties turpināt?",
@@ -1998,5 +1998,15 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Saskaņot ar lapu",
   "PDFE.Views.ViewTab.tipFitToWidth": "Saskaņot ar platumu",
   "PDFE.Views.ViewTab.tipHeadings": "Virsraksti",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Interfeisa tēma",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
+  "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
+  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300"
 }

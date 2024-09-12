@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Bilaketa burutu da. Ordezkatu diren agerraldiak: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Gorde",
   "SSE.Controllers.LeftMenu.textSearch": "Bilatu",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Orria",
   "SSE.Controllers.LeftMenu.textValues": "Balioak",
   "SSE.Controllers.LeftMenu.textWarning": "Abisua",
@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Idatzi pasahitza orriari babesa kentzeko",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Kendu babesa orriari",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Idatzi pasahitza laneko liburuari babesa kentzeko",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Kendu babesa laneko liburuari",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Đã thực hiện tìm kiếm. Số lần thay thế: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Tìm kiếm",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Trang tính",
   "SSE.Controllers.LeftMenu.textValues": "Giá trị",
   "SSE.Controllers.LeftMenu.textWarning": "Cảnh báo",
@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Enter a password to unprotect sheet",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Unprotect sheet",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Enter a password to unprotect workbook",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Unprotect workbook",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

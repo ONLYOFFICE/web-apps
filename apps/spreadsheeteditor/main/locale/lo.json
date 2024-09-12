@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "ການຄົ້ນຫາໄດ້ສຳເລັດແລ້ວ. ສິ່ງທີ່ເກີດຂື້ນໄດ້ປ່ຽນແທນແລ້ວ: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "ຄົ້ນຫາ",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "ແຜ່ນງານ",
   "SSE.Controllers.LeftMenu.textValues": "ການຕີລາຄາ, ປະເມີນ",
   "SSE.Controllers.LeftMenu.textWarning": "ແຈ້ງເຕືອນ",
@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "ໃສ່ລະຫັດຜ່ານເພື່ອຍົກເລີກການປ້ອງກັນແຜ່ນ",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "ບໍ່ປ້ອງກັນແຜ່ນຊີດ",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "ປ້ອນລະຫັດຜ່ານເພື່ອບໍ່ປົກປ້ອງປື້ມບັນທືກ",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "ບໍ່ປ້ອງ ປື້ມບັນທືກ",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

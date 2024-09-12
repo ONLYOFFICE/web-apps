@@ -260,6 +260,9 @@ define([], function () {
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
+                '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
@@ -293,6 +296,21 @@ define([], function () {
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
+                '</tr>',
+                '<tr class="themes">',
+                    '<td><label><%= scope.strTheme %></label></td>',
+                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',
+                '<tr class="tab-style">',
+                    '<td><label><%= scope.strTabStyle %></label></td>',
+                    '<td><div id="fms-cmb-tab-style"></div></td>',
+                '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
                 '<tr >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -306,9 +324,6 @@ define([], function () {
                 '<tr>',
                     '<td colspan="2"><div id="fms-chb-use-alt-key"></div></td>',
                 '</tr>',
-                '<tr class="tab-background">',
-                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
-                '</tr>',
                 '<tr class="ui-rtl">',
                     '<td colspan="2"><div id="fms-chb-rtl-ui" style="display: inline-block;"></div><span class="beta-hint">Beta</span></td>',
                 '</tr>',
@@ -320,10 +335,6 @@ define([], function () {
                 '</tr>',*/
                 '<tr class="edit quick-access">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
-                '</tr>',
-                '<tr class="themes">',
-                    '<td><label><%= scope.strTheme %></label></td>',
-                    '<td><span id="fms-cmb-theme"></span></td>',
                 '</tr>',
                 '<tr>',
                     '<td><label><%= scope.strUnit %></label></td>',
@@ -741,6 +752,14 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
+            this.chTooltip = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-function-tooltip'),
+                labelText: this.strFunctionTooltip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.btnCustomizeQuickAccess = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-customize-quick-access')
             });
@@ -754,6 +773,22 @@ define([], function () {
                 menuStyle   : 'min-width:100%;',
                 cls         : 'input-group-nr',
                 dataHint    : '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
+            this.cmbTabStyle = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-tab-style'),
+                style       : 'width: 160px;',
+                menuStyle   : 'min-width:100%;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 'fill', displayValue: this.textFill},
+                    {value: 'line', displayValue: this.textLine}
+                ],
+                dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
             });
@@ -920,6 +955,7 @@ define([], function () {
                 this.cmbFuncLocale.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbRegSettings.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbDictionaryLanguage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -942,6 +978,7 @@ define([], function () {
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
@@ -1041,6 +1078,7 @@ define([], function () {
             this.cmbMacros.setValue(item ? item.get('value') : 0);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
+            this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
             this.chRTL.setValue(Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
@@ -1062,8 +1100,11 @@ define([], function () {
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
             this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
-            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
+            value = Common.Utils.InternalSettings.get("settings-tab-style");
+            item = this.cmbTabStyle.store.findWhere({value: value});
+            this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
 
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                     defaultShortName = "en-US",
                     allLangs = arrLang[0],
@@ -1168,14 +1209,19 @@ define([], function () {
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
             var isRtlChanged = this.chRTL.$el.is(':visible') && Common.localStorage.getBool("ui-rtl", Common.Locale.isCurrentLanguageRtl()) !== this.chRTL.isChecked();
             Common.localStorage.setBool("ui-rtl", this.chRTL.isChecked());
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                Common.localStorage.setItem("sse-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
-                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-
+            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+                Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
             Common.localStorage.save();
             if (this.menu) {
                 this.menu.fireEvent('settings:apply', [this.menu]);
@@ -1413,7 +1459,11 @@ define([], function () {
         strEnableIterative: 'Enable iterative calculation',
         txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.',
         txtCustomizeQuickAccess: 'Customize quick access',
-        txtTabBack: 'Use toolbar color as tabs background'
+        txtTabBack: 'Use toolbar color as tabs background',
+        strTabStyle: 'Tab style',
+        textFill: 'Fill',
+        textLine: 'Line',
+        txtAppearance: 'Appearance'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -2541,7 +2591,9 @@ define([], function () {
                     '</div>',
                 '</div>',
                 '<div id="print-preview-box" class="no-padding">',
-                    '<div id="print-preview"></div>',
+                    '<div id="print-preview-wrapper">',
+                        '<div id="print-preview"></div>',
+                    '</div>',
                     '<div id="print-navigation">',
                         '<% if (!isRTL) { %>',
                         '<div id="print-prev-page"></div>',
@@ -2556,6 +2608,7 @@ define([], function () {
                             '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
+                        '<div id="print-zoom-to-page"></div>',
                     '</div>',
                 '</div>',
                 '<div id="print-preview-empty" class="hidden">',
@@ -2968,6 +3021,16 @@ define([], function () {
                 dataHintDirection: 'top'
             });
 
+            this.btnZoomToPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-zoom-to-page'),
+                cls: 'btn-zoom-to-page btn-toolbar',
+                iconCls: 'toolbar__icon btn-ic-zoomtopage',
+                dataHint: '2',
+                dataHintDirection: 'top',
+                enableToggle: true,
+                pressed: true
+            });
+
             this.countOfPages = $markup.findById('#print-count-page');
 
             this.txtNumberPage = new Common.UI.InputField({
@@ -3007,6 +3070,16 @@ define([], function () {
                 });
             }
 
+            if (_.isUndefined(this.printScroller)) {
+                this.printScroller = new Common.UI.Scroller({
+                    el: $('#print-preview-wrapper'),
+                    alwaysVisibleX: true,
+                    alwaysVisibleY: true,
+                    suppressScrollX: true,
+                    suppressScrollY: true
+                });
+            }
+
             Common.NotificationCenter.on({
                 'window:resize': function() {
                     me.isVisible() && me.updateScroller();
@@ -3039,6 +3112,10 @@ define([], function () {
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
+
+            if (this.printScroller) {
+                this.printScroller.update();
             }
         },
 

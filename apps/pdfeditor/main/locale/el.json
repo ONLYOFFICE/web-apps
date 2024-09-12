@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Προειδοποίηση",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Αίτηση δικαιωμάτων επεξεργασίας...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Τα δεδομένα που αναζητάτε δεν βρέθηκαν. Παρακαλούμε προσαρμόστε τις επιλογές αναζήτησης.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Το έγγραφο θα αποθηκευτεί στη νέα μορφή. Θα επιτρέπεται η χρήση όλων των χαρακτηριστικών του συντάκτη, αλλά μπορεί να επηρεαστεί η διάταξη του εγγράφου.<br>Χρησιμοποιήστε την επιλογή 'Συμβατότητα' των προηγμένων ρυθμίσεων αν θέλετε να κάνετε τα αρχεία συμβατά με παλαιότερες εκδόσεις MS Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Άτιτλο",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
@@ -1998,5 +1998,15 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Προσαρμογή στη σελίδα",
   "PDFE.Views.ViewTab.tipFitToWidth": "Προσαρμογή στο πλάτος",
   "PDFE.Views.ViewTab.tipHeadings": "Κεφαλίδες",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Θέμα διεπαφής",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
+  "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
+  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300"
 }

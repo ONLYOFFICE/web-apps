@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Τα δεδομένα που αναζητάτε δεν βρέθηκαν. Παρακαλούμε προσαρμόστε τις επιλογές αναζήτησης.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Η αντικατάσταση έγινε. {0} εμφανίσεις προσπεράστηκαν.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Η αναζήτηση ολοκληρώθηκε. Εμφανίσεις που αντικαταστάθηκαν: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Το έγγραφο θα αποθηκευτεί στη νέα μορφή. Θα επιτρέπεται η χρήση όλων των χαρακτηριστικών του συντάκτη, αλλά μπορεί να επηρεαστεί η διάταξη του εγγράφου.<br>Χρησιμοποιήστε την επιλογή 'Συμβατότητα' των προηγμένων ρυθμίσεων αν θέλετε να κάνετε τα αρχεία συμβατά με παλαιότερες εκδόσεις MS Word.",
   "DE.Controllers.LeftMenu.txtUntitled": "Άτιτλο",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
@@ -3616,5 +3616,18 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Ημιδιαφανές",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Υπογράμμιση",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Όνομα γραμματοσειράς",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Μέγεθος γραμματοσειράς",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

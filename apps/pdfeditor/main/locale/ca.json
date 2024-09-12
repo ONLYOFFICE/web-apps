@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Advertiment",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "S'estan sol·licitant drets d'edició ...",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "No s'han trobat les dades que heu cercat. Ajusteu les opcions de cerca.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "El document es desarà amb el format nou. Podreu utilitzar totes les funcions de l'editor, però podria afectar la disposició del document. <br>Useu l'opció 'Compatibilitat' de la configuració avançada si voleu que els fitxers siguin compatibles amb versions anteriors de MS Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Sense títol",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Si continueu i deseu en aquest format, es perdran totes les característiques, excepte el text.<br>Voleu continuar?",
@@ -1998,5 +1998,15 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Ajusta-ho a la pàgina",
   "PDFE.Views.ViewTab.tipFitToWidth": "Ajusta-ho a l'amplària",
   "PDFE.Views.ViewTab.tipHeadings": "Capçaleres",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Tema de la interfície",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
+  "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
+  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300"
 }

@@ -443,6 +443,12 @@ define([
 
         return {
             init: function (api) {
+                ['toolbar-header-document', 'toolbar-header-spreadsheet', 'toolbar-header-presentation', 'toolbar-header-pdf']
+                    .forEach(function (i) {
+                        document.documentElement.style.removeProperty('--' + i);
+                    });
+
+
                 Common.Gateway.on('opendocument', on_document_open.bind(this));
                 $(window).on('storage', function (e) {
                     if ( e.key == 'ui-theme-id' && !Common.Controllers.Desktop.isActive() ) {

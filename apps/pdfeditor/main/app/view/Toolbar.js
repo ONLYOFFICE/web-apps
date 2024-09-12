@@ -1091,6 +1091,7 @@ define([
                     this.fieldPages = new Common.UI.InputFieldFixed({
                         id: 'id-toolbar-txt-pages',
                         style       : 'width: 100%;',
+                        cls         : 'text-align-right',
                         maskExp     : /[0-9]/,
                         allowBlank  : true,
                         validateOnChange: false,

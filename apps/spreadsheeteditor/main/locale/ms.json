@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Carian telah dilakukan. Kejadian digantikan: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Save",
   "SSE.Controllers.LeftMenu.textSearch": "Carian",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Helaian",
   "SSE.Controllers.LeftMenu.textValues": "Nilai",
   "SSE.Controllers.LeftMenu.textWarning": "Amaran",
@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Masukkan kata laluan untuk melindungi helaian",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Helaian Nyahlindung",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Masukkan kata laluan untuk melindungi buku kerja",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buku Kerja Nyahlindung"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Buku Kerja Nyahlindung",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

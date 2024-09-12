@@ -412,6 +412,7 @@ define([
             toolbar.btnPageColor.menu.on('show:after',                  _.bind(this.onPageColorShowAfter, this));
             toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
             toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
+            toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -1581,6 +1582,31 @@ define([
             this.toolbar.saveListPresetToStorage(picker);
         },
 
+        onTextFromFileClick: function(menu, item, e) {
+            var me = this, type = item.value;
+            if (type === "file") {
+                this.api.asc_insertTextFromFile();
+            } else if (type === "url") {
+                (new Common.Views.ImageFromUrlDialog({
+                    label: me.fileUrl,
+                    handler: function(result, value) {
+                        if (result === 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.api.asc_insertTextFromUrl(checkUrl);
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.view);
+                        }
+                    }
+                })).show();
+            } else if (type === 'storage') {
+                Common.NotificationCenter.trigger('storage:document-load', 'insert-text');
+            }
+        },
+
         onMarkerSettingsClick: function(type) {
             var me      = this;
             var listId = me.api.asc_GetCurrentNumberingId(),
@@ -2608,7 +2634,7 @@ define([
             menu.items[3].setDisabled(isAllDefailtNotModifaed);
             menu.items[4].setDisabled(isAllCustomDeleted);
 
-            var parentOffset = this.toolbar.$el.offset(),
+            var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
             if ($('#header-container').is(":visible")) {
                 top -= $('#header-container').height()

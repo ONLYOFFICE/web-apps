@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "ແຈ້ງເຕືອນ",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "ຂໍສິດໃນການແກ້ໄຂ",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "ຂໍ້ມູນທີ່ທ່ານ ກຳ ລັງຄົ້ນຫາບໍ່ສາມາດຊອກຫາໄດ້. ກະລຸນາປັບຕົວເລືອກການຊອກຫາຂອງທ່ານ.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "ເອກະສານຈະຖືກບັນທຶກເປັນຮູບແບບ ໃໝ່. ມັນຈະອະນຸຍາດໃຫ້ ນຳ ໃຊ້ທຸກລັກສະນະຂອງບັນນາທິການ, ແຕ່ອາດຈະສົ່ງຜົນກະທົບຕໍ່ການຈັດວາງເອກະສານ.<br>ໃຊ້ຕົວເລືອກ 'ຄວາມເຂົ້າກັນໄດ້' ຂອງການຕັ້ງຄ່າຂັ້ນສູງຖ້າທ່ານຕ້ອງການທີ່ຈະເຮັດໃຫ້ແຟ້ມຂໍ້ມູນເຂົ້າກັນໄດ້ກັບລຸ້ນ MS Word ເກົ່າ.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "ບໍ່ມີຫົວຂໍ້",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "ຖ້າທ່ານສືບຕໍ່ບັນທຶກໃນຮູບແບບນີ້ທຸກລັກສະນະ ຍົກເວັ້ນຂໍ້ຄວາມຈະຫາຍໄປ.<br>ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຕ້ອງການດໍາເນີນຕໍ່?",
@@ -1998,5 +1998,15 @@
   "PDFE.Views.ViewTab.tipFitToPage": "ພໍດີຂອບ",
   "PDFE.Views.ViewTab.tipFitToWidth": "ຄວາມກວ້າງພໍດີ",
   "PDFE.Views.ViewTab.tipHeadings": "ຫົວເລື່ອງ",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "ຮູບແບບການສະແດງຜົນ",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
+  "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
+  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300"
 }

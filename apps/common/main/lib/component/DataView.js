@@ -811,12 +811,12 @@ define([
         scrollToRecord: function (record, force, offsetTop) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
-                inner_top = innerEl.offset().top + (offsetTop ? offsetTop : 0),
+                inner_top = Common.Utils.getOffset(innerEl).top + (offsetTop ? offsetTop : 0),
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? $(this.dataViewItems[idx].el) : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
             
-            var div_top = div.offset().top,
+            var div_top = Common.Utils.getOffset(div).top,
                 div_first = $(this.dataViewItems[0].el),
                 div_first_top = (div_first.length>0) ? div_first[0].clientTop : 0;
             if (force || div_top < inner_top + div_first_top || div_top+div.outerHeight()*0.9 > inner_top + div_first_top + innerEl.height()) {
@@ -1065,13 +1065,13 @@ define([
 
             var el = $(this.dataViewItems[0].el),
                 itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
-                var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
-                leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW + 0.01);
+                var top = Common.Utils.getOffset($(this.dataViewItems[i].el)).top - offsetTop;
+                leftIdx = Math.floor((Common.Utils.getOffset($(this.dataViewItems[i].el)).left - offsetLeft)/itemW + 0.01);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -1376,14 +1376,14 @@ define([
         scrollToRecord: function (record) {
             if (!record) return;
             var innerEl = $(this.el).find('.inner'),
-                inner_top = innerEl.offset().top,
+                inner_top = Common.Utils.getOffset(innerEl).top,
                 idx = _.indexOf(this.store.models, record),
                 div = (idx>=0 && this.dataViewItems.length>idx) ? this.dataViewItems[idx].el : innerEl.find('#' + record.get('id'));
             if (div.length<=0) return;
 
-            var div_top = div.offset().top,
+            var div_top = Common.Utils.getOffset(div).top,
                 div_first = this.dataViewItems[0].el,
-                div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
+                div_first_top = (div_first.length>0) ? Common.Utils.getOffsetTop(div_first[0]) : 0;
             if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
                 if (this.scroller) {
                     this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);
@@ -1569,14 +1569,14 @@ define([
 
             var el = this.dataViewItems[0].el,
                 itemW = el.outerWidth() + parseFloat(el.css('margin-left')) + parseFloat(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var item = this.dataViewItems[i];
-                var top = item.el.offset().top - offsetTop;
-                leftIdx = Math.floor((item.el.offset().left - offsetLeft)/itemW);
+                var top = Common.Utils.getOffset(item.el).top - offsetTop;
+                leftIdx = Math.floor((Common.Utils.getOffset(item.el).left - offsetLeft)/itemW);
                 if (top>prevtop) {
                     prevtop = top;
                     this._layoutParams.itemsIndexes.push([]);
@@ -1958,15 +1958,15 @@ define([
             }
 
             var itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
-                offsetLeft = this.$el.offset().left,
-                offsetTop = el.offset().top,
+                offsetLeft = Common.Utils.getOffset(this.$el).left,
+                offsetTop = Common.Utils.getOffset(el).top,
                 prevtop = -1, topIdx = 0, leftIdx = first;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
                 var item = this.dataViewItems[i];
                 if (item.el.is(":visible")) {
-                    var top = item.el.offset().top - offsetTop;
-                    leftIdx = Math.floor((item.el.offset().left - offsetLeft) / itemW);
+                    var top = Common.Utils.getOffset(item.el).top - offsetTop;
+                    leftIdx = Math.floor((Common.Utils.getOffset(item.el).left - offsetLeft) / itemW);
                     if (top > prevtop) {
                         prevtop = top;
                         this._layoutParams.itemsIndexes.push([]);

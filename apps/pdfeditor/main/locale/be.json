@@ -856,7 +856,7 @@
   "PDFE.Controllers.LeftMenu.notcriticalErrorTitle": "Увага",
   "PDFE.Controllers.LeftMenu.requestEditRightsText": "Запыт правоў на рэдагаванне…",
   "PDFE.Controllers.LeftMenu.textNoTextFound": "Даныя не знойдзеныя. Калі ласка, змяніце параметры пошуку.",
-  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PDFE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PDFE.Controllers.LeftMenu.txtCompatible": "Дакумент будзе захаваны ў новым фармаце. Гэта дасць магчымасць выкарыстоўваць усе функцыі рэдактара, але можа паўплываць на структуру дакумента.<br>Выкарыстоўвайце параметр \"Сумяшчальнасць\", калі хочаце зрабіць файлы сумяшчальнымі са старэйшымі версіямі MS Word.",
   "PDFE.Controllers.LeftMenu.txtUntitled": "Без назвы",
   "PDFE.Controllers.LeftMenu.warnDownloadAs": "Калі вы працягнеце захаванне ў гэты фармат, усе функцыі, апроч тэксту страцяцца.<br>Сапраўды хочаце працягнуць?",
@@ -1998,5 +1998,15 @@
   "PDFE.Views.ViewTab.tipFitToPage": "Па памеры старонкі",
   "PDFE.Views.ViewTab.tipFitToWidth": "Па шырыні",
   "PDFE.Views.ViewTab.tipHeadings": "Загалоўкі",
-  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу"
+  "PDFE.Views.ViewTab.tipInterfaceTheme": "Тэма інтэрфейсу",
+  "PDFE.Views.ViewTab.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PDFE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PDFE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PDFE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PDFE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed",
+  "PDFE.Controllers.Toolbar.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
+  "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300"
 }

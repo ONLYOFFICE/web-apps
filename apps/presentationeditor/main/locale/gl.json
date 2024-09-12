@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Non se puideron atopar os datos que estabas buscando. Axuste as opcións de busca.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "A substitución foi realizada. {0} ocorrencias foron ignoradas.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "A busca foi realizada. Ocorrencias substituídas: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Sen título",
   "PE.Controllers.Main.applyChangesTextText": "Cargando datos...",
   "PE.Controllers.Main.applyChangesTitleText": "Cargando datos",
@@ -2901,5 +2901,13 @@
   "PE.Views.ViewTab.tipGuides": "Show guides",
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema da interface",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

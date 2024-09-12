@@ -262,6 +262,7 @@ define([
                     this.listenTo(view, 'click',   this.onClickItem);
                     this.listenTo(view, 'dblclick',this.onDblClickItem);
                     this.listenTo(view, 'select',  this.onSelectItem);
+                    this.listenTo(view, 'tipchange', this.onChangeTip);
 
                     if (record.get('tip')) {
                         var view_el = $(view.el);
@@ -298,7 +299,7 @@ define([
                 var div_top = div.position().top,
                     div_height = div.outerHeight(),
                     div_first = this.dataViewItems[0].el,
-                    div_first_top = div_first ? div_first.offsetTop : 0,
+                    div_first_top = div_first ? Common.Utils.getOffsetTop(div_first) : 0,
                     newpos;
 
                 if (force || div_top<div_first_top)
@@ -312,6 +313,22 @@ define([
                     } else {
                         innerEl.scrollTop(newpos);
                     }
+                }
+            },
+
+            onChangeTip: function(item) {
+                var el = item.$el || $(item.el),
+                    tip = el.data('bs.tooltip'),
+                    record = item.model;
+                if (tip)
+                    tip.updateTitle(record.get('tip') || '');
+                else if (record.get('tip')) {
+                    el.attr('data-toggle', 'tooltip');
+                    el.tooltip({
+                        title       : record.get('tip'),
+                        placement   : 'cursor',
+                        zIndex : this.tipZIndex
+                    });
                 }
             }
         }

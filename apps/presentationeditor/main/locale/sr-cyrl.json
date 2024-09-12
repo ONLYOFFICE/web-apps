@@ -896,7 +896,7 @@
   "PE.Controllers.LeftMenu.textNoTextFound": "Подаци које сте претраживали не могу бити пронађени. Молимо подесите своје опције претраживања.",
   "PE.Controllers.LeftMenu.textReplaceSkipped": "Замена је учињена. {0} појаве су прескочене.",
   "PE.Controllers.LeftMenu.textReplaceSuccess": "Претрага је учињена. Појаве замењене: {0}",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "PE.Controllers.LeftMenu.txtUntitled": "Без наслова",
   "PE.Controllers.Main.applyChangesTextText": "Учитавање података...",
   "PE.Controllers.Main.applyChangesTitleText": "Учитавање података",
@@ -2901,5 +2901,13 @@
   "PE.Views.ViewTab.tipGuides": "Прикажи водиче",
   "PE.Views.ViewTab.tipInterfaceTheme": "Тема интерфејса",
   "PE.Views.ViewTab.tipNormal": "Normal",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.ViewTab.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "PE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "PE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "PE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "PE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "Common.Controllers.History.notcriticalErrorTitle": "Warning",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

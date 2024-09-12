@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Data yang Anda cari tidak ditemukan. Silakan atur opsi pencarian Anda.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Penggantian telah dilakukan. Ada {0} yang dilewatkan.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Pencarian telah dilakukan. Ada {0} yang diganti {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "Dokumen akan disimpan ke format baru. Semua fitur editor akan diizinkan digunakan, tapi, mungkin akan mempengaruhi tampilan dokumen.<br>Gunakan opsi 'Kompatibilitas' di pengaturan tingkat lanjut jika Anda ingin membuat file kompatibel dengan versi MS Word lama.",
   "DE.Controllers.LeftMenu.txtUntitled": "Tanpa Judul",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Jika Anda lanjut simpan dengan format ini, semua fitur kecuali teks akan hilang.<br>Apakah Anda ingin melanjutkan?",
@@ -3616,5 +3616,18 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semi Transparan",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Garis bawah",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Nama font",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Ukuran font",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

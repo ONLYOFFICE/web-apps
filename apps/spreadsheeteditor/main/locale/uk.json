@@ -954,7 +954,7 @@
   "SSE.Controllers.LeftMenu.textReplaceSuccess": "Пошук виконано. Угоди замінено: {0}",
   "SSE.Controllers.LeftMenu.textSave": "Зберегти",
   "SSE.Controllers.LeftMenu.textSearch": "Пошук",
-  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "SSE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "SSE.Controllers.LeftMenu.textSheet": "Аркуш",
   "SSE.Controllers.LeftMenu.textValues": "Значення",
   "SSE.Controllers.LeftMenu.textWarning": "Застереження",
@@ -4458,5 +4458,14 @@
   "SSE.Views.WBProtection.txtSheetUnlockDescription": "Введіть пароль для вимкнення захисту аркуша",
   "SSE.Views.WBProtection.txtSheetUnlockTitle": "Зняти захист аркуша",
   "SSE.Views.WBProtection.txtWBUnlockDescription": "Введіть пароль для вимкнення захисту книги",
-  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги"
+  "SSE.Views.WBProtection.txtWBUnlockTitle": "Зняти захист книги",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strFunctionTooltip": "Show function tooltip",
+  "SSE.Views.ViewTab.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.strTabStyle": "Tab style",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textFill": "Fill",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.textLine": "Line",
+  "SSE.Views.FileMenuPanels.MainSettingsGeneral.txtAppearance": "Appearance",
+  "SSE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "SSE.Controllers.Print.txtZoomToPage": "Zoom to page",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }

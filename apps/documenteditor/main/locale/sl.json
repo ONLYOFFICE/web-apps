@@ -843,7 +843,7 @@
   "DE.Controllers.LeftMenu.textNoTextFound": "Podatkov, katere iščete, ni bilo mogoče najti. Prosim nastavite svoje možnosti iskanja.",
   "DE.Controllers.LeftMenu.textReplaceSkipped": "Nadomestek je bil izdelan. {0} dogodki so bili preskočeni.",
   "DE.Controllers.LeftMenu.textReplaceSuccess": "Iskanje je bilo storjeno. Dogodki nadomeščeni: {0}",
-  "DE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "DE.Controllers.LeftMenu.textSelectPath": "Enter a new name for saving the file copy",
   "DE.Controllers.LeftMenu.txtCompatible": "The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the 'Compatibility' option of the advanced settings if you want to make the files compatible with older MS Word versions.",
   "DE.Controllers.LeftMenu.txtUntitled": "Untitled",
   "DE.Controllers.LeftMenu.warnDownloadAs": "Če boste nadaljevali s shranjevanje v tem formatu bodo vse funkcije razen besedila izgubljene.<br>Ste prepričani, da želite nadaljevati?",
@@ -3616,5 +3616,18 @@
   "DE.Views.WatermarkSettingsDialog.textTransparency": "Semitransparent",
   "DE.Views.WatermarkSettingsDialog.textUnderline": "Underline",
   "DE.Views.WatermarkSettingsDialog.tipFontName": "Ime pisave",
-  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave"
+  "DE.Views.WatermarkSettingsDialog.tipFontSize": "Velikost pisave",
+  "DE.Views.ViewTab.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.strTabStyle": "Tab style",
+  "DE.Views.FileMenuPanels.Settings.textFill": "Fill",
+  "DE.Views.FileMenuPanels.Settings.textLine": "Line",
+  "DE.Views.FileMenuPanels.Settings.txtAppearance": "Appearance",
+  "DE.Controllers.Main.txtSaveCopyAsComplete": "The file copy was successfully saved",
+  "DE.Controllers.Toolbar.fileUrl": "Paste a file URL",
+  "DE.Views.Toolbar.capBtnInsTextFromFile": "Text from File",
+  "DE.Views.Toolbar.mniTextFromLocalFile": "Text from the local file",
+  "DE.Views.Toolbar.mniTextFromURL": "Text from the URL file",
+  "DE.Views.Toolbar.mniTextFromStorage": "Text from the storage file",
+  "DE.Views.Toolbar.tipTextFromFile": "Text from file",
+  "Common.Controllers.History.txtErrorLoadHistory": "History loading failed"
 }
