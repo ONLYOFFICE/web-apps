@@ -410,7 +410,7 @@ define([
 
                     var $selected = menuRoot.find('> li .checked');
                     if ($selected.length) {
-                        var itemTop = $selected.position().top,
+                        var itemTop = Common.Utils.getPosition($selected).top,
                             itemHeight = $selected.outerHeight(),
                             listHeight = menuRoot.outerHeight();
                         if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
@@ -516,7 +516,7 @@ define([
                     var item = itemCandidate.cmpEl.find('a');
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible, wheelSpeed: this.wheelSpeed});
-                        var itemTop = item.position().top,
+                        var itemTop = Common.Utils.getPosition(item).top,
                             itemHeight = item.outerHeight(),
                             listHeight = this.menuRoot.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {
@@ -1034,7 +1034,7 @@ define([
                 var menuRoot = this.menuRoot,
                     $selected = menuRoot.find('> li .checked');
                 if ($selected.length) {
-                    var itemTop = $selected.position().top,
+                    var itemTop = Common.Utils.getPosition($selected).top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = menuRoot.outerHeight();
                     if (!!this.options.scrollToCheckedItem && (itemTop < 0 || itemTop + itemHeight > listHeight)) {
@@ -1127,7 +1127,7 @@ define([
                 var item = itemCandidate.el;
                 if (this.scroller) {
                     this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
-                    var itemTop = item.position().top,
+                    var itemTop = Common.Utils.getPosition(item).top,
                         itemHeight = item.outerHeight(),
                         listHeight = this.menuRoot.outerHeight();
                     if (itemTop < 0 || itemTop + itemHeight > listHeight) {

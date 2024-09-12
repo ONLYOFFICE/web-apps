@@ -405,18 +405,9 @@
     if (isNaN(marginLeft)) marginLeft = 0
 
     offset.top  += marginTop
-    offset.left += marginLeft
+    offset.left += marginLeft;
 
-    // $.fn.offset doesn't round pixel values
-    // so we use setOffset directly with our own function B-0
-    $.offset.setOffset($tip[0], $.extend({
-      using: function (props) {
-        $tip.css({
-          top: Math.round(props.top),
-          left: Math.round(props.left)
-        })
-      }
-    }, offset), 0)
+    (Common.Utils || common.utils).setOffset($tip, offset);
 
     $tip.addClass('in')
 
@@ -435,9 +426,9 @@
 
     var isVertical          = /top|bottom/.test(placement)
     var arrowDelta          = isVertical ? delta.left * 2 - width + actualWidth : delta.top * 2 - height + actualHeight
-    var arrowOffsetPosition = isVertical ? 'offsetWidth' : 'offsetHeight'
+    var arrowOffsetPosition = isVertical ? 'offsetWidth' : 'offsetHeight';
 
-    $tip.offset(offset)
+    (Common.Utils || common.utils).setOffset($tip, offset);
     this.replaceArrow(arrowDelta, $tip[0][arrowOffsetPosition], isVertical)
   }
 
@@ -513,7 +504,7 @@
     var el     = $element[0]
     var isBody = el.tagName == 'BODY'
 
-    var elRect    = el.getBoundingClientRect()
+    var elRect    = (Common.Utils || common.utils).getBoundingClientRect(el)
     if (elRect.width == null) {
       // width and height are missing in IE8, so compute them manually; see https://github.com/twbs/bootstrap/issues/14093
       elRect = $.extend({}, elRect, { width: elRect.right - elRect.left, height: elRect.bottom - elRect.top })
@@ -521,7 +512,7 @@
     var isSvg = window.SVGElement && el instanceof window.SVGElement
     // Avoid using $.offset() on SVGs since it gives incorrect results in jQuery 3.
     // See https://github.com/twbs/bootstrap/issues/20280
-    var elOffset  = isBody ? { top: 0, left: 0 } : (isSvg ? null : $element.offset())
+    var elOffset  = isBody ? { top: 0, left: 0 } : (isSvg ? null : (Common.Utils || common.utils).getOffset($element))
     var scroll    = { scroll: isBody ? document.documentElement.scrollTop || document.body.scrollTop : $element.scrollTop() }
     var outerDims = isBody ? { width: $(window).width(), height: $(window).height() } : null
 

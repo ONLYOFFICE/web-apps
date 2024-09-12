@@ -281,7 +281,7 @@ define([
             if (index !== -1) {
                 var item = this.resultItems[index].$el,
                     itemHeight = item.outerHeight(),
-                    itemTop = item.position().top,
+                    itemTop = Common.Utils.getPosition(item).top,
                     container = this.view.$resultsContainer,
                     containerHeight = container.outerHeight(),
                     containerTop = container.scrollTop();

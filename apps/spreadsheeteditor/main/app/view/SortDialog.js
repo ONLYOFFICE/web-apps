@@ -825,9 +825,9 @@ define([
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 65, xy.top + 77);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : me.props.asc_getRangeStr(),

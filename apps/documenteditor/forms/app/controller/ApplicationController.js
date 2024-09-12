@@ -1130,7 +1130,7 @@ define([
             if (data.type == 'mouseup') {
                 var e = document.getElementById('editor_sdk');
                 if (e) {
-                    var r = e.getBoundingClientRect();
+                    var r = Common.Utils.getBoundingClientRect(e);
                     this.api.OnMouseUp(
                         data.x - r.left,
                         data.y - r.top
@@ -1446,7 +1446,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),

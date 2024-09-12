@@ -171,7 +171,7 @@ const tip = function ($) {
                             tp.top = innerHeight - $tip.height() - 30;
                         }
 
-                        $tip.offset(tp).addClass('in');
+                        Common.Utils.setOffset($tip, tp).addClass('in');
                     } else {
                         var pos = this.getPosition();
 
