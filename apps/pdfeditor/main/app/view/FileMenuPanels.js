@@ -327,6 +327,10 @@ define([], function () {
                 '<tr class="coauth changes-show">',
                     '<td colspan="2"><div id="fms-rb-show-changes-last"></div></td>',
                 '</tr>','<tr class="divider coauth changes-show"></tr>',
+                '<tr class="live-viewer">',
+                    '<td colspan="2"><div id="fms-chb-live-viewer"></div></td>',
+                '</tr>',
+                '<tr class="divider live-viewer"></tr>',
                 '<tr class="comments">',
                     '<td colspan="2"><div id="fms-chb-live-comment"></div></td>',
                 '</tr>',
@@ -569,6 +573,13 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
+            this.chLiveViewer = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-live-viewer'),
+                labelText: this.strShowOthersChanges,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
             /** coauthoring end **/
 
             var itemsTemplate =
@@ -742,21 +753,22 @@ define([], function () {
             this.mode = mode;
 
             var fast_coauth = Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"),
-                canPDFSave = (mode.isPDFAnnotate || mode.isPDFEdit) && mode.canSaveToFile && !mode.isOffline;
+                canPDFSave = mode.isEdit && (mode.isPDFAnnotate || mode.isPDFEdit) && mode.canSaveToFile;
 
             $('tr.edit', this.el)[mode.isEdit?'show':'hide']();
             $('tr.edit-pdf', this.el)[mode.isPDFEdit?'show':'hide']();
-            $('tr.autosave', this.el)[mode.isEdit && canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
+            $('tr.autosave', this.el)[canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth) ? 'show' : 'hide']();
             $('tr.forcesave', this.el)[mode.canForcesave && canPDFSave ? 'show' : 'hide']();
-            $('tr.editsave',this.el)[(mode.isEdit  || mode.canForcesave) && canPDFSave ? 'show' : 'hide']();
+            $('tr.editsave',this.el)[canPDFSave && (mode.canChangeCoAuthoring || !fast_coauth || mode.canForcesave) ? 'show' : 'hide']();
             if (this.mode.isDesktopApp && this.mode.isOffline) {
                 this.chAutosave.setCaption(this.textAutoRecover);
             }
             /** coauthoring begin **/
-            $('tr.collaboration', this.el)[mode.canCoAuthoring && !mode.isForm || mode.canViewReview ? 'show' : 'hide']();
-            $('tr.coauth.changes-mode', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring && canPDFSave ? 'show' : 'hide']();
-            $('tr.coauth.changes-show', this.el)[mode.isEdit && !mode.isOffline && mode.canCoAuthoring && canPDFSave ? 'show' : 'hide']();
-            $('tr.comments', this.el)[mode.canCoAuthoring && !mode.isForm ? 'show' : 'hide']();
+            $('tr.collaboration', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
+            $('tr.coauth.changes-mode', this.el)[!mode.isOffline && mode.canCoAuthoring && mode.canChangeCoAuthoring && canPDFSave ? 'show' : 'hide']();
+            $('tr.coauth.changes-show', this.el)[!mode.isOffline && mode.canCoAuthoring && canPDFSave ? 'show' : 'hide']();
+            $('tr.live-viewer', this.el)[mode.canLiveView && !mode.isOffline && mode.canChangeCoAuthoring ? 'show' : 'hide']();
+            $('tr.comments', this.el)[mode.canCoAuthoring && mode.isEdit ? 'show' : 'hide']();
             $('tr.ui-rtl', this.el)[mode.uiRtl ? 'show' : 'hide']();
             /** coauthoring end **/
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
@@ -794,6 +806,8 @@ define([], function () {
             this.rbCoAuthModeFast.setValue(fast_coauth);
             this.rbCoAuthModeStrict.setValue(!fast_coauth);
             this.fillShowChanges(fast_coauth);
+
+            this.chLiveViewer.setValue(Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"));
 
             value = Common.Utils.InternalSettings.get((fast_coauth) ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict");
 
@@ -845,6 +859,7 @@ define([], function () {
         },
 
         applySettings: function() {
+            var canPDFSave = (this.mode.isPDFAnnotate || this.mode.isPDFEdit) && this.mode.canSaveToFile;
             Common.UI.Themes.setTheme(this.cmbTheme.getValue());
             if (!this.chDarkMode.isDisabled() && (this.chDarkMode.isChecked() !== Common.UI.Themes.isContentThemeDark()))
                 Common.UI.Themes.toggleContentTheme();
@@ -860,17 +875,25 @@ define([], function () {
             /** coauthoring begin **/
             Common.Utils.InternalSettings.set("pdfe-settings-livecomment", this.chLiveComment.isChecked());
             Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", this.chResolvedComment.isChecked());
-            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring) {
-                this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
-                Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
-                    this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
+            if (this.mode.isEdit && !this.mode.isOffline && this.mode.canCoAuthoring && canPDFSave) {
+                // in first version with co-editing don't save co-editing mode to local storate
+                // this.mode.canChangeCoAuthoring && Common.localStorage.setItem("pdfe-settings-coauthmode", this.rbCoAuthModeFast.getValue() ? 1 : 0 );
+                // Common.localStorage.setItem(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
+                //     this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
+                this.mode.canChangeCoAuthoring && Common.Utils.InternalSettings.set("pdfe-settings-coauthmode", !!this.rbCoAuthModeFast.getValue());
+                Common.Utils.InternalSettings.set(this.rbCoAuthModeFast.getValue() ? "pdfe-settings-showchanges-fast" : "pdfe-settings-showchanges-strict",
+                                                  this.rbShowChangesNone.getValue()?'none':this.rbShowChangesLast.getValue()?'last':'all');
+            } else if (this.mode.canLiveView && !this.mode.isOffline && this.mode.canChangeCoAuthoring) { // viewer
+                Common.localStorage.setItem("pdfe-settings-view-coauthmode", this.chLiveViewer.isChecked() ? 1 : 0);
             }
             /** coauthoring end **/
             Common.localStorage.setItem("pdfe-settings-fontrender", this.cmbFontRender.getValue());
             var item = this.cmbFontRender.store.findWhere({value: 'custom'});
             Common.localStorage.setItem("pdfe-settings-cachemode", item && !item.get('checked') ? 0 : 1);
-            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pdfe-settings-coauthmode")))
-                Common.localStorage.setItem("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            if (this.mode.isEdit && (this.mode.canChangeCoAuthoring || !Common.Utils.InternalSettings.get("pdfe-settings-coauthmode"))) {
+                Common.Utils.InternalSettings.set("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+                this.mode.isOffline && Common.localStorage.setItem("pdfe-settings-autosave", this.chAutosave.isChecked() ? 1 : 0);
+            }
             if (this.mode.canForcesave)
                 Common.localStorage.setItem("pdfe-settings-forcesave", this.chForcesave.isChecked() ? 1 : 0);
 
