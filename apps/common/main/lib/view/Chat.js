@@ -196,7 +196,7 @@ define([
                     // scroll to end
 
                     this.panelMessages.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
-                    this.panelMessages.scroller.scrollTop(content.get(0).getBoundingClientRect().height);
+                    this.panelMessages.scroller.scrollTop(Common.Utils.getBoundingClientRect(content.get(0)).height);
                 }
             }
         },

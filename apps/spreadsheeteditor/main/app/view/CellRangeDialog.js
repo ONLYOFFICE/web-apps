@@ -198,8 +198,8 @@ define([], function () { 'use strict';
             this.close();
         },
 
-        show: function () {
-            Common.UI.Window.prototype.show.call(this);
+        show: function (x, y) {
+            Common.UI.Window.prototype.show.call(this, x, y);
             SSE.getController('RightMenu').SetDisabled(true);
         },
 

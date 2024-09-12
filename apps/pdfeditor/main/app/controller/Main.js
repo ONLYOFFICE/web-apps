@@ -600,7 +600,7 @@ define([
                 if (data.type == 'mouseup') {
                     var e = document.getElementById('editor_sdk');
                     if (e) {
-                        var r = e.getBoundingClientRect();
+                        var r = Common.Utils.getBoundingClientRect(e);
                         this.api.OnMouseUp(
                             data.x - r.left,
                             data.y - r.top

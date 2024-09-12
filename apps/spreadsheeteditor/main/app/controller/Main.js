@@ -683,7 +683,7 @@ define([
                 if (data.type == 'mouseup') {
                     var editor = document.getElementById('editor_sdk');
                     if (editor) {
-                        var rect = editor.getBoundingClientRect();
+                        var rect = Common.Utils.getBoundingClientRect(editor);
                         var event = data.event || {};
                         this.api.asc_onMouseUp(event, data.x - rect.left, data.y - rect.top);
                     }

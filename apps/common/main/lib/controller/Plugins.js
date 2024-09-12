@@ -223,7 +223,7 @@ define([
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
-                        var offset = panel.currentPluginFrame.offset();
+                        var offset = Common.Utils.getOffset(panel.currentPluginFrame);
                         me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
                                             y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
@@ -777,7 +777,7 @@ define([
         
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
-                var offset = this.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.pluginContainer);
                 if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -1211,7 +1211,7 @@ define([
 
         onPluginWindowMouseMove: function(frameId, x, y) {
             if (this.customPluginsDlg[frameId]) {
-                var offset = this.customPluginsDlg[frameId].options.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.customPluginsDlg[frameId].options.pluginContainer);
                 if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else

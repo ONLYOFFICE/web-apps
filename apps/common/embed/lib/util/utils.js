@@ -86,6 +86,38 @@
                     return pos;
                 return {left: pos.left * zoom, top: pos.top * zoom};
             },
+            setOffset = function($element, options) {
+                var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
+                    position = $element.css("position"),
+                    props = {};
+
+                if ( position === "static" ) {
+                    $element[0].style.position = "relative";
+                }
+
+                curOffset = getOffset($element);
+                curCSSTop = $element.css("top");
+                curCSSLeft = $element.css("left");
+                calculatePosition = ( position === "absolute" || position === "fixed" ) &&
+                    ( curCSSTop + curCSSLeft ).indexOf( "auto" ) > -1;
+
+                if ( calculatePosition ) {
+                    curPosition = getPosition($element);
+                    curTop = curPosition.top;
+                    curLeft = curPosition.left;
+                } else {
+                    curTop = parseFloat( curCSSTop ) || 0;
+                    curLeft = parseFloat( curCSSLeft ) || 0;
+                }
+
+                if ( options.top != null ) {
+                    props.top = ( options.top - curOffset.top ) + curTop;
+                }
+                if ( options.left != null ) {
+                    props.left = ( options.left - curOffset.left ) + curLeft;
+                }
+                $element.css( props );
+            },
             getPosition = function($element) {
                 let pos = $element.position();
                 if (!isOffsetUsedZoom())
@@ -163,6 +195,7 @@
             },
             getBoundingClientRect: getBoundingClientRect,
             getOffset: getOffset,
+            setOffset: setOffset,
             getPosition: getPosition,
             isMac : isMac
         };

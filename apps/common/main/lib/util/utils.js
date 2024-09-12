@@ -224,16 +224,6 @@ define([], function () {
                 if (rect.bottom!==undefined) newRect.bottom = rect.bottom * koef;
                 return newRect;
             },
-            getOffsetLeft = function(element) {
-                if (!isOffsetUsedZoom())
-                    return element.offsetLeft;
-                return element.offsetLeft * me.zoom;
-            },
-            getOffsetTop = function(element) {
-                if (!isOffsetUsedZoom())
-                    return element.offsetTop;
-                return element.offsetTop * me.zoom;
-            },
             getOffset = function($element) {
                 let pos = $element.offset();
                 if (!isOffsetUsedZoom())
@@ -245,6 +235,39 @@ define([], function () {
                 if (!isOffsetUsedZoom())
                     return pos;
                 return {left: pos.left * me.zoom, top: pos.top * me.zoom};
+            },
+            setOffset = function($element, options) {
+                var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
+                    position = $element.css("position"),
+                    props = {};
+
+                if ( position === "static" ) {
+                    $element[0].style.position = "relative";
+                }
+
+                curOffset = getOffset($element);
+                curCSSTop = $element.css("top");
+                curCSSLeft = $element.css("left");
+                calculatePosition = ( position === "absolute" || position === "fixed" ) &&
+                    ( curCSSTop + curCSSLeft ).indexOf( "auto" ) > -1;
+
+                if ( calculatePosition ) {
+                    curPosition = getPosition($element);
+                    curTop = curPosition.top;
+                    curLeft = curPosition.left;
+                } else {
+                    curTop = parseFloat( curCSSTop ) || 0;
+                    curLeft = parseFloat( curCSSLeft ) || 0;
+                }
+
+                if ( options.top != null ) {
+                    props.top = ( options.top - curOffset.top ) + curTop;
+                }
+                if ( options.left != null ) {
+                    props.left = ( options.left - curOffset.left ) + curLeft;
+                }
+                $element.css( props );
+                return $element;
             };
 
         me.zoom = 1;
@@ -345,9 +368,8 @@ define([], function () {
                 }
             },
             getBoundingClientRect: getBoundingClientRect,
-            getOffsetLeft: getOffsetLeft,
-            getOffsetTop: getOffsetTop,
             getOffset: getOffset,
+            setOffset: setOffset,
             getPosition: getPosition
         }
     })();
