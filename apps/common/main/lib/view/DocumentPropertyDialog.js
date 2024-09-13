@@ -129,7 +129,7 @@ define([], function () { 'use strict';
                         return this.txtPropertyValueBlankError;
                     }
 
-                    if (this.comboboxType.getValue() === 'number' && isNaN(value.replace(',', '.'))) {
+                    if (this.comboboxType.getValue() === 'number' && (typeof value !== 'number' && isNaN(value.replace(',', '.')))) {
                         return this.txtPropertyTypeNumberInvalid;
                     }
 
@@ -245,7 +245,10 @@ define([], function () { 'use strict';
                             ascValue = value;
                         } else {
                             // note: precisely a numeric value because we validated it
-                            value = value.replace(',', '.');
+                            if (typeof value !== 'number') {
+                                value = value.replace(',', '.');
+                            }
+
                             if (value % 1 === 0) {
                                 ascType = AscCommon.c_oVariantTypes.vtI4;
                                 ascValue = parseInt(value);
