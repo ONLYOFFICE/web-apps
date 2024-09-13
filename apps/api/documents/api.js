@@ -1052,7 +1052,8 @@
                 if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
-        path = extendAppPath(config, path);
+        if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
+            path = extendAppPath(config, path);
         path += appMap[appType];
 
         const path_type = config.type === "mobile" ? "mobile" :
@@ -1149,6 +1150,9 @@
 
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
+
+        if (config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key)
+            params += "&shardkey=" + config.document.key;
 
         if (config.editorConfig) {
             var customization = config.editorConfig.customization;
