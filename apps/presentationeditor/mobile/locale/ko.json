@@ -17,7 +17,7 @@
       "textBack": "뒤로",
       "textCancel": "취소",
       "textCollaboration": "협업",
-      "textComments": "Comments",
+      "textComments": "코멘트",
       "textDeleteComment": "코멘트 삭제",
       "textDeleteReply": "댓글 삭제",
       "textDone": "완료",
@@ -43,6 +43,12 @@
       "textStandartColors": "표준 색상",
       "textThemeColors": "테마 색"
     },
+    "Themes": {
+      "dark": "어두운",
+      "light": "밝은",
+      "system": "시스템과 동일",
+      "textTheme": "테마"
+    },
     "VersionHistory": {
       "notcriticalErrorTitle": "경고",
       "textAnonymous": "익명사용자",
@@ -56,12 +62,6 @@
       "textWarningRestoreVersion": "현재 파일은 버전 기록에 저장됩니다.",
       "titleWarningRestoreVersion": "이 버전을 복원하시겠습니까?",
       "txtErrorLoadHistory": "로드 이력 실패"
-    },
-    "Themes": {
-      "dark": "Dark",
-      "light": "Light",
-      "system": "Same as system",
-      "textTheme": "Theme"
     }
   },
   "ContextMenu": {
@@ -248,8 +248,8 @@
     "loadImageTitleText": "이미지로드 중",
     "loadingDocumentTextText": "문서로드 중 ...",
     "loadingDocumentTitleText": "문서 로드 중",
-    "loadThemeTextText": "테마로드 중 ...",
-    "loadThemeTitleText": "테마로드 중",
+    "loadThemeTextText": "테마 로드 중 ...",
+    "loadThemeTitleText": "테마 로드 중",
     "openTextText": "문서 열기 중 ...",
     "openTitleText": "문서 열기",
     "printTextText": "문서 인쇄 중 ...",
@@ -328,7 +328,7 @@
       "textAfter": "이후",
       "textAlign": "맞춤",
       "textAlignBottom": "아래쪽 맞춤",
-      "textAlignCenter": "가운데 맞춤",
+      "textAlignCenter": "가운데 정렬",
       "textAlignLeft": "왼쪽 맞춤",
       "textAlignMiddle": "중간 맞춤",
       "textAlignRight": "오른쪽 맞춤",
@@ -489,8 +489,8 @@
       "notcriticalErrorTitle": "경고",
       "textAbout": "정보",
       "textAddress": "주소 :",
-      "textApplication": "어플리케이션",
-      "textApplicationSettings": "어플리케이션 설정",
+      "textApplication": "애플리케이션",
+      "textApplicationSettings": "애플리케이션 설정",
       "textAuthor": "작성자",
       "textBack": "뒤로",
       "textCaseSensitive": "대소문자 구별",
@@ -499,6 +499,7 @@
       "textColorSchemes": "색 구성표",
       "textComment": "코멘트",
       "textCreated": "생성되었습니다",
+      "textDark": "어두운",
       "textDarkTheme": "다크 테마",
       "textDisableAll": "모두 비활성화",
       "textDisableAllMacrosWithNotification": "알림이 있는 모든 매크로 닫기",
@@ -518,6 +519,7 @@
       "textInch": "인치",
       "textLastModified": "최종 편집",
       "textLastModifiedBy": "최종 편집자",
+      "textLight": "밝은",
       "textLoading": "로딩중...",
       "textLocation": "위치",
       "textMacrosSettings": "매크로 설정",
@@ -534,6 +536,7 @@
       "textReplaceAll": "모두 바꾸기",
       "textRestartApplication": "변경 사항이 적용되려면 애플리케이션을 다시 시작하세요.",
       "textRTL": "RTL",
+      "textSameAsSystem": "시스템과 동일",
       "textSearch": "검색",
       "textSettings": "설정",
       "textShowNotification": "알림 표시",
@@ -541,18 +544,15 @@
       "textSpellcheck": "맞춤법 검사",
       "textSubject": "제목",
       "textTel": "전화:",
+      "textTheme": "테마",
       "textTitle": "제목",
       "textUnitOfMeasurement": "측정 단위",
       "textUploaded": "업로드 되었습니다",
       "textVersion": "버전",
       "textVersionHistory": "버전 기록",
       "textClose": "Close",
-      "textDark": "Dark",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textLight": "Light",
-      "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System",
-      "textTheme": "Theme"
+      "textRtlInterface": "RTL Interface"
     }
   }
 }

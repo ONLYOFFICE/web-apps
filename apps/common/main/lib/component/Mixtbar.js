@@ -306,6 +306,7 @@ define([
                             me._timerSetTab = false;
                         }, 500);
                         me.setTab(tab);
+                        me.fireEvent('tab:click', [tab]);
                         // me.processPanelVisible();
                         if ( !me.isFolded ) {
                             if ( me.dblclick_timer ) clearTimeout(me.dblclick_timer);

@@ -104,7 +104,7 @@
   "DE.Controllers.ApplicationController.errorLoadingFont": "글꼴이 로드되지 않았습니다. <br>문서 관리 관리자에게 문의하십시오.",
   "DE.Controllers.ApplicationController.errorServerVersion": "편집기 버전이 업데이트되었습니다. 페이지가 다시로드되어 변경 사항이 적용됩니다.",
   "DE.Controllers.ApplicationController.errorSessionAbsolute": "문서 편집 세션이 만료되었습니다. 페이지를 새로 고침하십시오.",
-  "DE.Controllers.ApplicationController.errorSessionIdle": "문서가 오랫동안 편집되지 않았습니다. 페이지를 새로 고침하십시오.",
+  "DE.Controllers.ApplicationController.errorSessionIdle": "문서가 오랫동안 편집되지 않았습니다. 페이지를 새로고침 하십시오.",
   "DE.Controllers.ApplicationController.errorSessionToken": "서버에 대한 연결이 중단되었습니다. 페이지를 새로 고침하십시오.",
   "DE.Controllers.ApplicationController.errorSubmit": "전송실패",
   "DE.Controllers.ApplicationController.errorTextFormWrongFormat": "입력한 값이 필드 형식과 일치하지 않습니다.",
