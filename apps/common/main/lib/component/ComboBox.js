@@ -326,8 +326,8 @@ define([
                 var $list = this.cmpEl.find('ul'),
                     isMenuAbsolute = $list.hasClass('menu-absolute');
                 if (this.options.restoreMenuHeightAndTop || isMenuAbsolute) {
-                    var offset = this.cmpEl.offset(),
-                        parentTop = this.options.menuAlignEl ? this.options.menuAlignEl.offset().top : 0,
+                    var offset = Common.Utils.getOffset(this.cmpEl),
+                        parentTop = this.options.menuAlignEl ? Common.Utils.getOffset(this.options.menuAlignEl).top : 0,
                         marginTop = parseInt($list.css('margin-top')),
                         menuTop = offset.top - parentTop + this.cmpEl.outerHeight() + marginTop,
                         menuLeft = offset.left;
@@ -393,16 +393,16 @@ define([
                         }
                     }
                     var cg = Common.Utils.croppedGeometry(),
-                        parentTop = this.options.menuAlignEl ? this.options.menuAlignEl.offset().top : cg.top,
+                        parentTop = this.options.menuAlignEl ? Common.Utils.getOffset(this.options.menuAlignEl).top : cg.top,
                         parentHeight = this.options.menuAlignEl ? this.options.menuAlignEl.outerHeight() : cg.height - 10,
                         menuH = $list.outerHeight(),
-                        menuTop = $list.get(0).getBoundingClientRect().top,
+                        menuTop = Common.Utils.getBoundingClientRect($list.get(0)).top,
                         newH = menuH;
 
                     if (menuH < this.restoreMenuHeight)
                         newH = this.restoreMenuHeight;
 
-                    var offset = this.cmpEl.offset();
+                    var offset = Common.Utils.getOffset(this.cmpEl);
                     if (menuTop<offset.top) { // menu is shown at top
                         if (offset.top - parentTop < newH)
                             newH = offset.top - parentTop;

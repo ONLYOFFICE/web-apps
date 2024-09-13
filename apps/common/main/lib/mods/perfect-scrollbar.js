@@ -247,7 +247,7 @@
           $scrollbarYRail.addClass('in-scrolling');
 
             var margin = parseInt($scrollbarYRail.css('margin-top'));
-            var rect = $scrollbarYRail[0].getBoundingClientRect();
+            var rect = Common.Utils.getBoundingClientRect($scrollbarYRail[0]);
             $scrollbarYRail.css({
                 position: 'fixed',
                 left: rect.left,

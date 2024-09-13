@@ -797,8 +797,8 @@ define([
         onDocumentHolderResize: function(e){
             var me = this;
             me._XY = [
-                me.documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                me.documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                Common.Utils.getOffset(me.documentHolder.cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(me.documentHolder.cmpEl).top - $(window).scrollTop()
             ];
             me._Height = me.documentHolder.cmpEl.height();
             me._Width = me.documentHolder.cmpEl.width();
@@ -1089,8 +1089,8 @@ define([
                 screenTip = me.screenTip;
             if (me._XY === undefined) {
                 me._XY = [
-                    cmpEl.offset().left - $(window).scrollLeft(),
-                    cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = cmpEl.height();
                 me._Width = cmpEl.width();
@@ -1596,7 +1596,7 @@ define([
             this.cmpCalendar.setDate(val ? new Date(val) : new Date());
 
             // align
-            var offset  = controlsContainer.offset(),
+            var offset  = Common.Utils.getOffset(controlsContainer),
                 docW    = Common.Utils.innerWidth(),
                 docH    = Common.Utils.innerHeight() - 10, // Yep, it's magic number
                 menuW   = this.cmpCalendar.cmpEl.outerWidth(),
@@ -1785,8 +1785,8 @@ define([
             var me = this,
                 cmpEl = me.documentHolder.cmpEl;
             me._XY = [
-                cmpEl.offset().left - $(window).scrollLeft(),
-                cmpEl.offset().top  - $(window).scrollTop()
+                Common.Utils.getOffset(cmpEl).left - $(window).scrollLeft(),
+                Common.Utils.getOffset(cmpEl).top  - $(window).scrollTop()
             ];
             me._Height = cmpEl.height();
             me._Width = cmpEl.width();
@@ -2657,8 +2657,8 @@ define([
 
             if (me._XY === undefined) {
                 me._XY = [
-                    documentHolder.cmpEl.offset().left - $(window).scrollLeft(),
-                    documentHolder.cmpEl.offset().top - $(window).scrollTop()
+                    Common.Utils.getOffset(documentHolder.cmpEl).left - $(window).scrollLeft(),
+                    Common.Utils.getOffset(documentHolder.cmpEl).top - $(window).scrollTop()
                 ];
                 me._Height = documentHolder.cmpEl.height();
                 me._Width = documentHolder.cmpEl.width();

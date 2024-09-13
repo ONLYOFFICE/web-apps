@@ -970,7 +970,7 @@ define([
                             docProtection   : me._state.docProtection
                         }));
                         var sdk = $('#editor_sdk'),
-                            offset = sdk.offset();
+                            offset = Common.Utils.getOffset(sdk);
                         me.dlgChanges.show(Math.max(10, offset.left + sdk.width() - 300), Math.max(10, offset.top + sdk.height() - 150));
                     }
                 } else if (config.canViewReview) {
