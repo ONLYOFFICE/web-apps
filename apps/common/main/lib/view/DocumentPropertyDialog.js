@@ -99,7 +99,7 @@ define([], function () { 'use strict';
             this.comboboxType = new Common.UI.ComboBox({
                 el: $('#id-dlg-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 85px;',
+                menuStyle: 'min-width: 85px; width: 100%;',
                 editable: false,
                 data: [
                     { displayValue: this.txtPropertyTypeText, value: 'text' },
@@ -148,7 +148,7 @@ define([], function () { 'use strict';
             this.comboboxBoolean = new Common.UI.ComboBox({
                 el: $('#id-dlg-value-boolean'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 85px;',
+                menuStyle: 'min-width: 85px; width: 100%;',
                 editable: false,
                 data: [
                     { displayValue: this.txtPropertyBooleanTrue, value: 1 },
@@ -170,7 +170,10 @@ define([], function () { 'use strict';
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small'
+                dataHintOffset: 'small',
+                validation: function(value) {
+                    return value.length === 0 || isNaN(new Date(value).getTime()) ? this.txtPropertyValueBlankError : true;
+                }
             });
             if (this.options.defaultValue.value && currentType === 'date') {
                 this.datepicker.setValue(this.options.defaultValue.value);
@@ -185,7 +188,7 @@ define([], function () { 'use strict';
         },
 
         getFocusedComponents: function() {
-            return [this.inputTitle].concat(this.getFooterButtons());
+            return [this.inputTitle, this.comboboxType, this.inputTextOrNumber, this.comboboxBoolean, this.datepicker].concat(this.getFooterButtons());
         },
 
         getDefaultFocusableComponent: function () {
@@ -197,7 +200,7 @@ define([], function () { 'use strict';
 
             var me = this;
             _.delay(function(){
-                me.getChild('input').focus();
+                me.inputTitle.focus();
             },100);
         },
 
@@ -214,7 +217,7 @@ define([], function () { 'use strict';
             if (this.options.handler) {
                 if (state === 'ok') {
                     if (this.inputTitle.checkValidate() !== true)  {
-                        this.inputTitle.cmpEl.find('input').focus();
+                        this.inputTitle.focus();
                         return;
                     }
 
@@ -224,15 +227,15 @@ define([], function () { 'use strict';
                         ascType = AscCommon.c_oVariantTypes.vtBool;
                     } else if (type === 'date') {
                         if (this.datepicker.checkValidate() !== true)  {
-                            this.datepicker.cmpEl.find('input').focus();
+                            this.datepicker.focus();
                             return;
                         }
 
-                        ascValue = this.datepicker.getValue();
+                        ascValue = new Date(this.datepicker.getValue());
                         ascType = AscCommon.c_oVariantTypes.vtFiletime;
                     } else {
                         if (this.inputTextOrNumber.checkValidate() !== true)  {
-                            this.inputTextOrNumber.cmpEl.find('input').focus();
+                            this.inputTextOrNumber.focus();
                             return;
                         }
 
