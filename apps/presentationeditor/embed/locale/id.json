@@ -29,7 +29,7 @@
   "PE.ApplicationController.errorUpdateVersionOnDisconnect": "Koneksi internet sudah kembali dan versi file sudah diganti.<br>Sebelum Anda bisa melanjutkan kerja, Anda perlu mengunduh file atau salin konten untuk memastikan tidak ada yang hilang, lalu muat ulang halaman ini.",
   "PE.ApplicationController.errorUserDrop": "File tidak dapat di akses",
   "PE.ApplicationController.notcriticalErrorTitle": "Peringatan",
-  "PE.ApplicationController.openErrorText": "Kesalahan terjadi ketika membuka file.",
+  "PE.ApplicationController.openErrorText": "Terjadi kesalahan saat membuka file.",
   "PE.ApplicationController.scriptLoadError": "Koneksi terlalu lambat,",
   "PE.ApplicationController.textAnonymous": "Anonim",
   "PE.ApplicationController.textGuest": "Tamu",
