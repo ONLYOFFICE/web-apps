@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from "url";
@@ -281,9 +281,9 @@ const config = {
         fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
         resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
     ),
-    new BundleAnalyzerPlugin({
-      analyzerMode: env === 'development' ? 'server' : 'disabled',
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: env === 'development' ? 'server' : 'disabled',
+    // }),
   ],
 };
 
