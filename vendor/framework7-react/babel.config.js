@@ -14,9 +14,9 @@ const config = {
     '@babel/plugin-syntax-dynamic-import',
     ['@babel/plugin-proposal-decorators', {'legacy': true }],
     ['@babel/plugin-transform-class-properties', { 'loose': false }],
-    '@babel/plugin-transform-optional-chaining',
-    '@babel/plugin-transform-nullish-coalescing-operator',
-    '@babel/plugin-transform-react-constant-elements',
+    // '@babel/plugin-transform-optional-chaining',
+    // '@babel/plugin-transform-nullish-coalescing-operator',
+    // '@babel/plugin-transform-react-constant-elements',
   ]
 };
 
