@@ -29,8 +29,8 @@ const config = {
   },
   output: {
     path: resolvePath(`../../apps/${editor}/mobile`),
-    filename: 'dist/js/[name].[contenthash].js',
-    chunkFilename: 'dist/js/[name].[contenthash].js',
+    filename: 'dist/js/[name].js',
+    chunkFilename: 'dist/js/[name].js',
     publicPath: '',
     hotUpdateChunkFilename: 'hot/hot-update.js',
     hotUpdateMainFilename: 'hot/hot-update.json',
@@ -52,26 +52,26 @@ const config = {
   },
   devtool: env === 'production' ? false : 'source-map',
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minSize: 20000,
-      maxSize: 244000,
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-          enforce: true,
-        },
-        common: {
-          name: 'common',
-          minChunks: 2,
-          chunks: 'all',
-          reuseExistingChunk: true,
-          enforce: true,
-        }
-      }
-    },
+    // splitChunks: {
+    //   chunks: 'all',
+    //   minSize: 20000,
+    //   maxSize: 244000,
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name: 'vendors',
+    //       chunks: 'all',
+    //       enforce: true,
+    //     },
+    //     common: {
+    //       name: 'common',
+    //       minChunks: 2,
+    //       chunks: 'all',
+    //       reuseExistingChunk: true,
+    //       enforce: true,
+    //     }
+    //   }
+    // },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
