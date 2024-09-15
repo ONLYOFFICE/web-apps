@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from "url";
@@ -29,8 +29,8 @@ const config = {
   },
   output: {
     path: resolvePath(`../../apps/${editor}/mobile`),
-    filename: 'dist/js/[name].[contenthash].js',
-    chunkFilename: 'dist/js/[name].[contenthash].js',
+    filename: 'dist/js/[name].js',
+    chunkFilename: 'dist/js/[name].js',
     publicPath: '',
     hotUpdateChunkFilename: 'hot/hot-update.js',
     hotUpdateMainFilename: 'hot/hot-update.json',
@@ -50,28 +50,28 @@ const config = {
   externals: {
     jquery: 'jQuery'
   },
-  devtool: env === 'production' ? false : 'source-map',
+  devtool: env === 'production' ? 'source-map' : 'source-map',
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minSize: 20000,
-      maxSize: 244000,
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-          enforce: true,
-        },
-        common: {
-          name: 'common',
-          minChunks: 2,
-          chunks: 'all',
-          reuseExistingChunk: true,
-          enforce: true,
-        }
-      }
-    },
+    // splitChunks: {
+    //   chunks: 'all',
+    //   minSize: 20000,
+    //   maxSize: 244000,
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name: 'vendors',
+    //       chunks: 'all',
+    //       enforce: true,
+    //     },
+    //     common: {
+    //       name: 'common',
+    //       minChunks: 2,
+    //       chunks: 'all',
+    //       reuseExistingChunk: true,
+    //       enforce: true,
+    //     }
+    //   }
+    // },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -281,9 +281,9 @@ const config = {
         fs.existsSync(`../../../web-apps-mobile/${targetPatch}/patch.jsx`) ?
         resource.request = `../../../../../../web-apps-mobile/${targetPatch}/patch.jsx` : resource
     ),
-    new BundleAnalyzerPlugin({
-      analyzerMode: env === 'development' ? 'server' : 'disabled',
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: env === 'development' ? 'server' : 'disabled',
+    // }),
   ],
 };
 
