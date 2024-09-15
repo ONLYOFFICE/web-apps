@@ -50,7 +50,7 @@ const config = {
   externals: {
     jquery: 'jQuery'
   },
-  devtool: env === 'production' ? false : 'source-map',
+  devtool: env === 'production' ? 'source-map' : 'source-map',
   optimization: {
     // splitChunks: {
     //   chunks: 'all',
