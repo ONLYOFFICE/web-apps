@@ -334,6 +334,7 @@ define([
             }
 
             me.showMathTrackOnLoad && me.onShowMathTrack(me.lastMathTrackBounds);
+            me.documentHolder && me.documentHolder.setLanguages();
         },
 
         createDelayedElements: function(view, type) {
