@@ -91,6 +91,7 @@ define([
             me.btnPrev = new Common.UI.Button({
                 parentEl: me.cmpEl.find('#prev-arrow'),
                 cls: '',
+                scaling: false,
                 iconCls: 'arrow-prev img-commonctrl'
             });
             me.btnPrev.on('click', _.bind(me.onClickPrev, me));
@@ -98,6 +99,7 @@ define([
             me.btnNext = new Common.UI.Button({
                 parentEl: me.cmpEl.find('#next-arrow'),
                 cls: '',
+                scaling: false,
                 iconCls: 'arrow-next img-commonctrl'
             });
             me.btnNext.on('click', _.bind(me.onClickNext, me));
