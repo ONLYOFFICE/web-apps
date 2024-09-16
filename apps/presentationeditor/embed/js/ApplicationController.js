@@ -86,7 +86,7 @@ PE.ApplicationController = new(function(){
             $('#box-preview').addClass('top');
         }
 
-        config.mode && (config.mode = 'view'); // always view for embedded
+        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
