@@ -1480,6 +1480,7 @@ define([
 
                 if (/^(ca|us)$/i.test(region))
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                Common.Utils.InternalSettings.set("pdfe-config-region", region);
             },
 
             onPdfModeApply: function(mode) {
