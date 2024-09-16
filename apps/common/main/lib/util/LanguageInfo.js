@@ -456,6 +456,40 @@ Common.util.LanguageInfo = new(function() {
             return null;
         },
 
+        /**
+         * @typedef {Object} LangDisplayName
+         * @property {string} native - Native name
+         * @property {string} english - English name
+         */
+        /**
+         * @param {string} code - Language code (example - 1025, 1026, ...).
+         * @returns {LangDisplayName|null} Object with a native language name (native) and an English name (english).
+         * If the English name is missing, returns an object with an empty string for English.
+         * Returns `null` if no language code is found.
+         */
+        getLocalLanguageDisplayName: function(code) {
+            var lang = localLanguageName[code];
+            if(lang) {
+                var nativeName = lang[1];
+                var englishName = lang[2];
+                function replaceBrackets(text) {
+                    let newText = text.replace('(', '– ');
+                    let lastCloseBracketIndex = newText.lastIndexOf(')');
+                    if (lastCloseBracketIndex !== -1) {
+                        newText = newText.slice(0, lastCloseBracketIndex) + newText.slice(lastCloseBracketIndex + 1);
+                    }
+                    return newText;
+                }
+
+                if(englishName) {
+                    return { native: replaceBrackets(nativeName), english: replaceBrackets(englishName) };
+                } else {
+                    return { native: nativeName, english: ''};
+                }
+            }
+            return null;
+        },
+
         getLanguages: function() {
             return localLanguageName;
         }
