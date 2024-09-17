@@ -903,6 +903,7 @@
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeBoolean": "\"Yes\" or \"no\"",
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanTrue": "Yes",
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanFalse": "No",
+  "Common.Views.DocumentPropertyDialog.errorDate": "You can choose a value from the calendar to store the value as Date.<br>If you enter a value manually, it will be stored as Text.",
   "PE.Controllers.LeftMenu.leavePageText": "All unsaved changes in this document will be lost.<br> Click \"Cancel\" then \"Save\" to save them. Click \"OK\" to discard all the unsaved changes.",
   "PE.Controllers.LeftMenu.newDocumentTitle": "Unnamed presentation",
   "PE.Controllers.LeftMenu.notcriticalErrorTitle": "Warning",

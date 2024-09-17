@@ -164,23 +164,21 @@ define([], function () { 'use strict';
 
             this.datepicker = new Common.UI.InputFieldBtnCalendar({
                 el: $('#id-dlg-value-date'),
-                allowBlank  : true,
-                validateOnChange: false,
+                allowBlank  : false,
+                blankError  : this.txtPropertyValueBlankError,
                 validateOnBlur: false,
                 value       : '',
                 dataHint    : '1',
                 dataHintDirection: 'left',
-                dataHintOffset: 'small',
-                validation: function(value) {
-                    return value.length === 0 || isNaN(new Date(value).getTime()) ? this.txtPropertyValueBlankError : true;
-                }
+                dataHintOffset: 'small'
             });
             if (this.options.defaultValue.value && currentType === 'date') {
-                this.datepicker.setValue(this.options.defaultValue.value);
+                this.datepicker.setDate(this.options.defaultValue.value);
+                this.datepicker.setValue(this.dateToString(this.options.defaultValue.value));
             }
             this.datepicker.setVisible(this.options.defaultValue.type ? this.options.defaultValue.type === AscCommon.c_oVariantTypes.vtFiletime : currentType === 'date');
-            this.datepicker.on('date:click', function (_, date) {
-                this.datepicker.setValue(date);
+            this.datepicker.on('date:click', function (cmp, date) {
+                cmp.setValue(this.dateToString(date));
             }.bind(this));
 
             var $window = this.getChild();
@@ -230,8 +228,27 @@ define([], function () { 'use strict';
                             this.datepicker.focus();
                             return;
                         }
-
-                        ascValue = new Date(this.datepicker.getValue());
+                        ascValue = this.datepicker.getDate();
+                        if (!ascValue) {
+                            ascValue = new Date(this.datepicker.getValue());
+                            if (!ascValue || !(ascValue instanceof Date) || isNaN(ascValue))
+                                ascValue = undefined;
+                        }
+                        if (!ascValue) {
+                            var me = this;
+                            Common.UI.warning({
+                                msg: me.errorDate,
+                                buttons: ['ok', 'cancel'],
+                                callback: function(btn) {
+                                    if (btn==='ok') {
+                                        me.options.handler.call(this, state, title, AscCommon.c_oVariantTypes.vtLpwstr, me.datepicker.getValue());
+                                        me.close();
+                                    } else
+                                        me.datepicker.focus();
+                                }
+                            });
+                            return;
+                        }
                         ascType = AscCommon.c_oVariantTypes.vtFiletime;
                     } else {
                         if (this.inputTextOrNumber.checkValidate() !== true)  {
@@ -266,6 +283,22 @@ define([], function () { 'use strict';
             this.close();
         },
 
+        dateToString: function (value) {
+            var text = '';
+            if (value) {
+                value = new Date(value)
+                var lang = (this.options.lang || 'en').replace('_', '-').toLowerCase();
+                try {
+                    if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'});
+                } catch (e) {
+                    lang = 'en';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'});
+                }
+            }
+            return text;
+        },
+
         txtTitle: "New Document Property",
         txtPropertyTitleLabel: "Title",
         txtPropertyTitleBlankError: 'Property should have a title',
@@ -278,6 +311,7 @@ define([], function () { 'use strict';
         txtPropertyTypeDate: "Date",
         txtPropertyTypeBoolean: '"Yes" or "no"',
         txtPropertyBooleanTrue: 'Yes',
-        txtPropertyBooleanFalse: 'No'
+        txtPropertyBooleanFalse: 'No',
+        errorDate: 'You can choose a value from the calendar to store the value as Date.<br>If you enter a value manually, it will be stored as Text.'
     }, Common.Views.DocumentPropertyDialog || {}));
 });

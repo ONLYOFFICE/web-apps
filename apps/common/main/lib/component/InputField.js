@@ -701,6 +701,8 @@ define([
                 options.btnHint = options.btnHint || this.textDate;
 
                 Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
+
+                this.dateValue = undefined;
             },
 
             render: function (parentEl) {
@@ -725,18 +727,29 @@ define([
                             firstday: 1
                         });
                         me.cmpCalendar.on('date:click', function (cmp, date) {
+                            me.dateValue = date;
                             me.trigger('date:click', me, date);
                             menu.hide();
                         });
+                        me.dateValue && me.cmpCalendar.setDate(me.dateValue);
                         menu.alignPosition();
                     }
                     me.cmpCalendar.focus();
-                })
+                });
+                this._input.on('input', function() {
+                    me.dateValue = undefined;
+                });
             },
 
             setDate: function(date) {
-                if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
+                if (date && date instanceof Date && !isNaN(date)) {
                     this.cmpCalendar && this.cmpCalendar.setDate(date);
+                    this.dateValue = date;
+                }
+            },
+
+            getDate: function() {
+                return this.dateValue;
             },
 
             textDate: 'Select date'

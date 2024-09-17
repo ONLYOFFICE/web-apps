@@ -840,6 +840,7 @@
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeBoolean": "\"Yes\" or \"no\"",
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanTrue": "Yes",
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanFalse": "No",
+  "Common.Views.DocumentPropertyDialog.errorDate": "You can choose a value from the calendar to store the value as Date.<br>If you enter a value manually, it will be stored as Text.",
   "DE.Controllers.DocProtection.txtIsProtectedComment": "Document is protected. You may only insert comments to this document.",
   "DE.Controllers.DocProtection.txtIsProtectedForms": "Document is protected. You may only fill in forms in this document.",
   "DE.Controllers.DocProtection.txtIsProtectedTrack": "Document is protected. You may edit this document, but all changes will be tracked.",
