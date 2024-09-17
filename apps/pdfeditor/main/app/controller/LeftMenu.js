@@ -369,6 +369,9 @@ define([
                 label: me.textSelectPath,
                 value: defFileName || '',
                 inputFixedConfig: {fixedValue: ext, fixedWidth: 40},
+                inputConfig: {
+                    maxLength: me.mode.wopi.FileNameMaxLength
+                },
                 handler: function(result, value) {
                     if (result == 'ok') {
                         if (typeof ext === 'string')
