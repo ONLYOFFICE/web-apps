@@ -951,7 +951,7 @@ define([
                                 arrowView.toggleClass('top', isMoveDown);
                                 arrowView.toggleClass('bottom', !isMoveDown);
                                 arrowView.removeClass('left right');
-                            } else if (sdkBoundsHeight <= outerHeight) {
+                            } else if (Math.ceil(sdkBoundsHeight) <= Math.ceil(outerHeight)) {
                                 this.$window.css({
                                     maxHeight: sdkBoundsHeight - sdkPanelHeight + 'px',
                                     top: sdkBoundsTop + sdkPanelHeight + 'px'

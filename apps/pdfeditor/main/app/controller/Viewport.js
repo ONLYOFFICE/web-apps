@@ -94,6 +94,9 @@ define([
                     'redo:disabled' : function (state) {
                         me.header.lockHeaderBtns( 'redo', state, Common.enumLock.redoLock );
                     },
+                    'docmode:disabled' : function (state) {
+                        me.header.lockHeaderBtns( 'mode', state, Common.enumLock.changeModeLock);
+                    },
                     'print:disabled' : function (state) {
                         if ( me.header.btnPrint )
                             me.header.btnPrint.setDisabled(state);
@@ -248,6 +251,7 @@ define([
             me.header.lockHeaderBtns( 'undo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'redo', _need_disable, Common.enumLock.fileMenuOpened );
             me.header.lockHeaderBtns( 'users', _need_disable );
+            me.header.lockHeaderBtns( 'mode', _need_disable, Common.enumLock.fileMenuOpened );
         },
 
         applySettings: function () {

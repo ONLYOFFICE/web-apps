@@ -689,7 +689,7 @@ define([
                 if (data.type == 'mouseup') {
                     var e = document.getElementById('editor_sdk');
                     if (e) {
-                        var r = e.getBoundingClientRect();
+                        var r = Common.Utils.getBoundingClientRect(e);
                         this.api.OnMouseUp(
                             data.x - r.left,
                             data.y - r.top
@@ -1861,6 +1861,7 @@ define([
 
                 if (/^(ca|us)$/i.test(region))
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                Common.Utils.InternalSettings.set("de-config-region", region);
             },
 
             onDocModeApply: function(mode, force, disableModeButton) {// force !== true - change mode only if not in view mode, disableModeButton: disable or not DocMode button in the header

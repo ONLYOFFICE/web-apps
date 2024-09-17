@@ -273,9 +273,9 @@ define([
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
-            toolbar.btnEditMode.on('click', function (btn, e) {
-                Common.Gateway.requestEditRights();
-            });
+            // toolbar.btnEditMode.on('click', function (btn, e) {
+            //     Common.Gateway.requestEditRights();
+            // });
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
@@ -3585,8 +3585,8 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
-                    me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
+                // if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
+                //     me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
 
                 if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator

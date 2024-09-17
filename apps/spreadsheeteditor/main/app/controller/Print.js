@@ -778,9 +778,9 @@ define([
                         },1);
                     });
 
-                    var xy = panel.$window.offset();
+                    var xy = Common.Utils.getOffset(panel.$window);
                     panel.hide();
-                    win.show(xy.left + 160, xy.top + 125);
+                    win.show(panel.$window, xy);
                     win.setSettings({
                         api     : me.api,
                         range   : (!_.isEmpty(txtRange.getValue()) && (txtRange.checkValidate()==true)) ? txtRange.getValue() : ((type=='top') ? panel.dataRangeTop : panel.dataRangeLeft),

@@ -459,7 +459,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
@@ -477,7 +477,7 @@ define([
 
             var btns = this.$el.find('button.btn-category:visible'),
                 lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
-            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 

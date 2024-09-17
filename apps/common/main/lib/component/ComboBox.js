@@ -359,7 +359,7 @@ define([
                     $selected = $list.find('> li.selected');
 
                 if ($selected.length) {
-                    var itemTop = $selected.position().top,
+                    var itemTop = Common.Utils.getPosition($selected).top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = $list.outerHeight();
 
@@ -524,7 +524,7 @@ define([
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
-                        var itemTop = item.position().top,
+                        var itemTop = Common.Utils.getPosition(item).top,
                             itemHeight = item.outerHeight(),
                             listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {

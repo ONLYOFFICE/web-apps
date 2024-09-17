@@ -86,6 +86,7 @@ PE.ApplicationController = new(function(){
             $('#box-preview').addClass('top');
         }
 
+        config.mode = 'view'; // always view for embedded
         config.canCloseEditor = false;
         var _canback = false;
         if (typeof config.customization === 'object') {
@@ -533,7 +534,7 @@ PE.ApplicationController = new(function(){
         appOptions.canBranding && setBranding(config.customization);
 
         var $parent = labelDocName.parent();
-        var _left_width = $parent.position().left,
+        var _left_width = common.utils.getPosition($parent).left,
             _right_width = $parent.next().outerWidth();
 
         if ( _left_width < _right_width )
@@ -735,7 +736,7 @@ PE.ApplicationController = new(function(){
         if (data.type == 'mouseup') {
             var e = document.getElementById('editor_sdk');
             if (e) {
-                var r = e.getBoundingClientRect();
+                var r = common.utils.getBoundingClientRect(e);
                 api.OnMouseUp(
                     data.x - r.left,
                     data.y - r.top

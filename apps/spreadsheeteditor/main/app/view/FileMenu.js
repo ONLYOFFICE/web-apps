@@ -586,7 +586,7 @@ define([
                     panel.show(opts);
 
                     if (this.scroller) {
-                        var itemTop = item.$el.position().top,
+                        var itemTop = Common.Utils.getPosition(item.$el).top,
                             itemHeight = item.$el.outerHeight(),
                             listHeight = this.$el.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {

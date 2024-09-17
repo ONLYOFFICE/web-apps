@@ -113,6 +113,9 @@
                 text-align: center;
                 color: @text-toolbar-header-ie;
                 color: @text-toolbar-header;
+                &:focus {
+                    outline: none;
+                }
             }
 
             &.active {
@@ -608,8 +611,8 @@
             }
 
             svg.icon {
-                fill: @icon-toolbar-header-ie;
-                fill: @icon-toolbar-header;
+                fill: @icon-normal-ie;
+                fill: @icon-normal;
             }
 
             .caption {
@@ -640,8 +643,8 @@
                     background-color: @highlight-button-pressed;
 
                     svg.icon {
-                        fill: @icon-toolbar-header-ie;
-                        fill: @icon-toolbar-header;
+                        fill: @icon-normal-pressed-ie;
+                        fill: @icon-normal-pressed;
                     }
 
                     .caption {

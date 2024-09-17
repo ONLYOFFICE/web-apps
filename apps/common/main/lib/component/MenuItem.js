@@ -217,7 +217,7 @@ define([
                                 if (left + actualWidth > innerWidth) {
                                     left = pos.left - actualWidth - 2;
                                 }
-                                $(tip).offset({top: top,left: left}).addClass('in');
+                                Common.Utils.setOffset($(tip),{top: top,left: left}).addClass('in');
                             }
                         });
                     }
