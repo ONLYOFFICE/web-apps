@@ -81,12 +81,12 @@ define([
             Common.NotificationCenter.trigger('script:loaded:spellcheck');
             if (this.api) {
                 this.api.asc_registerCallback('asc_onSpellCheckVariantsFound', _.bind(this.onSpellCheckVariantsFound, this));
+                this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             }
         },
 
         setApi: function(api) {
             this.api = api;
-            this.api.asc_registerCallback('asc_onEditCell', _.bind(this.onApiEditCell, this));
             return this;
         },
 
