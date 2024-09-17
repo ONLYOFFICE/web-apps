@@ -2722,12 +2722,16 @@ define([
                 for (var code in allLangs) {
                     if (allLangs.hasOwnProperty(code)) {
                         info = allLangs[code];
-                        info[2] && langs.push({
-                            displayValue:   info[1],
-                            value:          info[0],
-                            code:           parseInt(code),
-                            spellcheck:     _.indexOf(apiLangs, code)>-1
-                        });
+                        if(info[2]) {
+                            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
+                            langs.push({
+                                displayValue:   displayName.native,
+                                displayValueEn: displayName.english,
+                                value:          info[0],
+                                code:           parseInt(code),
+                                spellcheck:     _.indexOf(apiLangs, code)>-1
+                            });
+                        }
                     }
                 }
 

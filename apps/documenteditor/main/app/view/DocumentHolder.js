@@ -201,6 +201,7 @@ define([
                 _.each(langs, function(lang) {
                     var item = {
                         caption     : lang.displayValue,
+                        captionEn   : lang.displayValueEn,
                         value       : lang.value,
                         checkable   : true,
                         langid      : lang.code,

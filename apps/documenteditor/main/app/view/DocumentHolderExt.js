@@ -758,9 +758,12 @@ define([], function () {
             });
 
             var langTemplate = _.template([
-                '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value %>" class="<% if (checked) { %> checked <% } %>">',
-                '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
-                '<%= caption %>',
+                '<a id="<%= id %>" tabindex="-1" type="menuitem" langval="<%= value.value %>" class="<% if (checked) { %> checked <% } %>">',
+                    '<div>',
+                        '<i class="icon <% if (spellcheck) { %> toolbar__icon btn-ic-docspell spellcheck-lang <% } %>"></i>',
+                        '<%= caption %>',
+                    '</div>',
+                    '<label style="opacity: 0.6"><%= captionEn %></label>',
                 '</a>'
             ].join(''));
 
@@ -774,6 +777,7 @@ define([], function () {
                     items   : [],
                     itemTemplate: langTemplate,
                     search: true,
+                    searchFields: ['caption', 'captionEn'],
                     focusToCheckedItem: true
                 })
             });
@@ -1506,6 +1510,7 @@ define([], function () {
                     items   : [],
                     itemTemplate: langTemplate,
                     search: true,
+                    searchFields: ['caption', 'captionEn'],
                     focusToCheckedItem: true
                 })
             });
