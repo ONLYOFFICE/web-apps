@@ -88,6 +88,7 @@ define([], function () { 'use strict';
                 el: $('#id-dlg-title'),
                 allowBlank: false,
                 validateOnBlur: false,
+                hideErrorOnInput: true,
                 validation: function(value) {
                     return value.length === 0 ? this.txtPropertyTitleBlankError : true;
                 }
@@ -124,6 +125,7 @@ define([], function () { 'use strict';
                 el: $('#id-dlg-value-input'),
                 style: 'width: 100%;',
                 validateOnBlur: false,
+                hideErrorOnInput: true,
                 validation: function(value) {
                     if (value.length === 0) {
                         return this.txtPropertyValueBlankError;
@@ -168,6 +170,7 @@ define([], function () { 'use strict';
                 blankError  : this.txtPropertyValueBlankError,
                 validateOnBlur: false,
                 value       : '',
+                hideErrorOnInput: true,
                 dataHint    : '1',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'

@@ -73,7 +73,8 @@ define([
                 validateOnChange: false,
                 validateOnBlur: true,
                 disabled: false,
-                editable: true
+                editable: true,
+                hideErrorOnInput: false
             },
 
             template: _.template([
@@ -114,6 +115,7 @@ define([
                 this.validateOnChange = me.options.validateOnChange;
                 this.validateOnBlur = me.options.validateOnBlur;
                 this.maxLength      = me.options.maxLength;
+                this.hideErrorOnInput = me.options.hideErrorOnInput;
 
                 me.rendered         = me.options.rendered || false;
 
@@ -361,7 +363,12 @@ define([
                         if (modalParents.length > 0) {
                             errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         }
-
+                        if (me.hideErrorOnInput) {
+                            var onInputChanging = function() {
+                                me.showError();
+                            };
+                            me._input.one('input', onInputChanging);
+                        }
                         return errors;
                     }
                 } else {
@@ -390,6 +397,12 @@ define([
 
                     if (modalParents.length > 0) {
                         errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                    }
+                    if (me.hideErrorOnInput) {
+                        var onInputChanging = function() {
+                            me.showError();
+                        };
+                        me._input.one('input', onInputChanging);
                     }
                 } else {
                     me.cmpEl.removeClass('error');
