@@ -642,7 +642,9 @@ define([], function () {
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                item.displayValue = langinfo[1];
+                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
+                item.displayValue = displayName.native;
+                item.displayValueEn = displayName.english;
                 item.langName = langinfo[0];
             });
 
@@ -653,6 +655,20 @@ define([], function () {
                 restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" langval="<%= item.value %>">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 data        : regdata
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
@@ -800,6 +816,20 @@ define([], function () {
                 editable: false,
                 restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" langval="<%= item.value %>">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
