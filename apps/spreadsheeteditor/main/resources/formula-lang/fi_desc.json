@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(kuvaus_laji; [viittaus])",
-		"d": "Palauttaa tietoja solun muotoilusta, sijainnista ja sisällöstä"
+		"d": "Palauttaa tietoja solun muotoilusta, sijainnista ja sisällöstä",
+        "ad": "tekstimerkkijono, joka määrittää, millaisia tietoja solusta halutaan tulokseksi!solu, josta halutaan tietoja"
 	},
 	"ERROR.TYPE": {
 		"a": "(virhearvo)",

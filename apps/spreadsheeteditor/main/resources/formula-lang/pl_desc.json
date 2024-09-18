@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(typ_info; [odwołanie])",
-		"d": "Zwraca informacje o formatowaniu, położeniu lub zawartości komórki"
+		"d": "Zwraca informacje o formatowaniu, położeniu lub zawartości komórki",
+        "ad": "- jest to wartość tekstowa, określająca żądany typ informacji o komórce!- jest to komórka, o której chcesz uzyskać informacje"
 	},
 	"ERROR.TYPE": {
 		"a": "(błąd_wartość)",

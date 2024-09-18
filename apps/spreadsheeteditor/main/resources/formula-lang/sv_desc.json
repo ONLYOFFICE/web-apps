@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(infotyp; [referens])",
-		"d": "Returnerar information om formatering, placering eller innehåll för en cell"
+		"d": "Returnerar information om formatering, placering eller innehåll för en cell",
+        "ad": "ett textvärde som anger vilken typ av cellinformation du vill returnera!den cell du vill ha information om"
 	},
 	"ERROR.TYPE": {
 		"a": "(felvärde)",

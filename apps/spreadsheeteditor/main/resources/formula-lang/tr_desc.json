@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(bilgi_türü; [başvuru])",
-		"d": "Hücrenin biçimlendirmesi, konumu ve içeriği hakkındaki bilgileri verir"
+		"d": "Hücrenin biçimlendirmesi, konumu ve içeriği hakkındaki bilgileri verir",
+        "ad": "hangi türde hücre bilgisi vermek istediğinizi belirten metin değeri!hakkında bilgi almak istediğiniz hücre"
 	},
 	"ERROR.TYPE": {
 		"a": "(hata_değer)",

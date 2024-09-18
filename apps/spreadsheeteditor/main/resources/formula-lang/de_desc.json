@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Werden Informationen zur Formatierung, zur Position oder zum Inhalt einer Zelle zurückgegeben"
+		"d": "Werden Informationen zur Formatierung, zur Position oder zum Inhalt einer Zelle zurückgegeben",
+        "ad": "ein Textwert, der angibt, welcher Typ von Zellinformationen zurückgegeben werden soll!die Zelle, zu der Sie Informationen wünschen"
 	},
 	"ERROR.TYPE": {
 		"a": "(Fehlerwert)",

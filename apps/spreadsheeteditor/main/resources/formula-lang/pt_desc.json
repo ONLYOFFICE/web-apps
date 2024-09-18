@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(tipo_info; [referência])",
-		"d": "Devolve informações sobre a formatação, localização ou conteúdo de uma célula"
+		"d": "Devolve informações sobre a formatação, localização ou conteúdo de uma célula",
+        "ad": "valor de texto que especifica o tipo de informação da célula que pretende devolver!a célula da qual pretende obter informações"
 	},
 	"ERROR.TYPE": {
 		"a": "(val_erro)",

@@ -2102,7 +2102,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Restituisce informazioni sulla formattazione, la posizione o il contenuto di una cella"
+		"d": "Restituisce informazioni sulla formattazione, la posizione o il contenuto di una cella",
+        "ad": "valore di testo che indica il tipo di dati della cella che devono essere restituiti!cella di cui si desidera ottenere informazioni"
 	},
 	"ERROR.TYPE": {
 		"a": "(errore)",

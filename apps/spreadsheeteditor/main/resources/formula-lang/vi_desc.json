@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Trả về thông tin về định dạng, vị trí hay nội dung của một ô"
+		"d": "Trả về thông tin về định dạng, vị trí hay nội dung của một ô",
+        "ad": "giá trị văn bản xác định bạn muốn trả về kiểu thông tin ô nào!ô mà bạn muốn có thông tin"
 	},
 	"ERROR.TYPE": {
 		"a": "(error_val)",

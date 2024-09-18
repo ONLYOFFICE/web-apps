@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Devuelve información sobre el formato, la ubicación o el contenido de una celda"
+		"d": "Devuelve información sobre el formato, la ubicación o el contenido de una celda",
+        "ad": "es un valor de texto que especifica el tipo de información de la celda que se desea obtener!la celda sobre la que desea información"
 	},
 	"ERROR.TYPE": {
 		"a": "(valor_de_error)",

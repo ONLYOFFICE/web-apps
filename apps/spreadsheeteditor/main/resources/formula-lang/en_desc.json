@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Returns information about the formatting, location, or contents of a cell"
+		"d": "Returns information about the formatting, location, or contents of a cell",
+        "ad": "is a text value that specifies what type of cell information you want to return!the cell that you want information about"
 	},
 	"ERROR.TYPE": {
 		"a": "(error_val)",

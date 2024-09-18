@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(infótípus; [hivatkozás])",
-		"d": "Egy cella formázásáról, helyéről vagy tartalmáról ad információt"
+		"d": "Egy cella formázásáról, helyéről vagy tartalmáról ad információt",
+        "ad": "szöveges érték, amellyel megadhatja, hogy milyen típusú adatot szeretne megtudni a celláról!az a cella, amelyről információt szeretne kapni"
 	},
 	"ERROR.TYPE": {
 		"a": "(hibaérték)",

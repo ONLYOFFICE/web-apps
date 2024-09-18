@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_tips; [atsauce])",
-		"d": "Atgriež informāciju par šūnas formatējumu, atrašanās vietu vai saturu"
+		"d": "Atgriež informāciju par šūnas formatējumu, atrašanās vietu vai saturu",
+        "ad": "Teksta vērtība, kas norāda, kādu šūnas informācijas tipu vēlaties atgriezt!Šūna, par kuru vēlaties informāciju"
 	},
 	"ERROR.TYPE": {
 		"a": "(kļūdas_vērt)",

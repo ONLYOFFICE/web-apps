@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(infotype; [verwijzing])",
-		"d": "Geeft als resultaat informatie over de opmaak, locatie of inhoud van een cel"
+		"d": "Geeft als resultaat informatie over de opmaak, locatie of inhoud van een cel",
+        "ad": "dit is een tekstwaarde waarmee u opgeeft welk informatietype u voor de cel wilt ophalen!de cel waarover u informatie wilt ophalen"
 	},
 	"ERROR.TYPE": {
 		"a": "(foutwaarde)",

@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule"
+		"d": "Renvoie des informations sur la mise en forme, l’emplacement ou le contenu d’une cellule",
+        "ad": "valeur de texte qui spécifie le type d’informations de cellule que vous voulez obtenir!représente la cellule dont vous voulez obtenir des informations"
 	},
 	"ERROR.TYPE": {
 		"a": "(valeur)",

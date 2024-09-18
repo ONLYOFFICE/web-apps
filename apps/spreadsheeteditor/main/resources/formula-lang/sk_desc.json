@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(typ_informácií; [odkaz])",
-		"d": "Vráti informácie o formátovaní, umiestnení alebo obsahu bunky"
+		"d": "Vráti informácie o formátovaní, umiestnení alebo obsahu bunky",
+        "ad": "textová hodnota, ktorá určuje typ požadovanej informácie!bunka, o ktorej chcete získať informácie"
 	},
 	"ERROR.TYPE": {
 		"a": "(hodnota_chyby)",

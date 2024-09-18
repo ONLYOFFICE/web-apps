@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(informace; [odkaz])",
-		"d": "Vrátí informace o formátování, umístění nebo obsahu buňky"
+		"d": "Vrátí informace o formátování, umístění nebo obsahu buňky",
+        "ad": "textová hodnota, která určuje typ informací o buňce, které mají být vráceny!adresa buňky, o které chcete získat informace"
 	},
 	"ERROR.TYPE": {
 		"a": "(chyba)",

@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(tip_info; [referință])",
-		"d": "Returnează informații despre formatare, locație și conținutul unei celule"
+		"d": "Returnează informații despre formatare, locație și conținutul unei celule",
+        "ad": "este o valoare text care specifică tipul de informații de celulă de returnat!celula pentru care doriți informații"
 	},
 	"ERROR.TYPE": {
 		"a": "(val_er)",

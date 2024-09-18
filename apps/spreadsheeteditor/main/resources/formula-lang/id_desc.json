@@ -2151,7 +2151,8 @@
 	},
 	"CELL": {
 		"a": "(info_type; [reference])",
-		"d": "Mengembalikan informasi tentang pemformatan, lokasi, atau konten sel"
+		"d": "Mengembalikan informasi tentang pemformatan, lokasi, atau konten sel",
+        "ad": "nilai teks yang menentukan tipe informasi sel apa yang ingin Anda hasilkan!sel yang Anda inginkan informasinya"
 	},
 	"ERROR.TYPE": {
 		"a": "(error_val)",

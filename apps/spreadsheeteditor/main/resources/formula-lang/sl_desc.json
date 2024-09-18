@@ -2152,7 +2152,8 @@
 	},
 	"CELL": {
 		"a": "(vrsta_informacij; [sklic])",
-		"d": "Vrne informacije o oblikovanju, mestu ali vsebini celice"
+		"d": "Vrne informacije o oblikovanju, mestu ali vsebini celice",
+        "ad": "besedilna vrednost, ki določa, kakšno vrsto informacij o celici želite dobiti!celica, o kateri želite dobiti informacije"
 	},
 	"ERROR.TYPE": {
 		"a": "(vrednost_napake)",
