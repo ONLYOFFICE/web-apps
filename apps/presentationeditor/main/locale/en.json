@@ -2053,6 +2053,7 @@
   "PE.Views.FileMenuPanels.DocumentInfo.txtProperties": "Properties",
   "PE.Views.FileMenuPanels.DocumentInfo.txtDocumentPropertyUpdateTitle": "Document Property",
   "PE.Views.FileMenuPanels.DocumentInfo.txtAddProperty": "Add property",
+  "PE.Views.FileMenuPanels.DocumentInfo.txtPropertyTitleConflictError": "Property with this title already exists",
   "PE.Views.FileMenuPanels.DocumentRights.txtAccessRights": "Access rights",
   "PE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "PE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",

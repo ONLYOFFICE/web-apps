@@ -2194,6 +2194,7 @@
   "DE.Views.FileMenuPanels.DocumentInfo.txtProperties": "Properties",
   "DE.Views.FileMenuPanels.DocumentInfo.txtDocumentPropertyUpdateTitle": "Document Property",
   "DE.Views.FileMenuPanels.DocumentInfo.txtAddProperty": "Add property",
+  "DE.Views.FileMenuPanels.DocumentInfo.txtPropertyTitleConflictError": "Property with this title already exists",
   "DE.Views.FileMenuPanels.DocumentRights.txtAccessRights": "Access rights",
   "DE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "DE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",

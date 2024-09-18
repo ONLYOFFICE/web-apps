@@ -2660,6 +2660,7 @@
   "SSE.Views.FileMenuPanels.DocumentInfo.txtProperties": "Properties",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtDocumentPropertyUpdateTitle": "Document Property",
   "SSE.Views.FileMenuPanels.DocumentInfo.txtAddProperty": "Add property",
+  "SSE.Views.FileMenuPanels.DocumentInfo.txtPropertyTitleConflictError": "Property with this title already exists",
   "SSE.Views.FileMenuPanels.DocumentRights.txtAccessRights": "Access Rights",
   "SSE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "SSE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",

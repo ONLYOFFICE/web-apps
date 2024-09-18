@@ -1470,16 +1470,6 @@ define([], function () {
                         '</tr>',
                     '</table>',
                 '</div>',
-                '<div id="fms-flex-apply">',
-                    '<table class="main">',
-                        '<tr>',
-                            '<td class="left"></td>',
-                            '<td class="right">',
-                                '<button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><%= scope.okButtonText %></button>',
-                            '</td>',
-                        '</tr>',
-                    '</table>',
-                '</div>'
             ].join(''));
 
             this.infoObj = {PageCount: 0, WordsCount: 0, ParagraphCount: 0, SymbolsCount: 0, SymbolsWSCount:0};
@@ -1537,7 +1527,11 @@ define([], function () {
                 dataHintDirection: 'left',
                 dataHintOffset: 'small',
                 ariaLabel: this.txtTitle
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putTitle(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputTags = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
@@ -1547,7 +1541,11 @@ define([], function () {
                 dataHintDirection: 'left',
                 dataHintOffset: 'small',
                 ariaLabel: this.txtTags
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putKeywords(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
@@ -1557,7 +1555,11 @@ define([], function () {
                 dataHintDirection: 'left',
                 dataHintOffset: 'small',
                 ariaLabel: this.txtSubject
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putSubject(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
@@ -1567,7 +1569,10 @@ define([], function () {
                 dataHintDirection: 'left',
                 dataHintOffset: 'small',
                 ariaLabel: this.txtComment
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putDescription(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
 
             // modify info
             this.lblModifyDate = $markup.findById('#id-info-modify-date');
@@ -1587,6 +1592,8 @@ define([], function () {
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.coreProps.asc_putCreator(me.authors.join(';'));
+                    me.api.asc_setCoreProps(me.coreProps);
                     me.updateScroller(true);
                 }
             });
@@ -1619,6 +1626,9 @@ define([], function () {
                     });
                     !isFromApply && me.inputAuthor.setValue('');
                 }
+
+                me.coreProps.asc_putCreator(me.authors.join(';'));
+                me.api.asc_setCoreProps(me.coreProps);
             }).on('keydown:before', keyDownBefore);
 
             // pdf info
@@ -1631,17 +1641,10 @@ define([], function () {
             this.lblPdfProducer = $markup.findById('#id-info-pdf-produce');
             this.lblFastWV = $markup.findById('#id-info-fast-wv');
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fminfo-btn-apply')
-            });
-            this.btnApply.on('click', _.bind(this.applySettings, this));
-
             this.btnAddProperty = new Common.UI.Button({
                 el: $markup.findById('#fminfo-btn-add-property')
             });
             this.btnAddProperty.on('click', _.bind(this.onAddPropertyClick, this));
-
-            this.pnlApply = $markup.findById('#fms-flex-apply');
 
             this.rendered = true;
 
@@ -1730,12 +1733,8 @@ define([], function () {
                 this._ShowHideInfoItem(this.lblDate, !!value);
             } else if (pdfProps)
                 this.updatePdfInfo(pdfProps);
-
-            if (this.api) {
-                _.each(this.api.asc_getAllCustomProperties(), _.bind(function(prop, idx) {
-                    this.renderCustomProperty(prop.asc_getName(), prop.asc_getType(), prop.asc_getValue(), idx);
-                }, this));
-            }
+            
+            this.renderCustomProperties();
         },
 
         updateFileInfo: function() {
@@ -1898,7 +1897,7 @@ define([], function () {
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.pnlApply.toggleClass('hidden', !mode.isEdit);
+            this.btnAddProperty.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             this.inputTitle._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
             this.inputTags._input.attr('placeholder', mode.isEdit ? this.txtAddText : '');
@@ -1962,10 +1961,10 @@ define([], function () {
                 value = this.dateToString(new Date(value), true);
             }
 
-            return '<tr data-name="' + name +'">' +
+            return '<tr data-custom-property>' +
                 '<td class="left"><label>' + name + '</label></td>' +
                 '<td class="right"><div class="custom-property-wrapper">' +
-                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' +  value +'">' +
+                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + Common.Utils.String.htmlEncode(value) +'">' +
                 '<div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div>' +
                 '</div></td></tr>';
         },
@@ -1985,49 +1984,59 @@ define([], function () {
             return text;
         },
 
-        renderCustomProperty: function(name, type, value, idx) {
-            var me = this;
-
-            var currentCustomProperty = $('tr[data-name="' + name + '"]');
-            if (currentCustomProperty.length) {
-                currentCustomProperty.off('click');
-                currentCustomProperty.html($(this.tplCustomProperty(name, type, value)));
-            } else {
-                currentCustomProperty = $(this.tplCustomProperty(name, type, value));
-                $('tbody.properties-tab').append(currentCustomProperty);
+        renderCustomProperties: function() {
+            if (!this.api) {
+                return;
             }
 
-            currentCustomProperty.on('click', function (e) {
-                if (currentCustomProperty.find('div.disabled').length) {
-                    return;
-                }
+            $('tr[data-custom-property]').remove();
 
-                var btn = currentCustomProperty.find(e.target);
-                if (btn.hasClass('close')) {
-                    me.api.asc_removeCustomProperty(idx);
-                    $('tr[data-name="' + name + '"]').remove();
-                } else if (btn.hasClass('form-control')) {
-                    (new Common.Views.DocumentPropertyDialog({
-                        title: me.txtDocumentPropertyUpdateTitle,
-                        lang: me.mode.lang,
-                        defaultValue: {
-                            name: name,
-                            type: type,
-                            value: value
-                        },
-                        handler: function(result, name, type, value) {
-                            if (result === 'ok') {
-                                me.api.asc_modifyCustomProperty(idx, name, type, value);
-                                me.renderCustomProperty(name, type, value, idx);
+            var properties = this.api.asc_getAllCustomProperties();
+            _.each(properties, _.bind(function(prop, idx) {
+                var me = this, name = prop.asc_getName(), type = prop.asc_getType(), value = prop.asc_getValue();
+                var $propertyEl = $(this.tplCustomProperty(name, type, value));
+
+                $('tbody.properties-tab').append($propertyEl);
+
+                $propertyEl.on('click', function (e) {
+                    if ($propertyEl.find('div.disabled').length) {
+                        return;
+                    }
+
+                    var btn = $propertyEl.find(e.target);
+                    if (btn.hasClass('close')) {
+                        me.api.asc_removeCustomProperty(idx);
+                        me.renderCustomProperties();
+                    } else if (btn.hasClass('form-control')) {
+                        (new Common.Views.DocumentPropertyDialog({
+                            title: me.txtDocumentPropertyUpdateTitle,
+                            lang: me.mode.lang,
+                            defaultValue: {
+                                name: name,
+                                type: type,
+                                value: value
+                            },
+                            nameValidator: function(newName) {
+                                if (newName !== name && _.some(properties, function (prop) { return prop.name === newName; })) {
+                                    return me.txtPropertyTitleConflictError;
+                                }
+
+                                return true;
+                            },
+                            handler: function(result, name, type, value) {
+                                if (result === 'ok') {
+                                    me.api.asc_modifyCustomProperty(idx, name, type, value);
+                                    me.renderCustomProperties();
+                                }
                             }
-                        }
-                    })).show();
-                }
-            })
+                        })).show();
+                    }
+                });
+            }, this));
         },
 
         setDisabledCustomProperties: function(disable) {
-            _.each($('tr[data-name]'), function(prop) {
+            _.each($('tr[data-custom-property]'), function(prop) {
                 $(prop).find('div.custom-property-wrapper')[disable ? 'addClass' : 'removeClass']('disabled');
                 $(prop).find('div.close')[disable ? 'hide' : 'show']();
             })
@@ -2070,7 +2079,6 @@ define([], function () {
             this.inputAuthor.setDisabled(disable);
             this.tblAuthor.find('.close').toggleClass('disabled', this._state._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnApply.setDisabled(this._state._locked);
             this.btnAddProperty.setDisabled(disable);
             this.setDisabledCustomProperties(disable);
         },
@@ -2079,29 +2087,21 @@ define([], function () {
             var me = this;
             (new Common.Views.DocumentPropertyDialog({
                 lang: me.mode.lang,
+                nameValidator: function(newName) {
+                    var properties = me.api.asc_getAllCustomProperties();
+                    if (_.some(properties, function (prop) { return prop.name === newName; })) {
+                        return me.txtPropertyTitleConflictError;
+                    }
+
+                    return true;
+                },
                 handler: function(result, title, type, value) {
                     if (result === 'ok') {
                         me.api.asc_addCustomProperty(title, type, value);
-                        var properties = me.api.asc_getAllCustomProperties();
-                        if (properties.length) {
-                            var prop = properties[properties.length - 1];
-                            me.renderCustomProperty(prop.asc_getName(), prop.asc_getType(), prop.asc_getValue(), properties.length - 1);
-                        }
+                        me.renderCustomProperties();
                     }
                 }
             })).show();
-        },
-
-        applySettings: function() {
-            if (this.coreProps && this.api) {
-                this.coreProps.asc_putTitle(this.inputTitle.getValue());
-                this.coreProps.asc_putKeywords(this.inputTags.getValue());
-                this.coreProps.asc_putSubject(this.inputSubject.getValue());
-                this.coreProps.asc_putDescription(this.inputComment.getValue());
-                this.coreProps.asc_putCreator(this.authors.join(';'));
-                this.api.asc_setCoreProps(this.coreProps);
-            }
-            this.menu.hide();
         },
 
         txtPlacement: 'Location',
@@ -2139,6 +2139,7 @@ define([], function () {
         txtProperties: 'Properties',
         txtDocumentInfo: 'Document Info',
         txtDocumentPropertyUpdateTitle: "Document Property",
+        txtPropertyTitleConflictError: 'Property with this title already exists',
         txtAddProperty: 'Add property'
 
     }, DE.Views.FileMenuPanels.DocumentInfo || {}));

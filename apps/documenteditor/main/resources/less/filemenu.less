@@ -54,7 +54,7 @@
 
       .header {
         .font-size-very-huge();
-        margin-bottom: 20px;
+        margin-bottom: 30px;
       }
 
       .format-items {
@@ -205,7 +205,7 @@
 
   .header {
     .font-size-very-huge();
-    line-height: 26px;
+    line-height: 22px;
   }
 
   table {
@@ -226,7 +226,7 @@
     tr {
       display: flex;
       gap: 24px;
-      align-items: center;
+
       td {
         font-size: 11px;
         line-height: 16px;
@@ -241,8 +241,12 @@
 
         &.left {
           width: 120px;
-          height: 16px;
           flex-shrink: 0;
+          line-height: 22px;
+
+          label {
+            overflow-wrap: break-word;
+          }
         }
 
         &.right {
@@ -380,7 +384,7 @@
     padding: 0 0 0 10px;
     white-space: nowrap;
     margin-top: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     .rtl & {
       padding: 0 10px 10px 0;
@@ -794,7 +798,7 @@
   }
 
   #fms-btn-invisible-sign {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
   #id-fms-lbl-protect-header {

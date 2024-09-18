@@ -84,13 +84,17 @@ define([], function () { 'use strict';
         render: function() {
             Common.UI.Window.prototype.render.call(this);
 
+            var me = this;
             this.inputTitle = new Common.UI.InputField({
                 el: $('#id-dlg-title'),
                 allowBlank: false,
+                blankError: this.txtPropertyTitleBlankError,
                 validateOnBlur: false,
                 hideErrorOnInput: true,
                 validation: function(value) {
-                    return value.length === 0 ? this.txtPropertyTitleBlankError : true;
+                    if (me.options.nameValidator !== undefined) {
+                        return me.options.nameValidator(value);
+                    }
                 }
             });
             if (this.options.defaultValue.name) {
@@ -111,7 +115,8 @@ define([], function () { 'use strict';
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
-                ariaLabel: this.strLineHeight
+                ariaLabel: this.strLineHeight,
+                takeFocusOnClose: true
             });
             var currentType = this.options.defaultValue.type ? this.asc2type(this.options.defaultValue.type) : 'text'
             this.comboboxType.setValue(currentType);
@@ -126,11 +131,9 @@ define([], function () { 'use strict';
                 style: 'width: 100%;',
                 validateOnBlur: false,
                 hideErrorOnInput: true,
+                allowBlank: false,
+                blankError: this.txtPropertyValueBlankError,
                 validation: function(value) {
-                    if (value.length === 0) {
-                        return this.txtPropertyValueBlankError;
-                    }
-
                     if (this.comboboxType.getValue() === 'number' && (typeof value !== 'number' && isNaN(value.replace(',', '.')))) {
                         return this.txtPropertyTypeNumberInvalid;
                     }
@@ -159,7 +162,8 @@ define([], function () { 'use strict';
                 dataHint: '1',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big',
-                ariaLabel: this.strLineHeight
+                ariaLabel: this.strLineHeight,
+                takeFocusOnClose: true
             });
             this.comboboxBoolean.setValue(this.options.defaultValue.value !== undefined && currentType === 'boolean' ? (this.options.defaultValue.value ? 1 : 0) : 1);
             this.comboboxBoolean.setVisible(this.options.defaultValue.type ? this.options.defaultValue.type === AscCommon.c_oVariantTypes.vtBool : currentType === 'boolean');
