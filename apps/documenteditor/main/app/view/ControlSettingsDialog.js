@@ -208,7 +208,9 @@ define([
                 { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             data.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                item.displayValue = langinfo[1];
+                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
+                item.displayValue = displayName.native;
+                item.displayValueEn = displayName.english;
                 item.langName = langinfo[0];
             });
 
@@ -218,8 +220,21 @@ define([
                 cls         : 'input-group-nr',
                 editable    : false,
                 takeFocusOnClose: true,
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                            '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
                 data        : data,
                 search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 scrollAlwaysVisible: true
             });
             this.cmbLang.setValue(0x0409);

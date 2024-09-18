@@ -773,6 +773,7 @@ define([
             offset      : [0, 0],
             cyclic      : true,
             search      : false,
+            searchFields: ['caption'], // Property name from the item to be searched by
             scrollAlwaysVisible: true,
             scrollToCheckedItem: true, // if true - scroll menu to checked item on menu show
             focusToCheckedItem: false // if true - move focus to checked item on menu show
@@ -1100,26 +1101,36 @@ define([
         },
 
         selectCandidate: function() {
-            var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+            var me = this,
+                index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                 re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                isFirstCharsEqual = re.test(this.items[index].caption),
+                isFirstCharsEqual = this.options.searchFields.some(function(field) {
+                    return re.test(me.items[index][field]);
+                }),
                 itemCandidate, idxCandidate;
 
             for (var i=0; i<this.items.length; i++) {
-                var item = this.items[i];
-                if (re.test(item.caption)) {
-                    if (!itemCandidate) {
-                        itemCandidate = item;
-                        idxCandidate = i;
-                        if(!isFirstCharsEqual) 
-                            break;                    
+                var item = this.items[i],
+                    isBreak = false;
+                this.options.searchFields.forEach(function(fieldName) {
+                    if (item[fieldName] && re.test(item[fieldName])) {
+                        if (!itemCandidate) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                            if(!isFirstCharsEqual) {
+                                isBreak = true;
+                                return;
+                            }
+                        }
+                        if (me._search.full && i==index || i>index) {
+                            itemCandidate = item;
+                            idxCandidate = i;
+                            isBreak = true;
+                            return;
+                        }
                     }
-                    if (this._search.full && i==index || i>index) {
-                        itemCandidate = item;
-                        idxCandidate = i;
-                        break;
-                    }
-                }
+                });
+                if(isBreak) break;
             }
 
             if (itemCandidate) {

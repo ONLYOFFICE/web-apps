@@ -141,14 +141,16 @@ define([
             }
 
             if (this.languages && this.languages.length>0) {
-                var langs = [], info;
+                var langs = [], info, displayName;
                 this.allLangs = Common.util.LanguageInfo.getLanguages();
                 this.languages.forEach(function (code) {
                     code = parseInt(code);
                     if (me.allLangs.hasOwnProperty(code)) {
                         info = me.allLangs[code];
+                        displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
                         langs.push({
-                            displayValue:   info[1],
+                            displayValue: displayName.native,
+                            displayValueEn: displayName.english,
                             shortName:      info[0],
                             value:          code
                         });
