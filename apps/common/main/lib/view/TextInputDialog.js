@@ -82,6 +82,7 @@ define([], function () { 'use strict';
                 el          : $('#id-dlg-label-custom-input'),
                 allowBlank  : me.inputConfig.allowBlank,
                 blankError  : me.inputConfig.blankError,
+                maxLength   : me.inputConfig.maxLength,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
                 validation  : me.inputConfig.validation
@@ -89,6 +90,7 @@ define([], function () { 'use strict';
                 el          : $('#id-dlg-label-custom-input'),
                 allowBlank  : me.inputConfig.allowBlank,
                 blankError  : me.inputConfig.blankError,
+                maxLength   : me.inputFixedConfig.fixedValue && me.inputConfig.maxLength ? me.inputConfig.maxLength - me.inputFixedConfig.fixedValue.length : me.inputConfig.maxLength,
                 style       : 'width: 100%;',
                 validateOnBlur: false,
                 validation  : me.inputConfig.validation,
