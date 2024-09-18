@@ -75,6 +75,20 @@
     !window.uitheme.id && window.uitheme.set_id(localstorage.getItem("ui-theme-id"));
     window.uitheme.iscontentdark = localstorage.getItem("content-theme") == 'dark';
 
+    function inject_style_tag(content) {
+        const style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = content;
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    inject_style_tag(':root .theme-dark {' +
+                                '--toolbar-header-document: #2a2a2a; --toolbar-header-spreadsheet: #2a2a2a;' +
+                                '--toolbar-header-presentation: #2a2a2a; --toolbar-header-pdf: #2a2a2a;}' +
+                            ':root .theme-contrast-dark {' +
+                                '--toolbar-header-document: #1e1e1e; --toolbar-header-spreadsheet: #1e1e1e;' +
+                                '--toolbar-header-presentation: #1e1e1e; --toolbar-header-pdf: #1e1e1e;}');
+
     let objtheme = window.uitheme.colors ? window.uitheme : localstorage.getItem("ui-theme");
     if ( !!objtheme ) {
         if ( typeof(objtheme) == 'string' && objtheme.lastIndexOf("{", 0) === 0 &&
