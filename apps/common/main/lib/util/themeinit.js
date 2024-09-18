@@ -118,10 +118,7 @@
                         colors.push('--' + c + ':' + objtheme.colors[c]);
                     }
 
-                    var style = document.createElement('style');
-                    style.type = 'text/css';
-                    style.innerHTML = '.' + objtheme.id + '{' + colors.join(';') + ';}';
-                    document.getElementsByTagName('head')[0].appendChild(style);
+                    inject_style_tag('.' + objtheme.id + '{' + colors.join(';') + ';}');
                 }
             }
         }
