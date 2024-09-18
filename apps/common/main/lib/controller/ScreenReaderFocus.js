@@ -91,7 +91,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _showFocus = function () {
-        if (_currentControls.length === 0 || ($('#file-menu-panel').is(':visible' || _isEditDiagram) && _currentLevel === 1)) {
+        if (_currentControls.length === 0 || (($('#file-menu-panel').is(':visible') || _isEditDiagram) && _currentLevel === 1)) {
             _getControls();
             // console.log(_currentControls);
         }
