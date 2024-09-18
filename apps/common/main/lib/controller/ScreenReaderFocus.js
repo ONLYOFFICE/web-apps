@@ -84,7 +84,7 @@ Common.UI.ScreenReaderFocusManager = new(function() {
     };
 
     var _lockedKeyEvents = function (isLocked) {
-        if (_api) {
+        if (_api && (isLocked || !Common.Utils.ModalWindow.isVisible())) {
             _isLockedKeyEvents = isLocked;
             _api.asc_enableKeyEvents(!isLocked);
         }
