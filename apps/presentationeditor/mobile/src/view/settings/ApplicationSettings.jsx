@@ -65,7 +65,7 @@ const PageApplicationSettings = props => {
                     setMacrosSettings: props.setMacrosSettings
                 }}></ListItem>
             </List>
-            {Common.Locale.isCurrentLangRtl &&
+            {/* {Common.Locale.isCurrentLangRtl &&
                 <>
                     <List>
                         <ListItem>
@@ -85,7 +85,7 @@ const PageApplicationSettings = props => {
                         <p>{t('View.Settings.textExplanationChangeDirection')}</p>
                     </Block>
                 </>
-            }
+            } */}
         </Page>
     );
 };

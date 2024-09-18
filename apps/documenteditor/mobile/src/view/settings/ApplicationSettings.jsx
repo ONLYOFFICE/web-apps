@@ -112,7 +112,7 @@ const PageApplicationSettings = props => {
                     }}></ListItem>
                 </List>
             }
-            {Common.Locale.isCurrentLangRtl &&
+            {/* {Common.Locale.isCurrentLangRtl &&
                 <>
                     <List>
                         <ListItem>
@@ -132,7 +132,7 @@ const PageApplicationSettings = props => {
                         <p>{t('Settings.textExplanationChangeDirection')}</p>
                     </Block>
                 </>
-            }
+            } */}
         </Page>
     );
 };

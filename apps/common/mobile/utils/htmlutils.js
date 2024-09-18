@@ -32,12 +32,12 @@ function isLocalStorageAvailable() {
 }
 
 {
-    let modeDirection = 'ltr';
-    if ( Common.Locale.isCurrentLangRtl ) {
-            modeDirection = (isLocalStorageAvailable() && localStorage.getItem('mobile-mode-direction')) || 'rtl';
-    }
+    // let modeDirection = 'ltr';
+    // if ( Common.Locale.isCurrentLangRtl ) {
+    //     modeDirection = (isLocalStorageAvailable() && localStorage.getItem('mobile-mode-direction')) || 'rtl';
+    // }
 
-    if(modeDirection === 'rtl') {
+    if (Common.Locale.isCurrentLangRtl) {
         load_stylesheet('./css/framework7-rtl.css');
         document.body.classList.add('rtl');
     } else {
