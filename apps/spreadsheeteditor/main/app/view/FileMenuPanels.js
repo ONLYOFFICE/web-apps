@@ -653,7 +653,10 @@ define([], function () {
                 restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : regdata
+                data        : regdata,
+                dataHint    : '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
                 var isBaseSettings = me.chSeparator.getValue();
