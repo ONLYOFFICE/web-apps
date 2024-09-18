@@ -1101,11 +1101,13 @@ define([
         },
 
         selectCandidate: function() {
-            var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+            var me = this,
+                index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                 re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                isFirstCharsEqual = re.test(this.items[index].caption),
-                itemCandidate, idxCandidate,
-                me = this;
+                isFirstCharsEqual = this.options.searchFields.some(function(field) {
+                    return re.test(me.items[index][field]);
+                }),
+                itemCandidate, idxCandidate;
 
             for (var i=0; i<this.items.length; i++) {
                 var item = this.items[i],

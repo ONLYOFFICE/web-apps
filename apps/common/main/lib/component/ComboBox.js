@@ -488,11 +488,13 @@ define([
             },
 
             selectCandidate: function() {
-                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+                var me = this,
+                    index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                    isFirstCharsEqual = re.test(this.store.at(index).get(this.displayField)),
-                    itemCandidate, idxCandidate,
-                    me = this;
+                    isFirstCharsEqual = this.searchFields.some(function(field) {
+                        return re.test(me.store.at(index).get(field));
+                    }),
+                    itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.store.length; i++) {
                     var item = this.store.at(i),
