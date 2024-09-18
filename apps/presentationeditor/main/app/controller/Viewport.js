@@ -163,8 +163,6 @@ define([
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
 
-            me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
-
             if ( !config.isEdit ||
                 ( !Common.localStorage.itemExists("pe-compact-toolbar") &&
                     config.customization && config.customization.compactToolbar ))
