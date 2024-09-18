@@ -669,7 +669,10 @@ define([], function () {
                 ].join('')),
                 search: true,
                 searchFields: ['displayValue', 'displayValueEn'],
-                data        : regdata
+                data        : regdata,
+                dataHint    : '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
                 var isBaseSettings = me.chSeparator.getValue();
@@ -1313,8 +1316,8 @@ define([], function () {
                     info.asc_setSymbol(landId);
                     var arr = this.api.asc_getFormatCells(info); // all formats
                     text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(true), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(true), landId);
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
