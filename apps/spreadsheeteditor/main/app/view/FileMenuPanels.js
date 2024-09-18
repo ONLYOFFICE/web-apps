@@ -1960,9 +1960,9 @@ define([], function () {
             }
 
             return '<tr data-custom-property>' +
-                '<td class="left"><label>' + name + '</label></td>' +
+                '<td class="left"><label>' + Common.Utils.String.htmlEncode(name) + '</label></td>' +
                 '<td class="right"><div class="custom-property-wrapper">' +
-                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + Common.Utils.String.htmlEncode(value) +'">' +
+                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + value +'">' +
                 '<div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div>' +
                 '</div></td></tr>';
         },
