@@ -1160,7 +1160,7 @@ define([], function () {
                 '</table>',
             '<div id="fms-flex-add-property">',
                 '<table class="main">',
-                    '<tr>',
+                    '<tr style="gap: 20px;">',
                         '<td class="left"></td>',
                         '<td class="right">',
                             '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><span>'+ this.txtAddProperty +'</span></button>',

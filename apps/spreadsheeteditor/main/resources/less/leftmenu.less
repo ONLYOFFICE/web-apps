@@ -192,25 +192,18 @@
                 gap: 24px;
                 flex-direction: column;
 
-                tbody {
-                    display: flex;
-                    gap: 12px;
-                    flex-direction: column;
-
-                    &.properties-tab {
-                        gap: 10px;
-                    }
-                }
-
                 tr {
                     display: flex;
                     gap: 24px;
 
                     td {
                         font-size: 11px;
-                        line-height: 22px;
+                        line-height: 16px;
+                        height: 16px;
 
                         &.title {
+                            line-height: 20px;
+                            height: 20px;
                             label {
                                 font-size: 14px;
                                 font-weight: 700;
@@ -218,11 +211,13 @@
                         }
 
                         &.left {
-                            width: 120px;
+                            width: 140px;
                             flex-shrink: 0;
 
                             label {
-                                overflow-wrap: break-word;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                white-space: nowrap;
                             }
                         }
 
@@ -236,10 +231,37 @@
                     }
                 }
 
+                tbody {
+                    display: flex;
+                    gap: 12px;
+                    flex-direction: column;
+
+                    &.properties-tab {
+                        gap: 10px;
+
+                        tr {
+                            gap: 20px;
+                        }
+
+                        td {
+                            height: unset;
+                        }
+
+                        td.left {
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+                }
+
                 tr.author-info {
                     align-items: flex-start;
 
                     td {
+                        &.left {
+                            height: 22px;
+                        }
+
                         display: flex;
                         gap: 5px;
                         align-items: center;
@@ -255,8 +277,16 @@
                 }
             }
 
+            #fms-flex-add-property {
+                margin-top: 10px;
+                td {
+                    height: unset;
+                }
+            }
+
             #fminfo-btn-add-property {
-                margin: 10px 0;
+                padding: 0;
+                border: 0;
                 background-color: transparent;
                 height: 24px;
 
