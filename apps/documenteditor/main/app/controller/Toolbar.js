@@ -950,8 +950,6 @@ define([
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    // this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
-
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
                 }
