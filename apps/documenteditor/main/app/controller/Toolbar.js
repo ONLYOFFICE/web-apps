@@ -943,13 +943,13 @@ define([
                 var listStyle = this.toolbar.listStyles,
                     listStylesVisible = (listStyle.rendered);
 
+                this._state.prstyle = name;
+
                 if (listStylesVisible) {
                     listStyle.suspendEvents();
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
-
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
                 }
@@ -2705,7 +2705,11 @@ define([
         },
 
         onSaveStyle: function (style) {
+            if (!window.styles_loaded) return;
+
             window.styles_loaded = false;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
+
             var me = this, win;
 
             if (me.api) {
@@ -3268,6 +3272,7 @@ define([
 
         _onInitEditorStyles: function(styles) {
             window.styles_loaded = false;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
 
             var self = this,
                 listStyles = self.toolbar.listStyles;
@@ -3298,6 +3303,7 @@ define([
             } else if (listStyles.rendered)
                 listStyles.clearComboView();
             window.styles_loaded = true;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
         },
 
         onHomeOpen: function() {

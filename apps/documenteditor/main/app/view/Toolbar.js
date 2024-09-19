@@ -119,7 +119,8 @@ define([
         formsNoRoles:   'no-roles',
         fixedForm:      'fixed-form',
         fileMenuOpened: 'file-menu-opened',
-        changeModeLock: 'change-mode-lock'
+        changeModeLock: 'change-mode-lock',
+        noStyles: 'no-styles'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -1660,7 +1661,7 @@ define([
                         itemHeight = 40;
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
+                        lock: [_set.noStyles, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
@@ -1730,6 +1731,7 @@ define([
 
                     this.paragraphControls.push(this.listStyles);
                     this.textOnlyControls.push(this.listStyles);
+                    this.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.listStyles]})
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls);

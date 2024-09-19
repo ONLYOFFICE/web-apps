@@ -1436,9 +1436,9 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
-
+                    window.document_content_ready = true;
                     var timer_sl = setInterval(function(){
-                        if (window.styles_loaded) {
+                        if (window.document_content_ready) {
                             clearInterval(timer_sl);
 
                             toolbarController.createDelayedElements();
@@ -2707,7 +2707,7 @@ define([
 
             onSendThemeColors: function(colors, standart_colors) {
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
-                if (window.styles_loaded) {
+                if (window.document_content_ready) {
                     this.updateThemeColors();
                     var me = this;
                     setTimeout(function(){
@@ -2742,7 +2742,7 @@ define([
                 });
 
                 this.languages = langs;
-                window.styles_loaded && this.setLanguages();
+                window.document_content_ready && this.setLanguages();
             },
 
             setLanguages: function() {
