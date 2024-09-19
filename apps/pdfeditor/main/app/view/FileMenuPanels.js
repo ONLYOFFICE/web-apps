@@ -1376,7 +1376,6 @@ define([], function () {
             });
             this.btnApply.on('click', _.bind(this.applySettings, this));
 
-            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
             this.pnlApply = $markup.findById('#fms-flex-apply');
 
             this.rendered = true;
@@ -1386,7 +1385,7 @@ define([], function () {
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.pnlInfo,
+                    el: this.$el,
                     suppressScrollX: true,
                     alwaysVisibleY: true
                 });
@@ -1419,7 +1418,6 @@ define([], function () {
         updateScroller: function(destroy) {
             if (this.scroller) {
                 this.scroller.update(destroy ? {} : undefined);
-                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
             }
         },
 
