@@ -145,7 +145,7 @@
 
                 .header {
                     .font-size-very-huge();
-                    margin-bottom: 20px;
+                    margin-bottom: 24px;
                 }
 
                 .format-items {
@@ -177,8 +177,7 @@
             }
         }
 
-        #panel-settings,
-        #panel-info {
+        #panel-settings {
             padding: 0;
             display: flex;
             flex-direction: column;
@@ -186,10 +185,10 @@
 
         #panel-settings {
             .header {
-                margin: 30px 0 16px 30px;
+                margin: 30px 0 18px 30px;
                 .font-size-very-huge();
                 .rtl & {
-                    margin: 30px 30px 16px 0;
+                    margin: 30px 30px 18px 0;
                 }
             }
 
@@ -243,7 +242,7 @@
                 padding: 0 0 0 10px;
                 white-space: nowrap;
                 margin-top: 30px;
-                margin-bottom: 20px;
+                margin-bottom: 24px;
 
                 .rtl & {
                     padding: 0 10px 10px 0;
@@ -513,17 +512,133 @@
         }
 
         #panel-info {
-            .header {
-                margin: 30px 0 20px 30px;
-                .font-size-very-huge();
+            padding: 30px;
 
-                .rtl & {
-                    margin: 30px 30px 20px 0;
+            .header {
+                .font-size-very-huge();
+                height: unset;
+                line-height: unset;
+            }
+
+            table {
+                display: flex;
+                gap: 24px;
+                flex-direction: column;
+
+                tr {
+                    display: flex;
+                    gap: 24px;
+
+                    td {
+                        .font-size-normal();
+                        line-height: 16px;
+
+                        &.title {
+                            line-height: 20px;
+
+                            label {
+                                .font-size-huge();
+                                font-weight: 700;
+                            }
+                        }
+
+                        &.left {
+                            width: 140px;
+                            flex-shrink: 0;
+                        }
+
+                        &.right {
+                            flex-grow: 1;
+                        }
+                    }
+
+                    &.divider {
+                        height: 10px;
+                    }
                 }
+
+                tbody {
+                    display: flex;
+                    gap: 12px;
+                    flex-direction: column;
+
+                    &.properties-tab {
+                        gap: 10px;
+
+                        tr {
+                            gap: 20px;
+                        }
+
+                        td {
+                            height: unset;
+                        }
+
+                        td.left {
+                            display: flex;
+                            align-items: center;
+
+                            label {
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
+                }
+
+                tr.author-info {
+                    align-items: flex-start;
+
+                    td {
+                        &.left {
+                            height: 22px;
+                        }
+
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                    }
+                }
+
+                .author-info tbody tr:last-child {
+                    margin-bottom: 20px;
+                }
+
+                &.main {
+                    width: 100%;
+                }
+            }
+
+            #fms-flex-add-property {
+                margin-top: 10px;
+                td {
+                    height: unset;
+                }
+            }
+
+            #fminfo-btn-add-property {
+                padding: 0;
+                border: 0;
+                background-color: transparent;
+                height: 24px;
+
+                span {
+                    text-decoration: underline dotted;
+                    text-underline-offset: 4px;
+                }
+            }
+
+            .custom-property-wrapper {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+
+            .tool.close:before, .tool.close:after {
+                margin-top: 2px;
             }
         }
 
-        #panel-info,
         #panel-rights {
             table {
                 tr {
@@ -623,7 +738,7 @@
             }
 
             #fms-btn-invisible-sign {
-                margin-bottom: 20px;
+                margin-bottom: 24px;
             }
 
             #id-fms-lbl-protect-header {

@@ -1285,6 +1285,7 @@
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtUploaded": "Uploaded",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtWords": "Words",
   "PDFE.Views.FileMenuPanels.DocumentInfo.txtYes": "Yes",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common",
   "PDFE.Views.FileMenuPanels.DocumentRights.txtAccessRights": "Access Rights",
   "PDFE.Views.FileMenuPanels.DocumentRights.txtBtnAccessRights": "Change access rights",
   "PDFE.Views.FileMenuPanels.DocumentRights.txtRights": "Persons who have rights",
