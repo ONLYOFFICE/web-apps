@@ -545,15 +545,14 @@
       gap: 24px;
 
       td {
-        font-size: 11px;
+        .font-size-normal();
         line-height: 16px;
-        height: 16px;
 
         &.title {
           line-height: 20px;
-          height: 20px;
+
           label {
-            font-size: 14px;
+            .font-size-huge();
             font-weight: 700;
           }
         }
@@ -561,12 +560,6 @@
         &.left {
           width: 140px;
           flex-shrink: 0;
-
-          label {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-          }
         }
 
         &.right {

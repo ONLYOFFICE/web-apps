@@ -2015,7 +2015,7 @@ define([], function () {
                                 value: value
                             },
                             nameValidator: function(newName) {
-                                if (newName !== name && _.some(properties, function (prop) { return prop.name === newName; })) {
+                                if (newName !== name && _.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
                                     return me.txtPropertyTitleConflictError;
                                 }
 
@@ -2046,7 +2046,7 @@ define([], function () {
                 lang: me.mode.lang,
                 nameValidator: function(newName) {
                     var properties = me.api.asc_getAllCustomProperties();
-                    if (_.some(properties, function (prop) { return prop.name === newName; })) {
+                    if (_.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
                         return me.txtPropertyTitleConflictError;
                     }
 
