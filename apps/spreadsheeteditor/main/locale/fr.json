@@ -1958,7 +1958,7 @@
   "SSE.Views.CellSettings.textGradient": "Dégradé",
   "SSE.Views.CellSettings.textGradientColor": "Couleur",
   "SSE.Views.CellSettings.textGradientFill": "Remplissage en dégradé",
-  "SSE.Views.CellSettings.textIndent": "Indenter ",
+  "SSE.Views.CellSettings.textIndent": "Retrait",
   "SSE.Views.CellSettings.textItems": "éléments",
   "SSE.Views.CellSettings.textLinear": "linéaire",
   "SSE.Views.CellSettings.textManageRule": "Gérer les règles",
