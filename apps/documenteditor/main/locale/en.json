@@ -837,7 +837,7 @@
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeNumber": "Number",
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeNumberInvalid": "Provide a valid number",
   "Common.Views.DocumentPropertyDialog.txtPropertyTypeDate": "Date",
-  "Common.Views.DocumentPropertyDialog.txtPropertyTypeBoolean": "\"Yes\" or \"no\"",
+  "Common.Views.DocumentPropertyDialog.txtPropertyTypeBoolean": "\"Yes\" or \"No\"",
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanTrue": "Yes",
   "Common.Views.DocumentPropertyDialog.txtPropertyBooleanFalse": "No",
   "Common.Views.DocumentPropertyDialog.errorDate": "You can choose a value from the calendar to store the value as Date.<br>If you enter a value manually, it will be stored as Text.",
