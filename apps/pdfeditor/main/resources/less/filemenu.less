@@ -188,8 +188,7 @@
 
 }
 
-#panel-settings,
-#panel-info {
+#panel-settings {
   #file-menu-panel & {
     padding: 0;
     display: flex;
@@ -520,17 +519,76 @@
 }
 
 #panel-info {
-  .header {
-    margin: 30px 0 20px 30px;
-    .font-size-very-huge();
+  #file-menu-panel & {
+    padding: 30px;
 
-    .rtl & {
-      margin: 30px 30px 20px 0;
+    .flex-settings {
+      gap: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .header {
+    .font-size-very-huge();
+  }
+
+  table {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+
+    tr {
+      display: flex;
+      gap: 24px;
+
+      td {
+        font-size: 11px;
+        line-height: 16px;
+        height: 16px;
+
+        &.title {
+          line-height: 20px;
+          height: 20px;
+          label {
+            font-size: 14px;
+            font-weight: 700;
+          }
+        }
+
+        &.left {
+          width: 140px;
+          flex-shrink: 0;
+
+          label {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+        }
+
+        &.right {
+          flex-grow: 1;
+        }
+      }
+
+      &.divider {
+        height: 10px;
+      }
+    }
+
+    tbody {
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+    }
+
+    &.main {
+      width: 100%;
     }
   }
 }
 
-#panel-info,
 #panel-rights {
   table {
     tr {
