@@ -2016,5 +2016,6 @@
   "PDFE.Views.DocumentHolder.confirmAddFontName": "The font you are going to save is not available on the current device.<br>The text style will be displayed using one of the device fonts, the saved font will be used when it is available.<br>Do you want to continue?",
   "PDFE.Views.DocumentHolder.guestText": "Guest",
   "PDFE.Views.DocumentHolder.textFontSizeErr": "The entered value is incorrect.<br>Please enter a numeric value between 1 and 300",
-  "PDFE.Views.DocumentHolder.txtEmpty": "(Empty)"
+  "PDFE.Views.DocumentHolder.txtEmpty": "(Empty)",
+  "PDFE.Views.FileMenuPanels.DocumentInfo.txtCommon": "Common"
 }
