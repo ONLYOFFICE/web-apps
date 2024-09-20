@@ -798,7 +798,9 @@
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
+    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

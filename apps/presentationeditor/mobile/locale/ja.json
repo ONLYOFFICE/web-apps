@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "測定単位",
       "textUploaded": "アップロードした",
       "textVersion": "バージョン",
-      "textVersionHistory": "バージョン履歴"
+      "textVersionHistory": "バージョン履歴",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

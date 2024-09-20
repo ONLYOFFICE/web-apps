@@ -798,7 +798,9 @@
     "txtDownloadTxt": "Încărcare TXT",
     "txtIncorrectPwd": "Parolă incorectă",
     "txtOk": "OK",
-    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis"
+    "txtProtected": "Parola curentă la fișierul va fi resetată de îndată ce este introdusă și fișierul este deschis",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Nu ați salvat modificările din documentul. Faceți clic pe Rămâi în pagină și așteptați la salvare automată. Faceți clic pe Părăsește aceasta pagina ca să renunțați la toate modificările nesalvate.",

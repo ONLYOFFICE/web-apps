@@ -798,7 +798,9 @@
     "txtDownloadTxt": "Stáhnout TXT",
     "txtIncorrectPwd": "Heslo je chybné",
     "txtOk": "OK",
-    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno"
+    "txtProtected": "Jakmile zadáte heslo a otevřete soubor, aktuální heslo bude obnoveno",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "V tomto dokumentu máte neuložené změny. Klikněte na 'Zůstat na této stránce'. Klikněte na 'Opustit tuto stránku' pro zahození neuložených změn.",

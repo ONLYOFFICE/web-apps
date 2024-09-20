@@ -861,7 +861,9 @@
       "txtUk": "Ουκρανικά",
       "txtVi": "Βιετναμέζικα",
       "txtZh": "Κινέζικα",
-      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;"
+      "warnDownloadAs": "Αν προχωρήσετε με την αποθήκευση σε αυτή τη μορφή, όλα τα χαρακτηριστικά πλην του κειμένου θα χαθούν.<br>Θέλετε σίγουρα να συνεχίσετε;",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

@@ -861,7 +861,9 @@
       "textSameAsSystem": "Same As System",
       "textTheme": "Theme",
       "textVersionHistory": "Version History",
-      "txtDe": "German"
+      "txtDe": "German",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

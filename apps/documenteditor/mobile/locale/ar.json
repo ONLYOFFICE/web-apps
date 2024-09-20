@@ -798,7 +798,9 @@
     "txtDownloadTxt": "تحميل TXT",
     "txtIncorrectPwd": "كلمة السر غير صحيحة",
     "txtOk": "موافق",
-    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف"
+    "txtProtected": "بمجرد ادخالك كلمة المرور و فتح الملف ,سيتم اعادة انشاء كلمة المرور للملف",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "لديك تغييرات غير محفوظة. اضغط على 'البقاء في هذه الصفحة' لانتظار الحفظ التلقائي. اضغط على 'غادر هذه الصفحة' للتخلي عن كل التغييرات الغير محفوظة.",

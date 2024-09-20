@@ -852,7 +852,9 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRtlInterface": "RTL Interface"
     }
   },
   "Toolbar": {

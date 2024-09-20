@@ -798,7 +798,9 @@
     "txtDownloadTxt": "下载TXT",
     "txtIncorrectPwd": "密码错误",
     "txtOk": "确定",
-    "txtProtected": "输入密码并打开文件后，将重置当前密码"
+    "txtProtected": "输入密码并打开文件后，将重置当前密码",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",

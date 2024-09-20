@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "Zobrazovat hodnoty v jednotkách",
       "textUploaded": "Nahráno",
       "textVersion": "Verze",
-      "textVersionHistory": "Historie verzí"
+      "textVersionHistory": "Historie verzí",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

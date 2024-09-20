@@ -798,7 +798,9 @@
     "txtDownloadTxt": "Λήψη TXT",
     "txtIncorrectPwd": "Το συνθηματικό είναι εσφαλμένο",
     "txtOk": "Εντάξει",
-    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού."
+    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού.",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

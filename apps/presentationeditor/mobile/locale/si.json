@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "මිනුම් ඒකකය",
       "textUploaded": "උඩුගත කෙරිණි",
       "textVersion": "අනුවාදය",
-      "textVersionHistory": "අනුවාද ඉතිහාසය"
+      "textVersionHistory": "අනුවාද ඉතිහාසය",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

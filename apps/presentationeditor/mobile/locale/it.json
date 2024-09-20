@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "Unità di misura",
       "textUploaded": "Caricato",
       "textVersion": "Versione",
-      "textVersionHistory": "Cronologia delle versioni"
+      "textVersionHistory": "Cronologia delle versioni",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

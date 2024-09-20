@@ -861,7 +861,9 @@
       "textClose": "Close",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
       "textRtlInterface": "RTL Interface",
-      "textSameAsSystem": "Same As System"
+      "textSameAsSystem": "Same As System",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

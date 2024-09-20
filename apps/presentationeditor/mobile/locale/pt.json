@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "Unidade de medida",
       "textUploaded": "Carregado",
       "textVersion": "Versão",
-      "textVersionHistory": "Histórico de versão"
+      "textVersionHistory": "Histórico de versão",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

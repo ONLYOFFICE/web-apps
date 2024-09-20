@@ -861,7 +861,9 @@
       "txtUk": "Украинский",
       "txtVi": "Вьетнамский",
       "txtZh": "Китайский",
-      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?"
+      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

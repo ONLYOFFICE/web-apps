@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "Unitate de măsură ",
       "textUploaded": "S-a încărcat",
       "textVersion": "Versiune",
-      "textVersionHistory": "Istoricul versiune"
+      "textVersionHistory": "Istoricul versiune",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

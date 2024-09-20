@@ -798,7 +798,9 @@
     "textRtlInterface": "RTL Interface",
     "textSameAsSystem": "Same as system",
     "textSubmit": "Submit",
-    "textTheme": "Theme"
+    "textTheme": "Theme",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Anda memiliki perubahan yang belum tersimpan. Klik 'Tetap di Halaman Ini' untuk menunggu simpan otomatis. Klik ‘Tinggalkan Halaman Ini’ untuk membatalkan semua perubahan yang belum disimpan.",

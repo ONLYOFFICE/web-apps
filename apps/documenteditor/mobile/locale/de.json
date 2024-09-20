@@ -798,7 +798,9 @@
     "txtDownloadTxt": "TXT herunterladen",
     "txtIncorrectPwd": "Passwort ist falsch",
     "txtOk": "OK",
-    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
+    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",
