@@ -258,7 +258,7 @@ define([
                         delimiter = this.cmbDelimiter ? this.cmbDelimiter.getValue() : null,
                         delimiterChar = (delimiter == -1) ? this.inputDelimiter.getValue() : null;
                     (delimiter == -1) && (delimiter = null);
-                    if (!this.closable && this.type == Common.Utils.importTextType.TXT) { //save last encoding only for opening txt files
+                    if (this.type == Common.Utils.importTextType.TXT) { //save last encoding only for txt files
                         Common.localStorage.setItem("de-settings-open-encoding", encoding);
                     }
                     if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
@@ -286,7 +286,7 @@ define([
         },
 
         initCodePages: function () {
-            var i, c, codepage, encodedata = [], listItems = [], length = 0, lcid_width = 0;
+            var i, c, codepage, encodedata = [], listItems = [], length = 0, lcid_width = 0, utf8 = 0;
 
             if (this.codepages) {
                 encodedata = [];
@@ -296,6 +296,7 @@ define([
                     c[0] = codepage.asc_getCodePage();
                     c[1] = codepage.asc_getCodePageName();
                     c[2] = codepage.asc_getLcid();
+                    (c[2]===65001) && (utf8 = i);
 
                     encodedata.push(c);
                 }
@@ -337,13 +338,16 @@ define([
                 });
 
                 this.cmbEncoding.setDisabled(false);
-                var encoding = (this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[0][0];
-                if (!this.closable && this.type == Common.Utils.importTextType.TXT) { // only for opening txt files
-                    var value = Common.localStorage.getItem("de-settings-open-encoding");
-                    value && (encoding = parseInt(value));
-                } else if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
-                    var value = Common.localStorage.getItem("sse-settings-csv-encoding");
-                    value && (encoding = parseInt(value));
+                var encoding = (this.settings && this.settings.asc_getCodePage()) ? this.settings.asc_getCodePage() : encodedata[utf8][0];
+                if (encoding===-1) {
+                    if (this.type == Common.Utils.importTextType.TXT) { // only for opening txt files
+                        var value = Common.localStorage.getItem("de-settings-open-encoding");
+                        value && (encoding = parseInt(value));
+                    } else if (this.type === Common.Utils.importTextType.CSV) { // only for csv files
+                        var value = Common.localStorage.getItem("sse-settings-csv-encoding");
+                        value && (encoding = parseInt(value));
+                    }
+                    (encoding===-1) && (encoding = encodedata[utf8][0]);
                 }
                 this.cmbEncoding.setValue(encoding);
                 if (this.preview)
