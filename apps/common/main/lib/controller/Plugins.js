@@ -114,6 +114,7 @@ define([
             this.customPluginsDlg = [];
 
             this.newInstalledBackgroundPlugins = [];
+            this.customButtonsArr = [];
 
             Common.Gateway.on('init', this.loadConfig.bind(this));
             Common.NotificationCenter.on('app:face', this.onAppShowed.bind(this));
@@ -409,6 +410,11 @@ define([
 
         onResetPlugins: function (collection) {
             var me = this;
+            me.customButtonsArr.forEach(function(item) {
+                me.toolbar && me.toolbar.addCustomControls({action: item.tab}, undefined, [item.btn])
+            });
+            me.customButtonsArr = [];
+
             me.appOptions.canPlugins = !collection.isEmpty();
             if ( me.$toolbarPanelPlugins ) {
                 me.backgroundPlugins = [];
@@ -427,9 +433,11 @@ define([
                         return;
                     }
                     if (model.get('tab')) {
-                        me.toolbar && me.toolbar.addCustomControls(model.get('tab'), [me.viewPlugins.createPluginButton(model)], function(guid, value, pressed) {
-                            me.api && me.api.onPluginToolbarMenuItemClick(guid, value, pressed);
-                        });
+                        let tab = model.get('tab'),
+                            btn = me.viewPlugins.createPluginButton(model);
+                        btn.options.separator = tab.separator;
+                        me.toolbar && me.toolbar.addCustomControls(tab, [btn]);
+                        me.customButtonsArr.push({tab: tab.action, btn: btn});
                         return;
                     }
 
@@ -931,7 +939,7 @@ define([
                             isDisplayedInViewer: isDisplayedInViewer,
                             isBackgroundPlugin: pluginVisible && isBackgroundPlugin,
                             isSystem: isSystem,
-                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || ''} : undefined
+                            tab: item.tab ? {action: item.tab.id, caption: ((typeof item.tab.text == 'object') ? item.tab.text[lang] || item.tab.text['en'] : item.tab.text) || '', separator: item.tab.separator} : undefined
                         };
                         updatedItem ? updatedItem.set(props) : arr.push(new Common.Models.Plugin(props));
                         if (fromManager && !updatedItem && props.isBackgroundPlugin) {
