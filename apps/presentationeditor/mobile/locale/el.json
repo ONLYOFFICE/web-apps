@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "Μονάδα μέτρησης",
       "textUploaded": "Μεταφορτώθηκε",
       "textVersion": "Έκδοση",
-      "textVersionHistory": "Ιστορικό εκδόσεων"
+      "textVersionHistory": "Ιστορικό εκδόσεων",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

@@ -798,7 +798,9 @@
     "txtIncorrectPwd": "La contrasenya no és correcta",
     "txtOk": "D'acord",
     "txtProtected": "Un cop introdueixis la contrasenya i obris el fitxer, es restablirà la contrasenya actual",
-    "textClose": "Close"
+    "textClose": "Close",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tens canvis sense desar. Fes clic a \"Mantingueu-vos en aquesta pàgina\" per esperar al desament automàtic. Fes clic a \"Deixar aquesta pàgina\" per descartar tots els canvis no desats.",

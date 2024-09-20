@@ -798,7 +798,9 @@
     "txtDownloadTxt": "TXT බාගන්න",
     "txtIncorrectPwd": "මුරපදය සාවද්‍යයි",
     "txtOk": "හරි",
-    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත"
+    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ස්වයං සුරැකීම සඳහා රැඳෙන්න 'මෙම පිටුවෙහි රැඳී සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවත දැමීමට 'මෙම පිටුවෙන් ඉවත් වන්න' ඔබන්න.",

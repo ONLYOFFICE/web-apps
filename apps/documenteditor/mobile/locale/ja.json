@@ -798,7 +798,9 @@
     "txtDownloadTxt": "TXTをダウンロード",
     "txtIncorrectPwd": "パスワードが間違い",
     "txtOk": "OK",
-    "txtProtected": "パスワードを入力しファイルを開く次第カレントパスワードがリセットされます。"
+    "txtProtected": "パスワードを入力しファイルを開く次第カレントパスワードがリセットされます。",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "保存されていない変更があります。自動保存を待つように「このページから移動しない」をクリックしてください。保存されていない変更を破棄ように「このページから移動する」をクリックしてください。",

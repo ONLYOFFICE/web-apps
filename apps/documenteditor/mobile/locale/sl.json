@@ -700,7 +700,9 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset"
+    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",

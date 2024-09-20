@@ -552,7 +552,10 @@
       "textVersionHistory": "Histórico de versões",
       "textClose": "Close",
       "textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "textRtlInterface": "RTL Interface"
+      "textRtlInterface": "RTL Interface",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

@@ -552,7 +552,10 @@
       "textUnitOfMeasurement": "وحدة القياس",
       "textUploaded": "تم الرفع",
       "textVersion": "الإصدار",
-      "textVersionHistory": "سجل الإصدارات"
+      "textVersionHistory": "سجل الإصدارات",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

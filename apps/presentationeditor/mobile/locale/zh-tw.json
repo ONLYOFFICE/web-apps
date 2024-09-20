@@ -552,7 +552,10 @@
       "textLight": "Light",
       "textRtlInterface": "RTL Interface",
       "textSameAsSystem": "Same As System",
-      "textVersionHistory": "Version History"
+      "textVersionHistory": "Version History",
+      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+      "del_textRTL": "RTL",
+      "del_textRtlInterface": "RTL Interface"
     }
   }
 }

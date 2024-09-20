@@ -798,7 +798,9 @@
     "txtDownloadTxt": "TXT olarak indir",
     "txtIncorrectPwd": "Şifre yanlış",
     "txtOk": "Tamam",
-    "txtProtected": "Şifreyi girip dosyayı açtığınızda, mevcut şifre sıfırlanacaktır."
+    "txtProtected": "Şifreyi girip dosyayı açtığınızda, mevcut şifre sıfırlanacaktır.",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Kaydedilmemiş değişiklikleriniz mevcut. Otomatik kaydetmeyi beklemek için 'Bu Sayfada Kal' seçeneğini tıklayın. Kaydedilmemiş tüm değişiklikleri atmak için 'Bu Sayfadan Ayrıl'ı tıklayın.",

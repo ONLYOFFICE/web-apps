@@ -798,7 +798,9 @@
     "txtDownloadTxt": "Скачать TXT",
     "txtIncorrectPwd": "Неверный пароль",
     "txtOk": "Ok",
-    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен"
+    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен",
+    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
+    "del_textRtlInterface": "RTL Interface"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",
