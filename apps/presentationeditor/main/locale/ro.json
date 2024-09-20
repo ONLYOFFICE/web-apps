@@ -2902,5 +2902,6 @@
   "PE.Views.ViewTab.tipInterfaceTheme": "Tema interfeței",
   "PE.Views.ViewTab.tipNormal": "Normal",
   "PE.Views.ViewTab.tipSlideMaster": "Coordonator de diapozitive",
-  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy"
+  "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

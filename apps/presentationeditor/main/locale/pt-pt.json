@@ -2902,5 +2902,6 @@
   "PE.Views.ViewTab.textTab": "Tab",
   "PE.Views.ViewTab.textLine": "Line",
   "PE.Controllers.LeftMenu.textSelectPath": "Enter a path for saving file copy",
-  "PE.Views.Transitions.textRandom": "Random"
+  "PE.Views.Transitions.textRandom": "Random",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

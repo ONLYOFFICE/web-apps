@@ -314,9 +314,12 @@ define([
             /**
              * UI Events
              */
+            const me = this;
 
-            toolbar.btnPreview.on('click',                              _.bind(this.onPreviewBtnClick, this));
-            toolbar.btnPreview.menu.on('item:click',                    _.bind(this.onPreviewItemClick, this));
+            toolbar.btnsPreview.forEach(function(btn) {
+                btn.on('click',                                         _.bind(me.onPreviewBtnClick, me));
+                btn.menu.on('item:click',                               _.bind(me.onPreviewItemClick, me));
+            });
             toolbar.btnPrint.on('click',                                _.bind(this.onPrint, this));
             toolbar.btnPrint.on('disabled',                             _.bind(this.onBtnChangeState, this, 'print:disabled'));
             toolbar.btnPrint.menu && toolbar.btnPrint.menu.on('item:click', _.bind(this.onPrintMenu, this));
@@ -796,12 +799,12 @@ define([
             if (this._state.no_slides !== (count<=0)) {
                 this._state.no_slides = (count<=0);
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.paragraphControls});
-                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: [
-                    this.toolbar.btnChangeSlide, this.toolbar.btnPreview, this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
+                this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides, {array: this.toolbar.btnsChangeSlide.concat(this.toolbar.btnsPreview, [
+                    this.toolbar.btnPrint, this.toolbar.btnCopy, this.toolbar.btnCut, this.toolbar.btnSelectAll, this.toolbar.btnReplace, this.toolbar.btnPaste,
                     this.toolbar.btnCopyStyle, this.toolbar.btnInsertTable, this.toolbar.btnInsertChart, this.toolbar.btnInsertSmartArt,
                     this.toolbar.btnColorSchemas, this.toolbar.btnShapeAlign, this.toolbar.cmbInsertShape,
                     this.toolbar.btnShapeArrange, this.toolbar.btnSlideSize,  this.toolbar.listTheme, this.toolbar.btnEditHeader, this.toolbar.btnInsDateTime, this.toolbar.btnInsSlideNum
-                ]});
+                ])});
                 this.toolbar.lockToolbar(Common.enumLock.noSlides, this._state.no_slides,
                     { array:  this.toolbar.btnsInsertImage.concat(this.toolbar.btnsInsertText, this.toolbar.btnsInsertShape, this.toolbar.btnInsertEquation, this.toolbar.btnInsertTextArt, this.toolbar.btnInsAudio, this.toolbar.btnInsVideo) });
                 if (this.btnsComment)
@@ -934,7 +937,7 @@ define([
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {
                 if (this._state.activated) this._state.slidelayoutdisable = slide_layout_lock;
-                this.toolbar.lockToolbar(Common.enumLock.slideLock, slide_layout_lock, {array: [me.toolbar.btnChangeSlide]});
+                this.toolbar.lockToolbar(Common.enumLock.slideLock, slide_layout_lock, {array: me.toolbar.btnsChangeSlide});
             }
 
             if (slide_deleted !== undefined && this._state.slidecontrolsdisable !== slide_deleted) {
@@ -952,11 +955,13 @@ define([
                 this.toolbar.lockToolbar(Common.enumLock.noColumns, no_columns, {array: [me.toolbar.btnColumns]});
             }
 
-            if (this.toolbar.btnChangeSlide) {
-                if (this.toolbar.btnChangeSlide.mnuSlidePicker)
-                    this.toolbar.btnChangeSlide.mnuSlidePicker.options.layout_index = layout_index;
-                else
-                    this.toolbar.btnChangeSlide.mnuSlidePicker = {options: {layout_index: layout_index}};
+            if (this.toolbar.btnsChangeSlide) {
+                this.toolbar.btnsChangeSlide.forEach(function(btn) {
+                    if (btn.mnuSlidePicker)
+                        btn.mnuSlidePicker.options.layout_index = layout_index;
+                    else
+                        btn.mnuSlidePicker = {options: {layout_index: layout_index}};
+                });
             }
 
             if (this._state.in_smartart !== in_smartart) {
@@ -2707,7 +2712,7 @@ define([
             toolbar.$el.find('.toolbar').toggleClass('masked', disable);
 
             if (toolbar.btnsAddSlide) // toolbar buttons are rendered
-                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnChangeSlide, toolbar.btnPreview)});
+                this.toolbar.lockToolbar(Common.enumLock.menuFileOpen, disable, {array: toolbar.btnsAddSlide.concat(toolbar.btnsChangeSlide, toolbar.btnsPreview)});
 
             var hkComments = Common.Utils.isMac ? 'command+alt+a' : 'alt+h',
                 hkPreview = Common.Utils.isMac ? 'command+shift+enter' : 'ctrl+f5';
@@ -3072,4 +3077,4 @@ define([
         }
 
     }, PE.Controllers.Toolbar || {}));
-});
+});});

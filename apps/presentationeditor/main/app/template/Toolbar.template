@@ -43,10 +43,10 @@
                 <div class="group" style="display:none;"></div>
                 <div class="group small normal-mode">
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-changeslide"></span>
+                        <span class="btn-slot split slot-changeslide"></span>
                     </div>
                     <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-preview"></span>
+                        <span class="btn-slot split slot-preview"></span>
                     </div>
                 </div>
                 <div class="group master-slide-mode" style="display:none;">
@@ -104,16 +104,7 @@
                     </div>
                 </div>
                 <div class="separator long"></div>
-                <div class="group small">
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-colorschemas"></span>
-                    </div>
-                    <div class="elset">
-                        <span class="btn-slot split" id="slot-btn-slidesize"></span>
-                    </div>
-                </div>
                 <div class="separator long invisible"></div>
-                <div class="group flex small field-styles" id="slot-field-styles" style="width: 100%; min-width: 136px;" data-group-width="100%"></div>
                 <div class="group small">
                     <div class="elset">
                         <span class="btn-slot" id="slot-btn-replace"></span>
@@ -183,6 +174,30 @@
                 <div class="group">
                     <span class="btn-slot text x-huge" id="slot-btn-insaudio"></span>
                     <span class="btn-slot text x-huge" id="slot-btn-insvideo"></span>
+                </div>
+            </section>
+            <section class="panel" data-tab="design" role="tabpanel" aria-labelledby="design">
+                <div class="group normal-mode">
+                    <span class="btn-slot text x-huge slot-addslide"></span>
+                </div>
+                <div class="group small normal-mode">
+                    <div class="elset">
+                        <span class="btn-slot split slot-changeslide"></span>
+                    </div>
+                    <div class="elset">
+                        <span class="btn-slot split slot-preview"></span>
+                    </div>
+                </div>
+                <div class="group master-slide-mode" style="display:none;">
+                    <span class="btn-slot text x-huge slot-addslidemaster"></span>
+                    <span class="btn-slot text x-huge slot-addlayout"></span>
+                </div>
+                <div class="separator long"></div>
+                <div class="group flex small field-styles" id="slot-field-styles" style="min-width: 136px; max-width: 877px; width: 877px" data-group-width="877px"></div>
+                <div class="separator long"></div>
+                <div class="group">
+                    <span class="btn-slot text x-huge" id="slot-btn-colorschemas"></span>
+                    <span class="btn-slot text x-huge" id="slot-btn-slidesize"></span>
                 </div>
             </section>
             <section id="transitions-panel" class="panel" data-tab="transit" role="tabpanel" aria-labelledby="transit">

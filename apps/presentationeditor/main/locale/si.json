@@ -2902,5 +2902,6 @@
   "PE.Views.ViewTab.textSlideMaster": "Slide Master",
   "PE.Views.ViewTab.textTab": "Tab",
   "PE.Views.ViewTab.textTabStyle": "Tab style",
-  "PE.Views.ViewTab.tipSlideMaster": "Slide master"
+  "PE.Views.ViewTab.tipSlideMaster": "Slide master",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }

@@ -2902,5 +2902,6 @@
   "PE.Views.Transitions.textRandom": "Random",
   "PE.Views.ViewTab.textLine": "Line",
   "PE.Views.ViewTab.textTab": "Tab",
-  "PE.Views.ViewTab.textTabStyle": "Tab style"
+  "PE.Views.ViewTab.textTabStyle": "Tab style",
+  "PE.Views.Toolbar.textTabDesign": "Design"
 }
