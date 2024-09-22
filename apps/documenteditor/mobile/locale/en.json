@@ -74,7 +74,9 @@
     "textUnderline": "Underline",
     "textStrikethrough": "Strikethrough",
     "textColor": "Color",
-    "textAutomatic": "Automatic"
+    "textAutomatic": "Automatic",
+    "textAddCustomColor": "Add custom color",
+    "textCustomColor": "Custom Color"
   },
   "Common": {
     "Collaboration": {

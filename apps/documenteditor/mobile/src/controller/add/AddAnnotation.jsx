@@ -44,6 +44,8 @@ const AddAnnotationController = inject('storeAppOptions')(observer(props => {
         }
     }
 
+    const changeMarkColor = (color) => {}
+
     const onMarkType = (type) => {
         const api = Common.EditorApi.get();
         api.SetMarkerFormat(type);
@@ -53,11 +55,13 @@ const AddAnnotationController = inject('storeAppOptions')(observer(props => {
         <AddAnnotationContext.Provider value={{
             switchDisplayComments,
             closeModal,
-            onMarkType
+            onMarkType,
+            changeMarkColor
         }}>
             <AddAnnotationView 
                 closeModal={closeModal}
                 switchDisplayComments={switchDisplayComments}
+                changeMarkColor={changeMarkColor}
             />
         </AddAnnotationContext.Provider>
     )

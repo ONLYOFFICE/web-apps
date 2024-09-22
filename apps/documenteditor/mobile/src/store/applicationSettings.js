@@ -21,7 +21,9 @@ export class storeApplicationSettings {
             changeMacrosSettings: action,
             directionMode: observable,
             changeDirectionMode: action,
-            changeMacrosRequest: action
+            changeMacrosRequest: action,
+            markColor: observable,
+            setMarkColor: action
         })
     }
 
@@ -33,6 +35,11 @@ export class storeApplicationSettings {
     isResolvedComments = false;
     macrosMode = 0;
     directionMode = (Common.Locale.isCurrentLangRtl && LocalStorage.getItem('mode-direction') || 'rtl') || 'ltr';
+    markColor = 'auto';
+
+    setMarkColor(value) {
+        this.markColor = value;
+    }
 
     changeDirectionMode(value) {
         this.directionMode = value;

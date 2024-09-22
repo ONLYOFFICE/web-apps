@@ -9,8 +9,8 @@ import { AddAnnotationContext } from '../../controller/add/AddAnnotation';
 export const AnnotationPage = inject('storeApplicationSettings')(observer(props => {
     const { t } = useTranslation();
 	const storeApplicationSettings = props.storeApplicationSettings;
+    const curMarkColor = storeApplicationSettings.markColor;
 	const isComments = storeApplicationSettings.isComments;
-    const _t = t('Add', {returnObjects: true});
     const { closeModal, switchDisplayComments, onMarkType } = useContext(AddAnnotationContext);
     
     return (
@@ -26,7 +26,8 @@ export const AnnotationPage = inject('storeApplicationSettings')(observer(props 
          	</Navbar>
             <List>
 				<ListItem title={t('Add.textMark')} link='/add-annotation-mark/' className='no-indicator' routeProps={{
-                    onMarkType
+                    onMarkType,
+                    curMarkColor,
                 }}>
                     <Icon slot="media" icon="icon-add-mark"></Icon>
                 </ListItem> 
@@ -49,9 +50,10 @@ export const AnnotationPage = inject('storeApplicationSettings')(observer(props 
     )
 }));
 
-export const PageAddMark = props => {
+export const PageAddMark = inject('storeApplicationSettings')(observer(props => {
     const { t } = useTranslation();
     const isAndroid = Device.android;
+    const curMarkColor = props.storeApplicationSettings.markColor;
     const [markType, setMarkType] = useState('');
 
     const changeMarkType = (type) => {
@@ -93,13 +95,39 @@ export const PageAddMark = props => {
                     {!isAndroid && <Icon slot="media" icon="icon-mark-strikethrough"></Icon>}
                 </ListItem>
             </List>
+            <List>
+                <ListItem title={t('Add.textColor')} link="/add-mark-color/">
+                    <div slot="after">
+                        <div className='preview-color-style' style={{ backgroundColor: curMarkColor }}></div>
+                    </div>
+                </ListItem>
+            </List>
         </Page>
     )
-}
+}));
 
-export const PageMarkColor = props => {
+export const PageMarkColor = inject('storeApplicationSettings', 'storePalette')(observer(props => {
     const { t } = useTranslation();
     const _t = t('Add', {returnObjects: true});
+    const { changeMarkColor } = useContext(AddAnnotationContext);
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const curMarkColor = storeApplicationSettings.markColor;
+    const customColors = props.storePalette.customColors;
+    
+    const changeColor = (color, effectId, effectValue) => {
+        if (color !== 'empty') {
+            if (effectId !== undefined ) {
+                const newColor = { color: color, effectId: effectId, effectValue: effectValue };
+                storeApplicationSettings.setMarkColor(newColor);
+                changeMarkColor(newColor);
+            } else {
+                storeApplicationSettings.setMarkColor(color);
+                changeMarkColor(color);
+            }
+        } else {
+            props.f7router.navigate('/add-custom-mark-color/', { props: { changeMarkColor }});
+        }
+    }
 
     return (
         <Page>
@@ -110,31 +138,46 @@ export const PageMarkColor = props => {
                     </NavRight>
                 }
             </Navbar>
-            <ThemeColorPalette changeColor={changeColor} curColor={borderColor} customColors={customColors}/>
+            <ThemeColorPalette changeColor={changeColor} curColor={curMarkColor} customColors={customColors} transparent={true} />
             <List>
-                <ListItem title={t('Add.textAddCustomColor')} link={'/add-custom-mark-color/'} routeProps={{
-                    onBorderColor: props.onBorderColor
-                }}></ListItem>
+                <ListItem title={t('Add.textAddCustomColor')} link={'/add-custom-mark-color/'}></ListItem>
             </List>
         </Page>
     )
-}
+}));
 
-export const PageCustomMarkColor = props => {
+export const PageCustomMarkColor = inject('storeApplicationSettings', 'storePalette')(observer(props => {
     const { t } = useTranslation();
-    const _t = t('View.Edit', {returnObjects: true});
+    const _t = t('Add', { returnObjects: true });
+    const storePalette = props.storePalette;
+    const storeApplicationSettings = props.storeApplicationSettings;
+    const { changeMarkColor } = useContext(AddAnnotationContext);
+    const markColor = storeApplicationSettings.markColor;
+    const curMarkColor = typeof markColor === 'object' ? markColor.color : markColor;
+    const autoColor = curMarkColor === 'auto' ? window.getComputedStyle(document.getElementById('font-color-auto'))?.backgroundColor : null;
+
+    const addCustomMarkColor = (colors, color) => {
+        storePalette.changeCustomColors(colors);
+        changeMarkColor(color);
+        storeApplicationSettings.setMarkColor(color);
+        props.f7router.back();
+    };
 
     return (
         <Page>
-            <Navbar title={_t.textCustomColor} backLink={_t.textBack}>
+            <Navbar title={t('Add.textCustomColor')} backLink={_t.textBack}>
                 {Device.phone &&
                     <NavRight>
                         <Link icon='icon-expand-down' sheetClose></Link>
                     </NavRight>
                 }
             </Navbar>
-            <CustomColorPicker currentColor={borderColor} onAddNewColor={onAddNewColor}/>
+            <CustomColorPicker 
+                autoColor={autoColor} 
+                currentColor={curMarkColor}
+                onAddNewColor={addCustomMarkColor}
+            />
         </Page>
     )
-};
+}));
 
