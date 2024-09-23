@@ -139,7 +139,7 @@ window.Common = {
     }
 }
 
-checkScaling();
+!params.skipScaling && checkScaling();
 
 if ( !!params.uitheme ) {
     if ( params.uitheme == 'default-dark' ) {
