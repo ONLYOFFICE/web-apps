@@ -2328,7 +2328,11 @@ define([
             }
             if (str.length>100)
                 str = str.substring(0, 100) + '...';
-            str = "<b>" + (Common.Utils.String.htmlEncode(props.asc_getColumnName()) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
+            var colName = props.asc_getColumnName();
+            colName && (colName = colName.replace(/\n/g, ' '));
+            if (colName.length>100)
+                colName = colName.substring(0, 100) + '...';
+            str = "<b>" + (Common.Utils.String.htmlEncode(colName) || '(' + this.txtColumn + ' ' + Common.Utils.String.htmlEncode(props.asc_getSheetColumnName()) + ')') + ":</b><br>" + str;
             return str;
         },
 
