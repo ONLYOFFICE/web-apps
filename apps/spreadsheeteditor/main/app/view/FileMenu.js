@@ -442,7 +442,7 @@ define([
 
             if (!this.customizationDone) {
                 this.customizationDone = true;
-                Common.Utils.applyCustomization(this.mode.customization, {goback: '#fm-btn-back > a'});
+                this.mode.canBack && this.mode.customization.goback.text && typeof this.mode.customization.goback.text === 'string' && this.miBack.setCaption(this.mode.customization.goback.text);
             }
 
             this.panels['opts'].setMode(this.mode);

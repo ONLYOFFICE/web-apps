@@ -2636,9 +2636,6 @@ define([
 
             var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
-            if ($('#header-container').is(":visible")) {
-                top -= $('#header-container').height()
-            }
             showPoint = [e.clientX*Common.Utils.zoom(), top - parentOffset.top];
 
             if (record != undefined) {
@@ -2707,9 +2704,6 @@ define([
         onSaveStyle: function (style) {
             if (!window.styles_loaded) return;
 
-            window.styles_loaded = false;
-            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
-
             var me = this, win;
 
             if (me.api) {
@@ -2723,6 +2717,8 @@ define([
                         characterStyle.put_Name(title + '_character');
                         style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
+                        window.styles_loaded = false;
+                        me.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [me.toolbar.listStyles]});
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 };

@@ -2061,9 +2061,9 @@ define([
 
                         showPoint = [data.asc_getX() + pos[0] - 10, data.asc_getY() + pos[1] + 20];
 
-                        var tipheight = filterTip.ref.getBSTip().$tip.width();
-                        if (showPoint[1] + filterTip.ttHeight > me.tooltips.coauth.bodyHeight ) {
-                            showPoint[1] = me.tooltips.coauth.bodyHeight - filterTip.ttHeight - 5;
+                        var tipheight = filterTip.ref.getBSTip().$tip.height();
+                        if (showPoint[1] + tipheight > me.tooltips.coauth.bodyHeight ) {
+                            showPoint[1] = me.tooltips.coauth.bodyHeight - tipheight - 5;
                             showPoint[0] += 20;
                         }
 

@@ -66,5 +66,5 @@ require([
     'documenteditor/main/app/view/ProtectDialog',
     'documenteditor/main/app/view/MailMergeEmailDlg'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });
