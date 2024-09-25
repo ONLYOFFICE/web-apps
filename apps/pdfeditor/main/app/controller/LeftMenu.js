@@ -115,6 +115,10 @@ define([
 
             Common.NotificationCenter.on('leftmenu:change', _.bind(this.onMenuChange, this));
             Common.NotificationCenter.on('app:comment:add', _.bind(this.onAppAddComment, this));
+            Common.NotificationCenter.on('collaboration:history', _.bind(function () {
+                if ( !this.leftMenu.panelHistory.isVisible() )
+                    this.clickMenuFileItem(null, 'history');
+            }, this));
             Common.NotificationCenter.on('file:print', _.bind(this.clickToolbarPrint, this));
         },
 
@@ -165,6 +169,8 @@ define([
             }
             /** coauthoring end **/
             this.leftMenu.getMenu('file').setApi(api);
+            if (this.mode.canUseHistory)
+                this.getApplication().getController('Common.Controllers.History').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('PageThumbnails').setApi(this.api).setMode(this.mode);
             this.getApplication().getController('Search').setApi(this.api).setMode(this.mode);
             this.leftMenu.setOptionsPanel('advancedsearch', this.getApplication().getController('Search').getView('Common.Views.SearchPanel'));
@@ -193,6 +199,9 @@ define([
                 this.leftMenu.btnComments.hide();
             }
             /** coauthoring end **/
+
+            if (this.mode.canUseHistory)
+                this.leftMenu.setOptionsPanel('history', this.getApplication().getController('Common.Controllers.History').getView('Common.Views.History'));
 
             if (this.mode.canUseViwerNavigation) {
                 this.leftMenu.setOptionsPanel('navigation', this.getApplication().getController('Navigation').getView('Navigation'));
@@ -260,6 +269,31 @@ define([
                 close_menu = !!isopts;
                 break;
             case 'close-editor': Common.NotificationCenter.trigger('close'); break;
+                case 'history':
+                    if (!this.leftMenu.panelHistory.isVisible()) {
+                        if (this.api.isDocumentModified()) {
+                            var me = this;
+                            this.api.asc_stopSaving();
+                            Common.UI.warning({
+                                closable: false,
+                                width: 500,
+                                title: this.notcriticalErrorTitle,
+                                msg: this.leavePageText,
+                                buttons: ['ok', 'cancel'],
+                                primary: 'ok',
+                                callback: function(btn) {
+                                    if (btn == 'ok') {
+                                        me.api.asc_undoAllChanges();
+                                        me.api.asc_continueSaving();
+                                        me.showHistory();
+                                    } else
+                                        me.api.asc_continueSaving();
+                                }
+                            });
+                        } else
+                            this.showHistory();
+                    }
+                    break;
             default: close_menu = false;
             }
 
@@ -641,6 +675,8 @@ define([
                 this.leftMenu.btnChat.setDisabled(disable);
             if (!options || options.navigation && options.navigation.disable)
                 this.leftMenu.btnNavigation.setDisabled(disable);
+            if (!options || options.thumbnails && options.thumbnails.disable)
+                this.leftMenu.btnThumbnails.setDisabled(disable);
 
             this.leftMenu.setDisabledPluginButtons(disable);
         },
@@ -856,6 +892,17 @@ define([
             }
         },
 
+        showHistory: function() {
+            if (!this.mode.wopi) {
+                var maincontroller = PDFE.getController('Main');
+                if (!maincontroller.loadMask)
+                    maincontroller.loadMask = new Common.UI.LoadMask({owner: $('#viewport')});
+                maincontroller.loadMask.setTitle(this.textLoadHistory);
+                maincontroller.loadMask.show();
+            }
+            Common.Gateway.requestHistory();
+        },
+
         onShowHideChat: function(state) {
             if (this.mode.canCoAuthoring && this.mode.canChat && !this.mode.isLightVersion) {
                 if (state) {
@@ -934,7 +981,8 @@ define([
         txtUntitled: 'Untitled',
         txtCompatible: 'The document will be saved to the new format. It will allow to use all the editor features, but might affect the document layout.<br>Use the \'Compatibility\' option of the advanced settings if you want to make the files compatible with older MS Word versions.',
         warnDownloadAsPdf: 'Your {0} will be converted to an editable format. This may take a while. The resulting document will be optimized to allow you to edit the text, so it might not look exactly like the original {0}, especially if the original file contained lots of graphics.',
-        textSelectPath: 'Enter a new name for saving the file copy'
+        textSelectPath: 'Enter a new name for saving the file copy',
+        textLoadHistory         : 'Loading version history...'
 
     }, PDFE.Controllers.LeftMenu || {}));
 });

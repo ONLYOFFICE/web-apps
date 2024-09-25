@@ -83,6 +83,7 @@ define([
             models: [],
             collections: [
                 'Common.Collections.TextArt',
+                'Common.Collections.HistoryUsers',
             ],
             views: [],
 
@@ -616,8 +617,9 @@ define([
                     statusBar: true,
                     rightMenu: {clear: !temp, disable: true},
                     leftMenu: {disable: true, previewMode: true},
-                    fileMenu: {protect: true},
+                    fileMenu: {protect: true, history: temp},
                     navigation: {disable: !temp, previewMode: true},
+                    thumbnails: {disable: !temp},
                     comments: {disable: !temp, previewMode: true},
                     chat: true,
                     viewport: true,
@@ -1128,6 +1130,7 @@ define([
                 Common.Gateway.on('processsaveresult',      _.bind(me.onProcessSaveResult, me));
                 Common.Gateway.on('processrightschange',    _.bind(me.onProcessRightsChange, me));
                 Common.Gateway.on('processmouse',           _.bind(me.onProcessMouse, me));
+                Common.Gateway.on('refreshhistory',               _.bind(me.onRefreshHistory, me));
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
@@ -1292,6 +1295,10 @@ define([
                 this.appOptions.isPDFFill = pdfEdit && this.appOptions.canLicense && (this.permissions.fillForms!==false) && !this.appOptions.canPDFAnnotate && !this.appOptions.canPDFEdit && (this.editorConfig.mode !== 'view');
                 this.appOptions.canSwitchMode = this.appOptions.isPDFAnnotate && this.appOptions.canPDFEdit; // switch between View/annotate and pdf edit
                 // this.appOptions.canCoEditing = (this.appOptions.isPDFAnnotate || this.appOptions.isPDFFill) && !(this.appOptions.isDesktopApp && this.appOptions.isOffline);
+
+                this.appOptions.canUseHistory  = pdfEdit && this.appOptions.canLicense && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isOffline;
+                this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
+                this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore;
 
                 this.appOptions.canComments    = pdfEdit && this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isPDFAnnotate : this.permissions.comment) && (this.editorConfig.mode !== 'view');
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
@@ -1627,6 +1634,9 @@ define([
                     return;
                 } else if (id == Asc.c_oAscError.ID.CanNotPasteImage) {
                     this.showTips([this.errorCannotPasteImg], {timeout: 7000, hideCloseTip: true});
+                    return;
+                } else if (id === Asc.c_oAscError.ID.DocumentAndChangeMismatch) {
+                    this.getApplication().getController('Common.Controllers.History').onHashError();
                     return;
                 }
 
@@ -2582,6 +2592,176 @@ define([
                     });
                 });
                 artStore.reset(arr);
+            },
+
+            DisableVersionHistory: function() {
+                this.editorConfig.canUseHistory = false;
+                this.appOptions.canUseHistory = false;
+            },
+
+            onRefreshHistory: function(opts) {
+                if (!this.appOptions.canUseHistory) return;
+
+                this.loadMask && this.loadMask.hide();
+                if (opts.data.error || !opts.data.history) {
+                    var historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions');
+                    if (historyStore && historyStore.size()>0) {
+                        historyStore.each(function(item){
+                            item.set('canRestore', false);
+                        });
+                    }
+                    Common.UI.alert({
+                        title: this.notcriticalErrorTitle,
+                        msg: (opts.data.error) ? opts.data.error : this.txtErrorLoadHistory,
+                        iconCls: 'warn',
+                        buttons: ['ok'],
+                        callback: _.bind(function(btn){
+                            this.onEditComplete();
+                        }, this)
+                    });
+                } else {
+                    this.api.asc_coAuthoringDisconnect();
+                    appHeader.setCanRename(false);
+                    appHeader.getButton('users') && appHeader.getButton('users').hide();
+                    appHeader.getButton('share') && appHeader.getButton('share').setVisible(false);
+                    this.getApplication().getController('LeftMenu').getView('LeftMenu').showHistory();
+                    this.disableEditing(true);
+                    this._renameDialog && this._renameDialog.close();
+                    var versions = opts.data.history,
+                        historyStore = this.getApplication().getCollection('Common.Collections.HistoryVersions'),
+                        currentVersion = null,
+                        arrIds = [];
+                    if (historyStore) {
+                        var arrVersions = [], ver, version, group = -1, prev_ver = -1, arrColors = [], docIdPrev = '',
+                            usersStore = this.getApplication().getCollection('Common.Collections.HistoryUsers'), user = null, usersCnt = 0;
+
+                        for (var ver=versions.length-1, index = 0; ver>=0; ver--, index++) {
+                            version = versions[ver];
+                            if (version.versionGroup===undefined || version.versionGroup===null)
+                                version.versionGroup = version.version;
+                            if (version) {
+                                if (!version.user) version.user = {};
+                                docIdPrev = (ver>0 && versions[ver-1]) ? versions[ver-1].key : version.key + '0';
+                                user = usersStore.findUser(version.user.id);
+                                if (!user) {
+                                    var color = Common.UI.ExternalUsers.getColor(version.user.id || version.user.name || this.textAnonymous, true);
+                                    user = new Common.Models.User({
+                                        id          : version.user.id,
+                                        username    : version.user.name || this.textAnonymous,
+                                        colorval    : color,
+                                        color       : this.generateUserColor(color)
+                                    });
+                                    usersStore.add(user);
+                                }
+                                var avatar = Common.UI.ExternalUsers.getImage(version.user.id);
+                                (avatar===undefined) && arrIds.push(version.user.id);
+                                arrVersions.push(new Common.Models.HistoryVersion({
+                                    version: version.versionGroup,
+                                    revision: version.version,
+                                    userid : version.user.id,
+                                    username : version.user.name || this.textAnonymous,
+                                    usercolor: user.get('color'),
+                                    initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(version.user.name || this.textAnonymous)),
+                                    avatar : avatar,
+                                    created: version.created,
+                                    docId: version.key,
+                                    markedAsVersion: (group!==version.versionGroup),
+                                    selected: (opts.data.currentVersion == version.version),
+                                    canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
+                                    isExpanded: true,
+                                    serverVersion: version.serverVersion,
+                                    fileType: 'docx',
+                                    index: index
+                                }));
+                                if (opts.data.currentVersion == version.version) {
+                                    currentVersion = arrVersions[arrVersions.length-1];
+                                }
+                                group = version.versionGroup;
+                                if (prev_ver!==version.version) {
+                                    prev_ver = version.version;
+                                    arrColors.reverse();
+                                    for (i=0; i<arrColors.length; i++) {
+                                        arrVersions[arrVersions.length-i-2].set('arrColors',arrColors);
+                                    }
+                                    arrColors = [];
+                                }
+                                arrColors.push(user.get('colorval'));
+
+                                var changes = version.changes, change, i;
+                                if (changes && changes.length>0) {
+                                    arrVersions[arrVersions.length-1].set('docIdPrev', docIdPrev);
+                                    if (!_.isEmpty(version.serverVersion) && version.serverVersion == this.appOptions.buildVersion) {
+                                        arrVersions[arrVersions.length-1].set('changeid', changes.length-1);
+                                        arrVersions[arrVersions.length-1].set('hasSubItems', changes.length>1);
+                                        arrVersions[arrVersions.length-1].set('documentSha256', changes[changes.length-1].documentSha256);
+                                        for (i=changes.length-2; i>=0; i--, index++) {
+                                            change = changes[i];
+
+                                            user = usersStore.findUser(change.user.id);
+                                            if (!user) {
+                                                var color = Common.UI.ExternalUsers.getColor(change.user.id || change.user.name || this.textAnonymous, true);
+                                                user = new Common.Models.User({
+                                                    id          : change.user.id,
+                                                    username    : change.user.name || this.textAnonymous,
+                                                    colorval    : color,
+                                                    color       : this.generateUserColor(color)
+                                                });
+                                                usersStore.add(user);
+                                            }
+                                            avatar = Common.UI.ExternalUsers.getImage(change.user.id);
+                                            (avatar===undefined) && arrIds.push(change.user.id);
+                                            arrVersions.push(new Common.Models.HistoryVersion({
+                                                version: version.versionGroup,
+                                                revision: version.version,
+                                                changeid: i,
+                                                userid : change.user.id,
+                                                username : change.user.name || this.textAnonymous,
+                                                usercolor: user.get('color'),
+                                                initials : Common.Utils.getUserInitials(AscCommon.UserInfoParser.getParsedName(change.user.name || this.textAnonymous)),
+                                                avatar : avatar,
+                                                created: change.created,
+                                                docId: version.key,
+                                                docIdPrev: docIdPrev,
+                                                selected: false,
+                                                canRestore: this.appOptions.canHistoryRestore && this.appOptions.canDownload,
+                                                isRevision: false,
+                                                isVisible: true,
+                                                serverVersion: version.serverVersion,
+                                                documentSha256: change.documentSha256,
+                                                fileType: 'docx',
+                                                hasParent: true,
+                                                index: index,
+                                                level: 1
+                                            }));
+                                            arrColors.push(user.get('colorval'));
+                                        }
+                                    }
+                                } else if (ver==0 && versions.length==1) {
+                                    arrVersions[arrVersions.length-1].set('docId', version.key + '1');
+                                }
+                            }
+                        }
+                        if (arrColors.length>0) {
+                            arrColors.reverse();
+                            for (i=0; i<arrColors.length; i++) {
+                                arrVersions[arrVersions.length-i-1].set('arrColors',arrColors);
+                            }
+                            arrColors = [];
+                        }
+                        historyStore.reset(arrVersions);
+                        if (currentVersion===null && historyStore.size()>0) {
+                            currentVersion = historyStore.at(0);
+                            currentVersion.set('selected', true);
+                        }
+                        // if (currentVersion)
+                        //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
+                    }
+                }
+            },
+
+            generateUserColor: function(color) {
+                return"#"+("000000"+color.toString(16)).substr(-6);
             },
 
             onSaveDocumentBinary: function(data) {

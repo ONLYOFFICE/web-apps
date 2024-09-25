@@ -111,7 +111,17 @@ define([
                     autohide: false,
                     min: 300,
                     max: 600
-                }}, { // sdk
+                }}, { // history versions
+                el: items[3],
+                rely: true,
+                alias: 'history',
+                resize: {
+                    hidden: true,
+                    autohide: false,
+                    min: 300,
+                    max: 600
+                }
+            }, { // sdk
                 el: items[1],
                 stretch: true
             }, {

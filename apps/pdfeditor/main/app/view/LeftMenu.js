@@ -48,6 +48,7 @@ define([
     'common/main/lib/view/Comments',
     'common/main/lib/view/Chat',
     /** coauthoring end **/
+    'common/main/lib/view/History',
     'common/main/lib/view/Plugins',
     'common/main/lib/view/About',
     'pdfeditor/main/app/view/FileMenu',
@@ -275,6 +276,9 @@ define([
             } else
             if (name == 'advancedsearch') {
                 this.panelSearch = panel.render('#left-panel-search');
+            } else /** coauthoring end **/
+            if (name == 'history') {
+                this.panelHistory = panel.render('#left-panel-history');
             }
         },
 
@@ -406,6 +410,13 @@ define([
             mode.canUseThumbnails && this.btnThumbnails.show();
             mode.canUseViwerNavigation && this.btnNavigation.show();
             return this;
+        },
+
+        showHistory: function() {
+            this._state.pluginIsRunning = false;
+            this.panelHistory.show();
+            this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('pdfe-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
+            Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
         setDeveloperMode: function(mode, beta, version) {

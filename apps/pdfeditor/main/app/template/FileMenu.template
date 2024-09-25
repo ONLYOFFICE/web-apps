@@ -14,6 +14,7 @@
     <li id="fm-btn-protect" class="fm-btn"></li>
     <li class="devider"></li>
     <li id="fm-btn-info" class="fm-btn" data-layout-name="toolbar-file-info"></li>
+    <li id="fm-btn-history" class="fm-btn"></li>
     <li id="fm-btn-rights" class="fm-btn"></li>
     <li id="fm-btn-back" class="fm-btn"></li>
     <li class="devider-last"></li>
