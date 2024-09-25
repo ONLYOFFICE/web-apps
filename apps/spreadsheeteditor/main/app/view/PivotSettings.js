@@ -891,19 +891,20 @@ define([
         onMoveTo: function(type, pivotindex, to) {
             if (this.api && !this._locked && this._state.field){
                 var pivotIndex = _.isNumber(pivotindex) ? pivotindex : this._state.field.record.get('pivotIndex'),
-                    index = _.isNumber(to) ? to : ((this._state.field.type==2) ? this._state.field.record.get('index') : undefined);
+                    index = _.isNumber(to) ? to : undefined,
+                    dataIndex = (this._state.field.type==2) ? this._state.field.record.get('index') : undefined;
                 switch (type) {
                     case 0:
-                        this._originalProps.asc_moveToColField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToColField(this.api, pivotIndex, dataIndex, index);
                         break;
                     case 1:
-                        this._originalProps.asc_moveToRowField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToRowField(this.api, pivotIndex, dataIndex, index);
                         break;
                     case 2:
-                        this._originalProps.asc_moveToDataField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToDataField(this.api, pivotIndex, dataIndex, index);
                         break;
                     case 3:
-                        this._originalProps.asc_moveToPageField(this.api, pivotIndex, index);
+                        this._originalProps.asc_moveToPageField(this.api, pivotIndex, dataIndex, index);
                         break;
                 }
                 Common.NotificationCenter.trigger('edit:complete', this);
