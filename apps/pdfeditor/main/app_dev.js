@@ -144,6 +144,7 @@ require([
             // ,'Common.Controllers.ExternalDiagramEditor'
             // ,'Common.Controllers.ExternalOleEditor'
             ,'Common.Controllers.Protection'
+            ,'Common.Controllers.ReviewChanges'
         ]
     });
 
@@ -180,6 +181,7 @@ require([
                 // ,'common/main/lib/controller/ExternalOleEditor'
                 ,'common/main/lib/controller/Draw'
                 ,'common/main/lib/controller/Protection'
+                ,'common/main/lib/controller/ReviewChanges'
             ], function() {
                 app.postLaunchScripts = [
                     'common/main/lib/controller/ScreenReaderFocus',

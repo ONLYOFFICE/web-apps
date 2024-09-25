@@ -768,7 +768,8 @@ define([
                     if ((!me.btnMailRecepients || !Common.UI.LayoutManager.isElementVisible('toolbar-collaboration-mailmerge')) && separator_last)
                         me.$el.find(separator_last).hide();
 
-                    Common.NotificationCenter.trigger('tab:visible', 'review', (config.isEdit || config.canViewReview || me.canComments) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
+                    Common.NotificationCenter.trigger('tab:visible', 'review', (window.PDFE && (config.isPDFAnnotate || config.isPDFEdit) || !window.PDFE && (config.isEdit || config.canViewReview || me.canComments))
+                                                                                && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration'));
                     setEvents.call(me);
                 });
             },

@@ -92,9 +92,9 @@ define([
                     'FileMenu': {
                         'settings:apply': _.bind(this.applySettings, this)
                     },
-                    // 'Common.Views.ReviewChanges': {
-                    //     'settings:apply': _.bind(this.applySettings, this)
-                    // }
+                    'Common.Views.ReviewChanges': {
+                        'settings:apply': _.bind(this.applySettings, this)
+                    }
                 });
 
                 this.translationTable = {
@@ -479,7 +479,6 @@ define([
                     docInfo.asc_putIsEnabledMacroses(!!enable);
                     enable = !this.editorConfig.customization || (this.editorConfig.customization.plugins!==false);
                     docInfo.asc_putIsEnabledPlugins(!!enable);
-//                    docInfo.put_Review(this.permissions.review);
 
                     var type = /^(?:(djvu|xps|oxps))$/.exec(data.doc.fileType);
                     var coEditMode = (type && typeof type[1] === 'string') ? 'strict' :  // offline viewer for djvu|xps|oxps
@@ -622,6 +621,7 @@ define([
                     thumbnails: {disable: !temp},
                     comments: {disable: !temp, previewMode: true},
                     chat: true,
+                    review: true,
                     viewport: true,
                     documentHolder: {clear: !temp, disable: true},
                     toolbar: true,
@@ -646,6 +646,9 @@ define([
 
                 if (options.statusBar) {
                     app.getController('Statusbar').getView('Statusbar').SetDisabled(disable);
+                }
+                if (options.review) {
+                    app.getController('Common.Controllers.ReviewChanges').SetDisabled(disable);
                 }
                 if (options.viewport) {
                     app.getController('Viewport').SetDisabled(disable);
@@ -844,9 +847,6 @@ define([
 
                 if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton']) && (!this._state.fastCoauth || this._state.usersCount<2))
                     this.synchronizeChanges();
-                // else if (this.appOptions.isEdit && (id==Asc.c_oAscAsyncAction['Save'] || id==Asc.c_oAscAsyncAction['ForceSaveButton'] || id == Asc.c_oAscAsyncAction['ApplyChanges']) &&
-                //         this._state.fastCoauth)
-                //     this.getApplication().getController('Common.Controllers.ReviewChanges').synchronizeChanges();
 
                 if ( id == Asc.c_oAscAsyncAction['Disconnect']) {
                     this._state.timerDisconnect && clearTimeout(this._state.timerDisconnect);
@@ -1581,9 +1581,9 @@ define([
             applyModeEditorElements: function() {
 
                 var me = this,
-                    application         = this.getApplication();
-                    // reviewController    = application.getController('Common.Controllers.ReviewChanges');
-                // reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
+                    application         = this.getApplication(),
+                    reviewController    = application.getController('Common.Controllers.ReviewChanges');
+                reviewController.setMode(me.appOptions).setConfig({config: me.editorConfig}, me.api).loadDocument({doc:me.document});
 
                 if (this.appOptions.isEdit) {
                     if (me.appOptions.isSignatureSupport || me.appOptions.isPasswordSupport)
@@ -2317,7 +2317,7 @@ define([
                                 // Common.localStorage.setItem("pdfe-settings-showchanges-strict", 'last');
                                 Common.Utils.InternalSettings.set("pdfe-settings-showchanges-strict", 'last');
                                 this.api.SetCollaborativeMarksShowType(Asc.c_oAscCollaborativeMarksShowType.LastChanges);
-                                // this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
+                                this.getApplication().getController('Common.Controllers.ReviewChanges').applySettings();
                             }
                             this.onEditComplete();
                         }, this)
@@ -2381,6 +2381,7 @@ define([
                 var filemenu = this.getApplication().getController('LeftMenu').getView('LeftMenu').getMenu('file');
                 filemenu.loadDocument({doc:this.document});
                 filemenu.panels && filemenu.panels['info'] && filemenu.panels['info'].updateInfo(this.document);
+                this.getApplication().getController('Common.Controllers.ReviewChanges').loadDocument({doc:this.document});
                 Common.Gateway.metaChange(meta);
 
                 if (this.appOptions.wopi) {

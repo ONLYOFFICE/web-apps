@@ -1268,6 +1268,13 @@ define([
                 }
 
                 !config.canComments && me.toolbar.setVisible('comment', false);
+
+                var tab = {action: 'review', caption: me.toolbar.textTabCollaboration, dataHintTitle: 'U', layoutname: 'toolbar-collaboration'};
+                var $panel = me.getApplication().getController('Common.Controllers.ReviewChanges').createToolbarPanel();
+                if ( $panel ) {
+                    me.toolbar.addTab(tab, $panel, 7);
+                    me.toolbar.setVisible('review', (config.isPDFAnnotate || config.isPDFEdit) && Common.UI.LayoutManager.isElementVisible('toolbar-collaboration') ); // use config.canViewReview in review controller. set visible review tab in view mode only when asc_HaveRevisionsChanges
+                }
             }
 
             var tab = {caption: me.toolbar.textTabView, action: 'view', extcls: config.isEdit ? 'canedit' : '', layoutname: 'toolbar-view', dataHintTitle: 'W'};
@@ -1368,6 +1375,30 @@ define([
                     }
                 }
                 config.isEdit && Common.UI.TooltipManager.showTip('editPdf');
+
+                me.btnsComment = [];
+                if ( config.canComments ) {
+                    var _set = Common.enumLock;
+                    me.btnsComment = Common.Utils.injectButtons(me.toolbar.$el.find('.slot-comment'), 'tlbtn-addcomment-', 'toolbar__icon btn-big-add-comment', me.toolbar.capBtnComment, [_set.lostConnect], undefined, undefined, undefined, '1', 'bottom', 'small');
+
+                    if ( me.btnsComment.length ) {
+                        var _comments = PDFE.getController('Common.Controllers.Comments').getView();
+                        me.btnsComment.forEach(function (btn) {
+                            btn.updateHint( _comments.textHintAddComment );
+                            btn.on('click', function (btn, e) {
+                                Common.NotificationCenter.trigger('app:comment:add', 'toolbar');
+                            });
+                            if (btn.cmpEl.closest('#review-changes-panel').length>0)
+                                btn.setCaption(me.toolbar.capBtnAddComment);
+                        }, me);
+                        if (_comments.buttonAddNew) {
+                            _comments.buttonAddNew.options.lock = [ _set.lostConnect ];
+                            me.btnsComment.add(_comments.buttonAddNew);
+                        }
+                        Array.prototype.push.apply(me.toolbar.lockControls, me.btnsComment);
+                        Array.prototype.push.apply(me.toolbar.toolbarControls, me.btnsComment);
+                    }
+                }
             });
         },
 

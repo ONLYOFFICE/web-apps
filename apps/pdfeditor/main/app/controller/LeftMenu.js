@@ -101,9 +101,9 @@ define([
                     'file:close': this.clickToolbarTab.bind(this, 'other'),
                     'save:disabled': this.changeToolbarSaveState.bind(this)
                 },
-                // 'Common.Views.ReviewChanges': {
-                //     'collaboration:chat': _.bind(this.onShowHideChat, this)
-                // },
+                'Common.Views.ReviewChanges': {
+                    'collaboration:chat': _.bind(this.onShowHideChat, this)
+                },
                 'ViewTab': {
                     'viewtab:navigation': _.bind(this.onShowHideNavigation, this),
                     'leftmenu:hide': _.bind(this.onLeftMenuHide, this)
