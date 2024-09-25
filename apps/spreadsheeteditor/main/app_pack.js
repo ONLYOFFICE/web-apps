@@ -85,5 +85,5 @@ require([
     'spreadsheeteditor/main/app/view/AutoFilterDialog',
     'spreadsheeteditor/main/app/view/PivotGroupDialog',
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });

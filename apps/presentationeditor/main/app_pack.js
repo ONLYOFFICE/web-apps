@@ -40,5 +40,5 @@ require([
     'presentationeditor/main/app/view/DateTimeDialog',
     'presentationeditor/main/app/view/ChartSettingsAdvanced'
 ], function () {
-    Common.NotificationCenter.trigger('script:loaded');
+    Common.NotificationCenter.trigger('app-pack:loaded');
 });
