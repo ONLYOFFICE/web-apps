@@ -2704,9 +2704,6 @@ define([
         onSaveStyle: function (style) {
             if (!window.styles_loaded) return;
 
-            window.styles_loaded = false;
-            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
-
             var me = this, win;
 
             if (me.api) {
@@ -2720,6 +2717,8 @@ define([
                         characterStyle.put_Name(title + '_character');
                         style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
+                        window.styles_loaded = false;
+                        me.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [me.toolbar.listStyles]});
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 };
