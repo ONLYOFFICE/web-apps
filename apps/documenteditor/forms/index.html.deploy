@@ -85,7 +85,7 @@
             background: var(--skeleton-canvas-content-background, var(--canvas-content-background, #fff));
             width: 796px;
             margin: 59px auto;
-            height: 100%;
+            height: 1123px;
             border: 1px solid #bbbec2;
             border: var(--scaled-one-px-value, 1px) solid var(--skeleton-canvas-page-border, var(--canvas-page-border, #bbbec2));
             padding-top: 50px;
@@ -154,7 +154,7 @@
           </div>
           <div class="placeholder-outer">
           <div class="placeholder">
-              <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+              <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
           </div>
           </div>
       </div>
