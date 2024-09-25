@@ -43,9 +43,8 @@ Common.Views = Common.Views || {};
 
 define([
     'backbone',
-    'text!common/main/lib/template/Header.template',
     'core'
-], function (Backbone, headerTemplate) { 'use strict';
+], function (Backbone) { 'use strict';
 
     Common.Views.Header =  Backbone.View.extend(_.extend(function(){
         var storeUsers, appConfig;
@@ -757,9 +756,6 @@ define([
             },
 
             el: '#header',
-
-            // Compile our stats template
-            template: _.template(headerTemplate),
 
             // Delegated events for creating new items, and clearing completed ones.
             events: {

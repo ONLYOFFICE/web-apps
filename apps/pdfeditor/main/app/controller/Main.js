@@ -65,8 +65,7 @@ define([
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
-            feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            feedback: 'button#left-btn-support'
         };
 
         var mapCustomizationExtElements = {

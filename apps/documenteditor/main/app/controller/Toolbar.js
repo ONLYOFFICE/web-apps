@@ -2636,9 +2636,6 @@ define([
 
             var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
-            if ($('#header-container').is(":visible")) {
-                top -= $('#header-container').height()
-            }
             showPoint = [e.clientX*Common.Utils.zoom(), top - parentOffset.top];
 
             if (record != undefined) {
