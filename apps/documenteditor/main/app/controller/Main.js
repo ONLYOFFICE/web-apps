@@ -574,7 +574,7 @@ define([
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor-container').css('overflow', 'hidden');
-                    $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+                    $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(22) + '</div>');
                     if (this.editorConfig.mode == 'view' || (this.permissions.edit === false && !this.permissions.review ))
                         $('#editor-container').find('.doc-placeholder').css('margin-top', 19);
                 }
