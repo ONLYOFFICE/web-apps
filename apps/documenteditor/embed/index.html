@@ -69,17 +69,24 @@
 
         .loadmask > .placeholder {
             background: #fbfbfb;
-            width: 100%;
-            height: 100%;
-            padding-top: 56px;
+            left: 25px;
+            top: 50px;
+            position: absolute;
+            width: calc(100% - 25px * 2 - 14px); /* 25px - horizontal margin, 14px width scrollbar */
+            aspect-ratio: 21 / 29.7;
+            padding: 10% 10% 10% 10%;
         }
 
-        .loadmask > .placeholder > .line {
-            height: 15px;
-            margin: 30px;
-            background: #e2e2e2;
-            overflow: hidden;
-            position: relative;
+        .loadmask > .placeholder > .lines {
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                    to bottom,
+                    #e2e2e2,
+                    #e2e2e2 15px,
+                    transparent 15px,
+                    transparent 45px
+            );
 
             -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
             -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
@@ -108,11 +115,11 @@
             100% { opacity:0.1; }
         }
 
-        .loadmask.none-animation > .placeholder > .line {
+        .loadmask.none-animation > .placeholder > .lines {
             animation: none;
         }
 
-        .loadmask.end-animation > .placeholder > .line {
+        .loadmask.end-animation > .placeholder > .lines {
             -webkit-animation: endFlickerAnimation 2s infinite ease-in-out;
             -moz-animation: endFlickerAnimation 2s infinite ease-in-out;
             -o-animation: endFlickerAnimation 2s infinite ease-in-out;
@@ -155,13 +162,41 @@
   </head>
 
   <body class="embed-body">
-      <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
-
+      <div id="loading-mask" class="loadmask">
+          <div class="brendpanel">
+              <div>
+                  <div class="brand-logo loading-logo">
+                      <img src="">
+                  </div>
+                  <div class="doc-title"></div>
+                  <div class="circle"></div>
+              </div>
+          </div>
+          <div class="placeholder">
+              <div class="lines"></div>
+          </div>
+      </div>
       <!-- debug begin -->
       <script type="text/javascript">var less=less||{};less.env='development';</script>
       <script src="../../../vendor/less/dist/less.js" type="text/javascript"></script>
       <!-- debug end -->
 
+       <script>
+           function handlerResize() {
+               if(document.getElementById('loading-mask').style.display == 'none')  {
+                   window.removeEventListener('resize', handlerResize);
+               } else {
+                   var placeholderEl = document.getElementsByClassName('placeholder')[0];
+                   var linesEl = document.getElementsByClassName('lines')[0];
+                   var placeholderHeight = placeholderEl.clientHeight
+                       - parseFloat(getComputedStyle(placeholderEl).paddingTop)
+                       - parseFloat(getComputedStyle(placeholderEl).paddingBottom);
+                   linesEl.style.maxHeight = Math.round(placeholderHeight / 45) * 45 + 'px';
+               }
+           }
+           window.addEventListener('resize', handlerResize);
+           handlerResize();
+       </script>
        <script>
            var  userAgent = navigator.userAgent.toLowerCase(),
                 check = function(regex){ return regex.test(userAgent); };
