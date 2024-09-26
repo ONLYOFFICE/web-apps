@@ -65,24 +65,17 @@
 
         .loadmask > .placeholder {
             background: #fbfbfb;
-            left: 25px;
-            top: 50px;
-            position: absolute;
-            width: calc(100% - 25px * 2 - 14px); /* 25px - horizontal margin, 14px width scrollbar */
-            aspect-ratio: 21 / 29.7;
-            padding: 10% 10% 7.5% 10%;  /* bottom 7.5% because the last transparent line takes 2.5%. */
-        }
-
-        .loadmask > .placeholder > .lines {
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                    to bottom,
-                    #e2e2e2,
-                    #e2e2e2 1.5%,
-                    transparent 1.5%,
-                    transparent 4%
-            );
+            padding-top: 56px;
+        }
+
+        .loadmask > .placeholder > .line {
+            height: 15px;
+            margin: 30px;
+            background: #e2e2e2;
+            overflow: hidden;
+            position: relative;
             -webkit-animation: startFlickerAnimation 2s infinite ease-in-out;
             -moz-animation: startFlickerAnimation 2s infinite ease-in-out;
             -o-animation: startFlickerAnimation 2s infinite ease-in-out;
@@ -110,11 +103,11 @@
             100% { opacity:0.1; }
         }
 
-        .loadmask.none-animation > .placeholder > .lines {
+        .loadmask.none-animation > .placeholder > .line {
             animation: none;
         }
 
-        .loadmask.end-animation > .placeholder > .lines {
+        .loadmask.end-animation > .placeholder > .line {
             -webkit-animation: endFlickerAnimation 2s infinite ease-in-out;
             -moz-animation: endFlickerAnimation 2s infinite ease-in-out;
             -o-animation: endFlickerAnimation 2s infinite ease-in-out;
@@ -150,20 +143,7 @@
   </head>
 
   <body class="embed-body">
-      <div id="loading-mask" class="loadmask">
-          <div class="brendpanel">
-              <div>
-                  <div class="brand-logo loading-logo">
-                      <img src="">
-                  </div>
-                  <div class="doc-title"></div>
-                  <div class="circle"></div>
-              </div>
-          </div>
-          <div class="placeholder">
-              <div class="lines"></div>
-          </div>
-      </div>
+       <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="brand-logo loading-logo"><img src=""></div><div class="doc-title"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
        <script>
             var  userAgent = navigator.userAgent.toLowerCase(),
