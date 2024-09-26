@@ -2754,8 +2754,8 @@ define([
                             currentVersion = historyStore.at(0);
                             currentVersion.set('selected', true);
                         }
-                        // if (currentVersion)
-                        //     this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
+                        if (currentVersion)
+                            this.getApplication().getController('Common.Controllers.History').onSelectRevision(null, null, currentVersion);
                         arrIds.length && Common.UI.ExternalUsers.get('info', arrIds);
                     }
                 }
