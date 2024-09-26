@@ -107,14 +107,10 @@ define([
                         if ( me.header.btnSave )
                             me.header.btnSave.setDisabled(state);
                     }
-                },
-                'ViewTab': {
-                    'tabstyle:change': function (style) {
-                        me.onTabStyleChange(style);
-                        me.header.changeLogo();
-                    }
                 }
             });
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
+            Common.NotificationCenter.on('tabbackground:changed', this.onTabBackgroundChange.bind(this));
         },
 
         setApi: function(api) {
@@ -168,8 +164,6 @@ define([
             var $filemenu = $('.toolbar-fullview-panel');
             $filemenu.css('top', Common.UI.LayoutManager.isElementVisible('toolbar') ? _intvars.get('toolbar-height-tabs') : 0);
 
-            me.viewport.$el.attr('applang', me.appConfig.lang.split(/[\-_]/)[0]);
-
             if ( !(config.isEdit || config.isRestrictedEdit && config.canFillForms && config.isFormCreator) ||
                 ( !Common.localStorage.itemExists("de-compact-toolbar") &&
                 config.customization && config.customization.compactToolbar )) {
@@ -209,9 +203,7 @@ define([
         },
 
         onTabStyleChange: function (style) {
-            style && Common.localStorage.setItem("de-settings-tab-style", style);
             style = style || Common.Utils.InternalSettings.get("settings-tab-style");
-            Common.Utils.InternalSettings.set("settings-tab-style", style);
             this.viewport.vlayout.getItem('toolbar').el.toggleClass('lined-tabs', style==='line');
         },
 
@@ -280,10 +272,6 @@ define([
             // Common.Utils.InternalSettings.set("de-settings-quick-print-button", value);
             // if (this.header && this.header.btnPrintQuick)
             //     this.header.btnPrintQuick[value ? 'show' : 'hide']();
-            if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                this.onTabBackgroundChange();
-                this.header.changeLogo();
-            }
         },
 
         onApiCoAuthoringDisconnect: function(enableDownload) {

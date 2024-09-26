@@ -700,9 +700,7 @@
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
     "txtOk": "Ok",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Error": {
     "convertationTimeoutText": "Conversion timeout exceeded.",
@@ -781,7 +779,7 @@
     "loadImageTextText": "Loading image...",
     "loadImageTitleText": "Loading Image",
     "loadingDocumentTextText": "Loading document...",
-    "loadingDocumentTitleText": "Loading document",
+    "loadingDocumentTitleText": "Loading",
     "mailMergeLoadFileText": "Loading Data Source...",
     "mailMergeLoadFileTitle": "Loading Data Source",
     "openTextText": "Opening document...",
@@ -795,7 +793,7 @@
     "sendMergeText": "Sending Merge...",
     "sendMergeTitle": "Sending Merge",
     "textContinue": "Continue",
-    "textLoadingDocument": "Loading document",
+    "textLoadingDocument": "Loading",
     "textUndo": "Undo",
     "txtEditingMode": "Set editing mode...",
     "uploadImageTextText": "Uploading image...",

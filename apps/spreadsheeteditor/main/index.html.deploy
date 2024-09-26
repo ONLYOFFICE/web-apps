@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8"/>
     <meta name="description" content="" />
     <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
 
     <!-- splash -->
@@ -351,7 +352,7 @@
         }
 
         if ( !tabBackground || /-ls$/.test(tabBackground)) {// try get tab background from localstorage
-            tabBackground = checkLocalStorage && localStorage.getItem("sse-settings-tab-background") !== null ? localStorage.getItem("sse-settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
+            tabBackground = checkLocalStorage && localStorage.getItem("settings-tab-background") !== null ? localStorage.getItem("settings-tab-background") : tabBackground ? tabBackground.match(/(.*?)-ls/)[1] : 'header';
         }
 
         if (compact || view) {

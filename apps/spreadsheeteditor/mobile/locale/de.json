@@ -391,7 +391,7 @@
     "loadImageTextText": "Bild wird geladen...",
     "loadImageTitleText": "Bild wird geladen",
     "loadingDocumentTextText": "Dokument wird geladen...",
-    "loadingDocumentTitleText": "Dokument wird geladen...",
+    "loadingDocumentTitleText": "Ladevorgang",
     "notcriticalErrorTitle": "Warnung",
     "openTextText": "Dokument wird geöffnet...",
     "openTitleText": "Das Dokument wird geöffnet",
@@ -404,7 +404,7 @@
     "textCancel": "Abbrechen",
     "textContinue": "Fortsetzen",
     "textErrorWrongPassword": "Inkorrektes Passwort.",
-    "textLoadingDocument": "Dokument wird geladen...",
+    "textLoadingDocument": "Ladevorgang",
     "textNo": "Nein",
     "textOk": "OK",
     "textUndo": "Rückgängig",
@@ -861,9 +861,7 @@
       "txtUk": "Ukrainisch",
       "txtVi": "Vietnamesisch",
       "txtZh": "Chinesisch ",
-      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "Wenn Sie mit dem Speichern in diesem Format fortsetzen, werden alle Objekte außer Text verloren gehen.<br>Möchten Sie wirklich fortsetzen?"
     }
   }
 }

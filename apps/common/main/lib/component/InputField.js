@@ -73,7 +73,8 @@ define([
                 validateOnChange: false,
                 validateOnBlur: true,
                 disabled: false,
-                editable: true
+                editable: true,
+                hideErrorOnInput: false
             },
 
             template: _.template([
@@ -114,6 +115,7 @@ define([
                 this.validateOnChange = me.options.validateOnChange;
                 this.validateOnBlur = me.options.validateOnBlur;
                 this.maxLength      = me.options.maxLength;
+                this.hideErrorOnInput = me.options.hideErrorOnInput;
 
                 me.rendered         = me.options.rendered || false;
 
@@ -361,7 +363,12 @@ define([
                         if (modalParents.length > 0) {
                             errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
                         }
-
+                        if (me.hideErrorOnInput) {
+                            var onInputChanging = function() {
+                                me.showError();
+                            };
+                            me._input.one('input', onInputChanging);
+                        }
                         return errors;
                     }
                 } else {
@@ -390,6 +397,12 @@ define([
 
                     if (modalParents.length > 0) {
                         errorBadge.data('bs.tooltip').tip().css('z-index', parseInt(modalParents.css('z-index')) + 10);
+                    }
+                    if (me.hideErrorOnInput) {
+                        var onInputChanging = function() {
+                            me.showError();
+                        };
+                        me._input.one('input', onInputChanging);
                     }
                 } else {
                     me.cmpEl.removeClass('error');
@@ -701,6 +714,8 @@ define([
                 options.btnHint = options.btnHint || this.textDate;
 
                 Common.UI.InputFieldBtn.prototype.initialize.call(this, options);
+
+                this.dateValue = undefined;
             },
 
             render: function (parentEl) {
@@ -725,18 +740,29 @@ define([
                             firstday: 1
                         });
                         me.cmpCalendar.on('date:click', function (cmp, date) {
+                            me.dateValue = date;
                             me.trigger('date:click', me, date);
                             menu.hide();
                         });
+                        me.dateValue && me.cmpCalendar.setDate(me.dateValue);
                         menu.alignPosition();
                     }
                     me.cmpCalendar.focus();
-                })
+                });
+                this._input.on('input', function() {
+                    me.dateValue = undefined;
+                });
             },
 
             setDate: function(date) {
-                if (this.cmpCalendar && date && date instanceof Date && !isNaN(date))
+                if (date && date instanceof Date && !isNaN(date)) {
                     this.cmpCalendar && this.cmpCalendar.setDate(date);
+                    this.dateValue = date;
+                }
+            },
+
+            getDate: function() {
+                return this.dateValue;
             },
 
             textDate: 'Select date'
@@ -751,6 +777,8 @@ define([
                 style       : '',
                 value       : '',
                 fixedValue  : '',
+                fixedWidth  : '',
+                fixedCls    : '',
                 type        : 'text',
                 name        : '',
                 validation  : null,
@@ -786,12 +814,20 @@ define([
 
             initialize : function(options) {
                 this.fixedValue = options.fixedValue;
+                this.fixedWidth = options.fixedWidth || 'calc(50% + 4px)';
+                this.fixedCls = options.fixedCls || '';
 
                 Common.UI.InputField.prototype.initialize.call(this, options);
             },
 
             render : function(parentEl) {
                 Common.UI.InputField.prototype.render.call(this, parentEl);
+
+                this._input.css({
+                    'padding-left': Common.UI.isRTL() ? this.fixedWidth : 0,
+                    'padding-right': Common.UI.isRTL() ? 0: this.fixedWidth,
+                });
+                this.cmpEl.find('input.fixed-text').css({'width': this.fixedWidth}).addClass(this.fixedCls);
 
                 if (this.fixedValue)
                     this.setFixedValue(this.fixedValue);

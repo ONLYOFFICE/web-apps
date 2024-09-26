@@ -487,7 +487,7 @@
     "loadImageTextText": "Φόρτωση εικόνας...",
     "loadImageTitleText": "Φόρτωση Εικόνας",
     "loadingDocumentTextText": "Φόρτωση εγγράφου...",
-    "loadingDocumentTitleText": "Φόρτωση εγγράφου",
+    "loadingDocumentTitleText": "Φόρτωση",
     "mailMergeLoadFileText": "Γίνεται φόρτωση της πηγής δεδομένων...",
     "mailMergeLoadFileTitle": "Γίνεται φόρτωση της πηγής δεδομένων",
     "openTextText": "Άνοιγμα εγγράφου...",
@@ -501,7 +501,7 @@
     "sendMergeText": "Αποστολή Συγχώνευσης...",
     "sendMergeTitle": "Αποστολή Συγχώνευσης",
     "textContinue": "Συνέχεια",
-    "textLoadingDocument": "Φόρτωση εγγράφου",
+    "textLoadingDocument": "Φόρτωση",
     "textUndo": "Αναίρεση",
     "txtEditingMode": "Ορισμός κατάστασης επεξεργασίας...",
     "uploadImageTextText": "Μεταφόρτωση εικόνας...",
@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Λήψη TXT",
     "txtIncorrectPwd": "Το συνθηματικό είναι εσφαλμένο",
     "txtOk": "Εντάξει",
-    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού.",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Μόλις βάλετε το συνθηματικό κι ανοίξετε το αρχείο, θα γίνει επαναφορά του τρέχοντος συνθηματικού."
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Έχετε μη αποθηκευμένες αλλαγές. Πατήστε 'Παραμονή στη Σελίδα' για να περιμένετε την αυτόματη αποθήκευση. Πατήστε 'Έξοδος από τη Σελίδα' για να απορρίψετε όλες τις μη αποθηκευμένες αλλαγές.",

@@ -400,38 +400,6 @@ define([
             }
         },
 
-        fullScreen: function(element) {
-            if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
-            if (element) {
-                this.previewControls.css('display', 'none');
-                this.$el.css('cursor', 'none');
-                if(element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if(element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if(element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if(element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-            }
-        },
-
-        fullScreenCancel: function () {
-            if (this.mode.isDesktopApp || Common.Utils.isIE11) return;
-            this.previewControls.css('display', 'none');
-            this.$el.css('cursor', 'none');
-            if(document.cancelFullScreen) {
-                document.cancelFullScreen();
-            } else if(document.webkitCancelFullScreen ) {
-                document.webkitCancelFullScreen();
-            } else if(document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if(document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        },
-
         txtPrev: 'Previous Slide',
         txtNext: 'Next Slide',
         txtClose: 'Close Slideshow',

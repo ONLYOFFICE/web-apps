@@ -260,6 +260,9 @@ define([], function () {
                 '<tr class="edit">',
                     '<td colspan = "2"><div id="fms-chb-paste-settings"></div></td>',
                 '</tr>',
+                '<tr class="edit">',
+                    '<td colspan = "2"><div id="fms-chb-function-tooltip"></div></td>',
+                '</tr>',
                 '<tr class ="editsave divider-group"></tr>',
                 '<tr class="collaboration" >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtCollaboration %></label></td>',
@@ -293,6 +296,21 @@ define([], function () {
                     '<td colspan="2"><div id="fms-chb-resolved-comment"></div></td>',
                 '</tr>',
                 '<tr class ="collaboration divider-group"></tr>',
+                '<tr>',
+                    '<td colspan="2" class="group-name"><label><%= scope.txtAppearance %></label></td>',
+                '</tr>',
+                '<tr class="themes">',
+                    '<td><label><%= scope.strTheme %></label></td>',
+                    '<td><span id="fms-cmb-theme"></span></td>',
+                '</tr>',
+                '<tr class="tab-style">',
+                    '<td><label><%= scope.strTabStyle %></label></td>',
+                    '<td><div id="fms-cmb-tab-style"></div></td>',
+                '</tr>',
+                '<tr class="tab-background">',
+                    '<td colspan="2"><div id="fms-chb-tab-background"></div></td>',
+                '</tr>',
+                '<tr class ="collaboration divider-group"></tr>',
                 '<tr >',
                     '<td class="group-name" colspan="2"><label><%= scope.txtWorkspace %></label></td>',
                 '</tr>',
@@ -317,10 +335,6 @@ define([], function () {
                 '</tr>',*/
                 '<tr class="edit quick-access">',
                     '<td colspan="2"><button type="button" class="btn btn-text-default" id="fms-btn-customize-quick-access" style="width:auto;display:inline-block;padding-right:10px;padding-left:10px;" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.txtCustomizeQuickAccess %></button></div></td>',
-                '</tr>',
-                '<tr class="themes">',
-                    '<td><label><%= scope.strTheme %></label></td>',
-                    '<td><span id="fms-cmb-theme"></span></td>',
                 '</tr>',
                 '<tr>',
                     '<td><label><%= scope.strUnit %></label></td>',
@@ -628,7 +642,9 @@ define([], function () {
                             { value: 0x0816 }, { value: 0x0419 }, { value: 0x041B }, { value: 0x0424 }, { value: 0x281A }, { value: 0x241A }, { value: 0x081D }, { value: 0x041D }, { value: 0x041F }, { value: 0x0422 }, { value: 0x042A }, { value: 0x0804 }, { value: 0x0404 }];
             regdata.forEach(function(item) {
                 var langinfo = Common.util.LanguageInfo.getLocalLanguageName(item.value);
-                item.displayValue = langinfo[1];
+                var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(item.value);
+                item.displayValue = displayName.native;
+                item.displayValueEn = displayName.english;
                 item.langName = langinfo[0];
             });
 
@@ -639,7 +655,24 @@ define([], function () {
                 restoreMenuHeightAndTop: 110,
                 editable    : false,
                 cls         : 'input-group-nr',
-                data        : regdata
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
+                data        : regdata,
+                dataHint    : '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
             }).on('selected', function(combo, record) {
                 me.updateRegionalExample(record.value);
                 var isBaseSettings = me.chSeparator.getValue();
@@ -738,6 +771,14 @@ define([], function () {
                 dataHintOffset: 'small'
             });
 
+            this.chTooltip = new Common.UI.CheckBox({
+                el: $markup.findById('#fms-chb-function-tooltip'),
+                labelText: this.strFunctionTooltip,
+                dataHint: '2',
+                dataHintDirection: 'left',
+                dataHintOffset: 'small'
+            });
+
             this.btnCustomizeQuickAccess = new Common.UI.Button({
                 el: $markup.findById('#fms-btn-customize-quick-access')
             });
@@ -755,6 +796,22 @@ define([], function () {
                 dataHintOffset: 'big'
             });
 
+            this.cmbTabStyle = new Common.UI.ComboBox({
+                el          : $markup.findById('#fms-cmb-tab-style'),
+                style       : 'width: 160px;',
+                menuStyle   : 'min-width:100%;',
+                editable    : false,
+                restoreMenuHeightAndTop: true,
+                cls         : 'input-group-nr',
+                data        : [
+                    {value: 'fill', displayValue: this.textFill},
+                    {value: 'line', displayValue: this.textLine}
+                ],
+                dataHint: '2',
+                dataHintDirection: 'bottom',
+                dataHintOffset: 'big'
+            });
+
             this.cmbDictionaryLanguage = new Common.UI.ComboBox({
                 el:  $markup.findById('#fms-cmb-dictionary-language'),
                 cls: 'input-group-nr',
@@ -762,6 +819,20 @@ define([], function () {
                 editable: false,
                 restoreMenuHeightAndTop: 110,
                 menuStyle: 'min-width: 100%; max-height: 209px;',
+                itemsTemplate: _.template([
+                    '<% _.each(items, function(item) { %>',
+                        '<li id="<%= item.id %>" data-value="<%= item.value %>">',
+                            '<a tabindex="-1" type="menuitem" role="menuitemcheckbox" aria-checked="false">',
+                                '<div>',
+                                    '<%= item.displayValue %>',
+                                '</div>',
+                                '<label style="opacity: 0.6"><%= item.displayValueEn %></label>',
+                            '</a>',
+                        '</li>',
+                    '<% }); %>',
+                ].join('')),
+                search: true,
+                searchFields: ['displayValue', 'displayValueEn'],
                 dataHint: '2',
                 dataHintDirection: 'bottom',
                 dataHintOffset: 'big'
@@ -909,6 +980,7 @@ define([], function () {
                 this.cmbFuncLocale.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbRegSettings.options.menuAlignEl = scrolled ? this.pnlSettings : null;
                 this.cmbDictionaryLanguage.options.menuAlignEl = scrolled ? this.pnlSettings : null;
+                this.cmbTabStyle.options.menuAlignEl = scrolled ? this.pnlSettings : null;
             }
         },
 
@@ -931,6 +1003,7 @@ define([], function () {
             $('tr.macros', this.el)[(mode.customization && mode.customization.macros===false) ? 'hide' : 'show']();
             $('tr.quick-print', this.el)[mode.canQuickPrint && !(mode.compactHeader && mode.isEdit) ? 'show' : 'hide']();
             $('tr.tab-background', this.el)[!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) ? 'show' : 'hide']();
+            $('tr.tab-style', this.el)[Common.UI.FeaturesManager.canChange('tabStyle', true) ? 'show' : 'hide']();
             if ( !Common.UI.Themes.available() ) {
                 $('tr.themes, tr.themes + tr.divider', this.el).hide();
             }
@@ -1029,6 +1102,7 @@ define([], function () {
             this.cmbMacros.setValue(item ? item.get('value') : 0);
 
             this.chPaste.setValue(Common.Utils.InternalSettings.get("sse-settings-paste-button"));
+            this.chTooltip.setValue(Common.Utils.InternalSettings.get("sse-settings-function-tooltip"));
             //this.chQuickPrint.setValue(Common.Utils.InternalSettings.get("sse-settings-quick-print-button"));
 
             value = this.api.asc_GetCalcSettings();
@@ -1049,8 +1123,11 @@ define([], function () {
                 this.cmbTheme.setValue(item ? item.get('value') : Common.UI.Themes.defaultThemeId());
             }
             this.chTabBack.setValue(Common.Utils.InternalSettings.get("settings-tab-background")==='toolbar');
-            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
+            value = Common.Utils.InternalSettings.get("settings-tab-style");
+            item = this.cmbTabStyle.store.findWhere({value: value});
+            this.cmbTabStyle.setValue(item ? item.get('value') : 'fill');
 
+            if (Common.UI.FeaturesManager.canChange('spellcheck') && this.mode.isEdit) {
                 var arrLang = SSE.getController('Spellcheck').loadLanguages(),
                     defaultShortName = "en-US",
                     allLangs = arrLang[0],
@@ -1155,12 +1232,17 @@ define([], function () {
             Common.Utils.InternalSettings.set("sse-macros-mode", this.cmbMacros.getValue());
 
             Common.localStorage.setItem("sse-settings-paste-button", this.chPaste.isChecked() ? 1 : 0);
+
+            Common.localStorage.setItem("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+            Common.Utils.InternalSettings.set("sse-settings-function-tooltip", this.chTooltip.isChecked() ? 1 : 0);
+
             //Common.localStorage.setBool("sse-settings-quick-print-button", this.chQuickPrint.isChecked());
             if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true)) {
-                Common.localStorage.setItem("sse-settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
-                Common.Utils.InternalSettings.set("settings-tab-background", this.chTabBack.isChecked() ? 'toolbar' : 'header');
+                Common.UI.TabStyler.setBackground(this.chTabBack.isChecked() ? 'toolbar' : 'header');
             }
-
+            if (Common.UI.FeaturesManager.canChange('tabStyle', true)) {
+                Common.UI.TabStyler.setStyle(this.cmbTabStyle.getValue());
+            }
             Common.localStorage.save();
             if (this.menu) {
                 this.menu.fireEvent('settings:apply', [this.menu]);
@@ -1212,8 +1294,8 @@ define([], function () {
                     info.asc_setSymbol(landId);
                     var arr = this.api.asc_getFormatCells(info); // all formats
                     text = this.api.asc_getLocaleExample(arr[4], 1000.01, landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(), landId);
-                    text = text + ' ' + this.api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[5], Asc.cDate().getExcelDateWithTime(true), landId);
+                    text = text + ' ' + this.api.asc_getLocaleExample(arr[7], Asc.cDate().getExcelDateWithTime(true), landId);
                 }
                 $('#fms-lbl-reg-settings').text(_.isEmpty(text) ? '' : this.strRegSettingsEx + text);
             }
@@ -1385,7 +1467,11 @@ define([], function () {
         strEnableIterative: 'Enable iterative calculation',
         txtErrorNumber: 'Your entry cannot be used. An integer or decimal number may be required.',
         txtCustomizeQuickAccess: 'Customize quick access',
-        txtTabBack: 'Use toolbar color as tabs background'
+        txtTabBack: 'Use toolbar color as tabs background',
+        strTabStyle: 'Tab style',
+        textFill: 'Fill',
+        textLine: 'Line',
+        txtAppearance: 'Appearance'
 
 }, SSE.Views.FileMenuPanels.MainSettingsGeneral || {}));
 
@@ -1488,9 +1574,10 @@ define([], function () {
             this.rendered = false;
 
             this.template = _.template([
-            '<div class="flex-settings">',
-                '<div class="header">' + this.txtSpreadsheetInfo + '</div>',
-                '<table class="main">',
+            '<table class="main">',
+                '<tbody><td class="header">' + this.txtSpreadsheetInfo + '</td></tbody>',
+                '<tbody>',
+                    '<tr><td class="title"><label>' + this.txtCommon + '</label></td></tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtPlacement + '</label></td>',
                         '<td class="right"><label id="id-info-placement">-</label></td>',
@@ -1503,8 +1590,35 @@ define([], function () {
                         '<td class="left"><label>' + this.txtUploaded + '</label></td>',
                         '<td class="right"><label id="id-info-uploaded">-</label></td>',
                     '</tr>',
-                    '<tr class="divider general"></tr>',
-                    '<tr class="divider general"></tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
+                        '<td class="right"><label id="id-info-modify-by"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
+                        '<td class="right"><label id="id-info-date"></label></td>',
+                    '</tr>',
+                    '<tr>',
+                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
+                        '<td class="right"><label id="id-info-appname"></label></td>',
+                    '</tr>',
+                '</tbody>',
+                '<tbody class="properties-tab">',
+                    '<tr><td class="title"><label>' + this.txtProperties + '</label></td></tr>',
+                    '<tr class="author-info">',
+                        '<td class="left"><label>' + this.txtAuthor + '</label></td>',
+                            '<td class="right"><div id="id-info-author">',
+                            '<table>',
+                                '<tr>',
+                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
+                                '</tr>',
+                            '</table>',
+                        '</div></td>',
+                    '</tr>',
                     '<tr>',
                         '<td class="left"><label>' + this.txtTitle + '</label></td>',
                         '<td class="right"><div id="id-info-title"></div></td>',
@@ -1521,47 +1635,18 @@ define([], function () {
                         '<td class="left"><label>' + this.txtComment + '</label></td>',
                         '<td class="right"><div id="id-info-comment"></div></td>',
                     '</tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr class="divider"></tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtModifyDate + '</label></td>',
-                        '<td class="right"><label id="id-info-modify-date"></label></td>',
+                '</tbody>',
+            '</table>',
+            '<div id="fms-flex-add-property">',
+                '<table class="main">',
+                    '<tr style="gap: 20px;">',
+                        '<td class="left"></td>',
+                        '<td class="right">',
+                            '<button id="fminfo-btn-add-property" class="btn" data-hint="2" data-hint-direction="bottom" data-hint-offset="big"><span>'+ this.txtAddProperty +'</span></button>',
+                        '</td>',
                     '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtModifyBy + '</label></td>',
-                        '<td class="right"><label id="id-info-modify-by"></label></td>',
-                    '</tr>',
-                    '<tr class="divider modify">',
-                    '<tr class="divider modify">',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtCreated + '</label></td>',
-                        '<td class="right"><label id="id-info-date"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left"><label>' + this.txtAppName + '</label></td>',
-                        '<td class="right"><label id="id-info-appname"></label></td>',
-                    '</tr>',
-                    '<tr>',
-                        '<td class="left" style="vertical-align: top;"><label style="margin-top: 3px;">' + this.txtAuthor + '</label></td>',
-                        '<td class="right" style="vertical-align: top;"><div id="id-info-author">',
-                            '<table>',
-                                '<tr>',
-                                    '<td><div id="id-info-add-author"><input type="text" spellcheck="false" class="form-control" placeholder="' +  this.txtAddAuthor +'"></div></td>',
-                                '</tr>',
-                            '</table>',
-                        '</div></td>',
-                    '</tr>',
-                '<tr style="height: 5px;"></tr>',
                 '</table>',
             '</div>',
-            '<div id="fms-flex-apply">',
-                '<table class="main" style="margin: 10px 0;">',
-                    '<tr>',
-                        '<td class="left"></td>',
-                        '<td class="right"><button id="fminfo-btn-apply" class="btn normal dlg-btn primary" data-hint="2" data-hint-direction="bottom" data-hint-offset="medium"><%= scope.okButtonText %></button></td>',
-                    '</tr>',
-                '</table>',
-            '</div>'
             ].join(''));
 
             this.menu = options.menu;
@@ -1599,7 +1684,11 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putTitle(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputTags = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-tags'),
                 style       : 'width: 200px;',
@@ -1608,7 +1697,11 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putKeywords(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputSubject = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-subject'),
                 style       : 'width: 200px;',
@@ -1617,7 +1710,11 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putSubject(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
+
             this.inputComment = new Common.UI.InputField({
                 el          : $markup.findById('#id-info-comment'),
                 style       : 'width: 200px;',
@@ -1626,7 +1723,10 @@ define([], function () {
                 dataHint: '2',
                 dataHintDirection: 'left',
                 dataHintOffset: 'small'
-            }).on('keydown:before', keyDownBefore);
+            }).on('keydown:before', keyDownBefore).on('changed:after', function(_, newValue) {
+                me.coreProps.asc_putDescription(newValue);
+                me.api.asc_setCoreProps(me.coreProps);
+            });
 
             // modify info
             this.lblModifyDate = $markup.findById('#id-info-modify-date');
@@ -1637,7 +1737,7 @@ define([], function () {
             this.lblApplication = $markup.findById('#id-info-appname');
             this.tblAuthor = $markup.findById('#id-info-author table');
             this.trAuthor = $markup.findById('#id-info-add-author').closest('tr');
-            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-commonctrl img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
+            this.authorTpl = '<tr><td><div style="display: inline-block;width: 200px;"><input type="text" spellcheck="false" class="form-control" readonly="true" value="{0}" ></div><div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div></td></tr>';
 
             this.tblAuthor.on('click', function(e) {
                 var btn = $markup.find(e.target);
@@ -1646,6 +1746,8 @@ define([], function () {
                         idx = me.tblAuthor.find('tr').index(el);
                     el.remove();
                     me.authors.splice(idx, 1);
+                    me.coreProps.asc_putCreator(me.authors.join(';'));
+                    me.api.asc_setCoreProps(me.coreProps);
                     me.updateScroller(true);
                 }
             });
@@ -1677,15 +1779,15 @@ define([], function () {
                     });
                     !isFromApply && me.inputAuthor.setValue('');
                 }
+
+                me.coreProps.asc_putCreator(me.authors.join(';'));
+                me.api.asc_setCoreProps(me.coreProps);
             }).on('keydown:before', keyDownBefore);
 
-            this.btnApply = new Common.UI.Button({
-                el: $markup.findById('#fminfo-btn-apply')
+            this.btnAddProperty = new Common.UI.Button({
+                el: $markup.findById('#fminfo-btn-add-property')
             });
-            this.btnApply.on('click', _.bind(this.applySettings, this));
-
-            this.pnlInfo = $markup.find('.flex-settings').addBack().filter('.flex-settings');
-            this.pnlApply = $markup.findById('#fms-flex-apply');
+            this.btnAddProperty.on('click', _.bind(this.onAddPropertyClick, this));
 
             this.rendered = true;
 
@@ -1694,8 +1796,7 @@ define([], function () {
             this.$el = $(node).html($markup);
             if (_.isUndefined(this.scroller)) {
                 this.scroller = new Common.UI.Scroller({
-                    el: this.pnlInfo,
-                    suppressScrollX: true,
+                    el: this.$el,
                     alwaysVisibleY: true
                 });
             }
@@ -1724,7 +1825,6 @@ define([], function () {
         updateScroller: function(destroy) {
             if (this.scroller) {
                 this.scroller.update(destroy ? {} : undefined);
-                this.pnlInfo.toggleClass('bordered', this.scroller.isVisible());
             }
         },
 
@@ -1762,18 +1862,11 @@ define([], function () {
             this.coreProps = (this.api) ? this.api.asc_getCoreProps() : null;
             if (this.coreProps) {
                 var value = this.coreProps.asc_getCreated();
-                if (value) {
-                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
-                    try {
-                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
-                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    } catch (e) {
-                        lang = 'en';
-                        this.lblDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    }
-                }
+                this.lblDate.text(this.dateToString(value));
                 this._ShowHideInfoItem(this.lblDate, !!value);
             }
+
+            this.renderCustomProperties();
         },
 
         updateFileInfo: function() {
@@ -1796,16 +1889,7 @@ define([], function () {
             if (props) {
                 var visible = false;
                 value = props.asc_getModified();
-                if (value) {
-                    var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
-                    try {
-                        if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
-                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    } catch (e) {
-                        lang = 'en';
-                        this.lblModifyDate.text(value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + ' ' + value.toLocaleString(lang, {timeStyle: 'short'}));
-                    }
-                }
+                this.lblModifyDate.text(this.dateToString(value));
                 visible = this._ShowHideInfoItem(this.lblModifyDate, !!value) || visible;
                 value = props.asc_getLastModifiedBy();
                 if (value)
@@ -1851,7 +1935,7 @@ define([], function () {
         setMode: function(mode) {
             this.mode = mode;
             this.inputAuthor.setVisible(mode.isEdit);
-            this.pnlApply.toggleClass('hidden', !mode.isEdit);
+            this.btnAddProperty.setVisible(mode.isEdit);
             this.tblAuthor.find('.close').toggleClass('hidden', !mode.isEdit);
             if (!mode.isEdit) {
                 this.inputTitle._input.attr('placeholder', '');
@@ -1876,6 +1960,115 @@ define([], function () {
             this.updateFileInfo();
         },
 
+        tplCustomProperty: function(name, type, value) {
+            if (type === AscCommon.c_oVariantTypes.vtBool) {
+                value = value ? this.txtYes : this.txtNo;
+            } else if (type === AscCommon.c_oVariantTypes.vtFiletime) {
+                value = this.dateToString(new Date(value), true);
+            }
+
+            return '<tr data-custom-property>' +
+                '<td class="left"><label>' + Common.Utils.String.htmlEncode(name) + '</label></td>' +
+                '<td class="right"><div class="custom-property-wrapper">' +
+                '<input type="text" spellcheck="false" class="form-control" readonly style="width: 200px;" value="' + value +'">' +
+                '<div class="tool close img-colored" data-hint="2" data-hint-direction="right" data-hint-offset="small"></div>' +
+                '</div></td></tr>';
+        },
+
+        dateToString: function (value, hideTime) {
+            var text = '';
+            if (value) {
+                var lang = (this.mode.lang || 'en').replace('_', '-').toLowerCase();
+                try {
+                    if ( lang == 'ar-SA'.toLowerCase() ) lang = lang + '-u-nu-latn-ca-gregory';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + (!hideTime ? ' ' + value.toLocaleString(lang, {timeStyle: 'short'}) : '');
+                } catch (e) {
+                    lang = 'en';
+                    text = value.toLocaleString(lang, {year: 'numeric', month: '2-digit', day: '2-digit'}) + (!hideTime ? ' ' + value.toLocaleString(lang, {timeStyle: 'short'}) : '');
+                }
+            }
+            return text;
+        },
+
+        renderCustomProperties: function() {
+            if (!this.api) {
+                return;
+            }
+
+            $('tr[data-custom-property]').remove();
+
+            var properties = this.api.asc_getAllCustomProperties();
+            _.each(properties, _.bind(function(prop, idx) {
+                var me = this, name = prop.asc_getName(), type = prop.asc_getType(), value = prop.asc_getValue();
+                var $propertyEl = $(this.tplCustomProperty(name, type, value));
+
+                $('tbody.properties-tab').append($propertyEl);
+
+                $propertyEl.on('click', function (e) {
+                    if ($propertyEl.find('div.disabled').length) {
+                        return;
+                    }
+
+                    var btn = $propertyEl.find(e.target);
+                    if (btn.hasClass('close')) {
+                        me.api.asc_removeCustomProperty(idx);
+                        me.renderCustomProperties();
+                    } else if (btn.hasClass('form-control')) {
+                        (new Common.Views.DocumentPropertyDialog({
+                            title: me.txtDocumentPropertyUpdateTitle,
+                            lang: me.mode.lang,
+                            defaultValue: {
+                                name: name,
+                                type: type,
+                                value: value
+                            },
+                            nameValidator: function(newName) {
+                                if (newName !== name && _.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
+                                    return me.txtPropertyTitleConflictError;
+                                }
+
+                                return true;
+                            },
+                            handler: function(result, name, type, value) {
+                                if (result === 'ok') {
+                                    me.api.asc_modifyCustomProperty(idx, name, type, value);
+                                    me.renderCustomProperties();
+                                }
+                            }
+                        })).show();
+                    }
+                });
+            }, this));
+        },
+
+        setDisabledCustomProperties: function(disable) {
+            _.each($('tr[data-custom-property]'), function(prop) {
+                $(prop).find('div.custom-property-wrapper')[disable ? 'addClass' : 'removeClass']('disabled');
+                $(prop).find('div.close')[disable ? 'hide' : 'show']();
+            })
+        },
+
+        onAddPropertyClick: function() {
+            var me = this;
+            (new Common.Views.DocumentPropertyDialog({
+                lang: me.mode.lang,
+                nameValidator: function(newName) {
+                    var properties = me.api.asc_getAllCustomProperties();
+                    if (_.some(properties, function (prop) { return prop.asc_getName() === newName; })) {
+                        return me.txtPropertyTitleConflictError;
+                    }
+
+                    return true;
+                },
+                handler: function(result, name, type, value) {
+                    if (result === 'ok') {
+                        me.api.asc_addCustomProperty(name, type, value);
+                        me.renderCustomProperties();
+                    }
+                }
+            })).show();
+        },
+
         SetDisabled: function() {
             var disable = !this.mode.isEdit || this._locked;
             this.inputTitle.setDisabled(disable);
@@ -1885,19 +2078,8 @@ define([], function () {
             this.inputAuthor.setDisabled(disable);
             this.tblAuthor.find('.close').toggleClass('disabled', this._locked);
             this.tblAuthor.toggleClass('disabled', disable);
-            this.btnApply.setDisabled(this._locked);
-        },
-
-        applySettings: function() {
-            if (this.coreProps && this.api) {
-                this.coreProps.asc_putTitle(this.inputTitle.getValue());
-                this.coreProps.asc_putKeywords(this.inputTags.getValue());
-                this.coreProps.asc_putSubject(this.inputSubject.getValue());
-                this.coreProps.asc_putDescription(this.inputComment.getValue());
-                this.coreProps.asc_putCreator(this.authors.join(';'));
-                this.api.asc_setCoreProps(this.coreProps);
-            }
-            this.menu.hide();
+            this.btnAddProperty.setDisabled(disable);
+            this.setDisabledCustomProperties(disable);
         },
 
         txtPlacement: 'Location',
@@ -1916,7 +2098,14 @@ define([], function () {
         txtAddText: 'Add Text',
         txtMinutes: 'min',
         okButtonText: 'Apply',
-        txtSpreadsheetInfo: 'Spreadsheet Info'
+        txtSpreadsheetInfo: 'Spreadsheet Info',
+        txtCommon: 'Common',
+        txtProperties: 'Properties',
+        txtDocumentPropertyUpdateTitle: "Document Property",
+        txtAddProperty: 'Add property',
+        txtYes: 'Yes',
+        txtNo: 'No',
+        txtPropertyTitleConflictError: 'Property with this title already exists',
     }, SSE.Views.FileMenuPanels.DocumentInfo || {}));
 
     SSE.Views.FileMenuPanels.DocumentRights = Common.UI.BaseView.extend(_.extend({
@@ -2513,7 +2702,9 @@ define([], function () {
                     '</div>',
                 '</div>',
                 '<div id="print-preview-box" class="no-padding">',
-                    '<div id="print-preview"></div>',
+                    '<div id="print-preview-wrapper">',
+                        '<div id="print-preview"></div>',
+                    '</div>',
                     '<div id="print-navigation">',
                         '<% if (!isRTL) { %>',
                         '<div id="print-prev-page"></div>',
@@ -2528,6 +2719,7 @@ define([], function () {
                             '<label id="print-count-page" class="margin-left-4"><%= scope.txtOf %></label>',
                         '</div>',
                         '<label id="print-active-sheet"><%= scope.txtSheet %></label>',
+                        '<div id="print-zoom-to-page"></div>',
                     '</div>',
                 '</div>',
                 '<div id="print-preview-empty" class="hidden">',
@@ -2940,6 +3132,16 @@ define([], function () {
                 dataHintDirection: 'top'
             });
 
+            this.btnZoomToPage = new Common.UI.Button({
+                parentEl: $markup.findById('#print-zoom-to-page'),
+                cls: 'btn-zoom-to-page btn-toolbar',
+                iconCls: 'toolbar__icon btn-ic-zoomtopage',
+                dataHint: '2',
+                dataHintDirection: 'top',
+                enableToggle: true,
+                pressed: true
+            });
+
             this.countOfPages = $markup.findById('#print-count-page');
 
             this.txtNumberPage = new Common.UI.InputField({
@@ -2979,6 +3181,16 @@ define([], function () {
                 });
             }
 
+            if (_.isUndefined(this.printScroller)) {
+                this.printScroller = new Common.UI.Scroller({
+                    el: $('#print-preview-wrapper'),
+                    alwaysVisibleX: true,
+                    alwaysVisibleY: true,
+                    suppressScrollX: true,
+                    suppressScrollY: true
+                });
+            }
+
             Common.NotificationCenter.on({
                 'window:resize': function() {
                     me.isVisible() && me.updateScroller();
@@ -3011,6 +3223,10 @@ define([], function () {
                 this.pnlSettings.css('overflow', scrolled ? 'hidden' : 'visible');
                 this.scroller.update();
                 this.pnlSettings.toggleClass('bordered', this.scroller.isVisible());
+            }
+
+            if (this.printScroller) {
+                this.printScroller.update();
             }
         },
 

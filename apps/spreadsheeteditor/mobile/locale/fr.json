@@ -861,9 +861,7 @@
       "txtUk": "Ukrainien",
       "txtVi": "Vietnamien",
       "txtZh": "Chinois",
-      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "Si vous continuez à enregistrer dans ce format toutes les fonctions sauf le texte seront perdues.<br>Êtes-vous sûr de vouloir continuer?"
     }
   }
 }

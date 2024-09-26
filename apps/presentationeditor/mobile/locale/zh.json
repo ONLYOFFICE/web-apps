@@ -552,10 +552,7 @@
       "textUnitOfMeasurement": "测量单位",
       "textUploaded": "已上传",
       "textVersion": "版本",
-      "textVersionHistory": "版本历史",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRTL": "RTL",
-      "del_textRtlInterface": "RTL Interface"
+      "textVersionHistory": "版本历史"
     }
   }
 }

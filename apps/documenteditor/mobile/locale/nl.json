@@ -798,9 +798,7 @@
     "textVerify": "Verify",
     "textVersionHistory": "Version History",
     "textYes": "Yes",
-    "titleDialogUnprotect": "Unprotect Document",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "U heeft nog niet opgeslagen wijzigingen. Klik op 'Blijf op deze pagina' om te wachten op automatisch opslaan. Klik op 'Verlaat deze pagina' om alle niet-opgeslagen wijzigingen te verwijderen.",

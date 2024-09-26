@@ -861,9 +861,7 @@
       "txtTr": "Turkish",
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
-      "txtZh": "Chinese",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "txtZh": "Chinese"
     }
   }
 }

@@ -230,7 +230,7 @@ define([
 
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
-                var offset = this.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.pluginContainer);
                 if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             }

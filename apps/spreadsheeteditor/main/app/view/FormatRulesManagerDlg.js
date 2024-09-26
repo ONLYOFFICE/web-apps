@@ -659,9 +659,9 @@ define([
                     me.show();
                 });
 
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 me.hide();
-                win.show(xy.left + 160, xy.top + 125);
+                win.show(me.$window, xy);
                 win.setSettings({
                     api     : me.api,
                     range   : !_.isEmpty(rule.txtDataRange.getValue()) ? rule.txtDataRange.getValue() : rule.dataRangeValid,
@@ -673,7 +673,7 @@ define([
 
         onEditRule: function (isEdit) {
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rulesList.getSelectedRec(),
                 previewRec;
 
@@ -725,7 +725,7 @@ define([
             });
 
             me.hide();
-            win.show();
+            win.show(xy.left, xy.top);
         },
 
         onDeleteRule: function () {

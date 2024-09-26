@@ -369,7 +369,7 @@ define([
             }
 
             if (this.resize.type == 'vertical')
-                value -= panel.position().top;
+                value -= Common.Utils.getPosition(panel).top;
             // if (this.resize.type == 'horizontal')
             //     value -= panel.position().left;
 
@@ -427,7 +427,7 @@ define([
             }
 
            // if (resize.type == 'vertical')
-                value -= panel.position().top;
+                value -= Common.Utils.getPosition(panel).top;
            // if (resize.type == 'horizontal')
            //     value -= panel.position().left;
 

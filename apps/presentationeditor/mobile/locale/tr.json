@@ -552,10 +552,7 @@
       "textUnitOfMeasurement": "Ölçüm birimi",
       "textUploaded": "Yüklendi",
       "textVersion": "Sürüm",
-      "textVersionHistory": "Sürüm Geçmişi ",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRTL": "RTL",
-      "del_textRtlInterface": "RTL Interface"
+      "textVersionHistory": "Sürüm Geçmişi "
     }
   }
 }

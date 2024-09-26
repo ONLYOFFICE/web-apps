@@ -1383,7 +1383,7 @@ define([
 
             var div_top = Common.Utils.getOffset(div).top,
                 div_first = this.dataViewItems[0].el,
-                div_first_top = (div_first.length>0) ? Common.Utils.getOffsetTop(div_first[0]) : 0;
+                div_first_top = (div_first.length>0) ? div_first[0].offsetTop : 0;
             if (div_top < inner_top + div_first_top || div_top+div.outerHeight() > inner_top + innerEl.height()) {
                 if (this.scroller) {
                     this.scroller.scrollTop(innerEl.scrollTop() + div_top - inner_top - div_first_top, 0);

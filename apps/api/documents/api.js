@@ -206,9 +206,9 @@
                         } / false / true // if false/true - use as init value in de/pe. use instead of customization.spellcheck parameter
                         roles: false/true // hide/show Roles manager, roles settings in right panel and roles in View form button in de
                         tabStyle: {
-                            mode: 'tab'/'line' // init value, 'tab' by default,
+                            mode: 'fill'/'line' // init value, 'fill' by default,
                             change: true/false // show/hide feature
-                        } / 'tab'/'line' // if string - use as init value
+                        } / 'fill'/'line' // if string - use as init value
                         tabBackground: {
                             mode: 'header'/'toolbar' // init value, 'header' by default
                             change: true/false // show/hide feature
@@ -541,6 +541,8 @@
 
         var target = document.getElementById(placeholderId),
             iframe;
+
+        getShardkey(_config);
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
@@ -959,6 +961,17 @@
         }
     };
 
+    function getShardkey(config) {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.match(/(.*)api\/documents\/api.js/i)) {
+                var shardkey = /[\?\&]shardkey=([^&]+)&?/.exec(scripts[i].src);
+                shardkey && shardkey.length && (config.editorConfig.shardkey = shardkey[1]);
+                break;
+            }
+        }
+    }
+
     function getBasePath() {
         var scripts = document.getElementsByTagName('script'),
             match;
@@ -1039,6 +1052,8 @@
                 if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
+        if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
+            path = extendAppPath(config, path);
         path += appMap[appType];
 
         const path_type = config.type === "mobile" ? "mobile" :
@@ -1136,6 +1151,9 @@
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
+        if (config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key)
+            params += "&shardkey=" + config.document.key;
+
         if (config.editorConfig) {
             var customization = config.editorConfig.customization;
             if ( customization && typeof(customization) == 'object' && ( customization.toolbarNoTabs || (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
@@ -1189,6 +1207,18 @@
             }
         }
         return dest;
+    }
+
+    function extendAppPath(config,  path) {
+        if ( !config.isLocalFile ) {
+            const ver = '/{{PRODUCT_VERSION}}-{{HASH_POSTFIX}}';
+            if ( ver.lastIndexOf('{{') < 0 && path.indexOf(ver) < 0 ) {
+                const pos = path.indexOf('/web-apps/app');
+                if ( pos > 0 )
+                    return [path.slice(0, pos), ver, path.slice(pos)].join('');
+            }
+        }
+        return path;
     }
 
 })(window.DocsAPI = window.DocsAPI || {}, window, document);

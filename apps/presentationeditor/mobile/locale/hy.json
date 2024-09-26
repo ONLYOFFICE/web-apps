@@ -552,10 +552,7 @@
       "textUnitOfMeasurement": "Չափման միավոր",
       "textUploaded": "Վերբեռնվել է",
       "textVersion": "Տարբերակ",
-      "textVersionHistory": "Տարբերակի պատմություն",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRTL": "RTL",
-      "del_textRtlInterface": "RTL Interface"
+      "textVersionHistory": "Տարբերակի պատմություն"
     }
   }
 }

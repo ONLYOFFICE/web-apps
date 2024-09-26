@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Ներբեռնել TXT ձևաչափով",
     "txtIncorrectPwd": "Գաղտնաբառը սխալ է",
     "txtOk": "Լավ",
-    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Գաղտնաբառը մուտքագրելուց և ֆայլը բացելուց հետո ընթացիկ գաղտնաբառը կզրոյացվի"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Դուք չպահված փոփոխություններ ունեք:Սեղմեք «Մնա այս էջում»՝ սպասելու ավտոմատ պահպանմանը:Սեղմեք «Լքել այս էջը»՝ չպահված բոլոր փոփոխությունները մերժելու համար:",

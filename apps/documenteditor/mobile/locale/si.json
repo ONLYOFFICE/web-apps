@@ -487,7 +487,7 @@
     "loadImageTextText": "අනුරුව පූරණය වෙමින්...",
     "loadImageTitleText": "අනුරුව පූරණය වෙමින්",
     "loadingDocumentTextText": "ලේඛනය පූරණය වෙමින්...",
-    "loadingDocumentTitleText": "ලේඛනය පූරණය වෙමින්",
+    "loadingDocumentTitleText": "පූරණය වෙමින්",
     "mailMergeLoadFileText": "දත්ත මූලාශ්‍රය පූරණය වෙමින්...",
     "mailMergeLoadFileTitle": "දත්ත මූලාශ්‍රය පූරණය වෙමින්",
     "openTextText": "සබැඳිය විවෘත වෙමින්...",
@@ -501,7 +501,7 @@
     "sendMergeText": "ඒකාබද්ධය යැවෙමින්...",
     "sendMergeTitle": "ඒකාබද්ධය යැවෙමින්",
     "textContinue": "ඉදිරියට",
-    "textLoadingDocument": "ලේඛනය පූරණය වෙමින්",
+    "textLoadingDocument": "පූරණය වෙමින්",
     "textUndo": "පෙරසේ",
     "txtEditingMode": "සංස්කරණ ප්‍රකාරය සකසන්න...",
     "uploadImageTextText": "අනුරුව උඩුගත වෙමින්...",
@@ -798,9 +798,7 @@
     "txtDownloadTxt": "TXT බාගන්න",
     "txtIncorrectPwd": "මුරපදය සාවද්‍යයි",
     "txtOk": "හරි",
-    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "ඔබ මුරපදය ඇතුල් කර ගොනුව විවෘත කළ පසු, වත්මන් මුරපදය යළි සැකසෙනු ඇත"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "ඔබ සතුව නොසුරකින ලද වෙනස්කම් තිබේ. ස්වයං සුරැකීම සඳහා රැඳෙන්න 'මෙම පිටුවෙහි රැඳී සිටින්න' ඔබන්න. නොසුරකින ලද සියළුම වෙනස්කම් ඉවත දැමීමට 'මෙම පිටුවෙන් ඉවත් වන්න' ඔබන්න.",

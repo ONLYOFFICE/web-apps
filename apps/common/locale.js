@@ -172,7 +172,7 @@ Common.Locale = new(function() {
     } else _requireLang();
 
     const _isCurrentRtl = function () {
-        return currentLang && (/^(ar)$/i.test(currentLang));
+        return currentLang && (/^(ar|he)$/i.test(currentLang));
     };
 
     return {

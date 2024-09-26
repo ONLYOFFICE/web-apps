@@ -798,9 +798,7 @@
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
     "txtDownloadTxt": "Download TXT",
     "txtIncorrectPwd": "Password is incorrect",
-    "txtProtected": "Once you enter the password and open the file, the current password will be reset",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Once you enter the password and open the file, the current password will be reset"
   },
   "Toolbar": {
     "dlgLeaveTitleText": "Вы выходзіце з праграмы",

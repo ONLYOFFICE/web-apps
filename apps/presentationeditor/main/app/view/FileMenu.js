@@ -42,7 +42,8 @@ define([
     'text!presentationeditor/main/app/template/FileMenu.template',
     'underscore',
     'common/main/lib/component/BaseView',
-    'common/main/lib/view/RecentFiles'
+    'common/main/lib/view/RecentFiles',
+    'common/main/lib/component/Calendar'
 ], function (tpl, _) {
     'use strict';
 
@@ -410,7 +411,7 @@ define([
 
             this.miDownload[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline))?'show':'hide']();
             var isBCSupport = Common.Controllers.Desktop.isActive() ? Common.Controllers.Desktop.call("isBlockchainSupport") : false;
-            this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl || this.mode.wopi) && !isBCSupport ?'show':'hide']();
+            this.miSaveCopyAs[(this.mode.canDownload && (!this.mode.isDesktopApp || !this.mode.isOffline)) && (this.mode.canRequestSaveAs || this.mode.saveAsUrl) && !isBCSupport ?'show':'hide']();
             this.miSaveAs[(this.mode.canDownload && this.mode.isDesktopApp && this.mode.isOffline)?'show':'hide']();
             this.miSave[this.mode.showSaveButton && Common.UI.LayoutManager.isElementVisible('toolbar-file-save') ?'show':'hide']();
             this.miEdit[!this.mode.isEdit && this.mode.canEdit && this.mode.canRequestEditRights ?'show':'hide']();
@@ -459,7 +460,7 @@ define([
 
             if (!this.customizationDone) {
                 this.customizationDone = true;
-                Common.Utils.applyCustomization(this.mode.customization, {goback: '#fm-btn-back > a'});
+                this.mode.canBack && this.mode.customization.goback.text && typeof this.mode.customization.goback.text === 'string' && this.miBack.setCaption(this.mode.customization.goback.text);
             }
 
             this.panels['opts'].setMode(this.mode);
@@ -488,7 +489,7 @@ define([
                 !this.panels['saveas'] && (this.panels['saveas'] = ((new PE.Views.FileMenuPanels.ViewSaveAs({menu: this, fileType: this.document.fileType})).render()));
             }
 
-            if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl || this.mode.wopi)) {
+            if (this.mode.canDownload && (this.mode.canRequestSaveAs || this.mode.saveAsUrl)) {
                 !this.panels['save-copy'] && (this.panels['save-copy'] = ((new PE.Views.FileMenuPanels.ViewSaveCopy({menu: this, fileType: this.document.fileType})).render()));
             }
 
@@ -600,7 +601,7 @@ define([
                     panel.show(opts);
 
                     if (this.scroller) {
-                        var itemTop = item.$el.position().top,
+                        var itemTop = Common.Utils.getPosition(item.$el).top,
                             itemHeight = item.$el.outerHeight(),
                             listHeight = this.$el.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {

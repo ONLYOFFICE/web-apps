@@ -487,7 +487,7 @@
     "loadImageTextText": "Bild wird geladen...",
     "loadImageTitleText": "Bild wird geladen",
     "loadingDocumentTextText": "Dokument wird geladen...",
-    "loadingDocumentTitleText": "Dokument wird geladen...",
+    "loadingDocumentTitleText": "Ladevorgang",
     "mailMergeLoadFileText": "Laden der Datenquellen...",
     "mailMergeLoadFileTitle": "Laden der Datenquellen",
     "openTextText": "Dokument wird geöffnet...",
@@ -501,7 +501,7 @@
     "sendMergeText": "Merge wird versandt...",
     "sendMergeTitle": "Ergebnisse der Zusammenführung werden gesendet",
     "textContinue": "Fortsetzen",
-    "textLoadingDocument": "Dokument wird geladen",
+    "textLoadingDocument": "Ladevorgang",
     "textUndo": "Rückgängig",
     "txtEditingMode": "Bearbeitungsmodul wird festgelegt...",
     "uploadImageTextText": "Bild wird hochgeladen...",
@@ -798,9 +798,7 @@
     "txtDownloadTxt": "TXT herunterladen",
     "txtIncorrectPwd": "Passwort ist falsch",
     "txtOk": "OK",
-    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Wenn Sie das Password eingeben und die Datei öffnen, wird das aktive Password zurückgesetzt"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Sie haben nicht gespeicherte Änderungen. Klicken Sie auf \"Auf dieser Seite bleiben\" und warten Sie, bis die Datei automatisch gespeichert wird. Klicken Sie auf \"Die Seite verlassen\", um nicht gespeicherte Änderungen zu verwerfen.",

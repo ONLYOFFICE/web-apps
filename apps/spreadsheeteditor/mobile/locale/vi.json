@@ -530,9 +530,7 @@
       "txtUk": "Ukrainian",
       "txtVi": "Vietnamese",
       "txtZh": "Chinese",
-      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "If you continue saving in this format all features except the text will be lost.<br>Are you sure you want to continue?"
     },
     "Add": {
       "errorMaxRows": "ERROR! The maximum number of data series per chart is 255.",
@@ -832,7 +830,7 @@
     "loadImageTextText": "Loading image...",
     "loadImageTitleText": "Loading Image",
     "loadingDocumentTextText": "Loading document...",
-    "loadingDocumentTitleText": "Loading document",
+    "loadingDocumentTitleText": "Loading",
     "notcriticalErrorTitle": "Warning",
     "openTextText": "Opening document...",
     "openTitleText": "Opening Document",
@@ -845,7 +843,7 @@
     "textCancel": "Cancel",
     "textContinue": "Continue",
     "textErrorWrongPassword": "The password you supplied is not correct.",
-    "textLoadingDocument": "Loading document",
+    "textLoadingDocument": "Loading",
     "textNo": "No",
     "textOk": "Ok",
     "textUndo": "Undo",

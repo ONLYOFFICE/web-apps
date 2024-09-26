@@ -285,7 +285,6 @@
                 '</div>');
     </script>
 
-    <link rel="stylesheet" type="text/css" href="../../../apps/pdfeditor/main/resources/css/app.css">
     <script src="../../../../../apps/common/main/lib/util/desktopinit.js?__inline=true"></script>
     <script src="../../../../../apps/common/main/lib/util/themeinit.js?__inline=true"></script>
 </head>
@@ -327,6 +326,7 @@
     <inline src="../../common/main/resources/img/combo-border-size/BorderSize.svg" />
     <div id="viewport"></div>
     <div class="inlined-svg"></div>
+    <script src="../../../../../../sdkjs/common/device_scale.js?__inline=true"></script>
     <script src="../../../../../apps/common/checkExtendedPDF.js?__inline=true"></script>
     <script>
         function startApp() {
@@ -345,5 +345,6 @@
             startApp();
         }
     </script>
+    <link rel="stylesheet" href="../../../apps/pdfeditor/main/resources/css/app.css" media="print" onload="this.media='all'">
 </body>
 </html>

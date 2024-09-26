@@ -273,7 +273,7 @@ module.exports = function(grunt) {
                       src: ['<%= pkg.api.copy.script.dest %>' +  '/**/*.js'],
                       overwrite: true,
                       replacements: [{
-                          from: /\{\{PRODUCT_VERSION\}\}/,
+                          from: /\{\{PRODUCT_VERSION\}\}/g,
                           to: packageFile.version
                       },{
                           from: /\{\{APP_CUSTOMER_NAME\}\}/g,
@@ -739,6 +739,9 @@ module.exports = function(grunt) {
             },
 
             inline: {
+                options:{
+                    uglify: true,
+                },
                 dist: {
                     src: '<%= pkg.embed.copy.indexhtml[0].dest %>/*.html'
                 }

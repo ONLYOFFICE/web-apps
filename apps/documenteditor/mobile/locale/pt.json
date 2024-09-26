@@ -487,7 +487,7 @@
     "loadImageTextText": "Carregando imagem...",
     "loadImageTitleText": "Carregando imagem",
     "loadingDocumentTextText": "Carregando documento...",
-    "loadingDocumentTitleText": "Carregando documento",
+    "loadingDocumentTitleText": "Carregando",
     "mailMergeLoadFileText": "Carregando fonte de dados...",
     "mailMergeLoadFileTitle": "Carregando fonte de dados",
     "openTextText": "Abrindo documento...",
@@ -501,7 +501,7 @@
     "sendMergeText": "Enviando mesclar...",
     "sendMergeTitle": "Enviando Mesclar",
     "textContinue": "Continuar",
-    "textLoadingDocument": "Carregando documento",
+    "textLoadingDocument": "Carregando",
     "textUndo": "Desfazer",
     "txtEditingMode": "Definir modo de edição...",
     "uploadImageTextText": "Carregando imagem...",
@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Baixar TXT",
     "txtIncorrectPwd": "A senha está incorreta",
     "txtOk": "OK",
-    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Depois de inserir a senha e abrir o arquivo, a senha atual será redefinida"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Você tem mudanças não salvas. Clique em 'Ficar nesta página' para esperar pela auto-salvar. Clique em 'Sair desta página' para descartar todas as mudanças não salvas.",

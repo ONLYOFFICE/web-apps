@@ -487,7 +487,7 @@
     "loadImageTextText": "Загрузка рисунка...",
     "loadImageTitleText": "Загрузка рисунка",
     "loadingDocumentTextText": "Загрузка документа...",
-    "loadingDocumentTitleText": "Загрузка документа",
+    "loadingDocumentTitleText": "Загрузка",
     "mailMergeLoadFileText": "Загрузка источника данных...",
     "mailMergeLoadFileTitle": "Загрузка источника данных",
     "openTextText": "Открытие документа...",
@@ -501,7 +501,7 @@
     "sendMergeText": "Отправка результатов слияния...",
     "sendMergeTitle": "Отправка результатов слияния",
     "textContinue": "Продолжить",
-    "textLoadingDocument": "Загрузка документа",
+    "textLoadingDocument": "Загрузка",
     "textUndo": "Отменить",
     "txtEditingMode": "Установка режима редактирования...",
     "uploadImageTextText": "Загрузка рисунка...",
@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Скачать TXT",
     "txtIncorrectPwd": "Неверный пароль",
     "txtOk": "Ok",
-    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Как только вы введете пароль и откроете файл, текущий пароль к файлу будет сброшен"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "В документе есть несохраненные изменения. Нажмите 'Остаться на странице', чтобы дождаться автосохранения. Нажмите 'Уйти со страницы', чтобы сбросить все несохраненные изменения.",

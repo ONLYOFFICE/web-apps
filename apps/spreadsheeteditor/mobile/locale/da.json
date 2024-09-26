@@ -861,9 +861,7 @@
       "textUploaded": "Uploaded",
       "textVersion": "Version",
       "textVersionHistory": "Version History",
-      "txtSemicolon": "Semicolon",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "txtSemicolon": "Semicolon"
     }
   }
 }

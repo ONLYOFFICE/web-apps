@@ -217,7 +217,7 @@ define([
                                 if (left + actualWidth > innerWidth) {
                                     left = pos.left - actualWidth - 2;
                                 }
-                                $(tip).offset({top: top,left: left}).addClass('in');
+                                Common.Utils.setOffset($(tip),{top: top,left: left}).addClass('in');
                             }
                         });
                     }
@@ -320,7 +320,7 @@ define([
         },
 
         onItemMouseDown: function(e) {
-            Common.UI.HintManager && Common.UI.HintManager.clearHints();
+            Common.UI.HintManager && Common.UI.HintManager.isHintVisible() && Common.UI.HintManager.clearHints(false, true);
             if (e.which != 1) {
                 e.preventDefault();
                 e.stopPropagation();

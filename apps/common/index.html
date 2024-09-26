@@ -42,6 +42,7 @@
           var params = getUrlParams(),
               postfix = params["indexPostfix"] || '',
               embed = params["type"]==='embedded';
+          params.skipScaling = true;
           window.frameEditorId = params["frameEditorId"];
           window.parentOrigin = params["parentOrigin"];
       </script>

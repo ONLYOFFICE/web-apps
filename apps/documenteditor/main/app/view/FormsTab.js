@@ -263,6 +263,7 @@ define([
                 Common.UI.BaseView.prototype.initialize.call(this);
                 this.toolbar = options.toolbar;
                 this.appConfig = options.config;
+                this.api = options.api;
 
                 this.paragraphControls = [];
                 this._state = {};
@@ -275,6 +276,7 @@ define([
                         this.fieldPages = new Common.UI.InputFieldFixed({
                             id: 'id-toolbar-txt-pages',
                             style       : 'width: 100%;',
+                            cls         : 'text-align-right',
                             maskExp     : /[0-9]/,
                             allowBlank  : true,
                             validateOnChange: false,
@@ -285,9 +287,9 @@ define([
                                 if (/(^[0-9]+$)/.test(value)) {
                                     value = parseInt(value);
                                     if (value===undefined || value===null || value<1)
-                                        me.fieldPages.setValue(me.api.getCurrentPage()+1);
+                                        me.fieldPages.setValue((me.api ? me.api.getCurrentPage() : 0)+1);
                                 } else
-                                    me.fieldPages.setValue(me.api.getCurrentPage()+1);
+                                    me.fieldPages.setValue((me.api ? me.api.getCurrentPage() : 0)+1);
 
                                 return true;
                             }

@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Scaricare TXT",
     "txtIncorrectPwd": "Password non corretta",
     "txtOk": "OK",
-    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Una volta inserita la password e aperto il file, la password corrente verrà resettata"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Hai dei cambiamenti non salvati. Premi 'Rimanere sulla pagina' per attendere il salvataggio automatico. Premi 'Lasciare la pagina' per eliminare tutte le modifiche non salvate.",

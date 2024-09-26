@@ -391,7 +391,7 @@
     "loadImageTextText": "Загрузка рисунка...",
     "loadImageTitleText": "Загрузка рисунка",
     "loadingDocumentTextText": "Загрузка документа...",
-    "loadingDocumentTitleText": "Загрузка документа",
+    "loadingDocumentTitleText": "Загрузка",
     "notcriticalErrorTitle": "Внимание",
     "openTextText": "Открытие документа...",
     "openTitleText": "Открытие документа",
@@ -404,7 +404,7 @@
     "textCancel": "Отмена",
     "textContinue": "Продолжить",
     "textErrorWrongPassword": "Неверный пароль.",
-    "textLoadingDocument": "Загрузка документа",
+    "textLoadingDocument": "Загрузка",
     "textNo": "Нет",
     "textOk": "Ok",
     "textUndo": "Отменить",
@@ -861,9 +861,7 @@
       "txtUk": "Украинский",
       "txtVi": "Вьетнамский",
       "txtZh": "Китайский",
-      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "Если Вы продолжите сохранение в этот формат, вcя функциональность, кроме текста, будет потеряна.<br>Вы действительно хотите продолжить?"
     }
   }
 }

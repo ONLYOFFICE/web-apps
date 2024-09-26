@@ -156,6 +156,7 @@ require([
             'common/main/lib/util/LocalStorage',
             'common/main/lib/controller/Scaling',
             'common/main/lib/controller/Themes',
+            'common/main/lib/controller/TabStyler',
             'common/main/lib/controller/Desktop',
             'spreadsheeteditor/main/app/controller/Viewport',
             'spreadsheeteditor/main/app/controller/DocumentHolder',
@@ -215,6 +216,9 @@ require([
                 'common/main/lib/view/TextInputDialog',
                 'common/main/lib/view/DocumentHolderExt',
                 'common/main/lib/util/define',
+                'common/main/lib/view/SignDialog',
+                'common/main/lib/view/SignSettingsDialog',
+                'common/main/lib/view/DocumentPropertyDialog',
 
                 'spreadsheeteditor/main/app/view/FileMenuPanels',
                 'spreadsheeteditor/main/app/view/DocumentHolderExt',

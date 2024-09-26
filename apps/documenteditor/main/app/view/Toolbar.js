@@ -119,7 +119,8 @@ define([
         formsNoRoles:   'no-roles',
         fixedForm:      'fixed-form',
         fileMenuOpened: 'file-menu-opened',
-        changeModeLock: 'change-mode-lock'
+        changeModeLock: 'change-mode-lock',
+        noStyles: 'no-styles'
     };
     for (var key in enumLock) {
         if (enumLock.hasOwnProperty(key)) {
@@ -832,6 +833,20 @@ define([
                     });
                     this.toolbarControls.push(this.btnEditHeader);
 
+                    this.btnTextFromFile = new Common.UI.Button({
+                        id: 'id-toolbar-btn-text-from-file',
+                        cls: 'btn-toolbar x-huge icon-top',
+                        iconCls: 'toolbar__icon btn-text-from-file',
+                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.richDelLock, _set.plainDelLock,
+                            _set.previewReviewMode, _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
+                        caption: me.capBtnInsTextFromFile,
+                        menu: true,
+                        dataHint: '1',
+                        dataHintDirection: 'bottom',
+                        dataHintOffset: 'small'
+                    });
+                    this.paragraphControls.push(this.btnTextFromFile);
+
                     this.mnuPageNumberPosPicker = {
                         conf: {disabled: false},
                         isDisabled: function () {
@@ -1211,7 +1226,7 @@ define([
                                     checkable: true,
                                     template: pageMarginsTemplate,
                                     toggleGroup: 'menuPageMargins',
-                                    value: [20, 30, 20, 15]
+                                    value: (/^(ca|us)$/i.test(Common.Utils.InternalSettings.get("de-config-region"))) ? [25.4, 25.4, 25.4, 25.4] : [20, 30, 20, 15]
                                 },
                                 {
                                     caption: this.textMarginsNarrow,
@@ -1646,7 +1661,7 @@ define([
                         itemHeight = 40;
                     this.listStyles = new Common.UI.ComboDataView({
                         cls: 'combo-styles',
-                        lock: [_set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
+                        lock: [_set.noStyles, _set.paragraphLock, _set.headerLock, _set.richEditLock, _set.plainEditLock, _set.inChart, _set.inSmartart, _set.inSmartartInternal, _set.previewReviewMode,
                             _set.viewFormMode, _set.lostConnect, _set.disableOnStart, _set.docLockView, _set.docLockForms, _set.docLockComments, _set.viewMode],
                         itemWidth: itemWidth,
                         itemHeight: itemHeight,
@@ -1716,6 +1731,7 @@ define([
 
                     this.paragraphControls.push(this.listStyles);
                     this.textOnlyControls.push(this.listStyles);
+                    this.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.listStyles]})
 
                     // Disable all components before load document
                     this.lockControls = me.toolbarControls.concat(me.paragraphControls);
@@ -1891,17 +1907,17 @@ define([
                         });
                         this.toolbarControls.push(this.btnHandTool);
 
-                        this.btnEditMode = new Common.UI.Button({
-                            cls: 'btn-toolbar x-huge icon-top',
-                            iconCls: 'toolbar__icon btn-edit-text',
-                            style: 'min-width: 45px;',
-                            lock: [_set.lostConnect, _set.disableOnStart],
-                            caption: this.textEditMode,
-                            dataHint: '1',
-                            dataHintDirection: 'bottom',
-                            dataHintOffset: 'small'
-                        });
-                        this.toolbarControls.push(this.btnEditMode);
+                        // this.btnEditMode = new Common.UI.Button({
+                        //     cls: 'btn-toolbar x-huge icon-top',
+                        //     iconCls: 'toolbar__icon btn-edit-text',
+                        //     style: 'min-width: 45px;',
+                        //     lock: [_set.lostConnect, _set.disableOnStart],
+                        //     caption: this.textEditMode,
+                        //     dataHint: '1',
+                        //     dataHintDirection: 'bottom',
+                        //     dataHintOffset: 'small'
+                        // });
+                        // this.toolbarControls.push(this.btnEditMode);
 
                         this.lockControls = this.toolbarControls.concat(this.paragraphControls);
                         this.lockToolbar(Common.enumLock.disableOnStart, true, {array: this.lockControls});
@@ -1993,7 +2009,7 @@ define([
                 _injectComponent('#slot-btn-select-all', this.btnSelectAll);
                 _injectComponent('#slot-btn-select-tool', this.btnSelectTool);
                 _injectComponent('#slot-btn-hand-tool', this.btnHandTool);
-                _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
+                // _injectComponent('#slot-btn-tb-edit-mode', this.btnEditMode);
 
                 return $host;
             },
@@ -2004,6 +2020,7 @@ define([
                     Common.Utils.injectComponent($host.findById(id), cmp);
                 };
 
+                _injectComponent('#slot-btn-text-from-file', this.btnTextFromFile);
                 _injectComponent('#slot-field-fontname', this.cmbFontName);
                 _injectComponent('#slot-field-fontsize', this.cmbFontSize);
                 _injectComponent('#slot-btn-print', this.btnPrint);
@@ -2393,6 +2410,18 @@ define([
 
                     me.btnWatermark.updateHint(me.tipWatermark);
 
+                    me.btnTextFromFile.setMenu(new Common.UI.Menu({
+                        items: [
+                            { caption: me.mniTextFromLocalFile, value: 'file' },
+                            { caption: me.mniTextFromURL, value: 'url' },
+                            { caption: me.mniTextFromStorage, value: 'storage' }
+                        ]
+                    }));
+                    me.btnTextFromFile.menu.items[2].setVisible(config.canRequestSelectDocument || config.fileChoiceUrl && config.fileChoiceUrl.indexOf("{documentType}")>-1);
+                    me.btnTextFromFile.menu.items[1].setDisabled(config.disableNetworkFunctionality);
+                    me.btnTextFromFile.menu.items[2].setDisabled(config.disableNetworkFunctionality);
+                    me.btnTextFromFile.updateHint(me.tipTextFromFile);
+
                     if (!config.canFeatureContentControl && me.btnContentControls.cmpEl) {
                         me.btnContentControls.cmpEl.parents('.group').hide().prev('.separator').hide();
                     }
@@ -2412,7 +2441,7 @@ define([
                 this.btnSelectAll.updateHint(this.tipSelectAll + Common.Utils.String.platformKey('Ctrl+A'));
                 this.btnSelectTool.updateHint(this.tipSelectTool);
                 this.btnHandTool.updateHint(this.tipHandTool);
-                this.btnEditMode.updateHint(this.tipEditMode, true);
+                // this.btnEditMode.updateHint(this.tipEditMode, true);
             },
 
             createDelayedElements: function () {

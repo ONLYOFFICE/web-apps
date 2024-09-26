@@ -487,7 +487,7 @@
     "loadImageTextText": "图片加载中…",
     "loadImageTitleText": "图片加载中",
     "loadingDocumentTextText": "文件加载中…",
-    "loadingDocumentTitleText": "文件加载中…",
+    "loadingDocumentTitleText": "加载中",
     "mailMergeLoadFileText": "正在加载数据源...",
     "mailMergeLoadFileTitle": "正在加载数据源",
     "openTextText": "正在打开文档...",
@@ -501,7 +501,7 @@
     "sendMergeText": "发送合并中...",
     "sendMergeTitle": "发送合并",
     "textContinue": "继续",
-    "textLoadingDocument": "文件加载中…",
+    "textLoadingDocument": "加载中",
     "textUndo": "撤消",
     "txtEditingMode": "设置编辑模式..",
     "uploadImageTextText": "上传图片...",
@@ -798,9 +798,7 @@
     "txtDownloadTxt": "下载TXT",
     "txtIncorrectPwd": "密码错误",
     "txtOk": "确定",
-    "txtProtected": "输入密码并打开文件后，将重置当前密码",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "输入密码并打开文件后，将重置当前密码"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "您有未保存的更改。单击“停留在此页面”等待自动保存。单击“离开此页面”放弃所有未保存的更改。",

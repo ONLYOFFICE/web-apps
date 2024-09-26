@@ -209,7 +209,7 @@ define([
             if (this._isWarningVisible) return;
 
             var me = this,
-                xy = me.$window.offset(),
+                xy = Common.Utils.getOffset(me.$window),
                 rec = this.rolesList.getSelectedRec();
 
             var win = new DE.Views.RoleEditDlg({
@@ -267,7 +267,7 @@ define([
                     }
                 });
             } else {
-                var xy = me.$window.offset();
+                var xy = Common.Utils.getOffset(me.$window);
                 var win = new DE.Views.RoleDeleteDlg({
                     props   : {roles: this.rolesList.store, excludeName: rec.get('name')},
                     handler : function(result, settings) {

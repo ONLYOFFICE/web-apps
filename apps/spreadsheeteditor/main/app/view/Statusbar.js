@@ -848,7 +848,7 @@ define([
             onCustomizeStatusBarAfterShow: function (obj) {
                 if (obj.atposition) {
                     var statusHeight = $(this.el).height(),
-                        offsetTop = !this.isCompact && (obj.atposition.top - $(this.el).offset().top > statusHeight/2) ? statusHeight/2 : 0;
+                        offsetTop = !this.isCompact && (obj.atposition.top - Common.Utils.getOffset($(this.el)).top > statusHeight/2) ? statusHeight/2 : 0;
                     obj.setOffset(Common.UI.isRTL() ? (obj.atposition.left - $(this.el).width() + 2) : obj.atposition.left, offsetTop);
                 }
                 this.enableKeyEvents = true;

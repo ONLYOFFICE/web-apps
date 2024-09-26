@@ -57,6 +57,7 @@ define([
         onLaunch: function () {
             this._state = {};
             Common.NotificationCenter.on('uitheme:changed', this.onThemeChanged.bind(this));
+            Common.NotificationCenter.on('tabstyle:changed', this.onTabStyleChange.bind(this));
         },
 
         setApi: function (api) {
@@ -295,6 +296,14 @@ define([
                     this.view.btnInterfaceTheme.menu.clearAll();
                     menu_item.setChecked(true, true);
                 }
+            }
+        },
+
+        onTabStyleChange: function () {
+            if (this.view && this.view.menuTabStyle) {
+                _.each(this.view.menuTabStyle.items, function(item){
+                    item.setChecked(Common.Utils.InternalSettings.get("settings-tab-style")===item.value, true);
+                });
             }
         },
 

@@ -86,6 +86,7 @@ define([
                 displayField: 'displayValue',
                 valueField  : 'value',
                 search      : false,
+                searchFields: ['displayValue'], // Property name from the item to be searched by
                 placeHolder : '',
                 scrollAlwaysVisible: false,
                 takeFocusOnClose: false,
@@ -128,6 +129,7 @@ define([
                 this.valueField     = me.options.valueField;
                 this.placeHolder    = me.options.placeHolder;
                 this.search         = me.options.search;
+                this.searchFields   = me.options.searchFields;
                 this.scrollAlwaysVisible = me.options.scrollAlwaysVisible;
                 this.focusWhenNoSelection = (me.options.focusWhenNoSelection!==false);
                 this.restoreMenuHeight = me.options.restoreMenuHeight;
@@ -357,7 +359,7 @@ define([
                     $selected = $list.find('> li.selected');
 
                 if ($selected.length) {
-                    var itemTop = $selected.position().top,
+                    var itemTop = Common.Utils.getPosition($selected).top,
                         itemHeight = $selected.outerHeight(),
                         listHeight = $list.outerHeight();
 
@@ -486,26 +488,36 @@ define([
             },
 
             selectCandidate: function() {
-                var index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
+                var me = this,
+                    index = (this._search.index && this._search.index != -1) ? this._search.index : 0,
                     re = new RegExp('^' + ((this._search.full) ? this._search.text : this._search.char), 'i'),
-                    isFirstCharsEqual = re.test(this.store.at(index).get(this.displayField)),
+                    isFirstCharsEqual = this.searchFields.some(function(field) {
+                        return re.test(me.store.at(index).get(field));
+                    }),
                     itemCandidate, idxCandidate;
 
                 for (var i=0; i<this.store.length; i++) {
-                    var item = this.store.at(i);
-                    if (re.test(item.get(this.displayField))) {
-                        if (!itemCandidate) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            if(!isFirstCharsEqual) 
-                                break;  
+                    var item = this.store.at(i),
+                        isBreak = false;
+                    this.searchFields.forEach(function(fieldName) {
+                        if (item.get(fieldName) && re.test(item.get(fieldName))) {
+                            if (!itemCandidate) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                if(!isFirstCharsEqual) {
+                                    isBreak = true;
+                                    return;
+                                }
+                            }
+                            if (me._search.full && i==index || i>index) {
+                                itemCandidate = item;
+                                idxCandidate = i;
+                                isBreak = true;
+                                return;
+                            }
                         }
-                        if (this._search.full && i==index || i>index) {
-                            itemCandidate = item;
-                            idxCandidate = i;
-                            break;
-                        }
-                    }
+                    });
+                    if(isBreak) break;
                 }
 
                 if (itemCandidate) {
@@ -514,7 +526,7 @@ define([
                     if (this.scroller) {
                         this.scroller.update({alwaysVisibleY: this.scrollAlwaysVisible});
                         var $list = $(this.el).find('ul');
-                        var itemTop = item.position().top,
+                        var itemTop = Common.Utils.getPosition(item).top,
                             itemHeight = item.outerHeight(),
                             listHeight = $list.outerHeight();
                         if (itemTop < 0 || itemTop + itemHeight > listHeight) {

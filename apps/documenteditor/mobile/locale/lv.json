@@ -798,9 +798,7 @@
     "textSameAsSystem": "Same as system",
     "textSubmit": "Submit",
     "textTheme": "Theme",
-    "textTypeEditing": "Type Of Editing",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "textTypeEditing": "Type Of Editing"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Jums ir nesaglabātas izmaiņas. Noklikšķiniet uz Palikt šajā lapā, lai gaidītu automātisko saglabāšanu. Noklikšķiniet uz 'Pamest lapu', lai atmestu visas nesaglabātās izmaiņas.",

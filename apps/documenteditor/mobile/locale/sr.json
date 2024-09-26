@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Preuzmite TXT",
     "txtIncorrectPwd": "Lozinka je netačna",
     "txtOk": "OK",
-    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Kada ukucate lozinku i otvorite fajl, trenutna lozinka će biti resetovana"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Imate nesačuvane promene. Kliknite \"Ostani na ovoj Stranici\" da sačekate auto-čuvanje. Kliknite \"Izađi iz ove Stranice\" da odbacite sve nesačuvane promene.",

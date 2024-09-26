@@ -391,7 +391,7 @@
     "loadImageTextText": "Încărcarea imaginii...",
     "loadImageTitleText": "Încărcare imagine",
     "loadingDocumentTextText": "Încărcarea documentului...",
-    "loadingDocumentTitleText": "Încărcare document",
+    "loadingDocumentTitleText": "Încărcare",
     "notcriticalErrorTitle": "Avertisment",
     "openTextText": "Deschiderea fișierului...",
     "openTitleText": "Deschiderea fișierului ",
@@ -404,7 +404,7 @@
     "textCancel": "Revocare",
     "textContinue": "Continuare",
     "textErrorWrongPassword": "Parola introdusă este incorectă.",
-    "textLoadingDocument": "Încărcare document",
+    "textLoadingDocument": "Încărcare",
     "textNo": "Nu",
     "textOk": "OK",
     "textUndo": "Anulare",
@@ -861,9 +861,7 @@
       "txtUk": "Ucraineană",
       "txtVi": "Vietnameză",
       "txtZh": "Chineză",
-      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRtlInterface": "RTL Interface"
+      "warnDownloadAs": "Dacă salvați în acest format de fișier, este posibil ca unele dintre caracteristici să se piardă, cu excepția textului.<br>Sunteți sigur că doriți să continuați?"
     }
   }
 }

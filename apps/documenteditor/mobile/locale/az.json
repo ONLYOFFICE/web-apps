@@ -798,9 +798,7 @@
     "textTrackedChanges": "Tracked changes",
     "textTypeEditing": "Type Of Editing",
     "textTypeEditingWarning": "Allow only this type of editing in the document.",
-    "titleDialogUnprotect": "Unprotect Document",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "titleDialogUnprotect": "Unprotect Document"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Saxlanmamış dəyişiklikləriniz var. Avtomatik saxlanmanı gözləmək üçün \"Bu Səhifədə Qalın\" üzərinə klikləyin. Bütün saxlanmamış dəyişiklikləri ləğv etmək üçün \"Bu səhifədən Çıxın\" hissəsinin üzərinə klikləyin.",

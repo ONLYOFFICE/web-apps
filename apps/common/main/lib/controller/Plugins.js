@@ -223,7 +223,7 @@ define([
             Common.NotificationCenter.on({
                 'layout:resizestart': function(e) {
                     if (panel) {
-                        var offset = panel.currentPluginFrame.offset();
+                        var offset = Common.Utils.getOffset(panel.currentPluginFrame);
                         me._moveOffset = {x: offset.left + parseInt(panel.currentPluginFrame.css('padding-left')),
                                             y: offset.top + parseInt(panel.currentPluginFrame.css('padding-top'))};
                         me.api.asc_pluginEnableMouseEvents(true);
@@ -470,11 +470,7 @@ define([
                     };
                     me.viewPlugins.backgroundBtn.menu.on('show:before', onShowBefore);
                     me.viewPlugins.backgroundBtn.on('click', function () {
-                        if (me.backgroundPluginsTip) {
-                            me.backgroundPluginsTip.close();
-                            me.backgroundPluginsTip = undefined;
-                            me.newInstalledBackgroundPlugins && (me.newInstalledBackgroundPlugins.length = 0);
-                        }
+                        me.closeBackPluginsTip();
                     });
                 }
 
@@ -781,7 +777,7 @@ define([
         
         onPluginMouseMove: function(x, y) {
             if (this.pluginDlg) {
-                var offset = this.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.pluginContainer);
                 if (this.pluginDlg.binding.drag) this.pluginDlg.binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.pluginDlg.binding.resize) this.pluginDlg.binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -829,7 +825,7 @@ define([
         },
 
         parsePlugins: function(pluginsdata, uiCustomize, forceUpdate, fromManager) {
-            this.newInstalledBackgroundPlugins.length = 0;
+            this.closeBackPluginsTip();
             var me = this;
             var pluginStore = this.getApplication().getCollection('Common.Collections.Plugins'),
                 isEdit = me.appOptions.isEdit && !me.isPDFEditor,
@@ -1215,7 +1211,7 @@ define([
 
         onPluginWindowMouseMove: function(frameId, x, y) {
             if (this.customPluginsDlg[frameId]) {
-                var offset = this.customPluginsDlg[frameId].options.pluginContainer.offset();
+                var offset = Common.Utils.getOffset(this.customPluginsDlg[frameId].options.pluginContainer);
                 if (this.customPluginsDlg[frameId].binding.drag) this.customPluginsDlg[frameId].binding.drag({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
                 if (this.customPluginsDlg[frameId].binding.resize) this.customPluginsDlg[frameId].binding.resize({ pageX: x*Common.Utils.zoom()+offset.left, pageY: y*Common.Utils.zoom()+offset.top });
             } else
@@ -1285,6 +1281,9 @@ define([
             if (plugins && plugins.length > 0) {
                 var text = plugins.length > 1 ? this.textPluginsSuccessfullyInstalled :
                     Common.Utils.String.format(this.textPluginSuccessfullyInstalled, plugins[0].name);
+                if (this.backgroundPluginsTip && this.backgroundPluginsTip.isVisible()) {
+                    this.backgroundPluginsTip.close();
+                }
                 this.backgroundPluginsTip = new Common.UI.SynchronizeTip({
                     extCls: 'colored',
                     placement: 'bottom',
@@ -1302,19 +1301,21 @@ define([
                     this.newInstalledBackgroundPlugins.length = 0;
                 }, this);
                 this.backgroundPluginsTip.on('closeclick', function () {
-                    this.backgroundPluginsTip.close();
-                    this.backgroundPluginsTip = undefined;
-                    this.newInstalledBackgroundPlugins.length = 0;
+                    this.closeBackPluginsTip();
                 }, this);
                 this.backgroundPluginsTip.show();
             }
         },
 
         onActiveTab: function (tab) {
-            if (tab !== 'plugins' && this.backgroundPluginsTip) {
+            (tab !== 'plugins') && this.closeBackPluginsTip();
+        },
+
+        closeBackPluginsTip: function() {
+            if (this.backgroundPluginsTip) {
                 this.backgroundPluginsTip.close();
                 this.backgroundPluginsTip = undefined;
-                this.newInstalledBackgroundPlugins.length = 0;
+                this.newInstalledBackgroundPlugins && (this.newInstalledBackgroundPlugins.length = 0);
             }
         },
 

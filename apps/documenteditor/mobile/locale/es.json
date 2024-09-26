@@ -798,9 +798,7 @@
     "txtDownloadTxt": "Descargar TXT",
     "txtIncorrectPwd": "La contraseña es incorrecta",
     "txtOk": "OK",
-    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual",
-    "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-    "del_textRtlInterface": "RTL Interface"
+    "txtProtected": "Una vez que introduzca la contraseña y abra el archivo, se restablecerá la contraseña actual"
   },
   "Toolbar": {
     "dlgLeaveMsgText": "Tiene cambios sin guardar. Haga clic en \"Permanecer en esta página\" para esperar a que se guarde automáticamente. Haga clic en \"Salir de esta página\" para descartar todos los cambios no guardados.",

@@ -530,7 +530,7 @@
       "textOwner": "Propriétaire",
       "textPoint": "Point",
       "textPoweredBy": "Réalisation",
-      "textPresentationInfo": "Infos sur présentation",
+      "textPresentationInfo": "Infos sur la présentation",
       "textPresentationSettings": "Paramètres de présentation",
       "textPresentationTitle": "Titre présentation",
       "textPrint": "Imprimer",
@@ -552,10 +552,7 @@
       "textUnitOfMeasurement": "Unité de mesure",
       "textUploaded": "Chargé",
       "textVersion": "Version",
-      "textVersionHistory": "Historique des versions",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRTL": "RTL",
-      "del_textRtlInterface": "RTL Interface"
+      "textVersionHistory": "Historique des versions"
     }
   }
 }

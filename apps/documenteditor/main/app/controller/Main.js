@@ -66,8 +66,7 @@ define([
 
         var mapCustomizationElements = {
             about: 'button#left-btn-about',
-            feedback: 'button#left-btn-support',
-            goback: '#fm-btn-back > a, #header-back > div'
+            feedback: 'button#left-btn-support'
         };
 
         var mapCustomizationExtElements = {
@@ -551,6 +550,7 @@ define([
                     docInfo.put_Mode(this.editorConfig.mode);
                     docInfo.put_SupportsOnSaveDocument(this.editorConfig.canSaveDocumentToBinary);
                     docInfo.put_Wopi(this.editorConfig.wopi);
+                    this.editorConfig.shardkey && docInfo.put_Shardkey(this.editorConfig.shardkey);
 
                     var enable = !this.editorConfig.customization || (this.editorConfig.customization.macros!==false);
                     docInfo.asc_putIsEnabledMacroses(!!enable);
@@ -573,7 +573,7 @@ define([
                 if (!( this.editorConfig.customization && ( this.editorConfig.customization.toolbarNoTabs ||
                     (this.editorConfig.targetApp!=='desktop') && (this.editorConfig.customization.loaderName || this.editorConfig.customization.loaderLogo)))) {
                     $('#editor-container').css('overflow', 'hidden');
-                    $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(20) + '</div>');
+                    $('#editor-container').append('<div class="doc-placeholder">' + '<div class="line"></div>'.repeat(22) + '</div>');
                     if (this.editorConfig.mode == 'view' || (this.permissions.edit === false && !this.permissions.review ))
                         $('#editor-container').find('.doc-placeholder').css('margin-top', 19);
                 }
@@ -687,7 +687,7 @@ define([
                 if (data.type == 'mouseup') {
                     var e = document.getElementById('editor_sdk');
                     if (e) {
-                        var r = e.getBoundingClientRect();
+                        var r = Common.Utils.getBoundingClientRect(e);
                         this.api.OnMouseUp(
                             data.x - r.left,
                             data.y - r.top
@@ -1434,9 +1434,9 @@ define([
                         Common.NotificationCenter.trigger('api:disconnect');
 
                     me.appOptions.canStartFilling && Common.Gateway.on('startfilling', _.bind(me.onStartFilling, me));
-
+                    window.document_content_ready = true;
                     var timer_sl = setInterval(function(){
-                        if (window.styles_loaded) {
+                        if (window.document_content_ready) {
                             clearInterval(timer_sl);
 
                             toolbarController.createDelayedElements();
@@ -1491,6 +1491,11 @@ define([
                 Common.Gateway.on('downloadas',             _.bind(me.onDownloadAs, me));
                 Common.Gateway.on('setfavorite',            _.bind(me.onSetFavorite, me));
                 Common.Gateway.on('requestclose',           _.bind(me.onRequestClose, me));
+                this.appOptions.canRequestSaveAs && Common.Gateway.on('internalcommand', function(data) {
+                    if (data.command == 'wopi:saveAsComplete') {
+                        me.onExternalMessage({msg: me.txtSaveCopyAsComplete});
+                    }
+                });
 
                 Common.Gateway.sendInfo({mode:me.appOptions.isEdit?'edit':'view'});
 
@@ -1725,23 +1730,7 @@ define([
                 this.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof this.editorConfig.customization == 'object' || this.editorConfig.plugins);
                 Common.UI.LayoutManager.init(this.editorConfig.customization ? this.editorConfig.customization.layout : null, this.appOptions.canBrandingExt, this.api);
                 this.editorConfig.customization && Common.UI.FeaturesManager.init(this.editorConfig.customization.features, this.appOptions.canBrandingExt);
-
-                var value = Common.UI.FeaturesManager.getInitValue('tabStyle', true);
-                if (Common.UI.FeaturesManager.canChange('tabStyle', true) && Common.localStorage.itemExists("de-settings-tab-style")) { // get from local storage
-                    value = Common.localStorage.getItem("de-settings-tab-style");
-                } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
-                    value = 'line';
-                }
-                Common.Utils.InternalSettings.set("settings-tab-style", value || 'tab');
-                value = Common.UI.FeaturesManager.getInitValue('tabBackground', true);
-                if (!Common.Utils.isIE && Common.UI.FeaturesManager.canChange('tabBackground', true) && Common.localStorage.itemExists("de-settings-tab-background")) { // get from local storage
-                    value = Common.localStorage.getItem("de-settings-tab-background");
-                } else if (value === undefined && this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs) {
-                    value = 'toolbar';
-                }
-                Common.Utils.InternalSettings.set("settings-tab-background", value || 'header');
-                this.editorConfig.customization && (typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.toolbarNoTabs &&
-                    console.log("Obsolete: The 'toolbarNoTabs' parameter of the 'customization' section is deprecated. Please use 'tabStyle' and 'tabBackground' parameters in the 'customization.features' section instead.");
+                Common.UI.TabStyler.init(this.editorConfig.customization); // call after Common.UI.FeaturesManager.init() !!!
 
                 this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
@@ -1870,6 +1859,7 @@ define([
 
                 if (/^(ca|us)$/i.test(region))
                     Common.Utils.Metric.setDefaultMetric(Common.Utils.Metric.c_MetricUnits.inch);
+                Common.Utils.InternalSettings.set("de-config-region", region);
             },
 
             onDocModeApply: function(mode, force, disableModeButton) {// force !== true - change mode only if not in view mode, disableModeButton: disable or not DocMode button in the header
@@ -2715,7 +2705,7 @@ define([
 
             onSendThemeColors: function(colors, standart_colors) {
                 Common.Utils.ThemeColor.setColors(colors, standart_colors);
-                if (window.styles_loaded) {
+                if (window.document_content_ready) {
                     this.updateThemeColors();
                     var me = this;
                     setTimeout(function(){
@@ -2730,12 +2720,16 @@ define([
                 for (var code in allLangs) {
                     if (allLangs.hasOwnProperty(code)) {
                         info = allLangs[code];
-                        info[2] && langs.push({
-                            displayValue:   info[1],
-                            value:          info[0],
-                            code:           parseInt(code),
-                            spellcheck:     _.indexOf(apiLangs, code)>-1
-                        });
+                        if(info[2]) {
+                            var displayName = Common.util.LanguageInfo.getLocalLanguageDisplayName(code);
+                            langs.push({
+                                displayValue:   displayName.native,
+                                displayValueEn: displayName.english,
+                                value:          info[0],
+                                code:           parseInt(code),
+                                spellcheck:     _.indexOf(apiLangs, code)>-1
+                            });
+                        }
                     }
                 }
 
@@ -2746,7 +2740,7 @@ define([
                 });
 
                 this.languages = langs;
-                window.styles_loaded && this.setLanguages();
+                window.document_content_ready && this.setLanguages();
             },
 
             setLanguages: function() {

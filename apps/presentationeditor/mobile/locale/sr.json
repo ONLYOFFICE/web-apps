@@ -552,10 +552,7 @@
       "textUnitOfMeasurement": "Jedinica mere",
       "textUploaded": "Otpremljeno",
       "textVersion": "Verzija",
-      "textVersionHistory": "Istorija Verzija",
-      "del_textExplanationChangeDirection": "Application will be restarted for RTL interface activation",
-      "del_textRTL": "RTL",
-      "del_textRtlInterface": "RTL Interface"
+      "textVersionHistory": "Istorija Verzija"
     }
   }
 }

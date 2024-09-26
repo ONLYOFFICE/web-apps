@@ -273,9 +273,9 @@ define([
             toolbar.btnSelectAll.on('click',                            _.bind(this.onSelectAll, this));
             toolbar.btnSelectTool.on('toggle',                          _.bind(this.onSelectTool, this, 'select'));
             toolbar.btnHandTool.on('toggle',                            _.bind(this.onSelectTool, this, 'hand'));
-            toolbar.btnEditMode.on('click', function (btn, e) {
-                Common.Gateway.requestEditRights();
-            });
+            // toolbar.btnEditMode.on('click', function (btn, e) {
+            //     Common.Gateway.requestEditRights();
+            // });
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
@@ -412,6 +412,7 @@ define([
             toolbar.btnPageColor.menu.on('show:after',                  _.bind(this.onPageColorShowAfter, this));
             toolbar.btnPageColor.on('color:select',                     _.bind(this.onSelectPageColor, this));
             toolbar.mnuPageNoFill.on('click',                           _.bind(this.onPageNoFillClick, this));
+            toolbar.btnTextFromFile.menu.on('item:click', _.bind(this.onTextFromFileClick, this));
             Common.NotificationCenter.on('leftmenu:save',               _.bind(this.tryToSave, this));
             this.onSetupCopyStyleButton();
             this.onBtnChangeState('undo:disabled', toolbar.btnUndo, toolbar.btnUndo.isDisabled());
@@ -942,13 +943,13 @@ define([
                 var listStyle = this.toolbar.listStyles,
                     listStylesVisible = (listStyle.rendered);
 
+                this._state.prstyle = name;
+
                 if (listStylesVisible) {
                     listStyle.suspendEvents();
                     var styleRec = listStyle.menuPicker.store.findWhere({
                         title: name
                     });
-                    this._state.prstyle = (listStyle.menuPicker.store.length>0 || window.styles_loaded) ? name : undefined;
-
                     listStyle.menuPicker.selectRecord(styleRec);
                     listStyle.resumeEvents();
                 }
@@ -1579,6 +1580,31 @@ define([
             if (recents && recents.length>picker.options.listSettings.recentCount)
                 picker.store.remove(recents.slice(picker.options.listSettings.recentCount, recents.length));
             this.toolbar.saveListPresetToStorage(picker);
+        },
+
+        onTextFromFileClick: function(menu, item, e) {
+            var me = this, type = item.value;
+            if (type === "file") {
+                this.api.asc_insertTextFromFile();
+            } else if (type === "url") {
+                (new Common.Views.ImageFromUrlDialog({
+                    label: me.fileUrl,
+                    handler: function(result, value) {
+                        if (result === 'ok') {
+                            if (me.api) {
+                                var checkUrl = value.replace(/ /g, '');
+                                if (!_.isEmpty(checkUrl)) {
+                                    me.api.asc_insertTextFromUrl(checkUrl);
+                                }
+                            }
+
+                            Common.NotificationCenter.trigger('edit:complete', me.view);
+                        }
+                    }
+                })).show();
+            } else if (type === 'storage') {
+                Common.NotificationCenter.trigger('storage:document-load', 'insert-text');
+            }
         },
 
         onMarkerSettingsClick: function(type) {
@@ -2610,9 +2636,6 @@ define([
 
             var parentOffset = Common.Utils.getOffset(this.toolbar.$el),
                 top = e.clientY*Common.Utils.zoom();
-            if ($('#header-container').is(":visible")) {
-                top -= $('#header-container').height()
-            }
             showPoint = [e.clientX*Common.Utils.zoom(), top - parentOffset.top];
 
             if (record != undefined) {
@@ -2679,7 +2702,8 @@ define([
         },
 
         onSaveStyle: function (style) {
-            window.styles_loaded = false;
+            if (!window.styles_loaded) return;
+
             var me = this, win;
 
             if (me.api) {
@@ -2693,6 +2717,8 @@ define([
                         characterStyle.put_Name(title + '_character');
                         style.put_Next((nextStyle) ? nextStyle.asc_getName() : null);
                         me.api.asc_AddNewStyle(style);
+                        window.styles_loaded = false;
+                        me.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [me.toolbar.listStyles]});
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 };
@@ -3242,6 +3268,7 @@ define([
 
         _onInitEditorStyles: function(styles) {
             window.styles_loaded = false;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
 
             var self = this,
                 listStyles = self.toolbar.listStyles;
@@ -3272,6 +3299,7 @@ define([
             } else if (listStyles.rendered)
                 listStyles.clearComboView();
             window.styles_loaded = true;
+            this.toolbar.lockToolbar(Common.enumLock.noStyles, !window.styles_loaded, {array: [this.toolbar.listStyles]});
         },
 
         onHomeOpen: function() {
@@ -3559,8 +3587,8 @@ define([
 
                 me.toolbar.btnSave.on('disabled', _.bind(me.onBtnChangeState, me, 'save:disabled'));
 
-                if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
-                    me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
+                // if (!(me.mode.canRequestEditRights && me.mode.isPDFForm && me.mode.canFillForms && me.mode.isRestrictedEdit))
+                //     me.toolbar.btnEditMode && me.toolbar.btnEditMode.cmpEl.parents('.group').hide().next('.separator').hide();
 
                 if (!config.compactHeader) {
                     // hide 'print' and 'save' buttons group and next separator
