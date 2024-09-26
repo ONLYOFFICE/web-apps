@@ -195,7 +195,9 @@
                }
            }
            window.addEventListener('resize', handlerResize);
-           handlerResize();
+           document.addEventListener('DOMContentLoaded', function() {
+               handlerResize();
+           });
        </script>
        <script>
            var  userAgent = navigator.userAgent.toLowerCase(),
