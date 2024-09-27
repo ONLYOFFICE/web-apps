@@ -1298,7 +1298,7 @@ define([
                 $host = $(toolbar.$layout);
             if (this.mode.isPDFEdit && this._state.initEditing) {
                 Array.prototype.push.apply(me.toolbar.lockControls, toolbar.applyLayoutPDFEdit(this.mode));
-                toolbar.rendererComponentsPDFEdit($host);
+                toolbar.rendererComponentsPDFEdit($host, this.mode);
 
                 setTimeout(function(){
                     toolbar.createDelayedElementsPDFEdit();

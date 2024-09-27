@@ -2805,7 +2805,7 @@ define([
                 // annotation text bar
                 documentHolder.btnCopy.on('click',                _.bind(this.onCutCopyPaste, this, {value: 'copy', isFromBar: true}));
                 documentHolder.btnAddComment.on('click',          _.bind(this.addComment, this, {isFromBar: true}));
-                if (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit)
+                if (me.mode.isEditTextSupport && (me.mode.isPDFAnnotate && me.mode.canPDFEdit || me.mode.isPDFEdit))
                     documentHolder.btnEditText.on('click',            _.bind(this.editText, this));
                 else
                     documentHolder.btnEditText.cmpEl.parent().hide().prev('.separator').hide();
